@@ -614,7 +614,8 @@ Resources
 
 
 
-[unit_testing_in_android_003.png]: /images/wiki/android/unit_testing_in_android_003.png
-[unit_testing_in_android_006.png]: /images/wiki/android/unit_testing_in_android_006.png
-[unit_testing_in_android_002.png]: /images/wiki/android/unit_testing_in_android_002.png
-[unit_testing_in_android_001.png]: /images/wiki/android/unit_testing_in_android_001.png
+[unit_testing_in_android_003.png]: http://blog.kent-chiu.com/images/2012-04-13/unit_testing_in_android_003.png
+[unit_testing_in_android_001.png]: http://blog.kent-chiu.com/images/2012-04-13/unit_testing_in_android_001.png
+[unit_testing_in_android_002.png]: http://blog.kent-chiu.com/images/2012-04-13/unit_testing_in_android_002.png
+[unit_testing_in_android_002.png]: http://blog.kent-chiu.com/images/2012-04-13/unit_testing_in_android_002.png
+[unit_testing_in_android_002.png]: http://blog.kent-chiu.com/images/2012-04-13/unit_testing_in_android_002.png

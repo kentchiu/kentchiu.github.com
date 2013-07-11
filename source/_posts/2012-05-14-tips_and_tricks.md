@@ -148,4 +148,4 @@ GitHub上有兩個這樣的library可用
           android:configChanges="orientation|keyboardHidden"/>
 ```
 
-[android-pull-to-refresh.png]: https://raw.github.com/johannilsson/android-pulltorefresh/master/android-pull-to-refresh.png
+[android-pull-to-refresh.png]: http://blog.kent-chiu.com/images/2012-05-14/android-pull-to-refresh.png

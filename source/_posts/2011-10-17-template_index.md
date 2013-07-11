@@ -304,5 +304,28 @@ Library
 
 
 
-^[1)](#fnt__1)^ 去查dreamweaver的document應該可以查得到
-[template_index_index.png]: /images/wiki/ecshop/template_index_index.png
+
+[template_index_article.dwt.gif]: http://blog.kent-chiu.com/images/2011-10-17/template_index_article.dwt.gif
+[template_index_brand.dwt.gif]: http://blog.kent-chiu.com/images/2011-10-17/template_index_brand.dwt.gif
+[template_index_article.dwt.gif]: http://blog.kent-chiu.com/images/2011-10-17/template_index_article.dwt.gif
+[template_index_article_cat.dwt.gif]: http://blog.kent-chiu.com/images/2011-10-17/template_index_article_cat.dwt.gif
+[template_index_catalog.dwt.gif]: http://blog.kent-chiu.com/images/2011-10-17/template_index_catalog.dwt.gif
+[template_index_category.dwt.gif]: http://blog.kent-chiu.com/images/2011-10-17/template_index_category.dwt.gif
+[template_index_compare.dwt.gif]: http://blog.kent-chiu.com/images/2011-10-17/template_index_compare.dwt.gif
+[template_index_flow.dwt.gif]: http://blog.kent-chiu.com/images/2011-10-17/template_index_flow.dwt.gif
+[template_index_gallery.dwt.gif]: http://blog.kent-chiu.com/images/2011-10-17/template_index_gallery.dwt.gif
+[template_index_goods.dwt.gif]: http://blog.kent-chiu.com/images/2011-10-17/template_index_goods.dwt.gif
+[template_index_group_buy_goods.dwt.gif]: http://blog.kent-chiu.com/images/2011-10-17/template_index_group_buy_goods.dwt.gif
+[template_index_group_buy_list.dwt.gif]: http://blog.kent-chiu.com/images/2011-10-17/template_index_group_buy_list.dwt.gif
+[template_index_index.dwt.gif]: http://blog.kent-chiu.com/images/2011-10-17/template_index_index.dwt.gif
+[template_index_index.png]: http://blog.kent-chiu.com/images/2011-10-17/template_index_index.png
+[template_index_message.dwt.gif]: http://blog.kent-chiu.com/images/2011-10-17/template_index_message.dwt.gif
+[template_index_pick_out.dwt.gif]: http://blog.kent-chiu.com/images/2011-10-17/template_index_pick_out.dwt.gif
+[template_index_receive.dwt.gif]: http://blog.kent-chiu.com/images/2011-10-17/template_index_receive.dwt.gif
+[template_index_respond.dwt.gif]: http://blog.kent-chiu.com/images/2011-10-17/template_index_respond.dwt.gif
+[template_index_search.dwt.gif]: http://blog.kent-chiu.com/images/2011-10-17/template_index_search.dwt.gif
+[template_index_snatch.dwt.gif]: http://blog.kent-chiu.com/images/2011-10-17/template_index_snatch.dwt.gif
+[template_index_tag_cloud.dwt.gif]: http://blog.kent-chiu.com/images/2011-10-17/template_index_tag_cloud.dwt.gif
+[template_index_user_clips.dwt.gif]: http://blog.kent-chiu.com/images/2011-10-17/template_index_user_clips.dwt.gif
+[template_index_user_passport.dwt.gif]: http://blog.kent-chiu.com/images/2011-10-17/template_index_user_passport.dwt.gif
+[template_index_user_transaction.dwt.gif]: http://blog.kent-chiu.com/images/2011-10-17/template_index_user_transaction.dwt.gif

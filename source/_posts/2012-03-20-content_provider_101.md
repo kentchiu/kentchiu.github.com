@@ -114,4 +114,4 @@ clause指定id的方式取的資料。
 -   [http://mylifewithandroid.blogspot.com/2008/03/observing-content.html](http://mylifewithandroid.blogspot.com/2008/03/observing-content.html "http://mylifewithandroid.blogspot.com/2008/03/observing-content.html")
 
 
-[content_provider_101_001.png]: /images/wiki/android/content_provider_101_001.png
+[content_provider_101_001.png]: http://blog.kent-chiu.com/images/2012-03-20/content_provider_101_001.png

@@ -88,5 +88,5 @@ Resource
     client的注意事項
 
 
-[developing_restful_android_applications_002.png]: /images/wiki/android/developing_restful_android_applications_002.png
-[developing_restful_android_applications_001.png]: /images/wiki/android/developing_restful_android_applications_001.png
+[developing_restful_android_applications_001.png]: http://blog.kent-chiu.com/images/2012-03-20/developing_restful_android_applications_001.png
+[developing_restful_android_applications_002.png]: http://blog.kent-chiu.com/images/2012-03-20/developing_restful_android_applications_002.png

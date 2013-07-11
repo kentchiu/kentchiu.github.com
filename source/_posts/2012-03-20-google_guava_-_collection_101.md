@@ -596,5 +596,4 @@ Resources
 
 
 
-^[1)](#fnt__1)^ 無法轉換Collection本身的型別 (ex: List → Set)
-[guava_101_001.png]: /images/wiki/java/guava_101_001.png
+[guava_101_001.png]: http://blog.kent-chiu.com/images/2012-03-20/guava_101_001.png

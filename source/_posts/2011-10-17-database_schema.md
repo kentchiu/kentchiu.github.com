@@ -1930,3 +1930,19 @@ there is no information about ecs_user_feed now.
         ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='批發方案表' AUTO_INCREMENT=3 ;
 ```
 
+[ecshop_erd_all2.jpg]: http://blog.kent-chiu.com/images/2011-10-17/ecshop_erd_all2.jpg
+[ecshop_erd_all.jpg]: http://blog.kent-chiu.com/images/2011-10-17/ecshop_erd_all.jpg
+[ecshop_erd_user.jpg]: http://blog.kent-chiu.com/images/2011-10-17/ecshop_erd_user.jpg
+[ecshop_erd_admin.jpg]: http://blog.kent-chiu.com/images/2011-10-17/ecshop_erd_admin.jpg
+[ecshop_erd_article.jpg]: http://blog.kent-chiu.com/images/2011-10-17/ecshop_erd_article.jpg
+[ecshop_erd_adsence.jpg]: http://blog.kent-chiu.com/images/2011-10-17/ecshop_erd_adsence.jpg
+[ecshop_erd_affiliate.jpg]: http://blog.kent-chiu.com/images/2011-10-17/ecshop_erd_affiliate.jpg
+[ecshop_erd_auction.jpg]: http://blog.kent-chiu.com/images/2011-10-17/ecshop_erd_auction.jpg
+[ecshop_erd_cart.jpg]: http://blog.kent-chiu.com/images/2011-10-17/ecshop_erd_cart.jpg
+[ecshop_erd_category.jpg]: http://blog.kent-chiu.com/images/2011-10-17/ecshop_erd_category.jpg
+[ecshop_erd_goods.jpg]: http://blog.kent-chiu.com/images/2011-10-17/ecshop_erd_goods.jpg
+[ecshop_erd_mail.jpg]: http://blog.kent-chiu.com/images/2011-10-17/ecshop_erd_mail.jpg
+[ecshop_erd_order.jpg]: http://blog.kent-chiu.com/images/2011-10-17/ecshop_erd_order.jpg
+[ecshop_erd_region.jpg]: http://blog.kent-chiu.com/images/2011-10-17/ecshop_erd_region.jpg
+[ecshop_erd_vote.jpg]: http://blog.kent-chiu.com/images/2011-10-17/ecshop_erd_vote.jpg
+

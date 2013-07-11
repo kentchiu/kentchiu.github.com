@@ -114,5 +114,5 @@ TBC
 
 
 
-[actionbar_002.png]: /images/wiki/android/actionbar_002.png
-[actionbar_001.png]: /images/wiki/android/actionbar_001.png
+[actionbar_001.png]: http://blog.kent-chiu.com/images/2012-04-20/actionbar_001.png
+[actionbar_002.png]: http://blog.kent-chiu.com/images/2012-04-20/actionbar_002.png

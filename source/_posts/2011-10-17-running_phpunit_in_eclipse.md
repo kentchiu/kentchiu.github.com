@@ -157,9 +157,9 @@ the test results should be showed in **Console** view.
 in case
 
 ^[3)](#fnt__3)^ phpunit.bat was gernerated after PHPUnit installed
-[running_phpunit_in_eclipse_02.png]: /images/wiki/php/running_phpunit_in_eclipse_02.png
-[running_phpunit_in_eclipse_06.png]: /images/wiki/php/running_phpunit_in_eclipse_06.png
-[running_phpunit_in_eclipse_04.png]: /images/wiki/php/running_phpunit_in_eclipse_04.png
-[running_phpunit_in_eclipse_01.png]: /images/wiki/php/running_phpunit_in_eclipse_01.png
-[running_phpunit_in_eclipse_03.png]: /images/wiki/php/running_phpunit_in_eclipse_03.png
-[running_phpunit_in_eclipse_05.png]: /images/wiki/php/running_phpunit_in_eclipse_05.png
+[running_phpunit_in_eclipse_01.png]: http://blog.kent-chiu.com/images/2011-10-17/running_phpunit_in_eclipse_01.png
+[running_phpunit_in_eclipse_04.png]: http://blog.kent-chiu.com/images/2011-10-17/running_phpunit_in_eclipse_04.png
+[running_phpunit_in_eclipse_05.png]: http://blog.kent-chiu.com/images/2011-10-17/running_phpunit_in_eclipse_05.png
+[running_phpunit_in_eclipse_06.png]: http://blog.kent-chiu.com/images/2011-10-17/running_phpunit_in_eclipse_06.png
+[running_phpunit_in_eclipse_02.png]: http://blog.kent-chiu.com/images/2011-10-17/running_phpunit_in_eclipse_02.png
+[running_phpunit_in_eclipse_03.png]: http://blog.kent-chiu.com/images/2011-10-17/running_phpunit_in_eclipse_03.png

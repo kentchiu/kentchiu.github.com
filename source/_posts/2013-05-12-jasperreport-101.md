@@ -200,9 +200,9 @@ JRDataSource 的 subclass 如下圖，我們這個範例，因為只是單純的
 
 
 
-[2013-05-12-jasperreport-101-001.png]: http://blog.kent-chiu.com/images/blog/2013-05-12-jasperreport-101-001.png
-[2013-05-12-jasperreport-101-002.png]: http://blog.kent-chiu.com/images/blog/2013-05-12-jasperreport-101-002.png
-[2013-05-12-jasperreport-101-003.png]: http://blog.kent-chiu.com/images/blog/2013-05-12-jasperreport-101-003.png
-[2013-05-12-jasperreport-101-004.png]: http://blog.kent-chiu.com/images/blog/2013-05-12-jasperreport-101-004.png
-[2013-05-12-jasperreport-101-005.png]: http://blog.kent-chiu.com/images/blog/2013-05-12-jasperreport-101-005.png
+[2013-05-12-jasperreport-101-001.png]: http://blog.kent-chiu.com/images/2013-05-12/2013-05-12-jasperreport-101-001.png
+[2013-05-12-jasperreport-101-002.png]: http://blog.kent-chiu.com/images/2013-05-12/2013-05-12-jasperreport-101-002.png
+[2013-05-12-jasperreport-101-003.png]: http://blog.kent-chiu.com/images/2013-05-12/2013-05-12-jasperreport-101-003.png
+[2013-05-12-jasperreport-101-004.png]: http://blog.kent-chiu.com/images/2013-05-12/2013-05-12-jasperreport-101-004.png
+[2013-05-12-jasperreport-101-005.png]: http://blog.kent-chiu.com/images/2013-05-12/2013-05-12-jasperreport-101-005.png
 

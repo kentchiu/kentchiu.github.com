@@ -72,4 +72,4 @@ Resource
 
 
 
-[style_and_theme_101_001.png]: /images/wiki/android/style_and_theme_101_001.png
+[style_and_theme_101_001.png]: http://blog.kent-chiu.com/images/2012-03-20/style_and_theme_101_001.png

@@ -86,8 +86,7 @@ Resource
 2.  [http://androidblogger.blogspot.com/2009/01/how-to-have-tiled-background-cont.html](http://androidblogger.blogspot.com/2009/01/how-to-have-tiled-background-cont.html "http://androidblogger.blogspot.com/2009/01/how-to-have-tiled-background-cont.html")
     - 如何設定底圖
 
-
-[listview_style_004.png]: /images/wiki/android/listview_style_004.png
-[listview_style_001.png]: /images/wiki/android/listview_style_001.png
-[listview_style_003.png]: /images/wiki/android/listview_style_003.png
-[listview_style_002.png]: /images/wiki/android/listview_style_002.png
+[listview_style_002.png]: http://blog.kent-chiu.com/images/2012-03-20/listview_style_002.png
+[listview_style_003.png]: http://blog.kent-chiu.com/images/2012-03-20/listview_style_003.png
+[listview_style_001.png]: http://blog.kent-chiu.com/images/2012-03-20/listview_style_001.png
+[listview_style_004.png]: http://blog.kent-chiu.com/images/2012-03-20/listview_style_004.png

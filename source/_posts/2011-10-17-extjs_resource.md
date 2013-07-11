@@ -52,4 +52,4 @@ lib，提供豐富的網頁元件，可以方便的建構出網頁應用程式
     - ExtJs 3.0類別圖 (class diagram) author: rhio.kim@gmail.com
 
 
-[extjs_101_003.png]: /images/wiki/extjs/extjs_101_003.png
+[extjs_101_003.png]: http://blog.kent-chiu.com/images/2011-10-17/extjs_101_003.png

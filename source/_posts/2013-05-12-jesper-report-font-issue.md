@@ -111,10 +111,10 @@ PDF ENcodeing要設成 *Identity-H (Unicode with horizontal writer)*, 然後 *En
 
 執行 test case後，可以看 output 的目錄看到匯出的 PDF 檔中文是否有正常顯示
 
+[2013-05-12-jesper-report-font-issue-000.png]: http://blog.kent-chiu.com/images/2013-05-12/2013-05-12-jesper-report-font-issue-000.png
+[2013-05-12-jesper-report-font-issue-001.png]: http://blog.kent-chiu.com/images/2013-05-12/2013-05-12-jesper-report-font-issue-001.png
+[2013-05-12-jesper-report-font-issue-002.png]: http://blog.kent-chiu.com/images/2013-05-12/2013-05-12-jesper-report-font-issue-002.png
+[2013-05-12-jesper-report-font-issue-005.png]: http://blog.kent-chiu.com/images/2013-05-12/2013-05-12-jesper-report-font-issue-005.png
+[2013-05-12-jesper-report-font-issue-007.png]: http://blog.kent-chiu.com/images/2013-05-12/2013-05-12-jesper-report-font-issue-007.png
+[2013-05-12-jesper-report-font-issue-006.png]: http://blog.kent-chiu.com/images/2013-05-12/2013-05-12-jesper-report-font-issue-006.png
 
-[2013-05-12-jesper-report-font-issue-000.png]: http://blog.kent-chiu.com/images/blog/2013-05-12-jesper-report-font-issue-000.png
-[2013-05-12-jesper-report-font-issue-001.png]: http://blog.kent-chiu.com/images/blog/2013-05-12-jesper-report-font-issue-001.png
-[2013-05-12-jesper-report-font-issue-002.png]: http://blog.kent-chiu.com/images/blog/2013-05-12-jesper-report-font-issue-002.png
-[2013-05-12-jesper-report-font-issue-005.png]: http://blog.kent-chiu.com/images/blog/2013-05-12-jesper-report-font-issue-005.png
-[2013-05-12-jesper-report-font-issue-006.png]: http://blog.kent-chiu.com/images/blog/2013-05-12-jesper-report-font-issue-006.png
-[2013-05-12-jesper-report-font-issue-007.png]: http://blog.kent-chiu.com/images/blog/2013-05-12-jesper-report-font-issue-007.png

@@ -33,4 +33,4 @@ x-icon {
 
 
 
-[icons_combined.png]: /images/wiki/web/icons_combined.png
+[icons_combined.png]: http://blog.kent-chiu.com/images/2011-10-17/icons_combined.png

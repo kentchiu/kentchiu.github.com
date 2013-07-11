@@ -42,5 +42,5 @@ Resources
     Viewer](http://mobile.tutsplus.com/tutorials/android/android-tools-using-the-hierarchy-viewer/ "http://mobile.tutsplus.com/tutorials/android/android-tools-using-the-hierarchy-viewer/")
 
 
-[hierarchy_viewer_001.png]: /images/wiki/android/hierarchy_viewer_001.png
-[hierarchy_viewer_002.png]: /images/wiki/android/hierarchy_viewer_002.png
+[hierarchy_viewer_001.png]: http://blog.kent-chiu.com/images/2012-03-20/hierarchy_viewer_001.png
+[hierarchy_viewer_002.png]: http://blog.kent-chiu.com/images/2012-03-20/hierarchy_viewer_002.png

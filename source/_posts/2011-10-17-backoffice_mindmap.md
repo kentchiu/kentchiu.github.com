@@ -18,4 +18,4 @@ categories:
 ![ecshop_backoffice.png][ecshop_backoffice.png]
 
 
-[ecshop_backoffice.png]: /images/wiki/ecshop/ecshop_backoffice.png
+[ecshop_backoffice.png]: http://blog.kent-chiu.com/images/2011-10-17/ecshop_backoffice.png

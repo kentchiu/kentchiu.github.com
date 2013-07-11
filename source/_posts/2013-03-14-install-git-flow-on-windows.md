@@ -95,4 +95,4 @@ clone完成後，到 c:\gitflow\contrib 執行
 到這裡都ok的話，之前的臨時性的工作目錄 `c:\gitflow`可以刪了它
 
 
-  [2013-03-14-install-git-flow-on-windows-001.png]: /images/blog/2013-03-14-install-git-flow-on-windows-001.png
+[2013-03-14-install-git-flow-on-windows-001.png]: http://blog.kent-chiu.com/images/2013-03-14/2013-03-14-install-git-flow-on-windows-001.png

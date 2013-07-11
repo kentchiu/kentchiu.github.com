@@ -222,7 +222,7 @@ Resoures
     [reference](http://www.thierryb.net/pdtwiki/index.php?title=Using_PDT_:_User_Guide_:_PHP_Source_Level_Debugging "http://www.thierryb.net/pdtwiki/index.php?title=Using_PDT_:_User_Guide_:_PHP_Source_Level_Debugging")
 
 
-[setup_elcipse_pdt_03.png]: /images/wiki/php/setup_elcipse_pdt_03.png
-[setup_elcipse_pdt_04.png]: /images/wiki/php/setup_elcipse_pdt_04.png
-[setup_elcipse_pdt_01.png]: /images/wiki/php/setup_elcipse_pdt_01.png
-[setup_elcipse_pdt_02.png]: /images/wiki/php/setup_elcipse_pdt_02.png
+[setup_elcipse_pdt_01.png]: http://blog.kent-chiu.com/images/2011-10-17/setup_elcipse_pdt_01.png
+[setup_elcipse_pdt_02.png]: http://blog.kent-chiu.com/images/2011-10-17/setup_elcipse_pdt_02.png
+[setup_elcipse_pdt_03.png]: http://blog.kent-chiu.com/images/2011-10-17/setup_elcipse_pdt_03.png
+[setup_elcipse_pdt_04.png]: http://blog.kent-chiu.com/images/2011-10-17/setup_elcipse_pdt_04.png

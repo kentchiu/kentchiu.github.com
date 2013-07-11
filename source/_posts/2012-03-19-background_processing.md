@@ -483,5 +483,5 @@ Resource
 -   [http://milochen.wordpress.com/2011/03/25/understanding-android-os-src-looperhandler-message-messagequeue/](http://milochen.wordpress.com/2011/03/25/understanding-android-os-src-looperhandler-message-messagequeue/ "http://milochen.wordpress.com/2011/03/25/understanding-android-os-src-looperhandler-message-messagequeue/")
 
 
-[background_processing_002.png]: /images/wiki/android/background_processing_002.png
-[background_processing_001.png]: /images/wiki/android/background_processing_001.png
+[background_processing_002.png]: http://blog.kent-chiu.com/images/2012-03-19/background_processing_002.png
+[background_processing_001.png]: http://blog.kent-chiu.com/images/2012-03-19/background_processing_001.png

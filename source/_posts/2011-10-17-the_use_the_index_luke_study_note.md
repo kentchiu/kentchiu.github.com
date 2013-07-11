@@ -282,7 +282,6 @@ EXPLAIN EXECUTE stmt(1);
     cost有兩個值，第一個是啟動所需的cost，第二個是執行後，取回全部資料所需的cost，cost是相對的值，沒有一定的單位，各種資料庫的cost有自已計算的方式
 -   rows 估計的row count
 -   width 預期的row width
-    :![FIXME](http://wiki.kent-chiu.com/lib/images/smileys/fixme.gif)
 
 EXPLAIN可以加上ANALYZE，會得到更多的資料，但ANALYZE會真正去執行SQL
 COMMAND，所以**當COMMAND是INSERT，UPDAET，DELETE時要特別小心**
@@ -299,7 +298,7 @@ EXPLAIN ANALYZE EXECUTE stmt(1);
 ### SQLServer Scripts
 
 
-[the_use_the_index_luke_study_note_003.png]: /images/wiki/database/the_use_the_index_luke_study_note_003.png
-[the_use_the_index_luke_study_note_004.png]: /images/wiki/database/the_use_the_index_luke_study_note_004.png
-[the_use_the_index_luke_study_note_002.png]: /images/wiki/database/the_use_the_index_luke_study_note_002.png
-[the_use_the_index_luke_study_note_001.png]: /images/wiki/database/the_use_the_index_luke_study_note_001.png
+[the_use_the_index_luke_study_note_001.png]: http://blog.kent-chiu.com/images/2011-10-17/the_use_the_index_luke_study_note_001.png
+[the_use_the_index_luke_study_note_002.png]: http://blog.kent-chiu.com/images/2011-10-17/the_use_the_index_luke_study_note_002.png
+[the_use_the_index_luke_study_note_003.png]: http://blog.kent-chiu.com/images/2011-10-17/the_use_the_index_luke_study_note_003.png
+[the_use_the_index_luke_study_note_004.png]: http://blog.kent-chiu.com/images/2011-10-17/the_use_the_index_luke_study_note_004.png

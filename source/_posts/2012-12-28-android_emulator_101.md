@@ -80,7 +80,7 @@ Resources
 -   [Android Virtual Devices](http://developer.android.com/guide/developing/tools/avd.html "http://developer.android.com/guide/developing/tools/avd.html")
 
 
-[android_emulator_101_02.png]: /images/wiki/android/android_emulator_101_02.png
-[android_emulator_101_004.png]: /images/wiki/android/android_emulator_101_004.png
-[android_emulator_101_01.png]: /images/wiki/android/android_emulator_101_01.png
-[android_emulator_101_03.png]: /images/wiki/android/android_emulator_101_03.png
+[android_emulator_101_01.png]: http://blog.kent-chiu.com/images/2012-12-28/android_emulator_101_01.png
+[android_emulator_101_03.png]: http://blog.kent-chiu.com/images/2012-12-28/android_emulator_101_03.png
+[android_emulator_101_02.png]: http://blog.kent-chiu.com/images/2012-12-28/android_emulator_101_02.png
+[android_emulator_101_004.png]: http://blog.kent-chiu.com/images/2012-12-28/android_emulator_101_004.png

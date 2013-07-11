@@ -28,4 +28,4 @@ Please ensure you have should tail program
 -   Arguments: -f \<log file name\>
 
 
-[show_log_in_eclipse_console_01.png]: /images/wiki/php/show_log_in_eclipse_console_01.png
+[show_log_in_eclipse_console_01.png]: http://blog.kent-chiu.com/images/2011-10-17/show_log_in_eclipse_console_01.png

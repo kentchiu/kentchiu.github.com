@@ -50,4 +50,4 @@ com pan　ion 一起　麵包　名詞字尾 companion = 一起吃麵包的人 =
 >  - 用你的嘴巴看穿英語字根2 <http://www.christabelle.idv.tw/archives/509>
 
 
-  [pronounce.jpg]: /images/wiki/english/pronounce.jpg
+[pronounce.jpg]: http://blog.kent-chiu.com/images/2011-10-17/pronounce.jpg

@@ -91,7 +91,6 @@ Resources
 
 
 
+[jvm_profile_01.jpg]: http://blog.kent-chiu.com/images/2012-05-05/jvm_profile_01.jpg
+[jvm_profile_02.png]: http://blog.kent-chiu.com/images/2012-05-05/jvm_profile_02.png
 
-
-[jvm_profile_01.png]: /images/wiki/java/jvm_profile_01.png
-[jvm_profile_02.png]: /images/wiki/java/jvm_profile_02.png

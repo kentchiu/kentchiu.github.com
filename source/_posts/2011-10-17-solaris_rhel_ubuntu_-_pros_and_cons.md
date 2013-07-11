@@ -214,4 +214,4 @@ Not recommended using Ubuntu as a production server.
 
 
 ^[1)](#fnt__1)^ running without GUI
-[trend_linux.png]: /images/wiki/linux/trend_linux.png
+[trend_linux.png]: http://blog.kent-chiu.com/images/2011-10-17/trend_linux.png

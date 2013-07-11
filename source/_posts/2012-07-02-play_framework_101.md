@@ -301,4 +301,4 @@ literal,本例中為`User.unapply`
 
 作用是將User物件解構，把User的值再指派到`“email” → of[String]`
 
-[play_framework_101-001.png]: /images/wiki/scala/play_framework_101-001.png
+[play_framework_101-001.png]: http://blog.kent-chiu.com/images/2012-07-02/play_framework_101-001.png
