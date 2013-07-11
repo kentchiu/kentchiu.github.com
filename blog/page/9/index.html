@@ -9,7 +9,8 @@
   <meta name="author" content="Kent">
 
   
-  <meta name="description" content="Create 1
+  <meta name="description" content="這邊採用Behavior_Driven_Development所建議的User
+Story格式進行撰寫，簡介可以看這裡或者是這裡 1
 2
 3
 4
@@ -19,10 +20,13 @@
 8
 9
 10
-var xhr;
-if (window.XMLHttpRequest) { xhr = new XMLHttpRequest();
-}
-else if (window.ActiveXObject) { xhr = new &hellip;">
+11
+12
+13
+14
+15
+Title (one line describing the story)
+  &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -90,798 +94,6 @@ else if (window.ActiveXObject) { xhr = new &hellip;">
     <div id="content">
       <div class="blog-index">
   
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/10/17/xmlhttprequest/">XMLHttpRequest (a.k. A AJAX)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
-        
-         | <a href="/blog/2011/10/17/xmlhttprequest/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h1>Create</h1>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>var xhr;
-</span><span class='line'>if (window.XMLHttpRequest) {   
-</span><span class='line'>  xhr = new XMLHttpRequest();
-</span><span class='line'>}
-</span><span class='line'>else if (window.ActiveXObject) {   
-</span><span class='line'>  xhr = new ActiveXObject("Msxml2.XMLHTTP");
-</span><span class='line'>}
-</span><span class='line'>else {   
-</span><span class='line'>  throw new Error("Ajax is not supported by this browser"); 
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Method</h2>
-
-<p>  Method                                                             Description</p>
-
-<hr />
-
-<p>  <code>abort()</code>                                                          Stops the current request                                                              <br/>
-  <code>getAllResponseHeaders()</code>                                          Returns complete set of headers (labels and values) as a string                        <br/>
-  <code>getResponseHeader(”headerLabel”)</code>                                 Returns the string value of a single header label                                      <br/>
-  <code>open(”method”, ”URL”[, asyncFlag[, ”userName”[, ”password”]]])</code>   Assigns destination URL, method, and other optional attributes of a pending request    <br/>
-  <code>send(content)</code>                                                    Transmits the request, optionally with postable string or DOM object data              <br/>
-  <code>setRequestHeader(”label”, ”value”)</code>                               Assigns a label/value pair to the header to be sent with a request</p>
-
-<h1>Properties</h1>
-
-<hr />
-
-<p>  Property               Description</p>
-
-<hr />
-
-<p>  <code>onreadystatechange</code>   Event handler for an event that fires at every state change</p>
-
-<p>  <code>readyState</code>           Object status integer:\</p>
-
-<pre><code>                      0 = uninitialized\                                                               
-                      1 = loading\                                                                     
-                      2 = loaded\                                                                      
-                      3 = interactive\                                                                 
-                      4 = complete                                                                     
-</code></pre>
-
-<p>  <code>responseText</code>         String version of data returned from server process</p>
-
-<p>  <code>responseXML</code>          DOM-compatible document object of data returned from server process</p>
-
-<p>  <code>status</code>               Numeric code returned by server, such as 404 for “Not Found” or 200 for “OK”</p>
-
-<p>  <code>statusText</code>           String message accompanying the status code</p>
-
-<hr />
-
-<h1>Status code</h1>
-
-<p>  code   description</p>
-
-<hr />
-
-<p>  100    Continue
-  101    Switching protocols
-  200    OK
-  201    Created
-  202    Accepted
-  203    Non-Authoritative Information
-  204    No Content
-  205    Reset Content
-  206    Partial Content
-  300    Multiple Choices
-  301    Moved Permanently
-  302    Found
-  303    See Other
-  304    Not Modified
-  305    Use Proxy
-  307    Temporary Redirect
-  400    Bad Request
-  401    Unauthorized
-  402    Payment Required
-  403    Forbidden
-  404    Not Found
-  405    Method Not Allowed
-  406    Not Acceptable
-  407    Proxy Authentication Required
-  408    Request Timeout
-  409    Conflict
-  410    Gone
-  411    Length Required
-  412    Precondition Failed
-  413    Request Entity Too Large
-  414    Request-URI Too Long
-  415    Unsupported Media Type
-  416    Requested Range Not Suitable
-  417    Expectation Failed
-  500    Internal Server Error
-  501    Not Implemented
-  502    Bad Gateway
-  503    Service Unavailable
-  504    Gateway Timeout
-  505    HTTP Version Not Supported</p>
-
-<p><a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10" title="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10">more
-details&#8230;</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/10/17/word_dna/">英文字彙DNA</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
-        
-         | <a href="/blog/2011/10/17/word_dna/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>本文章內容來節錄自<a href="http://www.epochtimes.com/b5/nf4708.htm" title="http://www.epochtimes.com/b5/nf4708.htm">大記元新聞網</a>，原作者為
-David
-Lee，本內容為了個人學習方便而整理並加上個人學習心得(不保證是正確的)
-如果想看原汁源味的內容^<a href="#fn__1">1)</a>^，還是請到<a href="http://www.epochtimes.com.au/b5/nf4708.htm" title="http://www.epochtimes.com.au/b5/nf4708.htm">這裡</a>吧。
-目前更新到單元 (58)</p>
-
-<h3>導論</h3>
-
-<p>大家都知道，英文字是由26個字母所組成的，但實際上，有大量的字彙，是由一些字首（Prefix）、字根（Root）與字尾（Suffix）的組合。
-這就好像中文字是由一筆一劃所組成的，但其中是有許多「部首」。例如看到有木字旁，就知道這個字與木有關；看到有金字旁，就知道這個字與金屬有關；看到有水字旁，就知道這個字與水有關，等等。
-因此，當你看到有e-
-或ex-時，就要知道那是out的意思；看到su-應知道是under之意，看到co-要知道是together，看到re-要知道是again或back，看到inter-要知道是between之意…等等。
-英文有許多的新字，也是用字根字首來造字的。譬如微軟公司Microsoft,
-原先英文裡並沒有這個字，比爾蓋茲將micro-（微小的）與soft組合起來，就成了他的公司名Microsoft。
-microscope就是顯微鏡的意思，-scope也是一個字根，是to look
-「看」的意思。那麼配上tele-（遠的）字首，就成了telescope 望遠鏡的意思。
-David老師在課堂上常問學員們：microscope有幾個字呢？有的回答十個字。但我告訴同學們：其實只有兩個字，就是micro-
-+
--scope。那麼記兩個字容易、還是記十個字容易呢？大家都會回答：當然是記兩個字容易啊！
-所以許許多多看起來很長的字，如果你用一個字母、一個字母地去記，那就非常辛苦；事實上，它們經常是由2-3個字根、字首或字尾所組成的。好像一樣米養百萬人，但這百萬人其實是23對染色體的排列組合，而每條染色體上有不同的DNA。
-明白了這個道理，我們就趕快來開始學習：組合成英文單字的DNA，相信大家的字彙能力，一定可以在短期內，很快地突飛猛進喔！</p>
-
-<h3>一般單字 V.S 特殊單字</h3>
-
-<p>英文的單字有一個特點，即每一個<strong>基本的</strong>意義都有兩種(或兩種以上)的符號來表示，例如：</p>
-
-<p>  意義   一般單字   特殊單字</p>
-
-<hr />
-
-<p>  吃     eat        ed
-  看     see        vis
-  聽     hear       audi
-  改變   change     mut
-  讀     read       leg
-  相信   believe    cred
-  活     live       viv</p>
-
-<p>一般單字是可以獨立使用符號 – 單字，特殊單字是不可以獨立使用的 –
-字根，學習英語必語<strong>同時</strong>認識兩種符號，才能掌握大量的單字。
-這種”一個意義，兩種符號”的現象形成了英文單字的殊殊性和多樣性，字根雖然是一種不能體使用的符號，不是單字，但實際上它是一種含有具體意義的特殊”單字”，所以，從某種歷義上說，英語中存在著兩套單字：一套是”明的”、一般的單字(see,hear…)，另一套是”暗的”、特殊單字(vism,audi….)。</p>
-
-<h3>字義轉化</h3>
-
-<p>一般來說，知道字根的意義，就可以知道單字的基本意義，再結合字首、字尾，即可得到單字的完整意義，像
-pro- (向前的) + gress(行走) =
-progress(前進)，然而，實際的情況并不完全如此，有一相當部份的單字的字義並不完全等於字首+字根+字尾的意義，甚至，單字的意義與字根的意義間有很大的距離，或毫無關聯，讓我們無法根據字根的意義直接理解單字的意義，例如：</p>
-
-<p>  字根          單字</p>
-
-<hr />
-
-<p>  hospit 客人   hospital醫院
-  sid 坐        president 大學校長，總統
-  ori 昇起      orient 東方
-  vis 看        advise建議
-  port 拿       report報告
-  sect 切，割   insect昆蟲
-  medi 中間     immediate立刻的，直接的
-  spir 呼吸     conspire共謀
-  fer 拿，帶    conference會議
-  ven來         intervention干預
-  sal 鹽        salary工資
-  mini 小       minister大臣，部長</p>
-
-<p>以表面上來看，<strong>意義上風馬牛不相及，但實際上它們之存在著內在的聯系</strong>，它們之間確有一條曲徑相通。這種現象的產生，有的是由于<strong>字義的形成過程過分的曲折，字根的含義由原義引申為其他意義</strong>，有的是由于<strong>字意源自某種歷史背景</strong>，下面對這些字義進行分析溯源：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>hospit 客人 + -al 名詞字尾 -&gt; hospital醫院
-</span><span class='line'>接待"客人"的地方 -&gt; 接待"病客"的地方 -&gt; 醫院
-</span><span class='line'>pre- 前 + sid 坐 -&gt; ent 人的字尾 -&gt; president 大學校長，總統
-</span><span class='line'>開會時"坐在前面的人" -&gt; 主事者，指揮者 -&gt; 大學校長，總統
-</span><span class='line'>ori 昇起 + -ent 名詞字尾 -&gt; 東方
-</span><span class='line'>太陽"昇起"的地方 -&gt; 東方
-</span><span class='line'>ad- 向 + vis 看-&gt; 建議
-</span><span class='line'>"看" -&gt; "看法，意見" -&gt; 向別人提出自已看法或意見
-</span><span class='line'>re- 回 + post 拿 -&gt; repsort 報告
-</span><span class='line'>把消息拿回來
-</span><span class='line'>ad- 向 + vert 轉 + ise 使… -&gt; advertise 廣告
-</span><span class='line'>使人的注意力轉向 -&gt; 使人注意到 -&gt; 廣告
-</span><span class='line'>in- 入 + sect 切割 -&gt; insect昆蟲
-</span><span class='line'>"切入" -&gt; 切裂;昆蟲身體分開像一節一節
-</span><span class='line'>im- 無 + medi 中間 + -ate 的 -&gt; immediate立刻的，直接的
-</span><span class='line'>沒有 中間的 -&gt; 直接的
-</span><span class='line'>con-共同 + spir 呼吸 -&gt; conspire
-</span><span class='line'>共同呼吸 -&gt; 互通氣息 -&gt; 共謀
-</span><span class='line'>con- 共同 + fer 拿 + -ence 名詞字尾 -&gt; conference
-</span><span class='line'>把意見"拿到一起來" -&gt; 交換意見 -&gt; 會議
-</span><span class='line'>inter- 中間 + ven 來 + -tions 名詞字尾 -&gt; intervention 干預
-</span><span class='line'>來到中間 -&gt; 介入其中 -&gt; 干預
-</span><span class='line'>sal 鹽 + -ary  表示物 -&gt; salary 薪水
-</span><span class='line'>古羅馬士兵所領取的"買鹽的錢"，作為生活津貼 -&gt; 薪水
-</span><span class='line'>mini 小 + -ster  表示人 -&gt; minister 部長，大臣
-</span><span class='line'>原義為"小人，僕人"；古時大臣對君王時的自稱</span></code></pre></td></tr></table></div></figure>
-
-
-<p>由上面的分析可看出，一個單字的意義與其字根意義雖然相距很遠，但根據字根的意義，沿著一條曲折的途徑，總是可以尋得單字的意義，一旦透過這種方式了解字根的來源後，對這個單字的印象就會特別的深刻。</p>
-
-<h3>字尾的擴展</h3>
-
-<p>字根 + 字尾形式的單字，一般是非常容易認識的，如</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'> danger 危險 + -ous 的 -&gt; 危險的
-</span><span class='line'> work工作 + -er -&gt;工人</span></code></pre></td></tr></table></div></figure>
-
-
-<p>這類的單字義明顯，容易記憶，只要知道字尾的意義，就能知道單字的意尾。但是<strong>實際上情況並不都是這的簡單</strong>，例如
-supositious去掉-ous後的supositi是什麼呢？如果認得出是suppose，那iti又是什麼？
-rosaceous去掉-ous後的rosace是什麼？
-這個就是英文單字的一個難處，原來這些<strong>單字的字尾都不是-ous</strong>，這些單字的構成是這旁的</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>suppos(e) 假定 + -itious(的)
-</span><span class='line'>ros(e)玫瑰 + aceous(的)
-</span><span class='line'>instant(瞬息) + aneous(的)</span></code></pre></td></tr></table></div></figure>
-
-
-<p>他們的字尾是 -itious,-aceous,-aneous
-這些字尾都含有ous的形式，他們的含義都與=-ous相同，它們稱為”-ous”的擴展形式，-ous是基本形式。
-基本形式的字尾與擴展形式的字尾，是同型字尾，它們都有共同的基本意義，如果只認識”基本形式”而不認識”擴展形式”的字尾，那學習時會愈覺愈困惑的。</p>
-
-<p>可以透過<a href="http://wiki.kent-chiu.com/doku.php?id=word:how_to_split_a_word" title="word:how_to_split_a_word">字首，字根，字尾結合規則</a>解決一部份這方面的問題</p>
-
-<h3>何謂字首字根字尾</h3>
-
-<h5>字首 prefix</h5>
-
-<p>學習難度－中，約80 個﹚，若在字中出現，則在字頭
-﹙有時字根自己一個字，未帶字首，有時同時出現兩個接續的字首﹚。代表下列意思的，幾乎都是字首：
-前、後﹙空間﹚、內、外、先、後﹙時間﹚、遠、近、快、慢、上、下、正、反、新、舊、直、歪、好、壞、優、劣、好﹙喜﹚、惡、是、否、真、偽、主、從、同、異、大、小、多、寡、無、過多、不足、完整、一半、部份、相等、一起、分離、加多、減低、中間、周邊、近旁、彼此之間、超越、次於、橫跨、逼近、離去、分開、轉換、抵擋、針對、數字﹙1-10,
-10的２次方到10的18次方，10 的負2次方到10 的負18次方﹚</p>
-
-<h5>字尾suffix</h5>
-
-<p>學習難度－低，約30 個﹚，若在字中出現，則在字末
-﹙有時字根自己一個字，未帶字尾，有時不只出現一個字尾，而是兩個連接在一起﹚。字尾有兩大辨識作用，可判斷該字屬於何種詞類﹙形容詞、副詞、動詞等﹚，有些字尾也可以代表某種意思，譬如：
-人、物、者、東西、地方、狀態、病症、思想、行為、樣子、方法、制度、現象、行業、身分、領域、化學品、藥物、患者</p>
-
-<h5>字根 root</h5>
-
-<p>﹙學習難度－高，基礎級約２００個﹚，有實質意涵，有時單獨存在為一個字，有時配上另一字根，有時配上字首，有時配上字尾，有時字首字尾都配上，而形成有新意義的字。字根與字首或字尾連接時，<strong>由於發音關係，有時會有拼字上的小變化，譬如添加母音字母、略去母音字母，或因為在希臘或拉丁文的動詞變化時就有衍生字，而至拼法稍有差異。</strong>
-&lt;Note note> 一個字可能會有字首 + 字根，或字根 + 字尾，或字首 + 字根 +
-字尾，但不會只有字首 + 字尾
-字首會影響字的意思，而且字尾通常只是做詞性變化 &lt;/note></p>
-
-<h3>英語說文解字</h3>
-
-<p>語言不是今天的發明，它是文明的產物，是從人與人的互動中產生的，從古代一直流傳下來，隨著人類活動的多樣化與社會的複雜化，文字的內涵也在不斷地增加、愈來愈豐富。
-但即使在最簡單的社會形式中，人也是一張嘴吧、兩隻眼睛、兩隻耳朵、兩隻手、兩隻腳…等等。那麼嘴巴會說、眼睛會看、耳朵會聽，手會拿、會丟、會射、會放置…，腳呢會走、會跑、來來去去…，那麼最早期的字根就從中產生了。
-今天的英文裡，「說」是say，speak，talk等，但在古希臘羅馬文字中，-dict，-cuse，-fess，-nounce等也都是指涉「說」的動作，那麼在漫長的語言形成過程中，許多有關「說」的衍伸字，就是從-dict，-cuse，-fess，-nounce衍伸而來。
-這些動作字根，配上時間、位置、狀態、數量……等字首，就會各自形成不同的意涵的字彙。舉例而言，pre-是「之前」，那麼predict就是「預測」的意思；為什麼是預測呢？因為之前就說了，才算預測嘛！如果之後說，那是放馬後炮，就不算預測了。
-indicate是「指出」之意，point
-out這個片語也很生動地表達「指出來」的意涵。那為什麼indicate是「指出」呢？to
-speak into說到裡邊去了，就是指出囉！
-Excuse是「藉口」的意思，為什麼呢？ex-是位置字根，意思是
-「out」，那麼excuse就是對外說的話，所以是藉口囉！
-confess是懺悔、招供之意，為什麼呢？con-是狀態字首，意思是together，to
-speak together就是統統都說了，懺悔、招供不就是統統都說了嗎？！
-再以denounce為例，denounce是「譴責」的意思，但為什麼是譴責的意思呢？因為de-是狀態字首down或negate，對人說負面、否定的話，所以是譴責的意思。</p>
-
-<h3>談英文的造字法則</h3>
-
-<p>各位讀者好：
-在中文漢字中，大家都知道倉頡造字，造字有造字的法則，主要有象形、會意、形聲、指事、轉注、假借六種。英文也有英文的造字法則，並非是26個字母隨意的排列組合。前文中所提到的字根、字首，都有其基本涵義，許多都是從希臘、羅馬文字中承傳下來的，所以西方人談西方文化，必然離不開希臘、羅馬，因為西方文化就是淵源於希臘、羅馬。
-英文有象形字嗎？其實有。舉個例子：Vase（花瓶）,
-Valley（山谷）,都以V開頭，V這個字像不像是花瓶與山谷呢？不信再看：Mountain（山）這個字，m是不是就像座山呢？
-還有呢：slide, slip, slump, sluggish,
-shed這些字都是下滑的意思，那S這個字是不是就像個「滑坡」呢？再看：snake（蛇）,
-sperm（精子），S這個字是不是也像條蛇、精子呢？
-再談英文的形聲字。David老師常在課堂上問學生，英文是先有聲音？還是先有文字呢？大家都會異口同聲的說：「先有聲音」那麼就字母文化而言，就是如何用
-26個字母將那些聲音拼出來。所以只要知曉如何將聲音字母化的秘訣，其實英文字根本就不用背，你只是用26個字如何把那個聲音拼出來即可。
-有一些聲音，直接就來自於自然界或日常生活中，例如bomb（爆炸）,
-clash（衝突）, crash（撞碎）, crush（壓碎）,
-smash（粉碎）,這些字都是形聲字，直接模仿現象所發出聲音而造的。
-再說到會意字，英文字中最多的大概就屬會意字，其實中文也是如此。像是「昌」這個字，兩個太陽當然就很昌盛囉！「晶」這個字，三個太陽，那真是光亮無比哩！
-那麼英文有那些會意字？其實許許多多的字根組合字，都是屬於會意字，因為有其組合的涵義。例如：coworker,
-一起工作的人，當然就是同事囉！subway，在底下的路，那麼就是地鐵了！predict,
-之前就要說，所以是預測！precaution，之前就要謹慎，所以是預防。
-凡此種種，不勝枚舉。基本上，David老師在這個專欄中舉的大部份例子，都是屬於會意字。</p>
-
-<h3>強調的造字法則(上)</h3>
-
-<p>英文字彙中，有一種造字法則，是把一個字或是一個字根的字首重覆，然後加上a，形成一個新的字，David老師稱此為強調的造字法則。
-以單字為例：
-Set（設定），重複字首加上a，就成了asset，asset是資產的意思，就是強調這幢房子設定給你，就是你的資產了！
-sign（簽署），重複字首加上a，就成了assign，assign是分派的意思，強調主管簽署後分派不同的工作，所以assignment也就是作業了。
-prove（證明），重複字首加上a，就成了approve，approve是批准之意，批准就是強調正式蓋個章，證明Ok了！
-還有像是range（範圍）, locate（座落）,
-等字也都可以依此類推，造出一個新字來，如arrange（安排）,
-allocate（分配）。<em>當然不是所有的字都能運用這個法則</em>，David老師的意思是說，有許多字是透過這樣的造字法則，所造出來的。那麼學會這個造字法則，也就可以很快學會很多字啦！</p>
-
-<p>所以<strong>a</strong>有強調，加強的意思，而且a後面會加上一個重覆的子音字母，所以<strong>a</strong>用在強調時，pattern就是a<strong>xx</strong>，xx是指重覆的字音，也就是在這樣的情況下，<strong>a</strong>才有強調的意思在
-<a href="http://wiki.kent-chiu.com/doku.php?id=word:how_to_split_a_word#total_assimilation" title="word:how_to_split_a_word">total_assimilation</a></p>
-
-<h3>強調的造字法則(下)</h3>
-
-<p>前集中提到，英文字彙中，有一種造字法則，是把一個字或是一個字根的字首重覆，然後加上a，形成一個新的字，David老師稱此為強調的造字法則。
-前集以單字舉例，本集則以字根舉例。</p>
-
-<ul>
-<li>attain=at-+-tain, v. 獲得（重複字根字首+a, 強調造字法）</li>
-<li>announce=an-+-nounce,
-宣佈（重複字根字首＋a,強調造字法則，特別地說，所以是宣佈）</li>
-<li>accuse=ac-+-cuse, 控告（重複字根首字+a,
-強調造字法則，到法庭裡強調地說，因此是控告）</li>
-<li>affect=af-+-fect, v.
-影響（重複字根字首+a，強調造字法則，強調小孩跑來跑去，當然影響大家）</li>
-<li>addict=ad-+-dict, v, 沉溺於（強調造字法則，說話說上癮）</li>
-</ul>
-
-
-<p>–fect=to run –tain=to take</p>
-
-<h3>不同字根組成同義字</h3>
-
-<p>不同字根組成同義字：拒絕
-前集中提到，許多英文字是由字根、字首與字尾所組合而成。也因此，往往有許多情況，是由不同的字根字首，但卻組合成為相同的意思。
-例如：reject與refuse兩個字，都是「拒絕」的意思，分解來看，re-當然都是back之意，-ject是to
-throw丟的意思，to throw back丟回去，當然就是拒絕了。-fuse是to pour
-傾倒之意，to pour
-back傾倒回去，也是表達了拒絕的意函，因此reject與reject就是由不同的字根、相同的字首，組合成為相同的意思。
-不同字根組成同義字：干預 再舉一個例子。interfere, intervene, meddle,
-這三個字都是“干預”的意思，inter-這個字首是between之意。 <strong>-fer是to
-run</strong>, interfere就是to run between，干預就是跑到兩者之間。
-<strong>-vene這個字根是to come</strong>，intervene就是to come
-between，來到二者之間，當然也是干預。
-Meddle是由middle轉換母音i而來，當然也是介入其中之意。所以interfere,
-intervene, meddle就是以不同的字根，組合成為相同的意思。
-不同字根組成同義字：計劃
-不同字根組成同義字，還有一個例子是計劃：project, program,
-proposal這三個字都有計劃的意思，為什麼呢？ -ject這個字根是手的動作to
-throw，丟的意思，pro-則是有關時間先後的字首，這裡是之前的意思，那麼project就是先前就丟出來的的東西，計劃不就是先前丟出來的嗎？
-再看program，-gram是to
-write寫的意思，pro-是之前，之前就寫下來，所以也是計劃。
-那麼proposal呢？-pos 是手的動作，to
-put放置的意思，計劃當然也是事先就要放置出來的東西囉！
-不同字根組成同義字：會議
-再舉一個不同字根組成同義字的例子：會議。請看conference, congress,
-convention, symposium這四個字，為什麼都是會議呢？
-首先看conference，-fer是to run，con- 是together，會議不正是要大家to run
-together跑到一起，才能開會嗎？！ 再看congress，-gress是to go，con-
-是together，會議也是要to go together去到一起，才能開會。
-Convention也是如此，-ven 這個字根是to come之意，to come together
-來到一起，當然也可以是開會。
-至於symposium研討會，sym-也和co-一樣，是together之意，例如symphony
-是交響樂，就是把許多聲音放在一起；sympathy是同情，因為-path是feeling感情之意，有相同的感情，所以是同情。
-那麼字根-pos是手的動作to put之意，合起來就是to put
-together，一個大型的研討會當然是要邀請很多人來，把他們放在一起囉！所以在語意的組合結構上，symposium與conference,
-congress, convention其實都是相同的。</p>
-
-<p>^<a href="#fnt__1">1)</a>^ 而且有一直在新增文章哦</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/10/17/vim_101/">Vim 101</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
-        
-         | <a href="/blog/2011/10/17/vim_101/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h1>Setup</h1>
-
-<h3>Mode</h3>
-
-<ul>
-<li>i : insert mode</li>
-<li>esc : back to normal mode</li>
-<li>ctrl + [ : back to normal mode(fast)</li>
-<li>: : command mode → open file,save file, …</li>
-<li>gQ : Ex mode</li>
-<li>v : visual mode → select text</li>
-<li>a : append mode</li>
-<li>r/R : replace/repace mode</li>
-<li>o : open a new line</li>
-<li>J : joint next line</li>
-</ul>
-
-
-<h1>Commands</h1>
-
-<h2>Motions</h2>
-
-<ul>
-<li>h/j/k/l : left/down/up/right</li>
-<li>0 : line start</li>
-<li>^/\$ : string start/end</li>
-<li>ctrl + d/ ctrl + u : page up / down</li>
-<li>G : end of file</li>
-<li>gg : top of file</li>
-<li>w/b : word / back word</li>
-<li>n| : move to n column</li>
-<li>:n : move to n line</li>
-<li>% : move to matched parentheses</li>
-</ul>
-
-
-<h2>Editing</h2>
-
-<ul>
-<li>:e : reload current file or load a file by path</li>
-<li>:e ^D : list directory</li>
-<li>c : change , c&lt;Motions></li>
-<li>y : yank , y&lt;Motions></li>
-<li>yy : yank current line</li>
-<li>p : paste</li>
-<li>c : change</li>
-<li>d : delete = cut(put to clipboard)</li>
-<li>\~ : change Capital</li>
-<li>s : replace</li>
-<li>ctrl + r : redo</li>
-<li>ct&lt;symbol> : change till &lt;symbol></li>
-<li>« / » : left/right shift a tab</li>
-</ul>
-
-
-<h2>Search and Replace</h2>
-
-<ul>
-<li>//? : search/backwards search</li>
-<li>n/N : next/previous occurance of search term</li>
-<li>:set incsearch/noincsearch → turn on/off incremental search</li>
-<li>*/# : go to next/previous occurence of word uder cursor</li>
-<li>f&lt;symbol> : move cursor to symbol of current word</li>
-<li>;/, : next/previous occurence</li>
-</ul>
-
-
-<h2>Macros</h2>
-
-<ul>
-<li>q &lt;macro name> : start/stop recording</li>
-<li>&lt;times>@&lt;macroname> : play macro</li>
-</ul>
-
-
-<h2>Multi Files Editing</h2>
-
-<ul>
-<li>n edit next file</li>
-<li>2n edit next 2 file</li>
-<li>e# / ctrl + ^ : edit next/previous file</li>
-<li>b&lt;filename or number> : edit that file</li>
-<li>:ls : list file</li>
-</ul>
-
-
-<h2>Visual</h2>
-
-<ul>
-<li>v : v-mode</li>
-<li>V : visual line mode</li>
-<li>ctrl + r : block mode (a.k.a column mode)</li>
-<li>shift + &lt; / shift + > : shift a tab</li>
-</ul>
-
-
-<h2>Window</h2>
-
-<ul>
-<li>ctrl + w n : new window</li>
-<li>ctrl + s : (:sp) split file into 2 window</li>
-<li>ctrl + w o : this window only</li>
-<li>ctrl + w j/k : go to previous/next window</li>
-</ul>
-
-
-<h2>Open files in tabs</h2>
-
-<ul>
-<li>:tabs - View a list of tabs that are open with the file names. Use
-the command &#8216;:tabs&#8217; and Vim will display a list of all the files in
-the tabs. The current window is shown by a ”>” and a ”+” is shown
-for any modifiable buffers.</li>
-<li>:tabc - Close the current tab.</li>
-<li>:tabnew - Open a new file for editing in a separate tab.</li>
-<li>:tab split - Open the file in the current buffer in a new tab page.</li>
-<li>:tabn - Switching to the next tab page.</li>
-<li>:tabp - Switch to the previous tab page.</li>
-<li>:tabr[ewind] - Go to the first tab page. You get the same effect
-when you use the :tabf[irst] command.</li>
-<li>:tabo - Close all other tab pages.</li>
-</ul>
-
-
-<h2>Shell</h2>
-
-<ul>
-<li>:! cmd : execute cmd</li>
-<li>:!! : execute previous command</li>
-<li>sh : execute shell</li>
-</ul>
-
-
-<h2>Key Mapping</h2>
-
-<p><a href="http://greenisland.csie.nctu.edu.tw/wp/2007/02/06/959/" title="http://greenisland.csie.nctu.edu.tw/wp/2007/02/06/959/">sample</a></p>
-
-<h2>Abbreviate</h2>
-
-<ul>
-<li>abbr : using abbreviate in both editor and command line</li>
-<li>cabbr : using abbreviate only in command line</li>
-<li>iabbr : using abbreviate in insert mode only</li>
-<li>una : remove abbreviate</li>
-</ul>
-
-
-<h2>Configuration</h2>
-
-<ul>
-<li>:set : display current settings(modified only)</li>
-<li>:set all : display all settings</li>
-<li>:scriptnames : display the locations of config file</li>
-<li>:set spell/nospell : spelling checking</li>
-<li>:colo[rscheme] {name}: load color scheme {name}.
-
-<ol>
-<li>check
-<a href="http://www.cs.cmu.edu/~maverick/VimColorSchemeTest/" title="http://www.cs.cmu.edu/~maverick/VimColorSchemeTest/">here</a>
-to preview color schema</li>
-</ol>
-</li>
-</ul>
-
-
-<p><a href="http://greenisland.csie.nctu.edu.tw/wp/2005/09/21/341/#more-341" title="http://greenisland.csie.nctu.edu.tw/wp/2005/09/21/341/#more-341">settings sample</a></p>
-
-<h1>Tips</h1>
-
-<h3>^M mark in windows</h3>
-
-<p>Windows(DOS)產生的文件, 在unix環境下使用vim開啟,
-每一行的行尾會出現^M的Dos換行符號. 移除它的方法, 是利用字串取代:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>:%s/\r//g</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Reload vimrc file</h3>
-
-<p>Using <code>source</code> command to reload vimrc (or any vim script) file</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>source ~/vimrc</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Session and Viminfo</h3>
-
-<h4>Save</h4>
-
-<p>Using <code>mksession &lt;filename.vim&gt;</code> to save current session. Using
-<code>wviminfo &lt;filename.viminfo&gt;</code> to write current info.</p>
-
-<h4>Load</h4>
-
-<p>Using <code>source filename</code> to load saved session Using <code>rviminfo</code> to read
-saved viminfo.</p>
-
-<h4>Example</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>:mksession vim101.vim
-</span><span class='line'>:wviminfo vim101.viminfo</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>:source vim101.vim
-</span><span class='line'>:rviminfo vim101.viminfo</span></code></pre></td></tr></table></div></figure>
-
-
-<p>check
-<a href="http://easwy.com/blog/archives/advanced-vim-skills-session-file-and-viminfo/" title="http://easwy.com/blog/archives/advanced-vim-skills-session-file-and-viminfo/">here</a>
-for more details.</p>
-
-<h1>Resources</h1>
-
-<ul>
-<li><a href="http://lucumr.pocoo.org/2007/4/2/vim-as-development-environment" title="http://lucumr.pocoo.org/2007/4/2/vim-as-development-environment">vim as dev
-tools</a></li>
-<li><a href="http://www.geocities.com/volontir/" title="http://www.geocities.com/volontir/">vim
-RE</a></li>
-<li><a href="http://vimcdoc.sourceforge.net/doc/" title="http://vimcdoc.sourceforge.net/doc/">web base online help(Simple
-Chinese)</a></li>
-<li><a href="http://easwy.com/blog/archives/advanced-vim-skills-catalog/" title="http://easwy.com/blog/archives/advanced-vim-skills-catalog/">vim使用进阶</a>
-<a href="http://wiki.kent-chiu.com/lib/exe/fetch.php?media=vim:vim_advanced_usage.pdf" title="vim:vim_advanced_usage.pdf">PDF</a></li>
-<li><a href="http://vim.wikia.com/wiki/Vim_Tips_Wiki" title="http://vim.wikia.com/wiki/Vim_Tips_Wiki">Vim Tips
-Wiki</a></li>
-<li><a href="http://www.newsmth.net/frames.html?mainurl=%2Fbbsdoc.php%3Fboard%3DVIM" title="http://www.newsmth.net/frames.html?mainurl=%2Fbbsdoc.php%3Fboard%3DVIM">水木社區vim板</a></li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/10/17/version_plugin/">Maven Version Plugin</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
-        
-         | <a href="/blog/2011/10/17/version_plugin/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://mojo.codehaus.org/versions-maven-plugin/index.html" title="http://mojo.codehaus.org/versions-maven-plugin/index.html">Version Plugin Home</a></p>
-
-<p>檢查maven plugins是否有新版本</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>mvn versions:display-plugin-updates</span></code></pre></td></tr></table></div></figure>
-
-
-<p>檢查專案所需的libs(dependencies)是否有新版本</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>mvn versions:display-dependency-updates</span></code></pre></td></tr></table></div></figure>
-
-
-
-</div>
-  
-  
-
-
-    </article>
   
   
     <article>
@@ -1766,6 +978,1437 @@ Change the “fe” or “lf” ending to “ves” (knife-knives, shelf-shelves
 
     </article>
   
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/template_index/">這篇文章說明每個模版的功能</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/template_index/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>基本上，每個template的layout也不用特意去強記，因為，每一個theme里的每一個template(lib,dwt,
+wherever…)，總之就是themes目錄下的所有檔案都不一樣。
+所以，應該比較用心去了解的反而是將資料往smarty (templates)
+pushing的那些php檔。能夠了解每個php送出的資訊，大概也就知道template的能秀出那麼東西了。</p>
+
+<p>dwt應該是<strong>D</strong>ream<strong>W</strong>eaver
+<strong>T</strong>emplate的縮寫，而lbi也是dreamweaver裡的一種格式。它可以透過一些特殊的tags達到server
+side的include效果。 在dwt檔裡有許多地方都有以下兩組tags</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;!-- #BeginLibraryItem "/library/xxx.lbi" --&gt;&lt;!-- #EndLibraryItem --&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;!-- TemplateBeginEditable name="xxx" --&gt;&lt;!-- TemplateEndEditable --&gt;  </span></code></pre></td></tr></table></div></figure>
+
+
+<p>第一組tag的功能是include
+lbi檔，如果tag有內容，內容應該會與被included的檔案一模一樣，這是因為<strong>某些</strong>editor(dreamweaver)自動include進來的
+，但是如果<strong>直接去編輯tag內容(inner
+text)是沒用的，頁面並不會相對改變</strong>，惟有直接修改lbi檔的內容，頁面才會改變。</p>
+
+<p>第二組tag不太清楚實際的作用是什麼^<a href="#fn__1">1)</a>^可以直接拿掉，但tag內容要保留。</p>
+
+<p>以一個簡單的例子來說明這種效果</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;b&gt;Hello World!&lt;/b&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;!-- #BeginLibraryItem "/library/my.lbi" --&gt;
+</span><span class='line'>&lt;b&gt;Hello World!&lt;/b&gt;
+</span><span class='line'>&lt;!-- #EndLibraryItem --&gt;
+</span><span class='line'>&lt;!-- TemplateBeginEditable name="foo" --&gt;
+</span><span class='line'>&lt;b&gt;Kent&lt;/b&gt;
+</span><span class='line'>&lt;!-- TemplateEndEditable --&gt;  </span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面的lib會被included到my.dwt內，所以輸出會像這樣：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Hello World!Kent</span></code></pre></td></tr></table></div></figure>
+
+
+<p>再來，說明一下另一個效果</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;!-- #BeginLibraryItem "/library/my.lbi" --&gt;
+</span><span class='line'>&lt;b&gt;--- Hello World! ---&lt;/b&gt;
+</span><span class='line'>&lt;!-- #EndLibraryItem --&gt;
+</span><span class='line'>&lt;!-- TemplateBeginEditable name="foo" --&gt;
+</span><span class='line'>&lt;b&gt;Kent&lt;/b&gt;
+</span><span class='line'>&lt;!-- TemplateEndEditable --&gt;  </span></code></pre></td></tr></table></div></figure>
+
+
+<p>my.dwt裡第2行&lt;b>Hello
+World!&lt;/b>這個並不會被render，就算去修改它，也沒有用，將第二行改成
+<strong>&lt;b>— Hello World! —&lt;/b></strong>，結果輸出跟之前一樣</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Hello World!Kent</span></code></pre></td></tr></table></div></figure>
+
+
+<p>但如果是去修改lbi檔的內容</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;b&gt; *** Hello World! *** &lt;/b&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>輸出就會改變成跟lbi的內容一樣了</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>*** Hello World! *** Kent</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這說明了<strong>修改BeginLibraryItem /
+#EndLibraryItem間的內容是沒用的</strong>，一定要去修改lbi的檔。
+換句話說，其實可以對dwt檔做以下的簡化</p>
+
+<ol>
+<li>可以移除&lt;!– TemplateBeginEditable name=“xxx” –>&lt;!–
+TemplateEndEditable –> 這一對tag，但tag的內文要保留</li>
+<li>可以移除&lt;!– #BeginLibraryItem ”/library/xxx.lbi” –>&lt;!–
+#EndLibraryItem –> tag的內文，但tag本身要保留</li>
+</ol>
+
+
+<p>所以，簡化後的dwt檔會像這樣</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;!-- #BeginLibraryItem "/library/my.lbi" --&gt;
+</span><span class='line'>&lt;b&gt;Kent&lt;/b&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>有些官方的template本身就是簡化過的(預設的template沒有簡化)，所以可以拿簡化過的template來測試，會比較乾淨</p>
+
+<p>ECShop裡面模版可以透過web畫面進行調整，調整後的layout是紀錄在db，然後把調整的page(ex:index.dwt)內容給置換掉</p>
+
+<h2>dwt 模版</h2>
+
+<p>備註：範本檔共22個(格式：.dwt)。</p>
+
+<p>提醒：</p>
+
+<ol>
+<li>更改範本檔裡面庫檔的內容是無效的，頁面刷新時，程式自動重新載入庫檔內容到範本檔裡(以庫檔內容為准)。</li>
+<li>範本內所有id值為 ECS_ 開頭的都必須保留(和ajax相關)。</li>
+<li>非庫檔內容不可放置到可編輯區域內，否則設置範本時，非庫檔內容將被覆蓋刪除。</li>
+</ol>
+
+
+<p>  名稱                    說明</p>
+
+<hr />
+
+<p>  brand.dwt               商品品牌頁
+  article.dwt             文章內容頁
+  article_cat.dwt        文章列表頁
+  catalog.dwt             所有分類頁
+  category.dwt            商品列表頁
+  compare.dwt             商品比較頁
+  flow.dwt                購物車和購物流程頁
+  gallery.dwt             商品相冊頁
+  goods.dwt               商品詳情頁
+  group_buy_goods.dwt   團購商品詳情頁
+  group_buy_list.dwt    團購商品列表頁
+  index.dwt               首頁
+  message.dwt             資訊提示頁
+  pick_out.dwt           選購中心頁
+  receive.dwt             收貨確認資訊頁
+  respond.dwt             線上支付結果提示資訊頁
+  search.dwt              商品搜尋網頁
+  snatch.dwt              奪寶奇兵頁
+  tag_cloud.dwt          標籤雲頁
+  user_clips.dwt         用戶中心頁 （包含：歡迎頁，我的留言，我的標籤，收藏商品，缺貨登記列表，添加缺貨登記。）
+  user_passport.dwt      用戶安全頁（包含：會員登錄，會員註冊，找回密碼。）
+  user_transaction.dwt   用戶中心頁 （包含：個人資料，我的紅包，添加紅包，我的訂單，訂單詳情，合併訂單，訂單狀態，商品清單，費用總計，收貨人資訊，支付方式，其他資訊，會員餘額。）</p>
+
+<h2>Library</h2>
+
+<p>備註：庫檔共40個 (格式 .lbi)
+提醒：檔案名儘量保存默認，否則在後臺管理將無法管理庫檔或不可預見錯誤。</p>
+
+<p>  name                       description</p>
+
+<hr />
+
+<p>  ad_position.lbi           廣告位
+  bought_goods.lbi          購買過此商品的人購買過哪些商品
+  brand_goods.lbi           品牌的商品
+  brands.lbi                 品牌專區
+  cart.lbi                   購物車
+  cat_articles.lbi          文章列表
+  cat_goods.lbi             分類下的商品
+  category_tree.lbi         商品分類樹
+  comments.lbi               用戶評論列表 （ajax載入comments_list.lbi。）
+  comments_list.lbi         使用者評論內容
+  consignee.lbi              收貨地址表單
+  goods_article.lbi         相關文章
+  goods_attrlinked.lbi      屬性關聯的商品
+  goods_fittings.lbi        相關配件
+  goods_gallery.lbi         商品相冊
+  goods_list.lbi            商品列表
+  goods_related.lbi         相關商品
+  goods_tags.lbi            商品標記
+  group_buy.lbi             首頁團購商品
+  help.lbi                   網店幫助
+  history.lbi                商品流覽歷史
+  invoice_query.lbi         發貨單查詢
+  member.lbi                 會員登錄 (ajax載入member_info.lbi。)
+  member_info.lbi           會員登錄表單和登錄成功以後使用者帳戶資訊
+  new_articles.lbi          最新文章
+  order_total.lbi           訂單費用總計
+  page_footer.lbi           頁面腳部
+  page_header.lbi           頁面頂部
+  pages.lbi                  列表分頁
+  recommend_best.lbi        精品推薦
+  recommend_hot.lbi         熱賣商品
+  recommend_new.lbi         新品推薦
+  recommend_promotion.lbi   促銷商品
+  search_form.lbi           搜索表單
+  snatch.lbi                 奪寶奇兵出價表單 (必須被id=“ECS_SNATCH”包含實現ajax刷新。)
+  snatch_price.lbi          奪寶奇兵最新出價列表 (必須被id=“ECS_PRICE_LIST”包含實現ajax刷新。)
+  top10.lbi                  銷售排行
+  ur_here.lbi               當前位置
+  user_menu.lbi             使用者中心功能表
+  vote.lbi                   線上調查</p>
+
+<h3>brand.dwt (商品品牌頁)</h3>
+
+<p>![template_index_article.dwt.gif][]</p>
+
+<h3>brand.dw (商品品牌頁)</h3>
+
+<p>![template_index_brand.dwt.gif][]</p>
+
+<h3>article.dw (文章內容頁)</h3>
+
+<p>![template_index_article.dwt.gif][]</p>
+
+<h3>article_cat.dwt (文章列表頁)</h3>
+
+<p>![template_index_article_cat.dwt.gif][]</p>
+
+<h3>catalog.dw (所有分類頁)</h3>
+
+<p>![template_index_catalog.dwt.gif][]</p>
+
+<h3>category.dwt (商品列表頁)</h3>
+
+<p>![template_index_category.dwt.gif][]</p>
+
+<h3>compare.dw (商品比較頁)</h3>
+
+<p>![template_index_compare.dwt.gif][]</p>
+
+<h3>flow.dwt (購物車和購物流程頁)</h3>
+
+<p>![template_index_flow.dwt.gif][]</p>
+
+<h3>gallery.dw (商品相冊頁)</h3>
+
+<p>![template_index_gallery.dwt.gif][]</p>
+
+<h3>goods.dw (商品詳情頁)</h3>
+
+<p>![template_index_goods.dwt.gif][]</p>
+
+<h3>group_buy_goods.dwt (團購商品詳情頁)</h3>
+
+<p>![template_index_group_buy_goods.dwt.gif][]</p>
+
+<h3>group_buy_list.dwt (團購商品列表頁)</h3>
+
+<p>![template_index_group_buy_list.dwt.gif][]</p>
+
+<h3>index.dw (首頁)</h3>
+
+<p>兩張圖的layout沒有完全一致，參考看看就好</p>
+
+<p>![template_index_index.dwt.gif][]</p>
+
+<p><img src="/images/wiki/ecshop/template_index_index.png" alt="template_index_index.png" /></p>
+
+<h3>message.dw ( 資訊提示頁)</h3>
+
+<p>![template_index_message.dwt.gif][]</p>
+
+<h3>pick_out.dwt (選購中心頁)</h3>
+
+<p>![template_index_pick_out.dwt.gif][]</p>
+
+<h3>receive.dw (收貨確認資訊頁)</h3>
+
+<p>![template_index_receive.dwt.gif][]</p>
+
+<h3>respond.dw (線上支付結果提示資訊頁)</h3>
+
+<p>![template_index_respond.dwt.gif][]</p>
+
+<h3>search.dwt (商品搜尋網頁)</h3>
+
+<p>![template_index_search.dwt.gif][]</p>
+
+<h3>snatch.dwt (奪寶奇兵頁)</h3>
+
+<p>![template_index_snatch.dwt.gif][]</p>
+
+<h3>tag_cloud.dwt (標籤雲頁)</h3>
+
+<p>![template_index_tag_cloud.dwt.gif][]</p>
+
+<h3>user_clips.dwt (用戶中心頁)</h3>
+
+<p>![template_index_user_clips.dwt.gif][]</p>
+
+<h3>user_passport.dwt (用戶安全頁)</h3>
+
+<p>![template_index_user_passport.dwt.gif][]</p>
+
+<h3>user_transaction.dwt (用戶中心頁)</h3>
+
+<p>![template_index_user_transaction.dwt.gif][]</p>
+
+<p>^<a href="#fnt__1">1)</a>^ 去查dreamweaver的document應該可以查得到</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/template/">Ec的範本機制感覺和smarty的類似，算是一個簡易的smarty把</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/template/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>ec的範本機制感覺和smarty的類似，算是一個簡易的smarty把</p>
+
+<p>每個程式頁面都有如下類似的語句</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$cache_id = sprintf('%X', crc32($_SESSION['user_rank'] . '-' . $_CFG['lang']))   </span></code></pre></td></tr></table></div></figure>
+
+
+<p>緩存id，現在是通過使用者等級和語言緩存不同頁面（通過這裡應該可以做網店多語種的實現）</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+<span class='line-number'>113</span>
+<span class='line-number'>114</span>
+<span class='line-number'>115</span>
+<span class='line-number'>116</span>
+<span class='line-number'>117</span>
+<span class='line-number'>118</span>
+<span class='line-number'>119</span>
+<span class='line-number'>120</span>
+<span class='line-number'>121</span>
+<span class='line-number'>122</span>
+<span class='line-number'>123</span>
+<span class='line-number'>124</span>
+<span class='line-number'>125</span>
+<span class='line-number'>126</span>
+<span class='line-number'>127</span>
+<span class='line-number'>128</span>
+<span class='line-number'>129</span>
+<span class='line-number'>130</span>
+<span class='line-number'>131</span>
+<span class='line-number'>132</span>
+<span class='line-number'>133</span>
+<span class='line-number'>134</span>
+<span class='line-number'>135</span>
+<span class='line-number'>136</span>
+<span class='line-number'>137</span>
+<span class='line-number'>138</span>
+<span class='line-number'>139</span>
+<span class='line-number'>140</span>
+<span class='line-number'>141</span>
+<span class='line-number'>142</span>
+<span class='line-number'>143</span>
+<span class='line-number'>144</span>
+<span class='line-number'>145</span>
+<span class='line-number'>146</span>
+<span class='line-number'>147</span>
+<span class='line-number'>148</span>
+<span class='line-number'>149</span>
+<span class='line-number'>150</span>
+<span class='line-number'>151</span>
+<span class='line-number'>152</span>
+<span class='line-number'>153</span>
+<span class='line-number'>154</span>
+<span class='line-number'>155</span>
+<span class='line-number'>156</span>
+<span class='line-number'>157</span>
+<span class='line-number'>158</span>
+<span class='line-number'>159</span>
+<span class='line-number'>160</span>
+<span class='line-number'>161</span>
+<span class='line-number'>162</span>
+<span class='line-number'>163</span>
+<span class='line-number'>164</span>
+<span class='line-number'>165</span>
+<span class='line-number'>166</span>
+<span class='line-number'>167</span>
+<span class='line-number'>168</span>
+<span class='line-number'>169</span>
+<span class='line-number'>170</span>
+<span class='line-number'>171</span>
+<span class='line-number'>172</span>
+<span class='line-number'>173</span>
+<span class='line-number'>174</span>
+<span class='line-number'>175</span>
+<span class='line-number'>176</span>
+<span class='line-number'>177</span>
+<span class='line-number'>178</span>
+<span class='line-number'>179</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>if (!$smarty-&gt;is_cached('index.dwt', $cache_id))
+</span><span class='line'> 
+</span><span class='line'>{          判斷頁面是否已經緩存，如果沒有則做變數賦值和範本裡面動態內容提取
+</span><span class='line'> 
+</span><span class='line'>           assign_template();  
+</span><span class='line'> 
+</span><span class='line'>           $smarty-&gt;assign(變數名,  變數值);
+</span><span class='line'> 
+</span><span class='line'>            。。。
+</span><span class='line'> 
+</span><span class='line'>}
+</span><span class='line'> 
+</span><span class='line'>$smarty-&gt;display('index.dwt', $cache_id);    顯示生成的頁面
+</span><span class='line'> 
+</span><span class='line'> 
+</span><span class='line'> 
+</span><span class='line'>頁面的範本機制都是通過cls_template.php檔實現，下面通過display函數開始進入分析，裡面只有關鍵地方的解釋，其他的可以自己去看代碼
+</span><span class='line'> 
+</span><span class='line'>    function display($filename, $cache_id = '')
+</span><span class='line'> 
+</span><span class='line'>    {
+</span><span class='line'> 
+</span><span class='line'>        。。。
+</span><span class='line'> 
+</span><span class='line'>        $out = $this-&gt;fetch($filename, $cache_id);    //這裡是處理範本的關鍵函數
+</span><span class='line'> 
+</span><span class='line'>        if (strpos($out, $this-&gt;_echash) !== false)     //頁面動態內容的顯示，如投票，購物車之類的，看了下面的就知道了
+</span><span class='line'> 
+</span><span class='line'>        {
+</span><span class='line'> 
+</span><span class='line'>            $k = explode($this-&gt;_echash, $out);
+</span><span class='line'> 
+</span><span class='line'>            foreach ($k AS $key =&gt; $val)
+</span><span class='line'> 
+</span><span class='line'>            {
+</span><span class='line'> 
+</span><span class='line'>                if (($key % 2) == 1)
+</span><span class='line'> 
+</span><span class='line'>                {
+</span><span class='line'> 
+</span><span class='line'>                    $k[$key] = $this-&gt;insert_mod($val);   //取到動態內容並賦值
+</span><span class='line'> 
+</span><span class='line'>                }
+</span><span class='line'> 
+</span><span class='line'>            }
+</span><span class='line'> 
+</span><span class='line'>            $out = implode('', $k);
+</span><span class='line'> 
+</span><span class='line'>        }
+</span><span class='line'> 
+</span><span class='line'>        。。。
+</span><span class='line'> 
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'> 
+</span><span class='line'> 
+</span><span class='line'> 
+</span><span class='line'> 
+</span><span class='line'>    function fetch($filename, $cache_id = '')
+</span><span class='line'> 
+</span><span class='line'>    {
+</span><span class='line'> 
+</span><span class='line'>       。。。
+</span><span class='line'> 
+</span><span class='line'>        if (strncmp($filename,'str:', 4) == 0)  此處處理字串範本，如郵件範本
+</span><span class='line'> 
+</span><span class='line'>        {
+</span><span class='line'> 
+</span><span class='line'>            。。。
+</span><span class='line'> 
+</span><span class='line'>        }
+</span><span class='line'> 
+</span><span class='line'>        else
+</span><span class='line'> 
+</span><span class='line'>        {
+</span><span class='line'> 
+</span><span class='line'>           。。。
+</span><span class='line'> 
+</span><span class='line'>            if ($this-&gt;direct_output)      
+</span><span class='line'> 
+</span><span class='line'>            {
+</span><span class='line'> 
+</span><span class='line'>               。。。
+</span><span class='line'> 
+</span><span class='line'>            }
+</span><span class='line'> 
+</span><span class='line'>            else
+</span><span class='line'> 
+</span><span class='line'>            {
+</span><span class='line'> 
+</span><span class='line'>                if ($cache_id && $this-&gt;caching)     //如果已經緩存就直接取緩存資料
+</span><span class='line'> 
+</span><span class='line'>                {
+</span><span class='line'> 
+</span><span class='line'>                    $out = $this-&gt;template_out;
+</span><span class='line'> 
+</span><span class='line'>                }
+</span><span class='line'> 
+</span><span class='line'>                else
+</span><span class='line'> 
+</span><span class='line'>                {
+</span><span class='line'> 
+</span><span class='line'>                       $out = $this-&gt;make_compiled($filename);     //編譯範本函數，關鍵函數
+</span><span class='line'> 
+</span><span class='line'>                    if ($cache_id)        //如果緩存id不為空則寫快取檔案
+</span><span class='line'> 
+</span><span class='line'>                    {
+</span><span class='line'> 
+</span><span class='line'>                               。。。一些緩存資料，如緩存有效期之類的
+</span><span class='line'> 
+</span><span class='line'>                    }
+</span><span class='line'> 
+</span><span class='line'>                }
+</span><span class='line'> 
+</span><span class='line'>            }
+</span><span class='line'> 
+</span><span class='line'>        }
+</span><span class='line'> 
+</span><span class='line'>      。。。
+</span><span class='line'> 
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'> 
+</span><span class='line'> 
+</span><span class='line'> 
+</span><span class='line'> 
+</span><span class='line'> 
+</span><span class='line'> 
+</span><span class='line'>    function make_compiled($filename)
+</span><span class='line'> 
+</span><span class='line'>    {
+</span><span class='line'> 
+</span><span class='line'>      。。。。這裡省略一部分都是判斷檔是否有效，是否過期，是否強制編譯之類的
+</span><span class='line'> 
+</span><span class='line'>        if ($this-&gt;force_compile || $filestat['mtime'] &gt; $expires)
+</span><span class='line'> 
+</span><span class='line'>        {
+</span><span class='line'> 
+</span><span class='line'>            $this-&gt;_current_file = $filename;
+</span><span class='line'> 
+</span><span class='line'>            $source = $this-&gt;fetch_str(file_get_contents($filename));             //關鍵地方，讀取範本檔，處理範本字串
+</span><span class='line'> 
+</span><span class='line'>            if (file_put_contents($name, $source, LOCK_EX) === false)      //寫入編譯以後的檔
+</span><span class='line'> 
+</span><span class='line'>            {
+</span><span class='line'> 
+</span><span class='line'>                trigger_error('can\'t write:' . $name);
+</span><span class='line'> 
+</span><span class='line'>            }
+</span><span class='line'> 
+</span><span class='line'>            $source = $this-&gt;_eval($source);
+</span><span class='line'> 
+</span><span class='line'>        }
+</span><span class='line'> 
+</span><span class='line'>        return $source;
+</span><span class='line'> 
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'> 
+</span><span class='line'> 
+</span><span class='line'> 
+</span><span class='line'> 
+</span><span class='line'> 
+</span><span class='line'> 
+</span><span class='line'>    function fetch_str($source)
+</span><span class='line'> 
+</span><span class='line'>    {
+</span><span class='line'> 
+</span><span class='line'>        if (!defined('ECS_ADMIN'))
+</span><span class='line'> 
+</span><span class='line'>        {
+</span><span class='line'> 
+</span><span class='line'>            $source = $this-&gt;smarty_prefilter_preCompile($source);      //預處理函數，此函數代碼檔中有詳細解釋就不囉嗦了
+</span><span class='line'> 
+</span><span class='line'>        }
+</span><span class='line'> 
+</span><span class='line'>        return preg_replace("/{([^\}\{\n]*)}/e", "\$this-&gt;select('\\1');", $source);    //匹配處理{}每個標籤
+</span><span class='line'> 
+</span><span class='line'>    }</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/sync_checking/">Diff Code Between Web Site and SVN Repos</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/sync_checking/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>Dependencies</h1>
+
+<ol>
+<li>diff function
+(<a href="http://www.holomind.de/phpnet/diff.src.php" title="http://www.holomind.de/phpnet/diff.src.php">http://www.holomind.de/phpnet/diff.src.php</a>)</li>
+<li>Subversion Client API
+(<a href="http://us3.php.net/manual/en/book.svn.php" title="http://us3.php.net/manual/en/book.svn.php">http://us3.php.net/manual/en/book.svn.php</a>)</li>
+</ol>
+
+
+<h1>Requirement</h1>
+
+<ul>
+<li>比對所有php，lbi，dwt，html檔</li>
+<li>可以以版本，時間，tag等資訊比對SVN上的code</li>
+<li><p>以ecshop內建的table來顯示有差異檔名</p>
+
+<ul>
+<li>以目錄排序</li>
+<li>以檔名排序</li>
+<li>以修改日期排序</li>
+<li>以異動行數排序</li>
+</ul>
+</li>
+<li><p>在檔名click後可以連結到異動細節</p></li>
+<li>異動細節以顯眼的方式呈現</li>
+</ul>
+
+
+<h1>User Stories</h1>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/syllables_101/">Syllable 101</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/syllables_101/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Syllable的一個單字在發音上的基本單位，這個筆記是在說明在劃分音節上的一些方式以及該注意的地方</p>
+
+<p>this article come from
+<a href="http://www.cla.calpoly.edu/~jrubba/phon/syllables.html#sum" title="http://www.cla.calpoly.edu/~jrubba/phon/syllables.html#sum">here</a>
+mainly. I amended (added, highlighted, removed, commented)some content
+for my study propose.</p>
+
+<h1>Parts</h1>
+
+<p>Syllables have internal structure: they can be divided into parts. The
+parts are onset and rhyme; within the rhyme we find the nucleus and
+coda. Not all syllables have all parts; the smallest possible syllable
+contains a nucleus only. A syllable may or may not have an onset and a
+coda.</p>
+
+<p><strong>Onset</strong>: the beginning sounds of the syllable; the ones preceding the
+nucleus. <strong>These are always consonants</strong> in English. The nucleus is a
+<strong>vowel</strong> in most cases, although the consonants <strong>[ r ], [ l ], [ m ],
+[ n ]</strong>, and the velar nasal (the <strong>&#8216;ng&#8217;</strong> sound) can also be the
+nucleus of a syllable.</p>
+
+<p><strong>Rhyme</strong> (or <strong>rime</strong>): the rest of the syllable, after the onset (the
+underlined portions of the words above). The rhyme can also be divided
+up:</p>
+
+<p><strong>Rhyme = nucleus</strong> + <strong>coda</strong></p>
+
+<p>The nucleus, as the term suggests, is the core or essential part of a
+syllable. A nucleus must be present in order for a syllable to be
+present. Syllable nuclei are most often highly &#8216;sonorant&#8217; or resonant
+sounds, that can be relatively loud and carry a clear pitch level. In
+English and most other languages, most syllable nuclei are vowels. In
+English, in certain cases, the liquids [ l r ] and nasals [ m n ] and
+the velar nasal usually spelled &#8216;ng&#8217; can also be syllable nuclei.\
+  </p>
+
+<p>The syllable structure analysis of the words &#8216;read&#8217;, &#8216;flop&#8217;,  &#8216;strap&#8217;
+and &#8216;window&#8217; are as follows (IPA symbols are used to show the sounds in
+the word/syllable):</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>read = one syllable
+</span><span class='line'>Onset = [ r ]
+</span><span class='line'>Rhyme = [ id ]      (within the rhyme:)
+</span><span class='line'>     Nucleus = [ i ]
+</span><span class='line'>     Coda   = [ d ]
+</span><span class='line'>
+</span><span class='line'>flop = one syllable
+</span><span class='line'>Onset = [ f l ]
+</span><span class='line'>Rhyme  = [ a p ]
+</span><span class='line'>    Nucleus  =  [ a ]
+</span><span class='line'>    Coda  =  [ p ]</span></code></pre></td></tr></table></div></figure>
+
+
+<p>window = 2 syllables</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>First syllable:  [wIn]
+</span><span class='line'>Onset  = [ w ]
+</span><span class='line'>Rhyme  = [ I n ]
+</span><span class='line'>    Nucleus = [ I ]
+</span><span class='line'>    Coda  = [ n ]
+</span><span class='line'>
+</span><span class='line'>Second syllable: [ d o ]
+</span><span class='line'>Onset = [ d ]
+</span><span class='line'>Rhyme = [ o ]
+</span><span class='line'>    Nucleus = [ o ]
+</span><span class='line'>(This syllable has no coda)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>&#8217;[]&#8217;裡的是IPA的音標，不是英文字母，所以拆成components是以發音(音標)為準，不是以字母</p>
+
+<p>  Parts       Description                                                        Optionality</p>
+
+<hr />
+
+<p>  Onset       Initial segment of a syllable                                      Optional
+  Rhyme       Core of a syllable, consisting of a nucleus and coda (see below)   Obligatory
+  – Nucleus   Central segment of a syllable                                      Obligatory
+  – Coda      Closing segment of a syllable                                      Optional</p>
+
+<h4>examples</h4>
+
+<p>In the following words, the onset is in bold; the rhyme is underlined.</p>
+
+<p><strong>r</strong><em>ead</em> \
+ <strong>fl</strong><em>op</em> \
+ <strong>str</strong><em>ap</em> \</p>
+
+<p>If a word contains more than one syllable, each syllable will have the
+usual syllable parts:</p>
+
+<p><strong>w</strong><em>in</em>.<strong>d</strong><em>ow</em> \
+ <strong>t</strong><em>o</em>.<strong>m</strong><em>a</em>.<strong>t</strong><em>o</em> \
+ <strong>pr</strong><em>e</em>.<strong>p</strong><em>os</em>.<strong>t</strong><em>e</em>.<strong>r</strong><em>ous</em> \
+ <strong>f</strong><em>un</em>.<strong>d</strong><em>a</em>.<strong>m</strong><em>en</em>.<strong>t</strong><em>al</em></p>
+
+<p>onset 可能是一至多個<strong>子音</strong>字母組成</p>
+
+<p>&lt;box left 45% round green></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>   S
+</span><span class='line'>/     \
+</span><span class='line'>O      R
+</span><span class='line'>   / \     /  \
+</span><span class='line'>  |   |    N   C
+</span><span class='line'>  |   |    |   |
+</span><span class='line'>[ f   l    a   p ]</span></code></pre></td></tr></table></div></figure>
+
+
+<p>&lt;/box> &lt;box right 45% round green></p>
+
+<ul>
+<li>&#8216;S&#8217; = &#8216;syllable&#8217;</li>
+<li>&#8216;O&#8217; = &#8216;onset&#8217;;</li>
+<li>&#8216;R&#8217; = &#8216;rhyme&#8217;;</li>
+<li>&#8216;N&#8217; = &#8216;nucleus&#8217;;</li>
+<li>&#8216;C&#8217; = &#8216;coda&#8217;.</li>
+</ul>
+
+
+<p>&lt;/box></p>
+
+<h1>r l m n</h1>
+
+<p>The English liquids [ r l ] and the nasals [ m n ] can be the nuclei of
+syllables under certain conditions. <strong>[ r ] can be a nucleus as easily
+as a vowel, in any position</strong>: the words &#8216;bird&#8217;, &#8216;word&#8217;, &#8216;her&#8217;, &#8216;fur&#8217;,
+the first syllable of &#8216;perceive&#8217; and &#8216;surname&#8217; and the final syllables
+of &#8216;mother&#8217;, &#8216;actor&#8217; (in casual pronunciation) all have [ r ] as the
+nucleus; in other words, there is no vowel in the pronunciation of these
+syllables, even though they have one in the spelling.</p>
+
+<p>[ l ] and the nasals [ m n ] become syllable nuclei when they follow an
+<strong>alveolar consonant</strong> in the <strong>last syllable</strong> of a word. This happens
+in the relaxed or casual rather than very formal articulation of the
+word. Compare casual vs. formal pronunciations of &#8216;button&#8217;, &#8216;bottle&#8217;,
+&#8216;bottom&#8217;.</p>
+
+<p>When one of these sounds is a syllable nucleus, this is shown in
+transcription by putting a very short vertical line under the IPA symbol</p>
+
+<p><a href="http://en.wikipedia.org/wiki/alveolar%20consonant" title="http://en.wikipedia.org/wiki/alveolar consonant">alveolar
+consonant</a>:齒槽音?
+看得懂才有鬼</p>
+
+<h2>Counting Syllables</h2>
+
+<p>To find the number of syllables in a word, use the following steps:</p>
+
+<ol>
+<li>Count the vowels in the word.</li>
+<li>Subtract any silent vowels, (like the silent <em>e</em> at the end of a
+word, or the second vowel when two vowels are together in a
+syllabl.e)</li>
+<li>Subtract one vowel from every
+<a href="http://wiki.kent-chiu.com/doku.php?id=english:diphthongs" title="english:diphthongs">diphthong</a>
+(diphthongs only count as one vowel sound.)</li>
+<li>The number of vowels sounds left is the same as the number of
+syllables.</li>
+</ol>
+
+
+<p>The number of syllables that you hear when you pronounce a word is the
+same as the number of vowels sounds heard. For example:</p>
+
+<ul>
+<li>The word <em>came</em> has 2 vowels, but the <em>e</em> is silent, leaving one
+vowel sound andone syllable.</li>
+<li>The word <em>outside</em> has 4 vowels, but the <em>e</em> is silent and the <em>ou</em>
+is a diphthong which counts as only one sound, so this word has only
+two vowel sounds and therefore, two syllables.</li>
+</ul>
+
+
+<h2>Six Kinds of Syllables</h2>
+
+<p>There are six different kinds of syllables in English:</p>
+
+<p>Uinsg the anacronym <strong>C.L.O.V.E.R</strong> for the 6 main rules.</p>
+
+<h4>C–cvc/</h4>
+
+<p>C–cvc/–Closed syllables have a short vowel with 1 to 3 consonants
+following it. “When a vowel is closed by a consonant door, it says its
+short sound.” Examples are: rob/in, cab/in, nap/kin, kit/ten, hun/dred.</p>
+
+<h4>L–/cLE</h4>
+
+<p>L–/cLE–Consonant LE syllables are found at the end of a word and are
+divided before the consonant that comes before the LE. Use a silly
+phrase that helps to remember this rule: ”-le in little BEFORE the
+BEFORE.” Examples are: no/ble, jun/gle, mar/ble</p>
+
+<h4>O–cv/</h4>
+
+<p>O–cv/–Open syllables have a vowel hanging open at the end of a syllable.
+The vowel usually has a long sound. “When a vowel is left open, it says
+its own name.” Examples are: mo/ment, va/ca/tion.</p>
+
+<h4>V–cvvc/ or cv/vc</h4>
+
+<p>V–cvvc/ or cv/vc–Double vowels can be a usual digraph, such as ai, ay,
+ea, ee, oa, ow, oo, oi, oy, ou, ie, and ei, which is not divided and the
+first vowel has a long sound. Double vowels that are not a usual
+combination, <strong>such as ia or eu, can be divided between the two vowels</strong>
+to make a multisyllable word, such as di-al or mu-se-um.</p>
+
+<h4>E–cvce</h4>
+
+<p>E–cvce–Silent e syllables can come in the middle of a word, but are
+usually found at the end of a word. Often the vowel preceding the silent
+e has a long sound, although no English word ends with the letter v, so
+a silent e that follows the “v” may or may not affect the preceding
+vowel. Examples are: in/vite, home/sick, in/ten/sive.</p>
+
+<h4>R–cvr</h4>
+
+<p>R–cvr–R-controlled syllables have a vowel followed by an r and can be
+found in any syllable of a word. While ar and or have distinctive
+sounds, any vowel followed by an r can be pronounced /ur/. Examples are:
+car/pet, fur/ther/more, thir/sty.</p>
+
+<p>I usually take a lesson or two to introduce the concept of syllable
+division and give an overview of the syllable types. Then I teach
+in-depth and have students practice each rule until mastered and
+automatic, both in reading and spelling. I usually use the following
+sequence for the in-depth practice–Compounds; Closed; Introduce or
+review common suffixes, such as -ed, -ing, -tion, -ness, -ment; Silent
+e; Open; Consonant-LE; R-Controlled; and Double Vowels.</p>
+
+<h2>Dividing Words Into Syllables</h2>
+
+<h4>Divide between two middle consonants.</h4>
+
+<p>Split up words that have two middle consonants, unless the doubled
+consonant is part of a syllable that is a base word. Then try the short
+sound for the vowel in the first syllable. This rule does not apply if
+the two consonants form a digraph such as ch, <strong>tch</strong>, ph, sh, or th.
+The digraphs can&#8217;t be separated.</p>
+
+<p>For example:</p>
+
+<p>hap/pen, bas/ket, let/ter, sup/per, din/ner, and Den/nis. The only
+exceptions are the consonant digraphs. Never split up consonant digraphs
+as they really represent only one sound. The exceptions are “th”, “sh”,
+“ph”, “th”, “ch”, and “wh”.</p>
+
+<p>tell-er.</p>
+
+<p>tell is a base word.</p>
+
+<h4>Usually divide before a single middle consonant.</h4>
+
+<p>When there is only one syllable, you usually divide in front of it, as
+in:</p>
+
+<p>“o/pen”, “i/tem”, “e/vil”, and “re/port”. The only exceptions are those
+times when the first syllable has an obvious <a href="http://wiki.kent-chiu.com/doku.php?id=english:short-vowels" title="english:short-vowels">short
+sound</a>,
+as in “cab/in”.</p>
+
+<p>When only one consonant appears between two vowels, divide the word
+before the consonant. The try the long sound of the first vowel. This
+works about 55% of the time. If a recognizable word is not formed using
+the long sound, divide the word after the con-sonant and try the short
+sound for the first syllable. This works about 45% of the time.</p>
+
+<h4>Divide off any compound words, prefixes, suffixes and roots which have vowel sounds.</h4>
+
+<p>Split off the parts of compound words like “sports/car” and
+“house/boat”. Divide off prefixes such at “un/happy”, “pre/paid”, or
+“re/write”. Also divide off suffixes as in the words “farm/er”,
+“teach/er”, “hope/less” and “care/ful”. In the word “stop/ping”, the
+suffix is actually ”-ping” because this word follows the rule that when
+you add ”-ing” to a word with one syllable, you double the last
+consonant and add the ”-ing”.</p>
+
+<p>For example: dis-arm, an-ti-dote, ship-ment, hope-ful-ly, mand-a-ble….</p>
+
+<p>Exceptions: Sometimes, if the suffix starts with a vowel, a letter or
+two from the base word goes with the suffix:fa-mouns, cu-bic, won-drous.</p>
+
+<p>Endings such as ing, er, est, and ed often form separate syllables. The
+remaining portion of the word is a root word. the suffix is ”-er”, ”-ed”
+or “ing”, this only happens if you have doubled the consonant when
+adding the suffix, e.g: hop-ing, miss-ing BUT hop-ping</p>
+
+<h4>Keep the &#8220;r&#8221;-control vowels (ar, er, ir, or, and ur) in the same syllable.</h4>
+
+<h4>Keep the consonant-&#8220;le&#8221; sounds (ble, cle, dle, fle, gle, and ple) in the same syllable.</h4>
+
+<p>These syllables have the schwa sound between the consonant and the “le”.
+The schwa sound sounds like a nasal short u.</p>
+
+<p>For example, cra-dle.</p>
+
+<h4>Never break apart vowel diagraphs or diphthongs such as ai, ay, ea, ee, oa, ow, oo, oi, oy, ou, ie, and ei.</h4>
+
+<p>Unbreaking parts : ai, ay, ea, ee, oa, ow, oo, oi, oy, ou, ie, and ei</p>
+
+<p>But NOT includes : ia,eu</p>
+
+<p>分音節（Divide the syllables）：</p>
+
+<p>要訣：從字尾往字首找，在每個母音之前找一個子音，在此子音前斷開。
+範例：su -per -mar-ket in -ter -na -ti –on –nal na-me</p>
+
+<p>注意：雙母音/複合母音，視為「一個」母音，若兩個獨立母音相逢，視為其中包含一個「空子音」，直接斷開。若有「共用子音」的音節，則子音要寫兩次。</p>
+
+<h1>標重音（Put the stress）</h1>
+
+<p>author :
+<a href="http://blog.nownews.com/richbean/textview.php?file=127500" title="http://blog.nownews.com/richbean/textview.php?file=127500">肥豆老爹說說話</a></p>
+
+<p>Rules：</p>
+
+<ul>
+<li>單音節單字，唯一母音即重音。</li>
+<li>雙音節單字：
+
+<ol>
+<li>若是「動詞/介系詞」或「動詞衍生字」，則重音大多在「第二音節」。</li>
+<li>若是「名詞/形容詞/副詞/連接詞」，則重音大多在「第一音節」。</li>
+<li>例外字則單獨記憶，其數量很少。</li>
+</ol>
+</li>
+</ul>
+
+
+<p>e.g. de&#8217;sert(n)-點心、un&#8217;happy(a)-不快樂的、cor&#8217;rect(a)-正確的。</p>
+
+<ul>
+<li>三音節以上單字：
+
+<ol>
+<li>若是「希臘式拼音」，則<strong>重音大多在「倒數第三音節」；英文大多數是這樣的字。</strong></li>
+<li>若是「羅馬/拉丁式拼音」，則重音大多在「倒數第二音節」；少數「外來語」是這樣的字。</li>
+</ol>
+</li>
+</ul>
+
+
+<p>e.g.</p>
+
+<h4>Greek</h4>
+
+<p>con-ver-&#8216;sa-ti-on \
+ u-ni-&#8216;ver-si-ty \
+ trans-&#8216;la-ti-on \
+ &#8216;te-le-phone \</p>
+
+<h4>Roman</h4>
+
+<p>ba-&#8216;na-na \
+ Mi-&#8216;a-mi \
+ To-&#8216;ran-to \
+ e-lec-&#8216;tro-nic \
+ Mer-&#8216;cu-ry \
+ A-&#8216;pol-lo \</p>
+
+<h4>French</h4>
+
+<p>fi-&#8216;an-cee</p>
+
+<h3>範例</h3>
+
+<h4>單音節</h4>
+
+<p>hat \
+ bed \
+ guess \
+ quick \
+ mop</p>
+
+<h4>雙音節</h4>
+
+<h5>「動詞/介系詞」或「動詞衍生字」</h5>
+
+<p>at-&#8216;tack \
+ at-&#8216;tack-tive \
+ at-&#8216;tac-king \
+ de-&#8216;part-ment</p>
+
+<h5>「名詞/形容詞/副詞/連接詞」</h5>
+
+<p>&#8216;Cha-os \
+ &#8216;hap-py \
+ &#8216;may-be \
+ &#8216;af-ter \
+ &#8216;there-fore</p>
+
+<h5>例外字</h5>
+
+<p>be-&#8216;fore</p>
+
+<h4>多音節</h4>
+
+<p>&#8216;na -ti-on \
+ &#8216;bad-min-ton \
+ Ca-li-&#8216;for-ni-a \
+ phi-&#8216;lo-so-phy</p>
+
+<h1>the words that is not easy apply to rule at first sight</h1>
+
+<p>bach⋅e⋅lor 為什麼常會常到斷音節只斷在e</p>
+
+<blockquote><p>為什麼常會常到斷音節只斷在e</p>
+
+<blockquote><p>因為ch不可分割，而or前面要有子音</p></blockquote></blockquote>
+
+<p>Mex⋅i⋅co</p>
+
+<blockquote><p>為什麼是Mex⋅i⋅co而不是Me⋅xi⋅co</p>
+
+<blockquote><p>因為x通常會被放在音節後，而不是之前，比如說 ex⋅am⋅ple</p></blockquote></blockquote>
+
+<p>gro⋅cer⋅y</p>
+
+<blockquote><p>為什麼是gro⋅cer⋅y而不是gro⋅ce⋅ry\
+ 因為r control的，所以er不可分割</p></blockquote>
+
+<p>ret⋅ro⋅spect</p>
+
+<blockquote><p>ret⋅ro⋅spect → 這樣斷的話，ret的e發短母音/ɛ/ → 正確的發音\
+ re⋅tro⋅spect → 這樣斷的話，ret的e發長母音/i/ → 不正確的發音</p></blockquote>
+
+<h1>寫在後面</h1>
+
+<p>其實在語言學的音節劃分上，有許多學說，所以，劃分的方式也各自不同，而且，有時，音節的畫分，可能與日常的發音有所不同，所以，也有人主張，不要特音的去劃分音節</p>
+
+<p>這裡有一篇在討論劃分音節的文章，相當的不錯
+<a href="http://forums.eslcafe.com/teacher/viewtopic.php?t=4618" title="http://forums.eslcafe.com/teacher/viewtopic.php?t=4618">http://forums.eslcafe.com/teacher/viewtopic.php?t=4618</a></p>
+
+<h4>how syllables are separated and pronounced?</h4>
+
+<p>from keit:</p>
+
+<p>Hello everyone, Well, I am currently learning about the pronunciation of
+english words by looking them up in the dictionary. The thing that still
+confuse me is that how to separate the syllables in a word. For example,
+&#8216;temperature&#8217; do you pronounce it as tem-puh-ruh-chuh or
+tem-puhr-uh-chuh. &#8216;January&#8217; do you pronounce it as Jan-u-eh-re or
+Jan-nu-eh-re. Thanks for your help.</p>
+
+<blockquote><p>from Buddhaheart\
+ Kiet has touched on a very controversial and challenging aspect of
+linguistics called phonology. In contemporary linguistics many
+theories are still being considered, constructed and developed. This
+is definitely not for beginners of English.\
+ \
+ To answer Kiet&#8217;s query, the first question you have to ask youself is
+what a syllable is. There are as many theories (Sonority Principle,
+Chest\
+ Pulse Formation &amp; so on) as questions. It seems there is no one
+definition that all phoneticians or phonologists could agree on.\
+ \
+ The second question is how a multi-syllable word is phonologically
+divided into its components. Although there&#8217;re many general rules we
+teach students how to do that, there&#8217;re just as many exceptions.
+Syllabification seems to be a taunting task.\
+ \
+ We then have to talk about MOP (Maximal Onsets Theory or Principle).
+English phonotactics, phonological rules, epenthesis, ambisyllabicity,
+the concept of the “privilege of occurrence”. silent &#8216;e&#8217; syllable and
+so on.\
+ \
+ Some of the respondents have offered many practical suggestions and
+help. I hereby offer mine from my own perspective.\
+ \
+ We&#8217;ll just look at the word “temperature” only as an example. Just by
+counting the number of vowels or semi-vowels in the word
+“temperature”, we think we have a 5 or less syllabic word. If you
+recognize the fact that the last 4 letters (ture) in the word make it
+a WR-ME (Vowel R-Magic- E) syllable type, you know the ‘e’ is silent.
+We therefore left with 4 syllables.\
+ \
+ Invoking a general phonological rule of splitting syllables between 2
+consecutive consonants, we arrive at the 1st tentative syllable,
+namely “tem”. Relying on the <strong>MOP</strong>, we will pair the 2nd ‘e’ with
+‘p’, the ‘a’ with ‘r’ and hence we arrive at “tem-pe-ra-ture”. Using
+your terminology, we will transcribe the word as “tem-puh-ruh-chuh”.
+This is your 1st version I think. I&#8217;m not sure about the &#8216;u&#8217; sound
+though.\
+ \
+ Invoking the concept of the <strong>“privilege of occurrence”</strong>, ﻿the vowel
+letter &#8216;a&#8217; in the word can stand alone as a syllable. This syllable is
+uttered with a schwa sound as it is not stressed. The 2nd syllable
+becomes &#8216;per&#8217; and this does not violate any phonotactics as the &#8216;er&#8217;
+may be pronounced as a rhotic schwa. We now arrive at the word&#8217;s
+syllabification as “tem-per-a-ture.” This is similar to your 2nd
+version.\
+ \
+ So what is the verdict? I believe both versions are acceptable as
+they do appear in various dictionaries we use here. I personally favor
+the 2nd.\</p></blockquote>
+
+<h1>轉載另一篇ptt的討論文</h1>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>=========================
+</span><span class='line'>
+</span><span class='line'> 作者  pobo (全新的生活)                                      看板  Eng-Class
+</span><span class='line'> 標題  [發音] 音節的用法
+</span><span class='line'> 時間  Thu Nov 30 08:02:23 2006
+</span><span class='line'>───────────────────────────────────────
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>: 請問一下音節的定義是什麼?
+</span><span class='line'>          ^^^^^^^^^如下。
+</span><span class='line'>: 還有音節的發音,例如:dragon是兩個音節drag-on http://kuso.cc/0XDQ
+</span><span class='line'>: 不看發音我會念(死背的),但是要如何根據音節來發音呢?
+</span><span class='line'>                                       ^^^音標
+</span><span class='line'>: dragon發音是"追根",但是我根據音節卻是發"追格盎"為什麼會這樣呢?
+</span><span class='line'>                           ^^^^^^^其實你要說的是「根據音標」
+</span><span class='line'>: 說來慚愧我真的對音節一點概念也沒有,懇請各位板友不吝賜教
+</span><span class='line'>: 謝謝.
+</span><span class='line'>「音節」(syllable)跟「音標(符號)」(phonic symbol/alphabet)是不同的。
+</span><span class='line'>drag-on這是音標的寫法。
+</span><span class='line'>gra-gon這是音節的寫法。
+</span><span class='line'>
+</span><span class='line'>音節是由音素(phoneme)組成。音素是發音的最小單位。
+</span><span class='line'>音素是發音的元素，的文字記法就是「音標」。
+</span><span class='line'>如/p/、/t/、/a/、/o/這些字母單獨的發音就是音素，
+</span><span class='line'>但寫成音標就會有它另外的寫法。
+</span><span class='line'>(看你用的是什麼音標，或是看它在字彙裏怎麼發音)</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+  
+  
+
+
+    </article>
+  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/10/">&larr; Older</a>
@@ -1783,23 +2426,23 @@ Change the “fe” or “lf” ending to “ves” (knife-knives, shelf-shelves
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2013/07/07/python-101/">Python 101</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/06/25/url-encoding/">URL Encoding</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/06/04/restful-api-design/">RESTful API Design</a>
-      </li>
-    
-      <li class="post">
         <a href="/blog/2013/05/17/my-intellij-idea-shortcut/">My IntelliJ IDEA Shortcut</a>
       </li>
     
       <li class="post">
         <a href="/blog/2013/05/12/jesper-report-font-issue/">Jesper Report, IReport 匯出成中文PDF</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/12/jasperreport-101/">JasperReport 101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/06/mac-tips/">Mac Tips</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/04/22/clean-code/">Clean Code閱讀筆記</a>
       </li>
     
   </ul>

@@ -9,9 +9,12 @@
   <meta name="author" content="Kent">
 
   
-  <meta name="description" content="NOTICE: The most data in this page is come from Pro
-Git. Basic The Three States committed - the data is safely stored in your local database
-modified &hellip;">
+  <meta name="description" content="EXT JS
+4是Sencha公司出的一套javascript
+lib，提供豐富的網頁元件，可以方便的建構出網頁應用程式 EXT JS
+101 心得筆記 http://www.sencha.com/ 官網 官網的視頻教學 Introducing Ext JS 4
+視頻
+投影片 建議觀看 Ext &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -79,859 +82,6 @@ modified &hellip;">
     <div id="content">
       <div class="blog-index">
   
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/10/17/git_101/">GIT 101</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
-        
-         | <a href="/blog/2011/10/17/git_101/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>NOTICE: The most data in this page is come from <a href="http://progit.org/book/" title="http://progit.org/book/">Pro
-Git</a>.</p>
-
-<h2>Basic</h2>
-
-<h3>The Three States</h3>
-
-<ol>
-<li>committed - the data is safely stored in your local database</li>
-<li>modified - file is changed but have not committed</li>
-<li>staged - marked a modified file in its current version to go into
-your next commit snapshot.</li>
-</ol>
-
-
-<p><img src="/images/wiki/git/git_101_001.png" alt="git_101_001.png" /></p>
-
-<ul>
-<li>The Git directory is where Git stores the metadata and object
-database for your project</li>
-<li>The working directory is a single checkout of one version of the
-project.</li>
-<li>The staging area is a simple file, generally contained in your Git
-directory, that stores information about what will go into your next
-commit. It’s sometimes referred to as the index, but it’s becoming
-standard to refer to it as the staging area.</li>
-</ul>
-
-
-<h4>Basic Git workflow</h4>
-
-<ol>
-<li>You modify files in your working directory.</li>
-<li>You stage the files, adding snapshots of them to your staging area.</li>
-<li>You do a commit, which takes the files as they are in the staging
-area and stores that snapshot permanently to your Git directory.</li>
-</ol>
-
-
-<h4>Install Git</h4>
-
-<h5>Windows</h5>
-
-<p>download <a href="http://code.google.com/p/msysgit">msysgit</a> and install it.</p>
-
-<h5>Linux</h5>
-
-<pre><code>$ yum install git-core
-
-
-$ apt-get install git-core
-</code></pre>
-
-<h4>Terms</h4>
-
-<ul>
-<li>HEAD : 一個特殊的指標(pointer)，它指向current branch.</li>
-<li>master : 預設的branch</li>
-<li>origin : 預設遠端的master branch</li>
-<li>remote : 遠端 repository</li>
-<li>tracking branch: 從遠端fetch到local端的branch</li>
-<li>rebase :
-將原先branch出來的時間點(版本)向前或向後移動，這樣可以讓該branch移除或加入功能別的branch的功能</li>
-<li><p>cherry pick commit : 只挑選同一branch的部份commits做merge</p>
-
-<pre><code>A - B - C - D - E   master
-  \ - X - Y  - Z   branch 1
-</code></pre></li>
-</ul>
-
-
-<h5>rebase</h5>
-
-<p>本來branch 1不包含B特性，可以透過rebase將B包含進去</p>
-
-<pre><code>A - B - C - D - E   master
-      \ - X - Y  - Z   branch 1
-</code></pre>
-
-<h5>cherry pick commit</h5>
-
-<p>如果將branch 1 merge 回master，會包含X,Y,Z特性，但可以透過cherry pick
-commit，則可以選擇merge時不包含X,或X,Y</p>
-
-<pre><code>A - B - C - D - E    master
-  \ - X - Y  - Z   branch 1
-</code></pre>
-
-<h4>Tracking Branches</h4>
-
-<p>跟遠端repository的branch有對應關係的local branch，叫tracking branch，如果branch是一個tracking branch
-那麼push時，會自動push到遠端的對應的branch，如果不是tracking branch，就需要特別指定要push到遠端的那一個branch</p>
-
-<p>像這樣 <code>git push origin master</code>，我們在init git repository後，第一次的push需要下這個commit，就是
-因為一開始local的(master) barnch 沒有跟遠端的關聯，所以我們要跟git說要push到遠端(預設遠端的名字叫origin,當然，
-你也可以取其他的名稱ex: github，bitbucket或mycompany)的master上</p>
-
-<h2>Command</h2>
-
-<p>從遠端fetch到local端的branch是無法直接更改的，想要更改必須在建立自已新的branch</p>
-
-<pre><code>checkout -b branch1  remote_server/branch1
-checkout -b feature/peak --track origin/feature/peak
-</code></pre>
-
-<h4>config</h4>
-
-<p>config有三個等級，由小到大分別為</p>
-
-<ol>
-<li>庫等級(repository裡)，只會單一的repository有影響</li>
-<li>全局(global)，放在user home，對user會存取的庫有影響</li>
-<li>系統等級(system),放在系統的配置目錄下(ex: /etc),對所有的user有影響</li>
-</ol>
-
-
-<p>而優先權則相反，以repository的為主，再來是global的，最後才是system的，很直覺也很合理</p>
-
-<h5>list config</h5>
-
-<pre><code>$ git config --list
-user.name=Scott Chacon
-user.email=schacon@gmail.com
-color.status=auto
-color.branch=auto
-color.interactive=auto
-color.diff=auto
-...
-</code></pre>
-
-<p>config是git跟svn最大不同的地方，git必需要正確定user info後，操作會才正常</p>
-
-<h5>config user name and email</h5>
-
-<pre><code>$ git config --global user.name "Kent Chiu"
-$ git config --global user.email kent.chiu@example.com
-</code></pre>
-
-<h5>clone from windows local</h5>
-
-<pre><code>file:///d:/PATH/PROJECT_HOME
-</code></pre>
-
-<h4>add</h4>
-
-<p>add是個多功能的指令，它可以</p>
-
-<ul>
-<li>把untrack file變成tracked file</li>
-<li>把modified file變成staged file</li>
-</ul>
-
-
-<p>或commit時同時做add的動作(不建議)</p>
-
-<pre><code>$ git add -a -m 'comment'
-</code></pre>
-
-<h4>commit</h4>
-
-<pre><code>$ git add *.c
-$ git add README
-# files need be staged before commit
-$ git commit -m 'initial project version'
-</code></pre>
-
-<p>提交所有控版下的檔案</p>
-
-<pre><code>$ git commit -a -m 'comment'
-# 也可以把 a (all) m (message)合在一起用 
-$ git commit -am 'comment'
-</code></pre>
-
-<p>如果對前一次提交的訊息不滿意，可以透過<code>amend</code>做修改</p>
-
-<pre><code>$ git commit --amend -m 'modify comment'
-</code></pre>
-
-<h4>rm</h4>
-
-<p>remove files. 如果是直接從file system刪檔，而沒透過git指令，那該檔案的狀態會變成 <strong>Changed but not updated</strong> (unstaged)</p>
-
-<blockquote><p>上面的<code>add</code> command並不會把檔案刪除的動作加到stage裡</p></blockquote>
-
-<h5>remove file and delete it</h5>
-
-<pre><code>$git rm myfile.txt
-</code></pre>
-
-<h5>remove files from staged</h5>
-
-<p>untracking files but keep in file system.
-這個指定通常用在想把版控的檔案變成非版控</p>
-
-<pre><code>$git rm --staged myfile.txt
-</code></pre>
-
-<h5>清除untracked files</h5>
-
-<p>如果想快速的清除還沒有加到 index 的 file ，可以用以下的指令</p>
-
-<pre><code>$git clean -f -d
-</code></pre>
-
-<p>參數 <code>-d</code> 是指連 untracked 的目錄一併清除</p>
-
-<h4>mv</h4>
-
-<p>搬移/更名</p>
-
-<pre><code>$ git  README README.txt
-</code></pre>
-
-<h4>status</h4>
-
-<p>顯示異動檔案狀態</p>
-
-<h4>log</h4>
-
-<p>顯示異動檔案細節</p>
-
-<pre><code>$ git log
-</code></pre>
-
-<h5>常用參數</h5>
-
-<ul>
-<li>-p 列出細節</li>
-<li>-n n表數字，列出最新的幾個</li>
-<li>–graph 祖譜圖</li>
-<li>–pretty 改變預設的輸出格式</li>
-<li>–pretty:format自定輸出格式 <code>$ git log --pretty=format:"%h - %an, %ar : %s"</code></li>
-</ul>
-
-
-<h5>過濾(limit by commit attributes)</h5>
-
-<pre><code>$ git log --author=kent
-$ git log --committer=kent 
-$ git log --grep="commit .*message"
-</code></pre>
-
-<h5>search for a change</h5>
-
-<pre><code>$ git log -S"Some code change"
-$ git log --pickaxe-regex -S "some.*text"
-</code></pre>
-
-<h5>limit by changes to specific path</h5>
-
-<pre><code>git lot -- some/file
-</code></pre>
-
-<h4>遠端相關的指令</h4>
-
-<h5>show remote repositories</h5>
-
-<pre><code>$ git remote -v
-origin  git://github.com/schacon/ticgit.git
-</code></pre>
-
-<h5>adding remote repositories</h5>
-
-<pre><code>$ git remote add pb git://github.com/paulboone/ticgit.git
-$ git remote -v
-origin  git://github.com/schacon/ticgit.git
-pb  git://github.com/paulboone/ticgit.git
-</code></pre>
-
-<h4>gitk</h4>
-
-<p>Using a GUI to Visualize History.</p>
-
-<h4>mergetool</h4>
-
-<p>Calling merge tool.</p>
-
-<h4>reset</h4>
-
-<p>將檔案unsatged</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>  工作區         暫存區          HEAD
-</span><span class='line'>    | &lt;---------- |                       git reset         重置加入暫存區的動作(也就是取消 git add) 
-</span><span class='line'>                  | &lt;---------- |         git reset --soft  重置加入版本庫的動作(也就是取消commited)，但commmit過的檔案會保留在工作區                
-</span><span class='line'>    | &lt;---------- | &lt;---------- |         git reset --hard  完整的取消整個commit，工作區會的檔案會被恢復到送個版本</span></code></pre></td></tr></table></div></figure>
-
-
-<blockquote><p><code>git reset</code>, <code>git reset HEAD</code>, <code>git reset --mixed</code>這三個指令做的是一樣的事
-<code>git reset --hard</code> 使用上要小心，commit的歷史記錄會不見</p></blockquote>
-
-<p>使用時機</p>
-
-<ul>
-<li><code>git reset</code>          不小心加入不想加入暫存取(index)的檔案，可用這個取消</li>
-<li><code>git reset --soft</code>   想重新修正某一次的commit (<code>git commit --amend</code>就是透過這個指令完成的)</li>
-<li><code>git reset --hard</code>   回到某個版本，就像完做過異動一樣，merge失敗時，也常用這個來恢復到merged前的狀態</li>
-</ul>
-
-
-<h4>diff</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>  工作區         暫存區          HEAD
-</span><span class='line'>     
-</span><span class='line'>    | &lt;---------&gt; |                       git diff                  比對工作區跟暫存區的差異
-</span><span class='line'>                  | &lt;---------&gt; |         git diff --staged         比對HEAD跟暫存區的差異
-</span><span class='line'>    | &lt;-----------------------&gt; |         git diff HEAD             比對HEAD跟工作區的差異
-</span><span class='line'>                            ┌-&gt; |
-</span><span class='line'>                            |   |         git diff $commit $commit  比對兩個commits間的差異
-</span><span class='line'>                            └-&gt; |</span></code></pre></td></tr></table></div></figure>
-
-
-<blockquote><p>如果是要比對某個檔在在不同的 commits 間的差異，可使用以下指令
-<code>git diff $commit $commit -- path/file</code></p></blockquote>
-
-<h4>解讀diff</h4>
-
-<pre><code>@@ -3,7 +3,7 @@
- &lt;h1&gt;Tag Colud&lt;/h1&gt;
- &lt;ul&gt;
-   &lt;li&gt;&lt;a href='/blog/categories/actionbar'&gt;Actionbar (1)&lt;/a&gt;&lt;/li&gt;
--  &lt;li&gt;&lt;a href='/blog/categories/android'&gt;Android (26)&lt;/a&gt;&lt;/li&gt;
-+  &lt;li&gt;&lt;a href='/blog/categories/android'&gt;Android (24)&lt;/a&gt;&lt;/li&gt;
-   &lt;li&gt;&lt;a href='/blog/categories/apache'&gt;Apache (8)&lt;/a&gt;&lt;/li&gt;
-   &lt;li&gt;&lt;a href='/blog/categories/broadcast-receiver'&gt;Broadcast_receiver (2)&lt;/a&gt;&lt;
-   &lt;li&gt;&lt;a href='/blog/categories/cdi'&gt;Cdi (2)&lt;/a&gt;&lt;/li&gt;
-</code></pre>
-
-<p>diff中的資訊包含兩部份，第一部份是異動概要 <code>@@ -3,7 +3,7 @@</code>，第二部份是異動細節
-第一部份的是資訊 <code>@@ -3,7 +3,7 @@</code>是說原始文件從第3行開始，後面的7行(也就是第3~10行)異動成為新文件的第3行到第7行(也是第3~10行)，本例中因為是調整了某一行的內容，所以異動範圍都是七行，如果新的文件的範圍可能更大(ex:加了幾行)，或更小(刪了幾行)。</p>
-
-<blockquote><p>上述的異動範為7行，是指相關的上下文共有七行，而不是這七行都有改到</p></blockquote>
-
-<p>第二部份比較直覺，就上例中的第六行</p>
-
-<pre><code>-  &lt;li&gt;&lt;a href='/blog/categories/android'&gt;Android (26)&lt;/a&gt;&lt;/li&gt;
-</code></pre>
-
-<p>及第七行</p>
-
-<pre><code>+  &lt;li&gt;&lt;a href='/blog/categories/android'&gt;Android (24)&lt;/a&gt;&lt;/li&gt;
-</code></pre>
-
-<p>代表著第六行的內容被異動成第七行</p>
-
-<h4>show</h4>
-
-<h5>review last commit</h5>
-
-<pre><code>$ git show
- 
-### output ###
- 
-commit b8d5b1e2944d1785a3e8ca15979f9c462eb611c9
-Author: Kent Chiu &lt;kent.chiu@techmore.com.tw&gt;
-Date:   Thu Feb 18 13:07:49 2010 +0800
- 
-    foo
- 
-diff --git a/dir/foo b/dir/foo
-new file mode 100644
-index 0000000..257cc56
---- /dev/null
-+++ b/dir/foo
-@@ -0,0 +1 @@
-+foo
-</code></pre>
-
-<h5>show the stats</h5>
-
-<pre><code>$ git show --stat
- 
-### output ###
- 
-commit b8d5b1e2944d1785a3e8ca15979f9c462eb611c9
-Author: Kent Chiu &lt;kent.chiu@techmore.com.tw&gt;
-Date:   Thu Feb 18 13:07:49 2010 +0800
- 
-    foo
- 
- dir/foo |    1 +
- 1 files changed, 1 insertions(+), 0 deletions(-)
-</code></pre>
-
-<h5>show SVN style status</h5>
-
-<pre><code>$ git show --name-status
- 
-### output ###
- 
-commit b8d5b1e2944d1785a3e8ca15979f9c462eb611c9
-Author: Kent Chiu &lt;kent.chiu@techmore.com.tw&gt;
-Date:   Thu Feb 18 13:07:49 2010 +0800
- 
-    foo
- 
-A       dir/foo
-</code></pre>
-
-<h4>push</h4>
-
-<h5>deleting remote branches</h5>
-
-<pre><code>$ git push origin :serverfix
-To git@github.com:schacon/simplegit.git
- - [deleted]         serverfix
-</code></pre>
-
-<p>This is called by</p>
-
-<pre><code>$ git push [remotename] [localbranch]:[remotebranch]
-$ git push origin                    :serverfix 
-</code></pre>
-
-<p>let localbranch blank means deleted it.</p>
-
-<h4>git 全域設定檔</h4>
-
-<p>ini git configuration</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[user]
-</span><span class='line'>  name = kent
-</span><span class='line'>  email = kent@mail.com
-</span><span class='line'>
-</span><span class='line'>[alias]
-</span><span class='line'>  st = status
-</span><span class='line'>    ci = commit
-</span><span class='line'>    co = checkout
-</span><span class='line'>    br = branch
-</span><span class='line'>
-</span><span class='line'>[color]
-</span><span class='line'>  ui = true
-</span><span class='line'>  diff = auto
-</span><span class='line'>  status = auto
-</span><span class='line'>  branch = auto</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>常用指令</h2>
-
-<h4>檢視 fetch 下來但尚未被 merged 的資料</h4>
-
-<p>從遠端 fetch 新資料下來，如果想先在做 merge 前先查看資料的異動狀況，可以透過 log 跟 diff，log 可以查看 commits 的記錄，而 diff 可以對檔案內容做比對</p>
-
-<p>查看 fetch 下來，等著被 merged 的 commits</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git fetch                 # 或者是用 git remote update 來 fetch 所有 branches
-</span><span class='line'>$ git log HEAD..origin      # 在pull (也就是 merge ) 前，可以先用這個指令查看那些 commits 會被 merged
-</span><span class='line'>$ git diff HEAD...origin    # 在pull (也就是 merge ) 前，可以先用這個指令查看那些 diffs 會被 merged</span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
-
-<blockquote><p>執行 fetch 是把 server 上的 branch 更新到 local repository 的 remote branch
-所以需要進行差異性檢視的內容是 HEAD 到 origin</p></blockquote>
-
-<h4>checkout 新的 remote branch 並 tracking</h4>
-
-<p>之前常會發生 checkout 每個 branch後，要 push 遠端server時，卻都只是 push 到 local，這是因為預設的 checkout 指令是不會去 tracking remote branch
-所以，如果要 checkout 後能夠讓 branch 成為 track branch，就要加上 <code>--track</code> 的參數</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ checkout -b new_branch --track origin/branch_name </span></code></pre></td></tr></table></div></figure>
-
-
-<h1>Resource</h1>
-
-<ul>
-<li>幾種merge的手法 <a href="http://eclipsesource.com/blogs/2011/05/30/merging-branches-in-eclipse-git-egit/">http://eclipsesource.com/blogs/2011/05/30/merging-branches-in-eclipse-git-egit/</a></li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/10/17/gcin_with_liu/">Liu in Linux (Gcin)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
-        
-         | <a href="/blog/2011/10/17/gcin_with_liu/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>Install gcin</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sudo apt-get install gcin
-</span><span class='line'>sudo im-switch -s gcin</span></code></pre></td></tr></table></div></figure>
-
-
-<p>logout /login</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>echo $XMODIFIERS
-</span><span class='line'>// output 
-</span><span class='line'>@im=gcin</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>install liu</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>mkdir temp
-</span><span class='line'>cd temp
-</span><span class='line'>wget http://edt1023.sayya.org/misc/noseeing-12.tar.gz
-</span><span class='line'>tar zvxf noseeing-6.tar.gz
-</span><span class='line'>mv noseeing.gtab ~/.gcin</span></code></pre></td></tr></table></div></figure>
-
-
-<p>logout/ login</p>
-
-<p>noseeing-xx, current version is 12 (2010/3/17), but may be newer version
-existing. you better check it.</p>
-
-<h2>setup</h2>
-
-<p>check this
-<a href="http://boshiamy.com/member_download.php" title="http://boshiamy.com/member_download.php">http://boshiamy.com/member_download.php</a></p>
-
-<h1>Resources</h1>
-
-<ul>
-<li><a href="http://wiki.kent-chiu.com/lib/exe/fetch.php?media=ubuntu:noseeing-12.tar.gz" title="ubuntu:noseeing-12.tar.gz">table file</a>
-
-<ul>
-<li>from
-<a href="http://edt1023.sayya.org/misc/noseeing-12.tar.gz" title="http://edt1023.sayya.org/misc/noseeing-12.tar.gz">http://edt1023.sayya.org/misc/noseeing-12.tar.gz</a></li>
-</ul>
-</li>
-<li><a href="http://boshiamy.com/member_download.php" title="http://boshiamy.com/member_download.php">http://boshiamy.com/member_download.php</a></li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/10/17/findbugs/">FindBugs Plugin Configuration</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
-        
-         | <a href="/blog/2011/10/17/findbugs/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>If findbugs is too strict to you, you might want to bypass some checking
-rules. Here is the way.</p>
-
-<p>We need tell findbugs plugin uses our configuration rather default.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;plugin&gt;
-</span><span class='line'>    &lt;groupId&gt;org.codehaus.mojo&lt;/groupId&gt;
-</span><span class='line'>    &lt;artifactId&gt;findbugs-maven-plugin&lt;/artifactId&gt;
-</span><span class='line'>    &lt;configuration&gt;
-</span><span class='line'>        &lt;debug&gt;true&lt;/debug&gt;
-</span><span class='line'>    &lt;/configuration&gt;
-</span><span class='line'>&lt;/plugin&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>run</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>mvn findbugs:findbugs</span></code></pre></td></tr></table></div></figure>
-
-
-<p>then, we got a report like this.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-</span><span class='line'>&lt;BugCollection version='1.3.9' threshold='medium' effort='min'&gt;
-</span><span class='line'>    &lt;file classname='com.bellwin.idcview.Jqgrid%24Cell'&gt;
-</span><span class='line'>        &lt;BugInstance type='URF_UNREAD_FIELD' priority='Normal' category='PERFORMANCE'
-</span><span class='line'>          message='Unread field: com.bellwin.idcview.Jqgrid$Cell.cell' lineNumber='16' /&gt;
-</span><span class='line'>    &lt;/file&gt;
-</span><span class='line'>    &lt;file classname='com.bellwin.idcview.device.servlet.DeviceServlet'&gt;
-</span><span class='line'>        &lt;BugInstance type='SE_BAD_FIELD' priority='Normal' category='BAD_PRACTICE'
-</span><span class='line'>          message='Class com.bellwin.idcview.device.servlet.DeviceServlet defines non-transient non-serializable instance field deviceService'
-</span><span class='line'>          lineNumber='-1' /&gt;
-</span><span class='line'>    &lt;/file&gt;
-</span><span class='line'>    &lt;Error&gt;&lt;/Error&gt;
-</span><span class='line'>    &lt;Project&gt;
-</span><span class='line'>        &lt;SrcDir&gt;D:\dev\workspaces\bellwin\web\src\main\java&lt;/SrcDir&gt;
-</span><span class='line'>    &lt;/Project&gt;
-</span><span class='line'>&lt;/BugCollection&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The above report was output by findbugs. There are two rules not pass</p>
-
-<ol>
-<li>URF_UNREAD_FIELD in PERFORMANCE category</li>
-<li>SE_BAD_FIELD in BAD_PRACTICE category</li>
-</ol>
-
-
-<p>If we want don&#8217;t want to check the rule <strong>URF_UNREAD_FIELD</strong>, we need
-check
-<a href="http://findbugs.googlecode.com/svn/trunk/findbugs/etc/findbugs.xml" title="http://findbugs.googlecode.com/svn/trunk/findbugs/etc/findbugs.xml">findbugs.xml</a>
-setting file.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>  &lt;Detector class="edu.umd.cs.findbugs.detect.UnreadFields" 
-</span><span class='line'>            speed="fast"
-</span><span class='line'>            reports="ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD,NP_UNWRITTEN_FIELD,UWF_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR,UWF_NULL_FIELD,UWF_UNWRITTEN_FIELD,SS_SHOULD_BE_STATIC,UUF_UNUSED_FIELD,URF_UNREAD_FIELD,SIC_INNER_SHOULD_BE_STATIC,SIC_INNER_SHOULD_BE_STATIC_ANON,SIC_INNER_SHOULD_BE_STATIC_NEEDS_THIS,SIC_THREADLOCAL_DEADLY_EMBRACE" /&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The URF_UNREAD_FIELD rule is implemented by <code>UnreadFields</code> class. We
-put UnreadFields to <code>&lt;omitVisitors&gt;</code> tag of plugin&#8217;s configuration. This
-forece Findbugs omit the <code>URF_UNREAD_FIELD</code> rule.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;plugin&gt;
-</span><span class='line'>    &lt;groupId&gt;org.codehaus.mojo&lt;/groupId&gt;
-</span><span class='line'>    &lt;artifactId&gt;findbugs-maven-plugin&lt;/artifactId&gt;
-</span><span class='line'>    &lt;configuration&gt;
-</span><span class='line'>        &lt;omitVisitors&gt;UnreadFields&lt;/omitVisitors&gt;
-</span><span class='line'>        &lt;!--
-</span><span class='line'>           Uses comma-delimited to apply more rules
-</span><span class='line'>           &lt;omitVisitors&gt;FindDeadLocalStores,UnreadFields&lt;/omitVisitors&gt;
-</span><span class='line'>        --&gt;
-</span><span class='line'>        &lt;debug&gt;true&lt;/debug&gt;
-</span><span class='line'>    &lt;/configuration&gt;
-</span><span class='line'>&lt;/plugin&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/10/17/find_command/">Find Command</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
-        
-         | <a href="/blog/2011/10/17/find_command/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Examples</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>find -name 'mypage.htm'</span></code></pre></td></tr></table></div></figure>
-
-
-<p>In the above command the system would search for any file named
-mypage.htm in the current directory and any subdirectory.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>find / -name 'mypage.htm'</span></code></pre></td></tr></table></div></figure>
-
-
-<p>In the above example the system would search for any file named
-mypage.htm on the root and all subdirectories from the root.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>find -name 'file*'</span></code></pre></td></tr></table></div></figure>
-
-
-<p>In the above example the system would search for any file beginning with
-file in the current directory and any subdirectory.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>find -name '*' -size +1000k</span></code></pre></td></tr></table></div></figure>
-
-
-<p>In the above example the system would search for any file that is larger
-then 1000k.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>find . -size +500000 -print</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Next, similar to the above example, just formatted differently this
-command would find anything above 500MB.</p>
-</div>
-  
-  
-
-
-    </article>
   
   
     <article>
@@ -1641,6 +791,2687 @@ information, it&#8217;s useful for debug.</p>
 
     </article>
   
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/ec101/">EC 筆記</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/ec101/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><ul>
+<li>要有免負聲明，還有價格誤植的聲明 -
+得無責地對其出具之行銷印刷物、報價單、價目表、出價接受函、發票或其他文件或資料的印刷錯誤、筆誤或其他錯誤或遺漏進行更正。</li>
+<li>(大量)訂單湧入的通知機制 - 防止發生異常訂單,採用庫存總量管制</li>
+<li>防偷圖片</li>
+<li>價格被竄改</li>
+<li>防頁面被竄改(svn自動比對)</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/disabled_x-window_in_ubuntu/">Disable X-Window in Ubuntu</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/disabled_x-window_in_ubuntu/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Ubuntu uses X Display Manager(xdm、gdm、kdm or wdm) to startup X-Window,
+if we want to disabled X-window, we need to disable X Display Manager.</p>
+
+<h2>Operations</h2>
+
+<h3>check run level</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$runlevel
+</span><span class='line'># output N 2</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>rename X Display Manager</h3>
+
+<p>base on runlevel (2), we can found the file name like <strong><code>S30gdm</code></strong> under
+<code>/ect/rc2.d</code>, this is X Display Manager. we rename it to _s30gdm, and
+reboot.</p>
+
+<h4>file name pattern</h4>
+
+<p>S30gdm</p>
+
+<ul>
+<li>S for start up, K or shut down</li>
+<li>30 : priority, maybe difference with yours</li>
+<li>gdm : a kind of X Display Manager.</li>
+</ul>
+
+
+<h2>resources</h2>
+
+<ul>
+<li><a href="http://andrewtw.wordpress.com/2007/03/20/ubuntu-%E6%9B%B4%E6%94%B9%E9%96%8B%E6%A9%9F%E9%A0%90%E8%A8%AD-runlevel%EF%BC%8C%E4%B8%8D%E9%96%8B%E5%95%9Fx-window/" title="http://andrewtw.wordpress.com/2007/03/20/ubuntu-%E6%9B%B4%E6%94%B9%E9%96%8B%E6%A9%9F%E9%A0%90%E8%A8%AD-runlevel%EF%BC%8C%E4%B8%8D%E9%96%8B%E5%95%9Fx-window/">ubuntu 修改runlevel,
+不進入X-Window</a></li>
+<li><a href="http://wiki.linux.org.hk/w/Switch_between_entering_X_Window_mode_and_text_mode_after_boot" title="http://wiki.linux.org.hk/w/Switch_between_entering_X_Window_mode_and_text_mode_after_boot">切換開機自動進入 X Window
+還是文字模式</a></li>
+<li><a href="http://tw.myblog.yahoo.com/kk-note/article?mid=5&amp;sc=1" title="http://tw.myblog.yahoo.com/kk-note/article?mid=5&amp;sc=1">ubuntu下用inittab</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/deploy_to_nexus/">Deploy Maven Artifacts to Nexus Server</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/deploy_to_nexus/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>maven的deploy指令可以直接將artifact deploy到nexus server</p>
+
+<h3>pom.xml的設定</h3>
+
+<p><a href="http://host:8080/nexus">http://host:8080/nexus</a>是可以連到nexus server的url
+<code>&lt;id&gt;nexus&lt;/id&gt;</code>是辨識用的repository id,必須跟下面的settings.xml一致</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;distributionManagement&gt;
+</span><span class='line'>    &lt;!-- use the following if you're not using a snapshot version. --&gt;
+</span><span class='line'>    &lt;repository&gt;
+</span><span class='line'>        &lt;id&gt;nexus&lt;/id&gt;
+</span><span class='line'>        &lt;name&gt;Internal Releases&lt;/name&gt;
+</span><span class='line'>        &lt;url&gt;http://host:8080/nexus/content/repositories/releases&lt;/url&gt;
+</span><span class='line'>    &lt;/repository&gt;
+</span><span class='line'>    &lt;!-- use the following if you ARE using a snapshot version. --&gt;
+</span><span class='line'>    &lt;snapshotRepository&gt;
+</span><span class='line'>        &lt;id&gt;nexus&lt;/id&gt;
+</span><span class='line'>        &lt;name&gt;Internal Releases&lt;/name&gt;
+</span><span class='line'>        &lt;url&gt;http://host:8080/nexus/content/repositories/snapshots&lt;/url&gt;
+</span><span class='line'>    &lt;/snapshotRepository&gt;
+</span><span class='line'>&lt;/distributionManagement&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>user_home/.m2/settings.xml設定</h3>
+
+<p><code>&lt;id&gt;nexus&lt;/id&gt;</code>是辨識用的repository id,必須跟上面的pom.xml中的一致</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;servers&gt;
+</span><span class='line'>    &lt;server&gt;
+</span><span class='line'>        &lt;id&gt;nexus&lt;/id&gt;
+</span><span class='line'>        &lt;username&gt;username&lt;/username&gt;
+</span><span class='line'>        &lt;password&gt;password&lt;/password&gt;
+</span><span class='line'>    &lt;/server&gt;
+</span><span class='line'>    &lt;server&gt;
+</span><span class='line'>        &lt;id&gt;thirdparty&lt;/id&gt;
+</span><span class='line'>        &lt;username&gt;username&lt;/username&gt;
+</span><span class='line'>        &lt;password&gt;password&lt;/password&gt;
+</span><span class='line'>    &lt;/server&gt;
+</span><span class='line'>&lt;/servers&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>deploy</h3>
+
+<p>執行以下的指令即可進行deploy</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mvn deploy</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果執行時遇到 401 的error code，表示帳號或密碼有誤</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/defining_vocabulary/">Longman Dictionary Defining Vocabulary</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/defining_vocabulary/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>A</h2>
+
+<ol>
+<li>a</li>
+<li>ability</li>
+<li>about</li>
+<li>above</li>
+<li>abroad</li>
+<li>absence</li>
+<li>absent</li>
+<li>accept</li>
+<li>acceptable</li>
+<li>accident</li>
+<li>accordance</li>
+<li>according</li>
+<li>according</li>
+<li>account</li>
+<li>ache</li>
+<li>acid</li>
+<li>across</li>
+<li>act</li>
+<li>action</li>
+<li>active</li>
+<li>activity</li>
+<li>actor</li>
+<li>actress</li>
+<li>actual</li>
+<li>add</li>
+<li>addition</li>
+<li>address</li>
+<li>adjective</li>
+<li>admiration</li>
+<li>admire</li>
+<li>admit</li>
+<li>admittance</li>
+<li>adult</li>
+<li>advance</li>
+<li>advantage</li>
+<li>adventure</li>
+<li>adverb</li>
+<li>advertise</li>
+<li>advertisement</li>
+<li>advice</li>
+<li>advise</li>
+<li>affair</li>
+<li>afford</li>
+<li>afraid</li>
+<li>after</li>
+<li>afternoon</li>
+<li>afterwards</li>
+<li>again</li>
+<li>against</li>
+<li>age</li>
+<li>ago</li>
+<li>agree</li>
+<li>agreement</li>
+<li>ahead</li>
+<li>aim</li>
+<li>air</li>
+<li>aircraft</li>
+<li>airforce</li>
+<li>airport</li>
+<li>alcohol</li>
+<li>alike</li>
+<li>alive</li>
+<li>all</li>
+<li>allow</li>
+<li>almost</li>
+<li>alone</li>
+<li>along</li>
+<li>aloud</li>
+<li>alphabet</li>
+<li>already</li>
+<li>also</li>
+<li>although</li>
+<li>altogether</li>
+<li>always</li>
+<li>among</li>
+<li>amount</li>
+<li>amuse</li>
+<li>amusement</li>
+<li>amusing</li>
+<li>an</li>
+<li>ancient</li>
+<li>and</li>
+<li>anger</li>
+<li>angle</li>
+<li>angry</li>
+<li>animal</li>
+<li>ankle</li>
+<li>annoy</li>
+<li>annoyance</li>
+<li>another</li>
+<li>answer</li>
+<li>ant</li>
+<li>anxiety</li>
+<li>anxious</li>
+<li>any</li>
+<li>anyhow</li>
+<li>anyone</li>
+<li>anything</li>
+<li>anywhere</li>
+<li> apart</li>
+<li> apparatus</li>
+<li> appear</li>
+<li> appearance</li>
+<li> apple</li>
+<li> appoint</li>
+<li> approval</li>
+<li> approve</li>
+<li> arch</li>
+<li> area</li>
+<li> argue</li>
+<li> argument</li>
+<li> arm</li>
+<li> armor</li>
+<li> arms</li>
+<li> army</li>
+<li> around</li>
+<li> arrange</li>
+<li> arrangement</li>
+<li> arrival</li>
+<li> arrive</li>
+<li> art</li>
+<li> article</li>
+<li> artificial</li>
+<li> as</li>
+<li> ash</li>
+<li> ashamed</li>
+<li> aside</li>
+<li> ask</li>
+<li> asleep</li>
+<li> association</li>
+<li> at</li>
+<li> atom</li>
+<li> attack</li>
+<li> attempt</li>
+<li> attend</li>
+<li> attendance</li>
+<li> attention</li>
+<li> attract</li>
+<li> attractive</li>
+<li> aunt</li>
+<li> autumn</li>
+<li> average</li>
+<li> avoid</li>
+<li> awake</li>
+<li> away</li>
+<li> awkward</li>
+</ol>
+
+
+<h2>B</h2>
+
+<ol>
+<li>baby</li>
+<li>back</li>
+<li>background</li>
+<li>backward</li>
+<li>backwards</li>
+<li>bacteria</li>
+<li>bad</li>
+<li>bag</li>
+<li>bake</li>
+<li>balance</li>
+<li>ball</li>
+<li>banana</li>
+<li>band</li>
+<li>bank</li>
+<li>bar</li>
+<li>bare</li>
+<li>barrel</li>
+<li>base</li>
+<li>basket</li>
+<li>bath</li>
+<li>bathe</li>
+<li>battle</li>
+<li>be</li>
+<li>beak</li>
+<li>beam</li>
+<li>bean</li>
+<li>bear</li>
+<li>beard</li>
+<li>beat</li>
+<li>beautiful</li>
+<li>beauty</li>
+<li>because</li>
+<li>become</li>
+<li>bed</li>
+<li>bee</li>
+<li>beer</li>
+<li>before</li>
+<li>beg</li>
+<li>begin</li>
+<li>beginning</li>
+<li>behave</li>
+<li>behavior</li>
+<li>behind</li>
+<li>belief</li>
+<li>believe</li>
+<li>bell</li>
+<li>belong</li>
+<li>below</li>
+<li>belt</li>
+<li>bend</li>
+<li>beneath</li>
+<li>berry</li>
+<li>beside</li>
+<li>besides</li>
+<li>best</li>
+<li>better</li>
+<li>between</li>
+<li>beyond</li>
+<li>bicycle</li>
+<li>big</li>
+<li>bill</li>
+<li>bind</li>
+<li>bird</li>
+<li>birth</li>
+<li>birthday</li>
+<li>bit</li>
+<li>bite</li>
+<li>bitter</li>
+<li>black</li>
+<li>blade</li>
+<li>blame</li>
+<li>bleed</li>
+<li>bless</li>
+<li>blind</li>
+<li>block</li>
+<li>blood</li>
+<li>blow</li>
+<li>blue</li>
+<li>board</li>
+<li>boat</li>
+<li>body</li>
+<li>boil</li>
+<li>bomb</li>
+<li>bone</li>
+<li>book</li>
+<li>boot</li>
+<li>border</li>
+<li>born</li>
+<li>borrow</li>
+<li>both</li>
+<li>bottle</li>
+<li>bottom</li>
+<li>bowels</li>
+<li>bowl</li>
+<li>box</li>
+<li>boy</li>
+<li>brain</li>
+<li>branch</li>
+<li>brass</li>
+<li> brave</li>
+<li> bread</li>
+<li> breadth</li>
+<li> break</li>
+<li> breakfast</li>
+<li> breast</li>
+<li> breath</li>
+<li> breathe</li>
+<li> breed</li>
+<li> brick</li>
+<li> bridge</li>
+<li> bright</li>
+<li> bring</li>
+<li> broad</li>
+<li> broadcast</li>
+<li> brother</li>
+<li> brown</li>
+<li> brush</li>
+<li> bucket</li>
+<li> build</li>
+<li> building</li>
+<li> bullet</li>
+<li> bunch</li>
+<li> burial</li>
+<li> burn</li>
+<li> burst</li>
+<li> bury</li>
+<li> bus</li>
+<li> bush</li>
+<li> business</li>
+<li> busy</li>
+<li> but</li>
+<li> butter</li>
+<li> button</li>
+<li> buy</li>
+<li> by</li>
+</ol>
+
+
+<h2>C</h2>
+
+<ol>
+<li>cage</li>
+<li>cake</li>
+<li>calculate</li>
+<li>calculator</li>
+<li>call</li>
+<li>calm</li>
+<li>camera</li>
+<li>camp</li>
+<li>can</li>
+<li>candle</li>
+<li>cap</li>
+<li>capital</li>
+<li>captain</li>
+<li>car</li>
+<li>card</li>
+<li>cardboard</li>
+<li>care</li>
+<li>careful</li>
+<li>careless</li>
+<li>carriage</li>
+<li>carry</li>
+<li>cart</li>
+<li>case</li>
+<li>castle</li>
+<li>cat</li>
+<li>catch</li>
+<li>cattle</li>
+<li>cause</li>
+<li>cell</li>
+<li>cement</li>
+<li>cent</li>
+<li>center</li>
+<li>centimeter</li>
+<li>central</li>
+<li>century</li>
+<li>ceremony</li>
+<li>certain</li>
+<li>chain</li>
+<li>chair</li>
+<li>chairperson</li>
+<li>chalk</li>
+<li>chance</li>
+<li>change</li>
+<li>character</li>
+<li>charge</li>
+<li>charm</li>
+<li>chase</li>
+<li>cheap</li>
+<li>cheat</li>
+<li>check [cheque]</li>
+<li>cheek</li>
+<li>cheer</li>
+<li>cheerful</li>
+<li>cheese</li>
+<li>chemical</li>
+<li>chemistry</li>
+<li>chest</li>
+<li>chicken</li>
+<li>chief</li>
+<li>child</li>
+<li>childhood</li>
+<li>children</li>
+<li>chimney</li>
+<li>chin</li>
+<li>chocolate</li>
+<li>choice</li>
+<li>choose</li>
+<li>church</li>
+<li>cigarette</li>
+<li>cinema</li>
+<li>circle</li>
+<li>circular</li>
+<li>citizen</li>
+<li>city</li>
+<li>civilization</li>
+<li>claim</li>
+<li>class</li>
+<li>clay</li>
+<li>clean</li>
+<li>clear</li>
+<li>clerk</li>
+<li>clever</li>
+<li>cliff</li>
+<li>climb</li>
+<li>clock</li>
+<li>clockwork</li>
+<li>close</li>
+<li>cloth</li>
+<li>clothes</li>
+<li>clothing</li>
+<li>cloud</li>
+<li>club</li>
+<li>coal</li>
+<li>coast</li>
+<li>coat</li>
+<li>coffee</li>
+<li>coin</li>
+<li>cold</li>
+<li>collar</li>
+<li> collect</li>
+<li> college</li>
+<li> color</li>
+<li> comb</li>
+<li> combination</li>
+<li> combine</li>
+<li> come</li>
+<li> comfort</li>
+<li> comfortable</li>
+<li> command</li>
+<li> committee</li>
+<li> common</li>
+<li> companion</li>
+<li> company</li>
+<li> compare</li>
+<li> comparison</li>
+<li> compete</li>
+<li> competition</li>
+<li> competitor</li>
+<li> complain</li>
+<li> complaint</li>
+<li> complete</li>
+<li> compound</li>
+<li> computer</li>
+<li> concern</li>
+<li> concerning</li>
+<li> concert</li>
+<li> condition</li>
+<li> confidence</li>
+<li> confident</li>
+<li> confuse</li>
+<li> connect</li>
+<li> conscience</li>
+<li> conscious</li>
+<li> consider</li>
+<li> consist</li>
+<li> consonant</li>
+<li> contain</li>
+<li> contents</li>
+<li> continue</li>
+<li> continuous</li>
+<li> contract</li>
+<li> control</li>
+<li> convenient</li>
+<li> conversation</li>
+<li> cook</li>
+<li> cool</li>
+<li> copper</li>
+<li> copy</li>
+<li> cord</li>
+<li> corn</li>
+<li> corner</li>
+<li> correct</li>
+<li> cost</li>
+<li> cotton</li>
+<li> cough</li>
+<li> could</li>
+<li> council</li>
+<li> count</li>
+<li> country</li>
+<li> courage</li>
+<li> course</li>
+<li> court</li>
+<li> cover</li>
+<li> cow</li>
+<li> coward</li>
+<li> cowardly</li>
+<li> crack</li>
+<li> crash</li>
+<li> cream</li>
+<li> creature</li>
+<li> creep</li>
+<li> cricket</li>
+<li> crime</li>
+<li> criminal</li>
+<li> crop</li>
+<li> cross</li>
+<li> crowd</li>
+<li> cruel</li>
+<li> cruelty</li>
+<li> crush</li>
+<li> cry</li>
+<li> cultivate</li>
+<li> cup</li>
+<li> cupboard</li>
+<li> cure</li>
+<li> curl</li>
+<li> current</li>
+<li> curse</li>
+<li> curtain</li>
+<li> curve</li>
+<li> custom</li>
+<li> customer</li>
+<li> cut</li>
+<li> cycle</li>
+</ol>
+
+
+<h2>D</h2>
+
+<ol>
+<li>daily</li>
+<li>damage</li>
+<li>dance</li>
+<li>danger</li>
+<li>dangerous</li>
+<li>dare</li>
+<li>daring</li>
+<li>dark</li>
+<li>date</li>
+<li>daughter</li>
+<li>day</li>
+<li>dead</li>
+<li>deal</li>
+<li>dear</li>
+<li>death</li>
+<li>debt</li>
+<li>decay</li>
+<li>deceit</li>
+<li>deceive</li>
+<li>decide</li>
+<li>decimal</li>
+<li>decision</li>
+<li>declaration</li>
+<li>declare</li>
+<li>decorate</li>
+<li>decoration</li>
+<li>decrease</li>
+<li>deep</li>
+<li>deer</li>
+<li>defeat</li>
+<li>defend</li>
+<li>defense</li>
+<li>degree</li>
+<li>delay</li>
+<li>delicate</li>
+<li>delight</li>
+<li>deliver</li>
+<li>demand</li>
+<li>department</li>
+<li>depend</li>
+<li>dependent</li>
+<li>depth</li>
+<li>descend</li>
+<li>describe</li>
+<li>description</li>
+<li>descriptive</li>
+<li>desert</li>
+<li>deserve</li>
+<li>desirable</li>
+<li>desire</li>
+<li>desk</li>
+<li>destroy</li>
+<li>destruction</li>
+<li>detail</li>
+<li>determination</li>
+<li>determined</li>
+<li>develop</li>
+<li>devil</li>
+<li>diamond</li>
+<li>dictionary</li>
+<li>die</li>
+<li>difference</li>
+<li>different</li>
+<li>difficult</li>
+<li>difficulty</li>
+<li>dig</li>
+<li>dinner</li>
+<li>dip</li>
+<li>direct</li>
+<li>direction</li>
+<li>dirt</li>
+<li>dirty</li>
+<li>disappoint</li>
+<li>discourage</li>
+<li>discouragement</li>
+<li>discover</li>
+<li>discovery</li>
+<li>dish</li>
+<li>dismiss</li>
+<li>distance</li>
+<li>distant</li>
+<li>ditch</li>
+<li>divide</li>
+<li>division</li>
+<li>do</li>
+<li>doctor</li>
+<li>dog</li>
+<li>dollar</li>
+<li>door</li>
+<li>doorway</li>
+<li>dot</li>
+<li>double</li>
+<li>doubt</li>
+<li>down</li>
+<li>drag</li>
+<li>draw</li>
+<li>drawer</li>
+<li>dream</li>
+<li>dress</li>
+<li> drink</li>
+<li> drive</li>
+<li> drop</li>
+<li> drown</li>
+<li> drug</li>
+<li> drum</li>
+<li> drunk</li>
+<li> dry</li>
+<li> duck</li>
+<li> dull</li>
+<li> during</li>
+<li> dust</li>
+<li> duty</li>
+</ol>
+
+
+<h2>E</h2>
+
+<ol>
+<li>each</li>
+<li>eager</li>
+<li>ear</li>
+<li>early</li>
+<li>earn</li>
+<li>earth</li>
+<li>east</li>
+<li>eastern</li>
+<li>easy</li>
+<li>eat</li>
+<li>edge</li>
+<li>educate</li>
+<li>education</li>
+<li>effect</li>
+<li>effective</li>
+<li>effort</li>
+<li>egg</li>
+<li>eight</li>
+<li>eighth</li>
+<li>either</li>
+<li>elastic</li>
+<li>elbow</li>
+<li>elect</li>
+<li>election</li>
+<li>electric</li>
+<li>electricity</li>
+<li>elephant</li>
+<li>else</li>
+<li>employ</li>
+<li>employer</li>
+<li>employment</li>
+<li>empty</li>
+<li>enclose</li>
+<li>enclosure</li>
+<li>encourage</li>
+<li>encouragement</li>
+<li>end</li>
+<li>enemy</li>
+<li>engine</li>
+<li>engineer</li>
+<li>English</li>
+<li>enjoy</li>
+<li>enjoyment</li>
+<li>enough</li>
+<li>enter</li>
+<li>entertain</li>
+<li>entertainment</li>
+<li>entrance</li>
+<li>envelope</li>
+<li>equal</li>
+<li>equality</li>
+<li>escape</li>
+<li>especially</li>
+<li>establish</li>
+<li>establishment</li>
+<li>even</li>
+<li>evening</li>
+<li>event</li>
+<li>ever</li>
+<li>every</li>
+<li>everyone</li>
+<li>everything</li>
+<li>everywhere</li>
+<li>evil</li>
+<li>exact</li>
+<li>examination</li>
+<li>examine</li>
+<li>example</li>
+<li>excellent</li>
+<li>except</li>
+<li>exchange</li>
+<li>excite</li>
+<li>excited</li>
+<li>exciting</li>
+<li>excuse</li>
+<li>exercise</li>
+<li>exist</li>
+<li>existence</li>
+<li>expect</li>
+<li>expensive</li>
+<li>experience</li>
+<li>explain</li>
+<li>explanation</li>
+<li>explode</li>
+<li>explosion</li>
+<li>explosive</li>
+<li>express</li>
+<li>expression</li>
+<li>extreme</li>
+<li>eye</li>
+<li>eyelid</li>
+</ol>
+
+
+<h2>F</h2>
+
+<ol>
+<li>face</li>
+<li>fact</li>
+<li>factory</li>
+<li>fail</li>
+<li>failure</li>
+<li>faint</li>
+<li>fair</li>
+<li>fairy</li>
+<li>faith</li>
+<li>faithful</li>
+<li>fall</li>
+<li>false</li>
+<li>fame</li>
+<li>familiar</li>
+<li>family</li>
+<li>famous</li>
+<li>fancy</li>
+<li>far</li>
+<li>farm</li>
+<li>farmer</li>
+<li>farmyard</li>
+<li>fashion</li>
+<li>fashionable</li>
+<li>fast</li>
+<li>fasten</li>
+<li>fat</li>
+<li>fate</li>
+<li>father</li>
+<li>fault</li>
+<li>favor</li>
+<li>favorable</li>
+<li>favorite</li>
+<li>fear</li>
+<li>feather</li>
+<li>feed</li>
+<li>feel</li>
+<li>feeling</li>
+<li>feelings</li>
+<li>fellow</li>
+<li>female</li>
+<li>fence</li>
+<li>fever</li>
+<li>few</li>
+<li>field</li>
+<li>fierce</li>
+<li>fifth</li>
+<li>fight</li>
+<li>figure</li>
+<li>fill</li>
+<li>film</li>
+<li>find</li>
+<li>fine</li>
+<li>finger</li>
+<li>finish</li>
+<li>fire</li>
+<li>fireplace</li>
+<li>firm</li>
+<li>first</li>
+<li>fish</li>
+<li>fisherman</li>
+<li>fit</li>
+<li>five</li>
+<li>fix</li>
+<li>flag</li>
+<li>flame</li>
+<li>flash</li>
+<li>flat</li>
+<li>flesh</li>
+<li>flight</li>
+<li>float</li>
+<li>flood</li>
+<li>floor</li>
+<li>flour</li>
+<li>flow</li>
+<li>flower</li>
+<li>fly</li>
+<li>fold</li>
+<li>follow</li>
+<li>fond</li>
+<li>food</li>
+<li>fool</li>
+<li>foolish</li>
+<li>foot</li>
+<li>football</li>
+<li>footpath</li>
+<li>footstep</li>
+<li>for</li>
+<li>forbid</li>
+<li>force</li>
+<li>forehead</li>
+<li>foreign</li>
+<li>foreigner</li>
+<li>forest</li>
+<li>forget</li>
+<li>forgive</li>
+<li>fork</li>
+<li>form</li>
+<li>formal</li>
+<li>former</li>
+<li> formerly</li>
+<li> fort</li>
+<li> fortunate</li>
+<li> fortune</li>
+<li> forward</li>
+<li> forwards</li>
+<li> four</li>
+<li> fourth</li>
+<li> fox</li>
+<li> frame</li>
+<li> free</li>
+<li> freedom</li>
+<li> freeze</li>
+<li> frequent</li>
+<li> fresh</li>
+<li> friend</li>
+<li> friendly</li>
+<li> frighten</li>
+<li> frightening</li>
+<li> from</li>
+<li> front</li>
+<li> fruit</li>
+<li> fulfill</li>
+<li> full</li>
+<li> fun</li>
+<li> funeral</li>
+<li> funny</li>
+<li> fur</li>
+<li> furnish</li>
+<li> furniture</li>
+<li> further</li>
+<li> future</li>
+</ol>
+
+
+<h2>G</h2>
+
+<ol>
+<li>gain</li>
+<li>game</li>
+<li>garage</li>
+<li>garden</li>
+<li>garment</li>
+<li>gas</li>
+<li>gasoline [petrol]</li>
+<li>gate</li>
+<li>gather</li>
+<li>general</li>
+<li>generous</li>
+<li>gentle</li>
+<li>gentleman</li>
+<li>get</li>
+<li>gift</li>
+<li>girl</li>
+<li>give</li>
+<li>glad</li>
+<li>glass</li>
+<li>glory</li>
+<li>glue</li>
+<li>go</li>
+<li>goat</li>
+<li>god</li>
+<li>God</li>
+<li>gold</li>
+<li>golden</li>
+<li>good</li>
+<li>good-bye</li>
+<li>goods</li>
+<li>govern</li>
+<li>government</li>
+<li>grace</li>
+<li>graceful</li>
+<li>gradual</li>
+<li>grain</li>
+<li>gram</li>
+<li>grammar</li>
+<li>grand</li>
+<li>grandfather</li>
+<li>grandmother</li>
+<li>grass</li>
+<li>grateful</li>
+<li>grave</li>
+<li>gray</li>
+<li>great</li>
+<li>green</li>
+<li>greet</li>
+<li>greeting</li>
+<li>grief</li>
+<li>grieve</li>
+<li>ground</li>
+<li>group</li>
+<li>grow</li>
+<li>growth</li>
+<li>guard</li>
+<li>guess</li>
+<li>guest</li>
+<li>guidance</li>
+<li>guide</li>
+<li>guilt</li>
+<li>gun</li>
+</ol>
+
+
+<h2>H</h2>
+
+<ol>
+<li>habit</li>
+<li>habitual</li>
+<li>hair</li>
+<li>hairy</li>
+<li>half</li>
+<li>hall</li>
+<li>hammer</li>
+<li>hand</li>
+<li>handkerchief</li>
+<li>handle</li>
+<li>hang</li>
+<li>happen</li>
+<li>happy</li>
+<li>hard</li>
+<li>harden</li>
+<li>hardly</li>
+<li>hardship</li>
+<li>harm</li>
+<li>harmful</li>
+<li>harmless</li>
+<li>hasty</li>
+<li>hat</li>
+<li>hate</li>
+<li>hatred</li>
+<li>have</li>
+<li>he</li>
+<li>head</li>
+<li>health</li>
+<li>healthy</li>
+<li>hear</li>
+<li>heart</li>
+<li>heat</li>
+<li>heaven</li>
+<li>heavy</li>
+<li>heel</li>
+<li>height</li>
+<li>help</li>
+<li>helpful</li>
+<li>hen</li>
+<li>her</li>
+<li>here</li>
+<li>hers</li>
+<li>herself</li>
+<li>hide</li>
+<li>high</li>
+<li>hill</li>
+<li>him</li>
+<li>himself</li>
+<li>hire</li>
+<li>his</li>
+<li>historical</li>
+<li>history</li>
+<li>hit</li>
+<li>hold</li>
+<li>holiday</li>
+<li>hollow</li>
+<li>holy</li>
+<li>home</li>
+<li>honest</li>
+<li>honesty</li>
+<li>honor</li>
+<li>honorable</li>
+<li>hook</li>
+<li>hope</li>
+<li>hopeful</li>
+<li>hopeless</li>
+<li>horizon</li>
+<li>horn</li>
+<li>horse</li>
+<li>hospital</li>
+<li>host</li>
+<li>hot</li>
+<li>hotel</li>
+<li>hour</li>
+<li>hourly</li>
+<li>house</li>
+<li>how</li>
+<li>human</li>
+<li>humor</li>
+<li>humorous</li>
+<li>hundred</li>
+<li>hundredth</li>
+<li>hunger</li>
+<li>hungry</li>
+<li>hunt</li>
+<li>hurry</li>
+<li>hurt</li>
+<li>husband</li>
+<li>hut</li>
+</ol>
+
+
+<h2>I</h2>
+
+<ol>
+<li>I</li>
+<li>ice</li>
+<li>icy</li>
+<li>idea</li>
+<li>if</li>
+<li>ill</li>
+<li>image</li>
+<li>imaginary</li>
+<li>imagination</li>
+<li>imagine</li>
+<li>importance</li>
+<li>important</li>
+<li>improve</li>
+<li>improvement</li>
+<li>in</li>
+<li>include</li>
+<li>including</li>
+<li>income</li>
+<li>increase</li>
+<li>indoor</li>
+<li>indoors</li>
+<li>industrial</li>
+<li>industry</li>
+<li>infect</li>
+<li>infection</li>
+<li>infectious</li>
+<li>influence</li>
+<li>influential</li>
+<li>inform</li>
+<li>information</li>
+<li>ink</li>
+<li>inner</li>
+<li>inquire</li>
+<li>inquiry</li>
+<li>insect</li>
+<li>inside</li>
+<li>instead</li>
+<li>instruct</li>
+<li>instruction</li>
+<li>instrument</li>
+<li>insurance</li>
+<li>insure</li>
+<li>intend</li>
+<li>intention</li>
+<li>interest</li>
+<li>interesting</li>
+<li>international</li>
+<li>interrupt</li>
+<li>interruption</li>
+<li>into</li>
+<li>introduce</li>
+<li>introduction</li>
+<li>invent</li>
+<li>invention</li>
+<li>invitation</li>
+<li>invite</li>
+<li>inwards</li>
+<li>iron</li>
+<li>island</li>
+<li>it</li>
+<li>its</li>
+<li>itself</li>
+</ol>
+
+
+<h2>J</h2>
+
+<ol>
+<li>jaw</li>
+<li>jealous</li>
+<li>jealousy</li>
+<li>jelly</li>
+<li>jewel</li>
+<li>jewelry</li>
+<li>job</li>
+<li>join</li>
+<li>joint</li>
+<li>joke</li>
+<li>journey</li>
+<li>joy</li>
+<li>judge</li>
+<li>judgment</li>
+<li>juice</li>
+<li>jump</li>
+<li>just</li>
+<li>justice</li>
+</ol>
+
+
+<h2>K</h2>
+
+<ol>
+<li>keen</li>
+<li>keep</li>
+<li>key</li>
+<li>kick</li>
+<li>kill</li>
+<li>kilo</li>
+<li>kilogram</li>
+<li>kilometer</li>
+<li>kind</li>
+<li>king</li>
+<li>kingdom</li>
+<li>kiss</li>
+<li>kitchen</li>
+<li>knee</li>
+<li>kneel</li>
+<li>knife</li>
+<li>knock</li>
+<li>knot</li>
+<li>know</li>
+<li>knowledge</li>
+</ol>
+
+
+<h2>L</h2>
+
+<ol>
+<li>labor</li>
+<li>lack</li>
+<li>ladder</li>
+<li>lady</li>
+<li>lake</li>
+<li>lamb</li>
+<li>lamp</li>
+<li>land</li>
+<li>language</li>
+<li>large</li>
+<li>last</li>
+<li>late</li>
+<li>lately</li>
+<li>laugh</li>
+<li>laughter</li>
+<li>law</li>
+<li>lawyer</li>
+<li>lay</li>
+<li>lazy</li>
+<li>lead</li>
+<li>lead</li>
+<li>leaf</li>
+<li>lean</li>
+<li>learn</li>
+<li>least</li>
+<li>leather</li>
+<li>leave</li>
+<li>left</li>
+<li>leg</li>
+<li>legal</li>
+<li>lend</li>
+<li>length</li>
+<li>less</li>
+<li>lesson</li>
+<li>let</li>
+<li>letter</li>
+<li>level</li>
+<li>library</li>
+<li>lid</li>
+<li>lie</li>
+<li>life</li>
+<li>lift</li>
+<li>light</li>
+<li>lightning</li>
+<li>like</li>
+<li>likely</li>
+<li>limb</li>
+<li>limit</li>
+<li>line</li>
+<li>lion</li>
+<li>lip</li>
+<li>liquid</li>
+<li>list</li>
+<li>listen</li>
+<li>liter</li>
+<li>literature</li>
+<li>little</li>
+<li>live</li>
+<li>load</li>
+<li>loaf</li>
+<li>local</li>
+<li>lock</li>
+<li>lodging</li>
+<li>lodgings</li>
+<li>log</li>
+<li>lonely</li>
+<li>long</li>
+<li>look</li>
+<li>loose</li>
+<li>lord</li>
+<li>lose</li>
+<li>loss</li>
+<li>lot</li>
+<li>loud</li>
+<li>love</li>
+<li>low</li>
+<li>lower</li>
+<li>loyal</li>
+<li>loyalty</li>
+<li>luck</li>
+<li>lump</li>
+<li>lung</li>
+</ol>
+
+
+<h2>M</h2>
+
+<ol>
+<li>machine</li>
+<li>machinery</li>
+<li>mad</li>
+<li>magazine</li>
+<li>magic</li>
+<li>magician</li>
+<li>mail</li>
+<li>main</li>
+<li>make</li>
+<li>male</li>
+<li>man</li>
+<li>manage</li>
+<li>manager</li>
+<li>manner</li>
+<li>many</li>
+<li>map</li>
+<li>march</li>
+<li>mark</li>
+<li>market</li>
+<li>marriage</li>
+<li>marry</li>
+<li>mass</li>
+<li>master</li>
+<li>mat</li>
+<li>match</li>
+<li>material</li>
+<li>matter</li>
+<li>may</li>
+<li>me</li>
+<li>meal</li>
+<li>mean</li>
+<li>meaning</li>
+<li>means</li>
+<li>measure</li>
+<li>meat</li>
+<li>medical</li>
+<li>medicine</li>
+<li>meet</li>
+<li>meeting</li>
+<li>melt</li>
+<li>member</li>
+<li>memory</li>
+<li>mend</li>
+<li>mention</li>
+<li>merry</li>
+<li>message</li>
+<li>messenger</li>
+<li>metal</li>
+<li>meter</li>
+<li>method</li>
+<li>metric</li>
+<li>microscope</li>
+<li>middle</li>
+<li>might</li>
+<li>mile</li>
+<li>military</li>
+<li>milk</li>
+<li>million</li>
+<li>millionth</li>
+<li>mind</li>
+<li>mine</li>
+<li>mineral</li>
+<li>minister</li>
+<li>minute</li>
+<li>mirror</li>
+<li>miss</li>
+<li>mist</li>
+<li>mistake</li>
+<li>mix</li>
+<li>mixture</li>
+<li>model</li>
+<li>modern</li>
+<li>moment</li>
+<li>money</li>
+<li>monkey</li>
+<li>month</li>
+<li>monthly</li>
+<li>moon</li>
+<li>moral</li>
+<li>morals</li>
+<li>more</li>
+<li>morning</li>
+<li>most</li>
+<li>mother</li>
+<li>motor</li>
+<li>mountain</li>
+<li>mouse</li>
+<li>mouth</li>
+<li>move</li>
+<li>much</li>
+<li>mud</li>
+<li>multiply</li>
+<li>murder</li>
+<li>muscle</li>
+<li>music</li>
+<li>musician</li>
+<li>must</li>
+<li>my</li>
+<li>myself</li>
+<li> mysterious</li>
+<li> mystery</li>
+</ol>
+
+
+<h2>N</h2>
+
+<ol>
+<li>nail</li>
+<li>name</li>
+<li>narrow</li>
+<li>nasty</li>
+<li>nation</li>
+<li>national</li>
+<li>nature</li>
+<li>naval</li>
+<li>navy</li>
+<li>near</li>
+<li>nearly</li>
+<li>neat</li>
+<li>necessary</li>
+<li>neck</li>
+<li>need</li>
+<li>needle</li>
+<li>neighbor</li>
+<li>neighborhood</li>
+<li>neither</li>
+<li>nerve</li>
+<li>nervous</li>
+<li>nest</li>
+<li>net</li>
+<li>network</li>
+<li>never</li>
+<li>new</li>
+<li>news</li>
+<li>newspaper</li>
+<li>next</li>
+<li>nice</li>
+<li>night</li>
+<li>nine</li>
+<li>ninth</li>
+<li>no</li>
+<li>no</li>
+<li>noble</li>
+<li>nobleman</li>
+<li>noise</li>
+<li>none</li>
+<li>nonsense</li>
+<li>nor</li>
+<li>north</li>
+<li>northern</li>
+<li>nose</li>
+<li>not</li>
+<li>nothing</li>
+<li>notice</li>
+<li>noun</li>
+<li>now</li>
+<li>nowhere</li>
+<li>number</li>
+<li>nurse</li>
+<li>nut</li>
+<li>nylon</li>
+</ol>
+
+
+<h2>O</h2>
+
+<ol>
+<li>o&#8217;clock</li>
+<li>obedience</li>
+<li>obedient</li>
+<li>obey</li>
+<li>object</li>
+<li>obtain</li>
+<li>occasion</li>
+<li>ocean</li>
+<li>odd</li>
+<li>of</li>
+<li>off</li>
+<li>offend</li>
+<li>offense</li>
+<li>offensive</li>
+<li>offer</li>
+<li>office</li>
+<li>officer</li>
+<li>official</li>
+<li>often</li>
+<li>oil</li>
+<li>old</li>
+<li>old-fashioned</li>
+<li>on</li>
+<li>once</li>
+<li>one</li>
+<li>oneself</li>
+<li>onion</li>
+<li>only</li>
+<li>open</li>
+<li>operate</li>
+<li>operation</li>
+<li>opinion</li>
+<li>opponent</li>
+<li>oppose</li>
+<li>opposite</li>
+<li>opposition</li>
+<li>or</li>
+<li>orange</li>
+<li>order</li>
+<li>ordinary</li>
+<li>organ</li>
+<li>organization</li>
+<li>origin</li>
+<li>other</li>
+<li>otherwise</li>
+<li>ought</li>
+<li>our</li>
+<li>ours</li>
+<li>ourselves</li>
+<li>out</li>
+<li>outdoor</li>
+<li>outdoors</li>
+<li>outer</li>
+<li>outside</li>
+<li>over</li>
+<li>owe</li>
+<li>owing</li>
+<li>own</li>
+<li>oxygen</li>
+</ol>
+
+
+<h2>P</h2>
+
+<ol>
+<li>pack</li>
+<li>packet</li>
+<li>page</li>
+<li>pain</li>
+<li>painful</li>
+<li>paint</li>
+<li>painting</li>
+<li>pair</li>
+<li>palace</li>
+<li>pale</li>
+<li>pan</li>
+<li>paper</li>
+<li>parallel</li>
+<li>parcel</li>
+<li>parent</li>
+<li>park</li>
+<li>parliament</li>
+<li>part</li>
+<li>participle</li>
+<li>particular</li>
+<li>partner</li>
+<li>party</li>
+<li>pass</li>
+<li>passage</li>
+<li>passenger</li>
+<li>past</li>
+<li>pastry</li>
+<li>path</li>
+<li>patience</li>
+<li>patient</li>
+<li>pattern</li>
+<li>pause</li>
+<li>pay</li>
+<li>payment</li>
+<li>peace</li>
+<li>peaceful</li>
+<li>pen</li>
+<li>pence</li>
+<li>pencil</li>
+<li>people</li>
+<li>pepper</li>
+<li>per</li>
+<li>perfect</li>
+<li>perform</li>
+<li>perhaps</li>
+<li>period</li>
+<li>permission</li>
+<li>permit</li>
+<li>person</li>
+<li>personal</li>
+<li>persuade</li>
+<li>pet</li>
+<li>photograph</li>
+<li>photography</li>
+<li>phrase</li>
+<li>physical</li>
+<li>piano</li>
+<li>pick</li>
+<li>picture</li>
+<li>piece</li>
+<li>pig</li>
+<li>pile</li>
+<li>pilot</li>
+<li>pin</li>
+<li>pink</li>
+<li>pipe</li>
+<li>pity</li>
+<li>place</li>
+<li>plain</li>
+<li>plan</li>
+<li>plane</li>
+<li>plant</li>
+<li>plastic</li>
+<li>plate</li>
+<li>play</li>
+<li>pleasant</li>
+<li>please</li>
+<li>pleased</li>
+<li>pleasure</li>
+<li>plenty</li>
+<li>plural</li>
+<li>pocket</li>
+<li>poem</li>
+<li>poet</li>
+<li>poetry</li>
+<li>point</li>
+<li>pointed</li>
+<li>poison</li>
+<li>poisonous</li>
+<li>pole</li>
+<li>police</li>
+<li>polish</li>
+<li>polite</li>
+<li>political</li>
+<li>politician</li>
+<li>politics</li>
+<li>pool</li>
+<li>poor</li>
+<li>popular</li>
+<li> popularity</li>
+<li> population</li>
+<li> port</li>
+<li> position</li>
+<li> possess</li>
+<li> possession</li>
+<li> possibility</li>
+<li> possible</li>
+<li> possibly</li>
+<li> post</li>
+<li> pot</li>
+<li> potato</li>
+<li> pound</li>
+<li> pour</li>
+<li> powder</li>
+<li> power</li>
+<li> powerful</li>
+<li> practical</li>
+<li> practice</li>
+<li> praise</li>
+<li> pray</li>
+<li> prayer</li>
+<li> precious</li>
+<li> preparation</li>
+<li> prepare</li>
+<li> presence</li>
+<li> present</li>
+<li> preserve</li>
+<li> president</li>
+<li> press</li>
+<li> pressure</li>
+<li> pretend</li>
+<li> pretty</li>
+<li> prevent</li>
+<li> price</li>
+<li> prickly</li>
+<li> pride</li>
+<li> priest</li>
+<li> prince</li>
+<li> principle</li>
+<li> print</li>
+<li> prison</li>
+<li> prisoner</li>
+<li> private</li>
+<li> prize</li>
+<li> probability</li>
+<li> probable</li>
+<li> problem</li>
+<li> process</li>
+<li> procession</li>
+<li> produce</li>
+<li> product</li>
+<li> production</li>
+<li> profession</li>
+<li> profit</li>
+<li> promise</li>
+<li> pronounce</li>
+<li> pronunciation</li>
+<li> proof</li>
+<li> proper</li>
+<li> property</li>
+<li> protect</li>
+<li> protection</li>
+<li> protective</li>
+<li> proud</li>
+<li> prove</li>
+<li> provide</li>
+<li> provision</li>
+<li> provisions</li>
+<li> public</li>
+<li> pull</li>
+<li> pump</li>
+<li> punish</li>
+<li> punishment</li>
+<li> pupil</li>
+<li> pure</li>
+<li> purple</li>
+<li> purpose</li>
+<li> push</li>
+<li> put</li>
+</ol>
+
+
+<h2>Q</h2>
+
+<ol>
+<li>quality</li>
+<li>quantity</li>
+<li>quarrel</li>
+<li>quarter</li>
+<li>queen</li>
+<li>question</li>
+<li>quick</li>
+<li>quiet</li>
+<li>quite</li>
+</ol>
+
+
+<h2>R</h2>
+
+<ol>
+<li>rabbit</li>
+<li>race</li>
+<li>radio</li>
+<li>railway</li>
+<li>rain</li>
+<li>raise</li>
+<li>range</li>
+<li>rank</li>
+<li>rapid</li>
+<li>rare</li>
+<li>rat</li>
+<li>rate</li>
+<li>rather</li>
+<li>raw</li>
+<li>reach</li>
+<li>read</li>
+<li>ready</li>
+<li>real</li>
+<li>really</li>
+<li>reason</li>
+<li>reasonable</li>
+<li>receive</li>
+<li>recent</li>
+<li>recently</li>
+<li>recognition</li>
+<li>recognize</li>
+<li>record</li>
+<li>red</li>
+<li>reduce</li>
+<li>reduction</li>
+<li>refusal</li>
+<li>refuse</li>
+<li>regard</li>
+<li>regular</li>
+<li>related</li>
+<li>relation</li>
+<li>relative</li>
+<li>religion</li>
+<li>religious</li>
+<li>remain</li>
+<li>remark</li>
+<li>remember</li>
+<li>remind</li>
+<li>remove</li>
+<li>rent</li>
+<li>repair</li>
+<li>repeat</li>
+<li>reply</li>
+<li>report</li>
+<li>represent</li>
+<li>representative</li>
+<li>republic</li>
+<li>request</li>
+<li>respect</li>
+<li>respectful</li>
+<li>responsible</li>
+<li>rest</li>
+<li>restaurant</li>
+<li>result</li>
+<li>return</li>
+<li>reward</li>
+<li>rice</li>
+<li>rich</li>
+<li>rid</li>
+<li>ride</li>
+<li>right</li>
+<li>ring</li>
+<li>ripe</li>
+<li>rise</li>
+<li>risk</li>
+<li>river</li>
+<li>road</li>
+<li>rob</li>
+<li>rock</li>
+<li>rod</li>
+<li>roll</li>
+<li>roof</li>
+<li>room</li>
+<li>root</li>
+<li>rope</li>
+<li>rose</li>
+<li>rough</li>
+<li>round</li>
+<li>row</li>
+<li>royal</li>
+<li>rub</li>
+<li>rubber</li>
+<li>rude</li>
+<li>ruin</li>
+<li>rule</li>
+<li>ruler</li>
+<li>run</li>
+<li>rush</li>
+</ol>
+
+
+<h2>S</h2>
+
+<ol>
+<li>sad</li>
+<li>safe</li>
+<li>safety</li>
+<li>sail</li>
+<li>sale</li>
+<li>salt</li>
+<li>same</li>
+<li>sand</li>
+<li>satisfaction</li>
+<li>satisfactory</li>
+<li>satisfy</li>
+<li>save</li>
+<li>say</li>
+<li>scale</li>
+<li>scatter</li>
+<li>scene</li>
+<li>scenery</li>
+<li>school</li>
+<li>science</li>
+<li>scientific</li>
+<li>scientist</li>
+<li>scissors</li>
+<li>screw</li>
+<li>sea</li>
+<li>search</li>
+<li>season</li>
+<li>seat</li>
+<li>second</li>
+<li>secrecy</li>
+<li>secret</li>
+<li>secretary</li>
+<li>see</li>
+<li>seed</li>
+<li>seem</li>
+<li>seize</li>
+<li>sell</li>
+<li>send</li>
+<li>sensation</li>
+<li>sense</li>
+<li>senseless</li>
+<li>sensible</li>
+<li>sensitive</li>
+<li>sentence</li>
+<li>separate</li>
+<li>serious</li>
+<li>servant</li>
+<li>serve</li>
+<li>service</li>
+<li>set</li>
+<li>settle</li>
+<li>seven</li>
+<li>seventh</li>
+<li>several</li>
+<li>severe</li>
+<li>sew</li>
+<li>sex</li>
+<li>sexual</li>
+<li>shade</li>
+<li>shadow</li>
+<li>shake</li>
+<li>shall</li>
+<li>shame</li>
+<li>shape</li>
+<li>share</li>
+<li>sharp</li>
+<li>she</li>
+<li>sheep</li>
+<li>sheet</li>
+<li>shelf</li>
+<li>shell</li>
+<li>shelter</li>
+<li>shield</li>
+<li>shine</li>
+<li>ship</li>
+<li>shirt</li>
+<li>shock</li>
+<li>shoe</li>
+<li>shoot</li>
+<li>shop</li>
+<li>shopkeeper</li>
+<li>shore</li>
+<li>short</li>
+<li>shot</li>
+<li>should</li>
+<li>shoulder</li>
+<li>shout</li>
+<li>show</li>
+<li>shut</li>
+<li>sick</li>
+<li>side</li>
+<li>sideways</li>
+<li>sight</li>
+<li>sign</li>
+<li>signal</li>
+<li>signature</li>
+<li>silence</li>
+<li>silent</li>
+<li>silk</li>
+<li>silly</li>
+<li> silver</li>
+<li> similar</li>
+<li> similarity</li>
+<li> simple</li>
+<li> since</li>
+<li> sincere</li>
+<li> sing</li>
+<li> single</li>
+<li> singular</li>
+<li> sink</li>
+<li> sister</li>
+<li> sit</li>
+<li> situation</li>
+<li> six</li>
+<li> sixth</li>
+<li> size</li>
+<li> skill</li>
+<li> skillful</li>
+<li> skin</li>
+<li> skirt</li>
+<li> sky</li>
+<li> slave</li>
+<li> sleep</li>
+<li> slide</li>
+<li> slight</li>
+<li> slip</li>
+<li> slippery</li>
+<li> slope</li>
+<li> slow</li>
+<li> small</li>
+<li> smell</li>
+<li> smile</li>
+<li> smoke</li>
+<li> smooth</li>
+<li> snake</li>
+<li> snow</li>
+<li> so</li>
+<li> soap</li>
+<li> social</li>
+<li> society</li>
+<li> sock</li>
+<li> soft</li>
+<li> soil</li>
+<li> soldier</li>
+<li> solemn</li>
+<li> solid</li>
+<li> some</li>
+<li> somehow</li>
+<li> someone</li>
+<li> something</li>
+<li> sometimes</li>
+<li> somewhere</li>
+<li> son</li>
+<li> song</li>
+<li> soon</li>
+<li> sore</li>
+<li> sorrow</li>
+<li> sorry</li>
+<li> sort</li>
+<li> soul</li>
+<li> sound</li>
+<li> soup</li>
+<li> sour</li>
+<li> south</li>
+<li> southern</li>
+<li> space</li>
+<li> spacecraft</li>
+<li> spade</li>
+<li> speak</li>
+<li> spear</li>
+<li> special</li>
+<li> specialist</li>
+<li> speech</li>
+<li> speed</li>
+<li> spell</li>
+<li> spend</li>
+<li> spin</li>
+<li> spirit</li>
+<li> spite</li>
+<li> splendid</li>
+<li> split</li>
+<li> spoil</li>
+<li> spoon</li>
+<li> sport</li>
+<li> spot</li>
+<li> spread</li>
+<li> spring</li>
+<li> square</li>
+<li> stage</li>
+<li> stair</li>
+<li> stamp</li>
+<li> stand</li>
+<li> standard</li>
+<li> star</li>
+<li> start</li>
+<li> state</li>
+<li> station</li>
+<li> stay</li>
+<li> steady</li>
+<li> steal</li>
+<li> steam</li>
+<li> steel</li>
+<li> steep</li>
+<li> stem</li>
+<li> step</li>
+<li> stick</li>
+<li> sticky</li>
+<li> stiff</li>
+<li> still</li>
+<li> sting</li>
+<li> stitch</li>
+<li> stomach</li>
+<li> stone</li>
+<li> stop</li>
+<li> store</li>
+<li> storm</li>
+<li> story</li>
+<li> straight</li>
+<li> strange</li>
+<li> stranger</li>
+<li> stream</li>
+<li> street</li>
+<li> strength</li>
+<li> stretch</li>
+<li> strike</li>
+<li> string</li>
+<li> stroke</li>
+<li> strong</li>
+<li> structure</li>
+<li> struggle</li>
+<li> student</li>
+<li> study</li>
+<li> stupid</li>
+<li> style</li>
+<li> subject</li>
+<li> substance</li>
+<li> subtract</li>
+<li> succeed</li>
+<li> success</li>
+<li> successful</li>
+<li> such</li>
+<li> suck</li>
+<li> sudden</li>
+<li> suffer</li>
+<li> sugar</li>
+<li> suggest</li>
+<li> suit</li>
+<li> suitable</li>
+<li> sum</li>
+<li> summer</li>
+<li> sun</li>
+<li> supper</li>
+<li> supply</li>
+<li> support</li>
+<li> suppose</li>
+<li> sure</li>
+<li> surface</li>
+<li> surprise</li>
+<li> surround</li>
+<li> swallow</li>
+<li> swear</li>
+<li> sweep</li>
+<li> sweet</li>
+<li> swell</li>
+<li> swim</li>
+<li> swing</li>
+<li> sword</li>
+<li> sympathetic</li>
+<li> sympathy</li>
+<li> system</li>
+</ol>
+
+
+<h2>T</h2>
+
+<ol>
+<li>table</li>
+<li>tail</li>
+<li>take</li>
+<li>talk</li>
+<li>tall</li>
+<li>taste</li>
+<li>tax</li>
+<li>taxi</li>
+<li>tea</li>
+<li>teach</li>
+<li>team</li>
+<li>tear</li>
+<li>tear</li>
+<li>telephone</li>
+<li>television</li>
+<li>tell</li>
+<li>temper</li>
+<li>temperature</li>
+<li>temple</li>
+<li>tend</li>
+<li>tendency</li>
+<li>tender</li>
+<li>tennis</li>
+<li>tense</li>
+<li>tent</li>
+<li>terrible</li>
+<li>terror</li>
+<li>test</li>
+<li>than</li>
+<li>thank</li>
+<li>that</li>
+<li>the</li>
+<li>theater</li>
+<li>their</li>
+<li>theirs</li>
+<li>them</li>
+<li>themselves</li>
+<li>then</li>
+<li>there</li>
+<li>therefore</li>
+<li>these</li>
+<li>they</li>
+<li>thick</li>
+<li>thief</li>
+<li>thin</li>
+<li>thing</li>
+<li>think</li>
+<li>third</li>
+<li>thirst</li>
+<li>thirsty</li>
+<li>this</li>
+<li>thorough</li>
+<li>those</li>
+<li>though</li>
+<li>thought</li>
+<li>thousand</li>
+<li>thousandth</li>
+<li>thread</li>
+<li>threat</li>
+<li>threaten</li>
+<li>three</li>
+<li>throat</li>
+<li>through</li>
+<li>throw</li>
+<li>thumb</li>
+<li>thunder</li>
+<li>thus</li>
+<li>ticket</li>
+<li>tidy</li>
+<li>tie</li>
+<li>tiger</li>
+<li>tight</li>
+<li>time</li>
+<li>timetable</li>
+<li>tin</li>
+<li>tire</li>
+<li>[tyre] N</li>
+<li>tire</li>
+<li>title</li>
+<li>to</li>
+<li>tobacco</li>
+<li>today</li>
+<li>toe</li>
+<li>together</li>
+<li>tomorrow</li>
+<li>tongue</li>
+<li>tonight</li>
+<li>too</li>
+<li>tool</li>
+<li>tooth</li>
+<li>top</li>
+<li>total</li>
+<li>touch</li>
+<li>tour</li>
+<li>tourist</li>
+<li>towards</li>
+<li>tower</li>
+<li>town</li>
+<li>toy</li>
+<li> track</li>
+<li> trade</li>
+<li> traffic</li>
+<li> train</li>
+<li> translate</li>
+<li> transparent</li>
+<li> trap</li>
+<li> travel</li>
+<li> treat</li>
+<li> treatment</li>
+<li> tree</li>
+<li> tremble</li>
+<li> tribe</li>
+<li> trick</li>
+<li> trip</li>
+<li> tropical</li>
+<li> trouble</li>
+<li> trousers</li>
+<li> true</li>
+<li> trunk</li>
+<li> trust</li>
+<li> truth</li>
+<li> try</li>
+<li> tube</li>
+<li> tune</li>
+<li> turn</li>
+<li> twice</li>
+<li> twist</li>
+<li> type</li>
+<li> typical</li>
+</ol>
+
+
+<h2>U</h2>
+
+<ol>
+<li>ugly</li>
+<li>uncle</li>
+<li>under</li>
+<li>understand</li>
+<li>undo</li>
+<li>uniform</li>
+<li>union</li>
+<li>unit</li>
+<li>unite</li>
+<li>universal</li>
+<li>universe</li>
+<li>university</li>
+<li>until</li>
+<li>up</li>
+<li>upper</li>
+<li>upright</li>
+<li>upset</li>
+<li>upside</li>
+<li>upstairs</li>
+<li>urge</li>
+<li>urgent</li>
+<li>us</li>
+<li>use</li>
+<li>useful</li>
+<li>useless</li>
+<li>usual</li>
+</ol>
+
+
+<h2>V</h2>
+
+<ol>
+<li>valley</li>
+<li>valuable</li>
+<li>value</li>
+<li>variety</li>
+<li>various</li>
+<li>vary</li>
+<li>vegetable</li>
+<li>vehicle</li>
+<li>verb</li>
+<li>very</li>
+<li>victory</li>
+<li>view</li>
+<li>village</li>
+<li>violence</li>
+<li>violent</li>
+<li>visit</li>
+<li>voice</li>
+<li>vote</li>
+<li>vowel</li>
+<li>voyage</li>
+</ol>
+
+
+<h2>W</h2>
+
+<ol>
+<li>wages</li>
+<li>waist</li>
+<li>wait</li>
+<li>waiter</li>
+<li>wake</li>
+<li>walk</li>
+<li>wall</li>
+<li>wander</li>
+<li>want</li>
+<li>war</li>
+<li>warm</li>
+<li>warmth</li>
+<li>warn</li>
+<li>wash</li>
+<li>waste</li>
+<li>watch</li>
+<li>water</li>
+<li>wave</li>
+<li>way</li>
+<li>we</li>
+<li>weak</li>
+<li>wealth</li>
+<li>weapon</li>
+<li>wear</li>
+<li>weather</li>
+<li>weave</li>
+<li>wedding</li>
+<li>week</li>
+<li>weekly</li>
+<li>weigh</li>
+<li>weight</li>
+<li>welcome</li>
+<li>well</li>
+<li>west</li>
+<li>western</li>
+<li>wet</li>
+<li>what</li>
+<li>whatever</li>
+<li>wheat</li>
+<li>wheel</li>
+<li>when</li>
+<li>whenever</li>
+<li>where</li>
+<li>whether</li>
+<li>which</li>
+<li>whichever</li>
+<li>while</li>
+<li>whip</li>
+<li>whisper</li>
+<li>whistle</li>
+<li>white</li>
+<li>who</li>
+<li>whoever</li>
+<li>whole</li>
+<li>why</li>
+<li>wicked</li>
+<li>wide</li>
+<li>widespread</li>
+<li>width</li>
+<li>wife</li>
+<li>wild</li>
+<li>will</li>
+<li>willing</li>
+<li>win</li>
+<li>wind</li>
+<li>wind</li>
+<li>window</li>
+<li>wine</li>
+<li>wing</li>
+<li>winter</li>
+<li>wire</li>
+<li>wisdom</li>
+<li>wise</li>
+<li>wish</li>
+<li>with</li>
+<li>within</li>
+<li>without</li>
+<li>witness</li>
+<li>woman</li>
+<li>wonder</li>
+<li>wood</li>
+<li>wooden</li>
+<li>wool</li>
+<li>woolen</li>
+<li>word</li>
+<li>work</li>
+<li>world</li>
+<li>worm</li>
+<li>worry</li>
+<li>worse</li>
+<li>worship</li>
+<li>worst</li>
+<li>worth</li>
+<li>worthy</li>
+<li>worthy</li>
+<li>would</li>
+<li>wound</li>
+<li>wrap</li>
+<li>wreck</li>
+<li> wrist</li>
+<li> write</li>
+<li> wrong</li>
+<li> wrongdoing</li>
+</ol>
+
+
+<h2>Y</h2>
+
+<ol>
+<li>yard</li>
+<li>year</li>
+<li>yearly</li>
+<li>yellow</li>
+<li>yes</li>
+<li>yesterday</li>
+<li>yet</li>
+<li>you</li>
+<li>young</li>
+<li>your</li>
+<li>yours</li>
+<li>yourself</li>
+<li>youth</li>
+</ol>
+
+
+<h2>Z</h2>
+
+<ol>
+<li>zero</li>
+</ol>
+
+
+<h4>Prefixes</h4>
+
+<ol>
+<li>dis-</li>
+<li>im-</li>
+<li>in-</li>
+<li>ir-</li>
+<li>mid-</li>
+<li>mis-</li>
+<li>non-</li>
+<li>re-</li>
+<li>self-</li>
+<li>un-</li>
+</ol>
+
+
+<h4>Suffixes</h4>
+
+<ol>
+<li>-able</li>
+<li>-al</li>
+<li>-an</li>
+<li>-ance</li>
+<li>-ar</li>
+<li>-ate</li>
+<li>-ation</li>
+<li>-ed</li>
+<li>-en</li>
+<li>-ence</li>
+<li>-er</li>
+<li>-ery</li>
+<li>-ess</li>
+<li>-ful</li>
+<li>-ible</li>
+<li>-ic</li>
+<li>-ical</li>
+<li>-ing</li>
+<li>-ion</li>
+<li>-ish</li>
+<li>-ist</li>
+<li>-ity</li>
+<li>-ive</li>
+<li>-ization</li>
+<li>-ize</li>
+<li>-less</li>
+<li>-like</li>
+<li>-ly</li>
+<li>-ment</li>
+<li>-ness</li>
+<li>-or</li>
+<li>-ous</li>
+<li>-ry</li>
+<li>-ship</li>
+<li>-th</li>
+<li>-ward</li>
+<li>-wards</li>
+<li>-work</li>
+<li>-y</li>
+</ol>
+
+</div>
+  
+  
+
+
+    </article>
+  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/17/">&larr; Older</a>
@@ -1658,23 +3489,23 @@ information, it&#8217;s useful for debug.</p>
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2013/07/07/python-101/">Python 101</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/06/25/url-encoding/">URL Encoding</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/06/04/restful-api-design/">RESTful API Design</a>
-      </li>
-    
-      <li class="post">
         <a href="/blog/2013/05/17/my-intellij-idea-shortcut/">My IntelliJ IDEA Shortcut</a>
       </li>
     
       <li class="post">
         <a href="/blog/2013/05/12/jesper-report-font-issue/">Jesper Report, IReport 匯出成中文PDF</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/12/jasperreport-101/">JasperReport 101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/06/mac-tips/">Mac Tips</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/04/22/clean-code/">Clean Code閱讀筆記</a>
       </li>
     
   </ul>

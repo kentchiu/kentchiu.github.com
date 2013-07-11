@@ -9,7 +9,11 @@
   <meta name="author" content="Kent">
 
   
-  <meta name="description" content="設計網站時，常會用到許多小小的icon檔(任何圖檔格式)，如果每個小小的icon都是獨立的檔案，這樣會比較不好管理。 解決的方式是先將數個小圖檔給組合成一個單一的圖檔，然後用css定位跟指定大小的方式來顯示需要的icon。 以上面的圖檔來說，我們若只需要x這個icons， &hellip;">
+  <meta name="description" content="1
+2
+3
+4
+5 Alias /dokuwiki "D:/docs/wiki/dokuwiki" &lt;Directory "D:/docs/wiki/dokuwiki"&gt; AllowOverride None Order Deny,Allow &lt;/Directory&gt; &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,794 +81,6 @@
     <div id="content">
       <div class="blog-index">
   
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/10/17/how_to_use_combine_images_in_css/">如何讀取許多小icons組合而成圖檔</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
-        
-         | <a href="/blog/2011/10/17/how_to_use_combine_images_in_css/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>設計網站時，常會用到許多小小的icon檔(任何圖檔格式)，如果每個小小的icon都是獨立的檔案，這樣會比較不好管理。</p>
-
-<p>解決的方式是先將數個小圖檔給組合成一個單一的圖檔，然後用css定位跟指定大小的方式來顯示需要的icon。</p>
-
-<p><img src="/images/wiki/web/icons_combined.png" alt="icons_combined.png" /></p>
-
-<p>以上面的圖檔來說，我們若只需要x這個icons，所以我們可以用以下的css語法來顯示這個icon</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>x-icon {
-</span><span class='line'>  background-position: -96px -128px; // icons的位置 
-</span><span class='line'>  width: 16px;                       // icons的大小
-</span><span class='line'>  height: 16px;                      // icons的大小 
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/10/17/how_to_test_protected_methods/">How to Test Protected Methods</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
-        
-         | <a href="/blog/2011/10/17/how_to_test_protected_methods/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>In PHP5, the <strong>protected</strong> scope means only class itself and subclass
-can access it. PHPUnit (3.x) is extends from
-<strong>*PHPUnit_Framework_TestCase</strong>*, and PHP5 don&#8217;t support
-multi-inherited, therefore, there is not way to access test target
-directly.</p>
-
-<p>The only way I know that can test <strong>protected</strong> scope method. That is
-used a adapter class that subclass the target class, and do re-publish
-protected methods as public.</p>
-
-<p>I don&#8217;t how to test private method in PHP5. The mock object (stub , or
-whatever )don&#8217;t make sense in this case.</p>
-
-<h2>example</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>class Foo {
-</span><span class='line'>    protected function bar() {
-</span><span class='line'>        return "bar";
-</span><span class='line'>        }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>class FooAdapter extends Foo {
-</span><span class='line'>        // re-publish tested method as public scope for test purpose only
-</span><span class='line'>    public function bar() {
-</span><span class='line'>        // calling parent tested method
-</span><span class='line'>                return parent::bar();
-</span><span class='line'>    }
-</span><span class='line'>}
-</span><span class='line'> 
-</span><span class='line'>class FooTest extends PHPUnit_Framework_TestCase {
-</span><span class='line'>        // testing the subclass FooAdapter of Foo class instead.
-</span><span class='line'>    private $foo;
-</span><span class='line'>    public function testFoo() {
-</span><span class='line'>        $foo = new FooAdapter;
-</span><span class='line'>        // now we can invoke bar() method. 
-</span><span class='line'>        $foo.bar();
-</span><span class='line'>    }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The Adapter Class should put in test folder with other testcase, and
-never released as production.</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/10/17/how_to_split_a_word/">字首，字根，字尾結合規則</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
-        
-         | <a href="/blog/2011/10/17/how_to_split_a_word/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>原始資料來源為<a href="http://xination.pixnet.net/blog" title="http://xination.pixnet.net/blog">倫倫的小blog</a>，應該是作者上過莫清威(莫力)老師的詞彙班後所整理的筆記，
-這套方法可以說字首，字根裡一些變化的規則。在學習字首，字根，字尾前，應該要俱備這些基本知識才能事半功倍(相見恨晚呀).</p>
-
-<p>內容我有加入我自已的心得跟筆記，不一定是正確的，所以，最好還是去<a href="http://xination.pixnet.net/blog/post/22544974" title="http://xination.pixnet.net/blog/post/22544974">這裡</a>看原汁原味的原著，還有影音教學哦.</p>
-
-<h1>本文</h1>
-
-<p>本文主要是說明為何同一個字義會有那麼多字源(ad, af, ac, …..
-都是ad的同義字)，以強化字根觀念，如果搭配<a href="http://wiki.kent-chiu.com/doku.php?id=english:grimm_s_law" title="english:grimm_s_law">格林法則</a>就會更有概念。</p>
-
-<p>所有語言文化都是先有聲音再有文字的，尤其對拼音語言(像英文)，文字通常都是為了記錄聲音的，所以都會從聲音那邊發展過來，也會受發音的差異而造成拼法不同的變體字。</p>
-
-<p>e結尾的字通常是動詞, ex: excrete</p>
-
-<h1>Deletion Rules</h1>
-
-<p><a href="#x_deletion" title="word:how_to_split_a_word ↵">X Deletion</a>跟<a href="#s_deletion" title="word:how_to_split_a_word ↵">S
-Deletion</a>都是跟ex有關，ex +
-子音，都是把<strong>x去掉</strong>，ex + s 就是把<strong>s去掉</strong></p>
-
-<p><a href="#d_deletion" title="word:how_to_split_a_word ↵">D Deletion</a>而如果是d +
-s<strong>字尾</strong>就把d去掉</p>
-
-<h2>Vowel Deletion</h2>
-
-<p>當字首+字根，或是，字根+字尾為： 子音母音~1~ +
-母音~2~子音時，會把前一個母音刪掉，變成子音母音~1~子音(刪掉前面的母音，保留後面的母音)。
-例如</p>
-
-<p>anti-       anti + pathy      ant+ agnoize\
- auto        auto + graph      ant + ism       </p>
-
-<p>s是字音，v(vowel)是母音</p>
-
-<h3>要把h當母音</h3>
-
-<p>anti        ant + helion</p>
-
-<h3>一個音節的字首不適用</h3>
-
-<p>bi-         bi + ped            bi + ennial \
- de-         de + duce           de + oxide \
- re-         re + ply            re + act \</p>
-
-<h2>E Deletion</h2>
-
-<p>當後面接的為母音開頭時，前面的e會省略。</p>
-
-<p>mater       mater + nal         matr + ilineal</p>
-
-<p>mat<del><strong>e</strong></del>r + ilineal → matrilineal</p>
-
-<h2>S Deletion</h2>
-
-<p>當在ex後，s會被省略。</p>
-
-<p>spir        in + spir + e       ex + pir + e</p>
-
-<h2>D Deletion</h2>
-
-<p>當d後面接s開頭的字尾時，d會被省略</p>
-
-<p>clud        con + clud + e      con + clu + sion</p>
-
-<p>con + clu<del><strong>d</strong></del> + sion → conclusion</p>
-
-<h2>V-C Deletion</h2>
-
-<p>當後面接y時，v-c(母音 + 字母c)會被省略，跟<a href="#vowel_deletion" title="word:how_to_split_a_word ↵">Vowel
-Deletion</a>類似，只不過是多了一個c</p>
-
-<p>spec        spec + tacle        sp + y</p>
-
-<p>sp<del><strong>ec</strong></del> + y → spy</p>
-
-<h2>N Deletion</h2>
-
-<p>當n後，接子音時，n會被省略</p>
-
-<p>an-         an + harmonic       a + pathy</p>
-
-<p>an + <em>h</em>armonic h要當母音</p>
-
-<h2>X Deletion</h2>
-
-<p>當x後，接有聲子音，x會被省去。</p>
-
-<h4>無聲子音</h4>
-
-<p>p        ex + pel \
- t        ex + tend \
- k(q)     ex + quisite \
- s(c )     ex + cise \</p>
-
-<h4>母音</h4>
-
-<p>a        ex + alted \
- e        ex + empt \
- i        ex + it \
- o        ex + odus \
- u        ex + uberant \
- h        ex + hale \</p>
-
-<h4>有聲子音</h4>
-
-<p>b        e + bullient \
- d        e + duc + ate \
- g        e + gress \
- j        e + ject \
- m        e + mit \
- l        e + licit \
- r        e + rase \
- v        e + volve \</p>
-
-<p>原本的ex中的x被刪掉了，簡單來說，就是看到e + 字音，那e原來應該是ex</p>
-
-<h1>Change Rules</h1>
-
-<h2>Total and Partial Assimilation</h2>
-
-<h3>Total Assimilation</h3>
-
-<hr />
-
-<p>         b         c     f     g     l     m     n    p         r     s    t
-  ab-              abs                                                     abs
-  ad-    ab        ac    af    ag    al          an   ap        ar    as   at
-  dis-                   dif                                                
-  ex-                    ef                                                 
-  ob-    ob        oc    of                           op                    
-  sub-   sub       suc   suf   sug                    sup       sur         
-  syn-   <strong>sym</strong>                     syl   sym        <strong>sym</strong>               </p>
-
-<hr />
-
-<p>syn跟in的變化很類似，只差syn不會受r影響</p>
-
-<p>Total Assimilation(完全同化)是指，</p>
-
-<p>原本為<strong>ad-</strong>的字首:</p>
-
-<blockquote><p>如果後面過到<strong>b</strong>xxx開頭的字，就會同化成<strong>abb</strong>xxx\
- 如果後面過到<strong>c</strong>xxx開頭的字，就會同化成<strong>abc</strong>xxx\
- 如果後面過到<strong>f</strong>xxx開頭的字，就會同化成<strong>abf</strong>xxx\
- 如果後面過到<strong>g</strong>xxx開頭的字，就會同化成<strong>abg</strong>xxx\
- 如果後面過到<strong>l</strong>xxx開頭的字，就會同化成<strong>abl</strong>xxx\
- 如果後面過到<strong>n</strong>xxx開頭的字，就會同化成<strong>abn</strong>xxx\
- 如果後面過到<strong>p</strong>xxx開頭的字，就會同化成<strong>abp</strong>xxx\
- 如果後面過到<strong>r</strong>xxx開頭的字，就會同化成<strong>abr</strong>xxx\
- 如果後面過到<strong>s</strong>xxx開頭的字，就會同化成<strong>abs</strong>xxx\
- 如果後面過到<strong>t</strong>xxx開頭的字，就會同化成<strong>abt</strong>xxx</p>
-
-<blockquote><p>Examples:\
- a<strong>d</strong> + <strong>b</strong>reviate → <strong>abb</strong>reviate\
- a<strong>d</strong> + <strong>c</strong>ede → <strong>acc</strong>ede\
- a<strong>d</strong> + <strong>f</strong>ord → <strong>aff</strong>ord</p></blockquote></blockquote>
-
-<h3>Parital Assimilation</h3>
-
-<p>  original   become   conditions</p>
-
-<hr />
-
-<p>  con        com      p、b、m  (雙唇音)
-  con        col      l
-  con        cor      r
-  con        con      others</p>
-
-<p>Parital Assimilation(部份同化)是指</p>
-
-<blockquote><p>原本為con，如果後面過到p、b、m就會同化成com\
- 原本為con，如果後面過到l就會同化成col\
- 原本為con，如果後面過r就會同化成cor</p>
-
-<blockquote><p>Examples:\
- con + mensurate → commensurate\
- con + laborate → collaborate\
- con + ordination → coordination</p></blockquote></blockquote>
-
-<p>  original   become   conditions</p>
-
-<hr />
-
-<p>  in         im       p、b、m  (雙唇音)
-  in         il       l
-  in         ir       r
-  In         In       others</p>
-
-<h2>Voicing Assimilation</h2>
-
-<p>當有聲子音，後接無聲子音時，會同化成無聲子音</p>
-
-<p>g → c \
- b → p\</p>
-
-<p>reg        reg + u +late          e + rec + t\
- scrib      in + scirb + e         in + scrip + tion</p>
-
-<h2>Weakening</h2>
-
-<h3>A-weakening</h3>
-
-<p>當含有a字母的字根，在字中、字尾會弱化成e</p>
-
-<p>ann        ann + ual          bi + enn +ial</p>
-
-<p>apt        apt + itude        in + ept</p>
-
-<h3>E-weakening</h3>
-
-<p>當含有e字母的字根，在字中，後接母音，且e後不超過一個子音，會弱化</p>
-
-<p>reg         reg + ular        incor + rig + ible\
- spec        spec + tacle      con + spic + uous\</p>
-
-<p>cor + rec +t   [後接子音不弱化]\
- in + spec +t   [後接子音不弱化]\</p>
-
-<p>ab + e<em>rr</em> + ent [超過一個子音不弱化]\
- at + te<em>nd</em> +ant [超過一個子音不弱化]</p>
-
-<h3>Double-Weakening</h3>
-
-<p>當含有a字母的字根，弱化成i</p>
-
-<p>tag     in + teg + rate      con + tig +u +ous \
- fac     de + fec + t         de + fic + i + ent \
- cap     in + cep + tion      in + cip + i + ent \</p>
-
-<h2>E Change</h2>
-
-<p>當el、ol後接子音時，會變成ul</p>
-
-<p>pel     pro + pel            pro + pul + sion \
- ol      ad + ol +esc +ent    ad + ul +t\</p>
-
-<p>當al弱化成el時也可以由E Change，變成ul</p>
-
-<p>calc    calc +u +late        in+ culc +ate</p>
-
-<h2>T Change</h2>
-
-<p>當t，\
- 後接{y，e}變成c\
- 後接{is，ia}時變成s</p>
-
-<p>ec + sta<em>t</em> +y → ec + sta<em>c</em> +y\
- se + cre + <em>t</em> + y  → se +cre +<em>c</em> +y\</p>
-
-<p>ad+ ol +esc +en<em>t</em> +e → ad+ ol +esc +en<em>c</em> +e \
- ad+ sist +an<em>t</em> +e → ad+ sist +an<em>c</em> +e \</p>
-
-<p>sta<em>t</em> +is → sta<em>s</em> +is \
- syn + the +<em>t</em> +is → syn + the +<em>s</em> +is \</p>
-
-<p>an + esthe<em>t</em> +ia  → an + esthe<em>s</em> +ia \
- dys+ pep<em>t</em> +ia → dys+ pep<em>s</em> +ia \</p>
-
-<p>這條好容易忘記</p>
-
-<h2>V Change</h2>
-
-<p>當v後接，子音時，變成u</p>
-
-<p>volv    re+ volv +e     re+ volu +tion</p>
-
-<h1>Other Rules</h1>
-
-<h2>U addition</h2>
-
-<hr />
-
-<p>  bl   後接母音時   bul
-  cl   後接母音時   cul
-  gl   後接母音時   gul</p>
-
-<hr />
-
-<p>amble      ambul +ate \
- circle     circul +ate \
- angle      angul +ar \</p>
-
-<h2>P Addition</h2>
-
-<p>m_t，加上p</p>
-
-<p>assume    assum + p + tion \
- redeem    redem + p + tion</p>
-
-<h2>Spelling Rules</h2>
-
-<h3>X-Replacement</h3>
-
-<p>當c+s → x</p>
-
-<p>equ + i + no<em>c+s</em> → equ + i + nox \
- con + ple<em>c+s</em> → com + plex \</p>
-
-<h3>Consonant Doubling</h3>
-
-<p>雙音節字、單子音結尾、重音在後</p>
-
-<p>propel  → prope<em>ll</em>ent \
- transmit → transmi<em>tt</em>al</p>
-
-<h3>Y change</h3>
-
-<p>缺規則說明</p>
-
-<p>pit<em>y</em> → pit<em>i</em>ful \
- victor<em>y</em> → victor<em>i</em>ous</p>
-
-<h3>Sterm extender</h3>
-
-<p>i.y.o.u.r.n.s.t</p>
-
-<p>i.y.o.u.r.n.s.t 這幾個字母可能被加入，只是為了輔助發音，本身並無特別意義</p>
-
-<p>ex:</p>
-
-<blockquote><p>equ + <strong>i</strong> + nox → i
-本身為沒有其他特別意義，只是為了輔助發音，其他還有y.o.u.r.n.s.t這七個字也可能被加入當作發音的輔助</p></blockquote>
-
-<p>可用 i your nst來記</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/10/17/how_to_naming/">How to Naming?</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
-        
-         | <a href="/blog/2011/10/17/how_to_naming/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Role-Suggesting Name pattern:</p>
-
-<p>the names should be optimized for readability, not ease iof typing.</p>
-
-<p>A good name should tell you</p>
-
-<ol>
-<li>Why it exists.</li>
-<li>Wait it does.</li>
-<li>How it used.</li>
-</ol>
-
-
-<p>How to nameing:</p>
-
-<ol>
-<li>What is its purpose in the computation?</li>
-<li>How is the object referred to by the variable used?</li>
-<li>What is the scope and lifetime of the variable?</li>
-<li>How widely is the variable referenced?</li>
-</ol>
-
-
-<p>If a name requires a comment, then the name does not reveal its intent.
-If one has to struggle to find a name, it is generally because who don&#8217;t
-understand the computation very well. If the names is too long, it
-reflects there are some design problem. If a method easy be naming, it
-can fit to specification more exactly.</p>
-
-<ul>
-<li>The word variable should never appear in a variable name.</li>
-<li><p>The word table should never appear in a table name.</p></li>
-<li><p>Use Intention-Revealing Names</p></li>
-<li>Use Pronounceable Names</li>
-<li>Use Searchable Names</li>
-</ul>
-
-
-<p>Some useful same:</p>
-
-<ul>
-<li>result, results</li>
-<li>each</li>
-<li>count</li>
-</ul>
-
-
-<h4>Composed Method pattern</h4>
-
-<p>Get your code working, then decide how it should be structured. If got
-problem in composed method, then inline all and re-composed again.</p>
-
-<h4>Intention-Revealing Name pattern</h4>
-
-<p>Methods should be named for the purpose rather the implemention. There
-is valuable to review the method is fit to the story which you want to
-tell after refactoring.</p>
-
-<p>Think about methods&#8217; names based on how they look in calling code. Bad
-practice:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Customer.linearcustomerSearch(String id)</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Godd practice:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Customer.find(String id)</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The length of a name should correspond to the size of its scope</p>
-
-<p>Why not Hungarian Notation? 1. Historical reason. (Window C API) 2. too
-many type in modern languate (ex:Java.) 3. Strong type. 4. IDE.</p>
-
-<p>Use Factory instead of complex constructor. (and make constoructor
-private)</p>
-
-<h4>Library Class pattern</h4>
-
-<p>Library is :the place where programmer put the common codes</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>People usually uses static method to implement Library Class (utility class), but to use object is a better way.</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>the static method way:
-</span><span class='line'>public static void method(...params...) {
-</span><span class='line'>    ...some logic...
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>the object way:
-</span><span class='line'>public static void method(...params...) {
-</span><span class='line'>    new Library().instanceMethod(...params...);
-</span><span class='line'>}
-</span><span class='line'>private void instanceMethod() {
-</span><span class='line'>... some logic...
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>Common State pattern</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Sometime only few subset of class use a variable, it no need to declare as field varible. it can be declare as paramter or Helper Object.</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>Local Variable pattern</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>The role of local variable:
-</span><span class='line'>1. Collector
-</span><span class='line'>2. Count
-</span><span class='line'>3. Explaining
-</span><span class='line'>4. Reuse</span></code></pre></td></tr></table></div></figure>
-
-
-<p>if a vaiable used for explaining, it maybe extract to a method.</p>
-
-<h4>Collecting Parameter pattern</h4>
-
-<p>Node asList() {</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>List results = new ArrayList();
-</span><span class='line'>addTo(results);
-</span><span class='line'>return results;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>} addTo(List elements) {</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>elements.add(getValue());
-</span><span class='line'>for(Node each: getchildren())
-</span><span class='line'>    each.addTo(elements);</span></code></pre></td></tr></table></div></figure>
-
-
-<p>}</p>
-
-<h4>Explaining Message pattern</h4>
-
-<p>Sometimes the helper methods invoked by explaining message become
-valuable points for further exetension. ex: highlight(Rectangle area) {
-<em>→ it is make sense for user who wants to invoke this API. but no clue
-to show how this it implemented. reverse(area);</em> → it is so clear how
-this method work. }</p>
-
-<h4>Guard Clause pattern</h4>
-
-<p>Using Guard Clause to improve readability.</p>
-
-<p>if (isInitilized()) {</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>return;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>}</p>
-
-<h4>Checked Exceptions Pattern</h4>
-
-<p>the con of Check Exception: 1. These can easily add 50% to the length of
-method. 2. Checked Exceptions also make changing code more difficult. 3.
-Refactoring code with ckecked exception is more difficult.</p>
-
-<h4>Method Return Type pattern</h4>
-
-<p>Pick the most abstract return type that expresses your intention.</p>
-
-<h4>Method Comment pattern</h4>
-
-<p>Why Method Comment is better then code comment: 1. Updateability 2.
-feedback</p>
-
-<p>Complete Constructor.</p>
-
-<p>​1. new Rectangle(0,0,50,200)</p>
-
-<p>​2. Rectangle box = new Rectangle(); box.setLeft(0); box.setWidth(50);
-box.setHeight(200); box.setTop(0)</p>
-
-<p>the method 1 is more expression then 2. If method 1 is too complicate,
-introduce the factory method instead.</p>
-
-<h4>Query Method pattern</h4>
-
-<p>When an object needs to offer decision criteria as part of its protocal,
-do so with a method whose name is prefixd with form of “be”(like
-“is”,”was” or “have”);</p>
-
-<h4>Setting Method pattern</h4>
-
-<p>​1. paragraph.setJustification(Paragraph.CENTERED) 2.
-paragraph.centered();</p>
-
-<p>Paragraph:centerd() {</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>setJustification(CENTERED);</span></code></pre></td></tr></table></div></figure>
-
-
-<p>}</p>
-
-<p>1 is better then 2.</p>
-</div>
-  
-  
-
-
-    </article>
   
   
     <article>
@@ -1430,6 +646,859 @@ table還是可以在transaction中使用，但rollback時無法正常回復</p>
 
     </article>
   
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/git_101/">GIT 101</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/git_101/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>NOTICE: The most data in this page is come from <a href="http://progit.org/book/" title="http://progit.org/book/">Pro
+Git</a>.</p>
+
+<h2>Basic</h2>
+
+<h3>The Three States</h3>
+
+<ol>
+<li>committed - the data is safely stored in your local database</li>
+<li>modified - file is changed but have not committed</li>
+<li>staged - marked a modified file in its current version to go into
+your next commit snapshot.</li>
+</ol>
+
+
+<p><img src="/images/wiki/git/git_101_001.png" alt="git_101_001.png" /></p>
+
+<ul>
+<li>The Git directory is where Git stores the metadata and object
+database for your project</li>
+<li>The working directory is a single checkout of one version of the
+project.</li>
+<li>The staging area is a simple file, generally contained in your Git
+directory, that stores information about what will go into your next
+commit. It’s sometimes referred to as the index, but it’s becoming
+standard to refer to it as the staging area.</li>
+</ul>
+
+
+<h4>Basic Git workflow</h4>
+
+<ol>
+<li>You modify files in your working directory.</li>
+<li>You stage the files, adding snapshots of them to your staging area.</li>
+<li>You do a commit, which takes the files as they are in the staging
+area and stores that snapshot permanently to your Git directory.</li>
+</ol>
+
+
+<h4>Install Git</h4>
+
+<h5>Windows</h5>
+
+<p>download <a href="http://code.google.com/p/msysgit">msysgit</a> and install it.</p>
+
+<h5>Linux</h5>
+
+<pre><code>$ yum install git-core
+
+
+$ apt-get install git-core
+</code></pre>
+
+<h4>Terms</h4>
+
+<ul>
+<li>HEAD : 一個特殊的指標(pointer)，它指向current branch.</li>
+<li>master : 預設的branch</li>
+<li>origin : 預設遠端的master branch</li>
+<li>remote : 遠端 repository</li>
+<li>tracking branch: 從遠端fetch到local端的branch</li>
+<li>rebase :
+將原先branch出來的時間點(版本)向前或向後移動，這樣可以讓該branch移除或加入功能別的branch的功能</li>
+<li><p>cherry pick commit : 只挑選同一branch的部份commits做merge</p>
+
+<pre><code>A - B - C - D - E   master
+  \ - X - Y  - Z   branch 1
+</code></pre></li>
+</ul>
+
+
+<h5>rebase</h5>
+
+<p>本來branch 1不包含B特性，可以透過rebase將B包含進去</p>
+
+<pre><code>A - B - C - D - E   master
+      \ - X - Y  - Z   branch 1
+</code></pre>
+
+<h5>cherry pick commit</h5>
+
+<p>如果將branch 1 merge 回master，會包含X,Y,Z特性，但可以透過cherry pick
+commit，則可以選擇merge時不包含X,或X,Y</p>
+
+<pre><code>A - B - C - D - E    master
+  \ - X - Y  - Z   branch 1
+</code></pre>
+
+<h4>Tracking Branches</h4>
+
+<p>跟遠端repository的branch有對應關係的local branch，叫tracking branch，如果branch是一個tracking branch
+那麼push時，會自動push到遠端的對應的branch，如果不是tracking branch，就需要特別指定要push到遠端的那一個branch</p>
+
+<p>像這樣 <code>git push origin master</code>，我們在init git repository後，第一次的push需要下這個commit，就是
+因為一開始local的(master) barnch 沒有跟遠端的關聯，所以我們要跟git說要push到遠端(預設遠端的名字叫origin,當然，
+你也可以取其他的名稱ex: github，bitbucket或mycompany)的master上</p>
+
+<h2>Command</h2>
+
+<p>從遠端fetch到local端的branch是無法直接更改的，想要更改必須在建立自已新的branch</p>
+
+<pre><code>checkout -b branch1  remote_server/branch1
+checkout -b feature/peak --track origin/feature/peak
+</code></pre>
+
+<h4>config</h4>
+
+<p>config有三個等級，由小到大分別為</p>
+
+<ol>
+<li>庫等級(repository裡)，只會單一的repository有影響</li>
+<li>全局(global)，放在user home，對user會存取的庫有影響</li>
+<li>系統等級(system),放在系統的配置目錄下(ex: /etc),對所有的user有影響</li>
+</ol>
+
+
+<p>而優先權則相反，以repository的為主，再來是global的，最後才是system的，很直覺也很合理</p>
+
+<h5>list config</h5>
+
+<pre><code>$ git config --list
+user.name=Scott Chacon
+user.email=schacon@gmail.com
+color.status=auto
+color.branch=auto
+color.interactive=auto
+color.diff=auto
+...
+</code></pre>
+
+<p>config是git跟svn最大不同的地方，git必需要正確定user info後，操作會才正常</p>
+
+<h5>config user name and email</h5>
+
+<pre><code>$ git config --global user.name "Kent Chiu"
+$ git config --global user.email kent.chiu@example.com
+</code></pre>
+
+<h5>clone from windows local</h5>
+
+<pre><code>file:///d:/PATH/PROJECT_HOME
+</code></pre>
+
+<h4>add</h4>
+
+<p>add是個多功能的指令，它可以</p>
+
+<ul>
+<li>把untrack file變成tracked file</li>
+<li>把modified file變成staged file</li>
+</ul>
+
+
+<p>或commit時同時做add的動作(不建議)</p>
+
+<pre><code>$ git add -a -m 'comment'
+</code></pre>
+
+<h4>commit</h4>
+
+<pre><code>$ git add *.c
+$ git add README
+# files need be staged before commit
+$ git commit -m 'initial project version'
+</code></pre>
+
+<p>提交所有控版下的檔案</p>
+
+<pre><code>$ git commit -a -m 'comment'
+# 也可以把 a (all) m (message)合在一起用 
+$ git commit -am 'comment'
+</code></pre>
+
+<p>如果對前一次提交的訊息不滿意，可以透過<code>amend</code>做修改</p>
+
+<pre><code>$ git commit --amend -m 'modify comment'
+</code></pre>
+
+<h4>rm</h4>
+
+<p>remove files. 如果是直接從file system刪檔，而沒透過git指令，那該檔案的狀態會變成 <strong>Changed but not updated</strong> (unstaged)</p>
+
+<blockquote><p>上面的<code>add</code> command並不會把檔案刪除的動作加到stage裡</p></blockquote>
+
+<h5>remove file and delete it</h5>
+
+<pre><code>$git rm myfile.txt
+</code></pre>
+
+<h5>remove files from staged</h5>
+
+<p>untracking files but keep in file system.
+這個指定通常用在想把版控的檔案變成非版控</p>
+
+<pre><code>$git rm --staged myfile.txt
+</code></pre>
+
+<h5>清除untracked files</h5>
+
+<p>如果想快速的清除還沒有加到 index 的 file ，可以用以下的指令</p>
+
+<pre><code>$git clean -f -d
+</code></pre>
+
+<p>參數 <code>-d</code> 是指連 untracked 的目錄一併清除</p>
+
+<h4>mv</h4>
+
+<p>搬移/更名</p>
+
+<pre><code>$ git  README README.txt
+</code></pre>
+
+<h4>status</h4>
+
+<p>顯示異動檔案狀態</p>
+
+<h4>log</h4>
+
+<p>顯示異動檔案細節</p>
+
+<pre><code>$ git log
+</code></pre>
+
+<h5>常用參數</h5>
+
+<ul>
+<li>-p 列出細節</li>
+<li>-n n表數字，列出最新的幾個</li>
+<li>–graph 祖譜圖</li>
+<li>–pretty 改變預設的輸出格式</li>
+<li>–pretty:format自定輸出格式 <code>$ git log --pretty=format:"%h - %an, %ar : %s"</code></li>
+</ul>
+
+
+<h5>過濾(limit by commit attributes)</h5>
+
+<pre><code>$ git log --author=kent
+$ git log --committer=kent 
+$ git log --grep="commit .*message"
+</code></pre>
+
+<h5>search for a change</h5>
+
+<pre><code>$ git log -S"Some code change"
+$ git log --pickaxe-regex -S "some.*text"
+</code></pre>
+
+<h5>limit by changes to specific path</h5>
+
+<pre><code>git lot -- some/file
+</code></pre>
+
+<h4>遠端相關的指令</h4>
+
+<h5>show remote repositories</h5>
+
+<pre><code>$ git remote -v
+origin  git://github.com/schacon/ticgit.git
+</code></pre>
+
+<h5>adding remote repositories</h5>
+
+<pre><code>$ git remote add pb git://github.com/paulboone/ticgit.git
+$ git remote -v
+origin  git://github.com/schacon/ticgit.git
+pb  git://github.com/paulboone/ticgit.git
+</code></pre>
+
+<h4>gitk</h4>
+
+<p>Using a GUI to Visualize History.</p>
+
+<h4>mergetool</h4>
+
+<p>Calling merge tool.</p>
+
+<h4>reset</h4>
+
+<p>將檔案unsatged</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  工作區         暫存區          HEAD
+</span><span class='line'>    | &lt;---------- |                       git reset         重置加入暫存區的動作(也就是取消 git add) 
+</span><span class='line'>                  | &lt;---------- |         git reset --soft  重置加入版本庫的動作(也就是取消commited)，但commmit過的檔案會保留在工作區                
+</span><span class='line'>    | &lt;---------- | &lt;---------- |         git reset --hard  完整的取消整個commit，工作區會的檔案會被恢復到送個版本</span></code></pre></td></tr></table></div></figure>
+
+
+<blockquote><p><code>git reset</code>, <code>git reset HEAD</code>, <code>git reset --mixed</code>這三個指令做的是一樣的事
+<code>git reset --hard</code> 使用上要小心，commit的歷史記錄會不見</p></blockquote>
+
+<p>使用時機</p>
+
+<ul>
+<li><code>git reset</code>          不小心加入不想加入暫存取(index)的檔案，可用這個取消</li>
+<li><code>git reset --soft</code>   想重新修正某一次的commit (<code>git commit --amend</code>就是透過這個指令完成的)</li>
+<li><code>git reset --hard</code>   回到某個版本，就像完做過異動一樣，merge失敗時，也常用這個來恢復到merged前的狀態</li>
+</ul>
+
+
+<h4>diff</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  工作區         暫存區          HEAD
+</span><span class='line'>     
+</span><span class='line'>    | &lt;---------&gt; |                       git diff                  比對工作區跟暫存區的差異
+</span><span class='line'>                  | &lt;---------&gt; |         git diff --staged         比對HEAD跟暫存區的差異
+</span><span class='line'>    | &lt;-----------------------&gt; |         git diff HEAD             比對HEAD跟工作區的差異
+</span><span class='line'>                            ┌-&gt; |
+</span><span class='line'>                            |   |         git diff $commit $commit  比對兩個commits間的差異
+</span><span class='line'>                            └-&gt; |</span></code></pre></td></tr></table></div></figure>
+
+
+<blockquote><p>如果是要比對某個檔在在不同的 commits 間的差異，可使用以下指令
+<code>git diff $commit $commit -- path/file</code></p></blockquote>
+
+<h4>解讀diff</h4>
+
+<pre><code>@@ -3,7 +3,7 @@
+ &lt;h1&gt;Tag Colud&lt;/h1&gt;
+ &lt;ul&gt;
+   &lt;li&gt;&lt;a href='/blog/categories/actionbar'&gt;Actionbar (1)&lt;/a&gt;&lt;/li&gt;
+-  &lt;li&gt;&lt;a href='/blog/categories/android'&gt;Android (26)&lt;/a&gt;&lt;/li&gt;
++  &lt;li&gt;&lt;a href='/blog/categories/android'&gt;Android (24)&lt;/a&gt;&lt;/li&gt;
+   &lt;li&gt;&lt;a href='/blog/categories/apache'&gt;Apache (8)&lt;/a&gt;&lt;/li&gt;
+   &lt;li&gt;&lt;a href='/blog/categories/broadcast-receiver'&gt;Broadcast_receiver (2)&lt;/a&gt;&lt;
+   &lt;li&gt;&lt;a href='/blog/categories/cdi'&gt;Cdi (2)&lt;/a&gt;&lt;/li&gt;
+</code></pre>
+
+<p>diff中的資訊包含兩部份，第一部份是異動概要 <code>@@ -3,7 +3,7 @@</code>，第二部份是異動細節
+第一部份的是資訊 <code>@@ -3,7 +3,7 @@</code>是說原始文件從第3行開始，後面的7行(也就是第3~10行)異動成為新文件的第3行到第7行(也是第3~10行)，本例中因為是調整了某一行的內容，所以異動範圍都是七行，如果新的文件的範圍可能更大(ex:加了幾行)，或更小(刪了幾行)。</p>
+
+<blockquote><p>上述的異動範為7行，是指相關的上下文共有七行，而不是這七行都有改到</p></blockquote>
+
+<p>第二部份比較直覺，就上例中的第六行</p>
+
+<pre><code>-  &lt;li&gt;&lt;a href='/blog/categories/android'&gt;Android (26)&lt;/a&gt;&lt;/li&gt;
+</code></pre>
+
+<p>及第七行</p>
+
+<pre><code>+  &lt;li&gt;&lt;a href='/blog/categories/android'&gt;Android (24)&lt;/a&gt;&lt;/li&gt;
+</code></pre>
+
+<p>代表著第六行的內容被異動成第七行</p>
+
+<h4>show</h4>
+
+<h5>review last commit</h5>
+
+<pre><code>$ git show
+ 
+### output ###
+ 
+commit b8d5b1e2944d1785a3e8ca15979f9c462eb611c9
+Author: Kent Chiu &lt;kent.chiu@techmore.com.tw&gt;
+Date:   Thu Feb 18 13:07:49 2010 +0800
+ 
+    foo
+ 
+diff --git a/dir/foo b/dir/foo
+new file mode 100644
+index 0000000..257cc56
+--- /dev/null
++++ b/dir/foo
+@@ -0,0 +1 @@
++foo
+</code></pre>
+
+<h5>show the stats</h5>
+
+<pre><code>$ git show --stat
+ 
+### output ###
+ 
+commit b8d5b1e2944d1785a3e8ca15979f9c462eb611c9
+Author: Kent Chiu &lt;kent.chiu@techmore.com.tw&gt;
+Date:   Thu Feb 18 13:07:49 2010 +0800
+ 
+    foo
+ 
+ dir/foo |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
+</code></pre>
+
+<h5>show SVN style status</h5>
+
+<pre><code>$ git show --name-status
+ 
+### output ###
+ 
+commit b8d5b1e2944d1785a3e8ca15979f9c462eb611c9
+Author: Kent Chiu &lt;kent.chiu@techmore.com.tw&gt;
+Date:   Thu Feb 18 13:07:49 2010 +0800
+ 
+    foo
+ 
+A       dir/foo
+</code></pre>
+
+<h4>push</h4>
+
+<h5>deleting remote branches</h5>
+
+<pre><code>$ git push origin :serverfix
+To git@github.com:schacon/simplegit.git
+ - [deleted]         serverfix
+</code></pre>
+
+<p>This is called by</p>
+
+<pre><code>$ git push [remotename] [localbranch]:[remotebranch]
+$ git push origin                    :serverfix 
+</code></pre>
+
+<p>let localbranch blank means deleted it.</p>
+
+<h4>git 全域設定檔</h4>
+
+<p>ini git configuration</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[user]
+</span><span class='line'>  name = kent
+</span><span class='line'>  email = kent@mail.com
+</span><span class='line'>
+</span><span class='line'>[alias]
+</span><span class='line'>  st = status
+</span><span class='line'>    ci = commit
+</span><span class='line'>    co = checkout
+</span><span class='line'>    br = branch
+</span><span class='line'>
+</span><span class='line'>[color]
+</span><span class='line'>  ui = true
+</span><span class='line'>  diff = auto
+</span><span class='line'>  status = auto
+</span><span class='line'>  branch = auto</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>常用指令</h2>
+
+<h4>檢視 fetch 下來但尚未被 merged 的資料</h4>
+
+<p>從遠端 fetch 新資料下來，如果想先在做 merge 前先查看資料的異動狀況，可以透過 log 跟 diff，log 可以查看 commits 的記錄，而 diff 可以對檔案內容做比對</p>
+
+<p>查看 fetch 下來，等著被 merged 的 commits</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git fetch                 # 或者是用 git remote update 來 fetch 所有 branches
+</span><span class='line'>$ git log HEAD..origin      # 在pull (也就是 merge ) 前，可以先用這個指令查看那些 commits 會被 merged
+</span><span class='line'>$ git diff HEAD...origin    # 在pull (也就是 merge ) 前，可以先用這個指令查看那些 diffs 會被 merged</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<blockquote><p>執行 fetch 是把 server 上的 branch 更新到 local repository 的 remote branch
+所以需要進行差異性檢視的內容是 HEAD 到 origin</p></blockquote>
+
+<h4>checkout 新的 remote branch 並 tracking</h4>
+
+<p>之前常會發生 checkout 每個 branch後，要 push 遠端server時，卻都只是 push 到 local，這是因為預設的 checkout 指令是不會去 tracking remote branch
+所以，如果要 checkout 後能夠讓 branch 成為 track branch，就要加上 <code>--track</code> 的參數</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ checkout -b new_branch --track origin/branch_name </span></code></pre></td></tr></table></div></figure>
+
+
+<h1>Resource</h1>
+
+<ul>
+<li>幾種merge的手法 <a href="http://eclipsesource.com/blogs/2011/05/30/merging-branches-in-eclipse-git-egit/">http://eclipsesource.com/blogs/2011/05/30/merging-branches-in-eclipse-git-egit/</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/gcin_with_liu/">Liu in Linux (Gcin)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/gcin_with_liu/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>Install gcin</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo apt-get install gcin
+</span><span class='line'>sudo im-switch -s gcin</span></code></pre></td></tr></table></div></figure>
+
+
+<p>logout /login</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>echo $XMODIFIERS
+</span><span class='line'>// output 
+</span><span class='line'>@im=gcin</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>install liu</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mkdir temp
+</span><span class='line'>cd temp
+</span><span class='line'>wget http://edt1023.sayya.org/misc/noseeing-12.tar.gz
+</span><span class='line'>tar zvxf noseeing-6.tar.gz
+</span><span class='line'>mv noseeing.gtab ~/.gcin</span></code></pre></td></tr></table></div></figure>
+
+
+<p>logout/ login</p>
+
+<p>noseeing-xx, current version is 12 (2010/3/17), but may be newer version
+existing. you better check it.</p>
+
+<h2>setup</h2>
+
+<p>check this
+<a href="http://boshiamy.com/member_download.php" title="http://boshiamy.com/member_download.php">http://boshiamy.com/member_download.php</a></p>
+
+<h1>Resources</h1>
+
+<ul>
+<li><a href="http://wiki.kent-chiu.com/lib/exe/fetch.php?media=ubuntu:noseeing-12.tar.gz" title="ubuntu:noseeing-12.tar.gz">table file</a>
+
+<ul>
+<li>from
+<a href="http://edt1023.sayya.org/misc/noseeing-12.tar.gz" title="http://edt1023.sayya.org/misc/noseeing-12.tar.gz">http://edt1023.sayya.org/misc/noseeing-12.tar.gz</a></li>
+</ul>
+</li>
+<li><a href="http://boshiamy.com/member_download.php" title="http://boshiamy.com/member_download.php">http://boshiamy.com/member_download.php</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/findbugs/">FindBugs Plugin Configuration</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/findbugs/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>If findbugs is too strict to you, you might want to bypass some checking
+rules. Here is the way.</p>
+
+<p>We need tell findbugs plugin uses our configuration rather default.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;plugin&gt;
+</span><span class='line'>    &lt;groupId&gt;org.codehaus.mojo&lt;/groupId&gt;
+</span><span class='line'>    &lt;artifactId&gt;findbugs-maven-plugin&lt;/artifactId&gt;
+</span><span class='line'>    &lt;configuration&gt;
+</span><span class='line'>        &lt;debug&gt;true&lt;/debug&gt;
+</span><span class='line'>    &lt;/configuration&gt;
+</span><span class='line'>&lt;/plugin&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>run</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mvn findbugs:findbugs</span></code></pre></td></tr></table></div></figure>
+
+
+<p>then, we got a report like this.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+</span><span class='line'>&lt;BugCollection version='1.3.9' threshold='medium' effort='min'&gt;
+</span><span class='line'>    &lt;file classname='com.bellwin.idcview.Jqgrid%24Cell'&gt;
+</span><span class='line'>        &lt;BugInstance type='URF_UNREAD_FIELD' priority='Normal' category='PERFORMANCE'
+</span><span class='line'>          message='Unread field: com.bellwin.idcview.Jqgrid$Cell.cell' lineNumber='16' /&gt;
+</span><span class='line'>    &lt;/file&gt;
+</span><span class='line'>    &lt;file classname='com.bellwin.idcview.device.servlet.DeviceServlet'&gt;
+</span><span class='line'>        &lt;BugInstance type='SE_BAD_FIELD' priority='Normal' category='BAD_PRACTICE'
+</span><span class='line'>          message='Class com.bellwin.idcview.device.servlet.DeviceServlet defines non-transient non-serializable instance field deviceService'
+</span><span class='line'>          lineNumber='-1' /&gt;
+</span><span class='line'>    &lt;/file&gt;
+</span><span class='line'>    &lt;Error&gt;&lt;/Error&gt;
+</span><span class='line'>    &lt;Project&gt;
+</span><span class='line'>        &lt;SrcDir&gt;D:\dev\workspaces\bellwin\web\src\main\java&lt;/SrcDir&gt;
+</span><span class='line'>    &lt;/Project&gt;
+</span><span class='line'>&lt;/BugCollection&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The above report was output by findbugs. There are two rules not pass</p>
+
+<ol>
+<li>URF_UNREAD_FIELD in PERFORMANCE category</li>
+<li>SE_BAD_FIELD in BAD_PRACTICE category</li>
+</ol>
+
+
+<p>If we want don&#8217;t want to check the rule <strong>URF_UNREAD_FIELD</strong>, we need
+check
+<a href="http://findbugs.googlecode.com/svn/trunk/findbugs/etc/findbugs.xml" title="http://findbugs.googlecode.com/svn/trunk/findbugs/etc/findbugs.xml">findbugs.xml</a>
+setting file.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  &lt;Detector class="edu.umd.cs.findbugs.detect.UnreadFields" 
+</span><span class='line'>            speed="fast"
+</span><span class='line'>            reports="ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD,NP_UNWRITTEN_FIELD,UWF_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR,UWF_NULL_FIELD,UWF_UNWRITTEN_FIELD,SS_SHOULD_BE_STATIC,UUF_UNUSED_FIELD,URF_UNREAD_FIELD,SIC_INNER_SHOULD_BE_STATIC,SIC_INNER_SHOULD_BE_STATIC_ANON,SIC_INNER_SHOULD_BE_STATIC_NEEDS_THIS,SIC_THREADLOCAL_DEADLY_EMBRACE" /&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The URF_UNREAD_FIELD rule is implemented by <code>UnreadFields</code> class. We
+put UnreadFields to <code>&lt;omitVisitors&gt;</code> tag of plugin&#8217;s configuration. This
+forece Findbugs omit the <code>URF_UNREAD_FIELD</code> rule.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;plugin&gt;
+</span><span class='line'>    &lt;groupId&gt;org.codehaus.mojo&lt;/groupId&gt;
+</span><span class='line'>    &lt;artifactId&gt;findbugs-maven-plugin&lt;/artifactId&gt;
+</span><span class='line'>    &lt;configuration&gt;
+</span><span class='line'>        &lt;omitVisitors&gt;UnreadFields&lt;/omitVisitors&gt;
+</span><span class='line'>        &lt;!--
+</span><span class='line'>           Uses comma-delimited to apply more rules
+</span><span class='line'>           &lt;omitVisitors&gt;FindDeadLocalStores,UnreadFields&lt;/omitVisitors&gt;
+</span><span class='line'>        --&gt;
+</span><span class='line'>        &lt;debug&gt;true&lt;/debug&gt;
+</span><span class='line'>    &lt;/configuration&gt;
+</span><span class='line'>&lt;/plugin&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/find_command/">Find Command</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/find_command/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Examples</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>find -name 'mypage.htm'</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In the above command the system would search for any file named
+mypage.htm in the current directory and any subdirectory.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>find / -name 'mypage.htm'</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In the above example the system would search for any file named
+mypage.htm on the root and all subdirectories from the root.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>find -name 'file*'</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In the above example the system would search for any file beginning with
+file in the current directory and any subdirectory.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>find -name '*' -size +1000k</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In the above example the system would search for any file that is larger
+then 1000k.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>find . -size +500000 -print</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Next, similar to the above example, just formatted differently this
+command would find anything above 500MB.</p>
+</div>
+  
+  
+
+
+    </article>
+  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/16/">&larr; Older</a>
@@ -1447,23 +1516,23 @@ table還是可以在transaction中使用，但rollback時無法正常回復</p>
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2013/07/07/python-101/">Python 101</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/06/25/url-encoding/">URL Encoding</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/06/04/restful-api-design/">RESTful API Design</a>
-      </li>
-    
-      <li class="post">
         <a href="/blog/2013/05/17/my-intellij-idea-shortcut/">My IntelliJ IDEA Shortcut</a>
       </li>
     
       <li class="post">
         <a href="/blog/2013/05/12/jesper-report-font-issue/">Jesper Report, IReport 匯出成中文PDF</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/12/jasperreport-101/">JasperReport 101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/06/mac-tips/">Mac Tips</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/04/22/clean-code/">Clean Code閱讀筆記</a>
       </li>
     
   </ul>

@@ -9,8 +9,10 @@
   <meta name="author" content="Kent">
 
   
-  <meta name="description" content="Android的背景作業主要有三種 Thread HandlerThread AsyncTask
-Handler 後兩者可以做的事情差不多，Handler使用上比較簡單，但code的可讀性比較差，AsyncTask需另外subclass一個新的類別，但可讀性比較好。 Android的操作， &hellip;">
+  <meta name="description" content="SQL DML &#8216;in&#8217;的效能比&#8217;or&#8217;好
+避免使用負向的查詢， NOT、!=、&lt;>、!&lt;、!>、NOT EXISTS、NOT
+IN、NOT LIKE等
+避免將&#8217;%&#8217;放在查詢的條件前面 ex: &#8216;% &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -78,907 +80,6 @@ Handler 後兩者可以做的事情差不多，Handler使用上比較簡單，�
     <div id="content">
       <div class="blog-index">
   
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/03/19/background_processing/">Android 背景作業處理</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-03-19T00:00:00+08:00" pubdate data-updated="true">Mar 19<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/03/19/background_processing/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Android的背景作業主要有三種</p>
-
-<ol>
-<li><p>Thread</p>
-
-<ul>
-<li>HandlerThread</li>
-</ul>
-</li>
-<li><p>AsyncTask</p></li>
-<li>Handler</li>
-</ol>
-
-
-<p>後兩者可以做的事情差不多，Handler使用上比較簡單，但code的可讀性比較差，AsyncTask需另外subclass一個新的類別，但可讀性比較好。</p>
-
-<p>Android的操作，只要超過5秒沒回應(或OnCreate()超過10秒)，程式就會被當作無回應，而系統會丟出ANR(Application
-No Response
-Exception)。所以，比較耗時費工的動作，都應該考慮用背景作業的方式來完成。常見耗時的工作有。</p>
-
-<ol>
-<li>網路相關的動作</li>
-<li>資料庫的動作</li>
-<li>檔案操作</li>
-<li>複雜的計算</li>
-</ol>
-
-
-<p>在設計時，應該考慮較糟的情況，而不是開發者當時的環境</p>
-
-<h2>Thread</h2>
-
-<p>Thread跟典型的java
-thread一樣，最簡單的背景服務執行方式，只要跟UI無關，用這個最方便。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>new Thread(new Runnable(){
-</span><span class='line'>    @Override
-</span><span class='line'>    public void run() {
-</span><span class='line'>        // long run job
-</span><span class='line'>    }
-</span><span class='line'> 
-</span><span class='line'>}).start();</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Handler</h3>
-
-<p>Handler是一種跨thread的溝通機制，可以在一個thread內把訊息丟到Message
-Queue，另外一個thread接收訊息，它會跟特定的thread關聯，可以在thread裡可以透過handler向meassage
-queue送訊息，也可以從message queue收訊息。 收訊息是由message
-queue主動呼叫handle的callback message
-<a href="http://developer.android.com/reference/android/os/Handler.html#hasMessages(int">Handler.handleMessage()</a> &#8220;http://developer.android.com/reference/android/os/Handler.html#hasMessages(int)&#8221;)</p>
-
-<p><img src="/images/wiki/android/background_processing_002.png" alt="background_processing_002.png" /></p>
-
-<p>Thread類別中，並沒有thread執行完成的通知機制，如果想讓thread做完事情後進行通知的動作，那就必須透過handler的訊息發送機制，在thread做完事後，送訊息至訊息佇列。
-這樣，想知道這個thread完成的事件的，就可以去訊息佇列接收完成的通知訊息。</p>
-
-<p>thread在start()後，會在建立一個thread來執行run() method，可以在run
-method裡的主要工作做完後，用
-handler的sendEmptyMessage()，傳送一個任務完成的訊息到訊息佇列。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>new Thread() {
-</span><span class='line'>    public void run() {
-</span><span class='line'>        // Download image then continue
-</span><span class='line'>        // For Example: downloadImg("file");
-</span><span class='line'>        handler.sendEmptyMessage(MSG_DOWNLOADED); // public static final int MSG_DOWNLOADED = 0
-</span><span class='line'>    }
-</span><span class='line'>}.start();</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>private Handler handler = new Handler() {
-</span><span class='line'> 
-</span><span class='line'>    @Override
-</span><span class='line'>    public void handleMessage(Message msg) {
-</span><span class='line'>        switch (msg.what) {
-</span><span class='line'>            case MSG_DOWNLOADED:
-</span><span class='line'>                pd.dismiss();
-</span><span class='line'>                // What to do when ready, example:
-</span><span class='line'>                openFile();
-</span><span class='line'>                break;
-</span><span class='line'>            }
-</span><span class='line'>        }
-</span><span class='line'>    };</span></code></pre></td></tr></table></div></figure>
-
-
-<p>如果想知道thread是否完成，只需要透過handler的handleMessage這個call back
-method來接收任務完成的訊息即可。</p>
-
-<p>Handler是透過<a href="http://developer.android.com/reference/android/os/Handler.html#sendMessage(android.os.Message">sendMessage()</a> &#8220;http://developer.android.com/reference/android/os/Handler.html#sendMessage(android.os.Message)&#8221;)傳送訊息給message
-queue，
-傳送的訊息可以是<a href="http://developer.android.com/reference/android/os/Message.html" title="http://developer.android.com/reference/android/os/Message.html">Message</a>的物件，但Handler跟Message關係是雙向的，也就是Handler可以傳送Message,
-Message中也包含傳送者
-Handler，所以，要產生Message時，應該透過<a href="http://developer.android.com/reference/android/os/Handler.html#obtainMessage(">Handler.obtainMessage()</a> &#8220;http://developer.android.com/reference/android/os/Handler.html#obtainMessage()&#8221;)，這樣可以確保
-Handler系Message間的關聯的正確性。</p>
-
-<h3>UI Thread V.S Worker Threads</h3>
-
-<h5>UI Thread(Main Thread)</h5>
-
-<p>和UI有關的任何更新及操作，都需要在UI thread完成，一般就是 Main
-thread。如果UI
-thread太久沒回應，就會出現ANR，所以要避免ANR就需要在其他的Thread處理比較耗時的動作。</p>
-
-<p>系統啟動一個應該程式時，預設的情況下，所有元件的所有的動作都是在main
-thread(UI
-Thread)完成的，而當元件引發系統的callback(像是onKeyDown())時，也都會在UI
-Thread中。</p>
-
-<p>關於UI Thread有兩個主要的規則要遵守</p>
-
-<ol>
-<li>不要把UI thread給block住</li>
-<li>不要在UI toolkit之外存取UI Thread</li>
-</ol>
-
-
-<h5>Worker Threads(Backgroud Threads)</h5>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>public void onClick(View v) {
-</span><span class='line'>    new Thread(new Runnable() {
-</span><span class='line'>        public void run() {
-</span><span class='line'>            Bitmap b = loadImageFromNetwork("http://example.com/image.png");
-</span><span class='line'>            mImageView.setImageBitmap(b);
-</span><span class='line'>        }
-</span><span class='line'>    }).start();
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>上面是一個Worker
-Thread的簡單例子，<code>loadImageFromNetwork()</code>的部份沒有問題，但是<code>mImageView.setImageBitmap(b)</code>違反了UI
-Thread的第二個規則 : <strong>不要在UI toolkit之外存取UI Thread</strong></p>
-
-<p>但是，有時，我們又希望在新開出來的Thread也可以把更新ui上的資訊，比如說，我們播放歌曲是在一個新的thread，但又希望歌曲播放的同時，能夠將播放的進度同步在進度條(Progress
-Bar).根據最基本的大原則:<strong>和UI有關的任何更新及操作，都需要在UI
-thread完成</strong>，在播放歌曲的thread是不能操作ui的動作的。</p>
-
-<h3>UI Thread與Worker Threads間的通訊</h3>
-
-<p>Android處理上面的問題的機制是Handler來處理，故有三種方式可以使用</p>
-
-<ol>
-<li>Activity.runOnUiThread(Runnable)</li>
-<li>View.post(Runnable)</li>
-<li>View.postDelayed(Runnable, long)</li>
-</ol>
-
-
-<p>上面三種方式，<strong>底層都還是透過Handle的post()實作</strong></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>    private final Handler mHandler = new Handler();
-</span><span class='line'> 
-</span><span class='line'>    public final void runOnUiThread(Runnable action) {
-</span><span class='line'>        if (Thread.currentThread() != mUiThread) {
-</span><span class='line'>            mHandler.post(action);
-</span><span class='line'>        } else {
-</span><span class='line'>            action.run();
-</span><span class='line'>        }
-</span><span class='line'>    }</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>    public boolean post(Runnable action) {
-</span><span class='line'>        Handler handler;
-</span><span class='line'>        if (mAttachInfo != null) {
-</span><span class='line'>            handler = mAttachInfo.mHandler;
-</span><span class='line'>        } else {
-</span><span class='line'>            // Assume that post will succeed later
-</span><span class='line'>            ViewRoot.getRunQueue().post(action);
-</span><span class='line'>            return true;
-</span><span class='line'>        }
-</span><span class='line'> 
-</span><span class='line'>        return handler.post(action);
-</span><span class='line'>    }</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>    public boolean postDelayed(Runnable action, long delayMillis) {
-</span><span class='line'>        Handler handler;
-</span><span class='line'>        if (mAttachInfo != null) {
-</span><span class='line'>            handler = mAttachInfo.mHandler;
-</span><span class='line'>        } else {
-</span><span class='line'>            // Assume that post will succeed later
-</span><span class='line'>            ViewRoot.getRunQueue().postDelayed(action, delayMillis);
-</span><span class='line'>            return true;
-</span><span class='line'>        }
-</span><span class='line'> 
-</span><span class='line'>        return handler.postDelayed(action, delayMillis);
-</span><span class='line'>    }</span></code></pre></td></tr></table></div></figure>
-
-
-<p>我們將原來有問題的code改用View.post(Runnable)的方式來實作</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>public void onClick(View v) {
-</span><span class='line'>    new Thread(new Runnable() {  // download是耗時的動作，在另外建立一個thread來執行，所以，下一行的run()，這在個thread.start()後，會在另一個thread(worker thread)執行
-</span><span class='line'>        public void run() {
-</span><span class='line'>            final Bitmap bitmap = loadImageFromNetwork("http://example.com/image.png");
-</span><span class='line'>            mImageView.post(new Runnable() {  // -&gt; 利用ui元件進行post，下面那行的run會執行在ui元件所使用的thread上(Main Thread)
-</span><span class='line'>                public void run() {
-</span><span class='line'>                    mImageView.setImageBitmap(bitmap);
-</span><span class='line'>                }
-</span><span class='line'>            });
-</span><span class='line'>        }
-</span><span class='line'>    }).start();
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>這樣做後，上面的操作就是thread-safe的。</p>
-
-<p>注意，上面的code為什麼會有兩個run()，因為，handler的post()<strong>並不會</strong>建立新的thread，而是在呼叫post的thread上thread上執行，所以，我們可以透過view元件的handler來進行post，以確保post裡面的run()
-code是在view元件的thread(Main Thread)上做ui操作,
-但是耗時的功能，還是要另外開一個thread (worker
-thread)來進行，不然，會影效到main thread的效能</p>
-
-<p>上面三個簡便的methods，最好只用在單純的情況下，如果情況比較複雜時，建議還是用獨立的<a href="#handler" title="android:background_processing ↵">Handler</a>來處理，更複雜的情況下，採用<a href="#asynctask" title="android:background_processing ↵">AsyncTask</a>或許是更適合的solution.</p>
-
-<h3>HandlerThread</h3>
-
-<p>Android有另外提供一個繼承自Thread類別的<a href="http://developer.android.com/reference/android/os/HandlerThread.html" title="http://developer.android.com/reference/android/os/HandlerThread.html">android.os.HandlerThread</a>類別，這個類別本身就具有Handler功能，可以透過這個類別的提供Handler與該thread進行交互(ex:送訊息，及thread執行完畢的callback)</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>HandlerThread thread = new HandlerThread("myThread");  
-</span><span class='line'>thread.start(); // thread 要start後，才能取得looper
-</span><span class='line'>Handler handler = new Handler(thread.getLooper()) {
-</span><span class='line'>    @Override
-</span><span class='line'>    public void handleMessage(Message msg) {
-</span><span class='line'>        // 耗時的工作可以在這裡做
-</span><span class='line'>    }
-</span><span class='line'>};
-</span><span class='line'>handler.sendEmptyMessage(0); // handler發送的訊息，會觸發handler.handleMessage()。</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>AsyncTask</h2>
-
-<p>AsyncTask用來在UI上執行非同步的工作，它會在worker
-thread執行耗時的工作後，自動將結果丟回給UI Thread。</p>
-
-<p>採用AsyncTask的方式是繼承AsyncTask類別，將耗時的動作放在<code>doInBackground()</code>，
-如果要update ui，將要update ui的動作放在<code>onPostExecute()</code>,
-<code>onPostExecute()</code>是在UI
-Thread中執行的，所以<strong>可以安全的在<code>onPostExecute()</code>執行UI的操作</strong>。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>protected abstract Result doInBackground(Params... params);
-</span><span class='line'> 
-</span><span class='line'>protected void onPostExecute(Result result);</span></code></pre></td></tr></table></div></figure>
-
-
-<p><code>onPostExecute(Result result)</code>裡的reslut，是<code>Result doInBackground(Params… params)</code>執行後的return值，也就是說，在<code>doInBackground()</code>做完的結果，可以在<code>onPostExecute()</code>中被使用</p>
-
-<p>實作好換AsyncTask，可以透過<code>execute(Param… params)</code>執行，下面是一個簡單的範例(取自官網)</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>public void onClick(View v) {
-</span><span class='line'>    new DownloadImageTask().execute("http://example.com/image.png");
-</span><span class='line'>}
-</span><span class='line'> 
-</span><span class='line'>private class DownloadImageTask extends AsyncTask&lt;String, Void, Bitmap&gt; {
-</span><span class='line'>    /** The system calls this to perform work in a worker thread and
-</span><span class='line'>      * delivers it the parameters given to AsyncTask.execute() */
-</span><span class='line'>    protected Bitmap doInBackground(String... urls) {
-</span><span class='line'>        return loadImageFromNetwork(urls[0]);
-</span><span class='line'>    }
-</span><span class='line'> 
-</span><span class='line'>    /** The system calls this to perform work in the UI thread and delivers
-</span><span class='line'>      * the result from doInBackground() */
-</span><span class='line'>    protected void onPostExecute(Bitmap result) {
-</span><span class='line'>        mImageView.setImageBitmap(result);
-</span><span class='line'>    }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p><img src="/images/wiki/android/background_processing_001.png" alt="background_processing_001.png" /></p>
-
-<p>執行一個AsyncTask的方式如下，每一個instance只能被執行一次，如果被執行超過一次，會出exception</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>new MyAsyncTask().execute("inputString1", "inputString2");</span></code></pre></td></tr></table></div></figure>
-
-
-<h5>Status</h5>
-
-<p>另外，可透過<code>getStatus()</code>取得狀態，如果想等待AsyncTask直到結束，可透過AsyncTask.get()，呼叫後會一直等到執行結束或timeout</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>public enum Status {
-</span><span class='line'>    /**
-</span><span class='line'>     * Indicates that the task has not been executed yet.
-</span><span class='line'>     */
-</span><span class='line'>    PENDING,
-</span><span class='line'>    /**
-</span><span class='line'>     * Indicates that the task is running.
-</span><span class='line'>     */
-</span><span class='line'>    RUNNING,
-</span><span class='line'>    /**
-</span><span class='line'>     * Indicates that {@link AsyncTask#onPostExecute} has finished.
-</span><span class='line'>     */
-</span><span class='line'>    FINISHED,
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>大型檔案下載</h3>
-
-<p>上面的HttpClinet可用來處理比較小的檔案，但如果要下載大檔案(MB等級),Android
-2.3有提供<a href="http://developer.android.com/reference/android/app/DownloadManager.html" title="http://developer.android.com/reference/android/app/DownloadManager.html">DownloadManager</a></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'> DownloadManager.Request dmReq = new DownloadManager.Request( 
-</span><span class='line'>    Uri.parse("http://dl-ssl.google.com/android/repository/platform-tools_r01-linux.zip")); 
-</span><span class='line'>    dmReq.setTitle("Platform Tools"); 
-</span><span class='line'>    dmReq.setDescription("Download for Linux"); 
-</span><span class='line'>    dmReq.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI); //  
-</span><span class='line'> 
-</span><span class='line'>    // 
-</span><span class='line'>    IntentFilter filter = new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE); 
-</span><span class='line'>    registerReceiver(mReceiver, filter); 
-</span><span class='line'> 
-</span><span class='line'>    downloadId = dMgr.enqueue(dmReq); </span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>  public BroadcastReceiver mReceiver = new BroadcastReceiver() { 
-</span><span class='line'>        public void onReceive(Context context, Intent intent) { 
-</span><span class='line'>            Bundle extras = intent.getExtras(); 
-</span><span class='line'>            long doneDownloadId = 
-</span><span class='line'>                extras.getLong(DownloadManager.EXTRA_DOWNLOAD_ID); 
-</span><span class='line'>            tv.setText(tv.getText() + "\nDownload finished (" + 
-</span><span class='line'>                doneDownloadId + ")"); 
-</span><span class='line'>            if(downloadId == doneDownloadId) 
-</span><span class='line'>                Log.v(TAG, "Our download has completed."); 
-</span><span class='line'>        } 
-</span><span class='line'>    };</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Process lifecycle</h2>
-
-<ol>
-<li>Foreground process : 有可視化元件，正與使用者互動的process</li>
-<li>Visible process : 不在Foreground
-process，但是會影響使用者在畫面上所見的內容(像popup一個dialog時，後面的activity就是屬於visible
-process)</li>
-<li>Service process : 秀過startService()啟動的process</li>
-<li>Background process : process的activity目前在stop狀態</li>
-<li>Empty process : 用在caching，主要是讓activity啟動加快</li>
-</ol>
-
-
-<p>GC時會由下(Empty process)往上(Foreground process)做GC。</p>
-
-<p>比較耗時的工作，有時不是簡個的開一個thread放進去running就好了，有時啟動另一個service是更佳的解法，尤其是當該操作會拖垮activity時</p>
-
-<h2>陷阱</h2>
-
-<p><a href="#asynctask" title="android:background_processing ↵">AsyncTask</a>被android
-frameword限制住最大可同時執行數量了，如果需要比較多個背景作業同時執行時，可以直接使用<a href="#thread" title="android:background_processing ↵">Thread</a>，但是過多的thread反而可能會使效能更差，而且多個thread時，可能就得必需進行
-任務管理，關於multithreading的併行處理，可以參閱<a href="http://wiki.kent-chiu.com/doku.php?id=java:concurrency_101" title="java:concurrency_101">Concurrency
-101</a></p>
-
-<p>如果是把thread相關的內容宣告成activity的內部類別，那<strong>一定要宣告成static
-inner class</strong>, 因為inner class如果不是static的，inner
-class會參考到建立它的outter class(activity),而該activity因為thread
-refenence著它，而不能順利的被釋放，進而造成memory leaking。</p>
-
-<h2>Http Service</h2>
-
-<p>通常，在程式裡面，需要用到背景服務的情況，都是為了非同步的從網路取資料(射後不理)，如果要透過http存取資源，請使用HttpClient
-這樣會減少很多不必要的麻煩。請下列出幾點HttpClient使用時的注意事項。</p>
-
-<ol>
-<li>避免在Activity裡直接使用HttpClient因為Activity關閉後，HttpClient會隨著關閉</li>
-<li>整個應用程式，應該只需建立一份HttpClient而重覆使用(Singleton Patten)</li>
-<li>HttpClient用透過MultiThreading的方式執行，不需要特別另外建立thread給它
-(TBD 測一下)</li>
-<li><p>使用HttpClient需注意兩種timeout exceptions，其他的HttpClient會處理掉</p>
-
-<ol>
-<li>Connection Timeout Exception</li>
-<li>Scoket Timeout Exception</li>
-</ol>
-</li>
-<li><p>HttpClient使用教學可以參閱<a href="http://hc.apache.org/httpcomponents-client-ga/tutorial/html/" title="http://hc.apache.org/httpcomponents-client-ga/tutorial/html/">這裡</a></p></li>
-</ol>
-
-
-<p>另外Android也可以使用<a href="http://wiki.kent-chiu.com/doku.php?id=android:background_processing" title="android:background_processing">HttpURLConnection</a>跟<a href="http://wiki.kent-chiu.com/doku.php?id=android:background_processing" title="android:background_processing">AndroidHttpClient</a>，但就必須自已處理thread的部份了</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>import org.apache.http.HttpVersion; 
-</span><span class='line'>import org.apache.http.client.HttpClient; 
-</span><span class='line'>import org.apache.http.conn.ClientConnectionManager; 
-</span><span class='line'>import org.apache.http.conn.params.ConnManagerParams; 
-</span><span class='line'>import org.apache.http.conn.scheme.PlainSocketFactory; 
-</span><span class='line'>import org.apache.http.conn.scheme.Scheme; 
-</span><span class='line'>import org.apache.http.conn.scheme.SchemeRegistry; 
-</span><span class='line'>import org.apache.http.conn.ssl.SSLSocketFactory; 
-</span><span class='line'>import org.apache.http.impl.client.DefaultHttpClient; 
-</span><span class='line'>import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager; 
-</span><span class='line'>import org.apache.http.params.BasicHttpParams; 
-</span><span class='line'>import org.apache.http.params.HttpConnectionParams; 
-</span><span class='line'>import org.apache.http.params.HttpParams; 
-</span><span class='line'>import org.apache.http.params.HttpProtocolParams; 
-</span><span class='line'>import org.apache.http.protocol.HTTP; 
-</span><span class='line'> 
-</span><span class='line'>public class CustomHttpClient { 
-</span><span class='line'>    private static HttpClient customHttpClient; 
-</span><span class='line'> 
-</span><span class='line'>    /** A private Constructor prevents instantiation */ 
-</span><span class='line'>    private CustomHttpClient() { 
-</span><span class='line'>    } 
-</span><span class='line'> 
-</span><span class='line'>    public static synchronized HttpClient getHttpClient() { 
-</span><span class='line'>        if (customHttpClient == null) { 
-</span><span class='line'>            HttpParams params = new BasicHttpParams(); 
-</span><span class='line'>            HttpProtocolParams.setVersion(params, HttpVersion.HTTP_1_1); 
-</span><span class='line'>            HttpProtocolParams.setContentCharset(params, HTTP.DEFAULT_CONTENT_CHARSET); 
-</span><span class='line'>            HttpProtocolParams.setUseExpectContinue(params, true); 
-</span><span class='line'>            HttpProtocolParams.setUserAgent(params,  "Mozilla/5.0 (Linux; U; Android 2.2.1; en-us; Nexus One Build/FRG83) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1" ); 
-</span><span class='line'>            params.setParameter("charset", "UTF-8"); // 要設成utf-8，否則中文的utf-8網頁會出錯 
-</span><span class='line'>            ConnManagerParams.setTimeout(params, 1000); 
-</span><span class='line'> 
-</span><span class='line'>            HttpConnectionParams.setConnectionTimeout(params, 5000); 
-</span><span class='line'>            HttpConnectionParams.setSoTimeout(params, 10000); 
-</span><span class='line'> 
-</span><span class='line'>            SchemeRegistry schReg = new SchemeRegistry(); 
-</span><span class='line'>            schReg.register(new Scheme("http",  PlainSocketFactory.getSocketFactory(), 80)); 
-</span><span class='line'>            schReg.register(new Scheme("https", SSLSocketFactory.getSocketFactory(), 443)); 
-</span><span class='line'>            ClientConnectionManager conMgr = new ThreadSafeClientConnManager(params,schReg); 
-</span><span class='line'>            customHttpClient = new DefaultHttpClient(conMgr, params); 
-</span><span class='line'>        } 
-</span><span class='line'>        return customHttpClient; 
-</span><span class='line'>    } 
-</span><span class='line'>} </span></code></pre></td></tr></table></div></figure>
-
-
-<p>使用方式</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>httpClient = CustomHttpClient.getHttpClient()
-</span><span class='line'>try { 
-</span><span class='line'>    HttpGet request = new HttpGet("http://www.google.com/"); 
-</span><span class='line'>    String page = httpClient.execute(request, new BasicResponseHandler()); 
-</span><span class='line'>    System.out.println(page); 
-</span><span class='line'>} catch (IOException e) { 
-</span><span class='line'>    // covers: 
-</span><span class='line'>    //      ClientProtocolException 
-</span><span class='line'>    //      ConnectTimeoutException 
-</span><span class='line'>    //      ConnectionPoolTimeoutException 
-</span><span class='line'>    //      SocketTimeoutException 
-</span><span class='line'>    e.printStackTrace(); 
-</span><span class='line'>    // 如果發生SocketTimeout時，可以這樣進行retry
-</span><span class='line'>    if (count &lt; retry) {
-</span><span class='line'>        // do again
-</span><span class='line'>    } else {
-</span><span class='line'>        // 
-</span><span class='line'>    }
-</span><span class='line'>} </span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Resource</h2>
-
-<ul>
-<li><p>官網上跟thread相關的教學文件</p>
-
-<ol>
-<li><a href="http://developer.android.com/resources/articles/painless-threading.html" title="http://developer.android.com/resources/articles/painless-threading.html">Painless
-Threading</a></li>
-<li><a href="http://developer.android.com/resources/articles/timed-ui-updates.html" title="http://developer.android.com/resources/articles/timed-ui-updates.html">Updating the UI from a
-Timer</a></li>
-</ol>
-</li>
-<li><p><a href="http://developer.android.com/reference/android/os/AsyncTask.html" title="http://developer.android.com/reference/android/os/AsyncTask.html">AsyncTask
-API</a></p></li>
-<li><a href="http://developer.android.com/reference/android/os/Handler.html" title="http://developer.android.com/reference/android/os/Handler.html">Handler
-API</a></li>
-<li><a href="http://www.vogella.de/articles/AndroidPerformance/article.html" title="http://www.vogella.de/articles/AndroidPerformance/article.html">http://www.vogella.de/articles/AndroidPerformance/article.html</a></li>
-<li><a href="http://milochen.wordpress.com/2011/03/25/understanding-android-os-src-looperhandler-message-messagequeue/" title="http://milochen.wordpress.com/2011/03/25/understanding-android-os-src-looperhandler-message-messagequeue/">http://milochen.wordpress.com/2011/03/25/understanding-android-os-src-looperhandler-message-messagequeue/</a></li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/01/28/grep_command/">Grep Command</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-01-28T00:00:00+08:00" pubdate data-updated="true">Jan 28<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/01/28/grep_command/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Syntax: grep [options] pattern [files]</p>
-
-<h5>找某個檔案中是否有存在特定文字</h5>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># grep foobar ~/myfile.txt</span></code></pre></td></tr></table></div></figure>
-
-
-<h5>計算特定文字出現的次數</h5>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># grep -c foobar ~/myfile.txt</span></code></pre></td></tr></table></div></figure>
-
-
-<h5>找有的目錄下的當案是否有存在特定文字</h5>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># grep -ri foobar ~/</span></code></pre></td></tr></table></div></figure>
-
-
-<h5>使用Regular Expression</h5>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># grep "^foobar" ~/myfile.txt</span></code></pre></td></tr></table></div></figure>
-
-
-<p>可以用”^\$”來找出空白行</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/01/21/collocation/">搭配詞 (Collocation)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-01-21T00:00:00+08:00" pubdate data-updated="true">Jan 21<span>st</span>, 2012</time>
-        
-         | <a href="/blog/2012/01/21/collocation/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h1>搭配詞 (collocation)</h1>
-
-<h1>Resource</h1>
-
-<ul>
-<li><a href="http://www.books.com.tw/exep/prod/booksfile.php?item=0010352146" title="http://www.books.com.tw/exep/prod/booksfile.php?item=0010352146">英文搭配詞的說明</a></li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/01/17/database/">Database</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-01-17T00:00:00+08:00" pubdate data-updated="true">Jan 17<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/01/17/database/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><ul>
-<li><a href="http://www.ibm.com/developerworks/cn/data/library/techarticles/dm-1002limh/index.html?ca=drs-tp4608" title="http://www.ibm.com/developerworks/cn/data/library/techarticles/dm-1002limh/index.html?ca=drs-tp4608">sql
-調校技巧(ibm)</a></li>
-<li><a href="http://www.microsoft.com/china/MSDN/library/data/sqlserver/FiveWaystoRevupYourSQLPerformanCE.mspx?mfr=true" title="http://www.microsoft.com/china/MSDN/library/data/sqlserver/FiveWaystoRevupYourSQLPerformanCE.mspx?mfr=true">調校技巧(含分析方式)</a></li>
-<li><a href="http://www.catswhocode.com/blog/10-sql-tips-to-speed-up-your-database" title="http://www.catswhocode.com/blog/10-sql-tips-to-speed-up-your-database">http://www.catswhocode.com/blog/10-sql-tips-to-speed-up-your-database</a>
-
-<ul>
-<li>10 sql tips to speed up your database</li>
-</ul>
-</li>
-<li>Practical database design from IBM DW <a href="http://www.ibm.com/developerworks/web/library/wa-dbdsgn1.html" title="http://www.ibm.com/developerworks/web/library/wa-dbdsgn1.html">(part
-1)</a>
-<a href="http://www.ibm.com/developerworks/web/library/wa-dbdsgn2.html" title="http://www.ibm.com/developerworks/web/library/wa-dbdsgn2.html">(part
-2)</a></li>
-<li><a href="http://wiki.kent-chiu.com/lib/exe/fetch.php?media=database:db2bp_physical_design_0508i.pdf" title="database:db2bp_physical_design_0508i.pdf">db2bp_physical_design_0508i.pdf</a>
-
-<ul>
-<li>physical database design from IBM</li>
-</ul>
-</li>
-<li><a href="http://wiki.kent-chiu.com/doku.php?id=database:postgresql_101" title="database:postgresql_101">PostgreSQL
-101</a></li>
-<li><a href="http://wiki.kent-chiu.com/doku.php?id=database:oracle_101" title="database:oracle_101">Oracle
-101</a></li>
-<li><a href="http://wiki.kent-chiu.com/doku.php?id=database:the_use_the_index_luke_study_note" title="database:the_use_the_index_luke_study_note">The Use thd index,Luke
-學習筆記</a></li>
-<li><a href="http://www.jpab.org/" title="http://www.jpab.org/">JPA Performance Benchmark
-(JPAB)</a> -
-各種資料庫在JPA下效能的比較</li>
-<li><h2><a href="http://coolshell.cn/articles/6470.html" title="http://coolshell.cn/articles/6470.html">中國鐵路訂票效能處理問題</a></h2>
-
-<p>中國在長假期時，需應付相當大量的訂單瞬間湧入，網站一下就負荷不了了，這裡有篇滿到位的原因分析。</p></li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
   
   
     <article>
@@ -1635,6 +736,798 @@ schools</a></li>
 
     </article>
   
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/xmlhttprequest/">XMLHttpRequest (a.k. A AJAX)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/xmlhttprequest/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>Create</h1>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>var xhr;
+</span><span class='line'>if (window.XMLHttpRequest) {   
+</span><span class='line'>  xhr = new XMLHttpRequest();
+</span><span class='line'>}
+</span><span class='line'>else if (window.ActiveXObject) {   
+</span><span class='line'>  xhr = new ActiveXObject("Msxml2.XMLHTTP");
+</span><span class='line'>}
+</span><span class='line'>else {   
+</span><span class='line'>  throw new Error("Ajax is not supported by this browser"); 
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Method</h2>
+
+<p>  Method                                                             Description</p>
+
+<hr />
+
+<p>  <code>abort()</code>                                                          Stops the current request                                                              <br/>
+  <code>getAllResponseHeaders()</code>                                          Returns complete set of headers (labels and values) as a string                        <br/>
+  <code>getResponseHeader(”headerLabel”)</code>                                 Returns the string value of a single header label                                      <br/>
+  <code>open(”method”, ”URL”[, asyncFlag[, ”userName”[, ”password”]]])</code>   Assigns destination URL, method, and other optional attributes of a pending request    <br/>
+  <code>send(content)</code>                                                    Transmits the request, optionally with postable string or DOM object data              <br/>
+  <code>setRequestHeader(”label”, ”value”)</code>                               Assigns a label/value pair to the header to be sent with a request</p>
+
+<h1>Properties</h1>
+
+<hr />
+
+<p>  Property               Description</p>
+
+<hr />
+
+<p>  <code>onreadystatechange</code>   Event handler for an event that fires at every state change</p>
+
+<p>  <code>readyState</code>           Object status integer:\</p>
+
+<pre><code>                      0 = uninitialized\                                                               
+                      1 = loading\                                                                     
+                      2 = loaded\                                                                      
+                      3 = interactive\                                                                 
+                      4 = complete                                                                     
+</code></pre>
+
+<p>  <code>responseText</code>         String version of data returned from server process</p>
+
+<p>  <code>responseXML</code>          DOM-compatible document object of data returned from server process</p>
+
+<p>  <code>status</code>               Numeric code returned by server, such as 404 for “Not Found” or 200 for “OK”</p>
+
+<p>  <code>statusText</code>           String message accompanying the status code</p>
+
+<hr />
+
+<h1>Status code</h1>
+
+<p>  code   description</p>
+
+<hr />
+
+<p>  100    Continue
+  101    Switching protocols
+  200    OK
+  201    Created
+  202    Accepted
+  203    Non-Authoritative Information
+  204    No Content
+  205    Reset Content
+  206    Partial Content
+  300    Multiple Choices
+  301    Moved Permanently
+  302    Found
+  303    See Other
+  304    Not Modified
+  305    Use Proxy
+  307    Temporary Redirect
+  400    Bad Request
+  401    Unauthorized
+  402    Payment Required
+  403    Forbidden
+  404    Not Found
+  405    Method Not Allowed
+  406    Not Acceptable
+  407    Proxy Authentication Required
+  408    Request Timeout
+  409    Conflict
+  410    Gone
+  411    Length Required
+  412    Precondition Failed
+  413    Request Entity Too Large
+  414    Request-URI Too Long
+  415    Unsupported Media Type
+  416    Requested Range Not Suitable
+  417    Expectation Failed
+  500    Internal Server Error
+  501    Not Implemented
+  502    Bad Gateway
+  503    Service Unavailable
+  504    Gateway Timeout
+  505    HTTP Version Not Supported</p>
+
+<p><a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10" title="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10">more
+details&#8230;</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/word_dna/">英文字彙DNA</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/word_dna/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>本文章內容來節錄自<a href="http://www.epochtimes.com/b5/nf4708.htm" title="http://www.epochtimes.com/b5/nf4708.htm">大記元新聞網</a>，原作者為
+David
+Lee，本內容為了個人學習方便而整理並加上個人學習心得(不保證是正確的)
+如果想看原汁源味的內容^<a href="#fn__1">1)</a>^，還是請到<a href="http://www.epochtimes.com.au/b5/nf4708.htm" title="http://www.epochtimes.com.au/b5/nf4708.htm">這裡</a>吧。
+目前更新到單元 (58)</p>
+
+<h3>導論</h3>
+
+<p>大家都知道，英文字是由26個字母所組成的，但實際上，有大量的字彙，是由一些字首（Prefix）、字根（Root）與字尾（Suffix）的組合。
+這就好像中文字是由一筆一劃所組成的，但其中是有許多「部首」。例如看到有木字旁，就知道這個字與木有關；看到有金字旁，就知道這個字與金屬有關；看到有水字旁，就知道這個字與水有關，等等。
+因此，當你看到有e-
+或ex-時，就要知道那是out的意思；看到su-應知道是under之意，看到co-要知道是together，看到re-要知道是again或back，看到inter-要知道是between之意…等等。
+英文有許多的新字，也是用字根字首來造字的。譬如微軟公司Microsoft,
+原先英文裡並沒有這個字，比爾蓋茲將micro-（微小的）與soft組合起來，就成了他的公司名Microsoft。
+microscope就是顯微鏡的意思，-scope也是一個字根，是to look
+「看」的意思。那麼配上tele-（遠的）字首，就成了telescope 望遠鏡的意思。
+David老師在課堂上常問學員們：microscope有幾個字呢？有的回答十個字。但我告訴同學們：其實只有兩個字，就是micro-
++
+-scope。那麼記兩個字容易、還是記十個字容易呢？大家都會回答：當然是記兩個字容易啊！
+所以許許多多看起來很長的字，如果你用一個字母、一個字母地去記，那就非常辛苦；事實上，它們經常是由2-3個字根、字首或字尾所組成的。好像一樣米養百萬人，但這百萬人其實是23對染色體的排列組合，而每條染色體上有不同的DNA。
+明白了這個道理，我們就趕快來開始學習：組合成英文單字的DNA，相信大家的字彙能力，一定可以在短期內，很快地突飛猛進喔！</p>
+
+<h3>一般單字 V.S 特殊單字</h3>
+
+<p>英文的單字有一個特點，即每一個<strong>基本的</strong>意義都有兩種(或兩種以上)的符號來表示，例如：</p>
+
+<p>  意義   一般單字   特殊單字</p>
+
+<hr />
+
+<p>  吃     eat        ed
+  看     see        vis
+  聽     hear       audi
+  改變   change     mut
+  讀     read       leg
+  相信   believe    cred
+  活     live       viv</p>
+
+<p>一般單字是可以獨立使用符號 – 單字，特殊單字是不可以獨立使用的 –
+字根，學習英語必語<strong>同時</strong>認識兩種符號，才能掌握大量的單字。
+這種”一個意義，兩種符號”的現象形成了英文單字的殊殊性和多樣性，字根雖然是一種不能體使用的符號，不是單字，但實際上它是一種含有具體意義的特殊”單字”，所以，從某種歷義上說，英語中存在著兩套單字：一套是”明的”、一般的單字(see,hear…)，另一套是”暗的”、特殊單字(vism,audi….)。</p>
+
+<h3>字義轉化</h3>
+
+<p>一般來說，知道字根的意義，就可以知道單字的基本意義，再結合字首、字尾，即可得到單字的完整意義，像
+pro- (向前的) + gress(行走) =
+progress(前進)，然而，實際的情況并不完全如此，有一相當部份的單字的字義並不完全等於字首+字根+字尾的意義，甚至，單字的意義與字根的意義間有很大的距離，或毫無關聯，讓我們無法根據字根的意義直接理解單字的意義，例如：</p>
+
+<p>  字根          單字</p>
+
+<hr />
+
+<p>  hospit 客人   hospital醫院
+  sid 坐        president 大學校長，總統
+  ori 昇起      orient 東方
+  vis 看        advise建議
+  port 拿       report報告
+  sect 切，割   insect昆蟲
+  medi 中間     immediate立刻的，直接的
+  spir 呼吸     conspire共謀
+  fer 拿，帶    conference會議
+  ven來         intervention干預
+  sal 鹽        salary工資
+  mini 小       minister大臣，部長</p>
+
+<p>以表面上來看，<strong>意義上風馬牛不相及，但實際上它們之存在著內在的聯系</strong>，它們之間確有一條曲徑相通。這種現象的產生，有的是由于<strong>字義的形成過程過分的曲折，字根的含義由原義引申為其他意義</strong>，有的是由于<strong>字意源自某種歷史背景</strong>，下面對這些字義進行分析溯源：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>hospit 客人 + -al 名詞字尾 -&gt; hospital醫院
+</span><span class='line'>接待"客人"的地方 -&gt; 接待"病客"的地方 -&gt; 醫院
+</span><span class='line'>pre- 前 + sid 坐 -&gt; ent 人的字尾 -&gt; president 大學校長，總統
+</span><span class='line'>開會時"坐在前面的人" -&gt; 主事者，指揮者 -&gt; 大學校長，總統
+</span><span class='line'>ori 昇起 + -ent 名詞字尾 -&gt; 東方
+</span><span class='line'>太陽"昇起"的地方 -&gt; 東方
+</span><span class='line'>ad- 向 + vis 看-&gt; 建議
+</span><span class='line'>"看" -&gt; "看法，意見" -&gt; 向別人提出自已看法或意見
+</span><span class='line'>re- 回 + post 拿 -&gt; repsort 報告
+</span><span class='line'>把消息拿回來
+</span><span class='line'>ad- 向 + vert 轉 + ise 使… -&gt; advertise 廣告
+</span><span class='line'>使人的注意力轉向 -&gt; 使人注意到 -&gt; 廣告
+</span><span class='line'>in- 入 + sect 切割 -&gt; insect昆蟲
+</span><span class='line'>"切入" -&gt; 切裂;昆蟲身體分開像一節一節
+</span><span class='line'>im- 無 + medi 中間 + -ate 的 -&gt; immediate立刻的，直接的
+</span><span class='line'>沒有 中間的 -&gt; 直接的
+</span><span class='line'>con-共同 + spir 呼吸 -&gt; conspire
+</span><span class='line'>共同呼吸 -&gt; 互通氣息 -&gt; 共謀
+</span><span class='line'>con- 共同 + fer 拿 + -ence 名詞字尾 -&gt; conference
+</span><span class='line'>把意見"拿到一起來" -&gt; 交換意見 -&gt; 會議
+</span><span class='line'>inter- 中間 + ven 來 + -tions 名詞字尾 -&gt; intervention 干預
+</span><span class='line'>來到中間 -&gt; 介入其中 -&gt; 干預
+</span><span class='line'>sal 鹽 + -ary  表示物 -&gt; salary 薪水
+</span><span class='line'>古羅馬士兵所領取的"買鹽的錢"，作為生活津貼 -&gt; 薪水
+</span><span class='line'>mini 小 + -ster  表示人 -&gt; minister 部長，大臣
+</span><span class='line'>原義為"小人，僕人"；古時大臣對君王時的自稱</span></code></pre></td></tr></table></div></figure>
+
+
+<p>由上面的分析可看出，一個單字的意義與其字根意義雖然相距很遠，但根據字根的意義，沿著一條曲折的途徑，總是可以尋得單字的意義，一旦透過這種方式了解字根的來源後，對這個單字的印象就會特別的深刻。</p>
+
+<h3>字尾的擴展</h3>
+
+<p>字根 + 字尾形式的單字，一般是非常容易認識的，如</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'> danger 危險 + -ous 的 -&gt; 危險的
+</span><span class='line'> work工作 + -er -&gt;工人</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這類的單字義明顯，容易記憶，只要知道字尾的意義，就能知道單字的意尾。但是<strong>實際上情況並不都是這的簡單</strong>，例如
+supositious去掉-ous後的supositi是什麼呢？如果認得出是suppose，那iti又是什麼？
+rosaceous去掉-ous後的rosace是什麼？
+這個就是英文單字的一個難處，原來這些<strong>單字的字尾都不是-ous</strong>，這些單字的構成是這旁的</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>suppos(e) 假定 + -itious(的)
+</span><span class='line'>ros(e)玫瑰 + aceous(的)
+</span><span class='line'>instant(瞬息) + aneous(的)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>他們的字尾是 -itious,-aceous,-aneous
+這些字尾都含有ous的形式，他們的含義都與=-ous相同，它們稱為”-ous”的擴展形式，-ous是基本形式。
+基本形式的字尾與擴展形式的字尾，是同型字尾，它們都有共同的基本意義，如果只認識”基本形式”而不認識”擴展形式”的字尾，那學習時會愈覺愈困惑的。</p>
+
+<p>可以透過<a href="http://wiki.kent-chiu.com/doku.php?id=word:how_to_split_a_word" title="word:how_to_split_a_word">字首，字根，字尾結合規則</a>解決一部份這方面的問題</p>
+
+<h3>何謂字首字根字尾</h3>
+
+<h5>字首 prefix</h5>
+
+<p>學習難度－中，約80 個﹚，若在字中出現，則在字頭
+﹙有時字根自己一個字，未帶字首，有時同時出現兩個接續的字首﹚。代表下列意思的，幾乎都是字首：
+前、後﹙空間﹚、內、外、先、後﹙時間﹚、遠、近、快、慢、上、下、正、反、新、舊、直、歪、好、壞、優、劣、好﹙喜﹚、惡、是、否、真、偽、主、從、同、異、大、小、多、寡、無、過多、不足、完整、一半、部份、相等、一起、分離、加多、減低、中間、周邊、近旁、彼此之間、超越、次於、橫跨、逼近、離去、分開、轉換、抵擋、針對、數字﹙1-10,
+10的２次方到10的18次方，10 的負2次方到10 的負18次方﹚</p>
+
+<h5>字尾suffix</h5>
+
+<p>學習難度－低，約30 個﹚，若在字中出現，則在字末
+﹙有時字根自己一個字，未帶字尾，有時不只出現一個字尾，而是兩個連接在一起﹚。字尾有兩大辨識作用，可判斷該字屬於何種詞類﹙形容詞、副詞、動詞等﹚，有些字尾也可以代表某種意思，譬如：
+人、物、者、東西、地方、狀態、病症、思想、行為、樣子、方法、制度、現象、行業、身分、領域、化學品、藥物、患者</p>
+
+<h5>字根 root</h5>
+
+<p>﹙學習難度－高，基礎級約２００個﹚，有實質意涵，有時單獨存在為一個字，有時配上另一字根，有時配上字首，有時配上字尾，有時字首字尾都配上，而形成有新意義的字。字根與字首或字尾連接時，<strong>由於發音關係，有時會有拼字上的小變化，譬如添加母音字母、略去母音字母，或因為在希臘或拉丁文的動詞變化時就有衍生字，而至拼法稍有差異。</strong>
+&lt;Note note> 一個字可能會有字首 + 字根，或字根 + 字尾，或字首 + 字根 +
+字尾，但不會只有字首 + 字尾
+字首會影響字的意思，而且字尾通常只是做詞性變化 &lt;/note></p>
+
+<h3>英語說文解字</h3>
+
+<p>語言不是今天的發明，它是文明的產物，是從人與人的互動中產生的，從古代一直流傳下來，隨著人類活動的多樣化與社會的複雜化，文字的內涵也在不斷地增加、愈來愈豐富。
+但即使在最簡單的社會形式中，人也是一張嘴吧、兩隻眼睛、兩隻耳朵、兩隻手、兩隻腳…等等。那麼嘴巴會說、眼睛會看、耳朵會聽，手會拿、會丟、會射、會放置…，腳呢會走、會跑、來來去去…，那麼最早期的字根就從中產生了。
+今天的英文裡，「說」是say，speak，talk等，但在古希臘羅馬文字中，-dict，-cuse，-fess，-nounce等也都是指涉「說」的動作，那麼在漫長的語言形成過程中，許多有關「說」的衍伸字，就是從-dict，-cuse，-fess，-nounce衍伸而來。
+這些動作字根，配上時間、位置、狀態、數量……等字首，就會各自形成不同的意涵的字彙。舉例而言，pre-是「之前」，那麼predict就是「預測」的意思；為什麼是預測呢？因為之前就說了，才算預測嘛！如果之後說，那是放馬後炮，就不算預測了。
+indicate是「指出」之意，point
+out這個片語也很生動地表達「指出來」的意涵。那為什麼indicate是「指出」呢？to
+speak into說到裡邊去了，就是指出囉！
+Excuse是「藉口」的意思，為什麼呢？ex-是位置字根，意思是
+「out」，那麼excuse就是對外說的話，所以是藉口囉！
+confess是懺悔、招供之意，為什麼呢？con-是狀態字首，意思是together，to
+speak together就是統統都說了，懺悔、招供不就是統統都說了嗎？！
+再以denounce為例，denounce是「譴責」的意思，但為什麼是譴責的意思呢？因為de-是狀態字首down或negate，對人說負面、否定的話，所以是譴責的意思。</p>
+
+<h3>談英文的造字法則</h3>
+
+<p>各位讀者好：
+在中文漢字中，大家都知道倉頡造字，造字有造字的法則，主要有象形、會意、形聲、指事、轉注、假借六種。英文也有英文的造字法則，並非是26個字母隨意的排列組合。前文中所提到的字根、字首，都有其基本涵義，許多都是從希臘、羅馬文字中承傳下來的，所以西方人談西方文化，必然離不開希臘、羅馬，因為西方文化就是淵源於希臘、羅馬。
+英文有象形字嗎？其實有。舉個例子：Vase（花瓶）,
+Valley（山谷）,都以V開頭，V這個字像不像是花瓶與山谷呢？不信再看：Mountain（山）這個字，m是不是就像座山呢？
+還有呢：slide, slip, slump, sluggish,
+shed這些字都是下滑的意思，那S這個字是不是就像個「滑坡」呢？再看：snake（蛇）,
+sperm（精子），S這個字是不是也像條蛇、精子呢？
+再談英文的形聲字。David老師常在課堂上問學生，英文是先有聲音？還是先有文字呢？大家都會異口同聲的說：「先有聲音」那麼就字母文化而言，就是如何用
+26個字母將那些聲音拼出來。所以只要知曉如何將聲音字母化的秘訣，其實英文字根本就不用背，你只是用26個字如何把那個聲音拼出來即可。
+有一些聲音，直接就來自於自然界或日常生活中，例如bomb（爆炸）,
+clash（衝突）, crash（撞碎）, crush（壓碎）,
+smash（粉碎）,這些字都是形聲字，直接模仿現象所發出聲音而造的。
+再說到會意字，英文字中最多的大概就屬會意字，其實中文也是如此。像是「昌」這個字，兩個太陽當然就很昌盛囉！「晶」這個字，三個太陽，那真是光亮無比哩！
+那麼英文有那些會意字？其實許許多多的字根組合字，都是屬於會意字，因為有其組合的涵義。例如：coworker,
+一起工作的人，當然就是同事囉！subway，在底下的路，那麼就是地鐵了！predict,
+之前就要說，所以是預測！precaution，之前就要謹慎，所以是預防。
+凡此種種，不勝枚舉。基本上，David老師在這個專欄中舉的大部份例子，都是屬於會意字。</p>
+
+<h3>強調的造字法則(上)</h3>
+
+<p>英文字彙中，有一種造字法則，是把一個字或是一個字根的字首重覆，然後加上a，形成一個新的字，David老師稱此為強調的造字法則。
+以單字為例：
+Set（設定），重複字首加上a，就成了asset，asset是資產的意思，就是強調這幢房子設定給你，就是你的資產了！
+sign（簽署），重複字首加上a，就成了assign，assign是分派的意思，強調主管簽署後分派不同的工作，所以assignment也就是作業了。
+prove（證明），重複字首加上a，就成了approve，approve是批准之意，批准就是強調正式蓋個章，證明Ok了！
+還有像是range（範圍）, locate（座落）,
+等字也都可以依此類推，造出一個新字來，如arrange（安排）,
+allocate（分配）。<em>當然不是所有的字都能運用這個法則</em>，David老師的意思是說，有許多字是透過這樣的造字法則，所造出來的。那麼學會這個造字法則，也就可以很快學會很多字啦！</p>
+
+<p>所以<strong>a</strong>有強調，加強的意思，而且a後面會加上一個重覆的子音字母，所以<strong>a</strong>用在強調時，pattern就是a<strong>xx</strong>，xx是指重覆的字音，也就是在這樣的情況下，<strong>a</strong>才有強調的意思在
+<a href="http://wiki.kent-chiu.com/doku.php?id=word:how_to_split_a_word#total_assimilation" title="word:how_to_split_a_word">total_assimilation</a></p>
+
+<h3>強調的造字法則(下)</h3>
+
+<p>前集中提到，英文字彙中，有一種造字法則，是把一個字或是一個字根的字首重覆，然後加上a，形成一個新的字，David老師稱此為強調的造字法則。
+前集以單字舉例，本集則以字根舉例。</p>
+
+<ul>
+<li>attain=at-+-tain, v. 獲得（重複字根字首+a, 強調造字法）</li>
+<li>announce=an-+-nounce,
+宣佈（重複字根字首＋a,強調造字法則，特別地說，所以是宣佈）</li>
+<li>accuse=ac-+-cuse, 控告（重複字根首字+a,
+強調造字法則，到法庭裡強調地說，因此是控告）</li>
+<li>affect=af-+-fect, v.
+影響（重複字根字首+a，強調造字法則，強調小孩跑來跑去，當然影響大家）</li>
+<li>addict=ad-+-dict, v, 沉溺於（強調造字法則，說話說上癮）</li>
+</ul>
+
+
+<p>–fect=to run –tain=to take</p>
+
+<h3>不同字根組成同義字</h3>
+
+<p>不同字根組成同義字：拒絕
+前集中提到，許多英文字是由字根、字首與字尾所組合而成。也因此，往往有許多情況，是由不同的字根字首，但卻組合成為相同的意思。
+例如：reject與refuse兩個字，都是「拒絕」的意思，分解來看，re-當然都是back之意，-ject是to
+throw丟的意思，to throw back丟回去，當然就是拒絕了。-fuse是to pour
+傾倒之意，to pour
+back傾倒回去，也是表達了拒絕的意函，因此reject與reject就是由不同的字根、相同的字首，組合成為相同的意思。
+不同字根組成同義字：干預 再舉一個例子。interfere, intervene, meddle,
+這三個字都是“干預”的意思，inter-這個字首是between之意。 <strong>-fer是to
+run</strong>, interfere就是to run between，干預就是跑到兩者之間。
+<strong>-vene這個字根是to come</strong>，intervene就是to come
+between，來到二者之間，當然也是干預。
+Meddle是由middle轉換母音i而來，當然也是介入其中之意。所以interfere,
+intervene, meddle就是以不同的字根，組合成為相同的意思。
+不同字根組成同義字：計劃
+不同字根組成同義字，還有一個例子是計劃：project, program,
+proposal這三個字都有計劃的意思，為什麼呢？ -ject這個字根是手的動作to
+throw，丟的意思，pro-則是有關時間先後的字首，這裡是之前的意思，那麼project就是先前就丟出來的的東西，計劃不就是先前丟出來的嗎？
+再看program，-gram是to
+write寫的意思，pro-是之前，之前就寫下來，所以也是計劃。
+那麼proposal呢？-pos 是手的動作，to
+put放置的意思，計劃當然也是事先就要放置出來的東西囉！
+不同字根組成同義字：會議
+再舉一個不同字根組成同義字的例子：會議。請看conference, congress,
+convention, symposium這四個字，為什麼都是會議呢？
+首先看conference，-fer是to run，con- 是together，會議不正是要大家to run
+together跑到一起，才能開會嗎？！ 再看congress，-gress是to go，con-
+是together，會議也是要to go together去到一起，才能開會。
+Convention也是如此，-ven 這個字根是to come之意，to come together
+來到一起，當然也可以是開會。
+至於symposium研討會，sym-也和co-一樣，是together之意，例如symphony
+是交響樂，就是把許多聲音放在一起；sympathy是同情，因為-path是feeling感情之意，有相同的感情，所以是同情。
+那麼字根-pos是手的動作to put之意，合起來就是to put
+together，一個大型的研討會當然是要邀請很多人來，把他們放在一起囉！所以在語意的組合結構上，symposium與conference,
+congress, convention其實都是相同的。</p>
+
+<p>^<a href="#fnt__1">1)</a>^ 而且有一直在新增文章哦</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/vim_101/">Vim 101</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/vim_101/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>Setup</h1>
+
+<h3>Mode</h3>
+
+<ul>
+<li>i : insert mode</li>
+<li>esc : back to normal mode</li>
+<li>ctrl + [ : back to normal mode(fast)</li>
+<li>: : command mode → open file,save file, …</li>
+<li>gQ : Ex mode</li>
+<li>v : visual mode → select text</li>
+<li>a : append mode</li>
+<li>r/R : replace/repace mode</li>
+<li>o : open a new line</li>
+<li>J : joint next line</li>
+</ul>
+
+
+<h1>Commands</h1>
+
+<h2>Motions</h2>
+
+<ul>
+<li>h/j/k/l : left/down/up/right</li>
+<li>0 : line start</li>
+<li>^/\$ : string start/end</li>
+<li>ctrl + d/ ctrl + u : page up / down</li>
+<li>G : end of file</li>
+<li>gg : top of file</li>
+<li>w/b : word / back word</li>
+<li>n| : move to n column</li>
+<li>:n : move to n line</li>
+<li>% : move to matched parentheses</li>
+</ul>
+
+
+<h2>Editing</h2>
+
+<ul>
+<li>:e : reload current file or load a file by path</li>
+<li>:e ^D : list directory</li>
+<li>c : change , c&lt;Motions></li>
+<li>y : yank , y&lt;Motions></li>
+<li>yy : yank current line</li>
+<li>p : paste</li>
+<li>c : change</li>
+<li>d : delete = cut(put to clipboard)</li>
+<li>\~ : change Capital</li>
+<li>s : replace</li>
+<li>ctrl + r : redo</li>
+<li>ct&lt;symbol> : change till &lt;symbol></li>
+<li>« / » : left/right shift a tab</li>
+</ul>
+
+
+<h2>Search and Replace</h2>
+
+<ul>
+<li>//? : search/backwards search</li>
+<li>n/N : next/previous occurance of search term</li>
+<li>:set incsearch/noincsearch → turn on/off incremental search</li>
+<li>*/# : go to next/previous occurence of word uder cursor</li>
+<li>f&lt;symbol> : move cursor to symbol of current word</li>
+<li>;/, : next/previous occurence</li>
+</ul>
+
+
+<h2>Macros</h2>
+
+<ul>
+<li>q &lt;macro name> : start/stop recording</li>
+<li>&lt;times>@&lt;macroname> : play macro</li>
+</ul>
+
+
+<h2>Multi Files Editing</h2>
+
+<ul>
+<li>n edit next file</li>
+<li>2n edit next 2 file</li>
+<li>e# / ctrl + ^ : edit next/previous file</li>
+<li>b&lt;filename or number> : edit that file</li>
+<li>:ls : list file</li>
+</ul>
+
+
+<h2>Visual</h2>
+
+<ul>
+<li>v : v-mode</li>
+<li>V : visual line mode</li>
+<li>ctrl + r : block mode (a.k.a column mode)</li>
+<li>shift + &lt; / shift + > : shift a tab</li>
+</ul>
+
+
+<h2>Window</h2>
+
+<ul>
+<li>ctrl + w n : new window</li>
+<li>ctrl + s : (:sp) split file into 2 window</li>
+<li>ctrl + w o : this window only</li>
+<li>ctrl + w j/k : go to previous/next window</li>
+</ul>
+
+
+<h2>Open files in tabs</h2>
+
+<ul>
+<li>:tabs - View a list of tabs that are open with the file names. Use
+the command &#8216;:tabs&#8217; and Vim will display a list of all the files in
+the tabs. The current window is shown by a ”>” and a ”+” is shown
+for any modifiable buffers.</li>
+<li>:tabc - Close the current tab.</li>
+<li>:tabnew - Open a new file for editing in a separate tab.</li>
+<li>:tab split - Open the file in the current buffer in a new tab page.</li>
+<li>:tabn - Switching to the next tab page.</li>
+<li>:tabp - Switch to the previous tab page.</li>
+<li>:tabr[ewind] - Go to the first tab page. You get the same effect
+when you use the :tabf[irst] command.</li>
+<li>:tabo - Close all other tab pages.</li>
+</ul>
+
+
+<h2>Shell</h2>
+
+<ul>
+<li>:! cmd : execute cmd</li>
+<li>:!! : execute previous command</li>
+<li>sh : execute shell</li>
+</ul>
+
+
+<h2>Key Mapping</h2>
+
+<p><a href="http://greenisland.csie.nctu.edu.tw/wp/2007/02/06/959/" title="http://greenisland.csie.nctu.edu.tw/wp/2007/02/06/959/">sample</a></p>
+
+<h2>Abbreviate</h2>
+
+<ul>
+<li>abbr : using abbreviate in both editor and command line</li>
+<li>cabbr : using abbreviate only in command line</li>
+<li>iabbr : using abbreviate in insert mode only</li>
+<li>una : remove abbreviate</li>
+</ul>
+
+
+<h2>Configuration</h2>
+
+<ul>
+<li>:set : display current settings(modified only)</li>
+<li>:set all : display all settings</li>
+<li>:scriptnames : display the locations of config file</li>
+<li>:set spell/nospell : spelling checking</li>
+<li>:colo[rscheme] {name}: load color scheme {name}.
+
+<ol>
+<li>check
+<a href="http://www.cs.cmu.edu/~maverick/VimColorSchemeTest/" title="http://www.cs.cmu.edu/~maverick/VimColorSchemeTest/">here</a>
+to preview color schema</li>
+</ol>
+</li>
+</ul>
+
+
+<p><a href="http://greenisland.csie.nctu.edu.tw/wp/2005/09/21/341/#more-341" title="http://greenisland.csie.nctu.edu.tw/wp/2005/09/21/341/#more-341">settings sample</a></p>
+
+<h1>Tips</h1>
+
+<h3>^M mark in windows</h3>
+
+<p>Windows(DOS)產生的文件, 在unix環境下使用vim開啟,
+每一行的行尾會出現^M的Dos換行符號. 移除它的方法, 是利用字串取代:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>:%s/\r//g</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Reload vimrc file</h3>
+
+<p>Using <code>source</code> command to reload vimrc (or any vim script) file</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>source ~/vimrc</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Session and Viminfo</h3>
+
+<h4>Save</h4>
+
+<p>Using <code>mksession &lt;filename.vim&gt;</code> to save current session. Using
+<code>wviminfo &lt;filename.viminfo&gt;</code> to write current info.</p>
+
+<h4>Load</h4>
+
+<p>Using <code>source filename</code> to load saved session Using <code>rviminfo</code> to read
+saved viminfo.</p>
+
+<h4>Example</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>:mksession vim101.vim
+</span><span class='line'>:wviminfo vim101.viminfo</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>:source vim101.vim
+</span><span class='line'>:rviminfo vim101.viminfo</span></code></pre></td></tr></table></div></figure>
+
+
+<p>check
+<a href="http://easwy.com/blog/archives/advanced-vim-skills-session-file-and-viminfo/" title="http://easwy.com/blog/archives/advanced-vim-skills-session-file-and-viminfo/">here</a>
+for more details.</p>
+
+<h1>Resources</h1>
+
+<ul>
+<li><a href="http://lucumr.pocoo.org/2007/4/2/vim-as-development-environment" title="http://lucumr.pocoo.org/2007/4/2/vim-as-development-environment">vim as dev
+tools</a></li>
+<li><a href="http://www.geocities.com/volontir/" title="http://www.geocities.com/volontir/">vim
+RE</a></li>
+<li><a href="http://vimcdoc.sourceforge.net/doc/" title="http://vimcdoc.sourceforge.net/doc/">web base online help(Simple
+Chinese)</a></li>
+<li><a href="http://easwy.com/blog/archives/advanced-vim-skills-catalog/" title="http://easwy.com/blog/archives/advanced-vim-skills-catalog/">vim使用进阶</a>
+<a href="http://wiki.kent-chiu.com/lib/exe/fetch.php?media=vim:vim_advanced_usage.pdf" title="vim:vim_advanced_usage.pdf">PDF</a></li>
+<li><a href="http://vim.wikia.com/wiki/Vim_Tips_Wiki" title="http://vim.wikia.com/wiki/Vim_Tips_Wiki">Vim Tips
+Wiki</a></li>
+<li><a href="http://www.newsmth.net/frames.html?mainurl=%2Fbbsdoc.php%3Fboard%3DVIM" title="http://www.newsmth.net/frames.html?mainurl=%2Fbbsdoc.php%3Fboard%3DVIM">水木社區vim板</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/version_plugin/">Maven Version Plugin</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/version_plugin/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://mojo.codehaus.org/versions-maven-plugin/index.html" title="http://mojo.codehaus.org/versions-maven-plugin/index.html">Version Plugin Home</a></p>
+
+<p>檢查maven plugins是否有新版本</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mvn versions:display-plugin-updates</span></code></pre></td></tr></table></div></figure>
+
+
+<p>檢查專案所需的libs(dependencies)是否有新版本</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mvn versions:display-dependency-updates</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+  
+  
+
+
+    </article>
+  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/9/">&larr; Older</a>
@@ -1652,23 +1545,23 @@ schools</a></li>
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2013/07/07/python-101/">Python 101</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/06/25/url-encoding/">URL Encoding</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/06/04/restful-api-design/">RESTful API Design</a>
-      </li>
-    
-      <li class="post">
         <a href="/blog/2013/05/17/my-intellij-idea-shortcut/">My IntelliJ IDEA Shortcut</a>
       </li>
     
       <li class="post">
         <a href="/blog/2013/05/12/jesper-report-font-issue/">Jesper Report, IReport 匯出成中文PDF</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/12/jasperreport-101/">JasperReport 101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/06/mac-tips/">Mac Tips</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/04/22/clean-code/">Clean Code閱讀筆記</a>
       </li>
     
   </ul>

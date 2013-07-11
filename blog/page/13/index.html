@@ -9,18 +9,11 @@
   <meta name="author" content="Kent">
 
   
-  <meta name="description" content="安裝 把文件夹上传到网站的根目录(覆盖) -
-到后台配送方式－选择货到付款－安装－设置区域和货到付款的费率 OK，只需两步即可搞定，此插件是基于顺风速运货到付款 目錄結構 1
-2
-3
-4
-5
-6
-7
-8
-9
-includes
-|- modules |- shopping |- &hellip;">
+  <meta name="description" content="SRP
+OCP
+LSP
+DIP
+ISP OOD 五大原則 (5 principles) SRP Name: The Single Responsibility Principle Desc: A class should have one, and only one, reason to &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -88,799 +81,6 @@ includes
     <div id="content">
       <div class="blog-index">
   
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/10/17/payment_plugin_demo/">顺风速运货到付款插件</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
-        
-         | <a href="/blog/2011/10/17/payment_plugin_demo/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>安裝</h2>
-
-<ul>
-<li>把文件夹上传到网站的根目录(覆盖) -
-到后台配送方式－选择货到付款－安装－设置区域和货到付款的费率</li>
-</ul>
-
-
-<p>OK，只需两步即可搞定，此插件是基于顺风速运货到付款</p>
-
-<h2>目錄結構</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>includes
-</span><span class='line'>|- modules
-</span><span class='line'>    |- shopping
-</span><span class='line'>       |- express_cod.php
-</span><span class='line'>
-</span><span class='line'>languages
-</span><span class='line'>|- zh-cn
-</span><span class='line'>   |- shopping
-</span><span class='line'>      |- express_cod.php</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>主程式</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-<span class='line-number'>70</span>
-<span class='line-number'>71</span>
-<span class='line-number'>72</span>
-<span class='line-number'>73</span>
-<span class='line-number'>74</span>
-<span class='line-number'>75</span>
-<span class='line-number'>76</span>
-<span class='line-number'>77</span>
-<span class='line-number'>78</span>
-<span class='line-number'>79</span>
-<span class='line-number'>80</span>
-<span class='line-number'>81</span>
-<span class='line-number'>82</span>
-<span class='line-number'>83</span>
-<span class='line-number'>84</span>
-<span class='line-number'>85</span>
-<span class='line-number'>86</span>
-<span class='line-number'>87</span>
-<span class='line-number'>88</span>
-<span class='line-number'>89</span>
-<span class='line-number'>90</span>
-<span class='line-number'>91</span>
-<span class='line-number'>92</span>
-<span class='line-number'>93</span>
-<span class='line-number'>94</span>
-<span class='line-number'>95</span>
-<span class='line-number'>96</span>
-<span class='line-number'>97</span>
-<span class='line-number'>98</span>
-<span class='line-number'>99</span>
-<span class='line-number'>100</span>
-<span class='line-number'>101</span>
-<span class='line-number'>102</span>
-<span class='line-number'>103</span>
-<span class='line-number'>104</span>
-<span class='line-number'>105</span>
-<span class='line-number'>106</span>
-<span class='line-number'>107</span>
-<span class='line-number'>108</span>
-<span class='line-number'>109</span>
-<span class='line-number'>110</span>
-<span class='line-number'>111</span>
-<span class='line-number'>112</span>
-<span class='line-number'>113</span>
-<span class='line-number'>114</span>
-<span class='line-number'>115</span>
-<span class='line-number'>116</span>
-<span class='line-number'>117</span>
-<span class='line-number'>118</span>
-<span class='line-number'>119</span>
-<span class='line-number'>120</span>
-<span class='line-number'>121</span>
-<span class='line-number'>122</span>
-<span class='line-number'>123</span>
-<span class='line-number'>124</span>
-<span class='line-number'>125</span>
-<span class='line-number'>126</span>
-<span class='line-number'>127</span>
-<span class='line-number'>128</span>
-<span class='line-number'>129</span>
-<span class='line-number'>130</span>
-<span class='line-number'>131</span>
-<span class='line-number'>132</span>
-<span class='line-number'>133</span>
-<span class='line-number'>134</span>
-<span class='line-number'>135</span>
-<span class='line-number'>136</span>
-<span class='line-number'>137</span>
-<span class='line-number'>138</span>
-<span class='line-number'>139</span>
-<span class='line-number'>140</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?php
-</span><span class='line'> 
-</span><span class='line'>/**
-</span><span class='line'> * ECSHOP 顺丰速运货到付款 配送方式插件
-</span><span class='line'> * ============================================================================
-</span><span class='line'> * 版权所有 (C) 2005-2008 康盛创想（北京）科技有限公司，并保留所有权利。
-</span><span class='line'> * 网站地址: http://www.ecshop.com；http://www.comsenz.com
-</span><span class='line'> * ----------------------------------------------------------------------------
-</span><span class='line'> * 这不是一个自由软件！您只能在不用于商业目的的前提下对程序代码进行修改和
-</span><span class='line'> * 使用；不允许对程序代码以任何形式任何目的的再发布。
-</span><span class='line'> * ============================================================================
-</span><span class='line'> * $Author: testyang $
-</span><span class='line'> * $Id: express_cod.php 14481 2008-04-18 11:23:01Z testyang $
-</span><span class='line'> */
-</span><span class='line'> 
-</span><span class='line'>if (!defined('IN_ECS'))
-</span><span class='line'>{
-</span><span class='line'>    die('Hacking attempt');
-</span><span class='line'>}
-</span><span class='line'> 
-</span><span class='line'>$shipping_lang = ROOT_PATH.'languages/' .$GLOBALS['_CFG']['lang']. '/shipping/express_cod.php';
-</span><span class='line'> 
-</span><span class='line'>if (file_exists($shipping_lang))
-</span><span class='line'>{
-</span><span class='line'>    global $_LANG;
-</span><span class='line'>    include_once($shipping_lang);
-</span><span class='line'>}
-</span><span class='line'> 
-</span><span class='line'>/* 模块的基本信息 */
-</span><span class='line'>if (isset($set_modules) && $set_modules == TRUE)
-</span><span class='line'>{
-</span><span class='line'>    $i = (isset($modules)) ? count($modules) : 0;
-</span><span class='line'> 
-</span><span class='line'>    /* 配送方式插件的代码必须和文件名保持一致 */
-</span><span class='line'>    $modules[$i]['code']    = basename(__FILE__, '.php');
-</span><span class='line'> 
-</span><span class='line'>    $modules[$i]['version'] = '1.0.0';
-</span><span class='line'> 
-</span><span class='line'>    /* 配送方式的描述 */
-</span><span class='line'>    $modules[$i]['desc']    = 'express_desc';
-</span><span class='line'> 
-</span><span class='line'>    /* 配送方式是否支持货到付款 */
-</span><span class='line'>    $modules[$i]['cod']     = TRUE;
-</span><span class='line'> 
-</span><span class='line'>    /* 插件的作者 */
-</span><span class='line'>    $modules[$i]['author']  = '好车饰';
-</span><span class='line'> 
-</span><span class='line'>    /* 插件作者的官方网站 */
-</span><span class='line'>    $modules[$i]['website'] = 'http://www.carhao.com';
-</span><span class='line'> 
-</span><span class='line'>    /* 配送接口需要的参数 */
-</span><span class='line'>    $modules[$i]['configure'] = array(
-</span><span class='line'>                                    array('name' =&gt; 'basic_fee',    'value'=&gt;15), /* 1000克以内的价格           */
-</span><span class='line'>                                    array('name' =&gt; 'step_fee',     'value'=&gt;2),  /* 续重每1000克增加的价格 */
-</span><span class='line'>                                );
-</span><span class='line'> 
-</span><span class='line'>    return;
-</span><span class='line'>}
-</span><span class='line'> 
-</span><span class='line'>/**
-</span><span class='line'> * 顺丰速运费用计算方式: 起点到终点 * 重量(kg)
-</span><span class='line'> * ====================================================================================
-</span><span class='line'> * -浙江，上海，江苏地区为15元/公斤，续重(2元/公斤)
-</span><span class='line'> * -续重每500克或其零数 (具体请上顺丰速运网站查询:http://www.sf-express.com/sfwebapp/price.jsp 客服电话 4008111111)
-</span><span class='line'> *
-</span><span class='line'> * -------------------------------------------------------------------------------------
-</span><span class='line'> */
-</span><span class='line'> 
-</span><span class='line'>class express_cod
-</span><span class='line'>{
-</span><span class='line'>    /*------------------------------------------------------ */
-</span><span class='line'>    //-- PUBLIC ATTRIBUTEs
-</span><span class='line'>    /*------------------------------------------------------ */
-</span><span class='line'> 
-</span><span class='line'>    /**
-</span><span class='line'>     * 配置信息参数
-</span><span class='line'>     */
-</span><span class='line'>    var $configure;
-</span><span class='line'> 
-</span><span class='line'>    /*------------------------------------------------------ */
-</span><span class='line'>    //-- PUBLIC METHODs
-</span><span class='line'>    /*------------------------------------------------------ */
-</span><span class='line'> 
-</span><span class='line'>    /**
-</span><span class='line'>     * 构造函数
-</span><span class='line'>     *
-</span><span class='line'>     * @param: $configure[array]    配送方式的参数的数组
-</span><span class='line'>     *
-</span><span class='line'>     * @return null
-</span><span class='line'>     */
-</span><span class='line'>    function express_cod($cfg=array())
-</span><span class='line'>    {
-</span><span class='line'>        foreach ($cfg AS $key=&gt;$val)
-</span><span class='line'>        {
-</span><span class='line'>            $this-&gt;configure[$val['name']] = $val['value'];
-</span><span class='line'>        }
-</span><span class='line'> 
-</span><span class='line'>    }
-</span><span class='line'> 
-</span><span class='line'>    /**
-</span><span class='line'>     * 计算订单的配送费用的函数
-</span><span class='line'>     *
-</span><span class='line'>     * @param   float   $goods_weight   商品重量
-</span><span class='line'>     * @param   float   $goods_amount   商品金额
-</span><span class='line'>     * @return  decimal
-</span><span class='line'>     */
-</span><span class='line'>    function calculate($goods_weight, $goods_amount)
-</span><span class='line'>    {
-</span><span class='line'>        if ($this-&gt;configure['free_money'] &gt; 0 && $goods_amount &gt;= $this-&gt;configure['free_money'])
-</span><span class='line'>        {
-</span><span class='line'>            return 0;
-</span><span class='line'>        }
-</span><span class='line'>        else
-</span><span class='line'>        {
-</span><span class='line'>            @$fee = $this-&gt;configure['basic_fee'];
-</span><span class='line'> 
-</span><span class='line'>            if ($goods_weight &gt; 1)
-</span><span class='line'>            {
-</span><span class='line'>                $fee += (ceil(($goods_weight - 1))) * $this-&gt;configure['step_fee'];
-</span><span class='line'>            }
-</span><span class='line'>           // $_SESSION['cart_weight'] = $goods_weight;
-</span><span class='line'>            return $fee;
-</span><span class='line'>        }
-</span><span class='line'>    }
-</span><span class='line'> 
-</span><span class='line'>    /**
-</span><span class='line'>     * 查询快递状态
-</span><span class='line'>     *
-</span><span class='line'>     * @access  public
-</span><span class='line'>     * @return  string  查询窗口的链接地址
-</span><span class='line'>     */
-</span><span class='line'>    function query($invoice_sn)
-</span><span class='line'>    {
-</span><span class='line'>        $form_str = '&lt;a href="http://www.sf-express.com/sfwebapp/track.jsp?tracklist='.$invoice_sn.'" target="_blank"&gt;' .$invoice_sn. '&lt;/a&gt;';
-</span><span class='line'> 
-</span><span class='line'>        return $form_str;
-</span><span class='line'>    }
-</span><span class='line'>}
-</span><span class='line'> 
-</span><span class='line'>?&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>語系程式</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?php
-</span><span class='line'> 
-</span><span class='line'>/**
-</span><span class='line'> * ECSHOP 顺丰速运货到付款插件的语言文件
-</span><span class='line'> * ============================================================================
-</span><span class='line'> * 版权所有 (C) 2005-2008 康盛创想（北京）科技有限公司，并保留所有权利。
-</span><span class='line'> * 网站地址: http://www.ecshop.com；http://www.comsenz.com
-</span><span class='line'> * ----------------------------------------------------------------------------
-</span><span class='line'> * 这不是一个自由软件！您只能在不用于商业目的的前提下对程序代码进行修改和
-</span><span class='line'> * 使用；不允许对程序代码以任何形式任何目的的再发布。
-</span><span class='line'> * ============================================================================
-</span><span class='line'> * $Author: testyang $
-</span><span class='line'> * $Id: express_cod.php 14481 2008-04-18 11:23:01Z testyang $
-</span><span class='line'>*/
-</span><span class='line'>global $_LANG;
-</span><span class='line'> 
-</span><span class='line'>$_LANG['express_cod']            = '货到付款';
-</span><span class='line'>$_LANG['express_desc']           = '江、浙、沪地区首重15元/KG，续重2元/KG，其余城市首重20元/KG';
-</span><span class='line'>$_LANG['basic_fee']              = '1000克以内费用';
-</span><span class='line'>$_LANG['step_fee']               = '续重每1000克或其零数的费用';
-</span><span class='line'> 
-</span><span class='line'>?&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/10/17/pax_101/">PAX 101</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
-        
-         | <a href="/blog/2011/10/17/pax_101/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h1>Quick Satrt</h1>
-
-<ul>
-<li>download <a href="http://www.ops4j.org/projects/pax/construct/index.html" title="http://www.ops4j.org/projects/pax/construct/index.html">pax
-construct</a></li>
-<li>setup path</li>
-<li>create a new OSGi project <code>pax-create-project -g examples -a test</code></li>
-<li>create a Bundle
-<code>pax-create-bundle -p org.example.pkg -n test.bundle</code></li>
-<li>build and deploy <code>mvn clean install pax:provision</code></li>
-<li>shutdown felix server by <code>shutdown</code> commend</li>
-</ul>
-
-
-<h1>setup your own env</h1>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>  &lt;plugin&gt;
-</span><span class='line'>    &lt;groupId&gt;org.ops4j&lt;/groupId&gt;
-</span><span class='line'>    &lt;artifactId&gt;maven-pax-plugin&lt;/artifactId&gt;
-</span><span class='line'>    &lt;version&gt;1.4&lt;/version&gt;
-</span><span class='line'>    &lt;configuration&gt;
-</span><span class='line'>      &lt;!--
-</span><span class='line'>       | some example Pax-Runner settings
-</span><span class='line'>      --&gt;
-</span><span class='line'>      &lt;provision&gt;
-</span><span class='line'>        &lt;param&gt;--platform=felix&lt;/param&gt;
-</span><span class='line'>      &lt;/provision&gt;
-</span><span class='line'>    &lt;/configuration&gt;
-</span><span class='line'>    &lt;executions&gt;
-</span><span class='line'>      &lt;!--
-</span><span class='line'>       | uncomment to auto-generate IDE files
-</span><span class='line'>      &lt;execution&gt;
-</span><span class='line'>        &lt;id&gt;ide-support&lt;/id&gt;
-</span><span class='line'>        &lt;goals&gt;
-</span><span class='line'>          &lt;goal&gt;eclipse&lt;/goal&gt;
-</span><span class='line'>        &lt;/goals&gt;
-</span><span class='line'>      &lt;/execution&gt;
-</span><span class='line'>      --&gt;
-</span><span class='line'>    &lt;/executions&gt;
-</span><span class='line'>  &lt;/plugin&gt;
-</span><span class='line'>  &lt;plugin&gt;
-</span><span class='line'>&lt;artifactId&gt;maven-compiler-plugin&lt;/artifactId&gt;
-</span><span class='line'>&lt;configuration&gt;
-</span><span class='line'>  &lt;source&gt;1.5&lt;/source&gt;
-</span><span class='line'>  &lt;target&gt;1.5&lt;/target&gt;
-</span><span class='line'>  &lt;encoding&gt;UTF-8&lt;/encoding&gt;
-</span><span class='line'>&lt;/configuration&gt;
-</span><span class='line'>  &lt;/plugin&gt;      </span></code></pre></td></tr></table></div></figure>
-
-
-<p>default pom.xml under proejct is like above. You can
-<code>&lt;param&gt;–platform=felix&lt;/param&gt;</code> to <code>&lt;param&gt;–platform=equinox&lt;/param&gt;</code>
-and enabled ide support by remove comment.</p>
-
-<h1>embed 3th party jar</h1>
-
-<ol>
-<li>pax-embed-jar</li>
-<li>mvn install</li>
-<li>pax-provision</li>
-</ol>
-
-
-<p>embed or wrap</p>
-
-<p>embed: just put jar in container wrap: provides capability for install,
-resoled, unstall, update, export package ….</p>
-
-<h1>Enable Spring DM</h1>
-
-<ul>
-<li>check
-<a href="http://www.ops4j.org/projects/pax/construct/examples/spring-osgi.html" title="http://www.ops4j.org/projects/pax/construct/examples/spring-osgi.html">here</a></li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/10/17/orphan_deletion/">幽靈資料(Orphan Data)的處理方式</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
-        
-         | <a href="/blog/2011/10/17/orphan_deletion/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>在實際的系統上，一個模組所使用的資料，常會依賴於所多其他的模組，這些關聯可能會透過新增資料時來建立，
-以照片管理應用程式來說，至少會有相片模組及使用者模組，以相片模組來說，新增完一張照片後，通常，相關聯的資料會是</p>
-
-<ol>
-<li>或者照片本身的細節資訊(分別存放在多個tables)</li>
-<li>這張照片是屬於那個人的(使用者模組的使用者資料)</li>
-<li>這個照片被誰引用(別的使用者將這張相片放入自已的相本)</li>
-</ol>
-
-
-<p>以上面的例子來說，第一個是<strong>一對多 +
-多對一</strong>的Master-Details關係，第二個是透過在相片主table放一個user_id的Forgin
-Key的<strong>多對一</strong>，第三個是一張相片可能被多人引用，也可能一個人引用多張相片的<strong>多對多</strong>的關係。
-在大多數的應用上，通常，
-第一點的照片本身及細節的table，因為跟相片本身有比較大的相關性，所以，通常會放在相片模組裡面，刪除時，通常會一併處理，
-第二點因為相片是透過存forgin
-key，如果只是刪除相片本身，通常沒什麼問題，但如果<strong>刪除使用者時是否需一併刪除相關的相片</strong>，這就是本文要討論的重點。
-第三點，設計時，是否會放在相片的module，與是否一併刪除，就看設計者的考量。</p>
-
-<p>正常的設計上，刪除使用者，一併刪除所有相關的資料，這樣不會造成幽靈資料(Orphan
-data)，但如果與使用者相關的模組的變多，變複雜，那刪除一個使用者，要一併刪除底下一大串的相關資料，這樣容易會造成刪除的動作失敗。</p>
-
-<p>目前想得到，最佳的solution是<strong>只刪除最直接相關的資料，其他間接相關的資料不進行刪除</strong>，這樣最大的好處是簡化設計，但可能需提供一個清除這樣幽靈資料的功能或sql
-script。目前關於這個做法相關的議題如下：</p>
-
-<blockquote><p>幽靈資料(Orphan data)會造成資料庫的負擔</p>
-
-<blockquote><p>基本上，這個問題不需要太被關注，如果要解決，已經是資料庫效能調校的議題。或者，可透過清除幽靈資料(Orphan
-data)的動作進行處理。</p></blockquote>
-
-<p>幽靈資料(Orphan data)是否會造成統計異常，資料不一致</p>
-
-<blockquote><p>如果統計時，都有依據關聯的key做統計，那不存在的FK的資料就不會被計入，就不會照成這個問題</p>
-
-<blockquote><p>如果採原始的刪除方式(刪除所有相關資料)，如果有一筆資料無法刪除，就會發生刪除無法成功(所有刪除動作在同一個transcation)或者資料不一致(刪除的動作不在同一個transcation)</p></blockquote></blockquote></blockquote>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/10/17/oracle_101/">Oracle 101</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
-        
-         | <a href="/blog/2011/10/17/oracle_101/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h4>Schema</h4>
-
-<p>Oracle的資料庫觀念，與MySql,MSSQL並大一樣，，在連入(不管透過工具或jdbc
-driver)，都必需使用特定的user name連到特定的Schema
-在查詢時，也需指明確的指出查那一個shema</p>
-
-<p>在oracle中，有部份constrain匯入後，有異常，例如說：
-function_log這個table中的 constrain，匯入後是</p>
-
-<p>function_log.<strong>logId</strong> → user_info.userId</p>
-
-<p>但應該下面的才是正確的</p>
-
-<p>function_log.<strong>userId</strong>→ user_info.userId</p>
-
-<h4>Auto Increment</h4>
-
-<p>oracle中沒有自動增值(每次insert後，自動產生+1的值給Primary
-Key使用)，但還是可以透過sequence達到類似的功能，
-惟sequence是須在insert時自行加入Insert
-Statement中，而不是Database自動幫我們設定到PK中</p>
-
-<p><a href="http://fanqiang.chinaunix.net/a2/b2/20010514/10150052_b.html" title="http://fanqiang.chinaunix.net/a2/b2/20010514/10150052_b.html">這裡</a>有相關的說明</p>
-
-<p>Example: 建立給user info用的sequence</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>CREATE SEQUENCE userinfo_sequence 
-</span><span class='line'>    INCREMENT BY 1   
-</span><span class='line'>    START WITH 1     
-</span><span class='line'>    NOMAXVALUE       
-</span><span class='line'>    NOCYCLE          
-</span><span class='line'>    CACHE 10;  </span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>INSERT INTO SCOTT.USER_INFO (USERID,USERNAME) VALUES(userinfo_sequence.NEXTVAL,'kent')</span></code></pre></td></tr></table></div></figure>
-
-
-<h5>測試是否有Sequence存取權限</h5>
-
-<p>該使用者要有存取<a href="http://www.adp-gmbh.ch/ora/misc/dual.html" title="http://www.adp-gmbh.ch/ora/misc/dual.html">daul</a>
-table的權限。<code>daul</code> table是記錄<code>SEQUENCE</code>的table.
-可以透過些語法測試是否有存取<code>daul</code> table的權限</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>select USERINFO_SEQUENCE.NEXTVAL from DUAL</span></code></pre></td></tr></table></div></figure>
-
-
-<h5>所出所有Sequences</h5>
-
-<p>查詢所有<code>SEQUENCE</code>的語法(需要DBA權限)</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>SELECT * FROM dba_sequences</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>Driver</h4>
-
-<p>oracle有提供type 4的jdbc driver (ojdbc or
-odbc)，每一個資料庫版本適用的driver不太一樣，常見的有這幾種</p>
-
-<p>  jar name       For Oracle   說明</p>
-
-<hr />
-
-<p>  oracle12.jar   ALL          for jdk 1.2
-  oracle14.jar   ALL          for jdk 1.4
-  oracle5.jar    11g          for jdk 1.5, 我們主要用的driver
-  oracle6 .jar   11g          for jdk 1.6</p>
-
-<h4>DataType</h4>
-
-<p>Oracle與SQL Server的資料型別上有些差異，我們有用到的部份，表列如下：</p>
-
-<h4>Null與空字串</h4>
-
-<p>Oracle會把空字串(empty string, length=0)當作是null</p>
-
-<h4>SQL syntax</h4>
-
-<p>TBD</p>
-
-<h4>Commands</h4>
-
-<h5>desc</h5>
-
-<p>顯示table的描述</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#語法
-</span><span class='line'>desc table_name
-</span><span class='line'>#範例
-</span><span class='line'>desc my_table</span></code></pre></td></tr></table></div></figure>
-
-
-<h5>list all tables in current schema</h5>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>SELECT table_name FROM user_tables;</span></code></pre></td></tr></table></div></figure>
-
-
-<h5>list all tables current user</h5>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>SELECT table_name FROM all_tables;
-</span><span class='line'> 
-</span><span class='line'>SELECT table_name FROM user_tables where owner='SYS';</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Oracle的字串是區分會小寫，where owner=&#8217;SYS&#8217; 跟where
-owner=&#8217;sys&#8217;查到的結果是不一樣的</p>
-
-<h5>list all schemas</h5>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>SELECT username FROM all_users ORDER BY username;</span></code></pre></td></tr></table></div></figure>
-
-
-<h5>top n records</h5>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>SELECT * FROM table_name where rownum &lt; n;</span></code></pre></td></tr></table></div></figure>
-
-
-
-</div>
-  
-  
-
-
-    </article>
   
   
     <article>
@@ -3991,6 +3191,449 @@ Yahoo&#8217;s rules for high performance web sites.</li>
 
     </article>
   
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/log_101/">Pear Log 101</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/log_101/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>require_once 'Log.php';
+</span><span class='line'> 
+</span><span class='line'>$logger = &Log::singleton('file', 'debug.log', 'TEST');
+</span><span class='line'>$logger-&gt;log('debug message', PEAR_LOG_DEBUG);</span></code></pre></td></tr></table></div></figure>
+
+
+<p>不同檔案內，需設定不同logger
+file位置的問題，這以下這樣，每個檔案都要重新設定debug.log的位置
+另一種較好的解法是將\$logger定義成global variables</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$logger = &Log::singleton('file', '..\logs\debug.log', 'TEST');</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Resource</h2>
+
+<ul>
+<li><a href="http://wiki.kent-chiu.com/lib/exe/fetch.php?media=php:lang:tail.rar" title="php:lang:tail.rar">tail</a>
+
+<ul>
+<li>you can using tail to monitoring logfile (you can using tail as
+external tools in Eclipse, it will keep outputting out eclipse
+console)</li>
+</ul>
+</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/linux/">Linux</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/linux/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><ul>
+<li><a href="http://wiki.kent-chiu.com/doku.php?id=linux:commands" title="linux:commands">Linux
+Commands</a></li>
+<li><a href="http://wiki.kent-chiu.com/doku.php?id=linux:find_command" title="linux:find_command">find
+Command</a></li>
+<li><a href="http://wiki.kent-chiu.com/doku.php?id=linux:grep_command" title="linux:grep_command">grep
+command</a></li>
+<li><a href="http://wiki.kent-chiu.com/doku.php?id=linux:solaris_rhel_ubuntu_-_pros_and_cons" title="linux:solaris_rhel_ubuntu_-_pros_and_cons">Solaris ,RHEL ,Ubuntu - Pros and
+Cons</a></li>
+<li><a href="http://plog.longwin.com.tw/my_note-app-setting/2006/07/02/color_grep_man_2006" title="http://plog.longwin.com.tw/my_note-app-setting/2006/07/02/color_grep_man_2006">grep、man
+顏色設定</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/linguistic/">一些基本的語言學觀念</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/linguistic/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><em>本文轉自ptt的精華區</em></p>
+
+<p>母音(又稱元音)指的是a.i.u.e.o…..等等的音</p>
+
+<p>一般來說,世界上的語言一定有a.i.u</p>
+
+<p>再來才會有 e.o和雙母音等(雙母音指的是如au,ou,ai…由兩個母音組成的元音)</p>
+
+<p>這些音在發音時 發音器官沒有受到阻礙</p>
+
+<p>(合唱團發音練習時嗚嗚叫的就是母音 )</p>
+
+<p>子音(又稱輔音)則是在母音前面的元素</p>
+
+<p>這些音跟母音不同的地方在於</p>
+
+<p>它會在發音部位形成阻礙</p>
+
+<p>若是完全的阻礙 就是塞音(stop) 如 b p m n d t g k</p>
+
+<p>先成阻之後再磨擦 就叫塞擦音(affricate) 如 注音符號的 ㄗ ㄘ ㄙ …</p>
+
+<p>還有擦音( fricative) 如 f.v..</p>
+
+<p>另外還有捲舌音 流音 顫音……(就省略啦)</p>
+
+<p>發音部位指的是如 雙唇 脣齒 齒齦 硬顎 軟顎…地方</p>
+
+<p>如果是 b.p.m 等子音 就是在雙唇部分形成完全的阻塞</p>
+
+<p>g,k,h等等 就是再舌根(軟顎)處形成阻礙</p>
+
+<p>總之 子音是不能單獨被念出來的</p>
+
+<p>他只是輔助母音的元素 使語言更有變化</p>
+
+<p>我們在唸注音符號時 都以為我們在唸中文的子音</p>
+
+<p>事實上</p>
+
+<p>我們已經在後面加上母音了</p>
+
+<p>所以ㄅ這個音 我們在唸的時候</p>
+
+<p>其實已經在 /b/ 後面加上央元音了 (唸起來像ㄜ
+看起來像阿拉伯數字6像右轉的樣子)</p>
+
+<p>總而言之</p>
+
+<p>子音就是用阻礙的方式 或阻礙的地方 以及有聲無聲(指有無震動聲帶)來區分的</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/lamp_install/">LAMP Install on CentOS5</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/lamp_install/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>OS installation</h2>
+
+<h3>VMWare</h3>
+
+<ul>
+<li>掛載iso檔</li>
+<li>網路卡設成NAT</li>
+<li>記憶體可調小一點300M應該就夠了</li>
+<li>不用特別去裝VMTools</li>
+</ul>
+
+
+<h3>CentOS 5</h3>
+
+<ul>
+<li>安裝成text mode的server就可(不用gui)</li>
+<li>照<a href="http://smartraining.cn/centos/server_installation" title="http://smartraining.cn/centos/server_installation">這篇</a>的方式去裝就好了</li>
+<li>網路設定如以改用dhcp</li>
+<li>Firewall disabled</li>
+</ul>
+
+
+<h4>新建一個一般usre</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>adduser username
+</span><span class='line'>passwd username </span></code></pre></td></tr></table></div></figure>
+
+
+<h4>網路設定</h4>
+
+<ul>
+<li>裝完後，如果網路沒有active，可以到/etc/sysconfig/network-scripts/ifcfg-eth0
+修改網路設定</li>
+</ul>
+
+
+<p>指定IP</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>DEVICE=eth0                          #網路卡名稱
+</span><span class='line'>BOOTPROTO=static                     #BOOTP協定
+</span><span class='line'>BROADCAST=192.168.202.255            #廣播 IP Address
+</span><span class='line'>HWADDR=00:15:C5:E5:99:B1             #MAC Address
+</span><span class='line'>IPADDR=192.168.202.100               #IP Address
+</span><span class='line'>NETMASK=255.255.254.0                #Netmask (遮罩)
+</span><span class='line'>NETWORK=192.168.202.0                #網段
+</span><span class='line'>ONBOOT=yes                           #開機自動啟動 </span></code></pre></td></tr></table></div></figure>
+
+
+<p>DHCP</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>DEVICE=eth0
+</span><span class='line'>BOOTPROTO=dhcp
+</span><span class='line'>ONBOOT=yes</span></code></pre></td></tr></table></div></figure>
+
+
+<p>設定完重新啟動網卡</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#/etc/rc.d/init.d/network restart</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>安裝packages</h4>
+
+<ul>
+<li>記得透過<a href="http://smartraining.cn/centos/yum" title="http://smartraining.cn/centos/yum">yum</a>裝以一下以下幾個packages，滿有用的</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>yum -y  install wget bzip2 unzip zip nmap tree lynx</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Server installation</h2>
+
+<p>預設的php是5.1.x的，有點太舊了，可以透過<a href="http://www.52crack.com/blog/?action=show&amp;id=368" title="http://www.52crack.com/blog/?action=show&amp;id=368">這個連結</a>的說明更新到5.2.x</p>
+
+<h3>MySQL 5</h3>
+
+<p>MySQL install</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>yum -y install mysql-server</span></code></pre></td></tr></table></div></figure>
+
+
+<p>set MySQL as daemon</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>chkconfig mysqld on</span></code></pre></td></tr></table></div></figure>
+
+
+<p>check config</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>chkconfig --list mysqld
+</span><span class='line'># 2 - 5 should be on
+</span><span class='line'>mysqld 0:off 1:off 2:on 3:on 4:on 5:on 6:off</span></code></pre></td></tr></table></div></figure>
+
+
+<p>startup MySQL server</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/etc/rc.d/init.d/mysqld start</span></code></pre></td></tr></table></div></figure>
+
+
+<p>change password</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mysqladmin -u root password 'Your Password'</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Apache 2</h3>
+
+<p>install Apache server</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>yum -y install httpd</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>PHP 5</h3>
+
+<p>install PHP</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>yum -y install php php-mbstring php-mysql php-gd php-pear</span></code></pre></td></tr></table></div></figure>
+
+
+<p>setup php.ini</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>date.timezone = "Asia/Taipei"</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Apache Config</h3>
+
+<p>set Apache as daemon</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>chkconfig httpd on</span></code></pre></td></tr></table></div></figure>
+
+
+<p>check config</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>chkconfig --list httpd 
+</span><span class='line'># 2 - 5 should be on
+</span><span class='line'>httpd  0:off 1:off 2:on 3:on 4:on 5:on 6:off</span></code></pre></td></tr></table></div></figure>
+
+
+<p>startup httpd server</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/etc/rc.d/init.d/httpd start</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>verify installed</h2>
+
+<p>create new php file in document root</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>vi /var/www/html/index.php</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?php 
+</span><span class='line'>phpinfo();
+</span><span class='line'>?&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>open by lynx borwser</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>lynx http://localhost</span></code></pre></td></tr></table></div></figure>
+
+
+<p>you should check
+<a href="http://wiki.kent-chiu.com/doku.php?id=ubuntu:lamp" title="ubuntu:lamp">this</a>
+article to config LAMP server</p>
+
+<p>如果無法從linux外存取web，可能會firewall的關係，在command
+line下執行<code>setup</code>可以關掉firewall</p>
+</div>
+  
+  
+
+
+    </article>
+  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/14/">&larr; Older</a>
@@ -4008,23 +3651,23 @@ Yahoo&#8217;s rules for high performance web sites.</li>
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2013/07/07/python-101/">Python 101</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/06/25/url-encoding/">URL Encoding</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/06/04/restful-api-design/">RESTful API Design</a>
-      </li>
-    
-      <li class="post">
         <a href="/blog/2013/05/17/my-intellij-idea-shortcut/">My IntelliJ IDEA Shortcut</a>
       </li>
     
       <li class="post">
         <a href="/blog/2013/05/12/jesper-report-font-issue/">Jesper Report, IReport 匯出成中文PDF</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/12/jasperreport-101/">JasperReport 101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/06/mac-tips/">Mac Tips</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/04/22/clean-code/">Clean Code閱讀筆記</a>
       </li>
     
   </ul>
