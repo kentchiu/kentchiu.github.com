@@ -29,3 +29,6 @@ bytes)
 Restart Eclipse PDT and the memory heap status will showing the minimum
 value initailly
 
+
+[allocate_memory_useage_01.png]: http://blog.kent-chiu.com/images/2011-10-17/allocate_memory_useage_01.png
+[allocate_memory_useage_02.png]: http://blog.kent-chiu.com/images/2011-10-17/allocate_memory_useage_02.png
