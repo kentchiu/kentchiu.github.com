@@ -1,0 +1,3329 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Kent's Blog</title>
+  <meta name="author" content="Kent">
+
+  
+  <meta name="description" content="
+Vim 101
+VIM for PHPer
+VIM cookbook
+vim Recipes
+pdf
+網站(有search功能) vim cheat sheet from
+vgod
+简明 Vim
+练级攻略 一些基本到進階的常用技巧，有圖片及gif動畫說明 VIM常用指令 ">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.kent-chiu.com/blog/page/4">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Kent's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-39152849-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Kent's Blog</a></h1>
+  
+    <h2>Kent的學習筆記(剛從dokuwiki搬過來，內容還在整修中)</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.kent-chiu.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/04/26/vim/">VIM</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-26T00:00:00+08:00" pubdate data-updated="true">Apr 26<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/04/26/vim/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><ul>
+<li><a href="http://wiki.kent-chiu.com/doku.php?id=vim:vim_101" title="vim:vim_101">Vim 101</a></li>
+<li><a href="http://wiki.kent-chiu.com/doku.php?id=vim:vim_for_phper" title="vim:vim_for_phper">VIM for  PHPer</a></li>
+<li><a href="http://www.oualline.com/vim-cook.html" title="http://www.oualline.com/vim-cook.html">VIM cookbook</a></li>
+<li>vim Recipes
+<a href="http://wiki.kent-chiu.com/lib/exe/fetch.php?media=vim:vim-recipes.pdf" title="vim:vim-recipes.pdf">pdf</a>
+<a href="http://vim.runpaint.org/" title="http://vim.runpaint.org/">網站(有search功能)</a></li>
+<li><img src="/images/wiki/vim/vim-cheat-sheet-full.png" alt="vim-cheat-sheet-full.png" />
+<a href="http://blog.vgod.tw/2009/12/08/vim-cheat-sheet-for-programmers/" title="http://blog.vgod.tw/2009/12/08/vim-cheat-sheet-for-programmers/">vim cheat sheet from
+vgod</a></li>
+<li><a href="http://coolshell.cn/articles/5426.html" title="http://coolshell.cn/articles/5426.html">简明 Vim
+练级攻略</a>
+
+<ul>
+<li>一些基本到進階的常用技巧，有圖片及gif動畫說明</li>
+</ul>
+</li>
+<li><a href="http://yannesposito.com/Scratch/en/blog/Learn-Vim-Progressively/" title="http://yannesposito.com/Scratch/en/blog/Learn-Vim-Progressively/">VIM常用指令</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/04/20/actionbar/">Action Bar</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-20T00:00:00+08:00" pubdate data-updated="true">Apr 20<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/04/20/actionbar/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>android 3.0+ (API level 11)</p>
+
+<p><img src="http://developer.android.com/design/media/action_bar_basics.png" alt="img" /></p>
+
+<ol>
+<li>具有 tab 的效果，可以在多個 fragments 間切換</li>
+<li>具有 options menu 的功能， options menu 在 3.0 之後會用改採 action
+item 的實作呈現</li>
+</ol>
+
+
+<p>基本的 actionbar
+應用，可以參數<a href="http://developer.android.com/design/patterns/actionbar.html" title="http://developer.android.com/design/patterns/actionbar.html">這裡</a></p>
+
+<p><img src="/images/wiki/android/actionbar_001.png" alt="actionbar_001.png" /></p>
+
+<h5>移除 ActionBar</h5>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;activity android:theme="@android:style/Theme.Holo.NoActionBar"&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>移除後，在程式裡面呼叫 <code>getActionBar()</code> 會得到 null</p>
+
+<p><img src="/images/wiki/android/actionbar_002.png" alt="actionbar_002.png" /></p>
+
+<h5>隱藏 ActionBar</h5>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ActionBar actionBar = getActionBar();
+</span><span class='line'>actionBar.hide();</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>建立 Action Item</h3>
+
+<p>建立 Action Item 的方式跟之前建立 Option Menu 的方式一樣，只是有些 xml
+屬性不一樣</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@Override
+</span><span class='line'>public boolean onCreateOptionsMenu(Menu menu) {
+</span><span class='line'>    getMenuInflater().inflate(R.menu.menu_foobar, menu);
+</span><span class='line'>    return true;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+</span><span class='line'>&lt;menu xmlns:android="http://schemas.android.com/apk/res/android"&gt;
+</span><span class='line'>    &lt;item android:id="@+id/menu_save"
+</span><span class='line'>          android:icon="@drawable/ic_menu_save"
+</span><span class='line'>          android:title="@string/menu_save"
+</span><span class='line'>          android:showAsAction="ifRoom|withText" /&gt;
+</span><span class='line'>&lt;/menu&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>主要的差別在 <code>android:showAsAction</code> 屬性 <strong>ifRoom</strong>
+是指如果空間夠的話，放呈現該item ， <strong>withText</strong> 則是該 item 需不需要
+title 。 不過，就算指定了 title ，如果空間不足時，還是 title
+還是有可能不會出現，但基本上，把 id, icon, titile 視為必要屬性就好了。</p>
+
+<h3>建立 Action View</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;item
+</span><span class='line'>    android:id="@+id/menu_my_action_vew"
+</span><span class='line'>    android:actionViewClass="com.kentchiu.MyActionView"
+</span><span class='line'>    android:icon="@android:drawable/ic_dialog_alert"
+</span><span class='line'>    android:showAsAction="always"
+</span><span class='line'>    android:title="my test action view"/&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>package com.kentchiu;
+</span><span class='line'> 
+</span><span class='line'>import android.content.Context;
+</span><span class='line'>import android.view.LayoutInflater;
+</span><span class='line'>import android.widget.LinearLayout;
+</span><span class='line'> 
+</span><span class='line'>public class MyActionView extends LinearLayout {
+</span><span class='line'> 
+</span><span class='line'>    public MyActionView(Context context) {
+</span><span class='line'>        super(context);
+</span><span class='line'>        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+</span><span class='line'>        inflater.inflate(R.layout.action_test, this, true);
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果需要支援 Collapsible 的動作，就要實作
+<code>android.view.CollapsibleActionView</code>。</p>
+
+<h1>TBC</h1>
+
+<ol>
+<li>Action Provider</li>
+<li>Navigation Tabs</li>
+<li>Drop-down Navigation</li>
+</ol>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/04/17/drawable_101/">Android Drawable 101</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-17T00:00:00+08:00" pubdate data-updated="true">Apr 17<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/04/17/drawable_101/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>這篇文章裡的原始碼我放在GITHUB上 :
+<a href="https://github.com/DraculaCwg/android_exercise" title="https://github.com/DraculaCwg/android_exercise">https://github.com/DraculaCwg/android_exercise</a></p>
+
+<p>在android中，要設計出美觀的ui，通常都跟<code>Drawable</code>相關的物件脫離不了關係，<code>Drawable</code>翻成中文為”可繪的”，</p>
+
+<p><img src="/images/wiki/android/drawable_101_001.png" alt="drawable_101_001.png" /></p>
+
+<p>由上面的類別結構圖可以得知，圖檔、顏色、動畫、圖形，漸層這些都是屬於<code>Drawable</code>的子類別。
+回過頭來看所有gui元件的祖先<code>View</code>
+class，裡面跟<code>Drawable</code>有關的是setBackground開頭的幾個method，
+也就是說，對於所有的元件，我們都可以透過圖片、形狀、顏色、…等<code>Drawable</code>的子類別來改變元件的外觀。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public class View implements Drawable.Callback, KeyEvent.Callback, AccessibilityEventSource {
+</span><span class='line'>    public void setBackgroundColor(int color) {
+</span><span class='line'>        setBackgroundDrawable(new ColorDrawable(color));
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>    public void setBackgroundColor(int color) {
+</span><span class='line'>       ...
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>    @RemotableViewMethod
+</span><span class='line'>    public void setBackgroundResource(int resid) {
+</span><span class='line'>        if (resid != 0 && resid == mBackgroundResource) {
+</span><span class='line'>            return;
+</span><span class='line'>        }
+</span><span class='line'> 
+</span><span class='line'>        Drawable d= null;
+</span><span class='line'>        if (resid != 0) {
+</span><span class='line'>            d = mResources.getDrawable(resid);
+</span><span class='line'>        }
+</span><span class='line'>        setBackgroundDrawable(d);
+</span><span class='line'> 
+</span><span class='line'>        mBackgroundResource = resid;
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>    public void setBackgroundDrawable(Drawable d) {
+</span><span class='line'>        ...
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>實務上比較常用的做法，是透過xml來設定元件的background，而官網文件上的<a href="http://developer.android.com/guide/topics/resources/drawable-resource.html" title="http://developer.android.com/guide/topics/resources/drawable-resource.html">Drawable
+Resources</a>
+裡面的xml tag都可以找到跟上面的類別相對應的tag，需要特別注意的是 .png,
+.9.png,.jpg, or
+.gif這些圖檔只要放在res\drawable的目錄下，就會自動依檔名變成可以直接在XML裡引用的Drawable
+Resource，不需額外的tag
+而另外常用的還有<code>Shape Drawable</code>這種resource，他裡面包含了處理顏色、形狀，外框的子tags</p>
+
+<p>基本上，只要透過圖片跟Shape
+Drawable，就可以玩出很多效果了，先從簡單的來好了:</p>
+
+<h3>圖片</h3>
+
+<p>要改變元件的外觀，最快的方式就是把元件加上背景圖片，下圖效果都是單純的把元件的背景圖片換掉而已</p>
+
+<p><img src="/images/wiki/android/drawable_101_002.png" alt="drawable_101_002.png" /></p>
+
+<p>上圖三個view，分別是用這三個圖片當底圖 (圖片來源 :
+<a href="http://www.dibbus.com/2011/03/9patch-images-in-android/" title="http://www.dibbus.com/2011/03/9patch-images-in-android/">http://www.dibbus.com/2011/03/9patch-images-in-android/</a>)</p>
+
+<p>![drawable_101_003.png][]
+![drawable_101_004.png][]
+![drawable_101_005.png][]</p>
+
+<p>透過把android:background設定成圖片的resource就可以達到上面的效果</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+</span><span class='line'>&lt;LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+</span><span class='line'>    android:layout_width="match_parent"
+</span><span class='line'>    android:layout_height="match_parent"
+</span><span class='line'>    android:orientation="vertical" &gt;
+</span><span class='line'> 
+</span><span class='line'>    &lt;TextView
+</span><span class='line'>        android:id="@+id/bule"
+</span><span class='line'>        android:layout_width="match_parent"
+</span><span class='line'>        android:layout_height="100dp"
+</span><span class='line'>        android:background="@drawable/btn_blue_matte"
+</span><span class='line'>        android:gravity="center"
+</span><span class='line'>        android:text="bule"
+</span><span class='line'>        android:textColor="@color/White" /&gt;
+</span><span class='line'> 
+</span><span class='line'>    &lt;TextView
+</span><span class='line'>        android:id="@+id/bule_glossy"
+</span><span class='line'>        android:layout_width="match_parent"
+</span><span class='line'>        android:layout_height="100dp"
+</span><span class='line'>        android:background="@drawable/btn_blue_glossy"
+</span><span class='line'>        android:gravity="center"
+</span><span class='line'>        android:text="bule glossy"
+</span><span class='line'>        android:textColor="@color/White" /&gt;
+</span><span class='line'> 
+</span><span class='line'>    &lt;TextView
+</span><span class='line'>        android:id="@+id/corner"
+</span><span class='line'>        android:layout_width="match_parent"
+</span><span class='line'>        android:layout_height="100dp"
+</span><span class='line'>        android:background="@drawable/btn_blue_pink_glossy"
+</span><span class='line'>        android:gravity="center"
+</span><span class='line'>        android:text="blue glossy with pink"
+</span><span class='line'>        android:textColor="@color/White" /&gt;
+</span><span class='line'> 
+</span><span class='line'>&lt;/LinearLayout&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Shape Drawable</h3>
+
+<p>除了用圖片，也可以用<code>Shape Drawable</code>的方式來改變元件的外觀，Shape
+Drawable可以運用的tag如下</p>
+
+<ol>
+<li>&lt;corners> 圖形的四個角的形狀</li>
+<li>&lt;gradient> 漸層</li>
+<li>&lt;padding> 內部圖文</li>
+<li>&lt;size></li>
+<li>&lt;solid> 填滿的顏色</li>
+<li>&lt;stroke> 外框的線條效果</li>
+</ol>
+
+
+<p>下面就是透過設定<code>Shape Drawable</code>的tag達到的效果</p>
+
+<ol>
+<li>第一個view是使用了數個子tag達到的</li>
+<li>第二個view是只使用<code>&lt;gradient&gt;</code>做漸層</li>
+<li>第三個view是只使用<code>&lt;corners&gt;</code>來設定圖形為圓角(round)</li>
+<li>第四個view是只使用<code>&lt;solid&gt;</code>設定背景為綠色</li>
+<li>第五個view是只使用<code>&lt;stroke&gt;</code>來設定外框的效果</li>
+</ol>
+
+
+<p><img src="/images/wiki/android/drawable_101_006.png" alt="drawable_101_006.png" /></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+</span><span class='line'>&lt;LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+</span><span class='line'>    android:layout_width="match_parent"
+</span><span class='line'>    android:layout_height="match_parent"
+</span><span class='line'>    android:orientation="vertical" &gt;
+</span><span class='line'> 
+</span><span class='line'>    &lt;TextView
+</span><span class='line'>        android:id="@+id/all"
+</span><span class='line'>        android:layout_width="match_parent"
+</span><span class='line'>        android:layout_height="75dp"
+</span><span class='line'>        android:gravity="center"
+</span><span class='line'>        android:background="@drawable/shape_all"
+</span><span class='line'>        android:textColor="@color/Black"
+</span><span class='line'>        android:text="shape mix" /&gt;
+</span><span class='line'> 
+</span><span class='line'>    &lt;TextView
+</span><span class='line'>        android:id="@+id/gradient"
+</span><span class='line'>        android:layout_width="match_parent"
+</span><span class='line'>        android:layout_height="75dp"
+</span><span class='line'>        android:gravity="center"
+</span><span class='line'>        android:background="@drawable/shape_gradient"
+</span><span class='line'>        android:textColor="@color/Black"
+</span><span class='line'>        android:text="gradient" /&gt;
+</span><span class='line'> 
+</span><span class='line'>    &lt;TextView
+</span><span class='line'>        android:id="@+id/corner"
+</span><span class='line'>        android:layout_width="match_parent"
+</span><span class='line'>        android:layout_height="75dp"
+</span><span class='line'>        android:gravity="center"
+</span><span class='line'>        android:background="@drawable/shape_corners"
+</span><span class='line'>        android:textColor="@color/Black"
+</span><span class='line'>        android:text="corner" /&gt;
+</span><span class='line'> 
+</span><span class='line'> 
+</span><span class='line'>    &lt;TextView
+</span><span class='line'>        android:id="@+id/corner"
+</span><span class='line'>        android:layout_width="match_parent"
+</span><span class='line'>        android:layout_height="75dp"
+</span><span class='line'>        android:gravity="center"
+</span><span class='line'>        android:background="@drawable/shape_solid"
+</span><span class='line'>        android:textColor="@color/Black"
+</span><span class='line'>        android:text="corner" /&gt;
+</span><span class='line'>    &lt;TextView
+</span><span class='line'>        android:id="@+id/stroke"
+</span><span class='line'>        android:layout_width="match_parent"
+</span><span class='line'>        android:layout_height="75dp"
+</span><span class='line'>        android:gravity="center"
+</span><span class='line'>        android:background="@drawable/shape_stroke"
+</span><span class='line'>        android:textColor="@color/White"
+</span><span class='line'>        android:text="stroke" /&gt;
+</span><span class='line'> 
+</span><span class='line'>&lt;/LinearLayout&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+</span><span class='line'>&lt;shape xmlns:android="http://schemas.android.com/apk/res/android" &gt;
+</span><span class='line'>    &lt;gradient
+</span><span class='line'>        android:centerColor="@color/WhiteSmoke"
+</span><span class='line'>        android:endColor="@color/Yellow"
+</span><span class='line'>        android:startColor="@color/Blue" /&gt;
+</span><span class='line'>    &lt;corners android:radius="50dp" /&gt;
+</span><span class='line'>    &lt;stroke
+</span><span class='line'>        android:dashGap="5dp"
+</span><span class='line'>        android:dashWidth="3dp"
+</span><span class='line'>        android:width="5dp"
+</span><span class='line'>        android:color="@color/DarkSalmon" /&gt;
+</span><span class='line'>&lt;/shape&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>漸層</h5>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+</span><span class='line'>&lt;shape xmlns:android="http://schemas.android.com/apk/res/android" &gt;
+</span><span class='line'> 
+</span><span class='line'>    &lt;gradient
+</span><span class='line'>        android:angle="90"
+</span><span class='line'>        android:centerColor="@color/WhiteSmoke"
+</span><span class='line'>        android:endColor="@color/Yellow"
+</span><span class='line'>        android:startColor="@color/Blue" /&gt;
+</span><span class='line'> 
+</span><span class='line'>&lt;/shape&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>圓角</h5>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+</span><span class='line'>&lt;shape xmlns:android="http://schemas.android.com/apk/res/android" &gt;
+</span><span class='line'>    &lt;corners android:radius="50dp"/&gt;
+</span><span class='line'>    &lt;solid android:color="@color/White"/&gt;
+</span><span class='line'>&lt;/shape&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>背景色</h5>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+</span><span class='line'>&lt;shape xmlns:android="http://schemas.android.com/apk/res/android" &gt;
+</span><span class='line'> 
+</span><span class='line'>    &lt;solid android:color="@color/Green" /&gt;
+</span><span class='line'> 
+</span><span class='line'>&lt;/shape&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>外框</h5>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+</span><span class='line'>&lt;shape xmlns:android="http://schemas.android.com/apk/res/android" &gt;
+</span><span class='line'>    &lt;stroke android:width="5dp"
+</span><span class='line'>        android:color="@color/Red"
+</span><span class='line'>        android:dashWidth="3dp"
+</span><span class='line'>        android:dashGap="5dp"
+</span><span class='line'>        /&gt;
+</span><span class='line'>&lt;/shape&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>半透明效果</h3>
+
+<p>像下圖的半透明效果(Smoked
+Glass)，可以直接透過設定backgroud的顏色的透明度來達到，</p>
+
+<p><img src="/images/wiki/android/drawable_101_007.png" alt="drawable_101_007.png" /></p>
+
+<p>上圖的效果，主要就是在下面的這張圖上，放了一個半透明的text
+view，要讓view半透明就是設定View的backgroud屬性，<code>android:background=”#77000000”</code>
+#77000000是傳統的RGB前面加上一個透明度(alpha)，以傳統的RGB值#000000是全黑，#FFFFFF是全白，而前面的alpha的值也是00\~FF，這邊設成77剛好是一半。</p>
+
+<p>[[android:drawable_101_008.png][]</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+</span><span class='line'> 
+</span><span class='line'>&lt;FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+</span><span class='line'>    android:id="@+id/frameLayout1"
+</span><span class='line'>    android:layout_width="match_parent"
+</span><span class='line'>    android:layout_height="200dp"
+</span><span class='line'>    android:background="@drawable/google_doodle" &gt;
+</span><span class='line'> 
+</span><span class='line'>    &lt;TextView
+</span><span class='line'>        android:id="@android:id/text2"
+</span><span class='line'>        android:layout_width="fill_parent"
+</span><span class='line'>        android:layout_height="100dp"
+</span><span class='line'>        android:background="#77000000"
+</span><span class='line'>        android:gravity="center_vertical"
+</span><span class='line'>        android:text="smoked glass"
+</span><span class='line'>        android:textColor="#ffffffff"
+</span><span class='line'>        android:textSize="30dip" /&gt;
+</span><span class='line'> 
+</span><span class='line'>&lt;/FrameLayout&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>透明度的效果好不好，會跟後面的背景有關，有時，同一個透明度的值，在不同的背景下，效果就會差很多</p>
+
+<h1>Resource</h1>
+
+<ul>
+<li><a href="http://www.dibbus.com/2011/03/9patch-images-in-android/" title="http://www.dibbus.com/2011/03/9patch-images-in-android/">http://www.dibbus.com/2011/03/9patch-images-in-android/</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/04/13/unit_testing_in_android/">Android Unit Test 101</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-13T00:00:00+08:00" pubdate data-updated="true">Apr 13<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/04/13/unit_testing_in_android/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>這邊並不算真正的unit
+test，因為整個測試還是需要模擬器或實機執行，而且很依賴測試環境的context，如果有需要
+也是會去連網路或資料庫。</p>
+
+<h1>準備工作</h1>
+
+<p>要進行Android Testing通常是把test cases建立在另一個Test
+Project而不是像一般的java(maven base)目錄結構一樣
+在同一個project建立test folder.</p>
+
+<p>Testing project可透過eclipse的android project
+wizard建立，建立後記得先把production project裡用到的lib export出來給test
+project使用</p>
+
+<p><img src="/images/wiki/android/unit_testing_in_android_003.png" alt="unit_testing_in_android_003.png" /></p>
+
+<p>而測試專案只需要放只有測試時會用到的lib，因為Tesing
+Project有reference到Production Project，所以會一併引用Production Project
+export 出來的lib。</p>
+
+<p>一般習慣把被測的程式的專案叫Production
+project(或<a href="http://xunitpatterns.com/SUT.html" title="http://xunitpatterns.com/SUT.html">SUT</a>)，
+而測試程式專案叫Testing Project</p>
+
+<h1>Android測試架構</h1>
+
+<ul>
+<li>測試方式是透過建立測試專案來測試待測專案(<a href="http://xunitpatterns.com/SUT.html" title="http://xunitpatterns.com/SUT.html">SUT</a>)</li>
+<li>需啟動Android
+OS，所以是屬於整合測試，而不是單元測試(像是eclipse的plugin測試方式)</li>
+<li>需繼承特定的TestCase以便可以取得一些測試的基本功能</li>
+</ul>
+
+
+<p><img src="http://developer.android.com/images/testing/android_test_framework.png" alt="" /></p>
+
+<p>Android應用程式跟測試程式透過Instrumentation Test
+Runner執行在同一個Process, 所以，在執行測試時，需透過Instrumentation
+Test Runner。</p>
+
+<p><img src="/images/wiki/android/unit_testing_in_android_001.png" alt="unit_testing_in_android_001.png" /></p>
+
+<p>測試分為兩大類</p>
+
+<ol>
+<li>Instrumentation Testing</li>
+<li>Android Testing</li>
+</ol>
+
+
+<h3>Instrumentation Testing</h3>
+
+<p>這類型的testing會啟動instrumentation Test Runner。
+Instrumentation可以使用instrumentation framework，有了Instrumentation
+framework，可以透過Android的事件處理系統傳送訊息給Android應用程式，以便於模擬像”收到mail”，”收到簡訊”，”有電話calling進來”等等的動作，或者是對UI進行自動化測試。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>TestCase
+</span><span class='line'> |
+</span><span class='line'> `- InstrumentationTestCase
+</span><span class='line'>    |
+</span><span class='line'>    `- ActivityTestCase
+</span><span class='line'>    |  |
+</span><span class='line'>    |  `- ActivityInstrumentationTestCase&lt;T&gt;
+</span><span class='line'>    |  |
+</span><span class='line'>    |  `- ActivityInstrumentationTestCase2&lt;T&gt;
+</span><span class='line'>    |  |
+</span><span class='line'>    |  `- ActivityUnitTestCase&lt;T&gt;
+</span><span class='line'>    |
+</span><span class='line'>    `- ProviderTestCase&lt;T&gt;
+</span><span class='line'>    |
+</span><span class='line'>    `- SingleLaunchActivityTestCase&lt;T&gt;
+</span><span class='line'>    |
+</span><span class='line'>    `- SyncBaseInstrumentation</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Android Testing</h3>
+
+<p>提供Context給測試程式</p>
+
+<p>以下的TestCase提供跟Android應用程式相關的Context，透過Context，可以取到Android的檔案系統，資料庫，資源檔…。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>TestCase
+</span><span class='line'> |
+</span><span class='line'> `- AndroidTestCase
+</span><span class='line'>    |
+</span><span class='line'>    `- ProviderTestCase2&lt;T&gt;
+</span><span class='line'>    |
+</span><span class='line'>    `- ServiceTestCase&lt;T&gt;
+</span><span class='line'>    |
+</span><span class='line'>    `- ApplicationTestCase&lt;T&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>XxxTestCase2&lt;T>中的<code>tempalte &lt;T&gt;</code>在使用時要宣告成要被測試的class，就像泛型容器的用法一樣
+ex: <code>List&lt;MyClass&gt;</code></p>
+
+<h3>AndroidTestCase Or InstrumentationTestCase</h3>
+
+<h5>AndroidTestCase V.S InstrumentationTestCase</h5>
+
+<p>如果測試的對象是ui元件的話，那就必需要用InstrumentationTestCase體系的test
+cases，如果要測試non-UI的功能，像permissions之類的功能，那使用AndroidTestCase體系的的test
+case即可。
+@UiThreadTest(android.test.UiThreadTest)是使用在InstrumentationTestCase的test
+method上，用來標明該method會存取UI元件，需要在main thread執行。
+或者是，測試時需要使用到test project裡才有的resource(assets, res, …
+目錄下的東西)，那就得使用InstrumentationTestCase，因為InstrumentationTestCase才會去處理test
+project下的AndroidManifest.xml。</p>
+
+<p>元件測試或應用程式測試，元件測試主要是以下三種</p>
+
+<ol>
+<li><a href="http://developer.android.com/guide/topics/testing/activity_testing.html" title="http://developer.android.com/guide/topics/testing/activity_testing.html">Activity
+Testing</a></li>
+<li><a href="http://developer.android.com/guide/topics/testing/contentprovider_testing.html" title="http://developer.android.com/guide/topics/testing/contentprovider_testing.html">Content Provider
+Testing</a></li>
+<li><a href="http://developer.android.com/guide/topics/testing/service_testing.html" title="http://developer.android.com/guide/topics/testing/service_testing.html">Service
+Testing</a></li>
+</ol>
+
+
+<p>而應該程式測試測是測試<a href="http://developer.android.com/reference/android/app/Application.html" title="http://developer.android.com/reference/android/app/Application.html">Application</a></p>
+
+<ol>
+<li><a href="http://developer.android.com/guide/topics/testing/service_testing.html" title="http://developer.android.com/guide/topics/testing/service_testing.html">ApplicationTestCase</a></li>
+</ol>
+
+
+<p><a href="http://developer.android.com/reference/android/test/TouchUtils.html" title="http://developer.android.com/reference/android/test/TouchUtils.html">TouchUtils</a>
+(android.test.TouchUtils)可用來產生touch
+events，通常在InstrumentationTestCase or
+ActivityInstrumentationTestCase2中使用。</p>
+
+<h1>TestCases</h1>
+
+<ul>
+<li><p><a href="#androidtestcase" title="android:unit_testing_in_android ↵">AndroidTestCase</a></p>
+
+<ol>
+<li><a href="#providertestcase2" title="android:unit_testing_in_android ↵">ProviderTestCase2</a></li>
+<li><a href="#servicetestcase" title="android:unit_testing_in_android ↵">ServiceTestCase</a></li>
+<li><a href="#applicationtestcase" title="android:unit_testing_in_android ↵">ApplicationTestCase</a></li>
+</ol>
+</li>
+<li><p><a href="#instrumentationtestcase" title="android:unit_testing_in_android ↵">InstrumentationTestCase</a></p>
+
+<ol>
+<li><p><a href="#activitytestcase" title="android:unit_testing_in_android ↵">ActivityTestCase</a></p>
+
+<ol>
+<li><a href="#activityinstrumentationtestcase" title="android:unit_testing_in_android ↵">ActivityInstrumentationTestCase</a></li>
+<li><a href="#activityinstrumentationtestcase2" title="android:unit_testing_in_android ↵">ActivityInstrumentationTestCase2</a></li>
+<li><a href="#activityunittestcase" title="android:unit_testing_in_android ↵">ActivityUnitTestCase</a></li>
+</ol>
+</li>
+<li><p><a href="#providertestcase" title="android:unit_testing_in_android ↵">ProviderTestCase</a></p></li>
+<li><a href="#singlelaunchactivitytestcase" title="android:unit_testing_in_android ↵">SingleLaunchActivityTestCase</a></li>
+<li><a href="#syncbaseinstrumentation" title="android:unit_testing_in_android ↵">SyncBaseInstrumentation</a></li>
+</ol>
+</li>
+</ul>
+
+
+<h3>AndroidTestCase</h3>
+
+<p>提供context是在Android
+Framework中最重要的一個物件，在許多地方都會用到它，<code>這邊的context是test project的context</code>。
+AndroidTestCase啟動時，會先做自我檢測，先驗証測試環境是否ready to
+use.有提供幾個預先定義好的assert.</p>
+
+<h3>ProviderTestCase2</h3>
+
+<p>測試Provider的test
+case,如果要測試資料而非UI的話，那測試的對象應該是<a href="http://developer.android.com/guide/topics/providers/content-providers.html" title="http://developer.android.com/guide/topics/providers/content-providers.html">Content
+Provider</a>及Content
+Provider用到的相關物件。</p>
+
+<p>Android Test Framework有提供ProviderTestCase2可以Content
+Provider進行獨立的測試。使用方式如下：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public class MyContentProviderTest extends ProviderTestCase2&lt;MyContentProvider&gt; {
+</span><span class='line'> 
+</span><span class='line'>    public MyContentProviderTest() {
+</span><span class='line'>        super(MyContentProvider.class, MyContentProvider.class.getName());
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>    @Override
+</span><span class='line'>    protected void setUp() throws Exception {
+</span><span class='line'>        super.setUp();
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>    public void testInsert() throws Exception {
+</span><span class='line'>        ContentValues values = new ContentValues();
+</span><span class='line'>        values.put("name", "foo");
+</span><span class='line'>        getProvider().insert("context://xxx/xx", values);
+</span><span class='line'>        // do assert here
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>    public void testQuery() throws Exception {
+</span><span class='line'>        getProvider().query("context://xxx/xx", null, null, null, null);
+</span><span class='line'>        // do assert here
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>此例中，測是對象為MyContentProvider,使用上要注意的有：</p>
+
+<ol>
+<li><p>Testcase要繼承自<a href="http://developer.android.com/reference/android/test/ProviderTestCase2.html" title="http://developer.android.com/reference/android/test/ProviderTestCase2.html">ProviderTestCase2</a></p>
+
+<ul>
+<li>可以將<code>ProviderTestCase2&lt;T&gt;</code>的template
+&lt;T>指定成對象為MyContentProvider，這樣可以testcase內就會引用MyContentProvider而非ContentProvider</li>
+</ul>
+</li>
+<li><p>必須要建立一個無參數的建構子(Constructor)</p></li>
+<li><p>Constructor裡必須呼叫<code>super(MyContentProvider.class, MyContentProvider.class.getName());</code></p>
+
+<ul>
+<li>因為MyContentProvider的Authority為<code>MyContentProvider.class.getName()</code></li>
+</ul>
+</li>
+<li><p>Testcase中透過getProvider()來取得MyContentProvider的instance，而不是自已創建MyContentProvider的instance</p></li>
+</ol>
+
+
+<h3>ServiceTestCase</h3>
+
+<p>ServiceTestCase可以用來測試Android Service,ServiceTestCase</p>
+
+<p><img src="/images/wiki/android/unit_testing_in_android_002.png" alt="unit_testing_in_android_002.png" /></p>
+
+<p>基本的使用方式如下：</p>
+
+<ol>
+<li>宣告class時，把<code>template &lt;T&gt;</code>換成要被測試的Service(Service Under
+Test)</li>
+<li>建立default的constructor，並呼叫parent的constructor，代入class name</li>
+<li>setUp()時，ServiceTestCase會將real context儲存到systemContext</li>
+<li>透過startService()或bindService()啟動service
+(呼叫service.onCreate())</li>
+<li>test case的tearDown()會stop 跟 destroy service</li>
+<li>如果有需要的話，可以透過setCotext()或setApplication()換掉test
+case裡的context跟application.</li>
+</ol>
+
+
+<p>ServiceTestCase預設是使用MockApplication + Test Proejct的Context</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public abstract class ServiceTestCase&lt;T extends Service&gt; extends AndroidTestCase {
+</span><span class='line'>    protected void setupService() {
+</span><span class='line'>        mService = null;
+</span><span class='line'>        try {
+</span><span class='line'>            mService = mServiceClass.newInstance();
+</span><span class='line'>        } catch (Exception e) {
+</span><span class='line'>            assertNotNull(mService);
+</span><span class='line'>        }
+</span><span class='line'>        if (getApplication() == null) {
+</span><span class='line'>            setApplication(new MockApplication());  // 使用mock版的Application()，而不是真正的
+</span><span class='line'>        }
+</span><span class='line'>        mService.attach(getContext(), null,  mServiceClass.getName(), null, getApplication(), null);
+</span><span class='line'>        assertNotNull(mService);
+</span><span class='line'>        mServiceId = new Random().nextInt();
+</span><span class='line'>        mServiceAttached = true;
+</span><span class='line'>    }
+</span><span class='line'>} </span></code></pre></td></tr></table></div></figure>
+
+
+<p>Android有提供<a href="#renamingdelegatingcontext" title="android:unit_testing_in_android ↵">RenamingDelegatingContext</a>,
+<a href="#contextwrapper" title="android:unit_testing_in_android ↵">ContextWrapper</a>,
+<a href="#isolatedcontext" title="android:unit_testing_in_android ↵">IsolatedContext</a>跟<a href="#mockcontext" title="android:unit_testing_in_android ↵">MockContext</a>來換原MockContext，也可以自已Mock一個</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public class MyServiceTest extends ServiceTestCase&lt;MyService&gt; {
+</span><span class='line'>    public MyServiceTest() {
+</span><span class='line'>        super(MyService.class);
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="/images/wiki/android/unit_testing_in_android_002.png" alt="unit_testing_in_android_002.png" /></p>
+
+<p>ServiceTestCase提供<code>getService()</code>可以取得要被測試的service，<code>getSystemContext()</code>可以取得test
+project context</p>
+
+<h5>getContext() vs getSystemContext()</h5>
+
+<p>在預設的情況下，如果沒有特別去設定context，getContext(),getSystemContext()是同一個instance，但是
+如果有設定mock版的context，ex:
+<code>setConext(new MockContext());</code>，那麼getContext()會取到mock版的，
+而getSystemContext()會取到原來的(測試專案的)。</p>
+
+<h3>ApplicationTestCase</h3>
+
+<p>測試Application的test case</p>
+
+<h3>InstrumentationTestCase</h3>
+
+<h3>ActivityTestCase</h3>
+
+<h3>ActivityInstrumentationTestCase</h3>
+
+<h3>ActivityInstrumentationTestCase2</h3>
+
+<h3>ActivityUnitTestCase</h3>
+
+<h3>ProviderTestCase</h3>
+
+<h3>SingleLaunchActivityTestCase</h3>
+
+<h3>SyncBaseInstrumentation</h3>
+
+<h1>要測那些東西</h1>
+
+<h5>Activity lifecycle events</h5>
+
+<p>如果有在Activity lifecycle events像是onCreate(), onResume(), onPause(),
+…中保存activity的狀態，那麼應該要對這些methods進行測式，而當
+Configuration-changed事件發生時，也需要確定這些event的動作都正確。</p>
+
+<p><img src="http://developer.android.com/images/activity_lifecycle.png" alt="" /></p>
+
+<p>TestCase :
+<a href="#activityinstrumentationtestcase2" title="android:unit_testing_in_android ↵">ActivityInstrumentationTestCase2</a>
+(大多數情況用這個),
+<a href="#activitytestcase" title="android:unit_testing_in_android ↵">ActivityTestCase</a>,
+<a href="#singlelaunchactivitytestcase" title="android:unit_testing_in_android ↵">SingleLaunchActivityTestCase</a></p>
+
+<h5>Content Provder</h5>
+
+<p>Content
+Provder在大部份的情況下，不需要自行建立，也不建議直接建立，所以，Content
+Provder在測試時， Insert, Update, Query,
+Delete等method，還有getType()這些基本的methods都要被測到，如果沒有必要的話，
+儘量不要自已publish額外的method，因為在程式裡，只能取到ContentProvder型別，無法直接取得子型別(除非透過型別轉換，但不建議)，
+所以，ContentProvider的子類別，應儘量避免publish額外的API.</p>
+
+<p>TestCase :
+<a href="#providertestcase2" title="android:unit_testing_in_android ↵">ProviderTestCase2</a></p>
+
+<h5>ListView Adapter</h5>
+
+<p>ListView用的Adapter，ListView是UI裡很重要的一個元件，幾乎每個應該程式都會用到，而ListView
+Adapter又是ListView中 主要的元件，對Adapter測試的重要性，不言可喻。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public class ScriptListAdapterTest extends AndroidTestCase {
+</span><span class='line'> 
+</span><span class='line'>    public void testExtractWords_none_words() throws Exception {
+</span><span class='line'>        ScriptListAdapter adapter = new ScriptListAdapter(getContext(), R.layout.script_list_item, R.id.scriptLine, ImmutableList.&lt;String&gt; of());
+</span><span class='line'>        adapter.setRichScript("foo bar");
+</span><span class='line'>        assertThat(adapter.extractWord(), Matchers.&lt;String&gt; emptyIterable());
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>    public void testExtractWords_one_word() throws Exception {
+</span><span class='line'>        ScriptListAdapter adapter = new ScriptListAdapter(getContext(), R.layout.script_list_item, R.id.scriptLine, ImmutableList.&lt;String&gt; of());
+</span><span class='line'>        adapter.setRichScript("foo &lt;b&gt;bar&lt;/b&gt; baz");
+</span><span class='line'>        Iterable&lt;String&gt; words = adapter.extractWord();
+</span><span class='line'>        assertThat(words, hasItem("bar"));
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>    public void testExtractWords_two_words() throws Exception {
+</span><span class='line'>        ScriptListAdapter adapter = new ScriptListAdapter(getContext(), R.layout.script_list_item, R.id.scriptLine, ImmutableList.&lt;String&gt; of());
+</span><span class='line'>        adapter.setRichScript("&lt;b&gt;foo&lt;/b&gt; bar &lt;b&gt;baz&lt;/b&gt;");
+</span><span class='line'>        Iterable&lt;String&gt; words = adapter.extractWord();
+</span><span class='line'>        assertThat(words, hasItems("foo", "baz"));
+</span><span class='line'>        assertThat(words, not(hasItem("bar")));
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>    public void testRichText() throws Exception {
+</span><span class='line'>        ScriptListAdapter adapter = new ScriptListAdapter(getContext(), R.layout.script_list_item, R.id.scriptLine, ImmutableList.&lt;String&gt; of());
+</span><span class='line'>        CharSequence text = adapter.richText("this is a foo bar string", ImmutableList.of("foo", "string"));
+</span><span class='line'>        System.out.println(text);
+</span><span class='line'> 
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>TestCase :
+<a href="#androidtestcase" title="android:unit_testing_in_android ↵">AndroidTestCase</a></p>
+
+<h5>Database &amp; File</h5>
+
+<p>我通常會對DatabaseHelper進行測試，以確定table可以正確的被建立或版更</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public class DatabaseHelperTest extends TestCase {
+</span><span class='line'>    private DatabaseHelper    helper;
+</span><span class='line'>    private SQLiteDatabase    db;
+</span><span class='line'> 
+</span><span class='line'>    @Override
+</span><span class='line'>    public void tearDown() {
+</span><span class='line'>        helper.close();
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>    public void testDictionaryBankTable() throws Exception {
+</span><span class='line'>        Cursor c = db.query(DatabaseHelper.DICTIONARY_TABLE_NAME, null, null, null, null, null, null);
+</span><span class='line'>        assertEquals(4, c.getColumnCount());
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>    public void testPodcastTable() throws Exception {
+</span><span class='line'>        Cursor c = db.query(DatabaseHelper.PODCAST_TABLE_NAME, null, null, null, null, null, null);
+</span><span class='line'>        assertEquals(13, c.getColumnCount());
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>    public void testWordBankTable() throws Exception {
+</span><span class='line'>        Cursor c = db.query(DatabaseHelper.WORD_BANK_TABLE_NAME, null, null, null, null, null, null);
+</span><span class='line'>        assertEquals(2, c.getColumnCount());
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>    @Override
+</span><span class='line'>    protected void setUp() throws Exception {
+</span><span class='line'>        super.setUp();
+</span><span class='line'>        db = SQLiteDatabase.create(null);
+</span><span class='line'>        helper = new DatabaseHelper(null, "podcast.db", null);
+</span><span class='line'>        helper.onOpen(db);
+</span><span class='line'>        helper.onCreate(db);
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>TestCase: 沒有用到android 的context，只需用Junit內建的TestCase即可</p>
+
+<h5>Helper &amp; Utils</h5>
+
+<p>Helper跟Utils指的是跟Android比較無關類別，有可能用到網路或檔案系統等的class，可視情況選擇用TestCase,
+AndroidTestCase, InstrumentationTestCase
+通常我都是先用最簡單的，如果不適合，再找次簡單的。</p>
+
+<h1>Test Helper</h1>
+
+<h3>Mock Objects</h3>
+
+<p>Android Test Framework也有提供一列系的mock
+objects，如果在測試時採用Depedency Injection的方式把這些mock
+object注入，會讓測試更簡單，更獨立。 這些mock
+oject被放在<a href="http://developer.android.com/reference/android/test/mock/package-summary.html" title="http://developer.android.com/reference/android/test/mock/package-summary.html">android.test.mock
+package</a>內，主要有下列這些mock
+objects</p>
+
+<ol>
+<li>MockApplication A mock Application class.</li>
+<li>MockContentProvider Mock implementation of ContentProvider.</li>
+<li>MockContentResolver An extension of ContentResolver that is designed
+for testing.</li>
+<li>MockContext A mock Context class.</li>
+<li>MockCursor A mock Cursor class that isolates the test code from real
+Cursor implementation.</li>
+<li>MockDialogInterface A mock DialogInterface class.</li>
+<li>MockPackageManager A mock PackageManager class.</li>
+<li>MockResources A mock Resources class.</li>
+</ol>
+
+
+<p>這些class採的mock
+strategy是stubbing而不是mocking，也就是說，使用時必須overwrite掉要提供資訊的methods</p>
+
+<p>曾經試著將在Android test framework上使用幾個mock
+framework，都失敗了，目前都是直接使用Android test
+framework內建的mocks，雖不好用但可以接受。</p>
+
+<ol>
+<li>mockito 1.8.5 - 無法通過編譯，殘念</li>
+<li>easymock 3 - extension的部份無法通過編譯，也就是只能mock
+interface，殘念</li>
+<li>powermock - 還是需要mocktio或easymock的jar，殘念</li>
+<li>jmock - 沒試</li>
+</ol>
+
+
+<p><a href="https://sites.google.com/site/androiddevtesting/" title="https://sites.google.com/site/androiddevtesting/">這裡</a>有篇文章說明為何大多數的Mock
+framework在Android上的無法正常動作， 只要是Mock
+Framework有用到CGLib就無法在Dalvik
+VM上執行，ex:EasyMock,Mockito都有用到這個lib</p>
+
+<p>2012/3/16 己經有android team的member在將mockito
+porting到android上了，或許不久的將來就有android
+compatible的mockito可以用了 :) ，詳情 :
+<a href="http://code.google.com/p/mockito/issues/detail?id=308" title="http://code.google.com/p/mockito/issues/detail?id=308">http://code.google.com/p/mockito/issues/detail?id=308</a></p>
+
+<h3>Context For Testing</h3>
+
+<p>Context的type hierarchy</p>
+
+<p><img src="/images/wiki/android/unit_testing_in_android_002.png" alt="unit_testing_in_android_002.png" /></p>
+
+<p>跟測試比較相關的有</p>
+
+<ol>
+<li><a href="#contextwrapper" title="android:unit_testing_in_android ↵">ContextWrapper</a></li>
+<li><a href="#isolatedcontext" title="android:unit_testing_in_android ↵">IsolatedContext</a></li>
+<li><a href="#renamingdelegatingcontext" title="android:unit_testing_in_android ↵">RenamingDelegatingContext</a></li>
+<li><a href="#mockcontext" title="android:unit_testing_in_android ↵">MockContext</a></li>
+</ol>
+
+
+<h5>ContextWrapper</h5>
+
+<p>嚴格來說，這個並不算是testing專用的，其他不少context也是從這個開始繼承的，他的實作很簡單
+，就是把被wrapped的context的delegate給ContextWrapper，所以，每個method大多長這樣</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/**
+</span><span class='line'> * Proxying implementation of Context that simply delegates all of its calls to
+</span><span class='line'> * another Context.  Can be subclassed to modify behavior without changing
+</span><span class='line'> * the original Context.
+</span><span class='line'> */
+</span><span class='line'>public class ContextWrapper extends Context {
+</span><span class='line'>    Context mBase;
+</span><span class='line'>
+</span><span class='line'>    @Override
+</span><span class='line'>    public AssetManager getAssets() {
+</span><span class='line'>        return mBase.getAssets();
+</span><span class='line'>    }
+</span><span class='line'>
+</span><span class='line'>    @Override
+</span><span class='line'>    public Resources getResources()
+</span><span class='line'>    {
+</span><span class='line'>        return mBase.getResources();
+</span><span class='line'>    }
+</span><span class='line'>
+</span><span class='line'>    @Override
+</span><span class='line'>    public PackageManager getPackageManager() {
+</span><span class='line'>        return mBase.getPackageManager();
+</span><span class='line'>    }
+</span><span class='line'>    ...
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>IsolatedContext</h5>
+
+<p>這個Context把跟設備相關的method改掉掉，讓context不與設備直接溝通，但又提供足夠的功能以測試可以進行。
+被IsolatedContext改寫掉的methods如下</p>
+
+<p>(圖丟了 XD)</p>
+
+<h5>RenamingDelegatingContext</h5>
+
+<p>正常來說，如果production code裡用到的db 叫
+foo.db跟一個檔案叫bar.txt，但測試時，希望不要去動到原來的foo.db,bar.txt
+，而是提供一組測試用的foo.db跟bar.txt那就可以用RenamingDelegatingContext處理，可以把測試的命名成
+test_foo.db跟test_bar.txt，然後跟RenamingDelegatingContext測試用的contxt是以”test_”當prefix即可，這樣所有測試用的
+的檔案名稱跟DB名稱就是原來的名稱加上”test_”，用以避免prodcution
+code跟testing code互相感染。</p>
+
+<p>RenamingDelegatingContext是用來處理檔案都是放在application
+project中的情況，但實際使用上，在測試專案上的相同的位置放上一個同檔名的檔案，會比用RenamingDelegatingContext適合，
+不過，如果取得測試案專案的resource，就得繼承自InstrumentationTestCase而非AndroidTestCase體系</p>
+
+<h5>MockContext</h5>
+
+<p>Mock版的Context，裡面的implement就是丟出UnsupportedOperationException，所以如果要用這個context，那
+測試中有用到的method，就要自行改寫，不然就等著接UnsupportedOperationException。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/**
+</span><span class='line'> * A mock {@link android.content.Context} class.  All methods are non-functional and throw 
+</span><span class='line'> * {@link java.lang.UnsupportedOperationException}.  You can use this to inject other dependencies,
+</span><span class='line'> * mocks, or monitors into the classes you are testing.
+</span><span class='line'> */
+</span><span class='line'>public class MockContext extends Context {
+</span><span class='line'> 
+</span><span class='line'>    @Override
+</span><span class='line'>    public AssetManager getAssets() {
+</span><span class='line'>        throw new UnsupportedOperationException();
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>    @Override
+</span><span class='line'>    public Resources getResources() {
+</span><span class='line'>        throw new UnsupportedOperationException();
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>    @Override
+</span><span class='line'>    public PackageManager getPackageManager() {
+</span><span class='line'>        throw new UnsupportedOperationException();
+</span><span class='line'>    }
+</span><span class='line'>    ...
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Assertion classes</h3>
+
+<p>除了基本的Junit Assertions外，Android Test Framework還提供了</p>
+
+<ol>
+<li><a href="http://developer.android.com/reference/android/test/MoreAsserts.html" title="http://developer.android.com/reference/android/test/MoreAsserts.html">More
+Asserts</a>
+
+<ul>
+<li>一些android testing
+assertions的延伸，不過我覺得<a href="http://wiki.kent-chiu.com/doku.php?id=java:hamcrest_101" title="java:hamcrest_101">hamcrest</a>更好用</li>
+</ul>
+</li>
+<li><a href="http://developer.android.com/reference/android/test/ViewAsserts.html" title="http://developer.android.com/reference/android/test/ViewAsserts.html">View
+Asserts</a>
+
+<ul>
+<li>一些跟view有關的assertions，像是view跟view之間的關係、對齊方式、…</li>
+</ul>
+</li>
+</ol>
+
+
+<p>目前Android Test Framework(Android
+2.3)還都是基於Junit3,Junit3的assertions在使用上沒有Junit4的來方便(powered
+by Hamcrest)，Junit3沒有內建<code>assertThat()</code>，
+Hamcrest的assertions是一個獨立的lib，所以，還是可以拿來跟Junit3搭著用，但是，Hamrcest的jar檔(1.3-R.C2)丟到Eclipse
+ADT時，無法順利通過編譯，<a href="http://wiki.kent-chiu.com/doku.php?id=java:hamcrest_101#hamcrest_android" title="java:hamcrest_101">這裡有提供解決的方式</a>
+，至於Hamcrest的assertion，可以參閱<a href="http://code.google.com/p/hamcrest/wiki/Tutorial" title="http://code.google.com/p/hamcrest/wiki/Tutorial">Hamcrest網站的教學</a>或<a href="http://wiki.kent-chiu.com/doku.php?id=java:hamcrest_101" title="java:hamcrest_101">這裡</a>也有一個簡單的說明。</p>
+
+<h4>MISC</h4>
+
+<ol>
+<li>RenamingDelegating - Product
+code用的是一個名字，測試時用的是另一個名字(檔案或資料庫)，用來避開testing
+code改到product code的內容</li>
+<li>ActivityMonitor -
+android.app.Instrumentation.ActivityMonitor是Instrumentation的內部類別，可以用來monitor系統的行為。</li>
+</ol>
+
+
+<p>如果test proejct跟production project有用到相同的jars，只需由production
+project export出jars讓testing project使用即可，如果testing
+project有跟production project相同的lib，可能compile time會出錯</p>
+
+<h1>Resources</h1>
+
+<ul>
+<li><a href="http://developer.android.com/resources/tutorials/testing/helloandroid_test.html" title="http://developer.android.com/resources/tutorials/testing/helloandroid_test.html">Hello World
+Test</a></li>
+<li><a href="http://developer.android.com/guide/topics/testing/testing_android.html" title="http://developer.android.com/guide/topics/testing/testing_android.html">Testing and
+Instrumentation</a></li>
+<li><a href="http://developer.android.com/guide/developing/testing/testing_eclipse.html" title="http://developer.android.com/guide/developing/testing/testing_eclipse.html">Testing In Eclipse, with
+ADT</a></li>
+<li><a href="http://codinghard.wordpress.com/2009/06/04/a-first-look-at-the-android-testing-framework/" title="http://codinghard.wordpress.com/2009/06/04/a-first-look-at-the-android-testing-framework/">http://codinghard.wordpress.com/2009/06/04/a-first-look-at-the-android-testing-framework/</a></li>
+<li><a href="http://code.google.com/p/nativedriver/" title="http://code.google.com/p/nativedriver/">Native
+Driver</a>
+
+<ul>
+<li>google官方的ui test
+api，webdriver(<a href="http://code.google.com/p/selenium/" title="http://code.google.com/p/selenium/">selenium</a>)
+like的測試工具</li>
+</ul>
+</li>
+<li><p>RenamingDelegatingContext的使用方式可以參考下面的資料</p>
+
+<ol>
+<li><a href="http://blog.jayway.com/2011/10/10/using-renamingdelegatingcontext-to-mock-contentresolver-in-android/" title="http://blog.jayway.com/2011/10/10/using-renamingdelegatingcontext-to-mock-contentresolver-in-android/">http://blog.jayway.com/2011/10/10/using-renamingdelegatingcontext-to-mock-contentresolver-in-android/</a></li>
+<li><a href="https://docs.google.com/View?id=ddwc44gs_21737cgtvfj" title="https://docs.google.com/View?id=ddwc44gs_21737cgtvfj">https://docs.google.com/View?id=ddwc44gs_21737cgtvfj</a></li>
+</ol>
+</li>
+<li><p><a href="http://www.slideshare.net/dtmilano/introduction-to-android-testing" title="http://www.slideshare.net/dtmilano/introduction-to-android-testing">http://www.slideshare.net/dtmilano/introduction-to-android-testing</a></p>
+
+<ul>
+<li>android testing的簡介投影片，有每個test case使用上的差異</li>
+</ul>
+</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/04/03/nio_101/">JAVA NIO 101</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-03T00:00:00+08:00" pubdate data-updated="true">Apr 3<span>rd</span>, 2012</time>
+        
+         | <a href="/blog/2012/04/03/nio_101/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>Path</h3>
+
+<p>之前java.io的基本操作是基於<a href="http://docs.oracle.com/javase/7/docs/api/java/io/File.html" title="http://docs.oracle.com/javase/7/docs/api/java/io/File.html">File</a>,NIO的基本操作是<a href="http://docs.oracle.com/javase/7/docs/api/java/nio/file/Path.html" title="http://docs.oracle.com/javase/7/docs/api/java/nio/file/Path.html">Path</a>。
+Path</p>
+
+<p>兩者間可以透過<code>Path.toFile()</code>,<code>File.toPath()</code>互相轉換，Path雖然可以完成很多java.io.File的操作，但因為java.io.File具有一些操作是Path沒辦法做的，所以，java.io.File並沒有被deprecate</p>
+
+<p>aPath.resolve(bPath) - bPath會串接在aPath後面，結果會是 <code>aPath/bPath</code></p>
+
+<p>如果不想看了解細節，可以在了解Path後，可以先試著用用看io跟nio的轉換表來使用NIO
+http://docs.oracle.com/javase/tutorial/essential/io/legacy.html#mapping
+http://docs.oracle.com/javase/tutorial/essential/io/legacy.html#mapping&#8221;)</p>
+
+<h3>Paths</h3>
+
+<h5>多重目錄</h5>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Path path = Paths.get("myPath", "subPathA", "subPathB"); // myPath/subPathA/subPathB</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>環境變數</h5>
+
+<p>Path並不直接支援環境變數(Environment
+Variable)的使用，所以，需要自行透過System.getProperty()取出變數後，丟進path</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Path downloadedFile = Paths.get(System.getProperty("user.home"),"downloads", "test.txt");</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Files</h3>
+
+<h5>讀入文字檔</h5>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>List&lt;String&gt; lines = Files.readAllLines(path,Charset.forName("UTF-8"));</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>列出目錄下的子目錄或檔案</h5>
+
+<p>這邊的try-catch是java7的新功能，只要有實作<a href="http://docs.oracle.com/javase/7/docs/api/java/io/Closeable.html" title="http://docs.oracle.com/javase/7/docs/api/java/io/Closeable.html">Closeable</a>的類別，就可以用這樣的方式處理。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Path dir = ...;
+</span><span class='line'>try (DirectoryStream&lt;Path&gt; stream = Files.newDirectoryStream(dir, "*.{java,class,jar}")) {
+</span><span class='line'>    for (Path entry: stream) {
+</span><span class='line'>        System.out.println(entry.getFileName());
+</span><span class='line'>    }
+</span><span class='line'>} catch (IOException x) {
+</span><span class='line'>    //IOException can never be thrown by the iteration.
+</span><span class='line'>    //In this snippet, it can only be thrown by newDirectoryStream.
+</span><span class='line'>    System.err.println(x);
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>MISC</h1>
+
+<h5>Symbolic,Hard Links</h5>
+
+<p>雖然 Windows 沒有 Symbolic, Hard Links
+但在程式中還是可以使用，NIO會處理跨平台的相容性。 Symbolic 會用 Windows
+中的 Shortcut取代。</p>
+
+<h5>從jar檔中取得Path</h5>
+
+<p>在程式中，常用<code>url = myObject.getClass().getResource(“my.txt”)</code>取得檔案的url，然後直接使用裡面的資訊取得File或Stream，Path的話，可以這樣用<code>Path.get(url.toURI())</code>，
+但這個在預設的檔案系統下可以行的通，但程式被包成時jar檔行不通了，因為jar檔在NIO里是另一個FileSystem，以下的method，
+可以不用管resource是放jar或直接放classpath裡面，都以把resource抓成Path，抓成Path後，file
+system的資訊會被包在Path中，所以再來就可以不用管他是不是在jar裡面了</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public static Path urlToPath(URL buildUrl) throws URISyntaxException, IOException {
+</span><span class='line'>    Path result;
+</span><span class='line'>        if ("jar".equalsIgnoreCase(buildUrl.toURI().getScheme())) {
+</span><span class='line'>        JarURLConnection jarUrl = (JarURLConnection) buildUrl.openConnection();
+</span><span class='line'>        FileSystem fs = FileSystems.newFileSystem(Paths.get(jarUrl.getJarFileURL().toURI()), null);
+</span><span class='line'>        result = fs.getPath(jarUrl.getEntryName());
+</span><span class='line'>        logger.info("load {} from jar : {}", result.getFileName(),fs);
+</span><span class='line'>    } else {
+</span><span class='line'>        result = Paths.get(buildUrl.toURI());
+</span><span class='line'>        logger.info("load {} from : {}", result.getFileName() ,buildUrl);
+</span><span class='line'>    }
+</span><span class='line'>    return result;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>Resource</h1>
+
+<ul>
+<li><a href="http://docs.oracle.com/javase/tutorial/essential/io/fileio.html" title="http://docs.oracle.com/javase/tutorial/essential/io/fileio.html">Oracle官網NIO教學</a></li>
+<li><a href="http://docs.oracle.com/javase/tutorial/essential/io/legacy.html#mapping" title="http://docs.oracle.com/javase/tutorial/essential/io/legacy.html#mapping">io跟nio的轉換表</a></li>
+<li>The power of java 7 NIO.2 (JSR 203) - <a href="http://tamanmohamed.blogspot.com/2012/03/jdk7-part-1-power-of-java-7-nio2-jsr.html" title="http://tamanmohamed.blogspot.com/2012/03/jdk7-part-1-power-of-java-7-nio2-jsr.html">part
+1</a></li>
+<li><a href="http://tutorials.jenkov.com/java-nio/index.html" title="http://tutorials.jenkov.com/java-nio/index.html">Java NIO
+Tutorial</a>
+
+<ul>
+<li>一序列的Java NIO教學</li>
+</ul>
+</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/03/30/dbunit_101/">DBUnit 101</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-30T00:00:00+08:00" pubdate data-updated="true">Mar 30<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/03/30/dbunit_101/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>DBUnit並不是一個真正的資料庫，它只是用來方便將準備好的資料(DataSet)，新增進資料庫，
+<a href="http://www.dbunit.org/components.html" title="http://www.dbunit.org/components.html">DataSet</a>類型有:</p>
+
+<ol>
+<li>FlatXml - 較簡單的xml格式，但在沒有dtd搭配下，可能會有問題</li>
+<li>Xml - 建議使用這個格式</li>
+<li>Excel - MS Excel</li>
+<li>CSV - csv</li>
+<li>Replacement - 可以用Expression Language換掉部份內容的格式</li>
+<li>DefaultDataSet - 用程式控制的dataset</li>
+<li><a href="http://jyaml.sourceforge.net/yaml4dbunit.html" title="http://jyaml.sourceforge.net/yaml4dbunit.html">YAML</a>
+
+<ul>
+<li>YAML格式(非官方)</li>
+</ul>
+</li>
+<li><a href="http://www.insaneprogramming.be/?p=105" title="http://www.insaneprogramming.be/?p=105">JSON</a>
+
+<ul>
+<li>JSON格式(非官方)</li>
+</ul>
+</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Connection connection = DriverManager.getConnection("jdbc:hsqldb:mem:testdb;shutdown=true");
+</span><span class='line'>IDatabaseConnection dbunitConnection = new HsqldbConnection(connection, null);
+</span><span class='line'>XmlDataSet dataSet = new XmlDataSet(this.getClass().getResourceAsStream("/export.xml"));
+</span><span class='line'>DatabaseOperation.CLEAN_INSERT.execute(dbunitConnection, dataSet);</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在使用dbunit前，database應該要先建立好了，dbunit不會建立schema，它只是一個幫忙insert，update，delete的資料的工具。
+一般實作上，我會採用Hibernate提供的自動建立schema工具，在啟動時自動建立schema。</p>
+
+<h1>Resource</h1>
+
+<ul>
+<li><a href="http://danhaywood.com/2011/12/20/db-unit-testing-with-dbunit-json-hsqldb-and-junit-rules/" title="http://danhaywood.com/2011/12/20/db-unit-testing-with-dbunit-json-hsqldb-and-junit-rules/">DB unit testing with dbUnit, JSON, HSQLDB and JUnit
+Rules</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/03/29/google_guice_101/">Google Guice 101</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-29T00:00:00+08:00" pubdate data-updated="true">Mar 29<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/03/29/google_guice_101/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>All content is base on guice 2.x.</p>
+
+<h2>Base Concept</h2>
+
+<ul>
+<li>Module - 用來決定物件依賴關係的元件</li>
+<li><p>Binders - 用來將物件綁定在一起的元件</p>
+
+<ol>
+<li>Linked Binding - 將類別與實作類別綁定在一起的元件</li>
+<li>Binding Annotations - 更細緻的描述要binding那個實作</li>
+<li>Instance Bindings - Binding instance到特定的類別</li>
+<li>@Provides Methods - Factory
+Method，用來提供特定型別的instance，只要有需有這個instance時，就會自動被binding</li>
+<li>Provider Bindings - 另一種型式的Factory Method</li>
+<li>Untargetted Bindings -
+提供跟binder但不指定與誰進行binding，通常與
+@ImplementedBy或@ProvidedBy搭配使用</li>
+<li>Built-in Bindings - 內建的bindings
+
+<ol>
+<li>java.util.logging.Logger 如以binding logger</li>
+<li>Injector 可以把Injector inject到其它物件</li>
+<li>Providers 可以把 Provider inject到其它物件</li>
+<li>TypeLiterals 處理泛型用的</li>
+<li>The Stage</li>
+<li>MembersInjectors
+可以對某個物件進行inject，這個很常用(由其是在測試時，用來inject
+mock object)</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p>TBD</p>
+
+<ol>
+<li>AssistedInject</li>
+<li>PrivateModules</li>
+</ol>
+</li>
+</ul>
+
+
+<h2>Hello Guice</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>package com.kent;
+</span><span class='line'> 
+</span><span class='line'>public interface Service {
+</span><span class='line'>    public String sayHelloTo(String name);
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>package com.kent;
+</span><span class='line'> 
+</span><span class='line'>public class ServiceImpl implements Service {
+</span><span class='line'>    public String sayHelloTo(String id) {
+</span><span class='line'>        return "Hello! " + id;
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>package com.kent;
+</span><span class='line'> 
+</span><span class='line'>import com.google.inject.Inject;
+</span><span class='line'> 
+</span><span class='line'>public class Client {
+</span><span class='line'> 
+</span><span class='line'>    @Inject
+</span><span class='line'>    private Service                service;
+</span><span class='line'> 
+</span><span class='line'>    public String doThing(String id) {
+</span><span class='line'>        return service.sayHelloTo(id);
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>package com.kent;
+</span><span class='line'> 
+</span><span class='line'>import static org.junit.Assert.assertEquals;
+</span><span class='line'> 
+</span><span class='line'>import org.junit.Before;
+</span><span class='line'>import org.junit.Test;
+</span><span class='line'> 
+</span><span class='line'>import com.google.inject.AbstractModule;
+</span><span class='line'>import com.google.inject.Guice;
+</span><span class='line'>import com.google.inject.Inject;
+</span><span class='line'>import com.google.inject.Injector;
+</span><span class='line'>import com.google.inject.Module;
+</span><span class='line'> 
+</span><span class='line'>public class TestClient {
+</span><span class='line'> 
+</span><span class='line'>    @Inject
+</span><span class='line'>    private Service service;
+</span><span class='line'> 
+</span><span class='line'>    @Before
+</span><span class='line'>    public void setUp() throws Exception {
+</span><span class='line'> 
+</span><span class='line'>        Module module = new AbstractModule() {
+</span><span class='line'>            @Override
+</span><span class='line'>            protected void configure() {
+</span><span class='line'>                bind(Service.class).to(ServiceImpl.class);
+</span><span class='line'>            }
+</span><span class='line'>        };
+</span><span class='line'>        Injector injector = Guice.createInjector(module);
+</span><span class='line'>        injector.injectMembers(this);
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>    @Test
+</span><span class='line'>    public void testInection() throws Exception {
+</span><span class='line'>        assertEquals("Hello! Kent", service.sayHelloTo("Kent"));
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Using <code>injector.injectMembers(this);</code> to inject code back to test
+case,so that we can get the <strong>setted</strong> service for work.</p>
+
+<h2>Hello Guice on web</h2>
+
+<p>To enable Guice on web application, we need got the guice-serlet.jar and
+add some settings in web.xml</p>
+
+<p>Guice是透過GuiceFilter取得threadlocal裡request，response等相關的content，所以必須要掛上這個filter。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+</span><span class='line'>&lt;web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+</span><span class='line'>  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5"&gt;
+</span><span class='line'>    &lt;display-name&gt;Archetype Created Web Application&lt;/display-name&gt;
+</span><span class='line'>    &lt;filter&gt;
+</span><span class='line'>        &lt;filter-name&gt;guiceFilter&lt;/filter-name&gt;
+</span><span class='line'>        &lt;filter-class&gt;com.google.inject.servlet.GuiceFilter&lt;/filter-class&gt;
+</span><span class='line'>    &lt;/filter&gt;
+</span><span class='line'>    &lt;filter-mapping&gt;
+</span><span class='line'>        &lt;filter-name&gt;guiceFilter&lt;/filter-name&gt;
+</span><span class='line'>        &lt;url-pattern&gt;/*&lt;/url-pattern&gt;
+</span><span class='line'>    &lt;/filter-mapping&gt;
+</span><span class='line'>&lt;/web-app&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Guice利用GuiceServletContextListener，在server啟動時，把Injector放到ServletContext裡，這樣，其他的servlet就可以從ServletCotext取得Injector。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>package com.kent;
+</span><span class='line'> 
+</span><span class='line'>import javax.servlet.ServletContextEvent;
+</span><span class='line'> 
+</span><span class='line'>import com.google.inject.Binder;
+</span><span class='line'>import com.google.inject.Guice;
+</span><span class='line'>import com.google.inject.Injector;
+</span><span class='line'>import com.google.inject.Module;
+</span><span class='line'>import com.google.inject.servlet.GuiceServletContextListener;
+</span><span class='line'> 
+</span><span class='line'>public class GuiceServletConfig extends GuiceServletContextListener {
+</span><span class='line'> 
+</span><span class='line'>    public static final String KEY = Injector.class.getName();
+</span><span class='line'> 
+</span><span class='line'>    @Override
+</span><span class='line'>    public void contextDestroyed(ServletContextEvent servletContextEvent) {
+</span><span class='line'>        servletContextEvent.getServletContext().removeAttribute(KEY);
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>    @Override
+</span><span class='line'>    public void contextInitialized(ServletContextEvent servletContextEvent) {
+</span><span class='line'>        servletContextEvent.getServletContext().setAttribute(KEY, getInjector());
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>    @Override
+</span><span class='line'>    protected Injector getInjector() {
+</span><span class='line'>        return Guice.createInjector(new Module() {
+</span><span class='line'>            public void configure(Binder binder) {
+</span><span class='line'>                binder.bind(Service.class).to(ServiceImpl.class);
+</span><span class='line'>            }
+</span><span class='line'>        });
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在上面的動作中，Injector被放入ServletContext，在servlet的init()，可以取得Injector，然後用<code>injector.injectMembers(this)</code>對servlet進行injection</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>package com.kent;
+</span><span class='line'> 
+</span><span class='line'>import java.io.IOException;
+</span><span class='line'> 
+</span><span class='line'>import javax.servlet.ServletConfig;
+</span><span class='line'>import javax.servlet.ServletContext;
+</span><span class='line'>import javax.servlet.ServletException;
+</span><span class='line'>import javax.servlet.http.HttpServlet;
+</span><span class='line'>import javax.servlet.http.HttpServletRequest;
+</span><span class='line'>import javax.servlet.http.HttpServletResponse;
+</span><span class='line'> 
+</span><span class='line'>import com.google.inject.Inject;
+</span><span class='line'>import com.google.inject.Injector;
+</span><span class='line'>import com.google.inject.Singleton;
+</span><span class='line'> 
+</span><span class='line'>@Singleton
+</span><span class='line'>public class HelloServlet extends HttpServlet {
+</span><span class='line'> 
+</span><span class='line'>    private static final long serialVersionUID = 1L;
+</span><span class='line'>    @Inject
+</span><span class='line'>    private Service           service;
+</span><span class='line'> 
+</span><span class='line'>    @Override
+</span><span class='line'>    public void init(ServletConfig config) throws ServletException {
+</span><span class='line'> 
+</span><span class='line'>        ServletContext context = config.getServletContext();
+</span><span class='line'>        Injector injector = (Injector) context.getAttribute(Injector.class.getName());
+</span><span class='line'>        if (injector == null) {
+</span><span class='line'>            throw new ServletException("Guice Injector not found");
+</span><span class='line'>        }
+</span><span class='line'>        injector.injectMembers(this);
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>    @Override
+</span><span class='line'>    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+</span><span class='line'>        response.getOutputStream().print(service.sayHelloTo("web"));
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+</span><span class='line'>&lt;web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+</span><span class='line'>  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5"&gt;
+</span><span class='line'>    &lt;display-name&gt;Archetype Created Web Application&lt;/display-name&gt;
+</span><span class='line'>    &lt;filter&gt;
+</span><span class='line'>        &lt;filter-name&gt;guiceFilter&lt;/filter-name&gt;
+</span><span class='line'>        &lt;filter-class&gt;com.google.inject.servlet.GuiceFilter&lt;/filter-class&gt;
+</span><span class='line'>    &lt;/filter&gt;
+</span><span class='line'>    &lt;filter-mapping&gt;
+</span><span class='line'>        &lt;filter-name&gt;guiceFilter&lt;/filter-name&gt;
+</span><span class='line'>        &lt;url-pattern&gt;/*&lt;/url-pattern&gt;
+</span><span class='line'>    &lt;/filter-mapping&gt;
+</span><span class='line'>    &lt;listener&gt;
+</span><span class='line'>        &lt;listener-class&gt;com.kent.GuiceServletConfig&lt;/listener-class&gt;
+</span><span class='line'>    &lt;/listener&gt;
+</span><span class='line'>    &lt;servlet&gt;
+</span><span class='line'>        &lt;servlet-name&gt;HelloServlet&lt;/servlet-name&gt;
+</span><span class='line'>        &lt;servlet-class&gt;com.kent.HelloServlet&lt;/servlet-class&gt;
+</span><span class='line'>    &lt;/servlet&gt;
+</span><span class='line'>    &lt;servlet-mapping&gt;
+</span><span class='line'>        &lt;servlet-name&gt;HelloServlet&lt;/servlet-name&gt;
+</span><span class='line'>        &lt;url-pattern&gt;/*&lt;/url-pattern&gt;
+</span><span class='line'>    &lt;/servlet-mapping&gt;
+</span><span class='line'>&lt;/web-app&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Scopes</h2>
+
+<p>Guice預設的scope是每次產生instnace，如果要變這個預設的行為，是透過scope，預設的scope有</p>
+
+<ol>
+<li>@Singleton - 讓物件變成Singleton，可以讓它宣告成Singleton
+(必須是threadsafe)</li>
+<li>@SessionScoped - 跟http session一樣長的scope
+(必須是threadsafe，必須正確安裝ServletModule)</li>
+<li>@RequestScoped - 每次的 http request才會新物件的scope
+(<strong>不用</strong>是threadsafe，必須正確安裝ServletModule)</li>
+</ol>
+
+
+<p>如果class沒辦法用Annotation宣告(如比說該class來自其他lib)，那可以在binding時，再指定scope，像這樣</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>bind(TransactionLog.class).to(InMemoryTransactionLog.class).in(Singleton.class);
+</span><span class='line'>bind(UserPreferences.class).toProvider(UserPreferencesProvider.class).in(ServletScopes.REQUEST);
+</span><span class='line'>// singleton可以是eager或lazy，eager或lazy是指contruct的方式
+</span><span class='line'>bind(TransactionLog.class).to(InMemoryTransactionLog.class).asEagerSingleton();</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Singleton Scope</h4>
+
+<p>Singleton可以省下很多物件建立及GC的資源，如果物件有以下特性，就可以考慮是否要宣告成Singleton，(，如果物件是stateless，建立新物件的速度，會比從singleton取快得多)</p>
+
+<ul>
+<li>stateful objects, such as configuration or counters</li>
+<li>objects that are expensive to construct or lookup</li>
+<li>objects that tie up resources, such as a database connection pool.</li>
+</ul>
+
+
+<p>雖然Singleton對java來說，一直常被列為<a href="http://en.wikipedia.org/wiki/Singleton_pattern" title="http://en.wikipedia.org/wiki/Singleton_pattern">anti-pattern</a>(主要是因為Singleton的物件沒辦法被overwrite，失去了OO的特性)，
+尤其是採DI的開發方式而言，不過guice可以保留Singleton的優點，但卻沒有Singleton的缺點，所以可以放心使用</p>
+
+<p>If the object truly is stateless, it&#8217;s faster for Guice to create a new
+instance than it is to retrieve a singleton. If Guice creates a new
+instance every time, it can bypass the scoping layer entirely, not to
+mention the logic inside the singleton scope.</p>
+
+<h2>Injection</h2>
+
+<h4>Automatic Injection</h4>
+
+<p>Guice automatically injects all of the following:</p>
+
+<ul>
+<li>instances passed to toInstance() in a bind statement</li>
+<li>provider instances passed to toProvider() in a bind statement</li>
+</ul>
+
+
+<p>The objects will be injected while the injector itself is being created.
+If they&#8217;re needed to satisfy other startup injections, Guice will inject
+them before they&#8217;re used.</p>
+
+<h2>Extensions</h2>
+
+<h3>Multibindings</h3>
+
+<p>Multibindings是可以用來設計plugin的架構，主要的功能是把一個interface
+binding到多個實作上面，而且不需要recompile，可以透過config檔來加入新完成的plugins.</p>
+
+<h2>Resource</h2>
+
+<ul>
+<li><a href="http://code.google.com/p/google-guice/" title="http://code.google.com/p/google-guice/">官網</a></li>
+<li><a href="http://99soft.github.com/rocoto/configuration.html" title="http://99soft.github.com/rocoto/configuration.html">rocoto</a>
+
+<ul>
+<li>guice讀properties，xml的lib</li>
+</ul>
+</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/03/23/commands/">Linux Commands</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-23T00:00:00+08:00" pubdate data-updated="true">Mar 23<span>rd</span>, 2012</time>
+        
+         | <a href="/blog/2012/03/23/commands/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>Processes</h2>
+
+<p>查看Run Level</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>runlevel</span></code></pre></td></tr></table></div></figure>
+
+
+<p>關機</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Shutdown -h now
+</span><span class='line'>init 0 </span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果文字模式下無法正常關機，可以用<code>init 0</code>試試</p>
+
+<h5>背景執行 &amp;</h5>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># ./myService.sh &</span></code></pre></td></tr></table></div></figure>
+
+
+<p>但是，這樣登出後，myService.sh的process還是會被kill掉，如果process不想在user登出後被kill，可用
+<strong>nohup</strong></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#nohup ./myService.sh & </span></code></pre></td></tr></table></div></figure>
+
+
+<h5>文字模式下的多session模式</h5>
+
+<p>使用screen可以在一個登入下，變成多個session操作，有點像視窗模式中的分頁功能</p>
+
+<p>ref:<a href="http://blog.roodo.com/albertarea/archives/3358957.html" title="http://blog.roodo.com/albertarea/archives/3358957.html">http://blog.roodo.com/albertarea/archives/3358957.html</a></p>
+
+<h2>執行過的指令歷史</h2>
+
+<p>History是執行過的指令的歷史，簡單的狀況下，可以用上/下鍵來找出之前執行過的指令，但有時，其他的方式會更適合</p>
+
+<h4>history</h4>
+
+<p>history會依序列出執行過的指令</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># history
+</span><span class='line'>  1 cd
+</span><span class='line'>  2 ls
+</span><span class='line'>  3 ps</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>history -c</code>可以清掉歷史</p>
+
+<h5>!num</h5>
+
+<p>使用<code>! + 數字</code>可以執行history相對的號碼的指令</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># history
+</span><span class='line'>  1 cd
+</span><span class='line'>  2 ls
+</span><span class='line'>  3 ps
+</span><span class='line'>#!3  </span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>!3</code>會執行<code>ps</code></p>
+
+<h5>!command</h5>
+
+<p>使用<code>! + command</code>可以執行history相對應的指令，比如說，之前執行過<code>ps aux | grep test</code>
+可以使用<code>!ps</code>，這樣會再執行完整的<code>ps aux | grep test</code></p>
+
+<h5>ctrl + r</h5>
+
+<p>ctrl +
+r可以用來快速搜尋hitory中的指令列表，當按下<code>ctrl + r</code>會出現<strong>(reverse-i-search)</strong>，之後可以打要搜尋的指令</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#
+</span><span class='line'>(reverse-i-search)</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>User Management</h2>
+
+<h2>File Management</h2>
+
+<p>檔案列表</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ls </span></code></pre></td></tr></table></div></figure>
+
+
+<p>更新locate資訊</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo updatedb</span></code></pre></td></tr></table></div></figure>
+
+
+<p>找檔</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>locate [filename]</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>cd -</h4>
+
+<p>在兩個目錄間切換</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/user/home/dir1#cd /user/home/dir2
+</span><span class='line'>/user/home/dir2#cd -
+</span><span class='line'>/user/home/dir1#cd -
+</span><span class='line'>/user/home/dir2#</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Packages</h2>
+
+<h2>文本处理命令</h2>
+
+<h4>cat</h4>
+
+<ul>
+<li><strong>功能說明</strong>: 用于從文件頭到文件尾方向滾屏顯示文本文件內容</li>
+<li><strong>命令格式</strong>: <code>cat [參數] [&lt;文件&gt; …]</code></li>
+<li><p><strong>常用參數</strong>:</p>
+
+<ul>
+<li><strong>-n</strong> : 由 1 開始對所有輸出的行進行編號</li>
+<li><strong>-b</strong> : 和 -n 相似，只不過對于空行不編號</li>
+<li><strong>-s</strong> : 當遇到有連續兩行以上的空行時，使用一個空行代替</li>
+</ul>
+</li>
+<li><p><strong>使用舉例</strong>:</p></li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ cat file
+</span><span class='line'>$ cat -n file</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>系統還提供了一個 tac 命令，用于從文件尾到文件頭顯示文件內容。</li>
+<li>系統還提供了一個 rev 命令，與 tac
+不同，它并不反轉行序，而是把每行的內容反轉。</li>
+<li>可以使用cat命令連接多個文本文件，如：</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ cat file1 file2 &gt; files</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>more</h4>
+
+<ul>
+<li><strong>功能說明</strong>: 從文件頭到文件尾分屏顯示文本文件內容</li>
+<li><strong>命令格式</strong>: <code>more [參數] [&lt;文件&gt; …]</code></li>
+<li><p><strong>常用參數</strong>:</p>
+
+<ul>
+<li><strong>-d</strong> : 顯示提示信息“[Press space to continue, &#8216;q&#8217; to quit.]”</li>
+<li><strong>-s</strong> : 當遇到有連續兩行以上的空行時，使用一個空行代替</li>
+<li><strong>+num</strong> : 從第 num 行開始顯示</li>
+</ul>
+</li>
+<li><p><strong>使用舉例</strong>:</p></li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ more file
+</span><span class='line'>$ more +10 file</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>系統還提供了一個 less 命令，用于雙向顯示分屏顯示文本文件內容。</li>
+<li>less 的功能比 more 豐富的多，可以使用如下命令查看其內置功能</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ less --help</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>head</h4>
+
+<ul>
+<li><strong>功能說明</strong>: 顯示文本文件的前部的若干行</li>
+<li><strong>命令格式</strong>: <code>head [參數] [&lt;文件&gt; …]</code></li>
+<li><p><strong>常用參數</strong>:</p>
+
+<ul>
+<li><strong>-n</strong> : 顯示前 n 行，不指定此參數顯示前 10 行</li>
+</ul>
+</li>
+<li><p><strong>使用舉例</strong>:</p></li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ head file
+</span><span class='line'>$ head -5 file</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>tail</h4>
+
+<ul>
+<li><strong>功能說明</strong>: 顯示文本文件的后部的若干行</li>
+<li><strong>命令格式</strong>: <code>tail [參數] [&lt;文件&gt; …]</code></li>
+<li><p><strong>常用參數</strong>:</p>
+
+<ul>
+<li><strong>-n</strong> : 顯示后 n 行，不指定此參數顯示后 10 行</li>
+<li><strong>+n</strong> : 從第 n 行顯示到文件尾</li>
+<li><strong>-F</strong> :
+用于跟蹤顯示不斷增長的文件結尾內容（通常用于顯示日志文件）</li>
+</ul>
+</li>
+<li><p><strong>使用舉例</strong>:</p></li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ tail file
+</span><span class='line'>$ tail -5 file
+</span><span class='line'>$ tail +5 file
+</span><span class='line'>$ tail -F /var/log/messages</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>cut</h4>
+
+<ul>
+<li><strong>功能說明</strong>: 縱向切割出文本指定的部分并寫到標準輸出</li>
+<li><strong>命令格式</strong>: <code>cut [參數] [&lt;文件&gt; …]</code></li>
+<li><strong>常用參數</strong>:
+
+<ul>
+<li><strong>-b&lt;LIST></strong> : 只列出&lt;LIST>指定的字節</li>
+<li><strong>-c&lt;LIST></strong> : 只列出&lt;LIST>指定的字符</li>
+<li><strong>-f&lt;LIST></strong> :
+只列出&lt;LIST>指定的字段；并打印所有不包含分界符的行，除非 -s
+選項被指定</li>
+<li><strong>-s</strong> : 不打印沒有包含分界符的行</li>
+<li><strong>-d&lt;DELIM></strong> :
+DELIM是分界符，使用指定&lt;DELIM>代替制表符作為區域分界</li>
+<li><strong>–complement</strong> : 補足選中的字節、字符或字段的占位</li>
+<li><strong>–output-delimiter=&lt;STRING></strong> :
+使用指定&lt;STRING>作為輸出分界符默認時采用輸入的分界符</li>
+</ul>
+</li>
+</ul>
+
+
+<p><strong>LIST 的語法</strong></p>
+
+<p>選用 -b、-c 或 -f
+中一個或若干個選項時，每個&lt;LIST>都由一個范圍域或是由逗號分隔開的多個范圍域組成。被選中的輸入會被按照和讀入時相同的次序寫到屏幕，每個輸入只會被輸出一次。
+每個范圍域可以是以下中的任何一種：</p>
+
+<ul>
+<li><strong>N</strong> : 第N個字節、字符或字段，從 1 開始計數</li>
+<li><strong>N-</strong> : 從第N個字節、字符或字段，直到行尾</li>
+<li><strong>N-M</strong> : 從第N個到第M個已包含的字符、字符或字段</li>
+<li><p><strong>-M</strong> : 從第一個到第M個字節、字符或字段</p></li>
+<li><p><strong>使用舉例</strong>:</p></li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ cut -b-10 file
+</span><span class='line'>$ cut -c5- file
+</span><span class='line'>$ cut -c5-10,15-20 file
+</span><span class='line'>$ cut -f1,3,5 file
+</span><span class='line'>$ cut -f2-4 file
+</span><span class='line'>$ cut -f2-4 -d' ' file
+</span><span class='line'>$ cut -f1,2-4,6 -d' ' -s file</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>paste</h4>
+
+<ul>
+<li><strong>功能說明</strong>: 縱向合并多個文本并寫到標準輸出</li>
+<li><strong>命令格式</strong>: <code>paste [參數] [&lt;文件&gt; …]</code></li>
+<li><p><strong>常用參數</strong>:</p>
+
+<ul>
+<li><strong>-d&lt;DELIM></strong> :
+DELIM是分界符，使用指定&lt;DELIM>代替制表符作為區域分界</li>
+<li><strong>-s</strong> : 不使用平行的行目輸出模式，而是每個文件占用一行</li>
+</ul>
+</li>
+<li><p><strong>使用舉例</strong>:</p></li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ paste file1 file2
+</span><span class='line'>$ paste -s file1 file2
+</span><span class='line'>$ paste -d' ' file1 file2</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>sort</h4>
+
+<ul>
+<li><strong>功能說明</strong>: 以行為單位對文件進行排序</li>
+<li><strong>命令格式</strong>: <code>sort [參數] [&lt;文件&gt; …]</code></li>
+<li><p><strong>常用參數</strong>:</p>
+
+<ul>
+<li><strong>-b</strong> : 忽略前導的空格</li>
+<li><strong>-d</strong> : 只考慮空格,字母,數字</li>
+<li><strong>-f</strong> : 忽略字母的大小寫</li>
+<li><strong>-i</strong> : 只考慮可打印字符</li>
+<li><strong>-M</strong> : 排序月份，(未知詞)&lt;“JAN”&lt; … &lt;“DEC”</li>
+<li><strong>-n</strong> : 根據字符串的數值進行排序</li>
+<li><strong>-r</strong> : 逆向排序</li>
+<li><strong>-u</strong> : 對相同的行只輸出一行</li>
+<li><strong>+n</strong> : n 為數字,對指定的列進行排序,+0 表示第1列,
+以空格或制表符作為列的間隔符</li>
+</ul>
+</li>
+<li><p><strong>使用舉例</strong>:</p></li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sort file
+</span><span class='line'>$ sort -bd file
+</span><span class='line'>$ sort -bn file
+</span><span class='line'>$ sort -r file
+</span><span class='line'>$ sort -u file
+</span><span class='line'>$ sort +5 file
+</span><span class='line'>$ sort +5 -rb file
+</span><span class='line'>$ sort file1 file2
+</span><span class='line'>$ sort -br file1 file2</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>本地環境變量會影響排序結果。</li>
+<li>如果希望以字節的自然值獲得最傳統的排序結果，請設定 LC_ALL=C。</li>
+</ol>
+
+
+<h4>uniq</h4>
+
+<ul>
+<li><strong>功能說明</strong>: 刪除文本文件中相鄰的重復的行并寫到標準輸出</li>
+<li><strong>命令格式</strong>: <code>uniq [參數] [&lt;輸入文件&gt; [&lt;輸出文件&gt;]]</code></li>
+<li><p><strong>常用參數</strong>:</p>
+
+<ul>
+<li><strong>-c</strong> : 在每行前加上表示相應行目出現次數的前綴編號</li>
+<li><strong>-d</strong> : 只顯示重復的行</li>
+<li><strong>-i</strong> : 略大小寫差異</li>
+<li><strong>-u</strong> : 只顯示出現一次的行</li>
+<li><strong>-s&lt;N></strong> : &lt;N> 為數字，對各行前&lt;N>個字符不作比較</li>
+<li><strong>-w&lt;N></strong> : &lt;N>
+為數字，對各行第&lt;N>個字符以后的內容不作比較</li>
+</ul>
+</li>
+<li><p><strong>使用舉例</strong>:</p></li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ uniq file
+</span><span class='line'>$ uniq -i file
+</span><span class='line'>$ uniq -cd file
+</span><span class='line'>$ uniq -u file</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>wc</h4>
+
+<ul>
+<li><strong>功能說明</strong>: 統計指定文本文件的行數、字數、字符數</li>
+<li><strong>命令格式</strong>: <code>wc [參數] [&lt;文件&gt; …]</code></li>
+<li><p><strong>常用參數</strong>:</p>
+
+<ul>
+<li><strong>-c</strong> : 輸出字節數統計</li>
+<li><strong>-l</strong> : 輸出行數統計</li>
+<li><strong>-L</strong> : 輸出最長一行的長度</li>
+<li><strong>-w</strong> : 輸出單詞數統計</li>
+</ul>
+</li>
+<li><p><strong>使用舉例</strong>:</p></li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ wc file
+</span><span class='line'>$ wc -l file
+</span><span class='line'>$ wc -w file
+</span><span class='line'>$ wc -c file
+</span><span class='line'>$ wc -L file</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>expand</h4>
+
+<ul>
+<li><strong>功能說明</strong>: 將文件中的制表符轉換為空格，寫到標準輸出</li>
+<li><strong>命令格式</strong>: <code>expand [參數] [&lt;文件&gt; …]</code></li>
+<li><p><strong>常用參數</strong>:</p>
+
+<ul>
+<li><strong>-i</strong> : 不轉換非空格后的制表符</li>
+<li><strong>-t&lt;N></strong> : 設定每個制表符為指定&lt;N>的寬度，而不是默認的 8</li>
+</ul>
+</li>
+<li><p><strong>使用舉例</strong>:</p></li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ expand file
+</span><span class='line'>$ expand -t4 file</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>unexpand</h4>
+
+<ul>
+<li><strong>功能說明</strong>: 將文件中的空格轉換為制表符，寫到標準輸出</li>
+<li><strong>命令格式</strong>: <code>unexpand [參數] [&lt;文件&gt; …]</code></li>
+<li><p><strong>常用參數</strong>:</p>
+
+<ul>
+<li><strong>-a</strong> : 轉換所有空格字符而不僅僅是字母首部的空格</li>
+<li><strong>–first-only</strong> : 只轉換首部的空格字符序列 (覆蓋 -a 選項)</li>
+<li><strong>-t&lt;N></strong> : 設定每個制表符為指定&lt;N>的寬度，而不是默認的 8
+(激活 -a 選項)</li>
+</ul>
+</li>
+<li><p><strong>使用舉例</strong>:</p></li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ unexpand file
+</span><span class='line'>$ unexpand -t4 file</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>iconv</h4>
+
+<ul>
+<li><strong>功能說明</strong>: 將文件從一種編碼轉換成另一種編碼</li>
+<li><strong>命令格式</strong>: <code>iconv [參數] &lt;輸入文件&gt;</code></li>
+<li><p><strong>常用參數</strong>:</p>
+
+<ul>
+<li><strong>-f &lt;encoding></strong> : 指定原始文本編碼</li>
+<li><strong>-t &lt;encoding></strong> : 指定要轉換的編碼</li>
+<li><strong>-l</strong> : 列出所有已知編碼字符集</li>
+<li><strong>-c</strong> : 忽略輸出中的無效字符</li>
+<li><strong>-o &lt;output file></strong> : 指定輸出文件，而不是在標準輸出上顯示</li>
+</ul>
+</li>
+<li><p><strong>使用舉例</strong>:</p></li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ iconv -l
+</span><span class='line'>$ iconv -f ISO-8859-1 -t UTF-8 -o outputfile inputfile
+</span><span class='line'>$ iconv -f GB2312 -t UTF-8 -o outputfile inputfile
+</span><span class='line'>$ iconv -f GBK -t UTF-8 -o outputfile inputfile
+</span><span class='line'>$ iconv -f BIG5 -t UTF-8 -o outputfile inputfile
+</span><span class='line'>$ iconv -f UTF-8 -t GB2312 -o outputfile inputfile</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>dos2unix</h4>
+
+<ul>
+<li><strong>功能說明</strong>: 將DOS格式的文本文件轉換成UNIX格式的文本文件</li>
+<li><strong>命令格式</strong>: <code>dos2unix [參數] &lt;文件&gt; [&lt;輸出文件&gt;]</code></li>
+<li><p><strong>常用參數</strong>:</p>
+
+<ul>
+<li><strong>-k</strong> : 不改變文件的時間戳</li>
+<li><strong>-n</strong> :
+新文件模式，即不改變原文件將轉換結果保存到指定的輸出文件</li>
+</ul>
+</li>
+<li><p><strong>使用舉例</strong>:</p></li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ dos2unix dosfile
+</span><span class='line'>$ dos2unix -n dosfile linuxfile
+</span><span class='line'>$ dos2unix -k *
+</span><span class='line'>$ dos2unix -k -n dosfile linuxfile</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>系統還提供了一個 unix2dos
+命令，用于將UNIX格式的文本文件轉換成DOS格式的文本文件。使用方法與
+dos2unix 命令一樣。</li>
+</ol>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/03/20/weld_101/">Weld 101</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-20T00:00:00+08:00" pubdate data-updated="true">Mar 20<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/03/20/weld_101/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><ul>
+<li>@Model = @Named + @RequestScoped</li>
+<li>The @Named annotation just makes it possible to reference the bean
+from the EL</li>
+<li>it isn&#8217;t necessary to create a getter or setter method to inject one
+bean into another. CDI can access an injected field directly (even
+if it&#8217;s private!)</li>
+<li>Bean could be invoked by Unified EL.</li>
+<li>A bean type is a user-defined class or interface.</li>
+<li>Bean types may be restricted to an explicit set by annotating the
+bean with the @Typed annotation</li>
+<li>If an injection point does not explicitly specify a qualifier, it
+has the default qualifier, @Default.</li>
+<li>Don&#8217;t assign a scope other than @Dependent to an entity class</li>
+<li>@Produces used in factory method.
+
+<ul>
+<li>@Alternative usually used in testing and must be enabled by config</li>
+</ul>
+</li>
+<li></li>
+</ul>
+
+
+<h1>Fixing unsatisfied and ambiguous dependencies</h1>
+
+<h4>To fix an unsatisfied dependency, either:</h4>
+
+<ul>
+<li>create a bean which implements the bean type and has all the
+qualifier types of the injection point,</li>
+<li>make sure that the bean you already have is in the classpath of the
+module with the injection point, or</li>
+<li>explicitly enable an @Alternative bean that implements the bean type
+and has the appropriate qualifier types, using beans.xml.</li>
+</ul>
+
+
+<h4>To fix an ambiguous dependency, either:</h4>
+
+<ul>
+<li>introduce a qualifier to distinguish between the two implementations
+of the bean type,</li>
+<li>disable one of the beans by annotating it @Alternative,</li>
+<li>move one of the implementations to a module that is not in the
+classpath of the module with the injection point, or</li>
+<li>disable one of two @Alternative beans that are trying to occupy the
+same space, using beans.xml.</li>
+</ul>
+
+
+<p>[java</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/03/20/using_android_market_on_emulator/">在Emulator裡使用Android Market</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-20T00:00:00+08:00" pubdate data-updated="true">Mar 20<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/03/20/using_android_market_on_emulator/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><ol>
+<li>取的1.6的版Android SDK</li>
+<li>建立AVD(假設命名為myAVD)，target設定為1.6版的SDK</li>
+<li>去<a href="http://developer.htc.com/adp.html" title="http://developer.htc.com/adp.html">htc
+developer</a>下載ROM^<a href="#fn__1">1)</a>^
+signed-dream_devphone_userdebug-img-14721.zip</li>
+<li>解壓ZIP後，把system.img檔copy到
+USER_HOME^<a href="#fn__2">2)</a>^底下有一個<code>.android</code>目錄，裡面有一個剛剛命名的AVD(以我的帳號來說，它是在C:\Users\Kent&#46;android\avd\myAVD.avd\目錄)</li>
+<li>重新啟動Emulator即可看到 Android Market的icon在主畫面上</li>
+<li>用google (Gmail)的帳號登入market即可download apps</li>
+</ol>
+
+
+<p>很多需要硬體支援的功能，Emulator還是沒辦法用</p>
+
+<h1>Resources</h1>
+
+<ul>
+<li><a href="http://www.51testing.com/?uid-49689-action-viewspace-itemid-212224" title="http://www.51testing.com/?uid-49689-action-viewspace-itemid-212224">http://www.51testing.com/?uid-49689-action-viewspace-itemid-212224</a>
+
+<ul>
+<li>本篇文章主要參考這裡</li>
+</ul>
+</li>
+<li><h2><a href="http://blog.23corner.com/2010/06/17/%E5%9C%A8-android-emulator-%E4%B8%AD%E4%BD%BF%E7%94%A8-android-market-%E7%9A%84%E6%96%B9%E6%B3%95/" title="http://blog.23corner.com/2010/06/17/%E5%9C%A8-android-emulator-%E4%B8%AD%E4%BD%BF%E7%94%A8-android-market-%E7%9A%84%E6%96%B9%E6%B3%95/">http://blog.23corner.com/2010/06/17/%E5%9C%A8-android-emulator-%E4%B8%AD%E4%BD%BF%E7%94%A8-android-market-%E7%9A%84%E6%96%B9%E6%B3%95/</a></h2>
+
+<p>這篇講到更多的設定方式，但我用1.6版的ROM，只要照我上面寫的流程，就可以使用了</p></li>
+</ul>
+
+
+<p>^<a href="#fnt__1">1)</a>^ 我下的是1.6版的system.img</p>
+
+<p>^<a href="#fnt__2">2)</a>^ 登入OS的使用者帳號</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/5/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/blog/page/3/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/07/07/python-101/">Python 101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/25/url-encoding/">URL Encoding</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/04/restful-api-design/">RESTful API Design</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/17/my-intellij-idea-shortcut/">My IntelliJ IDEA Shortcut</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/12/jesper-report-font-issue/">Jesper Report, IReport 匯出成中文PDF</a>
+      </li>
+    
+  </ul>
+</section>
+
+Included file &#8216;asides/twitter.html&#8217; not found in _includes directory
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Kent -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'kentchiu';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

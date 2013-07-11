@@ -1,0 +1,2003 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Kent's Blog</title>
+  <meta name="author" content="Kent">
+
+  
+  <meta name="description" content="1
+2
+3
+4
+require_once 'Log.php';
+ 
+$logger = &Log::singleton('file', 'debug.log', 'TEST');
+$logger-&gt;log('debug message', PEAR_LOG_DEBUG); 不同檔案內， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.kent-chiu.com/blog/page/14">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Kent's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-39152849-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Kent's Blog</a></h1>
+  
+    <h2>Kent的學習筆記(剛從dokuwiki搬過來，內容還在整修中)</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.kent-chiu.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/log_101/">Pear Log 101</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/log_101/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>require_once 'Log.php';
+</span><span class='line'> 
+</span><span class='line'>$logger = &Log::singleton('file', 'debug.log', 'TEST');
+</span><span class='line'>$logger-&gt;log('debug message', PEAR_LOG_DEBUG);</span></code></pre></td></tr></table></div></figure>
+
+
+<p>不同檔案內，需設定不同logger
+file位置的問題，這以下這樣，每個檔案都要重新設定debug.log的位置
+另一種較好的解法是將\$logger定義成global variables</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$logger = &Log::singleton('file', '..\logs\debug.log', 'TEST');</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Resource</h2>
+
+<ul>
+<li><a href="http://wiki.kent-chiu.com/lib/exe/fetch.php?media=php:lang:tail.rar" title="php:lang:tail.rar">tail</a>
+
+<ul>
+<li>you can using tail to monitoring logfile (you can using tail as
+external tools in Eclipse, it will keep outputting out eclipse
+console)</li>
+</ul>
+</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/linux/">Linux</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/linux/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><ul>
+<li><a href="http://wiki.kent-chiu.com/doku.php?id=linux:commands" title="linux:commands">Linux
+Commands</a></li>
+<li><a href="http://wiki.kent-chiu.com/doku.php?id=linux:find_command" title="linux:find_command">find
+Command</a></li>
+<li><a href="http://wiki.kent-chiu.com/doku.php?id=linux:grep_command" title="linux:grep_command">grep
+command</a></li>
+<li><a href="http://wiki.kent-chiu.com/doku.php?id=linux:solaris_rhel_ubuntu_-_pros_and_cons" title="linux:solaris_rhel_ubuntu_-_pros_and_cons">Solaris ,RHEL ,Ubuntu - Pros and
+Cons</a></li>
+<li><a href="http://plog.longwin.com.tw/my_note-app-setting/2006/07/02/color_grep_man_2006" title="http://plog.longwin.com.tw/my_note-app-setting/2006/07/02/color_grep_man_2006">grep、man
+顏色設定</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/linguistic/">一些基本的語言學觀念</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/linguistic/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><em>本文轉自ptt的精華區</em></p>
+
+<p>母音(又稱元音)指的是a.i.u.e.o…..等等的音</p>
+
+<p>一般來說,世界上的語言一定有a.i.u</p>
+
+<p>再來才會有 e.o和雙母音等(雙母音指的是如au,ou,ai…由兩個母音組成的元音)</p>
+
+<p>這些音在發音時 發音器官沒有受到阻礙</p>
+
+<p>(合唱團發音練習時嗚嗚叫的就是母音 )</p>
+
+<p>子音(又稱輔音)則是在母音前面的元素</p>
+
+<p>這些音跟母音不同的地方在於</p>
+
+<p>它會在發音部位形成阻礙</p>
+
+<p>若是完全的阻礙 就是塞音(stop) 如 b p m n d t g k</p>
+
+<p>先成阻之後再磨擦 就叫塞擦音(affricate) 如 注音符號的 ㄗ ㄘ ㄙ …</p>
+
+<p>還有擦音( fricative) 如 f.v..</p>
+
+<p>另外還有捲舌音 流音 顫音……(就省略啦)</p>
+
+<p>發音部位指的是如 雙唇 脣齒 齒齦 硬顎 軟顎…地方</p>
+
+<p>如果是 b.p.m 等子音 就是在雙唇部分形成完全的阻塞</p>
+
+<p>g,k,h等等 就是再舌根(軟顎)處形成阻礙</p>
+
+<p>總之 子音是不能單獨被念出來的</p>
+
+<p>他只是輔助母音的元素 使語言更有變化</p>
+
+<p>我們在唸注音符號時 都以為我們在唸中文的子音</p>
+
+<p>事實上</p>
+
+<p>我們已經在後面加上母音了</p>
+
+<p>所以ㄅ這個音 我們在唸的時候</p>
+
+<p>其實已經在 /b/ 後面加上央元音了 (唸起來像ㄜ
+看起來像阿拉伯數字6像右轉的樣子)</p>
+
+<p>總而言之</p>
+
+<p>子音就是用阻礙的方式 或阻礙的地方 以及有聲無聲(指有無震動聲帶)來區分的</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/lamp_install/">LAMP Install on CentOS5</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/lamp_install/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>OS installation</h2>
+
+<h3>VMWare</h3>
+
+<ul>
+<li>掛載iso檔</li>
+<li>網路卡設成NAT</li>
+<li>記憶體可調小一點300M應該就夠了</li>
+<li>不用特別去裝VMTools</li>
+</ul>
+
+
+<h3>CentOS 5</h3>
+
+<ul>
+<li>安裝成text mode的server就可(不用gui)</li>
+<li>照<a href="http://smartraining.cn/centos/server_installation" title="http://smartraining.cn/centos/server_installation">這篇</a>的方式去裝就好了</li>
+<li>網路設定如以改用dhcp</li>
+<li>Firewall disabled</li>
+</ul>
+
+
+<h4>新建一個一般usre</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>adduser username
+</span><span class='line'>passwd username </span></code></pre></td></tr></table></div></figure>
+
+
+<h4>網路設定</h4>
+
+<ul>
+<li>裝完後，如果網路沒有active，可以到/etc/sysconfig/network-scripts/ifcfg-eth0
+修改網路設定</li>
+</ul>
+
+
+<p>指定IP</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>DEVICE=eth0                          #網路卡名稱
+</span><span class='line'>BOOTPROTO=static                     #BOOTP協定
+</span><span class='line'>BROADCAST=192.168.202.255            #廣播 IP Address
+</span><span class='line'>HWADDR=00:15:C5:E5:99:B1             #MAC Address
+</span><span class='line'>IPADDR=192.168.202.100               #IP Address
+</span><span class='line'>NETMASK=255.255.254.0                #Netmask (遮罩)
+</span><span class='line'>NETWORK=192.168.202.0                #網段
+</span><span class='line'>ONBOOT=yes                           #開機自動啟動 </span></code></pre></td></tr></table></div></figure>
+
+
+<p>DHCP</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>DEVICE=eth0
+</span><span class='line'>BOOTPROTO=dhcp
+</span><span class='line'>ONBOOT=yes</span></code></pre></td></tr></table></div></figure>
+
+
+<p>設定完重新啟動網卡</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#/etc/rc.d/init.d/network restart</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>安裝packages</h4>
+
+<ul>
+<li>記得透過<a href="http://smartraining.cn/centos/yum" title="http://smartraining.cn/centos/yum">yum</a>裝以一下以下幾個packages，滿有用的</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>yum -y  install wget bzip2 unzip zip nmap tree lynx</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Server installation</h2>
+
+<p>預設的php是5.1.x的，有點太舊了，可以透過<a href="http://www.52crack.com/blog/?action=show&amp;id=368" title="http://www.52crack.com/blog/?action=show&amp;id=368">這個連結</a>的說明更新到5.2.x</p>
+
+<h3>MySQL 5</h3>
+
+<p>MySQL install</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>yum -y install mysql-server</span></code></pre></td></tr></table></div></figure>
+
+
+<p>set MySQL as daemon</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>chkconfig mysqld on</span></code></pre></td></tr></table></div></figure>
+
+
+<p>check config</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>chkconfig --list mysqld
+</span><span class='line'># 2 - 5 should be on
+</span><span class='line'>mysqld 0:off 1:off 2:on 3:on 4:on 5:on 6:off</span></code></pre></td></tr></table></div></figure>
+
+
+<p>startup MySQL server</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/etc/rc.d/init.d/mysqld start</span></code></pre></td></tr></table></div></figure>
+
+
+<p>change password</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mysqladmin -u root password 'Your Password'</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Apache 2</h3>
+
+<p>install Apache server</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>yum -y install httpd</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>PHP 5</h3>
+
+<p>install PHP</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>yum -y install php php-mbstring php-mysql php-gd php-pear</span></code></pre></td></tr></table></div></figure>
+
+
+<p>setup php.ini</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>date.timezone = "Asia/Taipei"</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Apache Config</h3>
+
+<p>set Apache as daemon</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>chkconfig httpd on</span></code></pre></td></tr></table></div></figure>
+
+
+<p>check config</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>chkconfig --list httpd 
+</span><span class='line'># 2 - 5 should be on
+</span><span class='line'>httpd  0:off 1:off 2:on 3:on 4:on 5:on 6:off</span></code></pre></td></tr></table></div></figure>
+
+
+<p>startup httpd server</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/etc/rc.d/init.d/httpd start</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>verify installed</h2>
+
+<p>create new php file in document root</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>vi /var/www/html/index.php</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?php 
+</span><span class='line'>phpinfo();
+</span><span class='line'>?&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>open by lynx borwser</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>lynx http://localhost</span></code></pre></td></tr></table></div></figure>
+
+
+<p>you should check
+<a href="http://wiki.kent-chiu.com/doku.php?id=ubuntu:lamp" title="ubuntu:lamp">this</a>
+article to config LAMP server</p>
+
+<p>如果無法從linux外存取web，可能會firewall的關係，在command
+line下執行<code>setup</code>可以關掉firewall</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/lamp/">Linux Apache MySQL PHP (a.k. A LAMP)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/lamp/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo apt-get install apache2
+</span><span class='line'>sudo apt-get install php5
+</span><span class='line'>sudo apt-get install libapache2-mod-php5
+</span><span class='line'>sudo apt-get install mysql-server
+</span><span class='line'>sudo apt-get install libapache2-mod-auth-mysql 
+</span><span class='line'>sudo apt-get install php5-mysql</span></code></pre></td></tr></table></div></figure>
+
+
+<p>if you need to change MySQL password, please check change_password session</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo apt-get install php5-gd
+</span><span class='line'>sudo apt-get install php5-pear
+</span><span class='line'>sudo apt-get install phpmyadmin</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you&#8217;re using Ubuntu 7.10 (Gutsy) or later select Apache2 from the
+“Configuring phpmyadmin” dialog box.</p>
+
+<p>To set up under Apache all you need to do is include the following line
+in /etc/apache2/apache2.conf.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Include /etc/phpmyadmin/apache.conf</span></code></pre></td></tr></table></div></figure>
+
+
+<p>now, you should see the phpmyadmin @ <a href="http://yourdomain/phpmyadmin">http://yourdomain/phpmyadmin</a></p>
+
+<h2>Apache2</h2>
+
+<p>設定檔(http.conf)位置:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/etc/apache/httpd.conf</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在 apache2.conf
+只作一些全域的設定，若要設定個別虛擬主機或網站的設定，需要修改的地方就在
+/etc/apache2/sites-available/ 裡面</p>
+
+<p>列出可用的mods</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ls /etc/apache2/mods-available/</span></code></pre></td></tr></table></div></figure>
+
+
+<p>列出enabled的mods</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ls -l /etc/apache2/mods-enabled/ </span></code></pre></td></tr></table></div></figure>
+
+
+<p>列出可用的sites</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ls /etc/apache2/sites-available/</span></code></pre></td></tr></table></div></figure>
+
+
+<p>列出enabled的sites</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ls -l /etc/apache2/sites-enabled/</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Enable/Disable mods</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo a2dismod php5
+</span><span class='line'>sudo a2enmod php5</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Enable/Disable web site mods</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo a2ensite sitename
+</span><span class='line'>sudo a2dissite sitename</span></code></pre></td></tr></table></div></figure>
+
+
+<p>reload server</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo /etc/init.d/apache2 force-reload</span></code></pre></td></tr></table></div></figure>
+
+
+<p>restart server</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo /etc/init.d/apache2 restart</span></code></pre></td></tr></table></div></figure>
+
+
+<p>檢查設定檔是否有錯誤</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>apache2ctl -t
+</span><span class='line'>or 
+</span><span class='line'>apache2ctl configtest   </span></code></pre></td></tr></table></div></figure>
+
+
+<p>列出目前伺服器上所有虛擬主機</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>apache2ctl -S  </span></code></pre></td></tr></table></div></figure>
+
+
+<h2>MySQL</h2>
+
+<p>MySQL設定檔(my.cnf)位置:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/etc/mysql/my.cnf</span></code></pre></td></tr></table></div></figure>
+
+
+<p>開啟 port 3306 讓非本地端主機連線</p>
+
+<p>為了安全性因素，預設 MySQL 是不允許 client
+端從非本機端連線查詢資料。在預設的行為中，client 端只能在本機透過
+/var/run/mysqld/mysqld.sock 來和 MySQL
+伺服器溝通，也就是在傳遞資料時是不透過 port 3306 而是透過該 socket
+來提供內部存取和查詢。</p>
+
+<p>若讀者系統的規劃是 MySQL 主機獨立出來，此時網頁主機就需要透過 port 3306
+來和 MySQL 主機連接，這時候就必須在 MySQL 上開啟 port
+3306。或者讀者想要讓該 MySQL
+主機提供給很多非本地端的使用者使用，也需要打開 port 3306。在打開 port
+3306 後，建議讀者要設防火牆來限制可以存取該 MySQL 伺服器的 client
+端位置，不然很容易被入侵。</p>
+
+<p>要讓非本地端使用者可以使用 MySQL 只要如以下範例去修改
+/etc/mysql/my.cnf，整個過程只要註解掉一行，接下來重新啟動 MySQL
+伺服器讓新設定生效。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># 註解掉下一行來啟用非本地端存取
+</span><span class='line'># bind-address            = 127.0.0.1</span></code></pre></td></tr></table></div></figure>
+
+
+<p>還有character
+set要設定成utf8，不然會出現中文亂碼</p>
+
+<h2>PHP</h2>
+
+<p>Ubuntu PHP設定檔(php.ini)位置:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/etc/php5/apache2/php.ini  </span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Resources</h2>
+
+<ul>
+<li><a href="http://wiki.ubuntu-tw.org/index.php?title=UbuntuTW_Guide_ch14" title="http://wiki.ubuntu-tw.org/index.php?title=UbuntuTW_Guide_ch14">LAMP guide in Ubuntu
+TW</a></li>
+<li><a href="http://yckuo0301.blogspot.com/2009/03/httpwww.html" title="http://yckuo0301.blogspot.com/2009/03/httpwww.html">萬華鏡:Ubuntu
+apache設定</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/kohana_101/">Kohana 101</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/kohana_101/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>DISCLAIMER: most materials is get from web, I just resort it for study
+purpose, you can find the source where this article from in resource
+section.</p>
+
+<h1>Basic Rules and Concepts</h1>
+
+<ol>
+<li>Fat models, skinny controllers!</li>
+<li>Keep as much business logic in the model as possible.</li>
+<li>If you see your controller getting “fat”, consider offloading some
+of the logic to the relevant model (or else bad things will start
+happening!).</li>
+<li>Models should not talk to the views directly (and vice versa).</li>
+<li>Related models provide information to the controller via their
+association (relation).</li>
+<li>It’s quite alright for the views to contain some logic, which deals
+with the view or presentation.</li>
+</ol>
+
+
+<h1>Debugging</h1>
+
+<ul>
+<li><a href="#configuration" title="kohana:kohana_101 ↵">Configuration</a></li>
+<li><a href="#kohanadebug" title="kohana:kohana_101 ↵">Kohana::debug()</a></li>
+<li><a href="#profiler" title="kohana:kohana_101 ↵">Profiler</a></li>
+<li><a href="#log_file" title="kohana:kohana_101 ↵">Log File</a></li>
+<li><a href="#sql_query_logging" title="kohana:kohana_101 ↵">SQL Query Logging</a></li>
+</ul>
+
+
+<h1>Name Convention</h1>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Class                       File
+</span><span class='line'>
+</span><span class='line'>Controller_Template         classes/controller/template.php
+</span><span class='line'>Model_User                  classes/model/user.php
+</span><span class='line'>Model_Auth_User             classes/model/auth/user.php
+</span><span class='line'>Auth                        classes/auth.php</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Configuration</h4>
+
+<ul>
+<li>set <code>$config['display_errors'] = TRUE;</code> to enable error messages
+showing in page. It can also check error messages in log file. Check
+your settings in <code>config/log.php</code> to be sure.</li>
+<li>set your <code>$config['threshold'] = 1;</code>. This sets log threshold to a
+suitable level for production. Higher threshold levels will log less
+critical notices and information, but can slow down your
+application.</li>
+</ul>
+
+
+<h4>Kohana::debug()</h4>
+
+<h4>Profiler</h4>
+
+<p><a href="http://docs.kohanaphp.com/libraries/profiler" title="http://docs.kohanaphp.com/libraries/profiler">http://docs.kohanaphp.com/libraries/profiler</a></p>
+
+<h4>Log File</h4>
+
+<h4>SQL Query Logging</h4>
+
+<p><a href="http://www.howtogeek.com/howto/database/monitor-all-sql-queries-in-mysql/" title="http://www.howtogeek.com/howto/database/monitor-all-sql-queries-in-mysql/">http://www.howtogeek.com/howto/database/monitor-all-sql-queries-in-mysql/</a></p>
+
+<h1>Page Flow</h1>
+
+<p>Every application follows the same flow:</p>
+
+<ol>
+<li>Application starts from index.php</li>
+<li>Includes APPPATH/bootstrap.php</li>
+<li><p>Request::instance called to process the request</p>
+
+<ol>
+<li>Checks each route until a match is found</li>
+<li>Loads controller and passes the request to it</li>
+<li>Calls the Controller::before method</li>
+<li>Calls the controller action</li>
+<li>Calls the Controller::after method</li>
+</ol>
+</li>
+<li><p>Displays the Request response</p></li>
+</ol>
+
+
+<p>Sequence Diagram.(TBD)</p>
+
+<h1>Enable Module</h1>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/**
+</span><span class='line'> * Enable modules. Modules are referenced by a relative or absolute path.
+</span><span class='line'> */
+</span><span class='line'>Kohana::modules(array(
+</span><span class='line'>    // 'auth'       =&gt; MODPATH.'auth',       // Basic authentication
+</span><span class='line'>    // 'codebench'  =&gt; MODPATH.'codebench',  // Benchmarking tool
+</span><span class='line'>    // 'database'   =&gt; MODPATH.'database',   // Database access
+</span><span class='line'>    // 'image'      =&gt; MODPATH.'image',      // Image manipulation
+</span><span class='line'>    // 'orm'        =&gt; MODPATH.'orm',        // Object Relationship Mapping
+</span><span class='line'>    // 'pagination' =&gt; MODPATH.'pagination', // Paging of results
+</span><span class='line'>    // 'userguide'  =&gt; MODPATH.'userguide',  // User guide and API documentation
+</span><span class='line'>    ));</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>URI</h1>
+
+<p><img src="/images/wiki/kohana/kohana101_01.png" alt="kohana101_01.png" /></p>
+
+<ul>
+<li>http://localhost/kohana : No segments, so a default controller is
+used.</li>
+<li>http://localhost/kohana/index.php : Still no segments, so same as
+before.</li>
+<li>http://localhost/kohana/index.php/welcome : Only one segment, which
+is segment 1. This corresponds to a controller called “Welcome”</li>
+<li>http://localhost/kohana/index.php/welcome/search/php : Three
+segments given:
+
+<ol>
+<li>Segment 1 is “welcome” and corresponds to controller “Welcome”</li>
+<li>Segment 2 is “search” and corresponds to method “search()” in
+controller “Welcome”</li>
+<li>Segment 3 is “php” and corresponds to argument 1 passed to
+method “search()” in controller “Welcome”</li>
+</ol>
+</li>
+</ul>
+
+
+<h1>System Components</h1>
+
+<p>The most important Kohana are Controllers, Libraries, Helpers, Modules,
+Models and Views</p>
+
+<ul>
+<li>Models: Separate the data access from the logic and presentation.</li>
+<li>Views: Simplifies the organization of information for display</li>
+<li>Controllers: Are the heart of your application, implementing it&#8217;s
+logic.</li>
+<li>Libraries: Provide the functionality that drives your application;
+Database access, Sessions, Caching etc.</li>
+<li>Helpers: Assist you with common tasks; Formatting HTML, Sending
+email, Validating, Creating HTML forms etc.</li>
+<li>Modules: Assist in grouping common components or functionality:
+Authentication, Handling media etc.</li>
+</ul>
+
+
+<h1>System Layout</h1>
+
+<p>There are three layers to Kohana; Application, Module, System. A very
+important concept to understand in Kohana is the cascade. The cascade
+refers to where and how Kohana searches for resources. A specific naming
+convention and directory layout is enforced. A specific search order is
+enforced.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>------- Search order direction -------&gt;
+</span><span class='line'>(1)             --&gt; (2)             --&gt; (3)
+</span><span class='line'>application/    --&gt;  modules/       --&gt;  system/
+</span><span class='line'>    controllers/--&gt;     controllers/--&gt;     controllers/
+</span><span class='line'>    helpers/    --&gt;     helpers/    --&gt;     helpers/
+</span><span class='line'>    libraries/  --&gt;     libraries/  --&gt;     libraries/
+</span><span class='line'>    models/     --&gt;     models/     --&gt;     models/
+</span><span class='line'>    views/      --&gt;     views/      --&gt;     views/</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="/images/wiki/kohana/kohana101_02.png" alt="kohana101_02.png" /></p>
+
+<h1>Database</h1>
+
+<p>Copy system/config/database.php to application/config/database.php</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$config['default'] = array
+</span><span class='line'>(
+</span><span class='line'>    'benchmark'     =&gt; TRUE,
+</span><span class='line'>    'persistent'    =&gt; FALSE,
+</span><span class='line'>    'connection'    =&gt; array
+</span><span class='line'>    (
+</span><span class='line'>        'type'      =&gt; 'mysql',
+</span><span class='line'>        'user'      =&gt; 'username',       // set to db user name
+</span><span class='line'>        'pass'      =&gt; 'password',       // set to db user password
+</span><span class='line'>        'host'      =&gt; 'localhost',
+</span><span class='line'>        'port'      =&gt; FALSE,
+</span><span class='line'>        'socket'    =&gt; FALSE,
+</span><span class='line'>        'database'  =&gt; 'db name'     // set to db name
+</span><span class='line'>    ),
+</span><span class='line'>    'character_set' =&gt; 'utf8',
+</span><span class='line'>    'table_prefix'  =&gt; '',
+</span><span class='line'>    'object'        =&gt; TRUE,
+</span><span class='line'>    'cache'         =&gt; FALSE,
+</span><span class='line'>    'escape'        =&gt; TRUE
+</span><span class='line'>);</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Five ways to work with relational databases</h2>
+
+<ol>
+<li>Write your own SQL using the query() method. You must escape the
+query manually.</li>
+<li>Write custom SQL that is automatically escaped. Use Query Binding.</li>
+<li>Use the Query Builder. It provides methods that generate platform
+independent SQL statements that are automatically escaped.</li>
+<li>Use a Model. Utilize Query or Query Builder to create your own data
+access methods.</li>
+<li>Use ORM. Object Relational Mapping is a class that extends the basic
+Model, to implement data access without using SQL statements.</li>
+</ol>
+
+
+<h1>Constants</h1>
+
+<ul>
+<li>DOCROOT - docroot real path</li>
+<li>KOHANA - front controller name (index.php)</li>
+<li>APPPATH - application folder real path</li>
+<li>MODPATH - module real folder path</li>
+<li>SYSPATH - system real folder path</li>
+</ul>
+
+
+<h1>KO3 struct</h1>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>kohana
+</span><span class='line'>  |-
+</span><span class='line'>  |-application
+</span><span class='line'>    |-cache
+</span><span class='line'>    |-config
+</span><span class='line'>    |-classess
+</span><span class='line'>      |-controller
+</span><span class='line'>      |-model
+</span><span class='line'>      |-other_libraries.php
+</span><span class='line'>    |-i18n
+</span><span class='line'>    |-logs
+</span><span class='line'>    |-messages
+</span><span class='line'>    |-vendor
+</span><span class='line'>    |-views
+</span><span class='line'>    |-bootstrap.php
+</span><span class='line'>  |-modules
+</span><span class='line'>  |-system
+</span><span class='line'>  index.php</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>Resource</h1>
+
+<ul>
+<li><a href="http://dev.kohanaphp.com/wiki/kohana2/Kohana101" title="http://dev.kohanaphp.com/wiki/kohana2/Kohana101">Kohana 101 from kohana dev
+site</a></li>
+<li><a href="http://docs.kohanaphp.com/" title="http://docs.kohanaphp.com/">the kohana
+manual</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/jquery_101/">JQuery 101</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/jquery_101/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>Installation</h1>
+
+<ul>
+<li>download uncompressed version
+<a href="http://docs.jquery.com/Downloading_jQuery" title="http://docs.jquery.com/Downloading_jQuery">JQuery.js</a></li>
+<li>includes in html file</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;html&gt;
+</span><span class='line'>&lt;head&gt;
+</span><span class='line'>&lt;script type="text/javascript" src="../js/jquery.js"&gt;&lt;/script&gt;
+</span><span class='line'>&lt;script type="text/javascript"&gt;
+</span><span class='line'>     $(document).ready(function(){
+</span><span class='line'>       $("a").click(function(event){
+</span><span class='line'>         alert("Hello JQuery!");
+</span><span class='line'>       });
+</span><span class='line'>     });
+</span><span class='line'>&lt;/script&gt;
+</span><span class='line'>&lt;/head&gt;
+</span><span class='line'>&lt;body&gt;
+</span><span class='line'>&lt;a href="http://jquery.com/"&gt;jQuery&lt;/a&gt;
+</span><span class='line'>&lt;/body&gt;
+</span><span class='line'>&lt;/html&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>&lt;box round 80% red | document.ready() v.s document.onload()> why we
+using ready() event rather than onload() event. Because the onload()
+event is fired after all elements in page loading finished.Eventually
+all image files. But the ready() event only have been waiting until all
+elements in page expect image files. &lt;/box></p>
+
+<p>if you can see the &#8216;Hello JQuery&#8217; message poped up after page load, this
+means, the JQuery lib is installed well. if not, please check src
+attribute of
+<code>&lt;script type=“text/javascript” src=”../js/jquery.js”&gt;&lt;/script&gt;</code>.</p>
+
+<h4>shorthand format</h4>
+
+<p>The doucment.ready function in above example can be rewrote as this
+style</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;script type="text/javascript"&gt;
+</span><span class='line'>     $(function(){
+</span><span class='line'>       $("a").click(function(event){
+</span><span class='line'>         alert("Hello JQuery!");
+</span><span class='line'>       });
+</span><span class='line'>     });
+</span><span class='line'>&lt;/script&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Callbacks and Functions</h4>
+
+<h5>Callback without arguments</h5>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$.get('myhtmlpage.html', myCallBack);</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>Callback with arguments</h5>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$.get('myhtmlpage.html', function(){
+</span><span class='line'>  myCallBack(param1, param2);
+</span><span class='line'>});</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Why not just <code>$.get('myhtmlpage.html', myCallBack(param1, param2));</code>,
+becuase regading the JavaScript interpretor, the sub-expression
+<code>myCallBack(param1, param2)</code> is evaluated before being passed as a
+function, so that why we need to use anonymous function.</p>
+
+<h2>Using Selectors</h2>
+
+<p>jQuery provides two approaches to select elements. The first uses a
+combination of CSS and XPath selectors passed as a string to the jQuery
+constructor (eg. \$(“div > ul a”)). The second uses several methods of
+the jQuery object. Both approaches can be combined.</p>
+
+<p>list of all available expressions can be found
+<a href="http://docs.jquery.com/Selectors" title="http://docs.jquery.com/Selectors">here</a>.</p>
+
+<h4>Using child Selector</h4>
+
+<p><strong>Following Example comes from JQuery in Action</strong></p>
+
+<p><img src="/images/wiki/jquery/jquery_101_01.png" alt="jquery_101_01.png" /></p>
+
+<p>in above figure, if we want to select this link</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;a href="http://jquery.com"&gt;jQuery supports&lt;/a&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>we may use this syntax</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ul.myList  li  a</span></code></pre></td></tr></table></div></figure>
+
+
+<p>but it will selects all links inside <code>&lt;ul class=“myList”&gt;</code></p>
+
+<p><img src="/images/wiki/jquery/jquery_101_02.png" alt="jquery_101_02.png" /></p>
+
+<p>is this situation, we need to use child selector, it will only selects
+only child of li</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ul.myList &gt; li &gt; a</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="/images/wiki/jquery/jquery_101_03.png" alt="jquery_101_03.png" /></p>
+
+<h4>:nth-child(Xn+Y)</h4>
+
+<p><code>:nth-child(Xn + Y)</code>，其中，X後面那個n可以解釋為<strong>每n個</strong>，因為它會以n為單位做iterate，
+而如果再加上<strong>Y</strong>, 可以解釋為以n為一個重覆的第Y個</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>e1 e2 e3 e4 e5 e6 e7 e8 e9</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果是<code>nth-child(3)</code>，那麼只有e3會被選到，如果是<code>nth-child(3n)</code>，那麼e3,
+e6, e9會被選到 如果是<code>nth-child(3n + 2)</code>，那麼e2, e5,
+e8會被選到(以三個elements為一個單位，選擇其中的第2個)</p>
+
+<h4>extend JQuery</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$("form#myForm input.special").disable();</span></code></pre></td></tr></table></div></figure>
+
+
+<p>there is no function to disable all element in a form, but we can create
+one.</p>
+
+<p>Regarding the function we need as above, we can create a function
+implementation like this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$.fn.disable = function() {
+</span><span class='line'>  return this.each(function() {
+</span><span class='line'>    if (typeof this.disabled != "undefined") this.disabled = true;
+</span><span class='line'>  });
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>Selectors</h1>
+
+<h2>Basic CSS Selectors</h2>
+
+<p>  Syntax     Description</p>
+
+<hr />
+
+<p>  *         Matches any element.
+  E          Matches all elements with tag name E.
+  E F        Matches all elements with tag name F that are descendants of E.
+  E>F       Matches all elements with tag name F that are direct children of E.
+  E+F        Matches all elements with tag name F that are immediately preceded by a sibling of tag name E.
+  E\~F       Matches all elements with tag name F that are preceded by any sibling of tag name E.
+  E:has(F)   Matches all elements with tag name E that have at least one descendant with tag name F.
+  E.c        Matches all elements E that possess a class name of c. Omitting E is identical to *.c.
+  E#i       Matches all elements E that possess an id value of i. Omitting E is identical to *#i.
+  E[a]       Matches all elements E that posses an attribute a of any value.
+  E[a=v]     Matches all elements E that posses an attribute a whose value is exactly v.
+  E[a^=v]   Matches all elements E that posses an attribute a whose value starts with v.
+  E[a\$=v]   Matches all elements E that posses an attribute a whose value ends with v.
+  E[a*=v]   Matches all elements E that posses an attribute a whose value contains v.</p>
+
+<h4>Examples</h4>
+
+<ul>
+<li>\$(&#8216;div&#8217;) selects all &lt;div> elements</li>
+<li>\$(&#8216;fieldset a&#8217;) selects all &lt;a> elements within &lt;fieldset>
+elements</li>
+<li>\$(&#8216;li>p&#8217;) selects all &lt;p> elements that are direct children of
+&lt;li> elements</li>
+<li>\$(&#8216;div\~p&#8217;) selects all &lt;div> elements that are preceded by a
+&lt;p> element</li>
+<li>\$(&#8216;p:has(b)&#8217;) selects all &lt;p> elements that contain a &lt;b>
+element</li>
+<li>\$(&#8216;div.someClass&#8217;) selects all &lt;div> elements with a class name
+of someClass</li>
+<li>\$(&#8216;.someClass&#8217;) selects all elements with class name someClass</li>
+<li>\$(&#8216;#testButton&#8217;) selects the element with the id value of
+testButton</li>
+<li>\$(&#8216;img[alt]&#8217;) selects all &lt;img> elements that possess an alt
+attribute</li>
+<li>\$(&#8216;a[href\$=.pdf]&#8217;) selects all &lt;a> elements that possess an href
+attribute that ends in .pdf</li>
+<li>\$(&#8216;button[id*=test]&#8217;) selects all buttons whose id attributes
+contain test</li>
+</ul>
+
+
+<h2>Positional Selectors</h2>
+
+<p>  Syntax                  Description</p>
+
+<hr />
+
+<p>  B:first                 Selects the first element on the page matching the base selector B.
+  B:last                  Selects the last element on the page matching the base selector B.
+  B:first-child           Selects all elements from B that are first children.
+  B:last-child            Selects all elements from B that are last children.
+  B:only-child            Selects all elements from B that are only children.
+  B:nth-child(n)          Selects all elements from B that are n-th ordinal children. Starts at 1.
+  B:nth-child(odd|even)   Selects all elements from B that are even or odd ordinal children. The first child is considered odd (ordinal 1).
+  B:nth-child(Xn+Y)       Selects all elements from B that match the formula. X denotes an ordinal multiplier, while Y denotes an offset. Y may be omitted if 0. See the following examples.
+  B:even                  Selects the even elements within the set of elementsdefined by B.
+  B:odd                   Selects the odd elements within the set of elements defined by B.
+  B:eq(n)                 Selects the n-th element within the set of elements defined by B. Starts at 0.
+  B:gt(n)                 Selects elements within the set of elements defined by B that follow the n-th element (exclusive). Starts at 0.
+  B:lt(n)                 Selects elements within the set of elements defined by B that precede the n-th element (exclusive). Starts at 0.</p>
+
+<h4>Examples</h4>
+
+<ul>
+<li>\$(&#8216;p:first&#8217;) selects the first &lt;p> element on the page</li>
+<li>\$(&#8216;img[src\$=.png]:first&#8217;) selects the first &lt;img> element on the
+page that has a src attribute ending in .png</li>
+<li>\$(&#8216;button.small:last&#8217;) selects the last &lt;button> element on the
+page that has a class name of small</li>
+<li>\$(&#8216;li:first-child&#8217;) selects all &lt;li> elements that are first
+children within their lists</li>
+<li>\$(&#8216;a:only-child&#8217;) selects all &lt;a> elements that are the only
+element within their parent</li>
+<li>\$(&#8216;li:nth-child(2)&#8217;) selects all &lt;li> elements that are the
+second item within their lists</li>
+<li>\$(&#8216;tr:nth-child(odd)&#8217;) selects all odd &lt;tr> elements within a
+table</li>
+<li>\$(&#8216;div:nth-child(5n)&#8217;) selects every 5th &lt;div> element</li>
+<li>\$(&#8216;div:nth-child(5n+1)&#8217;) selects the element after every 5th
+&lt;div> element</li>
+<li>\$(&#8216;.someClass:eq(1)&#8217;) selects the second element with a class name
+of someClass</li>
+<li>\$(&#8216;.someClass:gt(1)&#8217;) selects all but the first two elements with a
+class name of someClass</li>
+<li>\$(&#8216;.someClass:lt(4)&#8217;) selects the first four elements with a class
+name of someClass</li>
+</ul>
+
+
+<h2>jQuery Custom Selectors</h2>
+
+<p>  Syntax       Description</p>
+
+<hr />
+
+<p>  B:animated   Selects elements from the base set B that are currently under animated control via one of the jQuery animation methods.
+  B:button     Selects elements of B that are of any button type; that is: button, input[type=submit], input[type=reset] or input[type=button].
+  B:checkbox   Selects elements of B that are of type input[type=checkbox].
+  B:enabled    Selects form elements from B that are in enabled state.
+  B:file       Selects elements of B that are of type input[type=file].
+  B:header     Selects elements from B that are of the header types: that is &lt;h1> through &lt;h6>.
+  B:hidden     Selects elements of B that are hidden.
+  B:image      Selects elements of B that are of type input[type=image].
+  B:input      Selects form input elements from B; that is, &lt;input>, &lt;select>, &lt;textarea> and &lt;button> elements.
+  B:not(f)     Selects elements of B that do not match the filter selector specified by f. A filter selector is any selector beginning with : (colon), A base set B cannot be specified as part of f.
+  B:parent     Selects elements of B that are parents of non-empty element children.
+  B:password   Selects elements of B that are of type input[type=password].
+  B:radio      Selects elements of B that are of type input[type=radio].
+  B:reset      Selects elements of B that are of type input[type=reset] or button[type=reset].
+  B:selected   Selects elements of B that are in selected state. Only &lt;option> elements posses this state.
+  B:submit     Selects elements of B that are of type input[type=submit] or button[type=submit].
+  B:text       Selects elements of B that are of type input[type=text].
+  B:visible    Selects form elements from B that are not hidden.</p>
+
+<h4>Examples</h4>
+
+<ul>
+<li>\$(&#8216;img:animated&#8217;) selects all &lt;img> elements that are undergoing
+animation</li>
+<li>\$(&#8216;:button:hidden&#8217;) selects all button type elements that are
+hidden</li>
+<li>\$(&#8216;input[name=myRadioGroup]:radio:checked&#8217;) selects all radio
+elements with the name attribute value of myRadioGroup that are
+checked</li>
+<li>\$(&#8216;:text:disabled&#8217;) selects all text fields that are disabled</li>
+<li>\$(&#8216;#xyz p :header&#8217;) selects all header type elements within &lt;p>
+elements that are within an element with an id value of xyz. Note
+the space before :header that prevents it from binding directly to
+the p.</li>
+<li>\$(&#8216;option:not(:selected)&#8217;) selects all unselected &lt;option>
+elements</li>
+<li>\$(&#8216;#myForm button:not(.someClass)&#8217;) selects all buttons from the
+&lt;form> with the id of myForm that do not possess the class name
+someClass.</li>
+<li>\$(&#8216;select[name=choices] :selected&#8217;) selects the selected &lt;option>
+elements within the &lt;select> element named choices.</li>
+<li>\$(&#8216;p:contains(coffee)&#8217;) selects all &lt;p> elements that contain the
+text coffee</li>
+</ul>
+
+
+<h1>MISC</h1>
+
+<h5>Check a radio button</h5>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># check first button of radio 
+</span><span class='line'>$(":radio[name='aName']:eq(0)").attr("checked",'checked');
+</span><span class='line'># check second button of radio 
+</span><span class='line'>$(":radio[name='aName']:eq(1)").attr("checked",'checked');</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/install_web_server/">PHP Web Server Instruction</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/install_web_server/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>For Windows Platform</h2>
+
+<h3>All in one package</h3>
+
+<ul>
+<li><p><a href="http://vertrigo.sourceforge.net/" title="http://vertrigo.sourceforge.net/">vertrigo</a></p>
+
+<ol>
+<li>apache server</li>
+<li>PHP</li>
+<li>MySQL</li>
+<li>PHPmyAdmin</li>
+<li>SQLite</li>
+<li>SQLiteManager</li>
+<li>zend optimizer</li>
+<li>smarty</li>
+</ol>
+</li>
+<li><p><a href="http://www.wampserver.com/" title="http://www.wampserver.com/">WAMP</a></p>
+
+<ol>
+<li>apache server</li>
+<li>PHP</li>
+<li>MySQL</li>
+<li>PHPmyAdmin</li>
+<li>SQLite</li>
+<li>SQLiteManager</li>
+<li>zend optimizer</li>
+<li>smarty</li>
+</ol>
+</li>
+</ul>
+
+
+<h2>For Ubuntu(Linux) Platform</h2>
+
+<p>apt-get will give you the whole world.!</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/ibus_with_liu/">在ibus下使用無蝦米</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/ibus_with_liu/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>ibus取得表格檔</h2>
+
+<ul>
+<li><a href="http://wiki.kent-chiu.com/lib/exe/fetch.php?media=ubuntu:liu-ibus.zip" title="ubuntu:liu-ibus.zip">liu-ibus</a>
+表格檔部份源自李果正的<a href="http://edt1023.sayya.org/gcin/noseeing-12.tar.gz" title="http://edt1023.sayya.org/gcin/noseeing-12.tar.gz">noseeing
+table</a>
+，ICON來自GCIN</li>
+</ul>
+
+
+<h3>轉換成ibus用的表格檔格式</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ibus-table-createdb -s noseeing*scimtxt</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>copy 表格檔跟icons到ibus目錄</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo cp noseeing.db /usr/share/ibus-table/tables/
+</span><span class='line'>sudo cp noseeing.png /usr/sha*e/*bus/icons/noseeing.png</span></code></pre></td></tr></table></div></figure>
+
+
+<p>登出/登入 測試</p>
+
+<h3>設定</h3>
+
+<p>參考這裡<a href="http://boshiamy.com/member_download.php" title="http://boshiamy.com/member_download.php">http://boshiamy.com/member_download.php</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/htaceess_101/">Htaccess 101</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/htaceess_101/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><code>.htaccess</code> is a configuration file of apache, it privoides way for us
+to custome some behavious of apache.</p>
+
+<p>.htaccess files provide a way to make configuration changes on a
+per-directory basis.</p>
+
+<p>if you need to create a whole new <code>.htaccess</code> file in windows, you need
+save as <code>”.htaccess”</code> with quots</p>
+
+<p>In general, you should never use .htaccess files unless you don&#8217;t have
+access to the main server configuration file.</p>
+
+<h1>functions</h1>
+
+<ol>
+<li><a href="#custom_error_pages" title="apache:htaceess_101">Custom Error Pages</a></li>
+<li><a href="#disabled_directory_listing" title="apache:htaceess_101">Disabled Directory
+Listing</a></li>
+<li><a href="#denyallow_certian_ip_addresses" title="apache:htaceess_101">Deny/Allow Certian IP
+Addresses</a></li>
+<li><a href="#redirection" title="apache:htaceess_101">Redirection</a></li>
+<li><a href="#password_protection" title="apache:htaceess_101">Password Protection</a></li>
+<li><a href="#mime_type_settings" title="apache:htaceess_101">MIME Type Settings</a></li>
+<li><a href="#index_pages_settings" title="apache:htaceess_101">Index Pages
+Settings</a></li>
+<li><a href="#url_rewrite" title="apache:htaceess_101">URL Rewrite</a></li>
+<li><a href="#default_pages" title="apache:htaceess_101">Default Pages</a></li>
+</ol>
+
+
+<h2>Custom Error Pages</h2>
+
+<h4>Using Redirect Pages</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ErrorDocument 400 404.html
+</span><span class='line'>ErrorDocument 401 401.html
+</span><span class='line'>ErrorDocument 402 402.html</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Using inline html</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ErrorDocument 404 "&lt;html&gt;&lt;body&gt;找不到&lt;/body&gt;&lt;/html&gt;"</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Using URL</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ErrorDocument 500 http://www.xxx.com/xxx</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Disabled Directory Listing</h2>
+
+<h4>Deny all access to files (Recommended)</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;Files ~ "^.(htaccess|htpasswd)$"&gt;
+</span><span class='line'>deny from all
+</span><span class='line'>&lt;/Files&gt;
+</span><span class='line'>Options Indexes
+</span><span class='line'>order deny,allow</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Allow access to files (NOT Recommended)</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;Files ~ "^.(htaccess|htpasswd)$"&gt;
+</span><span class='line'>deny from all
+</span><span class='line'>&lt;/Files&gt;
+</span><span class='line'>Options -Indexes
+</span><span class='line'>order deny,allow</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Access restrictions</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>deny from all
+</span><span class='line'>allow from all
+</span><span class='line'>deny from  192.168.1.1
+</span><span class='line'>deny from  192.168.1.1</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Deny/Allow Certian IP Addresses</h2>
+
+<h2>Redirection</h2>
+
+<p>what&#8217;s difference between <strong>Moved Permanently</strong> and <strong>Moved
+Temporarily</strong></p>
+
+<h4>301 Moved Permanently</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Redirect permanent old1 new1
+</span><span class='line'>Redirect permanent /path/old2 /path/new2
+</span><span class='line'>Redirect permanent /path/old3.html /path/old3.php</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>302 Moved Temporarily</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Redirect temp old1 new1
+</span><span class='line'>Redirect temp /path/old2 /path/new2
+</span><span class='line'>Redirect temp /path/old3.html /path/old3.php</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Password Protection</h2>
+
+<h3>Basic authentication</h3>
+
+<ul>
+<li>STEP 1 Create your .htpasswd</li>
+<li>STEP 2 Point the path to the .htpasswd file</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;Files ~ "^.(htaccess|htpasswd)$"&gt;
+</span><span class='line'>deny from all
+</span><span class='line'>&lt;/Files&gt;
+</span><span class='line'>Options -Indexes
+</span><span class='line'>AuthUserFile /home/foo/bar/.htpasswd
+</span><span class='line'>AuthGroupFile /dev/null
+</span><span class='line'>AuthName "Please enter your ID and password"
+</span><span class='line'>AuthType Basic
+</span><span class='line'>require valid-user
+</span><span class='line'>order deny,allow</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>MIME Type Settings</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>```
+</span><span class='line'>
+</span><span class='line'>Index Pages Settings
+</span><span class='line'>--------------------
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>DirectoryIndex index.html index.htm index.cgi</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>
+</span><span class='line'>URL Rewrite
+</span><span class='line'>-----------
+</span><span class='line'>
+</span><span class='line'>### Setup WWW
+</span><span class='line'>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<pre><code>RewriteEngine on
+RewriteCond %{HTTP_HOST} ^(mydomain\.com)(:80)? [NC]
+RewriteRule ^(.*) http://www.mydomain.com/$1 [R=301,L]
+</code></pre>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>
+</span><span class='line'>Examples
+</span><span class='line'>========
+</span><span class='line'>
+</span><span class='line'>Anti HotLinks (protecting others take your impages)
+</span><span class='line'>---------------------------------------------------
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>RewriteEngine on
+RewriteCond %{HTTP_REFERER} !^http://www.domain.com/.<em>$ [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.domain.com$ [NC]
+RewriteRule .</em>.(*)$ /content/no_hotlink.png [R,NC]</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>
+</span><span class='line'>`RewriteRule .*\.(*)$ /content/no_hotlink.png [R,NC]` this means if
+</span><span class='line'>somebody try to hot linking you resource, he will redirect to
+</span><span class='line'>`/content/no_hotlink.png`
+</span><span class='line'>
+</span><span class='line'>Default Pages
+</span><span class='line'>-------------
+</span><span class='line'>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<pre><code>DirectoryIndex index.php mypage.html
+</code></pre>
+
+<p>&#8220;`</p>
+
+<h1>Resources</h1>
+
+<ul>
+<li><a href="http://www.htaccesseditor.com/tc.shtml" title="http://www.htaccesseditor.com/tc.shtml">htaccess
+editor</a>
+
+<ul>
+<li>a web program to help writing htaccess file.</li>
+</ul>
+</li>
+<li><a href="http://httpd.apache.org/docs/2.2/rewrite/" title="http://httpd.apache.org/docs/2.2/rewrite/">apache rewrite
+mod</a></li>
+<li><a href="http://www.widexl.com/tutorials/mod_rewrite.html" title="http://www.widexl.com/tutorials/mod_rewrite.html">http://www.widexl.com/tutorials/mod_rewrite.html</a>
+
+<ul>
+<li>Module Rewrite - URL Rewriting Guide</li>
+</ul>
+</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/15/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/blog/page/13/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/07/07/python-101/">Python 101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/25/url-encoding/">URL Encoding</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/04/restful-api-design/">RESTful API Design</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/17/my-intellij-idea-shortcut/">My IntelliJ IDEA Shortcut</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/12/jesper-report-font-issue/">Jesper Report, IReport 匯出成中文PDF</a>
+      </li>
+    
+  </ul>
+</section>
+
+Included file &#8216;asides/twitter.html&#8217; not found in _includes directory
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Kent -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'kentchiu';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

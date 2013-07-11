@@ -1,4 +1,4 @@
 User-agent: *
 Disallow: 
 
-Sitemap: http://kentchiu.github.io/sitemap.xml 
+Sitemap: http://blog.kent-chiu.com/sitemap.xml 

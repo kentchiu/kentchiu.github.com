@@ -1,0 +1,1125 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Google Guava - Collection 101 - Kent's Blog</title>
+  <meta name="author" content="Kent">
+
+  
+  <meta name="description" content="Guava是google的一個開源項目，目的在提供常用工具類的API，字串處理，caching，primitives型別處理，I/O，併行(concurrnecy)處理，
+還有超級好用的Collections處理。 本篇主要著重於Collection相關的使用介紹， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.kent-chiu.com/blog/2012/03/20/google_guava_-_collection_101">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Kent's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-39152849-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Kent's Blog</a></h1>
+  
+    <h2>Kent的學習筆記(剛從dokuwiki搬過來，內容還在整修中)</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.kent-chiu.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Google Guava - Collection 101</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-20T00:00:00+08:00" pubdate data-updated="true">Mar 20<span>th</span>, 2012</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Guava是google的一個開源項目，目的在提供常用工具類的API，字串處理，caching，primitives型別處理，I/O，併行(concurrnecy)處理，
+還有超級好用的Collections處理。</p>
+
+<p>本篇主要著重於Collection相關的使用介紹，有<a href="http://wiki.kent-chiu.com/doku.php?id=java:google_guava_101" title="java:google_guava_101">另外一篇</a>專門在介紹Collection之外其它的功能的用法。</p>
+
+<h1>Iterable &amp; Iterators</h1>
+
+<p>如果之前method的return值習慣用Collection, List, Set, Map,
+建議可以改傳回Iteratable&lt;T></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  // 原本是傳回集合
+</span><span class='line'>  public List&lt;String&gt; getData(){...};
+</span><span class='line'>  // 可以改成傳回Iterable (RECOMMAND)
+</span><span class='line'>  public Iterable&lt;String&gt; getData(){...};
+</span><span class='line'>  // 或改成傳回Iterator
+</span><span class='line'>  public Iterator&lt;String&gt; getData(){...};</span></code></pre></td></tr></table></div></figure>
+
+
+<p>雖然<strong>大部份的API都是傳回Iterator(since JDK1.4)</strong>, 在Hamcrest
+lib中只有提供Iterable(since JDK1.5) base的lib，沒有Iterator base的
+<code>IsIterableWithSize&lt;E&gt; extends FeatureMatcher&lt;Iterable&lt;E&gt;, Integer&gt;</code>
+用Iterable應該會相對方便些，而且Iterable可以取出Iterator，而Iterator沒有辦法直接取得Iterable，而且實作Iterable可以直接餵給foreach</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>assertThat(data, Matchers.&lt;MyClass&gt;iterableWithSize(1));</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Iterable v.s Iterator</h4>
+
+<p>是java
+1.5引入，跟foreach搭配使用的<code>java.lang.Iterable&lt;T&gt;</code>，<code>java.util.Iterator&lt;E&gt;</code>則是java
+1.2引入後，1.5加入泛型的能力。</p>
+
+<p>Iterable是指含有Iterator的物件，而Iterator則是指向集合裡單一的instance。</p>
+
+<p>如果對一個集合取兩次的Iterator，兩次的Iterator是各自獨立的。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>package java.util;
+</span><span class='line'> 
+</span><span class='line'>/**
+</span><span class='line'> * @since 1.2
+</span><span class='line'> */
+</span><span class='line'>public interface Iterator&lt;E&gt; {
+</span><span class='line'>    boolean hasNext();
+</span><span class='line'> 
+</span><span class='line'>    E next();
+</span><span class='line'> 
+</span><span class='line'>    void remove();
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/** Implementing this interface allows an object to be the target of
+</span><span class='line'> *  the "foreach" statement.
+</span><span class='line'> * @since 1.5
+</span><span class='line'> */
+</span><span class='line'>public interface Iterable&lt;T&gt; {
+</span><span class='line'> 
+</span><span class='line'>    Iterator&lt;T&gt; iterator();
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Iterable Array ?</h4>
+
+<p>在java
+5+，有新的<a href="http://docs.oracle.com/javase/1.5.0/docs/guide/language/foreach.html" title="http://docs.oracle.com/javase/1.5.0/docs/guide/language/foreach.html">For-Each</a>
+loop語法， 它可以用來iterate實作Iterable
+interface的類別。通常是用來iterate Collection(List, Set,
+Map,…)及array，但是
+如果試著把array丟到其他Iterable類型的參數，卻行不通，why?</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>String myArray = new String[]{"foo", "bar", "baz"};
+</span><span class='line'>for(String each : myArray) { // this one works
+</span><span class='line'> 
+</span><span class='line'>}
+</span><span class='line'> 
+</span><span class='line'>doIterate(myArray); // this cause compiler level error
+</span><span class='line'> 
+</span><span class='line'>public doIterate(Iterable args) {
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>原因為array根本沒有實作Iterable，For-Each
+Loop對array的支援是compiler的syntax
+sugar，compiler會把for-each展開成一般的for-loop</p>
+
+<p>如果需要讓Array讓成iterable，可以用Arrays.asList()</p>
+
+<h1>Function &amp; Predicate</h1>
+
+<p>Function跟Predicate是許多method的參數，像常用的應該是</p>
+
+<h4>Predicaten</h4>
+
+<p>Predicaten常用於</p>
+
+<ol>
+<li>過濾集合中<em>特定條件的元素</em>
+<code>Collections2.filter(Collection&lt;E&gt;, Predicate&lt;? super E&gt;)</code></li>
+<li>搜尋集合中<em>特定條件的元素</em>
+<code>find(Iterator&lt;T&gt;, Predicate&lt;? super T&gt;, T)</code></li>
+<li>定位集合中<em>特定條件的元素</em>
+<code>indexOf(Iterator&lt;T&gt;, Predicate&lt;? super T&gt;)</code></li>
+<li>判斷集合中所有<em>特定條件的元素</em>都符合條件
+<code>Iterators.all(Iterator&lt;T&gt;, Predicate&lt;? super T&gt;)</code></li>
+<li>判斷集合中是否包含任何<em>特定條件的元素</em>
+<code>any(Iterator&lt;T&gt;, Predicate&lt;? super T&gt;)</code></li>
+<li>…</li>
+</ol>
+
+
+<p>上述中的<strong>特定條件的元素</strong>就是用Predicate實作，Predicate是一個interface，宣告如下</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public interface Predicate&lt;T&gt; {
+</span><span class='line'>  /**
+</span><span class='line'>   * Returns the result of applying this predicate to {@code input}. This method is &lt;i&gt;generally
+</span><span class='line'>   * expected&lt;/i&gt;, but not absolutely required, to have the following properties:
+</span><span class='line'>   *
+</span><span class='line'>   * &lt;ul&gt;
+</span><span class='line'>   * &lt;li&gt;Its execution does not cause any observable side effects.
+</span><span class='line'>   * &lt;li&gt;The computation is &lt;i&gt;consistent with equals&lt;/i&gt;; that is, {@link Objects#equal
+</span><span class='line'>   *     Objects.equal}{@code (a, b)} implies that {@code predicate.apply(a) ==
+</span><span class='line'>   *     predicate.apply(b))}.
+</span><span class='line'>   * &lt;/ul&gt;
+</span><span class='line'>   *
+</span><span class='line'>   * @throws NullPointerException if {@code input} is null and this predicate does not accept null
+</span><span class='line'>   *     arguments
+</span><span class='line'>   */
+</span><span class='line'>  boolean apply(@Nullable T input);
+</span><span class='line'> 
+</span><span class='line'>  /**
+</span><span class='line'>   * Indicates whether another object is equal to this predicate.
+</span><span class='line'>   *
+</span><span class='line'>   * &lt;p&gt;Most implementations will have no reason to override the behavior of {@link Object#equals}.
+</span><span class='line'>   * However, an implementation may also choose to return {@code true} whenever {@code object} is a
+</span><span class='line'>   * {@link Predicate} that it considers &lt;i&gt;interchangeable&lt;/i&gt; with this one. "Interchangeable"
+</span><span class='line'>   * &lt;i&gt;typically&lt;/i&gt; means that {@code this.apply(t) == that.apply(t)} for all {@code t} of type
+</span><span class='line'>   * {@code T}). Note that a {@code false} result from this method does not imply that the
+</span><span class='line'>   * predicates are known &lt;i&gt;not&lt;/i&gt; to be interchangeable.
+</span><span class='line'>   */
+</span><span class='line'>  @Override
+</span><span class='line'>  boolean equals(@Nullable Object object);
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>一般來說，就是在apply()裡實作需求就可，apply會依序將集合中的元件透過input傳入，apply一次會處理一個元素(input)，判斷input符不符合<strong>特定條件的元素</strong>，然後return
+true或false</p>
+
+<p>比如說，我們做一個判斷數值是否大於0的Predicate</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class IsGreateThenZero implements Predicate&lt;Integer&gt; {
+</span><span class='line'>    @Override
+</span><span class='line'>    public boolean apply(Integer input) {
+</span><span class='line'>        return input &gt; 0;
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這樣就可以用來</p>
+
+<ol>
+<li>過濾集合中<em>大於0的的元素</em>
+<code>Collections2.filter(myIntegerList, new IsGreateThenZero())</code></li>
+<li>搜尋集合中<em>大於0的的元素</em>
+<code>find(myIntegerList,  new IsGreateThenZero())</code></li>
+<li>定位集合中<em>大於0的的元素</em>
+<code>indexOf(myIntegerList, new IsGreateThenZero())</code></li>
+<li>判斷集合是否全部<em>大於0的</em>
+<code>Iterators.all(myIntegerList, new IsGreateThenZero())</code></li>
+<li>判斷集合中是否包含任何<em>大於0的元素</em>
+<code>any(myIntegerList, new IsGreateThenZero())</code></li>
+<li>….</li>
+</ol>
+
+
+<p>另外兩個Predicate間可以做邏輯運算，像AND, OR, NOT …</p>
+
+<p>比如說，我們再寫一個判斷數值是否小於10的Predicate</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class IsLessThenTen implements Predicate&lt;Integer&gt; {
+</span><span class='line'>    @Override
+</span><span class='line'>    public boolean apply(Integer input) {
+</span><span class='line'>        return input &lt; 10;
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這樣，我們也可以用來AND, OR來做出 <code>&gt; 0 AND &lt; 10</code>，<code>&gt; 0 OR &lt; 10</code>的新條件</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>IsGreateThenZeroAndLessThenTenPredicate = Predicates.and(new IsGreateThenZero(), new IsLessThenTen());</span></code></pre></td></tr></table></div></figure>
+
+
+<p><a href="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/base/Predicates.html" title="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/base/Predicates.html">Predicates</a>裡面還有不少做集合運算的Predicates可以使用。</p>
+
+<h4>Function</h4>
+
+<p>Function常用於transform(轉換)，把某個集合轉成另一個集合，比如說，把List&lt;Integer>專成List&lt;String>，或把List&lt;Integer>轉成Set&lt;Integer>，當然，實際上的用法會比這樣的例子複雜許多，
+不過，基本上想要把一種集合的元素，轉成”另一種”集合的<strong>另一種元素</strong>，就可以用<code>Iterables.transform(Iterable&lt;F&gt;, Function&lt;? super F, ? extends T&gt;)</code>達到</p>
+
+<p>Function的用法上跟<a href="#predicate" title="java:google_guava_-_collection_101 ↵">Predicate</a>差不多，Function也是一個interface，內容如下</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public interface Function&lt;F, T&gt; {
+</span><span class='line'>  /**
+</span><span class='line'>   * Returns the result of applying this function to {@code input}. This method is &lt;i&gt;generally
+</span><span class='line'>   * expected&lt;/i&gt;, but not absolutely required, to have the following properties:
+</span><span class='line'>   *
+</span><span class='line'>   * &lt;ul&gt;
+</span><span class='line'>   * &lt;li&gt;Its execution does not cause any observable side effects.
+</span><span class='line'>   * &lt;li&gt;The computation is &lt;i&gt;consistent with equals&lt;/i&gt;; that is, {@link Objects#equal
+</span><span class='line'>   *     Objects.equal}{@code (a, b)} implies that {@code Objects.equal(function.apply(a),
+</span><span class='line'>   *     function.apply(b))}.
+</span><span class='line'>   * &lt;/ul&gt;
+</span><span class='line'>   *
+</span><span class='line'>   * @throws NullPointerException if {@code input} is null and this function does not accept null
+</span><span class='line'>   *     arguments
+</span><span class='line'>   */
+</span><span class='line'>  T apply(@Nullable F input);
+</span><span class='line'> 
+</span><span class='line'>  /**
+</span><span class='line'>   * Indicates whether another object is equal to this function.
+</span><span class='line'>   *
+</span><span class='line'>   * &lt;p&gt;Most implementations will have no reason to override the behavior of {@link Object#equals}.
+</span><span class='line'>   * However, an implementation may also choose to return {@code true} whenever {@code object} is a
+</span><span class='line'>   * {@link Function} that it considers &lt;i&gt;interchangeable&lt;/i&gt; with this one. "Interchangeable"
+</span><span class='line'>   * &lt;i&gt;typically&lt;/i&gt; means that {@code Objects.equal(this.apply(f), that.apply(f))} is true for all
+</span><span class='line'>   * {@code f} of type {@code F}. Note that a {@code false} result from this method does not imply
+</span><span class='line'>   * that the functions are known &lt;i&gt;not&lt;/i&gt; to be interchangeable.
+</span><span class='line'>   */
+</span><span class='line'>  @Override
+</span><span class='line'>  boolean equals(@Nullable Object object);
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Function的template有兩個參數F, T，代表著From, To,
+跟Predicate一樣也是實作apply，不過，他的apply的return不是boolean，而是T(To)
+所以，主要的實作就是做input型別F跟return 型別T之間的mapping</p>
+
+<h1>Collection</h1>
+
+<p><a href="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/collect/package-summary.html" title="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/collect/package-summary.html">Collection
+Javadoc</a></p>
+
+<ul>
+<li>Using Multimaps relpace Map&lt;Foo, Collection&lt;Bar» :
+key是唯一值,如果put不同的內容到value,value會一直累加而不是取代</li>
+<li>MapMaker</li>
+<li>BiMap : 雙向的map,可以由key取出value,也可以由value取出key</li>
+<li>ForwardingObject : google
+collections大多宣告成final，無法改寫，而forwarding提供一個decorate的機制，
+可在既有的google collections上做延伸</li>
+</ul>
+
+
+<p>Google Collection裡很多class都不能直接用new產生，必須透過create()
+method來建立 ex: ” HashBiMap.create()”</p>
+
+<p>The following codes is got from many places, you can check the
+<a href="#resources" title="java:google_guava_-_collection_101 ↵">Resources</a> section
+for source and details.</p>
+
+<h3>ImmutableXXX</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ImmutableMap.&lt;String, Object&gt;builder().put("a", objectA)..put("b", objectB).build();</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Find in collection</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>find = Iterators.find(myCollection.iterator(), predicate);
+</span><span class='line'>find2 = Iterables.find(myCollection, predicate);
+</span><span class='line'>// find1 == find2</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Iterators &amp; Iterables</h3>
+
+<p><a href="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/collect/Iterators.html" title="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/collect/Iterators.html">Iterators</a>跟<a href="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/collect/Iterables.html" title="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/collect/Iterables.html">Iterables</a>
+的功能差不多，都是在Collection進行Iterator的相關動作，ex:</p>
+
+<h5>搜尋、過濾與定址取值</h5>
+
+<ol>
+<li>filter</li>
+<li>find</li>
+<li>get</li>
+<li>getFirst</li>
+<li>getLast</li>
+<li>getOnlyElement</li>
+<li>indexOf</li>
+<li>skip</li>
+<li>partition</li>
+<li>limit</li>
+<li>paddedPartition</li>
+<li>peekingIterator (不會造成Iterator.next())</li>
+</ol>
+
+
+<h5>相加</h5>
+
+<ol>
+<li>addAll</li>
+<li>concat</li>
+</ol>
+
+
+<h5>條件測試</h5>
+
+<ol>
+<li>all</li>
+<li>any</li>
+<li>contains</li>
+<li>elementsEqual</li>
+<li>contains</li>
+<li>isEmpty</li>
+<li>elementsEqual (集合內元素順序是否完全相等)</li>
+</ol>
+
+
+<h5>移除</h5>
+
+<ol>
+<li>removeAll</li>
+<li>removeIf</li>
+<li>retainAll</li>
+</ol>
+
+
+<h5>其它</h5>
+
+<ol>
+<li>consumingIterable</li>
+<li>cycle</li>
+<li>unmodifiableIterable</li>
+<li>frequency</li>
+</ol>
+
+
+<h5>轉換</h5>
+
+<ol>
+<li><strong>forArray</strong></li>
+<li>transform</li>
+<li><strong>forEnumeration</strong></li>
+</ol>
+
+
+<h3>transform</h3>
+
+<p>將collection內容的類型轉換成另一種類型(ex: Double → String).
+^<a href="#fn__1">1)</a>^</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>List&lt;String&gt; list1 = Lists.newArrayList("1", "2", "3");
+</span><span class='line'>List&lt;Double&gt; list2 = Lists.transform(list1, new Function&lt;String, Double&gt;() {
+</span><span class='line'>   public Double apply(String from) {
+</span><span class='line'>      return Double.parseDouble(from);
+</span><span class='line'>   }
+</span><span class='line'>});
+</span><span class='line'>System.out.println(Joiner.on(" | ").join(list2));
+</span><span class='line'> 
+</span><span class='line'>// result
+</span><span class='line'>// 1.0 | 2.0 | 3.0</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Filter</h3>
+
+<p>利用<strong>Predicate</strong>對collection進行過濾</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>List&lt;String&gt; list = Lists.newArrayList("A100", "B100", null, "B200");
+</span><span class='line'>Iterable&lt;String&gt; filtered = Iterables.filter(list, new Predicate&lt;String&gt;() {
+</span><span class='line'>   public boolean apply(String input) {
+</span><span class='line'>      return input == null || input.startsWith("B");
+</span><span class='line'>   }
+</span><span class='line'>});
+</span><span class='line'> 
+</span><span class='line'>System.out.println(Joiner.on("; ").useForNull("B000").join(filtered));
+</span><span class='line'> 
+</span><span class='line'>// result
+</span><span class='line'>// B100; B000; B200</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Ording</h3>
+
+<p>利用<strong>Compartor</strong>進行排序,也提供<code>max(),min()</code>等功能</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'> Ordering.from(lastNameComparator);</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>ComparatorOrdering</h3>
+
+<p>除了基本的比較功能外，還有<strong>Ordering</strong>的功能</p>
+
+<h3>Predicate</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>import static com.google.common.base.Predicates.and;
+</span><span class='line'>import static com.google.common.base.Predicates.compose;
+</span><span class='line'>import static com.google.common.base.Predicates.in;
+</span><span class='line'>import static com.google.common.base.Predicates.not;
+</span><span class='line'> 
+</span><span class='line'>List&lt;String&gt; list1 = Lists.newArrayList("1", "2", "3");
+</span><span class='line'>List&lt;String&gt; list2 = Lists.newArrayList("1", "4", "5");
+</span><span class='line'>List&lt;String&gt; list3 = Lists.newArrayList("1", "4", "6");
+</span><span class='line'> 
+</span><span class='line'>boolean result = and( not( in(list1) ), in(list2), in(list3)).apply("1");
+</span><span class='line'> 
+</span><span class='line'>System.out.println(result);  // false
+</span><span class='line'> 
+</span><span class='line'>List&lt;String&gt; list1 = Lists.newArrayList("A1", "A2", "A3");
+</span><span class='line'>boolean result = compose(in(list1), new Function&lt;String, String&gt;() {
+</span><span class='line'>   public String apply(String from) {
+</span><span class='line'>      return "A" + from;
+</span><span class='line'>   }
+</span><span class='line'>}).apply("1");
+</span><span class='line'> 
+</span><span class='line'>System.out.println(result);  // true</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Combining and Modifying Comparators</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public class Person {
+</span><span class='line'>   private String firstName;
+</span><span class='line'>   private String lastName;
+</span><span class='line'> 
+</span><span class='line'>   public Person(String firstName, String lastName) {
+</span><span class='line'>      this.setFirstName(firstName);
+</span><span class='line'>      this.setLastName(lastName);
+</span><span class='line'>   }
+</span><span class='line'> 
+</span><span class='line'>   @Override
+</span><span class='line'>   public String toString() {
+</span><span class='line'>      return getFirstName() + " " + getLastName();
+</span><span class='line'>   }
+</span><span class='line'> 
+</span><span class='line'>   public void setFirstName(String firstName) {
+</span><span class='line'>      this.firstName = firstName;
+</span><span class='line'>   }
+</span><span class='line'> 
+</span><span class='line'>   public String getFirstName() {
+</span><span class='line'>      return firstName;
+</span><span class='line'>   }
+</span><span class='line'> 
+</span><span class='line'>   public void setLastName(String lastName) {
+</span><span class='line'>      this.lastName = lastName;
+</span><span class='line'>   }
+</span><span class='line'> 
+</span><span class='line'>   public String getLastName() {
+</span><span class='line'>      return lastName;
+</span><span class='line'>   }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>List&lt;Person&gt; persons = Lists.newArrayList(
+</span><span class='line'>   new Person("Alfred", "Hitchcock"),
+</span><span class='line'>   null,
+</span><span class='line'>   new Person("Homer", "Simpson"),
+</span><span class='line'>   new Person("Peter", "Fox"),
+</span><span class='line'>   new Person("Bart", "Simpson"));
+</span><span class='line'> 
+</span><span class='line'>Comparator&lt;Person&gt; lastNameComparator = new Comparator&lt;Person&gt;() {
+</span><span class='line'>   public int compare(Person p1, Person p2) {
+</span><span class='line'>      return p1.getLastName().compareTo(p2.getLastName());
+</span><span class='line'>   }
+</span><span class='line'>};
+</span><span class='line'> 
+</span><span class='line'>Comparator&lt;Person&gt; firstNameComparator = new Comparator&lt;Person&gt;() {
+</span><span class='line'>   public int compare(Person p1, Person p2) {
+</span><span class='line'>      return p1.getFirstName().compareTo(p2.getFirstName());
+</span><span class='line'>   }
+</span><span class='line'>};
+</span><span class='line'> 
+</span><span class='line'>// order by last name ascending
+</span><span class='line'>Ordering&lt;Person&gt; ordering = Ordering.from(lastNameComparator);
+</span><span class='line'>System.out.println(ordering.nullsLast().sortedCopy(persons));
+</span><span class='line'> 
+</span><span class='line'>// order by last name descending, first name ascending
+</span><span class='line'>ordering = ordering.reverse().compound(firstNameComparator);
+</span><span class='line'>System.out.println(ordering.nullsLast().sortedCopy(persons));</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Constraints</h3>
+
+<p>TBD</p>
+
+<h3>ForwardingObject</h3>
+
+<p><img src="/images/wiki/java/guava_101_001.png" alt="guava_101_001.png" /></p>
+
+<p>ForwardingObject是一種<a href="http://en.wikipedia.org/wiki/Decorator_pattern" title="http://en.wikipedia.org/wiki/Decorator_pattern">Decorator_pattern</a>的實作，而在guava裡，extends自ForwardingObject的類別都是collection，也就是說
+在guava裡ForwardingObject是設計來改寫collection的預設行為的。</p>
+
+<p>example: 改變原來LIST的的add()
+method，如果加入null的話，就採用預設值”UNKNOWN”</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>import java.util.*;
+</span><span class='line'>import com.google.common.collect.*;
+</span><span class='line'> 
+</span><span class='line'>public class ListWithDefault&lt;E&gt; extends ForwardingList&lt;E&gt; {
+</span><span class='line'>    final E defaultValue;
+</span><span class='line'>    final List&lt;E&gt; delegate;
+</span><span class='line'> 
+</span><span class='line'>    ListWithDefault(List&lt;E&gt; delegate, E defaultValue) {
+</span><span class='line'>        this.delegate = delegate;
+</span><span class='line'>        this.defaultValue = defaultValue;
+</span><span class='line'>    }
+</span><span class='line'>    @Override protected List delegate() {
+</span><span class='line'>        return delegate;
+</span><span class='line'>    }
+</span><span class='line'>    @Override public E get(int index) {
+</span><span class='line'>        E v = super.get(index);
+</span><span class='line'>        return (v == null ? defaultValue : v);
+</span><span class='line'>    }
+</span><span class='line'>    @Override public Iterator&lt;E&gt; iterator() {
+</span><span class='line'>        final Iterator&lt;E&gt; iter = super.iterator();
+</span><span class='line'>        return new ForwardingIterator&lt;E&gt;() {
+</span><span class='line'>            @Override protected Iterator&lt;E&gt; delegate() {
+</span><span class='line'>                return iter;
+</span><span class='line'>            }
+</span><span class='line'>            @Override public E next() {
+</span><span class='line'>                E v = super.next();
+</span><span class='line'>                return (v == null ? defaultValue : v); 
+</span><span class='line'>            }
+</span><span class='line'>        };
+</span><span class='line'>    }
+</span><span class='line'>}
+</span><span class='line'> 
+</span><span class='line'>public static void main(String[] args) {
+</span><span class='line'>    List&lt;String&gt; names = new ListWithDefault&lt;String&gt;(
+</span><span class='line'>        Arrays.asList("Alice", null, "Bob", "Carol", null),
+</span><span class='line'>        "UNKNOWN"
+</span><span class='line'>    );
+</span><span class='line'> 
+</span><span class='line'>    for (String name : names) {
+</span><span class='line'>        System.out.println(name);
+</span><span class='line'>    }
+</span><span class='line'>    // Alice
+</span><span class='line'>    // UNKNOWN
+</span><span class='line'>    // Bob
+</span><span class='line'>    // Carol
+</span><span class='line'>    // UNKNOWN
+</span><span class='line'> 
+</span><span class='line'>    System.out.println(names);
+</span><span class='line'>    // [Alice, null, Bob, Carol, null]
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Decorator
+Pattern的精神在不改變原來類別的行為的基礎下，為該類別加入其他功能。
+比如說，原來的類別可以印出 “hello
+word”，如果套入一個叫”StarDecorator”，那原來的輸出會變成 “* hello word
+*” 如果再套上”BarDecorator”那輸出就會變成 “|* hello word *|”</p>
+
+<p>也就是不改成原來印出 “hello word”的功能下，裝飾上星型邊框
+，再裝飾上條狀邊框，這也就是這個pattern的名稱的由來，</p>
+
+<h1>Resources</h1>
+
+<ul>
+<li><a href="http://code.google.com/p/guava-libraries/" title="http://code.google.com/p/guava-libraries/">Guava
+Home</a></li>
+<li><a href="http://code.google.com/p/guava-libraries/wiki/ExplainedContents" title="http://code.google.com/p/guava-libraries/wiki/ExplainedContents">各功能的使用介紹</a></li>
+<li><a href="http://jnb.ociweb.com/jnb/jnbApr2010.html" title="http://jnb.ociweb.com/jnb/jnbApr2010.html">Examples</a></li>
+<li><a href="http://jnb.ociweb.com/jnb/jnbFeb2009.html" title="http://jnb.ociweb.com/jnb/jnbFeb2009.html">Google
+Collections</a></li>
+<li><a href="http://www.copperykeenclaws.com/googles-guava-java-the-easy-parts/" title="http://www.copperykeenclaws.com/googles-guava-java-the-easy-parts/">Google’s guava java: the easy
+parts</a></li>
+<li><a href="http://stackoverflow.com/questions/tagged/guava" title="http://stackoverflow.com/questions/tagged/guava">guava on
+stackoverflow</a></li>
+<li>Using the Google Collections Library for Java
+<a href="http://www.youtube.com/watch?v=ZeO_J2OcHYM" title="http://www.youtube.com/watch?v=ZeO_J2OcHYM">part1</a>
+<a href="http://www.youtube.com/watch?v=9ni_KEkHfto" title="http://www.youtube.com/watch?v=9ni_KEkHfto">part2</a></li>
+<li>带你领略 Google Collections <a href="http://jubin2002.javaeye.com/blog/471661" title="http://jubin2002.javaeye.com/blog/471661">part
+1</a>
+<a href="http://jubin2002.javaeye.com/blog/471698" title="http://jubin2002.javaeye.com/blog/471698">part
+2</a></li>
+<li>MapMaker Usage
+<a href="http://norther.javaeye.com/blog/670414" title="http://norther.javaeye.com/blog/670414">http://norther.javaeye.com/blog/670414</a></li>
+<li><a href="http://www.ibm.com/developerworks/cn/java/j-lo-googlecollection/index.html?ca=drs-" title="http://www.ibm.com/developerworks/cn/java/j-lo-googlecollection/index.html?ca=drs-">Google Guava Collections
+使用介绍</a>
+
+<ul>
+<li>IBM 中國上介紹guava的文章</li>
+</ul>
+</li>
+<li><a href="http://www.tfnico.com/presentations/google-guava" title="http://www.tfnico.com/presentations/google-guava">一些guava使用上的介紹</a></li>
+</ul>
+
+
+<p>^<a href="#fnt__1">1)</a>^ 無法轉換Collection本身的型別 (ex: List → Set)</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Kent Chiu</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-20T00:00:00+08:00" pubdate data-updated="true">Mar 20<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/guava/'>guava</a>, <a class='category' href='/blog/categories/java/'>java</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://blog.kent-chiu.com/blog/2012/03/20/google_guava_-_collection_101/" data-via="" data-counturl="http://blog.kent-chiu.com/blog/2012/03/20/google_guava_-_collection_101/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/03/20/gesture/" title="Previous Post: Android Gesture">&laquo; Android Gesture</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/03/20/hamcrest_101/" title="Next Post: Hamcrest 101">Hamcrest 101 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/07/07/python-101/">Python 101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/25/url-encoding/">URL Encoding</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/04/restful-api-design/">RESTful API Design</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/17/my-intellij-idea-shortcut/">My IntelliJ IDEA Shortcut</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/12/jesper-report-font-issue/">Jesper Report, IReport 匯出成中文PDF</a>
+      </li>
+    
+  </ul>
+</section>
+
+Included file 'asides/twitter.html' not found in _includes directory
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Kent -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'kentchiu';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.kent-chiu.com/blog/2012/03/20/google_guava_-_collection_101/';
+        var disqus_url = 'http://blog.kent-chiu.com/blog/2012/03/20/google_guava_-_collection_101/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,312 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>幽靈資料(Orphan data)的處理方式 - Kent's Blog</title>
+  <meta name="author" content="Kent">
+
+  
+  <meta name="description" content="在實際的系統上，一個模組所使用的資料，常會依賴於所多其他的模組，這些關聯可能會透過新增資料時來建立，
+以照片管理應用程式來說，至少會有相片模組及使用者模組，以相片模組來說，新增完一張照片後，通常，相關聯的資料會是 或者照片本身的細節資訊(分別存放在多個tables)
+這張照片是屬於那個人的( &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.kent-chiu.com/blog/2011/10/17/orphan_deletion">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Kent's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-39152849-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Kent's Blog</a></h1>
+  
+    <h2>Kent的學習筆記(剛從dokuwiki搬過來，內容還在整修中)</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.kent-chiu.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">幽靈資料(Orphan Data)的處理方式</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>在實際的系統上，一個模組所使用的資料，常會依賴於所多其他的模組，這些關聯可能會透過新增資料時來建立，
+以照片管理應用程式來說，至少會有相片模組及使用者模組，以相片模組來說，新增完一張照片後，通常，相關聯的資料會是</p>
+
+<ol>
+<li>或者照片本身的細節資訊(分別存放在多個tables)</li>
+<li>這張照片是屬於那個人的(使用者模組的使用者資料)</li>
+<li>這個照片被誰引用(別的使用者將這張相片放入自已的相本)</li>
+</ol>
+
+
+<p>以上面的例子來說，第一個是<strong>一對多 +
+多對一</strong>的Master-Details關係，第二個是透過在相片主table放一個user_id的Forgin
+Key的<strong>多對一</strong>，第三個是一張相片可能被多人引用，也可能一個人引用多張相片的<strong>多對多</strong>的關係。
+在大多數的應用上，通常，
+第一點的照片本身及細節的table，因為跟相片本身有比較大的相關性，所以，通常會放在相片模組裡面，刪除時，通常會一併處理，
+第二點因為相片是透過存forgin
+key，如果只是刪除相片本身，通常沒什麼問題，但如果<strong>刪除使用者時是否需一併刪除相關的相片</strong>，這就是本文要討論的重點。
+第三點，設計時，是否會放在相片的module，與是否一併刪除，就看設計者的考量。</p>
+
+<p>正常的設計上，刪除使用者，一併刪除所有相關的資料，這樣不會造成幽靈資料(Orphan
+data)，但如果與使用者相關的模組的變多，變複雜，那刪除一個使用者，要一併刪除底下一大串的相關資料，這樣容易會造成刪除的動作失敗。</p>
+
+<p>目前想得到，最佳的solution是<strong>只刪除最直接相關的資料，其他間接相關的資料不進行刪除</strong>，這樣最大的好處是簡化設計，但可能需提供一個清除這樣幽靈資料的功能或sql
+script。目前關於這個做法相關的議題如下：</p>
+
+<blockquote><p>幽靈資料(Orphan data)會造成資料庫的負擔</p>
+
+<blockquote><p>基本上，這個問題不需要太被關注，如果要解決，已經是資料庫效能調校的議題。或者，可透過清除幽靈資料(Orphan
+data)的動作進行處理。</p></blockquote>
+
+<p>幽靈資料(Orphan data)是否會造成統計異常，資料不一致</p>
+
+<blockquote><p>如果統計時，都有依據關聯的key做統計，那不存在的FK的資料就不會被計入，就不會照成這個問題</p>
+
+<blockquote><p>如果採原始的刪除方式(刪除所有相關資料)，如果有一筆資料無法刪除，就會發生刪除無法成功(所有刪除動作在同一個transcation)或者資料不一致(刪除的動作不在同一個transcation)</p></blockquote></blockquote></blockquote>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Kent Chiu</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/programming/'>programming</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://blog.kent-chiu.com/blog/2011/10/17/orphan_deletion/" data-via="" data-counturl="http://blog.kent-chiu.com/blog/2011/10/17/orphan_deletion/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2011/10/17/oracle_101/" title="Previous Post: Oracle 101">&laquo; Oracle 101</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2011/10/17/pax_101/" title="Next Post: PAX 101">PAX 101 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/07/07/python-101/">Python 101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/25/url-encoding/">URL Encoding</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/04/restful-api-design/">RESTful API Design</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/17/my-intellij-idea-shortcut/">My IntelliJ IDEA Shortcut</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/12/jesper-report-font-issue/">Jesper Report, IReport 匯出成中文PDF</a>
+      </li>
+    
+  </ul>
+</section>
+
+Included file 'asides/twitter.html' not found in _includes directory
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Kent -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'kentchiu';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.kent-chiu.com/blog/2011/10/17/orphan_deletion/';
+        var disqus_url = 'http://blog.kent-chiu.com/blog/2011/10/17/orphan_deletion/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

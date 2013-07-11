@@ -1,0 +1,1650 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: java | Kent's Blog]]></title>
+  <link href="http://blog.kent-chiu.com/blog/categories/java/atom.xml" rel="self"/>
+  <link href="http://blog.kent-chiu.com/"/>
+  <updated>2013-07-11T21:16:37+08:00</updated>
+  <id>http://blog.kent-chiu.com/</id>
+  <author>
+    <name><![CDATA[Kent]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[時間日期處理]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2012/09/30/date_and_time/"/>
+    <updated>2012-09-30T00:00:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2012/09/30/date_and_time</id>
+    <content type="html"><![CDATA[<p>日期的處理，在java中，一直是一個麻煩的問題，很多時間或日期操作若只是想透過JDK的<a href="http://download.oracle.com/javase/6/docs/api/java/util/Date.html" title="http://download.oracle.com/javase/6/docs/api/java/util/Date.html">Date</a>
+或<a href="http://download.oracle.com/javase/6/docs/api/java/util/Calendar.html" title="http://download.oracle.com/javase/6/docs/api/java/util/Calendar.html">Calendar</a>來處理，會相當的不方便，況且
+JDK內日期時間就有好幾種，很容易讓許多人無從下手，以下列出JDK
+1.6內的日期時間相關物件(不含時間日期格式物件)</p>
+
+<ol>
+<li><a href="http://download.oracle.com/javase/6/docs/api/java/util/Date.html" title="http://download.oracle.com/javase/6/docs/api/java/util/Date.html">java.util.Date</a>
+java日期物件</li>
+<li><a href="http://download.oracle.com/javase/6/docs/api/java/sql/Date.html" title="http://download.oracle.com/javase/6/docs/api/java/sql/Date.html">java.sql.Date</a>
+資料庫用的日期物件</li>
+<li><a href="http://download.oracle.com/javase/6/docs/api/java/sql/Time.html" title="http://download.oracle.com/javase/6/docs/api/java/sql/Time.html">java.sql.Time</a>
+資料庫用的日期物件</li>
+<li><a href="http://download.oracle.com/javase/6/docs/api/java/sql/Timestamp.html" title="http://download.oracle.com/javase/6/docs/api/java/sql/Timestamp.html">java.sql.Timestamp</a>
+資料庫用的時間戳記物件</li>
+<li><a href="http://download.oracle.com/javase/6/docs/api/java/util/Calendar.html" title="http://download.oracle.com/javase/6/docs/api/java/util/Calendar.html">java.util.Calendar</a>
+java日期物件</li>
+</ol>
+
+
+<p>目前處理日期相關的工具，除了上述的之外，JDK內還有<a href="http://wiki.kent-chiu.com/doku.php?id=java:date_and_time" title="java:date_and_time">日期格式化的相關功能</a>，另外，還有
+Apache
+<a href="http://commons.apache.org/lang/" title="http://commons.apache.org/lang/">connons-lang</a>裡的<a href="http://commons.apache.org/lang/api-2.6/org/apache/commons/lang/time/DateUtils.html" title="http://commons.apache.org/lang/api-2.6/org/apache/commons/lang/time/DateUtils.html">DateUtils</a>有許多好用的method可以做日期的判斷，
+如果還是不足夠的話，還有時間日期處理的終極武器<a href="http://joda-time.sourceforge.net/" title="http://joda-time.sourceforge.net/">Joda
+time</a>，可以很有效的對付時間日期區間的問題(Start
+Time, End Time報表常會用到)， 那也可以看看<a href="http://sourceforge.net/apps/mediawiki/threeten/index.php?title=ThreeTen" title="http://sourceforge.net/apps/mediawiki/threeten/index.php?title=ThreeTen">JSR
+310時間日期處理功能</a>，這個原本有可能是<a href="http://download.oracle.com/javase/7/docs/" title="http://download.oracle.com/javase/7/docs/">JDK
+7</a>的一部份，現在就不了了之了</p>
+
+<h3>日期時間常見的議題有</h3>
+
+<ol>
+<li>例假日</li>
+<li>農民曆</li>
+<li>中華民國歷</li>
+<li>日光節約時間</li>
+<li>地區化</li>
+<li>格式化</li>
+<li>日期區間運算</li>
+</ol>
+
+
+<h1>Apache Commons Lang</h1>
+
+<h4>時間的shift</h4>
+
+<ul>
+<li>addDays</li>
+<li>addHours</li>
+<li>addMinutes</li>
+<li>…</li>
+</ul>
+
+
+<h4>四捨五入，完全捨去，完全進位</h4>
+
+<ul>
+<li>ceiling</li>
+<li>round</li>
+<li>truncate</li>
+</ul>
+
+
+<h4>其他</h4>
+
+<ul>
+<li>toCalendar(Date) Date轉Calendar</li>
+<li>isSameDay 是否為同一天</li>
+<li>parseDate(String, String[]) 將字串轉成日期</li>
+<li>getFragmentInXXX() 經過了多少的時間單位</li>
+<li>iterator</li>
+</ul>
+
+
+<p>getFragmentInXXX()一系列的方法，可以計算出從何時到何時，總共經過了多時間，比如說，今年到今天，總共已經了多少天，或多少小時或多少秒，…</p>
+
+<p>而iterator可以用以下的參數對某一個時間做iterator</p>
+
+<ol>
+<li>RANGE_MONTH_SUNDAY</li>
+<li>RANGE_MONTH_MONDAY</li>
+<li>RANGE_WEEK_SUNDAY</li>
+<li>RANGE_WEEK_MONDAY</li>
+<li>RANGE_WEEK_RELATIVE</li>
+<li>RANGE_WEEK_CENTER</li>
+</ol>
+
+
+<h1>Joda Time</h1>
+
+<ul>
+<li>很容易從jdk的Date,Calendar轉換，只要傳入DateTime的Constructor即可</li>
+<li>所有的datetime
+classes都是immutable，但有提供一些method可以方便的傳回運算後新的datetime</li>
+</ul>
+
+
+<h3>主要的觀念</h3>
+
+<ul>
+<li>Instant - 最基本的觀念，基本上就是一個時間點或DateTime</li>
+<li>Partial -</li>
+<li>Interval - 時間間隔，也就是start time 跟 end time</li>
+<li>Period - 期間，像是3天，6個月，5個小時，可以從interval轉換過來</li>
+<li>Duration -
+期間，跟Interval的不同是Duration是無timezone的，可以從interval轉換過來，但無法轉回interval</li>
+<li>Chronology - 設計日曆的api用，大部份的情況下，可以不管它</li>
+<li>DateTimeZone - Time Zone</li>
+</ul>
+
+
+<p>Duration V.S Period</p>
+
+<p>Duration是很簡純的觀念，它就是一個固定的時間(多少毫秒)，而Period則是會隨CONTEXT變化的時間單位，比如說Period如果為一個月，對
+一月份一的個月，跟二月份的一個月，長度就不一樣。</p>
+
+<p>ex: 1/15要加一個月的時間，用Period來處理，就是1 Month Period,
+(記為P1M)，就是是2/15日，如果用Duration來處理，它只能固定為一個時間長度(換算成milliseconds)，1月到2月是(29天的換算成的milliseconds)，所以就無法用相同的一個Duration來計算下個月的15號時何時(2-3月是30天)。</p>
+
+<p>base, chrono, convert, field and tz這幾個packages是private
+package,一般的application大多字會用到<code>org.joda.time</code> package的內容</p>
+
+<h3>重要的Interface</h3>
+
+<h5>ReadableInstant</h5>
+
+<ol>
+<li>compareTo(Object)</li>
+<li>equals(Object)</li>
+<li>get(DateTimeFieldType)</li>
+<li>getChronology()</li>
+<li>getMillis()</li>
+<li>getZone()</li>
+<li>hashCode()</li>
+<li>isAfter(ReadableInstant)</li>
+<li>isBefore(ReadableInstant)</li>
+<li>isEqual(ReadableInstant)</li>
+<li>isSupported(DateTimeFieldType)</li>
+<li>toInstant()</li>
+<li>toString()</li>
+</ol>
+
+
+<h5>ReadableInterval</h5>
+
+<ol>
+<li>contains(ReadableInstant)</li>
+<li>contains(ReadableInterval)</li>
+<li>equals(Object)</li>
+<li>getChronology()</li>
+<li>getEnd()</li>
+<li>getEndMillis()</li>
+<li>getStart()</li>
+<li>getStartMillis()</li>
+<li>hashCode()</li>
+<li>isAfter(ReadableInstant)</li>
+<li>isAfter(ReadableInterval)</li>
+<li>isBefore(ReadableInstant)</li>
+<li>isBefore(ReadableInterval)</li>
+<li>overlaps(ReadableInterval)</li>
+<li>toDuration()</li>
+<li>toDurationMillis()</li>
+<li>toInterval()</li>
+<li>toMutableInterval()</li>
+<li>toPeriod()</li>
+<li>toPeriod(PeriodType)</li>
+<li>toString()</li>
+</ol>
+
+
+<h5>ReadablePeriod</h5>
+
+<ol>
+<li>equals(Object)</li>
+<li>get(DurationFieldType)</li>
+<li>getFieldType(int)</li>
+<li>getPeriodType()</li>
+<li>getValue(int)</li>
+<li>hashCode()</li>
+<li>isSupported(DurationFieldType)</li>
+<li>size()</li>
+<li>toMutablePeriod()</li>
+<li>toPeriod()</li>
+<li>toString()</li>
+</ol>
+
+
+<p>joda-time中的interface跟一般framework中的interface不大一樣，一般的framework中，會建議儘量宣告物件成interface，但是在joda-time中，大多數的情況下，
+必須用Concreate Class方能取得物件完整的能力</p>
+
+<h3>ISO Date Format</h3>
+
+<p><a href="http://en.wikipedia.org/wiki/ISO_8601" title="http://en.wikipedia.org/wiki/ISO_8601">ISO_8601</a>是關於日期時間格式相關的ISO規定，裡面的日期，是用”-“做分隔符號(而不是”/”)，建議所有的日期格式與ISO
+8601相容 這樣，很多lib(不管是前端或後端)都可以比較容易處理。</p>
+
+<h3>code snippet</h3>
+
+<p>```</p>
+
+<pre><code>Days days = Days.daysBetween(new DateTime(start), new DateTime(end));
+</code></pre>
+
+<p>```</p>
+
+<p>parse含有AM/PM，要加上Locale.US，不然會出exception</p>
+
+<p>```</p>
+
+<pre><code>SimpleDateFormat df = new SimpleDateFormat("hh:mm aa", Locale.US);
+</code></pre>
+
+<p>```</p>
+
+<p>如果有時確定格式是對的，但是就是一直出ParseException，這時記得加上Locale.US的參數試試</p>
+
+<p>```</p>
+
+<pre><code>import org.joda.time.DateTime;
+import org.joda.time.Interval;
+ 
+public enum Scheduling {
+    DAILY, WEEKLY, MONTHLY,;
+ 
+    public Interval interval(DateTime dt) {
+        DateTime start;
+        DateTime end;
+        switch (this.name()) {
+        case "DAILY":
+            start = dt.withMillisOfDay(0);
+            end = dt.withMillisOfDay(24 * 60 * 60 * 1000 -1);
+            break;
+        case "WEEKLY":
+            start = dt.withDayOfWeek(1);
+            end = dt.withDayOfWeek(7).withMillisOfDay(24 * 60 * 60 * 1000 -1);
+            break;
+        case "MONTHLY":
+            start = dt.withDayOfMonth(1);
+            int max = dt.dayOfMonth().getMaximumValue();
+            end = dt.withDayOfMonth(max).withMillisOfDay(24 * 60 * 60 * 1000 -1);
+            break;
+        default:
+            throw new UnsupportedOperationException("Unknow name :" + this.name());
+        }
+        return new Interval(start, end);
+    }
+ 
+}
+ 
+//
+// test case 
+//
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
+ 
+import java.util.Date;
+import java.util.Locale;
+ 
+import org.apache.commons.lang3.time.DateUtils;
+import org.joda.time.DateTime;
+import org.joda.time.Interval;
+import org.junit.Test;
+ 
+public class SchedulingTest {
+ 
+    @Test
+    public void interval_daily() throws Exception {
+        Date date = DateUtils.parseDate("2012/02/14", "yyyy/MM/dd");
+        Interval interval = Scheduling.DAILY.interval(new DateTime(date));
+        assertThat("2012/02/14 00:00:00", is(interval.getStart().toString("yyyy/MM/dd HH:mm:ss")));
+        assertThat("2012/02/14 23:59:59", is(interval.getEnd().toString("yyyy/MM/dd HH:mm:ss")));
+    }
+ 
+    @Test
+    public void interval_weekly() throws Exception {
+        Date date = DateUtils.parseDate("2012/02/14", "yyyy/MM/dd"); // 2012/2/14 was a Tuesday
+        Interval interval = Scheduling.WEEKLY.interval(new DateTime(date));
+        assertThat("2012/02/13 00:00:00", is(interval.getStart().toString("yyyy/MM/dd HH:mm:ss")));
+        assertThat("2012/02/19 23:59:59", is(interval.getEnd().toString("yyyy/MM/dd HH:mm:ss")));
+        assertThat(interval.getStart().dayOfWeek().getAsText(Locale.ENGLISH), is("Monday")); // which day is first day of week that depend on OS settings
+        assertThat(interval.getEnd().dayOfWeek().getAsText(Locale.ENGLISH), is("Sunday"));  // which day is end day of week that depend on OS settings
+    }
+ 
+    @Test
+    public void interval_monthly() throws Exception {
+        Date date = DateUtils.parseDate("2012/02/14", "yyyy/MM/dd"); 
+        Interval interval = Scheduling.MONTHLY.interval(new DateTime(date));
+        assertThat("2012/02/01 00:00:00", is(interval.getStart().toString("yyyy/MM/dd HH:mm:ss")));
+        assertThat("2012/02/29 23:59:59", is(interval.getEnd().toString("yyyy/MM/dd HH:mm:ss")));
+    }
+ 
+}
+</code></pre>
+
+<p>```</p>
+
+<h1>Resources</h1>
+
+<ul>
+<li><a href="http://commons.apache.org/lang/" title="http://commons.apache.org/lang/">http://commons.apache.org/lang/</a>
+
+<ul>
+<li>Apache Commons Lang</li>
+</ul>
+</li>
+<li><a href="http://joda-time.sourceforge.net/" title="http://joda-time.sourceforge.net/">joda
+time</a>
+
+<ul>
+<li>joda-time</li>
+</ul>
+</li>
+<li><a href="http://sourceforge.net/apps/mediawiki/threeten/index.php?title=ThreeTen" title="http://sourceforge.net/apps/mediawiki/threeten/index.php?title=ThreeTen">JSR
+310</a>
+
+<ul>
+<li>採用了很多<a href="http://joda-time.sourceforge.net/" title="http://joda-time.sourceforge.net/">joda
+time</a>的API設計，但還沒穩定，建用還是用joda</li>
+</ul>
+</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[JMS 101]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2012/07/13/jms_101/"/>
+    <updated>2012-07-13T00:00:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2012/07/13/jms_101</id>
+    <content type="html"><![CDATA[<p>本文中內容，主要以<a href="http://activemq.apache.org/" title="http://activemq.apache.org/">ActiveMQ
+5.4</a>為主，若不是此版本，程式碼不一定可以執行</p>
+
+<blockquote><p>JMS 2 於2013年Q1 release,使用者更會簡單，也內建訊息延遲發送功能(目前每一個使用方式都不一樣)，如果沒有相容性問題，建議採 JMS 2.0</p></blockquote>
+
+<h1>基本觀念</h1>
+
+<h3>JMS 基本元素</h3>
+
+<ul>
+<li>provider :</li>
+<li>client : 產出(傳送)或消費(接收)訊息</li>
+<li>consumer : 消費(接收)訊息</li>
+<li>message : 在client間被傳遞的訊息物件</li>
+<li><p>destination : 信息的目的或<strong>來源</strong></p>
+
+<ol>
+<li>queue : 訊息佇列,destination在PTP叫queue</li>
+<li>topic :
+一個散佈訊息給多個訂閱者的機制,destination在pub/sub叫topic</li>
+</ol>
+</li>
+<li><p>session : thread context，用來producing/consuming messages</p></li>
+<li>Administered Objects</li>
+</ul>
+
+
+<h3>Messaging Domains</h3>
+
+<h5>Point-to-Point Messaging Domain （PTP）</h5>
+
+<ul>
+<li>基於queues, senders, and receivers的模型</li>
+<li>每一個message<strong>同時只有一個</strong>Consumer</li>
+<li>Consumer跟Producer沒有時間的依賴性，Producer發送訊息後，Consumer可以隨時上去接收</li>
+<li>Consumer回應訊息處理狀態</li>
+</ul>
+
+
+<p>![jms_101_001.gif][]</p>
+
+<h5>Publish/Subscribe Messaging Domain (pub/sub)</h5>
+
+<ul>
+<li><p>主要就三個要素</p>
+
+<ol>
+<li>Publisher 發佈者:發佈訊息</li>
+<li>Subscriber 訂閱者: 訂閱訊息</li>
+<li>Topic 訊息的閱者，為發佈者或訂閱者之間的channel</li>
+</ol>
+</li>
+<li><p>Broadcast型的結構</p></li>
+<li>每一個Topic<strong>可以多個</strong>Subscribers</li>
+<li>Subscriber跟Publisher<strong>有</strong>時間的依賴性，Subscriber可以必須先進行訂閱後，才會收到Producer發佈的Topic</li>
+<li><p>Subscriber 依連線方式可以分為</p>
+
+<ol>
+<li>Nondurable Subscribers : 必須一直保持在接收狀態^<a href="#fn__1">1)</a>^</li>
+<li>Durable Subscribers :
+建立後，如以inactive，當active後，會將累積的訊息一起收下來</li>
+</ol>
+</li>
+<li><p>Subscriber 依建立方式可分為</p>
+
+<ol>
+<li>Dynamic Subscribers : 程式動態建立</li>
+<li>Administered Subscribers : 由provider (server)建立</li>
+</ol>
+</li>
+</ul>
+
+
+<p>![jms_101_002.gif][]</p>
+
+<h3>JMS API</h3>
+
+<p>在JMS裡，上述的觀念，主要是透過JMS API來定義的，JMS
+API只是定義規格(類似於JDBC)，至於實作會由其他實作的vendors提供，JMS
+API主要的類似如下：</p>
+
+<ul>
+<li>ConnectionFactory</li>
+<li>Destination</li>
+<li>Connection</li>
+<li>Session</li>
+<li>Message</li>
+<li>MessageProducer</li>
+<li>MessageConsumer</li>
+</ul>
+
+
+<h1>建立Connection/Session的流程</h1>
+
+<p>不論是PTP或是pub/sub模組，要跟MessageQuery
+Server溝通的流程是差不多的，流程如下</p>
+
+<p>![jms_101_003.gif][]</p>
+
+<ol>
+<li>建立ConnectionFactory</li>
+<li>由ConnectionFactory建立Connection</li>
+<li>由Connection建立Session</li>
+<li>由Session建立訊息(包含訊息內容，目的(Destination)，模型，…)</li>
+</ol>
+
+
+<h3>與Message Server建立連線</h3>
+
+<h4>由ActiveMQ提供的ActiveMQConnectionFactory建立connection</h4>
+
+<p>```</p>
+
+<pre><code>// ActiveMQConnectionFactory是ActiveMQ專屬寫法，會有平台跟lib依賴性，可用jndi來解決這個問題
+factory = new ActiveMQConnectionFactory("tcp://localhost:61616");
+connection = factory.createConnection();
+connection.start(); 
+</code></pre>
+
+<p>```</p>
+
+<p>剛建立好後的connection是在停止狀態的，必需先啟動才有辦法使用，一般啟動後，不用特別去stop，因為stop也會一併停止接受來自mq
+server的訊息，但是如果不希望connection一直連著，可以把他close掉</p>
+
+<h4>用JNDI的方式建立connection</h4>
+
+<p>這種方式比較通用，不會依賴特定平台的API</p>
+
+<p>```</p>
+
+<pre><code>Properties env = new Properties();
+env.put(Context.SECURITY_PRINCIPAL, "system");
+env.put(Context.SECURITY_CREDENTIALS, "manager");
+env.put(Context.INITIAL_CONTEXT_FACTORY,"org.apache.activemq.jndi.ActiveMQInitialContextFactory");
+env.put(Context.PROVIDER_URL, "tcp://localhost:61616");
+InitialContext ctx = new InitialContext(env);
+TopicConnectionFactory conFactory = (TopicConnectionFactory)ctx.lookup(topicFactory);
+</code></pre>
+
+<p>```</p>
+
+<h3>建立Session</h3>
+
+<h4>用傳統的方式建立Session</h4>
+
+<p><code>
+connection = factory.createConnection();
+connection.start();
+session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+</code></p>
+
+<h4>用Annotation的方式建立connection</h4>
+
+<p>這種方式，需要DI Container的支援</p>
+
+<p>```</p>
+
+<pre><code>@Resource(lookup = "jms/Queue")
+private static Queue queue;
+ 
+@Resource(lookup = "jms/Topic")
+private static Topic topic;
+</code></pre>
+
+<p>```</p>
+
+<h1>Hello JMS</h1>
+
+<p>以下是幾個比較完整(可執行)的範例，可以在ActiveMQ的web admin(ex:
+<a href="http://localhost:8161/admin/queues.jsp" title="http://localhost:8161/admin/queues.jsp">http://localhost:8161/admin/queues.jsp</a>
+)畫面上看到息的狀態</p>
+
+<h3>傳送訊息 (PTP)</h3>
+
+<p>```</p>
+
+<pre><code>@Test
+public void sendMessagePTP() throws JMSException {
+    ActiveMQConnectionFactory factory = new ActiveMQConnectionFactory("tcp://localhost:61616"); // 記得先確定61616 port的service有enabled
+    Connection connection = factory.createConnection();
+    connection.start();
+    Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+    Destination destination = session.createQueue("queue1"); // 建立PTP message,Destination為"queue1"
+    MessageProducer sender = session.createProducer(destination);
+    TextMessage message = session.createTextMessage("Hello World!");
+    sender.send(message);
+}
+</code></pre>
+
+<p>```</p>
+
+<p>執行後可以在ActiveMQ的”Queue”看到”queue1”的message</p>
+
+<p><img src="/images/wiki/java/jms_101_005.png" alt="jms_101_005.png" /></p>
+
+<ul>
+<li>Number Of Pending Messages: 在queue等待處理的訊息的數量</li>
+<li>Number Of Consumers:
+連線中，正在等待訊息的Consumers的數量(正在listening的client的數量)</li>
+<li>Messages Enqueued : 進入佇列的訊息數量</li>
+<li>Messages Dequeued : 離開佇列的訊息數量</li>
+</ul>
+
+
+<h3>取得訊息 (PTP)</h3>
+
+<p>```</p>
+
+<pre><code>@Test
+public void retrieveMessagePTP() throws Exception {
+    ActiveMQConnectionFactory factory = new ActiveMQConnectionFactory("tcp://localhost:61616"); // 記得先確定61616 port的service有enabled
+    Connection connection = factory.createConnection();
+    connection.start();
+    Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+    Destination destination = session.createQueue("queue1"); // 建立PTP message,Destination為"queue1"
+    MessageConsumer consumer = session.createConsumer(destination);
+    System.out.println(consumer.receive());
+    // 取回的訊息如下(內容會依執行環境的不同而不同)
+    // ActiveMQTextMessage {commandId = 5, responseRequired = true, messageId = ID:kent-PC-4384-1294370677008-0:0:1:1:1, originalDestination = null, originalTransactionId = null, producerId = ID:kent-PC-4384-1294370677008-0:0:1:1, destination = queue://queue1, transactionId = null, expiration = 0, timestamp = 1294370677215, arrival = 0, brokerInTime = 1294370677215, brokerOutTime = 1294370677264, correlationId = null, replyTo = null, persistent = true, type = null, priority = 4, groupID = null, groupSequence = 0, targetConsumerId = null, compressed = false, userID = null, content = null, marshalledProperties = null, dataStructure = null, redeliveryCounter = 0, size = 0, properties = null, readOnlyProperties = true, readOnlyBody = true, droppable = false, text = Hello World!}
+}
+</code></pre>
+
+<p>```</p>
+
+<h3>建立Topic (Pub/Sub)</h3>
+
+<p>```</p>
+
+<pre><code>@Test
+public void createTopic() throws Exception {
+    ActiveMQConnectionFactory factory = new ActiveMQConnectionFactory("tcp://localhost:61616");
+    TopicConnection connection = factory.createTopicConnection();
+    connection.start();
+    TopicSession session = connection.createTopicSession(false, Session.AUTO_ACKNOWLEDGE);
+    Topic topic = session.createTopic("MyTopic");
+    TopicPublisher publisher = session.createPublisher(topic);
+}
+</code></pre>
+
+<p>```</p>
+
+<p>執行後可以在ActiveMQ的”Topic”看到”MyTopic”</p>
+
+<p><img src="/images/wiki/java/jms_101_006.png" alt="jms_101_006.png" /></p>
+
+<h3>建立Topic並發佈訊息 (Pub/Sub)</h3>
+
+<p>```</p>
+
+<pre><code>@Test
+public void createTopicAndPublishMessage() throws Exception {
+    ActiveMQConnectionFactory factory = new ActiveMQConnectionFactory("tcp://localhost:61616");
+    TopicConnection connection = factory.createTopicConnection();
+    connection.start();
+    TopicSession session = connection.createTopicSession(false, Session.AUTO_ACKNOWLEDGE);
+    Topic topic = session.createTopic("MyTopic2");
+    TopicPublisher publisher = session.createPublisher(topic);
+    TextMessage message = session.createTextMessage("MyTopic2 Message Body");
+    publisher.publish(message);
+}
+</code></pre>
+
+<p>```</p>
+
+<p>執行後可以在ActiveMQ的”Topic”看到”MyTopic2”，”Messages Enqueued”會加1</p>
+
+<p><img src="/images/wiki/java/jms_101_006.png" alt="jms_101_006.png" /></p>
+
+<h3>訂閱Topic</h3>
+
+<p>```</p>
+
+<pre><code>@Test
+public void subscribeMessage() throws Exception {
+    ActiveMQConnectionFactory factory = new ActiveMQConnectionFactory("tcp://localhost:61616");
+    TopicConnection connection = factory.createTopicConnection();
+    connection.start();
+    TopicSession session = connection.createTopicSession(false, Session.AUTO_ACKNOWLEDGE);
+    Topic topic = session.createTopic("MyTopic2");
+    TopicSubscriber subscriber = session.createSubscriber(topic);
+    System.out.println(subscriber.receive()); // 執行後，會停在這一行，直到有訊息被取回
+    // result
+    // ActiveMQTextMessage {commandId = 7, responseRequired = false, messageId = ID:kent-PC-2524-1294364408121-4:5:1:1:3, originalDestination = null, originalTransactionId = null, producerId = ID:kent-PC-2524-1294364408121-4:5:1:1, destination = topic://MyTopic2, transactionId = null, expiration = 0, timestamp = 1294375382476, arrival = 0, brokerInTime = 1294375382477, brokerOutTime = 1294375382478, correlationId = , replyTo = null, persistent = false, type = , priority = 0, groupID = null, groupSequence = 0, targetConsumerId = null, compressed = false, userID = null, content = null, marshalledProperties = null, dataStructure = null, redeliveryCounter = 0, size = 0, properties = null, readOnlyProperties = true, readOnlyBody = true, droppable = false, text = MyMessage}
+ 
+    // 也可以設定timeout，如果timeout前都沒有取到訊息，會傳回null
+    // System.out.println(subscriber.receive(10 * 1000)); // 執行後，會停在這一行，直到有訊息被取回或10秒後timeout，並傳回null
+    // result
+    // null
+}
+</code></pre>
+
+<p>```</p>
+
+<p>以上面的例子來說，如果是同步接受的，一收完訊息，程式會馬上往下執行，並結速，這樣便無法一直接到MQ
+Server的訊息，
+如果想持續一直收到MQ的訊息，可以recive()後加一個無限迴圈，讓程式不會結束，即可以一直收到訊息</p>
+
+<p>```
+TopicSubscriber subscriber = session.createSubscriber(topic);
+subscriber.recive();
+connection.start();
+while (true) {</p>
+
+<pre><code>// prevent main thread stop 
+</code></pre>
+
+<p>}
+```</p>
+
+<p>執行後可以在ActiveMQ的”Topic”看到”MyTopic2”，”Number Of Consumers”會加1</p>
+
+<p><img src="/images/wiki/java/jms_101_007.png" alt="jms_101_007.png" /></p>
+
+<p>程式會一直hold住(如果沒設timeout的話)，此時，可以透過”Send
+To”的hyperlink，讓”MyTopic2”發佈一個訊息，這樣”subscriber.receive()“就會取得”MyTopic2”發佈的訊息了.</p>
+
+<p><img src="/images/wiki/java/jms_101_008.png" alt="jms_101_008.png" /></p>
+
+<h1>JMS API使用說明</h1>
+
+<h2>Destination</h2>
+
+<p>Destination的結構如下</p>
+
+<p><img src="/images/wiki/java/jms_101_004.png" alt="jms_101_004.png" /></p>
+
+<p>Destination本身是一個空的Interface，它主要是要標明，Destination的概念，底下有Queue(用在PTP)跟Topic(用在Pub/Sub)兩個介面繼承自Destination</p>
+
+<p><code>
+package javax.jms;
+ 
+public interface Destination {
+}
+</code></p>
+
+<h2>PTP model</h2>
+
+<h4>Producing / Consuming Message</h4>
+
+<p>```</p>
+
+<pre><code>MessageConsumer consumer = session.createConsumer(dest);
+MessageConsumer consumer = session.createConsumer(queue);
+MessageConsumer consumer = session.createConsumer(topic);
+ 
+connection.start();
+Message m = consumer.receive();
+connection.start();
+Message m = consumer.receive(1000); // time out after a second
+</code></pre>
+
+<p>```</p>
+
+<h4>Queue Browsers</h4>
+
+<p><code>
+QueueBrowser browser = session.createBrowser(queue);
+</code></p>
+
+<h2>Pub/Sub model</h2>
+
+<h2>Message</h2>
+
+<h3>Message Header</h3>
+
+<table>
+<thead>
+<tr>
+<th>  Header Field       </th>
+<th> Set By                  </th>
+<th> description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>  JMSDestination     </td>
+<td> send or publish method  </td>
+<td> 訊息的目的地</td>
+</tr>
+<tr>
+<td>  JMSDeliveryMode    </td>
+<td> send or publish method  </td>
+<td> DeliveryMode.NON_PERSISTENT (不存到DB) or DeliveryMode.PERSISTENT (存到DB)</td>
+</tr>
+<tr>
+<td>  JMSExpiration      </td>
+<td> send or publish method  </td>
+<td> 訊息過期的時間</td>
+</tr>
+<tr>
+<td>  JMSPriority        </td>
+<td> send or publish method  </td>
+<td> 0-9的值(9最高)，0-4是一般,5-9是 “加急”</td>
+</tr>
+<tr>
+<td>  JMSMessageID       </td>
+<td> send or publish method  </td>
+<td> 一個唯一的訊息id字串</td>
+</tr>
+<tr>
+<td>  JMSTimestamp       </td>
+<td> send or publish method  </td>
+<td> 訊息傳送的時間</td>
+</tr>
+<tr>
+<td>  JMSCorrelationID   </td>
+<td> Client                  </td>
+<td> 相關的id (參閱<a href="#jmscorrelationid" title="java:jms_101 ↵">下面</a>的說明)</td>
+</tr>
+<tr>
+<td>  JMSReplyTo         </td>
+<td> Client                  </td>
+<td> 讓client知道，要”回信”給誰</td>
+</tr>
+<tr>
+<td>  JMSType            </td>
+<td> Client                  </td>
+<td> <a href="#message_type" title="java:jms_101 ↵">Message Type</a></td>
+</tr>
+<tr>
+<td>  JMSRedelivered     </td>
+<td> JMS provider            </td>
+<td> 值為true或false，指明message之前是否沒有被consumer成功取回</td>
+</tr>
+</tbody>
+</table>
+
+
+<p>只有 Set By
+Client的header需要進行設定，其他的大部份是由send或publish的method設定.</p>
+
+<h5>JMSCorrelationID</h5>
+
+<p>在大多數的情況下，JMSCorrelationID會是指回應那一個JMSMessageID，但JMSCorrelationID可以是任何的值，不見得要是JMSMessageID.
+一般也會被拿來放Application-specific ID.</p>
+
+<h5>Message Type</h5>
+
+<table>
+<thead>
+<tr>
+<th>  Message Type   </th>
+<th> Body Contains</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>  TextMessage    </td>
+<td> A java.lang.String object (for example, the contents of an XML file).</td>
+</tr>
+<tr>
+<td>  MapMessage     </td>
+<td> A set of name-value pairs, with names as String objects and values as primitive types in the Java programming language. The entries can be accessed sequentially by enumerator or randomly by name. The order of the entries is undefined.</td>
+</tr>
+<tr>
+<td>  BytesMessage   </td>
+<td> A stream of uninterpreted bytes. This message type is for literally encoding a body to match an existing message format.</td>
+</tr>
+<tr>
+<td>  StreamMessage  </td>
+<td> A stream of primitive values in the Java programming language, filled and read sequentially.</td>
+</tr>
+<tr>
+<td>  ObjectMessage  </td>
+<td> A Serializable object in the Java programming language.</td>
+</tr>
+<tr>
+<td>  Message        </td>
+<td> Nothing. Composed of header fields and properties only. This message type is useful when a message body is not required.</td>
+</tr>
+</tbody>
+</table>
+
+
+<h3>Message Property</h3>
+
+<p>Property像是message的metadata，可以放入一些特定的屬性，之後可以透過<a href="#message_selectors" title="java:jms_101 ↵">Message
+Selectors</a>的功能來做查詢。^<a href="#fn__2">2)</a>^</p>
+
+<p>```</p>
+
+<pre><code>TextMessage message = pubSession.createTextMessage();
+message.setText(text);
+message.setStringProperty("username",username);
+publisher.publish(message);
+</code></pre>
+
+<p>```</p>
+
+<h5>JMS-Defined Properties &amp; Provider-Specific Properties</h5>
+
+<p>另外，還會有JMS訂義的JMS-Defined Properties及Provider-Specific
+Properties</p>
+
+<p>JMS-Defined Properties</p>
+
+<ol>
+<li>JMSXUserID</li>
+<li>JMSXAppID</li>
+<li>JMSXProducerTXID</li>
+<li>JMSXConsumerTXID</li>
+<li>JMSXRcvTimestamp</li>
+<li>JMSXDeliveryCount</li>
+<li>JMSXState</li>
+<li>JMSXGroupID</li>
+<li>JMSXGroupSeq</li>
+</ol>
+
+
+<h3>Message Selectors</h3>
+
+<p>Message
+Selectors的功能，是在Messages中過濾出需要的部份，Messages只對針對property進行過濾，不能針對message
+body做過濾，但可以透過簡單的expression來操作properties.</p>
+
+<p><code>
+String filter = "(currentRate - newRate) &gt;= 1.0";
+TopicSubscriber subscriber = session.createSubscriber(topic, filter, true);
+</code></p>
+
+<p>currentRate範例中的<code>currentRate</code>跟<code>newRate</code>是message的User定義的<a href="#message_property" title="java:jms_101 ↵">properties</a></p>
+
+<p>Message Selectors的語法是SQL 92的子集，可以用許多SQL
+92的運算符來作為expression的一部份，ex:</p>
+
+<p><code>
+Shares &gt; 1000.0 AND Symbol LIKE 'A%C'
+</code></p>
+
+<p><strong>Message Filtering approach VS Multiple Destination approach</strong></p>
+
+<p>在設計時，可以採用Message Filtering或Multiple
+Destination的方式進行訊息的分類</p>
+
+<p>Message Filtering approach
+:是所有的訊息進到同一個Destination後透過selector進行分類選取。</p>
+
+<p>Multiple Destination
+approach:是不同類的訊息，一開始就分派到不同的Destination。</p>
+
+<h3>Message Persistent</h3>
+
+<p>Message可以選擇Persistent或Nonpersistent,Persistent的訊息是存在db或file，Nonpersistent只是放在memory
+所以Nonpersistent的訊息，在server重啟後就不見了，如果是Persistent，server重啟後，還是會存在。</p>
+
+<p>Persistent或Nonpersistent是由JMSDeliveryMode決定。</p>
+
+<h1>Acknowledge Mode</h1>
+
+<p>Acknowledge
+Mode是用來確定訊息傳遞的可靠性的，需要做Acknowledge(回應，確認)的是在傳送或接收(發佈或訂閱)訊息時，client用來回應provider訊息有確實收到的機制</p>
+
+<p>Acknowledge Mode是在建立session時決定的。</p>
+
+<p>```</p>
+
+<pre><code>Session = Connect.createTopicSession(false, Session.CLIENT_ACKNOWLEDGE);
+Session = Connect.createQueueSession(false, Session.DUPS_OK_ACKNOWLEDGE);
+</code></pre>
+
+<p>```</p>
+
+<p>Acknowledge Mode有以下幾種</p>
+
+<ol>
+<li><a href="#auto_acknowledge" title="java:jms_101 ↵">AUTO_ACKNOWLEDGE</a> 自動回應</li>
+<li><a href="#client_acknowledge" title="java:jms_101 ↵">CLIENT_ACKNOWLEDGE</a>
+由客戶端自行回應</li>
+<li><a href="#dups_ok_acknowledge" title="java:jms_101 ↵">DUPS_OK_ACKNOWLEDGE</a>
+可重覆的回應</li>
+</ol>
+
+
+<h4>AUTO_ACKNOWLEDGE</h4>
+
+<p>只要訊息成功被傳送或接收，就會產生回應，而且最多只會回應一次(once-and-only-once)</p>
+
+<h4>CLIENT_ACKNOWLEDGE</h4>
+
+<p>如果客戶端需在傳送時接受訊息後，先進行一些額外的處理，等這些額外的處理直正的成功後，才進行回應，如果失敗的話(或沒回應的話)，訊息就不會被產生出來(或消化掉)</p>
+
+<h4>DUPS_OK_ACKNOWLEDGE</h4>
+
+<p>如果不介意訊息被重覆的傳送或接收，可以用這個模式，<strong>DUPS_OK_ACKNOWLEDGE</strong>
+mode，其最大的特色就是效能會有顯著的提昇。 要使用這個模式，需要把
+<code>JMSRedelivered</code>屬性設為<code>true</code></p>
+
+<h1>Transactions</h1>
+
+<p>Transactions是用來做批量messages的處理，用來保證所有的messages都有被成功的同時送出或取回。</p>
+
+<p>Transactions的啟用方式是將createSession的第一個參數設為true，第二個參數將會被忽略，當所以有訊息被處理後，可以透過<code>session.commit()</code>提交或<code>session.rollback()</code>取消。</p>
+
+<p><code>
+Session session = connection.createSession(true, Session.SESSION_TRANSACTED);;
+</code></p>
+
+<h1>Transport Connectors (ActiveMQ)</h1>
+
+<p>ActiveMQ提供許多連線的Protocol叫Transport Connectors,Transport
+Connectors所使用的ports是透過ActiveMQ_HOME/conf/activemq.xml進行設定。</p>
+
+<p>```</p>
+
+<!-- The transport connectors ActiveMQ will listen to -->
+
+
+<p><transportConnectors>
+<transportConnector name="openwire" uri="tcp://localhost:61616"
+discoveryUri="multicast://default"/>
+<transportConnector name="ssl" uri="ssl://localhost:61617"/>
+<transportConnector name="stomp" uri="stomp://localhost:61613"/>
+<transportConnector name="xmpp" uri="xmpp://localhost:61222"/>
+</transportConnectors>
+```</p>
+
+<h3>連線格式</h3>
+
+<p>JMS是透過URIs當做連線格式</p>
+
+<p><code>
+&lt;scheme&gt;:&lt;scheme-specific-part&gt;
+&lt;scheme&gt;://&lt;authority&gt;&lt;path&gt;&lt;?query&gt;
+</code></p>
+
+<p>ex:</p>
+
+<p><code>
+tcp://localhost:61616
+tcp://hostname:port?key=value&amp;key=value
+</code></p>
+
+<p>特別需要注意的是 JMS 亦提供composite URIs</p>
+
+<p><code>
+static://(tcp://host1:61616, tcp://host2:61616)
+</code></p>
+
+<h5>Protocol</h5>
+
+<ol>
+<li>tcp</li>
+<li>nio</li>
+<li>ssl (需要認證)</li>
+<li>http/https (80 port)</li>
+<li>VM (with other JVM)</li>
+</ol>
+
+
+<p>如果有許多clients需要連線到MQ，
+連線數可能會受到OS限制，這時可以採用NIO的protocol</p>
+
+<p><code>
+nio://hostname:port?key=value
+</code></p>
+
+<h1>遠端監控ActiveMQ</h1>
+
+<p>有時需要取得MQ上面的連線資訊或管理MQ
+Server，此時可以透過JMX的功能進行監控。 要進行JMX前，可以需先開啟設定</p>
+
+<p>```</p>
+
+<pre><code>&lt;managementContext&gt;
+    &lt;managementContext createConnector="true"/&gt; 
+&lt;/managementContext&gt;
+</code></pre>
+
+<p>```</p>
+
+<p>把managementContext/managementContext的createConnector屬性設成true即可</p>
+
+<p>完成後，重新啟動mq，然後，可以先用jdk內建的jconsole(jdk/bin/jconsole.exe)做連線測試</p>
+
+<p>啟動jconsole後，remote process填入</p>
+
+<p><code>
+service:jmx:rmi:///jndi/rmi://localhost:1099/jmxrmi
+</code></p>
+
+<p>填入後，按連線即可(本例中，mq跟jconsole在同一台，所以用localhost，如果不同一台，需先確認1099的port沒被防火牆擋住)，
+連線成功後，即可取得MQ的相關資訊，需要的內容會在MBeans的tab頁上</p>
+
+<p><img src="/images/wiki/java/jms_101_009.png" alt="jms_101_009.png" /></p>
+
+<p>確定可以用jconsole連線後，便可以使用程式取得連線資訊</p>
+
+<p><code>
+RemoteJMXBrokerFacade createConnector = new RemoteJMXBrokerFacade();
+System.setProperty("webconsole.jmx.url", "service:jmx:rmi:///jndi/rmi://localhost:1099/jmxrmi");
+SystemPropertiesConfiguration configuration = new SystemPropertiesConfiguration();
+createConnector.setConfiguration(configuration);
+// 可透過brokerAdmin取得broker上的資訊
+BrokerViewMBean brokerAdmin = createConnector.getBrokerAdmin();
+String brokerName = brokerAdmin.getBrokerName();
+brokerAdmin.getTotalConsumerCount();  
+brokerAdmin.getTotalMessageCount();
+</code></p>
+
+<h1>Resources</h1>
+
+<ul>
+<li><a href="http://download.oracle.com/javaee/6/tutorial/doc/bncdr.html" title="http://download.oracle.com/javaee/6/tutorial/doc/bncdr.html">Java Message Service Concepts - The Java EE 6
+Tutorial</a>
+
+<ul>
+<li>文章圖片來源大多來自這裡</li>
+</ul>
+</li>
+<li><a href="http://wenku.baidu.com/view/f90394aad1f34693daef3ee8.html" title="http://wenku.baidu.com/view/f90394aad1f34693daef3ee8.html">ActiveMQ in
+action</a></li>
+<li><a href="http://wenku.baidu.com/view/a7a05927a5e9856a5612609a.html" title="http://wenku.baidu.com/view/a7a05927a5e9856a5612609a.html">ActiveMQ in
+action(中文)</a></li>
+</ul>
+
+
+<p>[java</p>
+
+<p>^<a href="#fnt__1">1)</a>^ Durable Subscribe可以不用一直保持連線狀態</p>
+
+<p>^<a href="#fnt__2">2)</a>^ message body本身是沒辦法做查詢的</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[JVM 記憶體調校]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2012/05/05/jvm_profile/"/>
+    <updated>2012-05-05T00:00:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2012/05/05/jvm_profile</id>
+    <content type="html"><![CDATA[<h4>JVM記憶體相關參數</h4>
+
+<ul>
+<li>Xmx                        : 記憶體使用上限</li>
+<li>Xms                        : 記憶體使用下限(啟始值)</li>
+<li>Xss                        : stack</li>
+<li>server                     :</li>
+<li>client                     :</li>
+<li>XX:PermSize                : Perm for Permanent:編譯後的class，或固定的資料結構會佔用這一個值</li>
+<li>XX:MaxGCPauseMillis        : GC暫停的毫秒數，這個只是"建議"GC而已，GC會儘量滿足這個建議值</li>
+<li>XX:+ScavengeBeforeFullGC   :</li>
+<li>XX:-UseParallelOldGC       :</li>
+<li>XX:NewRatio                : sets the size of the old generation to three times the size of the new generation</li>
+</ul>
+
+
+<p>![jvm_profile_01.jpg][jvm_profile_01.jpg]</p>
+
+<p>圖片來源 :<a href="http://redstack.wordpress.com/">Red Stack's Blog</a></p>
+
+<p>GC就是在空間不足時，將不活躍的物件從記憶體中移除，如果在GC時存活下的物件，就可能很上晉昇(Young
+→ Old → Permanent)</p>
+
+<ol>
+<li>Permanent Generation:Old Generation進行GC(major GC or full
+GC)後，如空間不夠，就會將Old
+Generation活躍的物件(未被GC的)移到這區。建立越多的物件，此區域就要越大</li>
+<li>Old Generation: 當Young Generation進行gc (minor
+GC)後，空間仍舊不夠放新建立的物件時，會將Young Generation移到Old
+Generation</li>
+<li>New(Young) Generation():
+
+<ol>
+<li>to: Survivor space1(S1)
+gc時,會將eden區未被gc的物件COPY到S1或S2區</li>
+<li>from: Survivor space2(S2)
+gc時,會將eden區未被gc的物件COPY到S1或S2區</li>
+<li>eden: (伊甸) 看名字就知道是新生命(New
+Object)誕生的地方,每new一個Object時會佔用這個區域，eden滿了，會引發gc
+(minor GC)</li>
+</ol>
+</li>
+</ol>
+
+
+<p>Heap= Old Generation + New Generation</p>
+
+<p>可以透過JDK內附的virtualVm來觀察jvm memory的使用情形</p>
+
+<p><img src="/images/wiki/java/jvm_profile_02.png" alt="jvm_profile_02.png" /></p>
+
+<h3>常用工具</h3>
+
+<ol>
+<li>jinfo</li>
+<li>jmap</li>
+<li>jstack</li>
+<li>jstat</li>
+<li>java.lang.management (API level)</li>
+</ol>
+
+
+<h2>Resources</h2>
+
+<ul>
+<li><a href="http://redstack.wordpress.com/2011/01/06/visualising-garbage-collection-in-the-jvm/" title="http://redstack.wordpress.com/2011/01/06/visualising-garbage-collection-in-the-jvm/">簡單而清楚的JVM
+Memory教學</a></li>
+<li><a href="http://www.infoq.com/cn/articles/cf-java-garbage-references" title="http://www.infoq.com/cn/articles/cf-java-garbage-references">infoQ中國站關於gc的文章(簡體中文)</a></li>
+<li><a href="http://java.sun.com/docs/hotspot/gc/" title="http://java.sun.com/docs/hotspot/gc/">http://java.sun.com/docs/hotspot/gc/</a></li>
+<li><a href="http://javarevisited.blogspot.com/2011/11/hotspot-jvm-options-java-examples.html" title="http://javarevisited.blogspot.com/2011/11/hotspot-jvm-options-java-examples.html">10 jvm options java developers should
+know</a></li>
+<li><a href="http://eclipse.org/mat/" title="http://eclipse.org/mat/">Eclipse MAT</a> -
+這個比virtualVM更好用</li>
+<li><a href="http://kohlerm.blogspot.com/2009/07/eclipse-memory-analyzer-10-useful.html" title="http://kohlerm.blogspot.com/2009/07/eclipse-memory-analyzer-10-useful.html">Eclipse
+MAT使用的文章</a></li>
+<li><a href="http://www.cubrid.org/blog/dev-platform/understanding-java-garbage-collection/" title="http://www.cubrid.org/blog/dev-platform/understanding-java-garbage-collection/">GC</a>
+
+<ul>
+<li>說明GC的機制及時機，有5種gc策略的說明</li>
+</ul>
+</li>
+<li><a href="http://www.cubrid.org/blog/dev-platform/how-to-monitor-java-garbage-collection/" title="http://www.cubrid.org/blog/dev-platform/how-to-monitor-java-garbage-collection/">如何監控GC的教學</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Google Guava 101]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2012/04/30/google_guava_101/"/>
+    <updated>2012-04-30T00:00:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2012/04/30/google_guava_101</id>
+    <content type="html"><![CDATA[<p>Guava是google的一個開源項目，目的在提供常用工具類的API，字串處理，caching，primitives型別處理，I/O，併行(concurrnecy)處理，
+還有超級好用的Collections處理。</p>
+
+<p>本篇主要著重於<a href="http://wiki.kent-chiu.com/doku.php?id=java:google_guava_-_collection_101" title="java:google_guava_-_collection_101">Collection</a>以外相關的使用介紹，Collection的使用介紹在<a href="http://wiki.kent-chiu.com/doku.php?id=java:google_guava_-_collection_101" title="java:google_guava_-_collection_101">另一篇</a></p>
+
+<ol>
+<li><p><a href="#strings" title="java:google_guava_101 ↵">Strings</a></p>
+
+<ol>
+<li><a href="#joiner" title="java:google_guava_101 ↵">Joiner</a></li>
+<li><a href="#splitter" title="java:google_guava_101 ↵">Splitter</a></li>
+<li><a href="#charmatcher" title="java:google_guava_101 ↵">CharMatcher</a></li>
+</ol>
+</li>
+<li><p><a href="#basic_utilities" title="java:google_guava_101 ↵">Basic Utilities</a></p></li>
+<li><a href="#caches" title="java:google_guava_101 ↵">Caches</a></li>
+<li><a href="#concurrency" title="java:google_guava_101 ↵">Concurrency</a></li>
+<li><a href="#primitives" title="java:google_guava_101 ↵">Primitives</a></li>
+<li><a href="#ranges" title="java:google_guava_101 ↵">Ranges</a></li>
+<li><a href="#hashing" title="java:google_guava_101 ↵">Hashing</a></li>
+<li><a href="#eventbus" title="java:google_guava_101 ↵">EventBus</a></li>
+<li><a href="#math" title="java:google_guava_101 ↵">Math</a></li>
+</ol>
+
+
+<h1>Strings</h1>
+
+<ul>
+<li><a href="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/base/CaseFormat.html" title="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/base/CaseFormat.html">CaseFormat</a></li>
+<li><a href="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/base/CharMatcher.html" title="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/base/CharMatcher.html">CharMatcher</a></li>
+<li><a href="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/base/Charsets.html" title="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/base/Charsets.html">Charsets</a></li>
+<li><a href="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/base/Joiner.html" title="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/base/Joiner.html">Joiner</a></li>
+<li><a href="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/base/Splitter.html" title="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/base/Splitter.html">Splitter</a></li>
+<li><a href="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/base/Strings.html" title="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/base/Strings.html">Strings</a></li>
+</ul>
+
+
+<h5>CharMatcher</h5>
+
+<p><code>
+CharMatcher.is('.').replaceFrom(aStr, '_');                                       // 將字串中的'.'換成'_'
+CharMatcher.DIGIT.matchesAllOf("1231212");                                        // true
+CharMatcher.DIGIT.matchesAnyOf("1231 aa212");                                     // true
+CharMatcher.DIGIT.retainFrom("Hello 1234 567");                                   // "1234567";
+CharMatcher.DIGIT.or(CharMatcher.WHITESPACE).retainFrom("Hello 1234 567");        // " 1234 567"
+CharMatcher.inRange('3', '6').removeFrom("Hello 1234 567");                       // "Hello 12 7";
+CharMatcher.is('$').trimFrom("$$$ This is a $ sign $$$");                         // " This is a $ sign "
+CharMatcher.is('$').or(CharMatcher.is(' ')).trimFrom("$$$ This is a $ sign $$$"); // "This is a $ sign"
+</code></p>
+
+<h5>Joiner</h5>
+
+<p>字串相加</p>
+
+<p>```
+Joiner joiner = Joiner.on("; ").skipNulls();
+return joiner.join("Harry", null, "Ron", "Hermione"); // "Harry; Ron; Hermione"
+ 
+numbersWords.put(1, "one");
+numbersWords.put(2, "two");
+numbersWords.put(3, null);
+numbersWords.put(4, "four");
+Joiner.on(" | ").withKeyValueSeparator(" -> ")</p>
+
+<pre><code>.useForNull("Unknown").join(numbersWords)); // 1 -&gt; one | 2 -&gt; two | 3 -&gt; Unknown | 4 -&gt; four"
+</code></pre>
+
+<p>```</p>
+
+<h5>Splitter</h5>
+
+<p>字串分割</p>
+
+<p>```
+Splitter.on(',')</p>
+
+<pre><code>   .trimResults()
+   .omitEmptyStrings()
+   .split("foo,bar,,   qux");
+</code></pre>
+
+<p>```</p>
+
+<h1>Basic Utilities</h1>
+
+<h3>Optional (Null處理)</h3>
+
+<p>java對null的處理不是很友善，所以常常需要去對null值特別處理，而Optional就是用來處理null問題的利器。</p>
+
+<p>```
+// 是否是常看到這樣的code
+if (foo == null) {
+  // do something
+} else {
+  // do something
+}
+ 
+// servlet總會遇到這個
+String username;
+if (request.getParameter("username") == null) {</p>
+
+<pre><code>username = "Stranger";
+</code></pre>
+
+<p>} else {
+   username = request.getParameter("username");
+}
+ 
+// 或者
+String username = request.getParameter("username") == null ? "Stranger" : request.getParameter("username");
+```</p>
+
+<p>如果改用Optional的話</p>
+
+<p><code>
+Optional.of(request.getParameter("username")).or("default");
+</code></p>
+
+<p>這個class我個人滿少用的，它的一些延伸用法不是很直覺</p>
+
+<h3>Preconditions</h3>
+
+<p>前置條件檢查，通常會在在method的最前面，用來保證參數或變數在一定的狀態，如果不在預期的狀況，就拋出異常。</p>
+
+<ol>
+<li>checkArgument(boolean) : 用來檢查method的參數，不為true則拋出
+IllegalArgumentException</li>
+<li>checkNotNull(T) : 如果是 null 拋出 NullPointerException</li>
+<li>checkState(boolean) :
+跟checkArgument(boolean)很像，但用來檢查非參數的變數，如果不為true，拋出
+IllegalStateException</li>
+<li>checkElementIndex(int index, int size) :
+用來檢查List,Array或字串index的合法性，不合法就拋出
+IndexOutOfBoundsException</li>
+<li>checkPositionIndex(int index, int size) :
+用來檢查List,Array或字串index的合法性，不合法就拋出
+IndexOutOfBoundsException</li>
+<li>checkPositionIndexes(int start, int end, int size) :
+用來檢查List,Array或字串index的合法性，不合法就拋出
+IndexOutOfBoundsException</li>
+</ol>
+
+
+<p>checkElementIndex,checkPositionIndex,checkPositionIndexes用法比較特別，它不需要傳入List,Array或字串本身，只需傳入List,Array或字串的index，size，或start，end</p>
+
+<h3>Ordering</h3>
+
+<p>排序用，如果要被排序的元素本身已有<a href="http://wiki.kent-chiu.com/doku.php?id=java:google_guava_101" title="java:google_guava_101">Comparator</a>的話，可以直做透過Ordering做排序,
+如果沒有，也可以extends Ordering達到排序的效果。</p>
+
+<h3>Object methods</h3>
+
+<p>傳統的Comparable實作方式很煩人，而且容易出錯</p>
+
+<p>```
+class Person implements Comparable<Person> {
+  private String lastName;
+  private String firstName;
+  private int zipCode;
+ 
+  public int compareTo(Person other) {</p>
+
+<pre><code>int cmp = lastName.compareTo(other.lastName);
+if (cmp != 0) {
+  return cmp;
+}
+cmp = firstName.compareTo(other.firstName);
+if (cmp != 0) {
+  return cmp;
+}
+return Integer.compare(zipCode, other.zipCode);
+</code></pre>
+
+<p>  }
+}
+```</p>
+
+<p>Guava提供ComparisonChain簡化Comparable.</p>
+
+<p>```
+   public int compareTo(Foo that) {</p>
+
+<pre><code> return ComparisonChain.start()
+     .compare(this.aString, that.aString)
+     .compare(this.anInt, that.anInt)
+     .compare(this.anEnum, that.anEnum, Ordering.natural().nullsLast())
+     .result();
+</code></pre>
+
+<p>   }
+```</p>
+
+<h3>Throwables</h3>
+
+<p>```
+ try {</p>
+
+<pre><code> someMethodThatCouldThrowAnything();
+</code></pre>
+
+<p>   } catch (IKnowWhatToDoWithThisException e) {</p>
+
+<pre><code> handle(e);
+</code></pre>
+
+<p>   } catch (Throwable t) {</p>
+
+<pre><code> Throwables.propagateIfInstanceOf(t, IOException.class);
+ Throwables.propagateIfInstanceOf(t, SQLException.class);
+ throw Throwables.propagate(t);
+</code></pre>
+
+<p>   }
+```</p>
+
+<h1>Caches</h1>
+
+<p>Guava Cache很像Map，但在使用上跟行為上還是跟Map有許多不同之類。Guava
+Cache只會暫存在Memory(RAM)，不會儲存 在local file system.</p>
+
+<p>建立cache有兩種方式，一種是一開始就load所需要的資料，另一種是如果資料不存在就建立，否則就直接取cache內的資料</p>
+
+<h5>CacheLoader是在開始時就建立好cache的資料</h5>
+
+<p>```
+LoadingCache&lt;Key, Graph> graphs = CacheBuilder.newBuilder()</p>
+
+<pre><code>    .maximumSize(10000)
+    .expireAfterWrite(10, TimeUnit.MINUTES)
+    .removalListener(MY_LISTENER)
+    .build(
+        new CacheLoader&lt;Key, Graph&gt;() {
+            public Graph load(Key key) throws AnyException {
+            return createExpensiveGraph(key);
+        }
+    });
+</code></pre>
+
+<p>```</p>
+
+<h5>Callable是取不到資料時就建立cache</h5>
+
+<p>當執行cache.get，如果有cache就會從cache取，如果沒有cache就會建立一份到cache中</p>
+
+<p>```
+Cache&lt;Key, Value> cache = CacheBuilder.newBuilder()</p>
+
+<pre><code>.maximumSize(1000)
+.build(); // look Ma, no CacheLoader
+</code></pre>
+
+<p>...
+try {
+  // If the key wasn't in the "easy to compute" group, we need to
+  // do things the hard way.
+  cache.get(key, new Callable<Value>() {</p>
+
+<pre><code>@Override
+public Value call() throws AnyException {
+  return doThingsTheHardWay(key);
+}
+</code></pre>
+
+<p>  };
+} catch (ExecutionException e) {
+  throw new OtherException(e.getCause());
+}
+```</p>
+
+<h1>Concurrency</h1>
+
+<p>ListenableFuture Service Using Implementations Monitor</p>
+
+<h1>Primitives</h1>
+
+<p>Primitive arrays General utilities Byte conversion Unsigned support</p>
+
+<h1>Ranges</h1>
+
+<p>用來處理一個範圍內class，主要是透過<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html" title="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html">Comparable</a>來做範圍的運算，
+所以不一定是要數值型的class才能做Range，像有實作Comparable的日期也是可以做範圍處理。</p>
+
+<p>可透過Ranges類別來建立Range</p>
+
+<p><code>
+Ranges.closed(1,10);
+</code></p>
+
+<h1>EventBus</h1>
+
+<p>EventBus是guava的事件處理，但不像傳統的Event-Listener那樣需要implement
+xxxListener那樣(結果就是產生了一堆inner class或anonymous inner class)
+而是透過@Annotation的方式處理。</p>
+
+<p>```
+// Class is typically registered by the container.
+class EventBusChangeRecorder {
+  @Subscribe void recordCustomerChange(ChangeEvent e) {</p>
+
+<pre><code>recordChange(e.getChange());
+</code></pre>
+
+<p>  }
+}
+// somewhere during initialization
+eventBus.register(new EventBusChangeRecorder());
+// much later
+public void changeCustomer() {
+  ChangeEvent event = getChangeEvent();
+  eventBus.post(event);
+}
+```</p>
+
+<h4>Reference</h4>
+
+<ol>
+<li><a href="http://codingjunkie.net/guava-eventbus/" title="http://codingjunkie.net/guava-eventbus/">http://codingjunkie.net/guava-eventbus/</a></li>
+<li><a href="http://tomaszdziurko.pl/2012/01/google-guava-eventbus-easy-elegant-publisher-subscriber-cases/" title="http://tomaszdziurko.pl/2012/01/google-guava-eventbus-easy-elegant-publisher-subscriber-cases/">http://tomaszdziurko.pl/2012/01/google-guava-eventbus-easy-elegant-publisher-subscriber-cases/</a></li>
+</ol>
+
+
+<h1>Math</h1>
+
+<p>TBD</p>
+
+<h1>Resources</h1>
+
+<ul>
+<li><a href="http://code.google.com/p/guava-libraries/" title="http://code.google.com/p/guava-libraries/">Guava
+Home</a></li>
+<li><a href="http://code.google.com/p/guava-libraries/wiki/ExplainedContents" title="http://code.google.com/p/guava-libraries/wiki/ExplainedContents">各功能的使用介紹</a>
+(推薦)</li>
+<li><a href="http://jnb.ociweb.com/jnb/jnbApr2010.html" title="http://jnb.ociweb.com/jnb/jnbApr2010.html">Examples</a></li>
+<li><a href="http://jnb.ociweb.com/jnb/jnbFeb2009.html" title="http://jnb.ociweb.com/jnb/jnbFeb2009.html">Google
+Collections</a></li>
+<li><a href="http://www.copperykeenclaws.com/googles-guava-java-the-easy-parts/" title="http://www.copperykeenclaws.com/googles-guava-java-the-easy-parts/">Google’s guava java: the easy
+parts</a></li>
+<li><a href="http://stackoverflow.com/questions/tagged/guava" title="http://stackoverflow.com/questions/tagged/guava">guava on
+stackoverflow</a></li>
+<li>Using the Google Collections Library for Java
+<a href="http://www.youtube.com/watch?v=ZeO_J2OcHYM" title="http://www.youtube.com/watch?v=ZeO_J2OcHYM">part1</a>
+<a href="http://www.youtube.com/watch?v=9ni_KEkHfto" title="http://www.youtube.com/watch?v=9ni_KEkHfto">part2</a></li>
+<li>带你领略 Google Collections <a href="http://jubin2002.javaeye.com/blog/471661" title="http://jubin2002.javaeye.com/blog/471661">part
+1</a>
+<a href="http://jubin2002.javaeye.com/blog/471698" title="http://jubin2002.javaeye.com/blog/471698">part
+2</a></li>
+<li>MapMaker Usage
+<a href="http://norther.javaeye.com/blog/670414" title="http://norther.javaeye.com/blog/670414">http://norther.javaeye.com/blog/670414</a></li>
+<li><a href="http://www.ibm.com/developerworks/cn/java/j-lo-googlecollection/index.html?ca=drs-" title="http://www.ibm.com/developerworks/cn/java/j-lo-googlecollection/index.html?ca=drs-">Google Guava Collections
+使用介绍</a>
+
+<ul>
+<li>IBM 中國上介紹guava的文章</li>
+</ul>
+</li>
+<li><a href="http://www.tfnico.com/presentations/google-guava" title="http://www.tfnico.com/presentations/google-guava">一些guava使用上的介紹</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[JAVA NIO 101]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2012/04/03/nio_101/"/>
+    <updated>2012-04-03T00:00:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2012/04/03/nio_101</id>
+    <content type="html"><![CDATA[<h3>Path</h3>
+
+<p>之前java.io的基本操作是基於<a href="http://docs.oracle.com/javase/7/docs/api/java/io/File.html" title="http://docs.oracle.com/javase/7/docs/api/java/io/File.html">File</a>,NIO的基本操作是<a href="http://docs.oracle.com/javase/7/docs/api/java/nio/file/Path.html" title="http://docs.oracle.com/javase/7/docs/api/java/nio/file/Path.html">Path</a>。
+Path</p>
+
+<p>兩者間可以透過<code>Path.toFile()</code>,<code>File.toPath()</code>互相轉換，Path雖然可以完成很多java.io.File的操作，但因為java.io.File具有一些操作是Path沒辦法做的，所以，java.io.File並沒有被deprecate</p>
+
+<p>aPath.resolve(bPath) - bPath會串接在aPath後面，結果會是 <code>aPath/bPath</code></p>
+
+<p>如果不想看了解細節，可以在了解Path後，可以先試著用用看io跟nio的轉換表來使用NIO
+http://docs.oracle.com/javase/tutorial/essential/io/legacy.html#mapping
+http://docs.oracle.com/javase/tutorial/essential/io/legacy.html#mapping")</p>
+
+<h3>Paths</h3>
+
+<h5>多重目錄</h5>
+
+<p><code>
+Path path = Paths.get("myPath", "subPathA", "subPathB"); // myPath/subPathA/subPathB
+</code></p>
+
+<h5>環境變數</h5>
+
+<p>Path並不直接支援環境變數(Environment
+Variable)的使用，所以，需要自行透過System.getProperty()取出變數後，丟進path</p>
+
+<p><code>
+Path downloadedFile = Paths.get(System.getProperty("user.home"),"downloads", "test.txt");
+</code></p>
+
+<h3>Files</h3>
+
+<h5>讀入文字檔</h5>
+
+<p><code>
+List&lt;String&gt; lines = Files.readAllLines(path,Charset.forName("UTF-8"));
+</code></p>
+
+<h5>列出目錄下的子目錄或檔案</h5>
+
+<p>這邊的try-catch是java7的新功能，只要有實作<a href="http://docs.oracle.com/javase/7/docs/api/java/io/Closeable.html" title="http://docs.oracle.com/javase/7/docs/api/java/io/Closeable.html">Closeable</a>的類別，就可以用這樣的方式處理。</p>
+
+<p>```
+Path dir = ...;
+try (DirectoryStream<Path> stream = Files.newDirectoryStream(dir, "*.{java,class,jar}")) {</p>
+
+<pre><code>for (Path entry: stream) {
+    System.out.println(entry.getFileName());
+}
+</code></pre>
+
+<p>} catch (IOException x) {</p>
+
+<pre><code>//IOException can never be thrown by the iteration.
+//In this snippet, it can only be thrown by newDirectoryStream.
+System.err.println(x);
+</code></pre>
+
+<p>}
+```</p>
+
+<h1>MISC</h1>
+
+<h5>Symbolic,Hard Links</h5>
+
+<p>雖然 Windows 沒有 Symbolic, Hard Links
+但在程式中還是可以使用，NIO會處理跨平台的相容性。 Symbolic 會用 Windows
+中的 Shortcut取代。</p>
+
+<h5>從jar檔中取得Path</h5>
+
+<p>在程式中，常用<code>url = myObject.getClass().getResource(“my.txt”)</code>取得檔案的url，然後直接使用裡面的資訊取得File或Stream，Path的話，可以這樣用<code>Path.get(url.toURI())</code>，
+但這個在預設的檔案系統下可以行的通，但程式被包成時jar檔行不通了，因為jar檔在NIO里是另一個FileSystem，以下的method，
+可以不用管resource是放jar或直接放classpath裡面，都以把resource抓成Path，抓成Path後，file
+system的資訊會被包在Path中，所以再來就可以不用管他是不是在jar裡面了</p>
+
+<p>```
+public static Path urlToPath(URL buildUrl) throws URISyntaxException, IOException {</p>
+
+<pre><code>Path result;
+    if ("jar".equalsIgnoreCase(buildUrl.toURI().getScheme())) {
+    JarURLConnection jarUrl = (JarURLConnection) buildUrl.openConnection();
+    FileSystem fs = FileSystems.newFileSystem(Paths.get(jarUrl.getJarFileURL().toURI()), null);
+    result = fs.getPath(jarUrl.getEntryName());
+    logger.info("load {} from jar : {}", result.getFileName(),fs);
+} else {
+    result = Paths.get(buildUrl.toURI());
+    logger.info("load {} from : {}", result.getFileName() ,buildUrl);
+}
+return result;
+</code></pre>
+
+<p>}
+```</p>
+
+<h1>Resource</h1>
+
+<ul>
+<li><a href="http://docs.oracle.com/javase/tutorial/essential/io/fileio.html" title="http://docs.oracle.com/javase/tutorial/essential/io/fileio.html">Oracle官網NIO教學</a></li>
+<li><a href="http://docs.oracle.com/javase/tutorial/essential/io/legacy.html#mapping" title="http://docs.oracle.com/javase/tutorial/essential/io/legacy.html#mapping">io跟nio的轉換表</a></li>
+<li>The power of java 7 NIO.2 (JSR 203) - <a href="http://tamanmohamed.blogspot.com/2012/03/jdk7-part-1-power-of-java-7-nio2-jsr.html" title="http://tamanmohamed.blogspot.com/2012/03/jdk7-part-1-power-of-java-7-nio2-jsr.html">part
+1</a></li>
+<li><a href="http://tutorials.jenkov.com/java-nio/index.html" title="http://tutorials.jenkov.com/java-nio/index.html">Java NIO
+Tutorial</a>
+
+<ul>
+<li>一序列的Java NIO教學</li>
+</ul>
+</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

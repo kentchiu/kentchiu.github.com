@@ -1,0 +1,1668 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Kent's Blog</title>
+  <meta name="author" content="Kent">
+
+  
+  <meta name="description" content="Tomcat預設的記憶體使用量太小，調整方式如下 修改bin\catalina.sh或bin\catalina.bat 1
+2
+3
+4
+JAVA_OPTS="-Djava.awt.headless=true -Dfile.encoding=UTF-8
+-server -Xms1024m - &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.kent-chiu.com/blog/page/5">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Kent's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-39152849-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Kent's Blog</a></h1>
+  
+    <h2>Kent的學習筆記(剛從dokuwiki搬過來，內容還在整修中)</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.kent-chiu.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/03/20/tomcat_tuning/">Tomcat Tuning</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-20T00:00:00+08:00" pubdate data-updated="true">Mar 20<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/03/20/tomcat_tuning/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Tomcat預設的記憶體使用量太小，調整方式如下</p>
+
+<p>修改bin\catalina.sh或bin\catalina.bat</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>JAVA_OPTS="-Djava.awt.headless=true -Dfile.encoding=UTF-8
+</span><span class='line'>-server -Xms1024m -Xmx1024m
+</span><span class='line'>-XX:NewSize=512m -XX:MaxNewSize=512m -XX:PermSize=512m
+</span><span class='line'>-XX:MaxPermSize=512m -XX:+DisableExplicitGC"</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/03/20/testing_jsp_in_jetty/">Testing JSP in Jetty Server (Embedded Mode)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-20T00:00:00+08:00" pubdate data-updated="true">Mar 20<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/03/20/testing_jsp_in_jetty/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>package com.bellwin.idcview.login.page;
+</span><span class='line'> 
+</span><span class='line'>import static org.junit.Assert.assertTrue;
+</span><span class='line'> 
+</span><span class='line'>import org.eclipse.jetty.server.Connector;
+</span><span class='line'>import org.eclipse.jetty.server.Server;
+</span><span class='line'>import org.eclipse.jetty.server.nio.SelectChannelConnector;
+</span><span class='line'>import org.eclipse.jetty.webapp.WebAppContext;
+</span><span class='line'>import org.junit.Before;
+</span><span class='line'>import org.junit.BeforeClass;
+</span><span class='line'> 
+</span><span class='line'>import com.gargoylesoftware.htmlunit.WebClient;
+</span><span class='line'> 
+</span><span class='line'>public abstract class AbstractContainerTest {
+</span><span class='line'>    protected static PauseableServer server;
+</span><span class='line'> 
+</span><span class='line'>    protected static final int port = 9180;
+</span><span class='line'> 
+</span><span class='line'>    protected static final String BASEURI = "http://localhost:" + port + "/";
+</span><span class='line'> 
+</span><span class='line'>    protected final WebClient webClient = new WebClient();
+</span><span class='line'> 
+</span><span class='line'>    @BeforeClass
+</span><span class='line'>    public static void startContainer() throws Exception {
+</span><span class='line'>        if (server == null) {
+</span><span class='line'>            server = new PauseableServer();
+</span><span class='line'>            Connector connector = new SelectChannelConnector();
+</span><span class='line'>            connector.setPort(port);
+</span><span class='line'>            server.setConnectors(new Connector[]{connector});
+</span><span class='line'>            server.setHandler(new WebAppContext("src/main/webapp", "/"));
+</span><span class='line'>            server.start();
+</span><span class='line'>            assertTrue(server.isStarted());
+</span><span class='line'>        }
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>    @Before
+</span><span class='line'>    public void beforeTest() {
+</span><span class='line'>        webClient.setThrowExceptionOnFailingStatusCode(true);
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>    public void pauseServer(boolean paused) {
+</span><span class='line'>        if (server != null) {
+</span><span class='line'>            server.pause(paused);
+</span><span class='line'>        }
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>    public static class PauseableServer extends Server {
+</span><span class='line'>        public synchronized void pause(boolean paused) {
+</span><span class='line'>            try {
+</span><span class='line'>                if (paused) {
+</span><span class='line'>                    for (Connector connector : getConnectors()) {
+</span><span class='line'>                        connector.stop();
+</span><span class='line'>                    }
+</span><span class='line'>                } else {
+</span><span class='line'>                    for (Connector connector : getConnectors()) {
+</span><span class='line'>                        connector.start();
+</span><span class='line'>                    }
+</span><span class='line'>                }
+</span><span class='line'>            } catch (Exception e) {
+</span><span class='line'>            }
+</span><span class='line'>        }
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>package com.bellwin.idcview.login.page;
+</span><span class='line'> 
+</span><span class='line'>import java.io.IOException;
+</span><span class='line'>import java.net.MalformedURLException;
+</span><span class='line'> 
+</span><span class='line'>import org.junit.Before;
+</span><span class='line'>import org.junit.Test;
+</span><span class='line'> 
+</span><span class='line'>import com.gargoylesoftware.htmlunit.ElementNotFoundException;
+</span><span class='line'>import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
+</span><span class='line'>import com.gargoylesoftware.htmlunit.WebAssert;
+</span><span class='line'>import com.gargoylesoftware.htmlunit.html.HtmlCheckBoxInput;
+</span><span class='line'>import com.gargoylesoftware.htmlunit.html.HtmlForm;
+</span><span class='line'>import com.gargoylesoftware.htmlunit.html.HtmlInput;
+</span><span class='line'>import com.gargoylesoftware.htmlunit.html.HtmlPage;
+</span><span class='line'> 
+</span><span class='line'>public class ContainerIntegrationTest extends AbstractContainerTest {
+</span><span class='line'> 
+</span><span class='line'>    @Before
+</span><span class='line'>    public void logOut() throws IOException {
+</span><span class='line'>        // Make sure we are logged out
+</span><span class='line'>        final HtmlPage homePage = webClient.getPage(BASEURI);
+</span><span class='line'>        try {
+</span><span class='line'>            homePage.getAnchorByHref("/logout.jsp").click();
+</span><span class='line'>        }
+</span><span class='line'>        catch (ElementNotFoundException e) {
+</span><span class='line'>            //Ignore
+</span><span class='line'>        }
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>    @Test
+</span><span class='line'>    public void logIn() throws FailingHttpStatusCodeException, MalformedURLException, IOException, InterruptedException {
+</span><span class='line'>        HtmlPage page = webClient.getPage(BASEURI + "login.jsp");
+</span><span class='line'>        HtmlForm form = page.getFormByName("loginform");
+</span><span class='line'>        form.&lt;HtmlInput&gt;getInputByName("username").setValueAttribute("root");
+</span><span class='line'>        form.&lt;HtmlInput&gt;getInputByName("password").setValueAttribute("secret");
+</span><span class='line'>        page = form.&lt;HtmlInput&gt;getInputByName("submit").click();
+</span><span class='line'>        // This'll throw an expection if not logged in
+</span><span class='line'>        page.getAnchorByHref("/logout.jsp");
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>    @Test
+</span><span class='line'>    public void logInAndRememberMe() throws Exception {
+</span><span class='line'>        HtmlPage page = webClient.getPage(BASEURI + "login.jsp");
+</span><span class='line'>        HtmlForm form = page.getFormByName("loginform");
+</span><span class='line'>        form.&lt;HtmlInput&gt;getInputByName("username").setValueAttribute("root");
+</span><span class='line'>        form.&lt;HtmlInput&gt;getInputByName("password").setValueAttribute("secret");
+</span><span class='line'>        HtmlCheckBoxInput checkbox = form.getInputByName("rememberMe");
+</span><span class='line'>        checkbox.setChecked(true);
+</span><span class='line'>        page = form.&lt;HtmlInput&gt;getInputByName("submit").click();
+</span><span class='line'>        server.stop();
+</span><span class='line'>        server.start();
+</span><span class='line'>        page = webClient.getPage(BASEURI);
+</span><span class='line'>        // page.getAnchorByHref("/logout.jsp");
+</span><span class='line'>        WebAssert.assertLinkPresentWithText(page, "Log out");
+</span><span class='line'>        page = page.getAnchorByHref("/account").click();
+</span><span class='line'>        // login page should be shown again - user remembered but not authenticated
+</span><span class='line'>        WebAssert.assertFormPresent(page, "loginform");
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You may want to logging message during Server starting.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;logger name="org.eclipse.jetty.util.log" additivity="false"&gt;
+</span><span class='line'>    &lt;level value="debug" /&gt;
+</span><span class='line'>    &lt;appender-ref ref="stdout" /&gt;
+</span><span class='line'>&lt;/logger&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/03/20/test_exception_in_junit/">Test Exception in JUnit</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-20T00:00:00+08:00" pubdate data-updated="true">Mar 20<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/03/20/test_exception_in_junit/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>之前遇到測exception message都還改回用try catch，原來，可以用mock
+like的方式去測exception message.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@Rule
+</span><span class='line'>public ExpectedException thrown = ExpectedException.none();
+</span><span class='line'> 
+</span><span class='line'>@Test
+</span><span class='line'>public void shouldNotLetUnknownUserLogin() throws UnknownUserException {
+</span><span class='line'>    thrown.expect(UnknownUserException.class);
+</span><span class='line'>    thrown.expectMessage("Unknown user: joe");
+</span><span class='line'>    UserDao dao = mock(UserDao.class);
+</span><span class='line'>    when(dao.findByName("joe")).thenReturn(null);
+</span><span class='line'>    manager.setUserDao(dao);
+</span><span class='line'>    manager.login("joe","secret");
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>thrown.expectMessage(JUnitMatchers.containsString("joe"));</span></code></pre></td></tr></table></div></figure>
+
+
+<p>code snippet is from
+<a href="http://weblogs.java.net/blog/johnsmart/archive/2009/09/27/testing-exceptions-junit-47" title="http://weblogs.java.net/blog/johnsmart/archive/2009/09/27/testing-exceptions-junit-47">here</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/03/20/tdd_in_android/">在Android進行TDD式的開發</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-20T00:00:00+08:00" pubdate data-updated="true">Mar 20<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/03/20/tdd_in_android/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>網路上的android的testing教學，基本上都不太算是真正的unit
+testing，而比較像是Integration
+Testing(整合測試)，因為大多都需要在模擬器或實機中執行測試，這樣便與環境相關。</p>
+
+<p>目前找到最能接近<a href="http://en.wikipedia.org/wiki/Test%20Driven%20Development" title="http://en.wikipedia.org/wiki/Test Driven Development">Test Driven
+Development</a>的方式，是使用<a href="http://pivotal.github.com/robolectric/index.html" title="http://pivotal.github.com/robolectric/index.html">Robolectric</a>進行真正的Unit
+Test。</p>
+
+<h3>開發環境設定 (使用ADT)</h3>
+
+<p>robolectric的開發環境設定比較不一樣，務必參考它網站上的教學一步一步做，主要的關鍵在Test
+Project是一般的java project，透過Eclipse Link
+Folder的功能，把測試程式link到Test Project。</p>
+
+<p>照<a href="http://pivotal.github.com/robolectric/eclipse-quick-start.html" title="http://pivotal.github.com/robolectric/eclipse-quick-start.html">網站上的教學</a>做完後，會有一個試車的動作，如果run起來有出exception，可能sdk版本沒設好，1.0-rc版的Robolectric，預設是sdk
+version是9
+，如果沒有這一版本的sdk，就會出錯，只要設定<strong>uses-sdk</strong>即可改變Robolectric預設的版本。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  &lt;uses-sdk android:targetSdkVersion="10" android:minSdkVersion="10"&gt;&lt;/uses-sdk&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>開發環境設定 (使用Maven)</h3>
+
+<p>不太建議用maven進行android的開發，maven的一些預設的設定，跟ADT產生出來的專案結構不太一樣，而且使用上也比ADT麻煩多了，除非有特殊需求(ex:android
+project要上CI)，不然真的是不建議。</p>
+
+<p>我自已是會開一個maven
+base的專案，不過主要目的是為了要抓相關的lib，實際開發上，還是直接用ADT，而且不掛任何maven的plugins(eclipse的plugin，不是maven本身的plugin)</p>
+
+<h3>Database 測試</h3>
+
+<p>Database的測試需要特別注意，robolectric裡的Shadow
+Database是用H2實作，而非SQLite，而且，H2會使用in-momery的方式建立table，所以，可能在同一個test的case的同一個method，你沒也辦法去insert一筆資料後，再透過query把它找出來，目前正在尋找適當的solution
+(也有可能是我的使用方式有錯)</p>
+
+<p>整個專案下做下來，用robolectric遇到了不少問題，讓我有IOC
+container流行前做TDD的那種痛苦，很多測試都很難進行，寫測寫變成一種痛苦，而不是快樂。</p>
+
+<p>主要的原因在於robolectric的原理是用shadow
+object，很多行為都沒有真正進行實作，都是傳回物件的預設值，裡面沒有任何
+behaviors, 而且又沒提供一個很容易的方式去動態的改變這種shadow
+object的動作方式，造成測試上的困擾。</p>
+
+<h1>Resource</h1>
+
+<ul>
+<li><a href="http://pivotal.github.com/robolectric/index.html" title="http://pivotal.github.com/robolectric/index.html">http://pivotal.github.com/robolectric/index.html</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/03/20/style_and_theme_101/">Android Style & Theme 101</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-20T00:00:00+08:00" pubdate data-updated="true">Mar 20<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/03/20/style_and_theme_101/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>IDE (eclipse ADT)提供UI相關的功能</h3>
+
+<h4>Theme editor</h4>
+
+<p>![](http://tools.android.com/screenshots/layout-editor2.png&#8221;</p>
+
+<h4>Asset Studio Integration (ADT 14+)</h4>
+
+<p>支援的類型</p>
+
+<p><img src="http://tools.android.com/recent/assetstudiointegration/assetstudio-launcher3.png" alt="" /></p>
+
+<p>效果</p>
+
+<p><img src="http://tools.android.com/recent/assetstudiointegration/assetstudio-launcher3.png" alt="" /></p>
+
+<h2>自訂ProgressBar</h2>
+
+<p>客製化ProgressBar是滿常見的需求，如果希望你的ProgrssBar(SeekBar)長得跟原來不一樣，那可以參考下面的資源</p>
+
+<ol>
+<li><a href="http://www.anddev.org/seekbar_progressbar_customizing-t6083.html" title="http://www.anddev.org/seekbar_progressbar_customizing-t6083.html">http://www.anddev.org/seekbar_progressbar_customizing-t6083.html</a></li>
+<li><a href="http://bytecrafter.blogspot.com/2008/12/using-horizontal-progress-bar-in.html" title="http://bytecrafter.blogspot.com/2008/12/using-horizontal-progress-bar-in.html">http://bytecrafter.blogspot.com/2008/12/using-horizontal-progress-bar-in.html</a></li>
+</ol>
+
+
+<h1>TBD</h1>
+
+<ol>
+<li>無前找不到方法可以用程式在runtime去設定style，不過，可以透過設定元件的屬性(attributes)來達到相同的功能</li>
+</ol>
+
+
+<h1>Resource</h1>
+
+<ul>
+<li><a href="http://developer.android.com/guide/practices/ui_guidelines/icon_design.html" title="http://developer.android.com/guide/practices/ui_guidelines/icon_design.html">icon設計指南</a>
+官網</li>
+<li><a href="http://henzil.easymorse.com/?p=364" title="http://henzil.easymorse.com/?p=364">android
+Theme使用总结</a>
+
+<ul>
+<li>小陌的博客</li>
+</ul>
+</li>
+<li><a href="http://android.yaohuiji.com/archives/tag/style" title="http://android.yaohuiji.com/archives/tag/style">Android中的主题和风格学习指南</a></li>
+<li>各版本的<a href="http://www.fixedd.com/projects/android_drawables_display" title="http://www.fixedd.com/projects/android_drawables_display">Android系统中圖片資源</a>,
+也可以直接<a href="http://www.java2s.com/Code/Jar/a/Downloadandroid8jar.htm" title="http://www.java2s.com/Code/Jar/a/Downloadandroid8jar.htm">抓jar</a>下來解壓</li>
+<li><a href="http://android.yaohuiji.com/archives/2389" title="http://android.yaohuiji.com/archives/2389">Android2.2系统中自带的自带样式styles.xml</a>
+
+<ul>
+<li>來源<a href="http://android.yaohuiji.com/about" title="http://android.yaohuiji.com/about">{ Android学习指南
+}</a></li>
+</ul>
+</li>
+<li><a href="http://android.yaohuiji.com/archives/2390" title="http://android.yaohuiji.com/archives/2390">Android2.2系统中自带themes.xml</a>
+
+<ul>
+<li>來源<a href="http://android.yaohuiji.com/about" title="http://android.yaohuiji.com/about">{ Android学习指南
+}</a></li>
+</ul>
+</li>
+<li><a href="http://developer.android.com/reference/android/package-summary.html" title="http://developer.android.com/reference/android/package-summary.html">Android內建的一些資源</a></li>
+<li><a href="http://www.dibbus.com/2011/03/9patch-images-in-android/" title="http://www.dibbus.com/2011/03/9patch-images-in-android/">漂亮的Button效果</a></li>
+<li><a href="http://www.dibbus.com/2011/08/even-more-gradient-buttons-for-android/" title="http://www.dibbus.com/2011/08/even-more-gradient-buttons-for-android/">漸層效果的型錄</a>
+<a href="http://code.google.com/p/android-gradients-sample/" title="http://code.google.com/p/android-gradients-sample/">完整的source</a>
+
+<h2><img src="/images/wiki/android/style_and_theme_101_001.png" alt="style_and_theme_101_001.png" /></h2></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/03/20/shiro_101/">Apache Shiro 101</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-20T00:00:00+08:00" pubdate data-updated="true">Mar 20<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/03/20/shiro_101/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Apache <a href="http://shiro.apache.org/" title="http://shiro.apache.org/">Shiro</a>
+(之前叫JSecurity)是<a href="http://en.wikipedia.org/wiki/Role-based_access_control" title="http://en.wikipedia.org/wiki/Role-based_access_control">RBAC</a>權限系統，也就是以角色為主的權限。
+目前survey過的幾套java base的權限系統有</p>
+
+<ol>
+<li><a href="http://static.springsource.org/spring-security/site/index.html" title="http://static.springsource.org/spring-security/site/index.html">Spring
+Security</a>(之前叫Acige
+Security)</li>
+<li><a href="http://jpasecurity.sourceforge.net/" title="http://jpasecurity.sourceforge.net/">JPA
+Security</a></li>
+<li><a href="http://incubator.apache.org/shiro/index.html" title="http://incubator.apache.org/shiro/index.html">Apache
+Shiro</a>(之前叫JSecurity或ki)</li>
+</ol>
+
+
+<h5>Spring Security</h5>
+
+<p>之前做文件管理系統時有採用過，很強大，但使用上也很複雜，特點是透過AOP來管控access，
+而且可以依權限產生相對的Query (sql query or JPA query).
+但目前一定要搭著Spring使用<img src="http://wiki.kent-chiu.com/lib/images/smileys/icon_sad.gif" alt=":-(" /></p>
+
+<h5>JPA Security</h5>
+
+<p>透過Annotation控管權限，特點是owner-ship(擁有權)的處理，而且會依不同的權限，產生不同的query條件(where
+conditions)</p>
+
+<h5>Apache Shiro</h5>
+
+<p>Apache
+Shiro的特色在permission的管控，所有的permission是透過特定格式的文字來記錄，語法大概像這樣
+<code>domain:operations:instance</code>，並搭配wildcard(通配字元)進行較大範圍的控制。</p>
+
+<h1>WildcardPermission</h1>
+
+<p>Format:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>domain:action:instances</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Simple Usage</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>editNewsletter 新聞編輯的權限
+</span><span class='line'>*              所有的權限(root)</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Multiple Levels</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>newsletter:edit             新聞編輯的權限
+</span><span class='line'>newsletter:edit,remove,add  新聞編輯、移除、加入的權限
+</span><span class='line'>newsletter:*                新聞所有的權限
+</span><span class='line'>*:view                      所有VIEW的權限</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Instance-level Access Control</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>newsletter:edit:12,13,18   對12,13,18這三則新聞編輯的權限
+</span><span class='line'>newsletter:*:12,13,18      對12,13,18這三則新聞所有的權限
+</span><span class='line'>newsletter:*:*             對所有新聞的所有權限</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>Modeling</h1>
+
+<p>以下是Shiro的創建者Les Hazlewood建議的modeling方式</p>
+
+<p>Les general rule of thumb:</p>
+
+<ol>
+<li>a Role is a named Set of permissions</li>
+<li>a User &#8216;has&#8217; a Set of one or more Roles</li>
+<li>a User &#8216;has&#8217; a Set of permissions for <strong>that-user-only</strong> permissions
+(not shared with anyone else - otherwise they&#8217;d go in a Role)</li>
+<li>a Group is a named Set of &#8216;Party&#8217; objects (a User is a Party and a
+Group is a Party - allowing for instances of both to exist in
+hierarchical Party trees)</li>
+</ol>
+
+
+<p>Les並建議不要採用deney的方式modeling權限，而且採用Aggregated Roles的方式
+(<a href="http://shiro-user.582556.n2.nabble.com/Permission-Implementation-td3554707.html#a3554707" title="http://shiro-user.582556.n2.nabble.com/Permission-Implementation-td3554707.html#a3554707">原文參考</a>)</p>
+
+<p>針對第三點，Kent還是偏好用<strong>that-user-only</strong>
+role，而不是直接把permission指派給user</p>
+
+<h3>Instance Level範例</h3>
+
+<p>權限系統中，Kent個人認為，最關鍵也是最麻煩的地方在對Instance Level
+resource的管控。
+也就怎如何控制，具有相同角色(也就是擁有相同的權限)的人對相同類型的資源，有不同的控制能力。
+舉例來說： IT Manager跟ServiceDesk
+Manager都具有部門主管的角色，所以都擁有業務審核(auditing)的權限，
+但因為IT Manager是IT部門主管，Service Desk
+Manager是ServiceDesk主管，所以</p>
+
+<ul>
+<li>IT Manager只能審核IT部門的業務</li>
+<li>Service Desk Manager只能審核ServiceDesk部門的業務</li>
+</ul>
+
+
+<p>正常來說設計成</p>
+
+<ul>
+<li>部門主管擁有審核的權限</li>
+</ul>
+
+
+<p>會比</p>
+
+<ul>
+<li>IT Manager只能審核IT部門的業務</li>
+<li>Service Desk Manager只能審核Service Desk部門的業務</li>
+</ul>
+
+
+<p>來的直覺，而且比較符合Business
+Rules，而且不會造成角色爆炸問題(如果有100個部門，就要需100個角色^<a href="#fn__1">1)</a>^)</p>
+
+<p>要達到第一種的設計方式，就是要從Instance Level的權限來做管控。 像這樣:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># IT Manager
+</span><span class='line'>performance:auditing:it_department_id
+</span><span class='line'># Service Desk Manager
+</span><span class='line'>performance:auditing:it_servicedesk_id</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>performance:auditing:it_department_id</code>或<code>performance:auditing:it_servicedesk_id</code>指派給Manager
+Role時 Manager Role會同時具有IT, ServiceDesk
+Manager的權限，可是，我們要的是讓每個部門的Manager有專屬的權限，此時就需要把權限指派給
+User，更好的方式是讓每個User擁有自已專屬的Role，然後指<code>performance:auditing:it_department_id</code>或<code>performance:auditing:it_servicedesk_id</code>指派給User的role，並讓user具有manager的role
+。這樣，不但可以保持只有一個叫<code>Manager</code>的Role，而且IT manager跟Service
+Desk的權限是不同的。 ^<a href="#fn__2">2)</a>^</p>
+
+<h1>Things that need to know</h1>
+
+<ol>
+<li>Shiro的實際運用上，permission會比role更實用，實作時，
+應該是針對permission。</li>
+<li>Shiro會cache住AuthorizationInfo，你可以透過<code>clearCachedAuthorizationInfo</code>來refresh
+caching</li>
+<li>Shiro並未提供直接的API去異動role, permission…，必須自行extend
+Realm以達到這個功能</li>
+<li>Shiro並未提供直接Group，Role Hierarchal, Role(Group)
+Inheritance等data model，但有需要的話，可以自行實作
+(<a href="http://shiro-user.582556.n2.nabble.com/Privilages-inheritance-in-groups-td3253048.html#a3253048" title="http://shiro-user.582556.n2.nabble.com/Privilages-inheritance-in-groups-td3253048.html#a3253048">範例</a>)</li>
+</ol>
+
+
+<h1>Resources</h1>
+
+<ul>
+<li><a href="http://incubator.apache.org/shiro/permissions.html" title="http://incubator.apache.org/shiro/permissions.html">Shiro
+permissions</a></li>
+</ul>
+
+
+<p>^<a href="#fnt__1">1)</a>^
+也有人主張可以把權限直接直派給<strong>人</strong>而不是角色，來解決這樣的問題,詳見note說明</p>
+
+<p>^<a href="#fnt__2">2)</a>^ 或許有更好的解法</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/03/20/servlet_and_jsp_page_encoding_setting/">Servlet and JSP Encoding Setting</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-20T00:00:00+08:00" pubdate data-updated="true">Mar 20<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/03/20/servlet_and_jsp_page_encoding_setting/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Setting encoding filter and JSP page encoding in web.xml could fix
+encoding issue.</p>
+
+<p>servlet filter.</p>
+
+<p>JSP page encoding. Without this, you need put
+<code>&lt;%@ page language=“java” contentType=“text/html; charset=UTF-8” pageEncoding=“UTF-8”%&gt;</code>
+in every JSP pages.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;jsp-config&gt;
+</span><span class='line'>    &lt;jsp-property-group&gt;
+</span><span class='line'>        &lt;url-pattern&gt;*.jsp&lt;/url-pattern&gt;
+</span><span class='line'>        &lt;page-encoding&gt;UTF-8&lt;/page-encoding&gt;
+</span><span class='line'>    &lt;/jsp-property-group&gt;
+</span><span class='line'>&lt;/jsp-config&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/03/20/service_101/">Android Service 101</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-20T00:00:00+08:00" pubdate data-updated="true">Mar 20<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/03/20/service_101/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Android
+Service可以視為Windows的系統服務或Linux的Daemons，可以長時間在存在系統中(不一定要直在活動狀態)，而且，他有自已的生命周期函數，不會隨著Activity的消滅而消滅。</p>
+
+<p>Android有兩種類型的services</p>
+
+<ol>
+<li>Local Service</li>
+<li>Remote Service (透過AIDL定義)</li>
+</ol>
+
+
+<p>Local Service是該應用程式自已內部要使用的service，而Remote
+Service則可提供給其他應用程式使用。Service執行時，一樣是執行在Main
+Thread(UI Thread)，所以，service會影響到
+UI的操作效能，如果service執行的時間很短，那問題不大
+，一但service要執行很久的時間，那應該要採用<a href="http://wiki.kent-chiu.com/doku.php?id=android:background_processing" title="android:background_processing">背景服務</a>的方式來處理，也就是在service內另外</p>
+
+<p>如果想讓serivce裡的worker
+thread只有一個instance，可以在oncreate建立，這樣就能讓thread
+instance(或者是<a href="http://developer.android.com/reference/java/util/concurrent/ExecutorService.html" title="http://developer.android.com/reference/java/util/concurrent/ExecutorService.html">ExecutorService</a>)只有一份</p>
+
+<p>Android有提供另一個跟Service一樣，適合在背景作業的機制叫<a href="http://developer.android.com/reference/android/content/BroadcastReceiver.html" title="http://developer.android.com/reference/android/content/BroadcastReceiver.html">Broadcast
+Receiver</a>，至於何時該用Servce，何時該用Broadcast
+Receiver可以參考<a href="http://developer.android.com/resources/articles/multitasking-android-way.html" title="http://developer.android.com/resources/articles/multitasking-android-way.html">這篇</a>文章</p>
+
+<h4>Service</h4>
+
+<p>下面是一個簡單的service，<code>onBind()</code>如果不是要做<a href="#bound_service" title="android:service_101 ↵">Bound
+Service</a>的話，就直接return
+null即可，而<code>onStartCommand()</code>則是service主要要實作的部份
+，依收到的intent去決定要實作那些功能，如果比較耗時的功能，記得用<a href="http://wiki.kent-chiu.com/doku.php?id=android:background_processing" title="android:background_processing">Android
+背景作業處理</a>處理，因為service<code>並不是執行在另一個thread</code>。</p>
+
+<p>如果想讓Service執行成另一個獨立的process，可以透過設定service的xml中的process屬性，像這樣</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;service
+</span><span class='line'>    android:name="WordService"
+</span><span class='line'>    android:process=":my_process" 
+</span><span class='line'>    android:icon="@drawable/icon"
+</span><span class='line'>    android:label="@string/service_name"
+</span><span class='line'>    &gt;
+</span><span class='line'>&lt;/service&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Service的啟動與停止是透過Context中的<code>startService(Intent)</code>及<code>stopService(Intent service)</code>，Activity,Service跟Application都是繼承自Context，所以可以直接呼叫。</p>
+
+<p>比較值得注意的地方為<code>onStartCommand()</code>的傳回值部份，這個跟Service Life
+cycle有關。在系統需要資源時，系統可能會把service給kill掉，而之後等系統比較有空時，
+會再自動把service給叫回來，但這個行為，可以透過指定<code>onStartCommand()</code>的傳回值來改變，有效的傳回值有:</p>
+
+<ol>
+<li>START_STICKY :
+預設的行為，service被系統kill掉後或做完工作後，系統會restart
+service，一般要停止service話，是透過stopService()，或stopSelf()</li>
+<li>START_NOT_STICKY : 如果serice做完工作後，系統會stop
+service，而不是restart
+service，這個很適用來做周期的工作(比如說每15分鐘檢查一次mail
+box)，而不是一直不斷執行的任務，下次收到intent</li>
+<li>START_REDELIVER_INTENT :
+跟START_NOT_STICKY很像，這個適合用來做失敗時會再重做n次的工作，它會在工作沒能成功做完時再次呼叫自己</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public class MyService extends Service {
+</span><span class='line'> 
+</span><span class='line'>    @Override
+</span><span class='line'>    public IBinder onBind(Intent intent) {
+</span><span class='line'>        return null;
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>    @Override
+</span><span class='line'>    public int onStartCommand(Intent intent, int flags, int startId) {
+</span><span class='line'>        return super.onStartCommand(intent, flags, startId);
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Intent Service</h4>
+
+<p><a href="http://developer.android.com/reference/android/app/IntentService.html" title="http://developer.android.com/reference/android/app/IntentService.html">IntentService</a>會產生一個額外的worker
+thread所以<strong>不需要</strong>在IntentService裡另外使用Thread或AsncTask，但也因為這樣，在IntentService裡做UI動作時，要確定是發生在MainThread</p>
+
+<p>如果要在Intent Service裡對UI進行操作，可以透過Handler的機制</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public class MyService extends IntentService {
+</span><span class='line'> 
+</span><span class='line'>    public MyService() { 
+</span><span class='line'>      super("MyIntentService"); // constructor一定要有一個default的(無參數的)
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>    private Handler handler = new Handler(); // 在這邊宣告的Handler，是attach在Main Thread上面的
+</span><span class='line'> 
+</span><span class='line'>    @Override
+</span><span class='line'>    protected void onHandleIntent(Intent intent) {
+</span><span class='line'>        // 透過attach在Main Thread上面的的handler post的method內的動作，可以對UI進行操作
+</span><span class='line'>        handler.post(new Runnable() {
+</span><span class='line'>            @Override
+</span><span class='line'>            public void run() {
+</span><span class='line'>                Toast.makeText(MyService.this, "Some Message" , Toast.LENGTH_SHORT).show();
+</span><span class='line'>            }
+</span><span class='line'>        });
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Intent Serivce的<code>onStartCommand()</code>實作如下，由實作可以知道Intent
+Service是用來處理一次性的服務，發一次intent，就把該intent要做的事做完後就停止service，而不是讓service一直在執行</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@Override
+</span><span class='line'>public int onStartCommand(Intent intent, int flags, int startId) {
+</span><span class='line'>    onStart(intent, startId);
+</span><span class='line'>    return mRedelivery ? START_REDELIVER_INTENT : START_NOT_STICKY;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Remote Service</h3>
+
+<p>Remote
+Service跟寫一般RMI(RPC)的程式流程上差不多，定義interface(AIDL)，產生stub
+code，實作stub
+code，實作完是直接使用service，而不是透過intent呼叫。也跟一般的RMI一樣，你必須認真面對複雜型別的Serialization問題。</p>
+
+<h1>Bound Service</h1>
+
+<p>Bound
+Service中的Bound的意思是要跟某個Activity”綁定”，也就是說，這個service的生命周期會受到Activity所控制。</p>
+
+<ul>
+<li>binding是非同步的，也就是，service ready時，才會call back
+ServiceConnection.onServiceConnected() method;</li>
+<li>Binder不要宣告成非static的inner class，不然會發生service
+leaking的問題</li>
+</ul>
+
+
+<p>通用型的Local Service Binder,可適用於大部份的情況</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public class LocalBinder&lt;S&gt; extends Binder {
+</span><span class='line'>    private  WeakReference&lt;S&gt; service;
+</span><span class='line'> 
+</span><span class='line'> 
+</span><span class='line'>    public LocalBinder(S service){
+</span><span class='line'>        this.service = new WeakReference&lt;S&gt;(service);
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'> 
+</span><span class='line'>    public S getService() {
+</span><span class='line'>        return service.get();
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>那何時需要用到Bound Service，通常是在</p>
+
+<ol>
+<li>希望service的生命周期activity跟一致(一般的service啟動後，就會一直執在背景執行，直到收到stop或被系統kill)</li>
+<li>不希望service在沒預期的情況下被系統kill
+(系統會在資料不足情況下<a href="http://wiki.kent-chiu.com/doku.php?id=android:%E4%BE%9D%E5%BA%8F" title="android:依序">依序</a>殺掉process，當然，你也可以透過<a href="http://developer.android.com/reference/android/app/Service.html#startForeground(int,%20android.app.Notification">startForeground()</a> &#8220;http://developer.android.com/reference/android/app/Service.html#startForeground(int, android.app.Notification)&#8221;)來<strong>降低</strong>被殺掉的機率)</li>
+<li>希望在activity內可以直接對service進行更多操作 (local
+service要透過intent啟動，停止或進行其他command)</li>
+</ol>
+
+
+<h3>開機後自動啟動的Service</h3>
+
+<p>開機後自動啟動的Service算是很常見的應用，很多的app都有這樣的需求，要達到這樣的功能，可以透過BroadcastReceiver去接收<code>android.intent.action.BOOT_COMPLETED</code>的系統事件，這個事件會在開機完成後被廣播一次。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public class MyReceiver extends BroadcastReceiver {
+</span><span class='line'> 
+</span><span class='line'>    @Override
+</span><span class='line'>    public void onReceive(Context context, Intent intent) {
+</span><span class='line'>        Intent service = new Intent(context, MyService.class);
+</span><span class='line'>        context.startService(service);
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>    &lt;receiver android:name="MyReciever" &gt;
+</span><span class='line'>        &lt;intent filter="" &gt;
+</span><span class='line'>            &lt;action android:name="android.intent.action.BOOT_COMPLETED" /&gt;
+</span><span class='line'>        &lt;/intent&gt;
+</span><span class='line'>    &lt;/receiver&gt;
+</span><span class='line'>    &lt;uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" /&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果程式放在SD
+Card上，recive的xml設定檔還要去註冊<code>android.intent.action.ACTION_EXTERNAL_APPLICATIONS_AVAILABLE</code>，另外，在Android
+3.0之後，程式至少要被執行過一次才會接到這個廣播事件。</p>
+
+<h1>Resources</h1>
+
+<ul>
+<li><a href="http://www.ozdroid.com/#!BLOG/2010/12/19/How_to_make_a_local_Service_and_bind_to_it_in_Android" title="http://www.ozdroid.com/#!BLOG/2010/12/19/How_to_make_a_local_Service_and_bind_to_it_in_Android">http://www.ozdroid.com/#!BLOG/2010/12/19/How_to_make_a_local_Service_and_bind_to_it_in_Android</a>
+
+<ul>
+<li>service binding的介紹</li>
+</ul>
+</li>
+<li><a href="http://developer.android.com/resources/articles/multitasking-android-way.html" title="http://developer.android.com/resources/articles/multitasking-android-way.html">http://developer.android.com/resources/articles/multitasking-android-way.html</a>
+
+<ul>
+<li>關於android
+multitasking的介紹，可以更瞭解service的設計與使用的時機</li>
+</ul>
+</li>
+<li><a href="http://www.vogella.de/articles/AndroidServices/article.html" title="http://www.vogella.de/articles/AndroidServices/article.html">http://www.vogella.de/articles/AndroidServices/article.html</a></li>
+</ul>
+
+
+<p>[broadcast</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/03/20/roboguice_101/">RoboGuice 101</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-20T00:00:00+08:00" pubdate data-updated="true">Mar 20<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/03/20/roboguice_101/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>以下的內容僅適用於RoboGuice 2.X</p>
+
+<p>RoboGuice是在android使用google
+guice最簡單的方式，而且，它還額外提供<code>@InjectView</code>,<code>@InjectResource</code>可以將元件或資料直接注入RoboActivity中.</p>
+
+<h5>設定Activity使用RoboActivity</h5>
+
+<p>原本的HelloAndroidActivity是繼承Activity，為了讓Activity可以被自動injected，HelloAndroidActivity需改繼承自RoboActivity</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public class HelloAndroidActivity extends RoboActivity {
+</span><span class='line'> 
+</span><span class='line'>    private static String TAG = "myapp";
+</span><span class='line'> 
+</span><span class='line'>    @Override
+</span><span class='line'>    public void onCreate(Bundle savedInstanceState) {
+</span><span class='line'>        super.onCreate(savedInstanceState);
+</span><span class='line'>        setContentView(R.layout.main);
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>建立view元件(button)</h5>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+</span><span class='line'>&lt;LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+</span><span class='line'>    android:orientation="vertical"
+</span><span class='line'>    android:layout_width="fill_parent"
+</span><span class='line'>    android:layout_height="fill_parent"
+</span><span class='line'>    &gt;
+</span><span class='line'>&lt;TextView  
+</span><span class='line'>    android:layout_width="fill_parent" 
+</span><span class='line'>    android:layout_height="wrap_content" 
+</span><span class='line'>    android:text="@string/hello"
+</span><span class='line'>    /&gt;
+</span><span class='line'>&lt;!-- 新增一個button的view元件，並將id設定為MyButton --&gt;    
+</span><span class='line'>&lt;Button android:id="@+id/MyButton" android:text="Button" android:layout_width="wrap_content" android:layout_height="wrap_content"&gt;&lt;/Button&gt;
+</span><span class='line'>&lt;/LinearLayout&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>將view元件(button)注入Activity中</h5>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public class HelloAndroidActivity extends RoboActivity {
+</span><span class='line'> 
+</span><span class='line'>    @InjectView(R.id.MyButton)
+</span><span class='line'>    Button button;
+</span><span class='line'> 
+</span><span class='line'>    private static String TAG = "myapp";
+</span><span class='line'> 
+</span><span class='line'>    @Override
+</span><span class='line'>    public void onCreate(Bundle savedInstanceState) {
+</span><span class='line'>        super.onCreate(savedInstanceState);
+</span><span class='line'>        Log.i(TAG, "onCreate");
+</span><span class='line'>        setContentView(R.layout.main);
+</span><span class='line'>        button.setText("Injected button");
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@InjectView(R.id.MyButton)
+</span><span class='line'>Button button;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>宣告一個button並將常常xml裡的MyButton注入這個button
+instance.上面的動作，等效於傳統的<code>findViewById()</code> method</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Button button;
+</span><span class='line'>@Override
+</span><span class='line'>public void onCreate(Bundle savedInstanceState) {
+</span><span class='line'> button = (Button) findViewById(R.id.MyButton); 
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這樣設定後，執行android application就可以看到MyButton被注入</p>
+
+<h3>InjectExtra</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public class MyActivity extends RoboActivity {
+</span><span class='line'>    @InjectExtra("foo")
+</span><span class='line'>    private int myData; // 效果等同於 myData = getIntent.getIntExtra("foo", 0)
+</span><span class='line'> 
+</span><span class='line'>    @InjectExtra(value="bar", optional=true)
+</span><span class='line'>    private String myData2; // optional如果=true，那intent中不見得要含包bar，但如果為false，intent沒有包含bar，則會出exception (預設值為false)
+</span><span class='line'>}
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Resource</h2>
+
+<ul>
+<li><a href="http://code.google.com/p/roboguice/" title="http://code.google.com/p/roboguice/">roboguice官網</a></li>
+<li><a href="http://code.google.com/p/roboguice/wiki/ProvidedInjections" title="http://code.google.com/p/roboguice/wiki/ProvidedInjections">ProvidedInjections</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/03/20/menu/">Android Menu</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-20T00:00:00+08:00" pubdate data-updated="true">Mar 20<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/03/20/menu/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><ol>
+<li>Icons Menu</li>
+<li>Expended Menu</li>
+<li>SubMenus</li>
+<li>Context Menu</li>
+</ol>
+
+
+<h5>Icons Menu</h5>
+
+<ol>
+<li>不能顯示 checkboxes, radio buttons, or the shortcut keys</li>
+<li>透過改寫 android.app.Activity.onCreateOptionsMenu(Menu)</li>
+<li>要在method一開始call super.onCreateOptionsMenu(Menu)</li>
+<li>透過改寫com.paad.todolist.ToDoList.onOptionsItemSelected(MenuItem)來處理事件</li>
+</ol>
+
+
+<h5>SubMenus</h5>
+
+<ol>
+<li>不支援巢式子選單</li>
+</ol>
+
+
+<h5>Context Menu</h5>
+
+<ol>
+<li>要註冊欲使用Context Menu的元件</li>
+<li>透過改成android.app.Activity.onCreateContextMenu(ContextMenu, View,
+ContextMenuInfo)</li>
+<li>要在method一開始call super.onCreateContextMenu(ContextMenu, View,
+ContextMenuInfo)</li>
+<li>透過改寫com.paad.todolist.ToDoList.onContextItemSelected(MenuItem)來處理事件</li>
+</ol>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/6/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/blog/page/4/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/07/07/python-101/">Python 101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/25/url-encoding/">URL Encoding</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/04/restful-api-design/">RESTful API Design</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/17/my-intellij-idea-shortcut/">My IntelliJ IDEA Shortcut</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/12/jesper-report-font-issue/">Jesper Report, IReport 匯出成中文PDF</a>
+      </li>
+    
+  </ul>
+</section>
+
+Included file &#8216;asides/twitter.html&#8217; not found in _includes directory
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Kent -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'kentchiu';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

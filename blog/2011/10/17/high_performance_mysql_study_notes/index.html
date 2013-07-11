@@ -1,0 +1,473 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>High Performance MySQL study notes - Kent's Blog</title>
+  <meta name="author" content="Kent">
+
+  
+  <meta name="description" content="Lock Control Table Locks 最基本的鎖定略策略
+成本最低
+效能較佳 動作方式 When a client wishes to write to a table (insert, delete,update, etc.),
+it acquires a write lock. &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.kent-chiu.com/blog/2011/10/17/high_performance_mysql_study_notes">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Kent's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-39152849-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Kent's Blog</a></h1>
+  
+    <h2>Kent的學習筆記(剛從dokuwiki搬過來，內容還在整修中)</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.kent-chiu.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">High Performance MySQL Study Notes</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2>Lock Control</h2>
+
+<h3>Table Locks</h3>
+
+<ul>
+<li>最基本的鎖定略策略</li>
+<li>成本最低</li>
+<li>效能較佳</li>
+</ul>
+
+
+<h4>動作方式</h4>
+
+<p>When a client wishes to write to a table (insert, delete,update, etc.),
+it acquires a write lock. This keeps all other read and write operations
+at bay. When nobody is writing, readers can obtain read locks, which
+don’t conflictwith other read locks.</p>
+
+<p>Table locks have variations for good performance in specific situations.
+For example, READ LOCAL table locks allow some types of concurrent write
+operations. <strong>Write locks also have a higher priority than read locks</strong>,
+so a request for a write lock will advance to the front of the lock
+queue even if readers are already in the queue (write locks can advance
+past read locks in the queue, but read locks cannot advance past write
+locks).</p>
+
+<h3>Row Locks</h3>
+
+<ul>
+<li>最佳的concurrency control</li>
+<li>花費較高的resources</li>
+<li>需使用InnoDB and Falcon storage engines</li>
+</ul>
+
+
+<h3>Implicit and explicit locking</h3>
+
+<p>InnoDB會依isolation level自動處理鎖定，但是也可以用SQL Commands來控制</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># method 1
+</span><span class='line'>SELECT ... LOCK IN SHARE MODE
+</span><span class='line'># method 2
+</span><span class='line'>SELECT ... FOR UPDATE</span></code></pre></td></tr></table></div></figure>
+
+
+<p>雖然MySQL有提供lock table的指令，但能不用就不要用，不論使用何種 storage
+engine，除了在transaction中而且autocommit是disabled的，不然不要使用lock
+table的指令，因為lock跟transaction的交互是相當的複雜的</p>
+
+<h2>Isolation Levels</h2>
+
+<ul>
+<li><a href="#read_uncommitted" title="mysql:high_performance_mysql_study_notes ↵">READ
+UNCOMMITTED</a></li>
+<li><a href="#read_committed" title="mysql:high_performance_mysql_study_notes ↵">READ
+COMMITTED</a></li>
+<li><a href="#repeatable_read" title="mysql:high_performance_mysql_study_notes ↵">REPEATABLE
+READ</a></li>
+<li><a href="#serializable" title="mysql:high_performance_mysql_study_notes ↵">SERIALIZABLE</a></li>
+</ul>
+
+
+<p>nonrepeatable read : running the same statement twice and see different
+data.</p>
+
+<p>phantom reads : when you select some range of rows, another transaction
+inserts a new row into the range, and then you select the same range
+<strong>again</strong>; <strong>you will then see the new “phantom” row.</strong></p>
+
+<h4>READ UNCOMMITTED</h4>
+
+<ul>
+<li>transactions can view the results of uncommitted transactions.</li>
+<li>a.k.a dirty read</li>
+<li>實務應用上用少使用</li>
+<li>效能也並末比其他的level好很多</li>
+</ul>
+
+
+<h4>READ COMMITTED</h4>
+
+<ul>
+<li>許多資料庫系統預設的level<strong>(但不包含MySQL)</strong></li>
+<li>transaction只會看到其他transactions已經commited的資料</li>
+</ul>
+
+
+<h4>REPEATABLE READ</h4>
+
+<ul>
+<li>MySQL預設的level</li>
+<li>解決<a href="#read_uncommitted" title="mysql:high_performance_mysql_study_notes ↵">READ
+UNCOMMITTED</a>的問題</li>
+<li>但還是有可能發會phantom reads的問題</li>
+<li>InnoDB and Falcon solve the phantom read problem with multiversion
+concurrency control.</li>
+</ul>
+
+
+<h4>SERIALIZABLE</h4>
+
+<ul>
+<li>解決phantom read problem問題</li>
+<li>容易發生timeout跟鎖定衝突等問題</li>
+<li>實務上也比較少用</li>
+<li>等高等級的Isolation Levels(最耗資源)</li>
+</ul>
+
+
+<h3>ANSI SQL isolation levels</h3>
+
+<p>Isolation level</p>
+
+<p>Dirty reads possible</p>
+
+<p>Nonrepeatable reads possible</p>
+
+<p>Phantom reads possible</p>
+
+<p>Locking reads READ</p>
+
+<p>UNCOMMITTED</p>
+
+<p>Yes</p>
+
+<p>Yes</p>
+
+<p>Yes</p>
+
+<p>No</p>
+
+<p>READ COMMITTED</p>
+
+<p>No</p>
+
+<p>Yes</p>
+
+<p>Yes</p>
+
+<p>No</p>
+
+<p>REPEATABLE READ</p>
+
+<p>No</p>
+
+<p>No</p>
+
+<p>Yes</p>
+
+<p>No</p>
+
+<p>SERIALIZABLE</p>
+
+<p>No</p>
+
+<p>No</p>
+
+<p>No</p>
+
+<p>Yes</p>
+
+<h2>Uncategory</h2>
+
+<h4>Transactional Tables</h4>
+
+<ol>
+<li>InnoDB</li>
+<li>Falcon</li>
+<li>PBXT</li>
+</ol>
+
+
+<h4>Non-Transactional Tables</h4>
+
+<ol>
+<li>MyISAM table</li>
+<li>Memory table</li>
+</ol>
+
+
+<p>non-transactional
+table還是可以在transaction中使用，但rollback時無法正常回復</p>
+
+<h4>Storage Engines</h4>
+
+<ol>
+<li>InnoDB</li>
+<li>NDB Cluster</li>
+<li>Falcon</li>
+</ol>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Kent Chiu</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/mysql/'>mysql</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://blog.kent-chiu.com/blog/2011/10/17/high_performance_mysql_study_notes/" data-via="" data-counturl="http://blog.kent-chiu.com/blog/2011/10/17/high_performance_mysql_study_notes/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2011/10/17/grimm_s_law/" title="Previous Post: 格林法則(Grimm's Law)">&laquo; 格林法則(Grimm's Law)</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2011/10/17/how_to_add_new_virtual_host/" title="Next Post: Add New Virtual Host">Add New Virtual Host &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/07/07/python-101/">Python 101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/25/url-encoding/">URL Encoding</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/04/restful-api-design/">RESTful API Design</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/17/my-intellij-idea-shortcut/">My IntelliJ IDEA Shortcut</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/12/jesper-report-font-issue/">Jesper Report, IReport 匯出成中文PDF</a>
+      </li>
+    
+  </ul>
+</section>
+
+Included file 'asides/twitter.html' not found in _includes directory
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Kent -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'kentchiu';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.kent-chiu.com/blog/2011/10/17/high_performance_mysql_study_notes/';
+        var disqus_url = 'http://blog.kent-chiu.com/blog/2011/10/17/high_performance_mysql_study_notes/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

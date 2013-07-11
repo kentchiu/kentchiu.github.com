@@ -1,0 +1,899 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Kent's Blog</title>
+  <meta name="author" content="Kent">
+
+  
+  <meta name="description" content="CentOS 5
+系列?? SmarTraining 工作室 LAMP install on
+CentOS5
+Subversion
+Installation
+upgrade php to
+5.3.x
+install open jdk and tomcat in
+linux Install &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.kent-chiu.com/blog/page/18">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Kent's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-39152849-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Kent's Blog</a></h1>
+  
+    <h2>Kent的學習筆記(剛從dokuwiki搬過來，內容還在整修中)</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.kent-chiu.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/centos/">CentOS</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/centos/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><ul>
+<li><a href="http://smartraining.cn/centos" title="http://smartraining.cn/centos">CentOS 5
+系列??</a>
+
+<ul>
+<li>SmarTraining 工作室</li>
+</ul>
+</li>
+<li><a href="http://wiki.kent-chiu.com/doku.php?id=centos:lamp_install" title="centos:lamp_install">LAMP install on
+CentOS5</a></li>
+<li><a href="http://wiki.kent-chiu.com/doku.php?id=centos:subversion_installation" title="centos:subversion_installation">Subversion
+Installation</a></li>
+<li><a href="http://wiki.kent-chiu.com/doku.php?id=centos:upgrade_php_to_5.3.x" title="centos:upgrade_php_to_5.3.x">upgrade php to
+5.3.x</a></li>
+<li><a href="http://www.wardking.com/blog/read.php/361.htm" title="http://www.wardking.com/blog/read.php/361.htm">install open jdk and tomcat in
+linux</a></li>
+</ul>
+
+
+<h3>Install From Network</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Web site name: mirror.centos.org
+</span><span class='line'>CentOS directory for i386: /centos/5.5/os/i386
+</span><span class='line'>CentOS directory for x86_64: /centos/5.5/os/x86_64</span></code></pre></td></tr></table></div></figure>
+
+
+<p><a href="http://www.if-not-true-then-false.com/2010/centos-netinstall-network-installation/" title="http://www.if-not-true-then-false.com/2010/centos-netinstall-network-installation/">reference</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/balsamiq/">Balsamiq Mockups - a Useful Prototype Design Tools</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/balsamiq/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>自從沒有了<a href="http://www.dsc.com.tw/pdf/softscore.pdf" title="http://www.dsc.com.tw/pdf/softscore.pdf">軟體分鏡</a>可以用後，一直在尋找著適合做prototype的軟體，經過survey後，發現許多人推薦<a href="http://www.balsamiq.com/" title="http://www.balsamiq.com/">Balsamis
+Mockups</a>這套軟體。親自試用後，發現自我感覺相當良好。
+操作性佳，look &amp;
+feel是手繪風格，這個很吸引人的眼球，而且，使用上也滿直覺的，還有許多順手的工具。</p>
+
+<p>一開始使用，記得先將 Main Menu > View > Use System
+Font給checked，這樣才能輸入中文字
+<img src="/images/wiki/misc/mockups_01.png" alt="mockups_01.png" /></p>
+
+<p>每一個元件的繪製方式，都相當的簡單直覺，只用方式跟 ms power
+point差不多，但便利性更上一級，</p>
+
+<p>基本的，對齊，等距，郡組，解除郡組等等…該有的都有了</p>
+
+<p><img src="/images/wiki/misc/mockups_04.png" alt="mockups_04.png" /></p>
+
+<p>以Button Bar/Tab Bar來說，當點選該元件(component)時，會有一個popup
+context menu，裡面會有Button Bar/Tab Bar元件的專屬屬性
+ex:本例中的被選中的active(selected)
+tab會出現跟其他未選中的tab有不一樣的背景色。</p>
+
+<p><img src="/images/wiki/misc/mockups_06.png" alt="mockups_06.png" /></p>
+
+<p>而且，每一個tab都提供相對的link，當你在demo時，可以click該link，會連到相對應的頁面(當然，前提是能存檔，而存檔的前提要是註冊)</p>
+
+<p><img src="/images/wiki/misc/mockups_02.png" alt="mockups_02.png" /></p>
+
+<p>你也可以透過wiki like的語法，讓文字更rich full.</p>
+
+<p><img src="/images/wiki/misc/mockups_05.png" alt="mockups_05.png" /></p>
+
+<p>更多的細節，可以到<a href="http://www.balsamiq.com/products/mockups/help" title="http://www.balsamiq.com/products/mockups/help">線上說明</a>去看看。</p>
+
+<p>Balsamiq Mockups除了本身提供了許多元件外</p>
+
+<p>![mockups_00.jpg]</p>
+
+<p>你也可以到<a href="http://mockupstogo.net/" title="http://mockupstogo.net/">Mockups To
+Go</a>去看看別人做好的元件或samples，有沒有適合的。</p>
+
+<p>這個軟體有提供試用版，基本少就是拿掉存檔跟匯出的一些功能，不過，你還是可以透過export的功能，將你的檔案匯出成xml
+file，要使用時再import，不過，很麻煩就是了。</p>
+
+<p><img src="/images/wiki/misc/mockups_03.png" alt="mockups_03.png" /></p>
+
+<h1>不足之處</h1>
+
+<ul>
+<li>Combox沒辦法在動態的原地展開，也沒有辦法在顯示combox裡的其它選項</li>
+<li>互動性有待加強</li>
+<li>沒有地方可以寫註解，若用comment那個元件寫，又太礙眼了</li>
+<li>沒辦法針對特定元件做註解(比如說，元件長度字元限制之類的)</li>
+</ul>
+
+
+<p>不過，整體來說，已經相當好用了，基面上，拉一個畫面會比用html硬刻快個10倍以上吧。所以，還是滿值得一試的。</p>
+
+<h1>Resources</h1>
+
+<ul>
+<li><a href="http://www.balsamiq.com/products/mockups" title="http://www.balsamiq.com/products/mockups">http://www.balsamiq.com/products/mockups</a>
+Balsamiq Mockups官方頁面</li>
+<li><a href="http://www.balsamiq.com/products/mockups/help" title="http://www.balsamiq.com/products/mockups/help">http://www.balsamiq.com/products/mockups/help</a>
+線上說明文件</li>
+<li><a href="http://mockupstogo.net/" title="http://mockupstogo.net/">http://mockupstogo.net/</a>
+Mockups To
+Go是一個提供其它人上傳文件的網站，上面可以找到不少好用的元件</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/backoffice_mindmap/">ECShop Back Office MindMap</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/backoffice_mindmap/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img src="/images/wiki/ecshop/ecshop_backoffice.png" alt="ecshop_backoffice.png" /></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/ascii_class_diagram/">ASCII UML Class Diagram</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/ascii_class_diagram/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'> Association:   ^   Aggregation:    O   Composition:    @   Inheritance:    #
+</span><span class='line'>                |                   |                   |                   |
+</span><span class='line'>              &lt;-+-&gt;               O-+-O               @-+-@               #-+-#
+</span><span class='line'>                |                   |                   |                   |
+</span><span class='line'>                V                   O                   @                   #</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'> +--------+       +---------------------+ *
+</span><span class='line'> | Client |------&gt;| Component           |&lt;-----------------------------+
+</span><span class='line'> +--------+       +---------------------+                              |
+</span><span class='line'>                  | Operation()         |                              |
+</span><span class='line'>                  | Add(Component)      |                              |
+</span><span class='line'>                  | Remove(Component)   |                              |
+</span><span class='line'>                  | GetChild(int)       |                              |
+</span><span class='line'>                  +---------------------+                              |
+</span><span class='line'>                            #                                          |
+</span><span class='line'>                            |                                          |
+</span><span class='line'>                 +----------+--------------+                           |
+</span><span class='line'>                 |                         |                           |
+</span><span class='line'>          +------+------+       +----------+----------+  children      |
+</span><span class='line'>          | Leaf        |       | Composite           |O---------------+
+</span><span class='line'>          +-------------+       +---------------------+
+</span><span class='line'>          | Operation() |       | Operation()         |
+</span><span class='line'>          +-------------+       | Add(Component)      |
+</span><span class='line'>                                | Remove(Component)   |
+</span><span class='line'>                                | GetChild(int)       |
+</span><span class='line'>                                +---------------------+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  +-------+         +-----------+
+</span><span class='line'>  | Base  |         | Interface |
+</span><span class='line'>  +---^---+         +-----^-----+
+</span><span class='line'>     /_\                 /_\     _
+</span><span class='line'>      |                   :     (_) OtherInterface
+</span><span class='line'>      |                   :      |
+</span><span class='line'>      |                   :      |
+</span><span class='line'> +---------+      +----------------+
+</span><span class='line'> | Derived |      | Implementation |
+</span><span class='line'> +---------+      +----------------+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>+------------------------------------------------------+
+</span><span class='line'>|                                                      |  
+</span><span class='line'>+------------------------------------------------------+
+</span><span class='line'>|                                                      |
+</span><span class='line'>|                                                      |
+</span><span class='line'>|                                                      |
+</span><span class='line'>|                                                      |
+</span><span class='line'>+------------------------------------------------------+
+</span><span class='line'>|                                                      |
+</span><span class='line'>|                                                      |
+</span><span class='line'>|                                                      |
+</span><span class='line'>+------------------------------------------------------+</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>Resources</h1>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/apache_101/">Apache 101</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/apache_101/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>File Location</h1>
+
+<h3>Debian:</h3>
+
+<p>Global server configuration location: <strong>/etc/apache2/apache2.conf</strong></p>
+
+<p>Other configuration files included in the global configuration: - module
+loading (for more details on module handling on Debian you might check
+this post: <a href="http://www.ducea.com/2006/05/30/managing-apache2-modules-the-debian-way/" title="http://www.ducea.com/2006/05/30/managing-apache2-modules-the-debian-way/">Managing Apache2 Modules the Debian
+Way</a>):</p>
+
+<p><strong>/etc/apache2/mods-enabled/*.load /etc/apache2/mods-enabled/*.conf</strong></p>
+
+<ul>
+<li>vhosts loading:</li>
+</ul>
+
+
+<p><strong>/etc/apache2/sites-enabled/[^.#]</strong>*</p>
+
+<ul>
+<li>other local configurations (added manually or by other packages):</li>
+</ul>
+
+
+<p><strong>/etc/apache2/conf.d/[^.#]</strong>*</p>
+
+<ul>
+<li>listening port:</li>
+</ul>
+
+
+<p><strong>/etc/apache2/ports.conf</strong></p>
+
+<ul>
+<li>other user configurations:</li>
+</ul>
+
+
+<p><strong>/etc/apache2/httpd.conf</strong></p>
+
+<p>Running as: <strong>www-data</strong> (user) www-data (group)</p>
+
+<p>Binary file: <strong>apache2</strong> (/usr/sbin/apache2)</p>
+
+<h3>RHEL / Fedora / Centos:</h3>
+
+<p>Global server configuration location: <strong>/etc/httpd/conf/httpd.conf</strong></p>
+
+<p>Other configuration files included in the global configuration:</p>
+
+<ul>
+<li>various module configurations:</li>
+</ul>
+
+
+<p><strong>/etc/httpd/conf/conf.d/*.conf</strong></p>
+
+<p>Running as: <strong>apache</strong> (user) apache (group)</p>
+
+<p>Binary file: <strong>httpd</strong> (/usr/sbin/httpd)</p>
+
+<h1>Commands</h1>
+
+<p>Restart Now</p>
+
+<pre><code>apachectl -k restart
+</code></pre>
+
+<p>Stop Now</p>
+
+<pre><code>apachectl -k stop
+</code></pre>
+
+<p>Graceful Restart</p>
+
+<pre><code>apachectl -k graceful
+</code></pre>
+
+<p>Graceful Stop</p>
+
+<pre><code>apachectl -k graceful-stop
+</code></pre>
+
+<h2>Virtual Host</h2>
+
+<pre><code>&lt;VirtualHost *:80&gt;
+    ServerName mydomain.localhost
+    DocumentRoot /var/www/html/mydomain/public
+    &lt;Directory "/var/www/html/mydomain/public"&gt;
+        AllowOverride All
+    &lt;/Directory&gt;
+&lt;/VirtualHost&gt;
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/apache/">Apache</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/apache/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><ul>
+<li><a href="http://wiki.kent-chiu.com/doku.php?id=apache:apache_101" title="apache:apache_101">Apache
+101</a></li>
+<li><a href="http://wiki.kent-chiu.com/doku.php?id=apache:install_web_server" title="apache:install_web_server">PHP Web Server
+Instruction</a></li>
+<li><a href="http://wiki.kent-chiu.com/doku.php?id=apache:htaceess_101" title="apache:htaceess_101">htaccess
+101</a></li>
+<li><a href="http://wiki.kent-chiu.com/doku.php?id=apache:how_to_add_new_web_site_outside_htdoc" title="apache:how_to_add_new_web_site_outside_htdoc">在htdoc目錄外新增網站</a></li>
+<li><a href="http://wiki.kent-chiu.com/doku.php?id=apache:how_to_add_new_virtual_host" title="apache:how_to_add_new_virtual_host">Add New Virtual
+Host</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/allocate_memory_useage/">Allocate Memory Useage</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/allocate_memory_useage/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h4>Show Head Memory Useage</h4>
+
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/allocate_memory_useage_01.png" alt="allocate_memory_useage_01.png" /></p>
+
+<h4>Allocate More Memory</h4>
+
+<p>-Xms ???m : minimum memory(mega bytes) -Xmx ???m : Maximum memory(mega
+bytes)</p>
+
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/allocate_memory_useage_02.png" alt="allocate_memory_useage_02.png" /></p>
+
+<p>Restart Eclipse PDT and the memory heap status will showing the minimum
+value initailly</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/agile/">Aglile</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/agile/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>費式數列</h2>
+
+<p>十三世紀的義大利數學家費伯納西 (Fibonacci)
+寫了一本商用的算術和代數手冊《Liber
+abacci》。在這本書裏，他提出了這麼一個有趣的問題：假定一對兔子在它們出生整整兩個月以後可以生一對小兔子，其後每隔一個月又可以再生一對小兔子。假定現在在一個籠子裡有一對剛生下來的小兔子，請問一年以後籠子裏應該有幾對兔子？</p>
+
+<p>每個月的兔子對數應該是1、1、2、3、5、8、13、21、34、55、89、144、233、…，每一項都是前兩項之和。因此，一年後籠子裡應該有233對兔子了。</p>
+
+<p>上面的數列1、1、2、3、5、8、13、21、34、55、89、144、233、…就是費式數列(Fibonacci
+numbers)，但這關Agile Methodology什麼事？</p>
+
+<p>只是因為費式數列可以拿來當評估用的數值，比如說拿來決定<a href="http://wiki.kent-chiu.com/doku.php?id=pm:scurm" title="pm:scurm">SCURM</a>裡的每個backlog的時數。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/add_logs_to_ecshop/">為ECShop加入Logs</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/add_logs_to_ecshop/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Log是很方便的除錯工具(特別是在你不能使用debugger時)，而且可以將log資訊導向檔案，而非web上面。</p>
+
+<p>本文章是在說明如何在ECShop中加入Log功能，以及一些應該注意的事項。</p>
+
+<p>production
+environment不應該就log放到web可以access到的資料夾，不然log會被看光光</p>
+
+<pre><code>require_once 'Log.php';
+$logger = &amp;Log::singleton('file', ROOT_PATH . 'logs/debug.log', 'TEST');
+
+
+
+require_once 'Log.php';
+$logger = &amp;Log::singleton('file', ROOT_PATH . 'logs/debug.log', 'TEST');
+</code></pre>
+
+<ul>
+<li>admin跟商城的init.php是分開的，所以兩邊都要放</li>
+<li>\$logger的宣告要放在init.php前面一點的地方，因為include_path會被改寫，改寫後，會發生找不到log定義的問題</li>
+</ul>
+
+
+<h1>Resources</h1>
+
+<ul>
+<li><a href="http://wiki.kent-chiu.com/doku.php?id=php:pear_101" title="php:pear_101">pear設定方式</a></li>
+<li><a href="http://wiki.kent-chiu.com/doku.php?id=php:log_101" title="php:log_101">pear
+Log簡介</a></li>
+<li><a href="http://wiki.kent-chiu.com/doku.php?id=php:show_log_in_eclipse_console" title="php:show_log_in_eclipse_console">Show Log in Eclipse
+Console</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/blog/page/17/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/07/07/python-101/">Python 101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/25/url-encoding/">URL Encoding</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/04/restful-api-design/">RESTful API Design</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/17/my-intellij-idea-shortcut/">My IntelliJ IDEA Shortcut</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/12/jesper-report-font-issue/">Jesper Report, IReport 匯出成中文PDF</a>
+      </li>
+    
+  </ul>
+</section>
+
+Included file &#8216;asides/twitter.html&#8217; not found in _includes directory
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Kent -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'kentchiu';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

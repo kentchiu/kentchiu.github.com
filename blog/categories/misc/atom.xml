@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: misc | Kent's Blog]]></title>
+  <link href="http://blog.kent-chiu.com/blog/categories/misc/atom.xml" rel="self"/>
+  <link href="http://blog.kent-chiu.com/"/>
+  <updated>2013-07-11T21:16:37+08:00</updated>
+  <id>http://blog.kent-chiu.com/</id>
+  <author>
+    <name><![CDATA[Kent]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[MISC]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2011/10/17/misc/"/>
+    <updated>2011-10-17T00:00:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2011/10/17/misc</id>
+    <content type="html"><![CDATA[<ul>
+<li><a href="http://wiki.kent-chiu.com/lib/exe/fetch.php?media=mind-mapping-technique-notebook-suibkeon-1234171052045.xmind" title="mind-mapping-technique-notebook-suibkeon-1234171052045.xmind">心智圖筆記術(xmind格式)</a></li>
+<li><a href="http://wiki.kent-chiu.com/doku.php?id=misc:balsamiq" title="misc:balsamiq">一個繒制原型(prototype)的好工具</a></li>
+<li><a href="http://wiki.kent-chiu.com/doku.php?id=misc:pinyin" title="misc:pinyin">拼音輸入法</a></li>
+<li><a href="http://openclassroom.stanford.edu/MainFolder/HomePage.php" title="http://openclassroom.stanford.edu/MainFolder/HomePage.php">史丹佛開放式課程</a></li>
+</ul>
+
+
+<h2>裝機軟體</h2>
+
+<ul>
+<li>Firefox</li>
+<li>Chrome</li>
+<li>7-zip</li>
+<li>alcohal 52%</li>
+<li>FileZilla</li>
+<li>JDownload</li>
+<li>Notepad++</li>
+<li>PcMan</li>
+<li>PicPick</li>
+<li>Balsamiq mockups</li>
+<li>Xmind</li>
+<li>splayer</li>
+<li>pps</li>
+</ul>
+
+
+<h4>FireFox Plugins</h4>
+
+<ol>
+<li><a href="http://flashgot.net/" title="http://flashgot.net/">FlahsGot</a> download
+tools</li>
+<li><a href="http://tmp.garyr.net/" title="http://tmp.garyr.net/">Tab Mix Plus</a> tabs
+management</li>
+<li><a href="https://addons.mozilla.org/en-US/firefox/addon/2410" title="https://addons.mozilla.org/en-US/firefox/addon/2410">Xmarks</a>
+bookmarks management</li>
+<li><a href="https://addons.mozilla.org/zh-TW/firefox/addon/8186" title="https://addons.mozilla.org/zh-TW/firefox/addon/8186">ScrapBook+</a></li>
+<li><a href="https://addons.mozilla.org/en-US/firefox/addon/4866" title="https://addons.mozilla.org/en-US/firefox/addon/4866">Better
+Gmail</a>
+Gmail enhancement</li>
+<li><a href="https://addons.mozilla.org/zh-TW/firefox/addon/6424" title="https://addons.mozilla.org/zh-TW/firefox/addon/6424">Better
+GReader</a>
+Google Reader enhancement</li>
+<li><p><a href="https://addons.mozilla.org/zh-TW/firefox/addon/68" title="https://addons.mozilla.org/zh-TW/firefox/addon/68">DictionarySearch</a>
+Dictionary</p>
+
+<ul>
+<li><a href="http://dictionary.reference.com/browse/" title="http://dictionary.reference.com/browse/">http://dictionary.reference.com/browse/</a>\$</li>
+<li><a href="http://www.ldoceonline.com/search/?q=" title="http://www.ldoceonline.com/search/?q=">http://www.ldoceonline.com/search/?q=</a>\$</li>
+<li><a href="http://www.etymonline.com/index.php?term=" title="http://www.etymonline.com/index.php?term=">http://www.etymonline.com/index.php?term=</a>\$</li>
+<li><a href="http://tw.dictionary.yahoo.com/search?ei=UTF-8&amp;p=" title="http://tw.dictionary.yahoo.com/search?ei=UTF-8&amp;p=">http://tw.dictionary.yahoo.com/search?ei=UTF-8&amp;p=</a>\$</li>
+<li><a href="http://dictionary.cambridge.org/search/british/?q=" title="http://dictionary.cambridge.org/search/british/?q=">http://dictionary.cambridge.org/search/british/?q=</a>\$</li>
+<li><a href="http://www.thefreedictionary.com/" title="http://www.thefreedictionary.com/">http://www.thefreedictionary.com/</a>\$</li>
+</ul>
+</li>
+<li><p><a href="http://www.downloadhelper.net/" title="http://www.downloadhelper.net/">Download
+Helper</a>
+download tools (vedio)</p></li>
+<li><a href="https://addons.mozilla.org/en-US/firefox/addon/201" title="https://addons.mozilla.org/en-US/firefox/addon/201">downthemall</a>
+
+<ul>
+<li>download tools</li>
+</ul>
+</li>
+<li><a href="http://getfirebug.com/" title="http://getfirebug.com/">FireBug</a>
+development tools</li>
+<li><a href="https://addons.mozilla.org/zh-TW/firefox/addon/173" title="https://addons.mozilla.org/zh-TW/firefox/addon/173">GMail
+Notifier</a></li>
+<li><a href="https://addons.mozilla.org/zh-TW/firefox/addon/6639" title="https://addons.mozilla.org/zh-TW/firefox/addon/6639">Easy
+DragToGo</a></li>
+<li><a href="https://addons.mozilla.org/en-US/firefox/addon/5081" title="https://addons.mozilla.org/en-US/firefox/addon/5081">TwitterFox</a>
+TwitterFox is a Firefox extension that notifies you of your friends'
+status on Twitter.</li>
+<li><a href="http://chrispederick.com/work/web-developer/" title="http://chrispederick.com/work/web-developer/">Web
+Developer</a>
+development tools</li>
+<li><a href="https://addons.mozilla.org/en-US/firefox/addon/5369" title="https://addons.mozilla.org/en-US/firefox/addon/5369">yslow</a>
+YSlow analyzes web pages and tells you why they're slow based on
+Yahoo's rules for high performance web sites.</li>
+<li><a href="http://tamperdata.mozdev.org/" title="http://tamperdata.mozdev.org/">tamperdata</a></li>
+</ol>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Balsamiq Mockups - A Useful Prototype Design Tools]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2011/10/17/balsamiq/"/>
+    <updated>2011-10-17T00:00:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2011/10/17/balsamiq</id>
+    <content type="html"><![CDATA[<p>自從沒有了<a href="http://www.dsc.com.tw/pdf/softscore.pdf" title="http://www.dsc.com.tw/pdf/softscore.pdf">軟體分鏡</a>可以用後，一直在尋找著適合做prototype的軟體，經過survey後，發現許多人推薦<a href="http://www.balsamiq.com/" title="http://www.balsamiq.com/">Balsamis
+Mockups</a>這套軟體。親自試用後，發現自我感覺相當良好。
+操作性佳，look &amp;
+feel是手繪風格，這個很吸引人的眼球，而且，使用上也滿直覺的，還有許多順手的工具。</p>
+
+<p>一開始使用，記得先將 Main Menu > View > Use System
+Font給checked，這樣才能輸入中文字
+<img src="/images/wiki/misc/mockups_01.png" alt="mockups_01.png" /></p>
+
+<p>每一個元件的繪製方式，都相當的簡單直覺，只用方式跟 ms power
+point差不多，但便利性更上一級，</p>
+
+<p>基本的，對齊，等距，郡組，解除郡組等等…該有的都有了</p>
+
+<p><img src="/images/wiki/misc/mockups_04.png" alt="mockups_04.png" /></p>
+
+<p>以Button Bar/Tab Bar來說，當點選該元件(component)時，會有一個popup
+context menu，裡面會有Button Bar/Tab Bar元件的專屬屬性
+ex:本例中的被選中的active(selected)
+tab會出現跟其他未選中的tab有不一樣的背景色。</p>
+
+<p><img src="/images/wiki/misc/mockups_06.png" alt="mockups_06.png" /></p>
+
+<p>而且，每一個tab都提供相對的link，當你在demo時，可以click該link，會連到相對應的頁面(當然，前提是能存檔，而存檔的前提要是註冊)</p>
+
+<p><img src="/images/wiki/misc/mockups_02.png" alt="mockups_02.png" /></p>
+
+<p>你也可以透過wiki like的語法，讓文字更rich full.</p>
+
+<p><img src="/images/wiki/misc/mockups_05.png" alt="mockups_05.png" /></p>
+
+<p>更多的細節，可以到<a href="http://www.balsamiq.com/products/mockups/help" title="http://www.balsamiq.com/products/mockups/help">線上說明</a>去看看。</p>
+
+<p>Balsamiq Mockups除了本身提供了許多元件外</p>
+
+<p>![mockups_00.jpg]</p>
+
+<p>你也可以到<a href="http://mockupstogo.net/" title="http://mockupstogo.net/">Mockups To
+Go</a>去看看別人做好的元件或samples，有沒有適合的。</p>
+
+<p>這個軟體有提供試用版，基本少就是拿掉存檔跟匯出的一些功能，不過，你還是可以透過export的功能，將你的檔案匯出成xml
+file，要使用時再import，不過，很麻煩就是了。</p>
+
+<p><img src="/images/wiki/misc/mockups_03.png" alt="mockups_03.png" /></p>
+
+<h1>不足之處</h1>
+
+<ul>
+<li>Combox沒辦法在動態的原地展開，也沒有辦法在顯示combox裡的其它選項</li>
+<li>互動性有待加強</li>
+<li>沒有地方可以寫註解，若用comment那個元件寫，又太礙眼了</li>
+<li>沒辦法針對特定元件做註解(比如說，元件長度字元限制之類的)</li>
+</ul>
+
+
+<p>不過，整體來說，已經相當好用了，基面上，拉一個畫面會比用html硬刻快個10倍以上吧。所以，還是滿值得一試的。</p>
+
+<h1>Resources</h1>
+
+<ul>
+<li><a href="http://www.balsamiq.com/products/mockups" title="http://www.balsamiq.com/products/mockups">http://www.balsamiq.com/products/mockups</a>
+Balsamiq Mockups官方頁面</li>
+<li><a href="http://www.balsamiq.com/products/mockups/help" title="http://www.balsamiq.com/products/mockups/help">http://www.balsamiq.com/products/mockups/help</a>
+線上說明文件</li>
+<li><a href="http://mockupstogo.net/" title="http://mockupstogo.net/">http://mockupstogo.net/</a>
+Mockups To
+Go是一個提供其它人上傳文件的網站，上面可以找到不少好用的元件</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

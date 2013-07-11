@@ -1,0 +1,669 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>The Use thd index,Luke 學習筆記 - Kent's Blog</title>
+  <meta name="author" content="Kent">
+
+  
+  <meta name="description" content="這篇的內容，主要是記錄 Use the
+index,Luke
+這本線上書籍的學習筆記。 內容大部份取自該網站。 關於 Use the
+index,Luke
+這本書：這本書是以Open
+Document的方式公佈在網路上，有網頁版及pdf版可以下載，
+本書的內容主要描述database &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.kent-chiu.com/blog/2011/10/17/the_use_the_index_luke_study_note">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Kent's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-39152849-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Kent's Blog</a></h1>
+  
+    <h2>Kent的學習筆記(剛從dokuwiki搬過來，內容還在整修中)</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.kent-chiu.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">The Use Thd index,Luke 學習筆記</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>這篇的內容，主要是記錄 <a href="http://use-the-index-luke.com" title="http://use-the-index-luke.com">Use the
+index,Luke</a>
+這本線上書籍的學習筆記。 內容大部份取自該網站。</p>
+
+<p>關於 <a href="http://use-the-index-luke.com" title="http://use-the-index-luke.com">Use the
+index,Luke</a>
+這本書：這本書是以Open
+Document的方式公佈在網路上，有網頁版及pdf版可以下載，
+本書的內容主要描述database
+index的方方面面，該書作者認為對一個開發人員來說，對於database的性能調教，只需要瞭解index就很足够了。</p>
+
+<h2>Anatomy of an SQL Index</h2>
+
+<h3>The Leaf Nodes</h3>
+
+<p><img src="/images/wiki/database/the_use_the_index_luke_study_note_001.png" alt="the_use_the_index_luke_study_note_001.png" /></p>
+
+<ul>
+<li>大部分的database的index設計多以B-Tree結構實作</li>
+<li>index本身不為database的一部分,是另外存放在table之外</li>
+<li>index是在database的block或page上操作</li>
+<li>index結構小且固定，易於排序或異動操作</li>
+<li>一個indexed data對應到一個table row，indexed data是排序過的，但table
+data本身是沒有排序過的</li>
+<li>indexed data的排序不是簡單的由大到小，或由小大而，而是balanced
+search tree (B-Tree)的排序結構</li>
+</ul>
+
+
+<h3>The Tree</h3>
+
+<p><img src="/images/wiki/database/the_use_the_index_luke_study_note_002.png" alt="the_use_the_index_luke_study_note_002.png" /></p>
+
+<ul>
+<li>B-Tree的每一個node有兩個以上的值，會由小到大排列</li>
+<li>B-Tree的next level的節點的最後一個值，會為上一級節點的值</li>
+<li>同一個level的節點內的值也會由小到大依序排列</li>
+<li>值可以是重覆的</li>
+</ul>
+
+
+<p><img src="/images/wiki/database/the_use_the_index_luke_study_note_003.png" alt="the_use_the_index_luke_study_note_003.png" /></p>
+
+<ul>
+<li>以據B-Tree，可以很快的找任一個節點</li>
+<li>以要找值”57”來說，從root開始找的規則如上圖所示
+
+<ol>
+<li>root找57介於39到83之間，找出下一級(level
+2)的節點的最大節為83的節點</li>
+<li>找到level2的節點為
+46,53,57,83，裡面已有我們要的值”57”，再依上述的規則找level3的節點</li>
+<li>找到level3的節點為
+55,57,57,此節點已經是葉節點(leaf)，所以，即為我們的要節點</li>
+</ol>
+</li>
+</ul>
+
+
+<p>一般數百萬的資料，tree的深度約在4\~5層，最糟的情形下，tree的深度也不應該大於7層</p>
+
+<h3>Slow Indexes</h3>
+
+<p>即使使用了index，search的動作還是有可能很慢，主要的原因發生在以下兩個操作</p>
+
+<ol>
+<li>Scanning a wider range than intended</li>
+<li>Table access</li>
+</ol>
+
+
+<h5>Scanning a wider range than intended</h5>
+
+<p>像上例中，57的使在leaf
+node出現了兩次，這代表如果有需要，database會對這個兩個57的子節點做更多的比對，而這種情形，在index愈大時，愈容易發生</p>
+
+<h5>Table access</h5>
+
+<p>在最糟的情形下，每一個rowid可能分佈在不同的table
+block，這表示database需要讀入更多的table
+block才能完成操作，另句話說，如果所有的rowid分佈在同一個table
+block，那麼只需讀一個table block就可以完成search</p>
+
+<h2>The Where Clause</h2>
+
+<h3>The Equals Operator</h3>
+
+<p>以下以此table的schema為例</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>CREATE TABLE employees (
+</span><span class='line'>   employee_id   NUMBER         NOT NULL,
+</span><span class='line'>   first_name    VARCHAR2(1000) NOT NULL,
+</span><span class='line'>   last_name     VARCHAR2(1000) NOT NULL,
+</span><span class='line'>   date_of_birth DATE           NOT NULL,
+</span><span class='line'>   phone_number  VARCHAR2(1000) NOT NULL,
+</span><span class='line'>   CONSTRAINT employees_pk PRIMARY KEY (employee_id)
+</span><span class='line'>);</span></code></pre></td></tr></table></div></figure>
+
+
+<p>employee_id是pk，針對pk做query後得到的execution plan如下</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>SELECT first_name, last_name
+</span><span class='line'>  FROM employees
+</span><span class='line'> WHERE employee_id = 123
+</span><span class='line'> 
+</span><span class='line'> 
+</span><span class='line'>-----------------------------------------------------------------
+</span><span class='line'>| Id | Operation                   | Name         | Rows | Cost |
+</span><span class='line'>-----------------------------------------------------------------
+</span><span class='line'>|  0 | SELECT STATEMENT            |              |    1 |    2 |
+</span><span class='line'>|  1 |  TABLE ACCESS BY INDEX ROWID| EMPLOYEES    |    1 |    2 |
+</span><span class='line'>|* 2 |   INDEX UNIQUE SCAN         | EMPLOYEES_PK |    1 |    1 |
+</span><span class='line'>-----------------------------------------------------------------
+</span><span class='line'> 
+</span><span class='line'>Predicate Information (IDENTIFIED BY operation id):
+</span><span class='line'>---------------------------------------------------
+</span><span class='line'>   2 - access("EMPLOYEE_ID"=123)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>由上面的結果可以看到此sql是透過速度最快的<em>INDEX UNIQUE
+SCAN</em>執行，可以得到唯一的結果，然後需再透過<em>TABLE ACCESS BY INDEX
+ROWID</em>取得”first_name”, “last_name”， 取”first_name”,
+“last_name”是透過<a href="#the_leaf_nodes" title="database:the_use_the_index_luke_study_note">The Leaf Nodes</a>方式，所以速度很快</p>
+
+<p>如果在EMPLOYEE_ID再加入一個sub ID時，讓employee_id,
+subsidiary_id成為一個UNIQUE INDEX</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>CREATE UNIQUE INDEX employee_pk 
+</span><span class='line'>    ON employees (employee_id, subsidiary_id);</span></code></pre></td></tr></table></div></figure>
+
+
+<p>當where條件中，同時包含employee_id, subsidiary_id, 就會用INDEX UNIQUE
+SCAN</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>SELECT first_name, last_name
+</span><span class='line'>  FROM employees
+</span><span class='line'> WHERE employee_id   = 123
+</span><span class='line'>   AND subsidiary_id = 30;
+</span><span class='line'> 
+</span><span class='line'>-----------------------------------------------------------------
+</span><span class='line'>| Id | Operation                   | Name         | Rows | Cost |
+</span><span class='line'>-----------------------------------------------------------------
+</span><span class='line'>|  0 | SELECT STATEMENT            |              |    1 |    2 |
+</span><span class='line'>|  1 |  TABLE ACCESS BY INDEX ROWID| EMPLOYEES    |    1 |    2 |
+</span><span class='line'>|* 2 |   INDEX UNIQUE SCAN         | EMPLOYEES_PK |    1 |    1 |
+</span><span class='line'>-----------------------------------------------------------------
+</span><span class='line'> 
+</span><span class='line'>Predicate Information (IDENTIFIED BY operation id):
+</span><span class='line'>---------------------------------------------------
+</span><span class='line'>   2 - access("EMPLOYEE_ID"=123 AND "SUBSIDIARY_ID"=30)   </span></code></pre></td></tr></table></div></figure>
+
+
+<p>但如果where條件中，只用到SUBSIDIARY_ID，那便會用效率不好的TABLE ACCESS
+FULL (Full Table Scan)</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>SELECT first_name, last_name
+</span><span class='line'>  FROM employees
+</span><span class='line'> WHERE subsidiary_id = 20;
+</span><span class='line'> 
+</span><span class='line'>----------------------------------------------------
+</span><span class='line'>| Id | Operation         | Name      | Rows | Cost |
+</span><span class='line'>----------------------------------------------------
+</span><span class='line'>|  0 | SELECT STATEMENT  |           |  110 |  477 |
+</span><span class='line'>|* 1 |  TABLE ACCESS FULL| EMPLOYEES |  110 |  477 |
+</span><span class='line'>----------------------------------------------------
+</span><span class='line'> 
+</span><span class='line'>Predicate Information (IDENTIFIED BY operation id):
+</span><span class='line'>---------------------------------------------------
+</span><span class='line'>   1 - filter("SUBSIDIARY_ID"=20)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>因為查詢時，是查詢以下的結構</p>
+
+<p><img src="/images/wiki/database/the_use_the_index_luke_study_note_004.png" alt="the_use_the_index_luke_study_note_004.png" /></p>
+
+<p>如果要讓查詢更有效率，可SUBSIDIARY_ID再為加上的一個的index，就會由FULL
+TABLE SCAN變成INDEX RANGE SCAN</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>---------------------------------------------------------------
+</span><span class='line'>| Id | Operation                   | Name       | Rows | Cost |
+</span><span class='line'>---------------------------------------------------------------
+</span><span class='line'>|  0 | SELECT STATEMENT            |            |  110 |   77 |
+</span><span class='line'>|  1 |  TABLE ACCESS BY INDEX ROWID| EMPLOYEES  |  110 |   77 |
+</span><span class='line'>|* 2 |   INDEX RANGE SCAN          | EMP_SUP_ID |  110 |    1 |
+</span><span class='line'>---------------------------------------------------------------
+</span><span class='line'>
+</span><span class='line'>Predicate Information (identified by operation id):
+</span><span class='line'>---------------------------------------------------
+</span><span class='line'>   2 - access("SUBSIDIARY_ID"=20)</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Execution Plan分析</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>SELECT first_name, last_name, subsidiary_id, phone_number
+</span><span class='line'>  FROM employees
+</span><span class='line'> WHERE last_name  = 'WINAND'
+</span><span class='line'>   AND subsidiary_id = 30;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果用以上條件查詢，會產出</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>-----------------------------------------------------------------
+</span><span class='line'>| Id | Operation                   | Name         | Rows | Cost |
+</span><span class='line'>-----------------------------------------------------------------
+</span><span class='line'>|  0 | SELECT STATEMENT            |              |    1 |   30 |
+</span><span class='line'>|* 1 |  TABLE ACCESS BY INDEX ROWID| EMPLOYEES    |    1 |   30 |
+</span><span class='line'>|* 2 |   INDEX RANGE SCAN          | EMPLOYEES_PK |   40 |    2 |
+</span><span class='line'>-----------------------------------------------------------------
+</span><span class='line'> 
+</span><span class='line'>Predicate Information (IDENTIFIED BY operation id):
+</span><span class='line'>---------------------------------------------------
+</span><span class='line'>   1 - filter("LAST_NAME"='WINAND')
+</span><span class='line'>   2 - access("SUBSIDIARY_ID"=30)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>我們一步步解說database做了什麼事</p>
+
+<ol>
+<li>第一步是<em>INDEX RANGE SCAN</em>它的id是2，對應到”2 -
+access(“SUBSIDIARY_ID”=30)“，它會在index
+tree，找出第一個”SUBSIDIARY_ID”=30的leaf node，透過這個leaf
+node可以找出所有相符的資料(可能會有相當多筆，此例中是40筆)</li>
+<li>第二步是<em>TABLE ACCESS BY INDEX
+ROWID</em>會取出ROWID相對的整個資料列(row)，有了整個資料列，便可執行filter(“LAST_NAME”=&#8217;WINAND&#8217;)的動作。</li>
+</ol>
+
+
+<p>在原來有index的欄位上做&#8217;UPPER&#8221;之類的function，會讓查詢變成FULL TABLE
+SCAN</p>
+
+<p>用Bind Parameters可以有以下兩個益處</p>
+
+<ol>
+<li>Security 可以避免SQL Injection</li>
+<li>Performance Optimizer會重用cache住的sql statement，如果執行的sql
+statement相當的相似。</li>
+</ol>
+
+
+<h3>Searching For Ranges</h3>
+
+<p>SQL的查詢的操作運算子(EX:
+&lt;,>,between,…)可以執行基於key的查找，而<strong>查詢欄位的順序</strong>對這類查詢的效能，會有巨大的影響。</p>
+
+<h2>Execution Plan</h2>
+
+<h3>Oracle Scripts</h3>
+
+<h3>PostgreSQL Scripts</h3>
+
+<p>要觀查PostgreSQL的Execution Plan只需要在要執行的statement前加上 EXPLAIN</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>EXPLAIN SELECT * FROM MY_TABLE</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果SQL Statement中有bind parameter (\$1, \$2, …)，就必需先進行prepare</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>PREPARE stmt(int) AS SELECT $1;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>然後再EXPLAIN EXECUTE</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>EXPLAIN EXECUTE stmt(1);</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'> QUERY PLAN
+</span><span class='line'>------------------------------------------
+</span><span class='line'> Result  (cost=0.00..0.01 rows=1 width=0)</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>cost
+cost有兩個值，第一個是啟動所需的cost，第二個是執行後，取回全部資料所需的cost，cost是相對的值，沒有一定的單位，各種資料庫的cost有自已計算的方式</li>
+<li>rows 估計的row count</li>
+<li>width 預期的row width
+:<img src="http://wiki.kent-chiu.com/lib/images/smileys/fixme.gif" alt="FIXME" /></li>
+</ul>
+
+
+<p>EXPLAIN可以加上ANALYZE，會得到更多的資料，但ANALYZE會真正去執行SQL
+COMMAND，所以<strong>當COMMAND是INSERT，UPDAET，DELETE時要特別小心</strong></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>EXPLAIN ANALYZE EXECUTE stmt(1);
+</span><span class='line'> 
+</span><span class='line'>                   QUERY PLAN
+</span><span class='line'>--------------------------------------------------
+</span><span class='line'> Result  (cost=0.00..0.01 rows=1 width=0)(actual time=0.002..0.002 rows=1 loops=1)
+</span><span class='line'> Total runtime: 0.020 ms</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>SQLServer Scripts</h3>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Kent Chiu</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/database/'>database</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://blog.kent-chiu.com/blog/2011/10/17/the_use_the_index_luke_study_note/" data-via="" data-counturl="http://blog.kent-chiu.com/blog/2011/10/17/the_use_the_index_luke_study_note/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2011/10/17/the_eight_great_spelling_rules/" title="Previous Post: The Eight Great Spelling Rules">&laquo; The Eight Great Spelling Rules</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2011/10/17/top-down_v.s_bottom-up_design/" title="Next Post: 由上而下 vs 由下至上 的設計">由上而下 vs 由下至上 的設計 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/07/07/python-101/">Python 101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/25/url-encoding/">URL Encoding</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/04/restful-api-design/">RESTful API Design</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/17/my-intellij-idea-shortcut/">My IntelliJ IDEA Shortcut</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/12/jesper-report-font-issue/">Jesper Report, IReport 匯出成中文PDF</a>
+      </li>
+    
+  </ul>
+</section>
+
+Included file 'asides/twitter.html' not found in _includes directory
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Kent -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'kentchiu';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.kent-chiu.com/blog/2011/10/17/the_use_the_index_luke_study_note/';
+        var disqus_url = 'http://blog.kent-chiu.com/blog/2011/10/17/the_use_the_index_luke_study_note/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

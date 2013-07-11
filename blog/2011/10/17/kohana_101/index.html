@@ -1,0 +1,593 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Kohana 101 - Kent's Blog</title>
+  <meta name="author" content="Kent">
+
+  
+  <meta name="description" content="DISCLAIMER: most materials is get from web, I just resort it for study
+purpose, you can find the source where this article from in resource
+section. &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.kent-chiu.com/blog/2011/10/17/kohana_101">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Kent's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-39152849-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Kent's Blog</a></h1>
+  
+    <h2>Kent的學習筆記(剛從dokuwiki搬過來，內容還在整修中)</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.kent-chiu.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Kohana 101</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>DISCLAIMER: most materials is get from web, I just resort it for study
+purpose, you can find the source where this article from in resource
+section.</p>
+
+<h1>Basic Rules and Concepts</h1>
+
+<ol>
+<li>Fat models, skinny controllers!</li>
+<li>Keep as much business logic in the model as possible.</li>
+<li>If you see your controller getting “fat”, consider offloading some
+of the logic to the relevant model (or else bad things will start
+happening!).</li>
+<li>Models should not talk to the views directly (and vice versa).</li>
+<li>Related models provide information to the controller via their
+association (relation).</li>
+<li>It’s quite alright for the views to contain some logic, which deals
+with the view or presentation.</li>
+</ol>
+
+
+<h1>Debugging</h1>
+
+<ul>
+<li><a href="#configuration" title="kohana:kohana_101 ↵">Configuration</a></li>
+<li><a href="#kohanadebug" title="kohana:kohana_101 ↵">Kohana::debug()</a></li>
+<li><a href="#profiler" title="kohana:kohana_101 ↵">Profiler</a></li>
+<li><a href="#log_file" title="kohana:kohana_101 ↵">Log File</a></li>
+<li><a href="#sql_query_logging" title="kohana:kohana_101 ↵">SQL Query Logging</a></li>
+</ul>
+
+
+<h1>Name Convention</h1>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Class                       File
+</span><span class='line'>
+</span><span class='line'>Controller_Template         classes/controller/template.php
+</span><span class='line'>Model_User                  classes/model/user.php
+</span><span class='line'>Model_Auth_User             classes/model/auth/user.php
+</span><span class='line'>Auth                        classes/auth.php</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Configuration</h4>
+
+<ul>
+<li>set <code>$config['display_errors'] = TRUE;</code> to enable error messages
+showing in page. It can also check error messages in log file. Check
+your settings in <code>config/log.php</code> to be sure.</li>
+<li>set your <code>$config['threshold'] = 1;</code>. This sets log threshold to a
+suitable level for production. Higher threshold levels will log less
+critical notices and information, but can slow down your
+application.</li>
+</ul>
+
+
+<h4>Kohana::debug()</h4>
+
+<h4>Profiler</h4>
+
+<p><a href="http://docs.kohanaphp.com/libraries/profiler" title="http://docs.kohanaphp.com/libraries/profiler">http://docs.kohanaphp.com/libraries/profiler</a></p>
+
+<h4>Log File</h4>
+
+<h4>SQL Query Logging</h4>
+
+<p><a href="http://www.howtogeek.com/howto/database/monitor-all-sql-queries-in-mysql/" title="http://www.howtogeek.com/howto/database/monitor-all-sql-queries-in-mysql/">http://www.howtogeek.com/howto/database/monitor-all-sql-queries-in-mysql/</a></p>
+
+<h1>Page Flow</h1>
+
+<p>Every application follows the same flow:</p>
+
+<ol>
+<li>Application starts from index.php</li>
+<li>Includes APPPATH/bootstrap.php</li>
+<li><p>Request::instance called to process the request</p>
+
+<ol>
+<li>Checks each route until a match is found</li>
+<li>Loads controller and passes the request to it</li>
+<li>Calls the Controller::before method</li>
+<li>Calls the controller action</li>
+<li>Calls the Controller::after method</li>
+</ol>
+</li>
+<li><p>Displays the Request response</p></li>
+</ol>
+
+
+<p>Sequence Diagram.(TBD)</p>
+
+<h1>Enable Module</h1>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/**
+</span><span class='line'> * Enable modules. Modules are referenced by a relative or absolute path.
+</span><span class='line'> */
+</span><span class='line'>Kohana::modules(array(
+</span><span class='line'>    // 'auth'       =&gt; MODPATH.'auth',       // Basic authentication
+</span><span class='line'>    // 'codebench'  =&gt; MODPATH.'codebench',  // Benchmarking tool
+</span><span class='line'>    // 'database'   =&gt; MODPATH.'database',   // Database access
+</span><span class='line'>    // 'image'      =&gt; MODPATH.'image',      // Image manipulation
+</span><span class='line'>    // 'orm'        =&gt; MODPATH.'orm',        // Object Relationship Mapping
+</span><span class='line'>    // 'pagination' =&gt; MODPATH.'pagination', // Paging of results
+</span><span class='line'>    // 'userguide'  =&gt; MODPATH.'userguide',  // User guide and API documentation
+</span><span class='line'>    ));</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>URI</h1>
+
+<p><img src="/images/wiki/kohana/kohana101_01.png" alt="kohana101_01.png" /></p>
+
+<ul>
+<li>http://localhost/kohana : No segments, so a default controller is
+used.</li>
+<li>http://localhost/kohana/index.php : Still no segments, so same as
+before.</li>
+<li>http://localhost/kohana/index.php/welcome : Only one segment, which
+is segment 1. This corresponds to a controller called “Welcome”</li>
+<li>http://localhost/kohana/index.php/welcome/search/php : Three
+segments given:
+
+<ol>
+<li>Segment 1 is “welcome” and corresponds to controller “Welcome”</li>
+<li>Segment 2 is “search” and corresponds to method “search()” in
+controller “Welcome”</li>
+<li>Segment 3 is “php” and corresponds to argument 1 passed to
+method “search()” in controller “Welcome”</li>
+</ol>
+</li>
+</ul>
+
+
+<h1>System Components</h1>
+
+<p>The most important Kohana are Controllers, Libraries, Helpers, Modules,
+Models and Views</p>
+
+<ul>
+<li>Models: Separate the data access from the logic and presentation.</li>
+<li>Views: Simplifies the organization of information for display</li>
+<li>Controllers: Are the heart of your application, implementing it&#8217;s
+logic.</li>
+<li>Libraries: Provide the functionality that drives your application;
+Database access, Sessions, Caching etc.</li>
+<li>Helpers: Assist you with common tasks; Formatting HTML, Sending
+email, Validating, Creating HTML forms etc.</li>
+<li>Modules: Assist in grouping common components or functionality:
+Authentication, Handling media etc.</li>
+</ul>
+
+
+<h1>System Layout</h1>
+
+<p>There are three layers to Kohana; Application, Module, System. A very
+important concept to understand in Kohana is the cascade. The cascade
+refers to where and how Kohana searches for resources. A specific naming
+convention and directory layout is enforced. A specific search order is
+enforced.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>------- Search order direction -------&gt;
+</span><span class='line'>(1)             --&gt; (2)             --&gt; (3)
+</span><span class='line'>application/    --&gt;  modules/       --&gt;  system/
+</span><span class='line'>    controllers/--&gt;     controllers/--&gt;     controllers/
+</span><span class='line'>    helpers/    --&gt;     helpers/    --&gt;     helpers/
+</span><span class='line'>    libraries/  --&gt;     libraries/  --&gt;     libraries/
+</span><span class='line'>    models/     --&gt;     models/     --&gt;     models/
+</span><span class='line'>    views/      --&gt;     views/      --&gt;     views/</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="/images/wiki/kohana/kohana101_02.png" alt="kohana101_02.png" /></p>
+
+<h1>Database</h1>
+
+<p>Copy system/config/database.php to application/config/database.php</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$config['default'] = array
+</span><span class='line'>(
+</span><span class='line'>    'benchmark'     =&gt; TRUE,
+</span><span class='line'>    'persistent'    =&gt; FALSE,
+</span><span class='line'>    'connection'    =&gt; array
+</span><span class='line'>    (
+</span><span class='line'>        'type'      =&gt; 'mysql',
+</span><span class='line'>        'user'      =&gt; 'username',       // set to db user name
+</span><span class='line'>        'pass'      =&gt; 'password',       // set to db user password
+</span><span class='line'>        'host'      =&gt; 'localhost',
+</span><span class='line'>        'port'      =&gt; FALSE,
+</span><span class='line'>        'socket'    =&gt; FALSE,
+</span><span class='line'>        'database'  =&gt; 'db name'     // set to db name
+</span><span class='line'>    ),
+</span><span class='line'>    'character_set' =&gt; 'utf8',
+</span><span class='line'>    'table_prefix'  =&gt; '',
+</span><span class='line'>    'object'        =&gt; TRUE,
+</span><span class='line'>    'cache'         =&gt; FALSE,
+</span><span class='line'>    'escape'        =&gt; TRUE
+</span><span class='line'>);</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Five ways to work with relational databases</h2>
+
+<ol>
+<li>Write your own SQL using the query() method. You must escape the
+query manually.</li>
+<li>Write custom SQL that is automatically escaped. Use Query Binding.</li>
+<li>Use the Query Builder. It provides methods that generate platform
+independent SQL statements that are automatically escaped.</li>
+<li>Use a Model. Utilize Query or Query Builder to create your own data
+access methods.</li>
+<li>Use ORM. Object Relational Mapping is a class that extends the basic
+Model, to implement data access without using SQL statements.</li>
+</ol>
+
+
+<h1>Constants</h1>
+
+<ul>
+<li>DOCROOT - docroot real path</li>
+<li>KOHANA - front controller name (index.php)</li>
+<li>APPPATH - application folder real path</li>
+<li>MODPATH - module real folder path</li>
+<li>SYSPATH - system real folder path</li>
+</ul>
+
+
+<h1>KO3 struct</h1>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>kohana
+</span><span class='line'>  |-
+</span><span class='line'>  |-application
+</span><span class='line'>    |-cache
+</span><span class='line'>    |-config
+</span><span class='line'>    |-classess
+</span><span class='line'>      |-controller
+</span><span class='line'>      |-model
+</span><span class='line'>      |-other_libraries.php
+</span><span class='line'>    |-i18n
+</span><span class='line'>    |-logs
+</span><span class='line'>    |-messages
+</span><span class='line'>    |-vendor
+</span><span class='line'>    |-views
+</span><span class='line'>    |-bootstrap.php
+</span><span class='line'>  |-modules
+</span><span class='line'>  |-system
+</span><span class='line'>  index.php</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>Resource</h1>
+
+<ul>
+<li><a href="http://dev.kohanaphp.com/wiki/kohana2/Kohana101" title="http://dev.kohanaphp.com/wiki/kohana2/Kohana101">Kohana 101 from kohana dev
+site</a></li>
+<li><a href="http://docs.kohanaphp.com/" title="http://docs.kohanaphp.com/">the kohana
+manual</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Kent Chiu</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/kohana/'>kohana</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://blog.kent-chiu.com/blog/2011/10/17/kohana_101/" data-via="" data-counturl="http://blog.kent-chiu.com/blog/2011/10/17/kohana_101/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2011/10/17/jquery_101/" title="Previous Post: JQuery 101">&laquo; JQuery 101</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2011/10/17/lamp/" title="Next Post: Linux Apache MySQL PHP (a.k.a LAMP)">Linux Apache MySQL PHP (a.k.a LAMP) &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/07/07/python-101/">Python 101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/25/url-encoding/">URL Encoding</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/04/restful-api-design/">RESTful API Design</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/17/my-intellij-idea-shortcut/">My IntelliJ IDEA Shortcut</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/12/jesper-report-font-issue/">Jesper Report, IReport 匯出成中文PDF</a>
+      </li>
+    
+  </ul>
+</section>
+
+Included file 'asides/twitter.html' not found in _includes directory
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Kent -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'kentchiu';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.kent-chiu.com/blog/2011/10/17/kohana_101/';
+        var disqus_url = 'http://blog.kent-chiu.com/blog/2011/10/17/kohana_101/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

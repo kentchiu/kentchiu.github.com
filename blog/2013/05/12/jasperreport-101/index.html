@@ -1,0 +1,463 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>JasperReport 101 - Kent's Blog</title>
+  <meta name="author" content="Kent">
+
+  
+  <meta name="description" content="jrxml report定義檔 Jasper Report 是由副檔名為 jrxml 的 xml 檔進行報表範本定義，範本檔的主結構可被切割成數個區，每一區有專屬的tag，每個 tag 有各自專屬的位置及功能，
+每個 tag 都不是必要的，可以視需求選用，以下列出 Jasper Report &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.kent-chiu.com/blog/2013/05/12/jasperreport-101">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Kent's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-39152849-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Kent's Blog</a></h1>
+  
+    <h2>Kent的學習筆記(剛從dokuwiki搬過來，內容還在整修中)</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.kent-chiu.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">JasperReport 101</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-05-12T00:49:00+08:00" pubdate data-updated="true">May 12<span>th</span>, 2013</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h4>jrxml  report定義檔</h4>
+
+<p>Jasper Report 是由副檔名為 <code>jrxml</code> 的 xml 檔進行報表範本定義，範本檔的主結構可被切割成數個區，每一區有專屬的tag，每個 tag 有各自專屬的位置及功能，
+每個 tag 都不是必要的，可以視需求選用，以下列出 Jasper Report 主結構會用到的 tag</p>
+
+<ol>
+<li><code>&lt;title&gt;</code>            - 主標題，只會出現一次</li>
+<li><code>&lt;pageHeader&gt;</code>       - 頁首標題，每頁頁首都會出現</li>
+<li><code>&lt;columnHeader&gt;</code>     - <code>&lt;detail&gt;</code> 的 header，會出現在每個detail區前面</li>
+<li><code>&lt;detail&gt;</code>           - 內容區，會重覆的出現，一個 detail 對應到 data source 的一個資料列</li>
+<li><code>&lt;columnFooter&gt;</code>     - <code>&lt;detail&gt;</code> 的 footer，會出現在每個detail區後面(可設定只出現在最後的detail區)</li>
+<li><code>&lt;pageFooter&gt;</code>       - 頁尾區，每頁頁尾都會出現，通常來放置頁碼 (可設定只出現在最後一頁)</li>
+<li><code>&lt;summary&gt;</code>          - 總結區，在報表的最後面，只會出現一次</li>
+<li><code>&lt;background&gt;</code>       - 設定背景圖片</li>
+</ol>
+
+
+<p>上面的tag，都需要包含 <code>&lt;band&gt;</code> ，才能再放入報表元素(Report Element）</p>
+
+<p>另外還有 <code>group</code> tag用來做可用來群組化，每個 group tag 下可有自已的 header 跟 footer</p>
+
+<p>每一區的位置如下圖所示</p>
+
+<p><img src="http://blog.kent-chiu.com/images/blog/2013-05-12-jasperreport-101-001.png" alt="2013-05-12-jasperreport-101-001.png" /></p>
+
+<p>比較完整的主結構是像這樣</p>
+
+<p><img src="http://blog.kent-chiu.com/images/blog/2013-05-12-jasperreport-101-002.png" alt="2013-05-12-jasperreport-101-002.png" /></p>
+
+<p>上面有提到，每一區必須要定義一個唯一的 <code>&lt;band&gt;</code> 後，才能放入其他的報表元件 (Report Element), 報表元件有這些 :</p>
+
+<p><img src="http://blog.kent-chiu.com/images/blog/2013-05-12-jasperreport-101-003.png" alt="2013-05-12-jasperreport-101-003.png" /></p>
+
+<h4>Jasper Report 版的 HELLO WORLD</h4>
+
+<p>以下的 hello word 範例，我們不用 designer, 改用全手工的方式打造出最簡單的報表定義檔，定義檔內只有 detail 區， detail 區裡顯示靜態的文字 &#8216;Hello World&#8217;</p>
+
+<blockquote><p>用 designer 產生的定義檔，會多很多 tags，每個 tag 也會多很多屬性，用手工打造比較乾淨，也比較容易理解</p></blockquote>
+
+<h6>xml helloworld.jrxml 定義檔</h6>
+
+<pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="myreport"&gt;
+ &lt;detail&gt;
+    &lt;band height="20"&gt;
+      &lt;staticText&gt;
+        &lt;reportElement x="180" y="0" width="200" height="20"/&gt;
+        &lt;text&gt;&lt;![CDATA[Hello World!]]&gt;&lt;/text&gt;
+      &lt;/staticText&gt;
+    &lt;/band&gt;
+  &lt;/detail&gt;
+&lt;/jasperReport&gt;
+</code></pre>
+
+<p>我們只用了 detail section, 上面有提到 section 內必須要有 <code>&lt;band&gt;</code> tag才能放置其他的 Report Element, 我們這邊用到的 Report Element 為
+<code>&lt;staticText&gt;</code> 用途為顯示靜態文字， <code>&lt;staticText&gt;</code> 使用 <code>&lt;reportElement&gt;</code> 做基本屬性設定，然後用 <code>&lt;text&gt;</code> 設定文字內容</p>
+
+<h6>java junit test case for export pdf</h6>
+
+<pre><code>@Test
+public void exportToPDF_statics_text_only() throws Exception {
+    JasperReport jasperReport;
+    JasperPrint jasperPrint;
+    try {
+        URI uri = getClass().getResource("/helloworld.jrxml").toURI();
+        File input = new File(uri);
+        jasperReport = JasperCompileManager.compileReport(input.getAbsolutePath());
+        jasperPrint = JasperFillManager.fillReport(jasperReport, new HashMap(), new JREmptyDataSource());
+        String output = input.getParent() + "/hello1.pdf";
+        System.out.println("output to :" +  output);
+        JasperExportManager.exportReportToPdfFile(jasperPrint, output);
+    } catch (JRException e) {
+        e.printStackTrace();
+    }
+}
+</code></pre>
+
+<p><code>JasperFillManager.fillReport()</code> 需要三個參數,</p>
+
+<ol>
+<li>jasperReport
+jrxml complied 後的 binary file</li>
+<li>paramaters
+控制報表的參數設定值</li>
+<li>datasource 為 <code>JRDataSource</code> 的 subclass</li>
+</ol>
+
+
+<h6>java JasperFillManager.fill() 的 source code</h6>
+
+<p><code>JasperFillManager.fill()</code> 的 source code 如下</p>
+
+<pre><code>/**
+ * Fills the compiled report design supplied as the first parameter and returns
+ * the generated report object.
+ * 
+ * @param jasperReport compiled report design object to use for filling
+ * @param parameters   report parameters map
+ * @param dataSource   data source object
+ * @return generated report object
+ */
+public JasperPrint fill(
+    JasperReport jasperReport, 
+    Map&lt;String,Object&gt; parameters, 
+    JRDataSource dataSource
+    ) throws JRException
+{
+    return JRFiller.fill(jasperReportsContext, jasperReport, parameters, dataSource);
+}
+</code></pre>
+
+<p>JRDataSource 的 subclass 如下圖，我們這個範例，因為只是單純的顯示靜態文字，不需要任何的資料，所以使用 <code>JREmptyDataSource</code> 即可</p>
+
+<p><img src="http://blog.kent-chiu.com/images/blog/2013-05-12-jasperreport-101-004.png" alt="2013-05-12-jasperreport-101-004.png" /></p>
+
+<h4>JRMapCollectionDataSource</h4>
+
+<p>這個範例改用 java collection 當作 data source</p>
+
+<h6>helloword_collection.xml</h6>
+
+<pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+    name="myreport"&gt;
+    &lt;field name="USER_NAME" class="java.lang.String" /&gt;
+
+    &lt;detail&gt;
+        &lt;band height="30"&gt;
+            &lt;staticText&gt;
+                &lt;reportElement x="10" y="0" width="100" height="20" /&gt;
+                &lt;text&gt;&lt;![CDATA[Hello!]]&gt;&lt;/text&gt;
+            &lt;/staticText&gt;
+            &lt;textField&gt;
+                &lt;reportElement x="80" y="0" width="100" height="20" /&gt;
+                &lt;textFieldExpression&gt;&lt;![CDATA[$F{USER_NAME}]]&gt;&lt;/textFieldExpression&gt;
+            &lt;/textField&gt;
+        &lt;/band&gt;
+    &lt;/detail&gt;
+
+&lt;/jasperReport&gt;
+</code></pre>
+
+<p>範本定義檔裡用了兩個 report element</p>
+
+<ol>
+<li><code>&lt;staticText&gt;</code> : 用來顯示靜態文字</li>
+<li><code>&lt;textField&gt;</code>  : 文字欄位，裡面的 <code>&lt;textFieldExpression&gt;</code> 可以用使用 Jasper Report 的 Expression
+$F{USER_NAME} 為Jasper Report 的 Expression，是變數名稱的 placeholder，在匯出後，
+placeholder 會被 data source 裡對應的值所取代，有幾個資料列就會重覆幾次</li>
+</ol>
+
+
+<h6>java 匯出 PDF 的 test case</h6>
+
+<pre><code>@Test
+public void exportToPDF_data_from_collection() throws Exception {
+    JasperReport jasperReport;
+    JasperPrint jasperPrint;
+    try {
+        URI uri = getClass().getResource("/helloword_collection.xml").toURI();
+        File input = new File(uri);
+        jasperReport = JasperCompileManager.compileReport(input.getAbsolutePath());
+
+        Collection&lt;Map&lt;String, ?&gt;&gt; col = Lists.newArrayList();
+        col.add(ImmutableMap.&lt;String, Object&gt;of("USER_NAME", "Kent"));
+        col.add(ImmutableMap.&lt;String, Object&gt;of("USER_NAME", "Cindy"));
+        JRMapCollectionDataSource ds = new JRMapCollectionDataSource(col );
+        jasperPrint = JasperFillManager.fillReport(jasperReport, new HashMap(), ds);
+        String output = input.getParent() + "/hello1_collection.pdf";
+        System.out.println("output to :" +  output);
+        JasperExportManager.exportReportToPdfFile(jasperPrint, output);
+    } catch (JRException e) {
+        e.printStackTrace();
+    }
+}
+</code></pre>
+
+<ul>
+<li>這個範例改用 java collection 來當作資料源，所以要用 <code>JRMapCollectionDataSource</code></li>
+<li>10 ~ 12 行 放了兩個單位的資料(&#8216;Kent&#8217; &amp; &#8216;Cindy&#8217;) 進去 data source， 所以，在輸出時，會看到這兩組資料會被套用到 detail section</li>
+</ul>
+
+
+<p>輸出的PDF結果如下</p>
+
+<p><img src="http://blog.kent-chiu.com/images/blog/2013-05-12-jasperreport-101-005.png" alt="2013-05-12-jasperreport-101-005.png" /></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Kent Chiu</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-05-12T00:49:00+08:00" pubdate data-updated="true">May 12<span>th</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/excel/'>excel</a>, <a class='category' href='/blog/categories/ireport/'>ireport</a>, <a class='category' href='/blog/categories/jasterreport/'>jasterreport</a>, <a class='category' href='/blog/categories/pdf/'>pdf</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://blog.kent-chiu.com/blog/2013/05/12/jasperreport-101/" data-via="" data-counturl="http://blog.kent-chiu.com/blog/2013/05/12/jasperreport-101/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/05/06/mac-tips/" title="Previous Post: Mac Tips">&laquo; Mac Tips</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2013/05/12/jesper-report-font-issue/" title="Next Post: Jesper Report, IReport 匯出成中文PDF">Jesper Report, IReport 匯出成中文PDF &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/07/07/python-101/">Python 101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/25/url-encoding/">URL Encoding</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/04/restful-api-design/">RESTful API Design</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/17/my-intellij-idea-shortcut/">My IntelliJ IDEA Shortcut</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/12/jesper-report-font-issue/">Jesper Report, IReport 匯出成中文PDF</a>
+      </li>
+    
+  </ul>
+</section>
+
+Included file 'asides/twitter.html' not found in _includes directory
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Kent -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'kentchiu';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.kent-chiu.com/blog/2013/05/12/jasperreport-101/';
+        var disqus_url = 'http://blog.kent-chiu.com/blog/2013/05/12/jasperreport-101/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

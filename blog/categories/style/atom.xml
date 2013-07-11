@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: style | Kent's Blog]]></title>
+  <link href="http://blog.kent-chiu.com/blog/categories/style/atom.xml" rel="self"/>
+  <link href="http://blog.kent-chiu.com/"/>
+  <updated>2013-07-11T21:16:37+08:00</updated>
+  <id>http://blog.kent-chiu.com/</id>
+  <author>
+    <name><![CDATA[Kent]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Android Style & Theme 101]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2012/03/20/style_and_theme_101/"/>
+    <updated>2012-03-20T00:00:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2012/03/20/style_and_theme_101</id>
+    <content type="html"><![CDATA[<h3>IDE (eclipse ADT)提供UI相關的功能</h3>
+
+<h4>Theme editor</h4>
+
+<p>![](http://tools.android.com/screenshots/layout-editor2.png"</p>
+
+<h4>Asset Studio Integration (ADT 14+)</h4>
+
+<p>支援的類型</p>
+
+<p><img src="http://tools.android.com/recent/assetstudiointegration/assetstudio-launcher3.png" alt="" /></p>
+
+<p>效果</p>
+
+<p><img src="http://tools.android.com/recent/assetstudiointegration/assetstudio-launcher3.png" alt="" /></p>
+
+<h2>自訂ProgressBar</h2>
+
+<p>客製化ProgressBar是滿常見的需求，如果希望你的ProgrssBar(SeekBar)長得跟原來不一樣，那可以參考下面的資源</p>
+
+<ol>
+<li><a href="http://www.anddev.org/seekbar_progressbar_customizing-t6083.html" title="http://www.anddev.org/seekbar_progressbar_customizing-t6083.html">http://www.anddev.org/seekbar_progressbar_customizing-t6083.html</a></li>
+<li><a href="http://bytecrafter.blogspot.com/2008/12/using-horizontal-progress-bar-in.html" title="http://bytecrafter.blogspot.com/2008/12/using-horizontal-progress-bar-in.html">http://bytecrafter.blogspot.com/2008/12/using-horizontal-progress-bar-in.html</a></li>
+</ol>
+
+
+<h1>TBD</h1>
+
+<ol>
+<li>無前找不到方法可以用程式在runtime去設定style，不過，可以透過設定元件的屬性(attributes)來達到相同的功能</li>
+</ol>
+
+
+<h1>Resource</h1>
+
+<ul>
+<li><a href="http://developer.android.com/guide/practices/ui_guidelines/icon_design.html" title="http://developer.android.com/guide/practices/ui_guidelines/icon_design.html">icon設計指南</a>
+官網</li>
+<li><a href="http://henzil.easymorse.com/?p=364" title="http://henzil.easymorse.com/?p=364">android
+Theme使用总结</a>
+
+<ul>
+<li>小陌的博客</li>
+</ul>
+</li>
+<li><a href="http://android.yaohuiji.com/archives/tag/style" title="http://android.yaohuiji.com/archives/tag/style">Android中的主题和风格学习指南</a></li>
+<li>各版本的<a href="http://www.fixedd.com/projects/android_drawables_display" title="http://www.fixedd.com/projects/android_drawables_display">Android系统中圖片資源</a>,
+也可以直接<a href="http://www.java2s.com/Code/Jar/a/Downloadandroid8jar.htm" title="http://www.java2s.com/Code/Jar/a/Downloadandroid8jar.htm">抓jar</a>下來解壓</li>
+<li><a href="http://android.yaohuiji.com/archives/2389" title="http://android.yaohuiji.com/archives/2389">Android2.2系统中自带的自带样式styles.xml</a>
+
+<ul>
+<li>來源<a href="http://android.yaohuiji.com/about" title="http://android.yaohuiji.com/about">{ Android学习指南
+}</a></li>
+</ul>
+</li>
+<li><a href="http://android.yaohuiji.com/archives/2390" title="http://android.yaohuiji.com/archives/2390">Android2.2系统中自带themes.xml</a>
+
+<ul>
+<li>來源<a href="http://android.yaohuiji.com/about" title="http://android.yaohuiji.com/about">{ Android学习指南
+}</a></li>
+</ul>
+</li>
+<li><a href="http://developer.android.com/reference/android/package-summary.html" title="http://developer.android.com/reference/android/package-summary.html">Android內建的一些資源</a></li>
+<li><a href="http://www.dibbus.com/2011/03/9patch-images-in-android/" title="http://www.dibbus.com/2011/03/9patch-images-in-android/">漂亮的Button效果</a></li>
+<li><a href="http://www.dibbus.com/2011/08/even-more-gradient-buttons-for-android/" title="http://www.dibbus.com/2011/08/even-more-gradient-buttons-for-android/">漸層效果的型錄</a>
+<a href="http://code.google.com/p/android-gradients-sample/" title="http://code.google.com/p/android-gradients-sample/">完整的source</a>
+
+<h2><img src="/images/wiki/android/style_and_theme_101_001.png" alt="style_and_theme_101_001.png" /></h2></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

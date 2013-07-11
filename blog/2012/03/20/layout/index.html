@@ -1,0 +1,480 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Android Layout - Kent's Blog</title>
+  <meta name="author" content="Kent">
+
+  
+  <meta name="description" content="可以透xml(建議)或程式直接設定layout
+太過複雜的Layout會影響操作效能跟操作性，應盡可能保持Layout愈簡單愈好 1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+&lt;?xml version="1.0" encoding="utf-8"?&gt &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.kent-chiu.com/blog/2012/03/20/layout">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Kent's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-39152849-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Kent's Blog</a></h1>
+  
+    <h2>Kent的學習筆記(剛從dokuwiki搬過來，內容還在整修中)</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.kent-chiu.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Android Layout</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-20T00:00:00+08:00" pubdate data-updated="true">Mar 20<span>th</span>, 2012</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><ul>
+<li>可以透xml(建議)或程式直接設定layout</li>
+<li>太過複雜的Layout會影響操作效能跟操作性，應盡可能保持Layout愈簡單愈好</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+</span><span class='line'>&lt;LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+</span><span class='line'>  android:orientation="vertical"
+</span><span class='line'>  android:layout_width="fill_parent"
+</span><span class='line'>  android:layout_height="fill_parent"&gt;
+</span><span class='line'>&lt;TextView
+</span><span class='line'>  android:layout_width="fill_parent"
+</span><span class='line'>  android:layout_height="wrap_content"
+</span><span class='line'>  android:text="Enter Text Below"
+</span><span class='line'>/&gt;
+</span><span class='line'>&lt;EditText
+</span><span class='line'>  android:layout_width="fill_parent"
+</span><span class='line'>  android:layout_height="wrap_content"
+</span><span class='line'>  android:text="Text Goes Here!"
+</span><span class='line'>/&gt;
+</span><span class='line'>&lt;/LinearLayout&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上例中的fill_parent、wrap_content為<a href="#layout_parameter" title="android:layout ↵">Layout
+Parameter</a>，每個Layout適用的<a href="#layout_parameter" title="android:layout ↵">Layout
+Parameter</a>不盡相同，使用時需注意。</p>
+
+<p>Layout
+Parameters的使用需配合上一層的ViewGroup的layout決定，如上圖中，第一層的Layout是LinearLayout所以，第二層的三個Views(RelativeLayout,
+View, View)都必需使用<code>LinearLayout</code>的<code>LayoutParamters</code>進行細部設定
+，而第三層的三個View都是<code>RelativeLayout</code>的children，所以，都要用<code>RelativeLayout</code>的<code>LayoutParamters</code>進行細部設定。^<a href="#fn__1">1)</a>^</p>
+
+<p>用程式設定Layout Parameters的方式如下:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>myView.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>Layout Parameter</h5>
+
+<p>Layout的設定，主要是透過<a href="http://developer.android.com/reference/android/view/ViewGroup.LayoutParams.html" title="http://developer.android.com/reference/android/view/ViewGroup.LayoutParams.html">Layout
+Parameter</a>，不同的Layouts需套用不同的Layout
+Parameters. Table Layout有Table Layout專屬的Layout Parameters、Liner
+Layout有Liner Layout專屬的Layout Parameters</p>
+
+<p>可以透過<a href="http://developer.android.com/guide/developing/tools/layoutopt.html" title="http://developer.android.com/guide/developing/tools/layoutopt.html">layoutopt</a>工具來對layout進行最佳化</p>
+
+<p>@ : at the beginning of the string indicates that the XML parser should
+parse and expand the rest of the ID string and identify it as an ID
+resource.</p>
+
+<ul>
+<li>: means that this is a new resource name that must be created and
+added to our resources (in the R.java file)</li>
+</ul>
+
+
+<h5>通用屬性</h5>
+
+<ol>
+<li>gravity 決定元件內容靠在什麼地方</li>
+<li>layout_gravity 決定元件靠在父元件的什麼地方</li>
+</ol>
+
+
+<p>以一個TextView元件來說，<code>android:gravity=“center”</code>會讓TextView內容置中，而<code>android:gravity=“right”</code>會讓TextView在父元件中靠右</p>
+
+<p><a href="http://thinkandroid.wordpress.com/2010/01/14/how-to-position-views-properly-in-layouts/" title="http://thinkandroid.wordpress.com/2010/01/14/how-to-position-views-properly-in-layouts/">這邊有gravity跟layout_gravity的說明</a></p>
+
+<h4>Configuration Changes</h4>
+
+<p>當瑩幕直立轉換成橫放或橫放轉換成直立時，會引發Configuration
+Change，如果有特別指定直立或橫放專用的layout時，android會以專用的layout。
+直立(portrait)或橫放(landscape)有專用的layout目錄，這三個目錄的檔案名稱可以重覆，它們只會產生一個共用的layout
+id( R.layout.main_layout)。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>\res\layout\main_layout.xml 
+</span><span class='line'>\res\layout-port\main_layout.xml 
+</span><span class='line'>\res\layout-land\main_layout.xml </span></code></pre></td></tr></table></div></figure>
+
+
+<p>或者更多的變化型式</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>\res\layout\main_layout.xml 
+</span><span class='line'>\res\layout-port\main_layout.xml
+</span><span class='line'>\res\layout-en\main_layout.xml </span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面的叫port,en,land叫<a href="http://developer.android.com/guide/topics/resources/providing-resources.html#AlternativeResources" title="http://developer.android.com/guide/topics/resources/providing-resources.html#AlternativeResources">configuration
+qualifiers</a>，許多組合可以參閱<a href="http://developer.android.com/guide/topics/resources/providing-resources.html#AlternativeResources" title="http://developer.android.com/guide/topics/resources/providing-resources.html#AlternativeResources">官方文件</a></p>
+
+<h2>RelativeLayout</h2>
+
+<p>RelativeLayout字面上的意思是相對的layout，相關是指某一元件，與父元件或子元件的相對的關係。</p>
+
+<h5>與父元件相對關係</h5>
+
+<p>與父元件相對關係用boolean(true|false)值決定</p>
+
+<ol>
+<li>layout_alignParentTop 子元件的上緣是否對齊容器(父元件)的上緣</li>
+<li>layout_alignParentBottom 子元件的下緣是否對齊容器(父元件)的下緣</li>
+<li>layout_alignParentLeft 子元件的左邊緣是否對齊容器(父元件)的左邊緣</li>
+<li>layout_alignParentRight 子元件的右邊緣是否對齊容器(父元件)的右邊緣</li>
+<li>layout_centerHrizontal 子元件是否水平置中於容器(父元件)</li>
+<li>layout_centerVertical 子元件是否垂值置中於容器(父元件)</li>
+<li>layout_centerInparent 子元件是否完全置中(水平 + 垂值)於容器(父元件)</li>
+<li>layout_alignWithParentIfMissing
+如果相對的子元件不存在時，以父元件為參考</li>
+</ol>
+
+
+<h5>與容器(Container)內其他子元件相對關係</h5>
+
+<p>因為是其它子元件相對應的關係，所以以下的屬性需要指定是要與那一個子元件關聯(父元件只有一個，所以上面的屬性只需要指定true或false)</p>
+
+<ol>
+<li>layout_above 在指定元件的上方</li>
+<li>layout_below 在指定元件的下方</li>
+<li>layout_toLeftOf 在指定元件的左方</li>
+<li>layout_toRightOf 在指定元件的右方</li>
+<li>layout_alignTop 元件上緣與指定元件的上緣對齊</li>
+<li>layout_alignBottom 元件下緣與指定元件的下緣對齊</li>
+<li>layout_alignLeft 元件左邊緣與指定元件的左邊緣對齊</li>
+<li>layout_alignRight 元件右邊緣與指定元件的右邊緣對齊</li>
+</ol>
+
+
+<p>詳請可參閱<a href="http://developer.android.com/reference/android/widget/RelativeLayout.LayoutParams.html" title="http://developer.android.com/reference/android/widget/RelativeLayout.LayoutParams.html">RelativeLayout.LayoutParams
+API</a></p>
+
+<h5>用程式設定RelativeLayout的LayoutParams</h5>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT,   LayoutParams.WRAP_CONTENT);
+</span><span class='line'>params.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+</span><span class='line'>params.addRule(RelativeLayout.ABOVE, R.id.dictionary);</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>進階的layout</h1>
+
+<p>當layout過於複雜時，可以用以下三種方式解決</p>
+
+<ol>
+<li><a href="http://developer.android.com/resources/articles/layout-tricks-merge.html" title="http://developer.android.com/resources/articles/layout-tricks-merge.html">&lt;include></a>
+tag</li>
+<li><a href="http://developer.android.com/resources/articles/layout-tricks-stubs.html" title="http://developer.android.com/resources/articles/layout-tricks-stubs.html">&lt;ViewStub></a>
+tag</li>
+<li><a href="http://developer.android.com/guide/topics/ui/custom-components.html" title="http://developer.android.com/guide/topics/ui/custom-components.html">Custom
+Components</a></li>
+</ol>
+
+
+<h1>Resources</h1>
+
+<ul>
+<li><a href="http://developer.android.com/guide/topics/ui/layout-objects.html" title="http://developer.android.com/guide/topics/ui/layout-objects.html">Layout Objects in Android
+Dev</a></li>
+</ul>
+
+
+<p>^<a href="#fnt__1">1)</a>^ 這個跟java swing一樣，如果有寫過java
+swing，應該很熟悉這種使用方式</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Kent Chiu</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-20T00:00:00+08:00" pubdate data-updated="true">Mar 20<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/android/'>android</a>, <a class='category' href='/blog/categories/layout/'>layout</a>, <a class='category' href='/blog/categories/ui/'>ui</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://blog.kent-chiu.com/blog/2012/03/20/layout/" data-via="" data-counturl="http://blog.kent-chiu.com/blog/2012/03/20/layout/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/03/20/intents/" title="Previous Post: Intents and Intent Filters">&laquo; Intents and Intent Filters</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/03/20/listview/" title="Next Post: ListView">ListView &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/07/07/python-101/">Python 101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/25/url-encoding/">URL Encoding</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/04/restful-api-design/">RESTful API Design</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/17/my-intellij-idea-shortcut/">My IntelliJ IDEA Shortcut</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/12/jesper-report-font-issue/">Jesper Report, IReport 匯出成中文PDF</a>
+      </li>
+    
+  </ul>
+</section>
+
+Included file 'asides/twitter.html' not found in _includes directory
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Kent -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'kentchiu';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.kent-chiu.com/blog/2012/03/20/layout/';
+        var disqus_url = 'http://blog.kent-chiu.com/blog/2012/03/20/layout/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

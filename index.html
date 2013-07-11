@@ -5,11 +5,13 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>My Octopress Blog</title>
-  <meta name="author" content="Your Name">
+  <title>Kent's Blog</title>
+  <meta name="author" content="Kent">
 
   
-  <meta name="description" content=" Blog Archives Recent Posts ">
+  <meta name="description" content="本文是初學 Python 遇到的一些問題留下的筆記: 一開始進入 Python 的世界，除了程式語言本身外還有許多基本的工具要先了解: Python 2 V.S Python 3 : python 語言的版本
+easy_install V.S PIP : 套件安裝工具
+virtualenv : &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,10 +20,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://kentchiu.github.io">
+  <link rel="canonical" href="http://blog.kent-chiu.com">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <link href="/atom.xml" rel="alternate" title="My Octopress Blog" type="application/atom+xml">
+  <link href="/atom.xml" rel="alternate" title="Kent's Blog" type="application/atom+xml">
   <script src="/javascripts/modernizr-2.0.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
@@ -31,14 +33,26 @@
 <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 
   
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-39152849-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
 
 </head>
 
 <body   >
   <header role="banner"><hgroup>
-  <h1><a href="/">My Octopress Blog</a></h1>
+  <h1><a href="/">Kent's Blog</a></h1>
   
-    <h2>A blogging framework for hackers.</h2>
+    <h2>Kent的學習筆記(剛從dokuwiki搬過來，內容還在整修中)</h2>
   
 </hgroup>
 
@@ -50,7 +64,7 @@
   
 <form action="http://google.com/search" method="get">
   <fieldset role="search">
-    <input type="hidden" name="q" value="site:kentchiu.github.io" />
+    <input type="hidden" name="q" value="site:blog.kent-chiu.com" />
     <input class="search" type="text" name="q" results="0" placeholder="Search"/>
   </fieldset>
 </form>
@@ -66,7 +80,1415 @@
       <div class="blog-index">
   
   
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/07/07/python-101/">Python 101</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-07T12:10:00+08:00" pubdate data-updated="true">Jul 7<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/07/07/python-101/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>本文是初學 Python 遇到的一些問題留下的筆記:</p>
+
+<p>一開始進入 Python 的世界，除了程式語言本身外還有許多基本的工具要先了解:</p>
+
+<ul>
+<li>Python 2 V.S Python 3 : python 語言的版本</li>
+<li>easy_install V.S PIP : 套件安裝工具</li>
+<li>virtualenv            : 虛擬工作環境</li>
+</ul>
+
+
+<h4>Python 2 V.S Python 3</h4>
+
+<p>剛進行 Python 的世界，一開始就要面臨的抉擇，就是要用 Python 2 或 Python 3，因為是初學者，沒有任何包袱，當然是選 Python 3。</p>
+
+<blockquote><p>Mac Os 10.8 (mountain lion)預裝的是 Python 2.7.2，要自行昇級成 Python 3.x (目前 2013/07/07 3.3.2是 release 版)
+可以透過在 Mac OS 的terminal 下執行 <code>python -V</code> 取得版號</p></blockquote>
+
+<h4>Easy_install V.S PIP</h4>
+
+<p>easy_install 跟 <a href="http://www.pip-installer.org/">pip</a> 兩者都是套件安裝工具， easy_install 沒有反安裝套件的功能，而 pip 有反安裝套件的功能，所以建議是裝pip</p>
+
+<p>Mac Os 10.8 (mountain lion) 只有預裝 easy_install，要使用 pip，可以透過 easy_install 來安裝 pip
+安裝 pip 的指令如下 <code>$ easy_install pip</code>，如果無法安裝的話，可以直接抓 source 下來裝
+下載的url為 :</p>
+
+<p>必須先安裝<a href="http://pythonhosted.org/setuptools/">setuptools</a></p>
+
+<pre><code>$ curl -O https://bitbucket.org/pypa/setuptools/raw/0.8/ez_setup.py
+$ python ez_setup.py --user 
+</code></pre>
+
+<p>才能再裝 pip</p>
+
+<pre><code>$ curl -O https://pypi.python.org/packages/source/p/pip/pip-1.3.tar.gz
+$ tar xzf pip-1.3.tar.gz
+$ cd pip-1.3
+$ sudo python setup.py install
+</code></pre>
+
+<p>裝完後檢查一下執行一下 <code>pip</code> 指令，如果不能執行，可能是Path沒設好,Path變數是在 <code>~/.bash_profile</code> 如果沒這個檔，可以自已新增一個</p>
+
+<pre><code>export PATH=/System/Library/Frameworks/Python.framework/Versions/3.3/bin:/Users/kent/Library/Python/3.3/bin:$PATH
+</code></pre>
+
+<h2>Python Language</h2>
+
+<h4>連算子</h4>
+
+<ul>
+<li>沒有增量 <code>++</code>，減量 <code>--</code> 運算子</li>
+<li>+=，-= 這是合法的運算子</li>
+<li>除法用<code>/</code> , 整數除法用 <code>//</code></li>
+</ul>
+
+
+<h4>字串</h4>
+
+<ul>
+<li>字串可用單引號或雙引號，單引號較常用</li>
+<li>字串前面加 <code>r</code> 表示為 raw string, ex: raw = r&#8217;this is a \t\n raw string&#8217;</li>
+<li>字串前面加 <code>u</code> 表示為 unicode string, ex: ustring = u&#8217;A unicode \u018e string \xf1&#8217;</li>
+</ul>
+
+
+<h4>條件式結構</h4>
+
+<pre><code> if speed &gt;= 80:
+    print 'License and registration please'
+    if mood == 'terrible' or speed &gt;= 100:
+      print 'You have the right to remain silent.'
+    elif mood == 'bad' or speed &gt;= 90:
+      print "I'm going to have to write you a ticket."
+      write_ticket()
+    else:
+      print "Let's try to keep it under 80 ok?"
+</code></pre>
+
+<p>較簡潔的語法</p>
+
+<pre><code>if speed &gt;= 80: print 'You are so busted'
+else: print 'Have a nice day'         
+</code></pre>
+
+<ul>
+<li>python不是用 {}，也不是用begin/end，而是用縮排跟冒號<code>:</code>來做為區塊結構的範圍</li>
+<li>不是用 <code>else if</code> 而是 <code>elif</code></li>
+</ul>
+
+
+<h4>List and Array</h4>
+
+<p>list 可視為 array，語法如下</p>
+
+<p>list = [&#8216;larry&#8217;, &#8216;curly&#8217;, &#8216;moe&#8217;]</p>
+
+<blockquote><p>tuple 很像 list，但tuple是不可變的，語法如下 <code>tuple = (1, 2, 'hi')</code></p></blockquote>
+
+<p>list 還有一個很特別的一點是可以直接在 list 裡執行 expression，叫 List Comprehensions,
+語法為 [expr for var in list ]</p>
+
+<p>範例:</p>
+
+<pre><code>nums = [1, 2, 3, 4]
+squares = [ n * n for n in nums ]   ## [1, 4, 9, 16]
+</code></pre>
+
+<h4>初學者必備技能</h4>
+
+<ul>
+<li><p>python Interpreter (直譯器)
+直譯式語言的優點就是會有直譯器可以用，在直譯器執行程式，可以立即得到執行的結果，在不了解API的用法時，我通常會在執譯器上先做測試，或者直接用 unittest 寫<em>Learning Test</em>。
+平常沒事也可以掛著查 API doc</p></li>
+<li><p>help([object])<br/>
+列出說明，會說明該 object 有那些 methods 及使用方式</p></li>
+<li>type(variable)
+取得 object 的型別，撰寫弱型別語言最大的痛苦就是不知道變數是什麼型別，這 type 至少可以在runtime取得變數的型別</li>
+</ul>
+
+
+<h4>學習資源</h4>
+
+<ul>
+<li><a href="https://developers.google.com/edu/python/">https://developers.google.com/edu/python/</a>  - Google Python Course</li>
+<li><a href="http://getpython3.com/diveintopython3">http://getpython3.com/diveintopython3</a> - Dive Into Python 3 免費電子書</li>
+<li><a href="http://chimera.labs.oreilly.com/books/1234000000754/index.html">http://chimera.labs.oreilly.com/books/1234000000754/index.html</a> - Test-Driven Web Development with Python</li>
+<li><a href="http://docs.python.org/2/library/">http://docs.python.org/2/library/</a> - python 標準函式庫文件</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/06/25/url-encoding/">URL Encoding</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-25T11:01:00+08:00" pubdate data-updated="true">Jun 25<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/06/25/url-encoding/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><code>https://bob:bobby@www.lunatech.com:8080/file;p=1?q=2#third</code></p>
+
+<ul>
+<li>Scheme           : https</li>
+<li>User             : bob</li>
+<li>Password         :bobby</li>
+<li>Host address     : www.lunatech.com</li>
+<li>Port             : 8080</li>
+<li>Path             : /file</li>
+<li>Path parameters  : p=1</li>
+<li>Query parameters : q=2</li>
+<li>Fragment         : third</li>
+</ul>
+
+
+<h6>Path parameters</h6>
+
+<p>Path parameters 又叫 Matrix Parameters, 每個 <em>path segment</em> 可以有自已的 Matrix Parameters，這在 Restful style 的設計上有時會很有用。</p>
+
+<h6>Fragment</h6>
+
+<p>Fragment 是用來指出整份 URL resrouce 的某一特定部份，在網頁設計上是用來做定位用的錨點 (anchor)</p>
+
+<h4>保留字處理</h4>
+
+<p>path 跟 query string 對保留字的處理方式不一樣，所以，在做編解碼時，要分開處理</p>
+
+<p>ex:
+空白字元在 path 會被編成 %20 , &#8216;+&#8217; 會被編成 &#8216;_&#8217; ,但在 query string 空白字元會被編成 &#8216;+&#8217; or &#8216;%20&#8217;, &#8216;+&#8217; 會被編成 &#8216;%2B&#8217;</p>
+
+<p>所以，如果有一個<code>blue+light blue</code>同時放在 path 跟 query string，那結果會是這樣</p>
+
+<pre><code>http://example.com/blue+light%20blue?blue%2Blight+blue
+</code></pre>
+
+<h4>編碼、中文與 Unicode</h4>
+
+<p>RFC 1738 並沒有規定要用什麼樣的編碼，所以，一般會在 HTTP header 指定 encoding 或採用 HTML page encoding</p>
+
+<h2>Resource</h2>
+
+<ul>
+<li><a href="http://blog.lunatech.com/2009/02/03/what-every-web-developer-must-know-about-url-encoding">http://blog.lunatech.com/2009/02/03/what-every-web-developer-must-know-about-url-encoding</a> - What every web developer must know about URL encoding</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/06/04/restful-api-design/">RESTful API Design</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-04T09:58:00+08:00" pubdate data-updated="true">Jun 4<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/06/04/restful-api-design/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>Method</h2>
+
+<p>POST,DELETE : 操作是 non-idempotent(非幕等)</p>
+
+<p>GET, PUT  : 操作是 idempotent(幕等)</p>
+
+<blockquote><p>TBC : 解釋 idempotent</p></blockquote>
+
+<h3>GET</h3>
+
+<p>GET method用來取得一筆或多的資源，如果是多筆資源，還可以加入分頁，過濾等資訊，也可在header傳入分頁的links，ex:&#8217;first&#8217;, &#8216;last&#8217;, &#8216;next&#8217; and &#8216;prev&#8217;</p>
+
+<ul>
+<li>GET     http://www.example.com/orders                           取得多筆訂單</li>
+<li>GET     http://www.example.com/orders/12345                     取得訂單編號為 12345 的訂單</li>
+<li>GET     http://www.example.com/orders/12345/items               取得訂單編號為 12345 的訂單下的所有訂單項目</li>
+<li>GET     http://www.example.com/orders/12345/oitems/678          取得訂單編號為 12345 的訂單下的訂單項目 678</li>
+<li>GET     http://www.example.com/orders?customer=kent             取得客戶 kent 的所有訂單</li>
+</ul>
+
+
+<h5>status code</h5>
+
+<ul>
+<li>200 (OK)            順利取得資源</li>
+<li>400 (BAD REQUEST)   無法順利取得資訊，通常是參數有問題或某個查詢條件失效</li>
+<li>404 (Not Found)     資源不存在</li>
+</ul>
+
+
+<h3>POST</h3>
+
+<p>POST method用來建立新資源，建立完成資源後，通常是回應 201(CREATED) 的狀態碼，而且建立的新資源的 uri link 會放在 HEAD (不是response body)</p>
+
+<pre><code>POST http://www.example.com/order
+</code></pre>
+
+<p>response</p>
+
+<pre><code>200 OK
+Content-Type: application/json
+Location: http://www.example.com/order/123  
+</code></pre>
+
+<h5>status code</h5>
+
+<ul>
+<li>201 (CREATED)       成功建立新資源</li>
+<li>404 (Not Found)     資源不存在</li>
+</ul>
+
+
+<h3>PUT</h3>
+
+<p>POST method 用來更新資源，</p>
+
+<p>如果 resource 的 id，是由前端決定，而不是後端，那麼此時 PUT 也可以拿用做建立新資源的動作</p>
+
+<h5>status code</h5>
+
+<ul>
+<li>200 (OK)            更新成功，如果使用這個status code，response裡會有異動後的內容</li>
+<li>201 (CREATED)       成功建立新資源</li>
+<li>204 (No Content)    更新成功，如果使用這個status code，response裡沒有任何內容</li>
+<li>404 (Not Found)     資源不存在</li>
+</ul>
+
+
+<h3>DELETE</h3>
+
+<h5>status code</h5>
+
+<ul>
+<li>200 (OK)            更新成功，如果使用這個 status code，response裡會有異動後的內容</li>
+<li>204 (No Content)    更新成功，如果使用這個 status code，response裡沒有任何內容</li>
+<li>404 (Not Found)     資源不存在，連續呼叫兩次相同的 delete，會傳回 404</li>
+</ul>
+
+
+<h4>命名規則</h4>
+
+<p>資源命名應為<strong>複數名詞</strong>，不論是 GET, POST, PUT, DELETE 應該都要用<strong>複數名詞</strong>來命名，如果是要取得單筆資訊，
+則是在<strong>複數名詞</strong>的資源後接上該資源的indentity</p>
+
+<ul>
+<li>GET     http://www.example.com/orders             取得多筆訂單</li>
+<li>GET     http://www.example.com/orders/12345       取得訂單編號為 12345 的訂單</li>
+<li>GET     http://www.example.com/users?name=kent    取得使用者 kent 的資訊</li>
+<li>PUT     http://www.example.com/users/kent         更新使用者 kent</li>
+<li>POST    http://www.example.com/users/kent         新增使用者 kent</li>
+<li>DELETE  http://www.example.com/users/kent         刪除使用者 kent</li>
+</ul>
+
+
+<p>所以，一般來說，只有兩種 url 的定義方式</p>
+
+<pre><code>GET | PUT | DELETE  http://www.example.com/orders/{id}
+POST                http://www.example.com/orders
+</code></pre>
+
+<blockquote><p>TBC : 查一下 resource id是用純數字(/user/1)，或使用有意義的名稱為佳(users/kent)
+目前認為用 id 應該會比較好，因為名稱可能會異動，如果要用名稱，應該是類似查詢參數的用法 /users?name=kent</p></blockquote>
+
+<h2>Resource</h2>
+
+<ul>
+<li><a href="http://zh.wikipedia.org/zh-tw/HTTP%E7%8A%B6%E6%80%81%E7%A0%81">http://zh.wikipedia.org/zh-tw/HTTP%E7%8A%B6%E6%80%81%E7%A0%81</a> - HTTP 狀態碼</li>
+<li><p><a href="http://www.restapitutorial.com/lessons/httpmethods.html">http://www.restapitutorial.com/lessons/httpmethods.html</a>  - RESTful Tutorial</p></li>
+<li><p>一般流行的 Rest API</p>
+
+<ul>
+<li><a href="http://docs.aws.amazon.com/AmazonS3/latest/API/APIRest.html">http://docs.aws.amazon.com/AmazonS3/latest/API/APIRest.html</a> - Amazon 的 REST API文件</li>
+<li><a href="https://dev.twitter.com/docs/api/1.1/get/lists/list">https://dev.twitter.com/docs/api/1.1/get/lists/list</a> - twitter 的 REST API文件</li>
+<li><a href="https://developers.facebook.com/docs/reference/api/">https://developers.facebook.com/docs/reference/api/</a> - FaceBook 的 REST API文件</li>
+<li><a href="https://developer.linkedin.com/apis">https://developer.linkedin.com/apis</a> - linkedin 的 REST API文件</li>
+</ul>
+</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/05/17/my-intellij-idea-shortcut/">My IntelliJ IDEA Shortcut</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-05-17T11:03:00+08:00" pubdate data-updated="true">May 17<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/05/17/my-intellij-idea-shortcut/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Intellij IDEA Mac版的 KeyMap 有兩個版本，這邊的是 Mac 專用版的版本 (Mac OS X 10.5+)</p>
+
+<h2>符號說明</h2>
+
+<ul>
+<li>⌘ : cmd key</li>
+<li>⌥ : option / alt key</li>
+<li>⌃ : ctrl key</li>
+<li>⇧ : shift key</li>
+<li>⇥ : tab</li>
+<li>⏎ : enter key</li>
+<li>⌦ : delete (mac pro 上是 fn + backspace)</li>
+<li>⌫ : backspace</li>
+<li>⌙ : space</li>
+<li>⎋ : esc</li>
+<li>⇠⇡⇣⇢ : 方向鍵</li>
+</ul>
+
+
+<h2>常用</h2>
+
+<p>A ~ Z 不分大小寫</p>
+
+<ul>
+<li>⌘ + ⇧ + A   : Find Action，萬鍵之王，可用來找其他快捷鍵，但前提是必須知道對應操作的關鍵字，像 : &#8216;Copy&#8217; , &#8216;Code Completion&#8217;, &#8216;Go To Line&#8217;, &#8230;.</li>
+<li>⌘ + ⇧ + V   : 從剪貼簿選取</li>
+<li>⌘ + ⇧ + E   : 列出最近異動的檔案</li>
+<li>⌘ + ⇧ + F12 : 最大化編輯區</li>
+<li>⌘ + O       : Go to Class</li>
+<li>⌃ + R       : Run</li>
+<li>⌃ + D       : Debug</li>
+<li>⌘ + ⇧ + ⌫   : 跳到上次的異動處</li>
+<li>⌘ + [       : 上一個位置</li>
+<li>⌘ + ]       : 下一個位置</li>
+<li>⌘ + P       : method parameter 提示</li>
+<li>⌃ + space   : 自動完成 (選到method後，用tab可以 overwrite 目前的 method)</li>
+<li>⌘ + D       : 複製游標所在位置的那一行，或已選擇擇的區塊</li>
+<li>⌘ + ⌫       : 刪除游標所在位置的那一行，或已選擇擇的區塊</li>
+<li>⌘ + f12     : member outline</li>
+<li>⌃ + ⌥ + R   : Run&#8230;</li>
+<li>⌃ + ⌥ + D   : Debug&#8230;</li>
+<li>⌃ + ⇧ + R   : run test case (如果是在method內會只會執行該 method)</li>
+<li>⌃ + ⇧ + D   : debug  test case</li>
+<li>⌘ + ⇧ + T   : 程式跟測試程式間互跳</li>
+<li>⌥ + ⇧ + ⇡   : 游標所在位置的那一行或已選擇擇的區塊 上移</li>
+<li>⌥ + ⇧ + ⇣   : 游標所在位置的那一行或已選擇擇的區塊 下移</li>
+<li>⌥ + ⇡       : 增量選擇 (字母 -> 單字 -> 片語 -> 行 -> 區塊 -> &#8230;)</li>
+<li>⌥ + ⇣       : 減量選擇</li>
+<li>⌘ + N       : 產生新的 class, file , test case, getter/setter, toString,&#8230;</li>
+<li>⌘ + F       : Find</li>
+<li>⌘ + R       : Replace</li>
+<li>⌘ + ⇧ + F   : Find in path</li>
+<li>⌘ + ⇧ + R   : Replace in path</li>
+<li>F7          : Step into</li>
+<li>F8          : Step over</li>
+</ul>
+
+
+<h2>少用，但值得記</h2>
+
+<ul>
+<li>⌃ + J       : 調出javadoc</li>
+<li>⌃ ⇧ + J     : 多行合併</li>
+<li>⌘ + ⏎       : 智能分行</li>
+<li>⌃ + T       : 在本行(或標記區塊)加上 try/catch,if block, &#8230;.</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/05/12/jesper-report-font-issue/">Jesper Report, IReport 匯出成中文PDF</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-05-12T12:22:00+08:00" pubdate data-updated="true">May 12<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/05/12/jesper-report-font-issue/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>jasper report 匯出成 PDF 時， 中文字會無法正常匯出， 需做額外的處理，才能正確的輸出中文。
+中文會有問題主要的原因是缺少中文字體的關係，所以只要滿足了這個條件， PDF 就能顯示中文。</p>
+
+<p>以下步驟為設定 iReport Designer (5.x) 中文字型的方式</p>
+
+<h4>工具 ﹣> 選項</h4>
+
+<p><img src="http://blog.kent-chiu.com/images/blog/2013-05-12-jesper-report-font-issue-000.png" alt="2013-05-12-jesper-report-font-issue-000.png" /></p>
+
+<h4>安裝字型</h4>
+
+<p><img src="http://blog.kent-chiu.com/images/blog/2013-05-12-jesper-report-font-issue-001.png" alt="2013-05-12-jesper-report-font-issue-001.png" /></p>
+
+<p>字形檔為 true type (.ttf)格式，本範例是繁體中文的標楷體 (kaiu.ttf)</p>
+
+<p><img src="http://blog.kent-chiu.com/images/blog/2013-05-12-jesper-report-font-issue-002.png" alt="2013-05-12-jesper-report-font-issue-002.png" /></p>
+
+<blockquote><p>可以在windows的字型檔目錄下取得字型檔，但我在測試時無法直接在windows/font的目錄選得字型檔，
+須把字型檔copy到其他目錄時，iReport 的 <em>Select True Type Font</em> dialog 才看得到字型檔。</p></blockquote>
+
+<h4>設定字型檔的細節</h4>
+
+<p><img src="http://blog.kent-chiu.com/images/blog/2013-05-12-jesper-report-font-issue-005.png" alt="2013-05-12-jesper-report-font-issue-005.png" /></p>
+
+<p>選進來後的Family Name(字型檔名) 預設是 &#8220;標楷體&#8221;，我把它改名成 <em>kaiu</em> (這麼做的原因只是不想讓設定檔出現一堆中文字型名稱，當然，
+你也可以保持預設的名稱 &#8220;標楷體&#8221;)，PDF details的設定要特別注意，
+PDF ENcodeing要設成 <em>Identity-H (Unicode with horizontal writer)</em>, 然後 <em>Enbed this font in PDF document</em>要勾選</p>
+
+<p>到這邊，基本上就算設定好了，之後就是要在範本檔 (jrxml) 裡指定中文字時，要使用剛設定出來的這個字型即可</p>
+
+<h4>在範本檔設定使用中文字型</h4>
+
+<p>文字內容的<code>font name</code>要設定為剛剛新安裝的字型檔名稱</p>
+
+<p><img src="http://blog.kent-chiu.com/images/blog/2013-05-12-jesper-report-font-issue-007.png" alt="2013-05-12-jesper-report-font-issue-007.png" /></p>
+
+<p>做preivew後就會產出 pdf 檔，裡面的中文就會正常顯示了</p>
+
+<h3>用程式匯出成pdf檔時中文的問題</h3>
+
+<p>上述的步驟，只是讓iReport Designer可以正確的匯出有中文字的 pdf，但如果是要用程式做 pdf 匯出的動作，需要把字型檔 export 成 jar 格式的 extension ，
+並丟到 class path 底下，用程式做匯出時，中文字才會正常的顯示。</p>
+
+<p>匯出的功能是在原來安裝字型檔的功能畫面上，裡面有一個 <code>Export as extension</code> 的按鍵，執行後設定 export 的副檔名為 <em>.jar</em> 即可，ex : kaiu.jar</p>
+
+<p>匯出後，將該 jar 檔丟到 class path下即可；如果執行匯出時，發生字型檔找不到的異常，應該是字型檔的 jar 檔沒正確的放在 class path 下</p>
+
+<p><img src="http://blog.kent-chiu.com/images/blog/2013-05-12-jesper-report-font-issue-006.png" alt="2013-05-12-jesper-report-font-issue-006.png" /></p>
+
+<h6>jrxml 範本定義檔 hello.jrxml</h6>
+
+<pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="myreport"&gt;
+
+ &lt;detail&gt;
+    &lt;band height="20"&gt;
+      &lt;staticText&gt;
+        &lt;reportElement x="180" y="0" width="200" height="20"/&gt;
+        &lt;textElement&gt;
+            &lt;font fontName="kaiu" isPdfEmbedded="true"/&gt;
+        &lt;/textElement&gt;
+        &lt;text&gt;&lt;![CDATA[Hello!!! World! 中文字測試]]&gt;&lt;/text&gt;
+      &lt;/staticText&gt;
+    &lt;/band&gt;
+  &lt;/detail&gt;
+&lt;/jasperReport&gt;
+</code></pre>
+
+<p><code>&lt;font fontName="kaiu" isPdfEmbedded="true"/&gt;</code> : fontName 必須設定安裝時設定的名稱</p>
+
+<h6>測試程式</h6>
+
+<pre><code>@Test
+public void exportToPDF_statics_text_only() throws Exception {
+    JasperReport jasperReport;
+    JasperPrint jasperPrint;
+    try {
+        URI uri = getClass().getResource("/hello.jrxml").toURI();
+        File input = new File(uri);
+        jasperReport = JasperCompileManager.compileReport(input.getAbsolutePath());
+        jasperPrint = JasperFillManager.fillReport(jasperReport, new HashMap(), new JREmptyDataSource());
+        String output = input.getParent() + "/hello1.pdf";
+        System.out.println("output to :" +  output);
+        JasperExportManager.exportReportToPdfFile(jasperPrint, output);
+    } catch (JRException e) {
+        e.printStackTrace();
+    }
+}
+</code></pre>
+
+<p>執行 test case後，可以看 output 的目錄看到匯出的 PDF 檔中文是否有正常顯示</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/05/12/jasperreport-101/">JasperReport 101</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-05-12T00:49:00+08:00" pubdate data-updated="true">May 12<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/05/12/jasperreport-101/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h4>jrxml  report定義檔</h4>
+
+<p>Jasper Report 是由副檔名為 <code>jrxml</code> 的 xml 檔進行報表範本定義，範本檔的主結構可被切割成數個區，每一區有專屬的tag，每個 tag 有各自專屬的位置及功能，
+每個 tag 都不是必要的，可以視需求選用，以下列出 Jasper Report 主結構會用到的 tag</p>
+
+<ol>
+<li><code>&lt;title&gt;</code>            - 主標題，只會出現一次</li>
+<li><code>&lt;pageHeader&gt;</code>       - 頁首標題，每頁頁首都會出現</li>
+<li><code>&lt;columnHeader&gt;</code>     - <code>&lt;detail&gt;</code> 的 header，會出現在每個detail區前面</li>
+<li><code>&lt;detail&gt;</code>           - 內容區，會重覆的出現，一個 detail 對應到 data source 的一個資料列</li>
+<li><code>&lt;columnFooter&gt;</code>     - <code>&lt;detail&gt;</code> 的 footer，會出現在每個detail區後面(可設定只出現在最後的detail區)</li>
+<li><code>&lt;pageFooter&gt;</code>       - 頁尾區，每頁頁尾都會出現，通常來放置頁碼 (可設定只出現在最後一頁)</li>
+<li><code>&lt;summary&gt;</code>          - 總結區，在報表的最後面，只會出現一次</li>
+<li><code>&lt;background&gt;</code>       - 設定背景圖片</li>
+</ol>
+
+
+<p>上面的tag，都需要包含 <code>&lt;band&gt;</code> ，才能再放入報表元素(Report Element）</p>
+
+<p>另外還有 <code>group</code> tag用來做可用來群組化，每個 group tag 下可有自已的 header 跟 footer</p>
+
+<p>每一區的位置如下圖所示</p>
+
+<p><img src="http://blog.kent-chiu.com/images/blog/2013-05-12-jasperreport-101-001.png" alt="2013-05-12-jasperreport-101-001.png" /></p>
+
+<p>比較完整的主結構是像這樣</p>
+
+<p><img src="http://blog.kent-chiu.com/images/blog/2013-05-12-jasperreport-101-002.png" alt="2013-05-12-jasperreport-101-002.png" /></p>
+
+<p>上面有提到，每一區必須要定義一個唯一的 <code>&lt;band&gt;</code> 後，才能放入其他的報表元件 (Report Element), 報表元件有這些 :</p>
+
+<p><img src="http://blog.kent-chiu.com/images/blog/2013-05-12-jasperreport-101-003.png" alt="2013-05-12-jasperreport-101-003.png" /></p>
+
+<h4>Jasper Report 版的 HELLO WORLD</h4>
+
+<p>以下的 hello word 範例，我們不用 designer, 改用全手工的方式打造出最簡單的報表定義檔，定義檔內只有 detail 區， detail 區裡顯示靜態的文字 &#8216;Hello World&#8217;</p>
+
+<blockquote><p>用 designer 產生的定義檔，會多很多 tags，每個 tag 也會多很多屬性，用手工打造比較乾淨，也比較容易理解</p></blockquote>
+
+<h6>xml helloworld.jrxml 定義檔</h6>
+
+<pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="myreport"&gt;
+ &lt;detail&gt;
+    &lt;band height="20"&gt;
+      &lt;staticText&gt;
+        &lt;reportElement x="180" y="0" width="200" height="20"/&gt;
+        &lt;text&gt;&lt;![CDATA[Hello World!]]&gt;&lt;/text&gt;
+      &lt;/staticText&gt;
+    &lt;/band&gt;
+  &lt;/detail&gt;
+&lt;/jasperReport&gt;
+</code></pre>
+
+<p>我們只用了 detail section, 上面有提到 section 內必須要有 <code>&lt;band&gt;</code> tag才能放置其他的 Report Element, 我們這邊用到的 Report Element 為
+<code>&lt;staticText&gt;</code> 用途為顯示靜態文字， <code>&lt;staticText&gt;</code> 使用 <code>&lt;reportElement&gt;</code> 做基本屬性設定，然後用 <code>&lt;text&gt;</code> 設定文字內容</p>
+
+<h6>java junit test case for export pdf</h6>
+
+<pre><code>@Test
+public void exportToPDF_statics_text_only() throws Exception {
+    JasperReport jasperReport;
+    JasperPrint jasperPrint;
+    try {
+        URI uri = getClass().getResource("/helloworld.jrxml").toURI();
+        File input = new File(uri);
+        jasperReport = JasperCompileManager.compileReport(input.getAbsolutePath());
+        jasperPrint = JasperFillManager.fillReport(jasperReport, new HashMap(), new JREmptyDataSource());
+        String output = input.getParent() + "/hello1.pdf";
+        System.out.println("output to :" +  output);
+        JasperExportManager.exportReportToPdfFile(jasperPrint, output);
+    } catch (JRException e) {
+        e.printStackTrace();
+    }
+}
+</code></pre>
+
+<p><code>JasperFillManager.fillReport()</code> 需要三個參數,</p>
+
+<ol>
+<li>jasperReport
+jrxml complied 後的 binary file</li>
+<li>paramaters
+控制報表的參數設定值</li>
+<li>datasource 為 <code>JRDataSource</code> 的 subclass</li>
+</ol>
+
+
+<h6>java JasperFillManager.fill() 的 source code</h6>
+
+<p><code>JasperFillManager.fill()</code> 的 source code 如下</p>
+
+<pre><code>/**
+ * Fills the compiled report design supplied as the first parameter and returns
+ * the generated report object.
+ * 
+ * @param jasperReport compiled report design object to use for filling
+ * @param parameters   report parameters map
+ * @param dataSource   data source object
+ * @return generated report object
+ */
+public JasperPrint fill(
+    JasperReport jasperReport, 
+    Map&lt;String,Object&gt; parameters, 
+    JRDataSource dataSource
+    ) throws JRException
+{
+    return JRFiller.fill(jasperReportsContext, jasperReport, parameters, dataSource);
+}
+</code></pre>
+
+<p>JRDataSource 的 subclass 如下圖，我們這個範例，因為只是單純的顯示靜態文字，不需要任何的資料，所以使用 <code>JREmptyDataSource</code> 即可</p>
+
+<p><img src="http://blog.kent-chiu.com/images/blog/2013-05-12-jasperreport-101-004.png" alt="2013-05-12-jasperreport-101-004.png" /></p>
+
+<h4>JRMapCollectionDataSource</h4>
+
+<p>這個範例改用 java collection 當作 data source</p>
+
+<h6>helloword_collection.xml</h6>
+
+<pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+    name="myreport"&gt;
+    &lt;field name="USER_NAME" class="java.lang.String" /&gt;
+
+    &lt;detail&gt;
+        &lt;band height="30"&gt;
+            &lt;staticText&gt;
+                &lt;reportElement x="10" y="0" width="100" height="20" /&gt;
+                &lt;text&gt;&lt;![CDATA[Hello!]]&gt;&lt;/text&gt;
+            &lt;/staticText&gt;
+            &lt;textField&gt;
+                &lt;reportElement x="80" y="0" width="100" height="20" /&gt;
+                &lt;textFieldExpression&gt;&lt;![CDATA[$F{USER_NAME}]]&gt;&lt;/textFieldExpression&gt;
+            &lt;/textField&gt;
+        &lt;/band&gt;
+    &lt;/detail&gt;
+
+&lt;/jasperReport&gt;
+</code></pre>
+
+<p>範本定義檔裡用了兩個 report element</p>
+
+<ol>
+<li><code>&lt;staticText&gt;</code> : 用來顯示靜態文字</li>
+<li><code>&lt;textField&gt;</code>  : 文字欄位，裡面的 <code>&lt;textFieldExpression&gt;</code> 可以用使用 Jasper Report 的 Expression
+$F{USER_NAME} 為Jasper Report 的 Expression，是變數名稱的 placeholder，在匯出後，
+placeholder 會被 data source 裡對應的值所取代，有幾個資料列就會重覆幾次</li>
+</ol>
+
+
+<h6>java 匯出 PDF 的 test case</h6>
+
+<pre><code>@Test
+public void exportToPDF_data_from_collection() throws Exception {
+    JasperReport jasperReport;
+    JasperPrint jasperPrint;
+    try {
+        URI uri = getClass().getResource("/helloword_collection.xml").toURI();
+        File input = new File(uri);
+        jasperReport = JasperCompileManager.compileReport(input.getAbsolutePath());
+
+        Collection&lt;Map&lt;String, ?&gt;&gt; col = Lists.newArrayList();
+        col.add(ImmutableMap.&lt;String, Object&gt;of("USER_NAME", "Kent"));
+        col.add(ImmutableMap.&lt;String, Object&gt;of("USER_NAME", "Cindy"));
+        JRMapCollectionDataSource ds = new JRMapCollectionDataSource(col );
+        jasperPrint = JasperFillManager.fillReport(jasperReport, new HashMap(), ds);
+        String output = input.getParent() + "/hello1_collection.pdf";
+        System.out.println("output to :" +  output);
+        JasperExportManager.exportReportToPdfFile(jasperPrint, output);
+    } catch (JRException e) {
+        e.printStackTrace();
+    }
+}
+</code></pre>
+
+<ul>
+<li>這個範例改用 java collection 來當作資料源，所以要用 <code>JRMapCollectionDataSource</code></li>
+<li>10 ~ 12 行 放了兩個單位的資料(&#8216;Kent&#8217; &amp; &#8216;Cindy&#8217;) 進去 data source， 所以，在輸出時，會看到這兩組資料會被套用到 detail section</li>
+</ul>
+
+
+<p>輸出的PDF結果如下</p>
+
+<p><img src="http://blog.kent-chiu.com/images/blog/2013-05-12-jasperreport-101-005.png" alt="2013-05-12-jasperreport-101-005.png" /></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/05/06/mac-tips/">Mac Tips</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-05-06T19:17:00+08:00" pubdate data-updated="true">May 6<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/05/06/mac-tips/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>刪掉在pop menu裡重覆的應用程式開啟選項</p>
+
+<pre><code>/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/LaunchServices.framework/Versions/A/Support/lsregister -kill -r -domain local -domain system -domain user  &amp;&amp; killall Finder
+</code></pre>
+
+<p>  讀不到SD card時，可以試試以下指令</p>
+
+<pre><code>killall Finder
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/04/22/clean-code/">Clean Code閱讀筆記</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-22T10:06:00+08:00" pubdate data-updated="true">Apr 22<span>nd</span>, 2013</time>
+        
+         | <a href="/blog/2013/04/22/clean-code/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h6>代碼被讀取的次數遠比寫的次數多</h6>
+
+<p>之前只會以為這句是很正常不過的話，而且也認為通常是讀代碼的對象大多是自己，但 Uncle Bob 用一個 Editor Replay (讓編輯器或 IDE
+有類似 Media Player replay 的功能)的例子說明，當在 coding 時，在 method 間的查閱，呼叫，引用…等，這就是在閱讀自己的代碼了。
+也就是說，當要寫一個功能時，就一定會不斷的在閱讀自己的代碼了。</p>
+
+<h6>童子軍軍規</h6>
+
+<p>童子軍有一條軍規是<strong>讓營地比你來時更乾淨</strong>，套用在寫程式上，就是在每次的 checkin ，代碼應該都是要比 checkout 時更 clean</p>
+
+<p>很多人都提到好的程式，不是一開始就規畫出來的，而且每天不斷不斷的重構、改進。重構這些也不用刻意安排時間去做，應該是在每次的
+checkin / checkout 時就順手整理。</p>
+
+<h2>命名</h2>
+
+<h6>命名要能揭示他的意圖</h6>
+
+<ul>
+<li>WHY  : 要能看出為何存在</li>
+<li>WHAT : 要能看出做了什麼</li>
+<li>HOW  : 要能看出如何被使用 (是如何被使用，不是如何做)</li>
+</ul>
+
+
+<p>如果命名時還需要加上額外的注釋，就不會是個好的名字</p>
+
+<h6>不要用不夠明確的字</h6>
+
+<pre><code>getActiveAccount()
+getActiveAccounts()
+getActiveAccountInfo()
+</code></pre>
+
+<p>這三者並無法從名字上區分不同，應該要避免。 (不過個人覺得 account, accounts 是有作用的字，一個代表單數，一個代表複數資料結構)
+像是 <em>Info,Object,Data</em> 這樣的字，跟 a, an, the 一樣，太含混的字，不應該用來命名</p>
+
+<p>也不用特意在命名時加上型別， ex: NameString, CustomerObject 因為在 IDE 幫助下，已經可以很方便的知道物件的型號了，不需要特別去加上類別資訊</p>
+
+<h6>採用技術性的命名方式，而已領域性的命名方式</h6>
+
+<p>會去看代碼的，大多是 programmer ，所以應該是用技術性的名字，像是 JobQuery, AccountVisitor 來取名字，而不是領域上的專業術語，如果一定要用到領域上的術語
+，那務必讓術語的名字與領域術語能一致。</p>
+
+<blockquote><p>私以為有時使用領域術語命名，會比較直覺，要維護該程式，應該要對該專業領域有所瞭解</p></blockquote>
+
+<h4>Class Name</h4>
+
+<ul>
+<li>不要有像 Info, Data, Processor這樣的字</li>
+</ul>
+
+
+<h4>命名的一致性</h4>
+
+<ul>
+<li>像 fetch, retrieve, get 意義上相等的字，應該只取一組就好，不要有的 method 是用 get ，有的又用 fetech，還有的用 retrieve 這樣，使用 API 的人，搞不清楚要用那一套</li>
+<li>Driver, Manager, Controller 也是意義上相等的字，應該只取一組就好，因為很難從字面上分辨 DeviceManger 跟 DeviceController 會有什麼不同</li>
+</ul>
+
+
+<blockquote><p>如果是實作上本身就有差異性 ex: insert 跟 append，那兩個近義字同時使用，是可被接授的</p></blockquote>
+
+<h2>Functions</h2>
+
+<ul>
+<li>function 愈短愈好，但怎樣的長度叫短呢？ Uncle Martin 認為應該像 Kent Beck 的寫作風格一樣，每個 method 都不超過5行</li>
+<li>每個 if, else , while statement 的內容，應該要只有一行，可以用 function call (extract to function) 把內容濃縮成一行，
+這樣不但可以讓 method 改小，也可以增加可讀性，也就是說，程式裡只要出現 nest structure 就是一個可以做 extract 的訊號</li>
+<li><p><em>一個 funciton 應該只作一件事</em>，但何謂一件事呢？如果 function 可以的部份內容可以被 extract 成另一個 funciton ，
+extract 後的 function 是一個完全不同於原來 function 的功能，而不只用另一個方式描述原來的功能，就代表了 function 坐了不止一件事</p>
+
+<pre><code>  public static String renderPageWithSetupsAndTeardowns( PageData pageData, boolean isSuite) throws Exception { 
+      if (isTestPage(pageData))
+          includeSetupAndTeardownPages(pageData, isSuite); 
+          return pageData.getHtml();
+      }
+  }
+</code></pre>
+
+<p>如果將上面的 function extract 成</p>
+
+<pre><code>  public static String renderPageWithSetupsAndTeardowns( PageData pageData, boolean isSuite) throws Exception { 
+      return includeSetupsAndTeardownsIfTestPage(pageData, isSuite);
+  }
+
+  public static String includeSetupsAndTeardownsIfTestPage( PageData pageData, boolean isSuite) throws Exception {     
+      if (isTestPage(pageData))
+          includeSetupAndTeardownPages(pageData, isSuite); 
+          return pageData.getHtml();
+      }
+  }
+</code></pre>
+
+<p>新的 <code>includeSetupsAndTeardownsIfTestPage</code> function 只是在用另外一種方式描述 <code>renderPageWithSetupsAndTeardowns()</code> 雖然可以這樣做 extract，
+但這不代表了原來的 <code>includeSetupsAndTeardownsIfTestPage</code>  做了不止一件事，因為新的 function 只是另一種方式來描述原來的 function,
+而如果一個 funtion 的內容，分了成幾個斷落 (sections)，顯示的，這也表明了這個 function 做了不止一件事</p></li>
+</ul>
+
+
+<blockquote><p>我試著去翻出 Kent Beck 最早期的 junit (3.4) 大多的 function 也都相當的短 (10行以下)， 也有少數比較長的，但也沒超過50行
+不過，讓每個 function 都小到了極致，那勢必會產生更多的 fucntions 或 classes 而造成 <em>Divergent Change（發散式變化</em> 或 <em>Shotgun Surgery（霰彈式修改)</em>
+這部份要如果解決，有待確認</p></blockquote>
+
+<ul>
+<li>functon 內的實作抽像等級應該要一致，不要同一個 function 內，有很高階的實作，又有很低階的實作
+高階，低階是指實作的抽象性，像 getHtml() 就是比較高階，而字串相加，就是屬於比較低階的實作</li>
+<li>small function 在取名上也比較容易，因為它只做一件事，就會比較容易給他一個相符的名稱，所以，如果 funciton 在命名上有困難時，也許就是該 funciton 做了不止一件事了</li>
+</ul>
+
+
+<h2>Arguments</h2>
+
+<ul>
+<li>參數的數量愈少愈好，如果能沒有參數最好，三個參數應該已是最大值，四個參數應該是特殊狀況了</li>
+<li><em>參數數量多，程式的可測性也會降，更多的參數，將需要更多的測試</em>，因為參數的排列組合的方式會更多，需要更多的測試</li>
+<li>用布林當參數時，通常代表該 function 可以被切割成兩個 function</li>
+</ul>
+
+
+<h4>回傳值</h4>
+
+<ul>
+<li>應儘量避免使用回傳值，如果回傳值是為了改變某個狀態，應該要直接改變物件本身</li>
+</ul>
+
+
+<h2>Exceptions</h2>
+
+<ul>
+<li>例外處理的 try / catch / finally 本身就是<em>一件事</em>，不可做切割</li>
+<li>例外處理不要值用error code，不然會造成所有人都依賴的這個 error code，要異動時，一定得去異動 error code</li>
+</ul>
+
+
+<h2>Object And Data Structures</h2>
+
+<p>這樣的code，違反了Law of Demeter</p>
+
+<pre><code>final String outputDir = ctxt.getOptions().getScratchDir().getAbsolutePath();
+</code></pre>
+
+<p>最好改成這樣</p>
+
+<pre><code>Options opts = ctxt.getOptions();
+File scratchDir = opts.getScratchDir();
+final String outputDir = scratchDir.getAbsolutePath();
+</code></pre>
+
+<p>不選，如果一個 function 像這樣包含了太多相關的物件，那就應該考慮是不是有責任歸屬的問題，重新釐清每個物件的責任後，或許會有所改善</p>
+
+<h2>Boundaries</h2>
+
+<p>如果需要在物件間傳遞 Map, List, Set 結構時，可以將它包成物件.</p>
+
+<h4>Learning tests</h4>
+
+<p>使用 third-party lib 是件不同易的事，要對 thrid-party lib 整合更是不容易，我們可以透過讀閱讀過文件後，寫一些簡單來驗証 lib 行為，是不是跟我們所理解的一樣。
+這樣的測試叫 Learning tests。</p>
+
+<h2>Testings</h2>
+
+<ul>
+<li>可讀性對 test code 比 production code 更重要。</li>
+<li>專業的程式員應該要將測試重構成更具描述性的表達方式</li>
+<li>每個 test case 裡的 asssertions 應該要儘可能的少，有人甚至主張一個 test case 只能有一個 assertion，至少應該儘量保持 singal concept per test</li>
+</ul>
+
+
+<p>BDD Given/When/Then test case 的寫法</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>
+</span><span class='line'>  public void testGetPageHierarchyAsXml() throws Exception { 
+</span><span class='line'>      givenPages("PageOne", "PageOne.ChildOne", "PageTwo");
+</span><span class='line'>      whenRequestIsIssued("root", "type:pages");
+</span><span class='line'>      thenResponseShouldBeXML();
+</span><span class='line'>   }
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>  public void testGetPageHierarchyHasRightTags() throws Exception { 
+</span><span class='line'>      givenPages("PageOne", "PageOne.ChildOne", "PageTwo");
+</span><span class='line'>      whenRequestIsIssued("root", "type:pages");
+</span><span class='line'>      thenResponseShouldContain("&lt;name&gt;PageOne&lt;/name&gt;", "&lt;name&gt;PageTwo&lt;/name&gt;", "&lt;name&gt;ChildOne&lt;/name&gt;"); 
+</span><span class='line'>  }</span></code></pre></td></tr></table></div></figure>
+
+
+<h6>F.I.R.S.T.</h6>
+
+<ul>
+<li>Fast 執行起來要夠快，才會經常去執行</li>
+<li>Independent 獨立，不需要 testing code 及 production code 以外的東西，像是還要手動設定資料庫，或一定要網路連線</li>
+<li>Repeatable 可重覆 (可重現)</li>
+<li>Self-Validating  簡單而明確的指出測式的結果 (red bar / green bar) 跟失敗的原因</li>
+<li>Timely 測試要在 proudction code 之前寫好，而不是寫好了 production code 再來寫測式 ( test first or TDD )</li>
+</ul>
+
+
+<h2>Classes</h2>
+
+<p>Uncle Bob 提倡<em>報紙代排版</em>，也就是 functions 不是換按照 scope ( public -> package -> protected -> private )，而是照閱讀順序 (stepdown)，
+一般以 plulic scope 的 fucntion 開始，緊接著是依該 public 裡值用到的順序做排列， 這樣會像報紙一樣，以上至下的閱讀。</p>
+
+<blockquote><p>目前要採用這種方式， IDE (eclipse , interllij ) 目前並沒有支援，況且，如果 function 被多個 function 呼叫， 被呼叫的 function 要放那，也是一個問題。
+目前 ide 都有 function 的 outline 可以快速跳掉某個 function ， eclipse 也有可以直接看另一個被呼叫的 function viewer ，
+私以為 newspaper format 不是那麼必要。</p></blockquote>
+
+<h4>保持精簡</h4>
+
+<p>Class 應該儘可能的小，但要小到多少？用 function 的數量來計數比是那麼的精確，用檔案大小來計算，更是不容易反應出 class
+的真實大小，在計算 classs 的大小採用的是所讀的<em>職責數</em>，在 OOP 五大定理原則裡有一個叫 SPR (Single Responsibility
+Principle), 中文為<em>單一職責原則</em>，單一職責原則要求每個 class 應該只有一個責任（只做一件事），所以，我們可以用　class
+是否做了太多的事來判斷 class 是不是太大。</p>
+
+<blockquote><p>用比較實務上的方式來解釋<em>單一職責原則</em>的話，可以這樣說: 當同一個物件需要異動時，應該都是基於相同的理由</p></blockquote>
+
+<pre><code>public class SuperDashboard extends JFrame implements MetaDataUser public Component getLastFocusedComponent()
+public void setLastFocused(Component lastFocused)
+public int getMajorVersionNumber()
+public int getMinorVersionNumber()
+public int getBuildNumber() }
+</code></pre>
+
+<p>以上面的 SuperDashboard class 來說，它就具備了兩個職責</p>
+
+<ol>
+<li>版本資訊</li>
+<li>Java Swing的物件結構</li>
+</ol>
+
+
+<p>所以，當出貨時(理由一)，版本資訊需要異動， focus (GUI 元件的 foucs)異動時，也可能會改變 SuperDashboard，所以這個 class 應該再被細分。</p>
+
+<h4>少量的 Large Class V.S. 大量的 Small Class</h4>
+
+<p>在設計 class 時，多數人更偏好寫一個很大的 class 而不是 許多的小 classes，因為這樣可以不用在 class見跳來跳去的閱讀，可以在同一個檔
+案裡找到所有需要的東西，覺得畫分成小的 class 反而是造成程式可讀性不佳的原兇。其實，<strong>這一定是個誤會</strong>，切成許多單一職責的 classes，
+只要透過系統化的分類，不但可以更快的找到需要的功能。</p>
+
+<p>舉例來說，將許多的小零件分門別類的放在工具箱的小抽遞內，一定比全部混放在一個大抽遞更能被快速的找到。所以，不要害怕 class 的切割，做好
+SPR，其他的問題，可以透過系統化的組織來解決 class 過多的問題，而且 Small Class 在 reused的效果上也更好，測試上也比較容易。</p>
+
+<h4>內聚力</h4>
+
+<p>class 的 instance variables 的被 class 內的 methods 引用的次數愈多，表示其內聚力愈強，如果一個類別的內聚力太低時，就應該考慮是否做切割。</p>
+
+<blockquote><p>內聚力太低時，通常也代表 instance variables 數量太多，某些可能只被特定的 methods 引用，那可能就意味這些 methods 應該被
+extract 出去成為另一個獨立的 class， 這樣對兩個 classes 來說，都會有更高的內聚力</p></blockquote>
+
+<h2>Emergence</h2>
+
+<p>Kent Beck&#8217;s Xp Simplicity Rules:</p>
+
+<ol>
+<li>Runs all the tests</li>
+<li>Contains no duplication</li>
+<li>Expresses the intent of the programmer</li>
+<li>Minimizes the number of classes and methods</li>
+</ol>
+
+
+<p>ref: <a href="http://c2.com/cgi/wiki?XpSimplicityRules">http://c2.com/cgi/wiki?XpSimplicityRules</a></p>
+
+<h4>重構的方向</h4>
+
+<ol>
+<li>去除重覆</li>
+<li>可讀性</li>
+<li>保持最少跟最小的 classes, methods</li>
+</ol>
+
+
+<h2>Resource</h2>
+
+<ul>
+<li>planetgeek.ch 整理的clean code cheetsheet <a href="http://www.planetgeek.ch/2013/06/05/clean-code-cheat-sheet/">http://www.planetgeek.ch/2013/06/05/clean-code-cheat-sheet/</a> , <a href='http://blog.kent-chiu.com/images/blog/2013-04-22-clean-code_Clean-Code-V2.1.pdf'>備份檔</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/14/install-git-flow-on-windows/">在 Windwos OS 上安裝git Flow</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-14T21:48:00+08:00" pubdate data-updated="true">Mar 14<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/03/14/install-git-flow-on-windows/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>git-flow on windows主要是參考這篇文章
+https://github.com/nvie/gitflow/wiki/Windows</p>
+
+<h2>下載相關檔案</h2>
+
+<p>git官網下載的git是屬於MSysGit版的，所以，要按照MSysGit的安裝步驟進行git flow的安裝</p>
+
+<p>首先要先安裝<code>util-linux-ng for Windows</code>,<code>util-linux-ng for Windows</code>可以到
+http://gnuwin32.sourceforge.net/packages/util-linux-ng.htm 下載，點選下圖紅框的檔案連結下次二進制文件的zip檔</p>
+
+<p><img src="/images/blog/2013-03-14-install-git-flow-on-windows-001.png" alt="2013-03-14-install-git-flow-on-windows-001.png" /></p>
+
+<p>需一併下載上圖中下方紅框的<code>libintl</code>，libintl的連結會進入另一個網頁 http://gnuwin32.sourceforge.net/packages/libintl.htm，一樣下載Binaries的zip檔即可</p>
+
+<p>再來需要確定一下git安裝的路徑，如果是32位元的os會是在 <code>C:\Program Files\Git</code>, 64位元的os會是在 <code>C:\Program Files (x86)\Git</code> (<strong>以下的步驟以64位元的os的git安裝目錄為例</strong>)</p>
+
+<p>下載後的 util-linux-ng-2.14.1-bin.zip 解壓，可以在<code>util-linux-ng-2.14.1-bin\bin</code>找到 getopt.exe
+下載後的libintl-0.14.4-bin.zip解壓，可以在<code>libintl-0.14.4-bin\bin</code>找到 libintl3.dll</p>
+
+<p>將getopt.exe跟 libintl3.dll copy到git安裝目錄 <code>C:\Program Files (x86)\Git</code></p>
+
+<h2>clone git flow</h2>
+
+<p>clone github上的gitflow到臨時性的工作目錄 <code>c:\gitflow</code> (<em>這個目錄做完安裝後可以刪除</em>)</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git clone --recursive git://github.com/nvie/gitflow.git c:\gitflow</span></code></pre></td></tr></table></div></figure>
+
+
+<p>clone完成後，到 c:\gitflow\contrib 執行</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>C:\gitflow\contrib&gt;msysgit-install.cmd "C:\Program Files (x86)\Git"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>執行後，會看到一些檔案被複制到git安裝目錄</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>C:\gitflow\git-flow -&gt; C:\Program Files (x86)\Git\bin\git-flow
+</span><span class='line'>C:\gitflow\git-flow-feature -&gt; C:\Program Files (x86)\Git\bin\git-flow-feature
+</span><span class='line'>C:\gitflow\git-flow-hotfix -&gt; C:\Program Files (x86)\Git\bin\git-flow-hotfix
+</span><span class='line'>C:\gitflow\git-flow-init -&gt; C:\Program Files (x86)\Git\bin\git-flow-init
+</span><span class='line'>C:\gitflow\git-flow-release -&gt; C:\Program Files (x86)\Git\bin\git-flow-release
+</span><span class='line'>C:\gitflow\git-flow-support -&gt; C:\Program Files (x86)\Git\bin\git-flow-support
+</span><span class='line'>C:\gitflow\git-flow-version -&gt; C:\Program Files (x86)\Git\bin\git-flow-version
+</span><span class='line'>已複製 7 個檔案
+</span><span class='line'>C:\gitflow\gitflow-common -&gt; C:\Program Files (x86)\Git\bin\gitflow-common
+</span><span class='line'>C:\gitflow\gitflow-shFlags -&gt; C:\Program Files (x86)\Git\bin\gitflow-shFlags
+</span><span class='line'>已複製 2 個檔案
+</span><span class='line'>C:\gitflow\shFlags\src\shflags -&gt; C:\Program Files (x86)\Git\bin\gitflow-shFlags
+</span><span class='line'>已複製 1 個檔案</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這樣整個安裝步驟就全部完成了</p>
+
+<h2>試車</h2>
+
+<p>可以在windows的command  windows裡打git flow，如果有看到類似以下的訊息就ok了</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>C:\gitflow\contrib&gt;git flow
+</span><span class='line'>usage: git flow &lt;subcommand&gt;
+</span><span class='line'>
+</span><span class='line'>Available subcommands are:
+</span><span class='line'>   init      Initialize a new git repo with suppo
+</span><span class='line'>   feature   Manage your feature branches.
+</span><span class='line'>   release   Manage your release branches.
+</span><span class='line'>   hotfix    Manage your hotfix branches.
+</span><span class='line'>   support   Manage your support branches.
+</span><span class='line'>   version   Shows version information.
+</span><span class='line'>
+</span><span class='line'>Try 'git flow &lt;subcommand&gt; help' for details.</span></code></pre></td></tr></table></div></figure>
+
+
+<p>到這裡都ok的話，之前的臨時性的工作目錄 <code>c:\gitflow</code>可以刪了它</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/12/how-to-developing-extjs-app-in-firefox-console/">如何透過firefox Console來加速開發extjs</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-12T12:34:00+08:00" pubdate data-updated="true">Mar 12<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/03/12/how-to-developing-extjs-app-in-firefox-console/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>test published options
+xxxxx</p>
+</div>
+  
+  
+
+
+    </article>
+  
   <div class="pagination">
+    
+      <a class="prev" href="/blog/page/2/">&larr; Older</a>
     
     <a href="/blog/archives">Blog Archives</a>
     
@@ -78,10 +1500,30 @@
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
     
+      <li class="post">
+        <a href="/blog/2013/07/07/python-101/">Python 101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/25/url-encoding/">URL Encoding</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/04/restful-api-design/">RESTful API Design</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/17/my-intellij-idea-shortcut/">My IntelliJ IDEA Shortcut</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/12/jesper-report-font-issue/">Jesper Report, IReport 匯出成中文PDF</a>
+      </li>
+    
   </ul>
 </section>
 
-
+Included file &#8216;asides/twitter.html&#8217; not found in _includes directory
 
 
 
@@ -91,16 +1533,46 @@
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2013 - Your Name -
+  Copyright &copy; 2013 - Kent -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 
 </footer>
   
 
+<script type="text/javascript">
+      var disqus_shortname = 'kentchiu';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
 
 
 
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
 
 
 

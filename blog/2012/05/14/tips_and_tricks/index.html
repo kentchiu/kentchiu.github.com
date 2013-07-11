@@ -1,0 +1,435 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Android Tips & Tricks - Kent's Blog</title>
+  <meta name="author" content="Kent">
+
+  
+  <meta name="description" content="WebView 讓WebView的內容符合手機的畫面 webview常常需要去存取現在的網頁，但大部份的網頁沒有針對moible特別做處理，所以用手機去瀏灠網頁時(透過webview)，通常需要左右的捲動才要辦法看到完整的內容。
+解決的方式為 WebView webview = new &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.kent-chiu.com/blog/2012/05/14/tips_and_tricks">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Kent's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-39152849-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Kent's Blog</a></h1>
+  
+    <h2>Kent的學習筆記(剛從dokuwiki搬過來，內容還在整修中)</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.kent-chiu.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Android Tips & Tricks</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-05-14T00:00:00+08:00" pubdate data-updated="true">May 14<span>th</span>, 2012</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h3>WebView</h3>
+
+<h5>讓WebView的內容符合手機的畫面</h5>
+
+<p>webview常常需要去存取現在的網頁，但大部份的網頁沒有針對moible特別做處理，所以用手機去瀏灠網頁時(透過webview)，通常需要左右的捲動才要辦法看到完整的內容。
+解決的方式為</p>
+
+<pre><code>WebView webview = new WebView(getContext());
+webview.getSettings().setLoadWithOverviewMode(true);
+webview.getSettings().setUseWideViewPort(true);
+</code></pre>
+
+<h5>防止webview開成新的瀏灠器</h5>
+
+<p>通常採用webview時，會希望webview
+embbeded在客制的APP裡面，但預設的webview開啟url時，會開啟成新的完整的瀏灠器(含url
+bar)，可以透過以下的code來防止這個行為。</p>
+
+<pre><code>WebView webview = new WebView(getContext());
+webview.setWebViewClient(new WebViewClient());
+</code></pre>
+
+<h5>防止Rotate後webview reload</h5>
+
+<p>手機在直放改成橫放(或橫放改直放)時，activity會呼叫onCreate()重新建立activity，如果activity裡面webview元件，會造成weview的內容消失。
+，可以在AndroidManifest.xml加入如下的設定來避免這種情現</p>
+
+<pre><code>    &lt;activity android:name=".MyActivity" 
+              android:label="@string/app_name" 
+              android:configChanges="orientation|keyboard|keyboardHidden"&gt; 
+</code></pre>
+
+<h3>Storage</h3>
+
+<h5>Internal Memory</h5>
+
+<pre><code>Context.getFilesDir: /data/data/package_name/files
+Context.getDir: /data/data/package_name/app_
+Context.getCacheDir(): /data/data/package_name/cache
+Environment.getDataDirectory(): /data
+Environment.getDownloadCacheDirectory(): /cache
+</code></pre>
+
+<h5>SDCard</h5>
+
+<pre><code>Environment.getExternalStoragePublicDirectory(): /mnt/sdcard
+</code></pre>
+
+<h3>Activity</h3>
+
+<h4>Launch Mode</h4>
+
+<p>Activity Launch Mode是<a href="http://developer.android.com/guide/topics/fundamentals/tasks-and-back-stack.html" title="http://developer.android.com/guide/topics/fundamentals/tasks-and-back-stack.html">current
+task</a>怎麼去啟動的Activity的方式。
+可以透過manifest或programming的方式來設定，但有些設定值，只有manifest有提供，沒辦法在runtime設定。</p>
+
+<ol>
+<li>standard
+預設模組，一個activity可以有多個實體，每個實體分屬不同的task，一個task內也可存在多個實體</li>
+<li>singleTop
+如果有四個activies啟動在task內是<code>A→B→C→D</code>，D在最上面，一般模式下再啟動一次D會變<code>A→B→C→D→D</code>，但如果D是singleTop，不論啟動多少次D，都只會是<code>A→B→C→D</code></li>
+<li>singleTask
+如果不存在任何task中時，會建新另一個新的task，如果存在task中時，會呼叫其他task中的activity，並讓它成為top</li>
+<li>singleInstance
+永遠會建立最新的，但如果目前該activity已經是top，那就不會再建立</li>
+</ol>
+
+
+<h4>Handling Runtime Changes</h4>
+
+<p>手機翻轉時，會重建整個Activity以便loading最新的配置內容，但有時，我們會希望可以保持Activity的部份狀態，要達到這個目的，可以透以下幾種機制</p>
+
+<ol>
+<li>透過 onSaveInstanceState()</li>
+<li>透過 onRetainNonConfigurationInstance()</li>
+<li>透過修改配置檔disable掉config change的事件</li>
+</ol>
+
+
+<h5>透過 onSaveInstanceState</h5>
+
+<p>這個方式適用到保持可以序列化的值，像原生型別(數值，字串…)
+主要是在onSaveInstanceState()被觸發時，把狀態保持在Intent，然後再onCreate()取得原本的狀態</p>
+
+<h5>透過 onRetainNonConfigurationInstance</h5>
+
+<p>onSaveInstanceState會有一個明顯的限制，就是不能處理太複雜或太大的資料，因為會做序列化，不但耗時，而且會佔不少記憶體空間。
+如果要保留比較複雜的資料，可以透過onRetainNonConfigurationInstance()把物件的reference
+hold住，之後，可以下次activity
+restart時，透過getLastNonConfigurationInstance()取出</p>
+
+<pre><code>@Override
+public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+ 
+    final MyDataObject data = (MyDataObject) getLastNonConfigurationInstance();
+    if (data == null) {
+        data = loadMyData();
+    }
+    ...
+}
+</code></pre>
+
+<p>要被hold住的物件不能跟context有任何關係，不然不旦會造成錯誤，還會造成memory
+leaking</p>
+
+<h5>透過修改配置檔disable掉config change的事件</h5>
+
+<p>這種方式，是直接告訴activty要忽略某些configuration change</p>
+
+<pre><code>&lt;activity
+ android:configChanges="orientation|keyboardHidden"
+</code></pre>
+
+<p>一個簡單的翻轉動作，可能同時會觸發多次onConfigurationChanged()，所以，要把相關的設定都關掉，才不會有問題</p>
+
+<h3>List View</h3>
+
+<h5>下拉後更新 (Pull to refresh)</h5>
+
+<p>在許多listview的應用裡可以見到這樣的應用</p>
+
+<p><img src="https://raw.github.com/johannilsson/android-pulltorefresh/master/android-pull-to-refresh.png" alt="android-pull-to-refresh.png" /></p>
+
+<p>這個效果的做法的基本原理，是在listview的header放一個layout，在偵測到listview的scroll事件後，讓layout進行動畫播放，再callback一個AsyncTask去取得資料再更新listview。</p>
+
+<p>GitHub上有兩個這樣的library可用</p>
+
+<ol>
+<li><a href="https://github.com/johannilsson/android-pulltorefresh" title="https://github.com/johannilsson/android-pulltorefresh">https://github.com/johannilsson/android-pulltorefresh</a>
+
+<ul>
+<li>基本的list view pull to refresh</li>
+</ul>
+</li>
+<li><a href="https://github.com/chrisbanes/Android-PullToRefresh" title="https://github.com/chrisbanes/Android-PullToRefresh">https://github.com/chrisbanes/Android-PullToRefresh</a>
+
+<ul>
+<li>這個專案目前比較活躍，另外也提供WebView, GridView,
+PullToRefreshExpandableListView的下拉後更新，程式結構也比較清晰</li>
+</ul>
+</li>
+</ol>
+
+
+<h3>TextEdit</h3>
+
+<h5>讓edit text不會一開始就彈出軟體鍵盤</h5>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;activity android:name="MyActivity"
+</span><span class='line'>          android:windowSoftInputMode="adjustUnspecified|stateHidden"
+</span><span class='line'>          android:configChanges="orientation|keyboardHidden"/&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Kent Chiu</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-05-14T00:00:00+08:00" pubdate data-updated="true">May 14<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/android/'>android</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://blog.kent-chiu.com/blog/2012/05/14/tips_and_tricks/" data-via="" data-counturl="http://blog.kent-chiu.com/blog/2012/05/14/tips_and_tricks/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/05/05/jvm_profile/" title="Previous Post: JVM 記憶體調校">&laquo; JVM 記憶體調校</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/05/25/effective_java_item_list/" title="Next Post: Effective Java Item List">Effective Java Item List &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/07/07/python-101/">Python 101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/25/url-encoding/">URL Encoding</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/04/restful-api-design/">RESTful API Design</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/17/my-intellij-idea-shortcut/">My IntelliJ IDEA Shortcut</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/12/jesper-report-font-issue/">Jesper Report, IReport 匯出成中文PDF</a>
+      </li>
+    
+  </ul>
+</section>
+
+Included file 'asides/twitter.html' not found in _includes directory
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Kent -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'kentchiu';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.kent-chiu.com/blog/2012/05/14/tips_and_tricks/';
+        var disqus_url = 'http://blog.kent-chiu.com/blog/2012/05/14/tips_and_tricks/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

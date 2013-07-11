@@ -1,0 +1,583 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>EXT JS 101 - Kent's Blog</title>
+  <meta name="author" content="Kent">
+
+  
+  <meta name="description" content="本文章內容在說明EXT JS
+4的基本知識。”EXT JS
+4”(以下簡稱ext)是Sencha公司出的一套javascript
+lib，有兩種授權模式，但基本上”就是要錢”。 從架構面來看ext可以分成兩部份，ext core跟ext UI componment，ext &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.kent-chiu.com/blog/2012/11/15/extjs_101">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Kent's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-39152849-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Kent's Blog</a></h1>
+  
+    <h2>Kent的學習筆記(剛從dokuwiki搬過來，內容還在整修中)</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.kent-chiu.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">EXT JS 101</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-15T00:00:00+08:00" pubdate data-updated="true">Nov 15<span>th</span>, 2012</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>本文章內容在說明<a href="http://www.sencha.com/" title="http://www.sencha.com/">EXT JS
+4</a>的基本知識。”EXT JS
+4”(以下簡稱ext)是<a href="http://www.sencha.com/" title="http://www.sencha.com/">Sencha</a>公司出的一套javascript
+lib，有兩種授權模式，但基本上”就是要錢”。</p>
+
+<p>從架構面來看ext可以分成兩部份，ext core跟ext UI componment，ext
+core的部份是跟ui比較沒有關係的核心模型，像資料模型<a href="#model" title="extjs:extjs_101 ↵">Model</a>、後端的溝通處理用的<a href="#proxy" title="extjs:extjs_101 ↵">Proxy</a>、以及<a href="#plugin" title="extjs:extjs_101 ↵">Plugin</a>跟<a href="#extension" title="extjs:extjs_101 ↵">Extension</a>
+。而ext UI
+componment就是一堆UI元件。建議在看完簡單的文件，玩玩ext的hello
+word程式後，可以先從內功(ext
+core)下手，等內功任督二脈打通了後，外功(UI元件)再個個擊破就很快了。</p>
+
+<h2>Data Package</h2>
+
+<p>整個Data Package的主要觀念如下圖:</p>
+
+<p><img src="/images/wiki/extjs/extjs_101_001.png" alt="extjs_101_001.png" /></p>
+
+<h3>Model</h3>
+
+<p>Model就是資料模型，像User的model，就是具有username, password,
+email,….這些屬性(圖中的Field)的資料模型，
+模型的驗証邏輯(圖中的Validation)及與其他模組關聯(Association)。</p>
+
+<h5>Validation</h5>
+
+<p>可以是單位欄位性質得欄位型態，內容，長度…驗証，也可以是同一個model裡欄位與欄位間關係的驗証，甚至少
+Business Logic的驗証。</p>
+
+<p>過於複雜的驗証，最後再後端處理後，再送回前端</p>
+
+<h3>Proxy</h3>
+
+<p>Proxy負看將資料載入model或儲存model的資料。可分為Client Proxy及Server
+Proxy</p>
+
+<h5>Client Proxy</h5>
+
+<ol>
+<li><p>WebStorageProxy</p>
+
+<ol>
+<li>LocalStorageProxy</li>
+<li>SessionStorageProxy</li>
+</ol>
+</li>
+<li><p>MemoryProxy</p></li>
+</ol>
+
+
+<h5>Server Proxy</h5>
+
+<ol>
+<li><p>AjaxProxy - 透過AJAX跟後端溝通(常用)</p>
+
+<ol>
+<li>RestProxy - 透過REST跟後端REST service進行溝通(利用HTTP protocol
+的uri代表資源位置，GET, POST, PUT, DELETE
+methods來對資源進行Read, Save, Update, Delete的動作)</li>
+</ol>
+</li>
+<li><p>ScriptTagProxy - 透遛JSONP(JSON with
+Padding)的方式與其他domain的server溝通</p></li>
+<li>DirectProxy -</li>
+</ol>
+
+
+<p>JSONP(JSON with
+Padding):browser的限制不能存取其他網域(domain)的資料，而JSONP是利用JSON
++ callback function來跨越這個限制</p>
+
+<h5>Reader</h5>
+
+<p>Reader負責來解析資料格式，目前有</p>
+
+<ol>
+<li><p>JsonReader (預設)</p>
+
+<ol>
+<li>ArrayReader</li>
+</ol>
+</li>
+<li><p>XmlReader</p></li>
+</ol>
+
+
+<h5>Writer</h5>
+
+<p>Writer比Reader複雜一些，通常是被Server
+Proxy使用，Writer裡面有一個叫Operation，Operation會決定url的格式內容及參數。
+透過改成Operation.action 為&#8217;create&#8217;, &#8216;read&#8217;, &#8216;update&#8217; or
+&#8216;destroy&#8217;可以決定要對Server Proxy送出什麼樣的url</p>
+
+<h3>Store</h3>
+
+<p>如果將Model視為處理一筆資料的物件，那麼我們可以說，Store多筆資料(Model)的物件，Store跟Model一樣可以透過Proxy讀取或儲存資料。
+而Store因為資料內容是多筆的，所以，還可以對這些資料進行排序(sorting)，過濾(filtering)，郡組(Grouping)或查詢(querying)的動作.</p>
+
+<h2>如何看懂API</h2>
+
+<p>為了學習如果使用API進行開發，以下設計了一個簡單的例子來說明如果使用FireBug
++ ExtJS的API說明文件來進行練習</p>
+
+<p>一般來說，我們會透過ajax
+proxy跟後端要資料，一開始，我們可以用一個簡單的純文字檔，讓proxy直接跟檔案要資料，而不是跟server
+side要</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[{"id":1,"name":"kent","email":null},{"id":2,"name":"juiwen","email":null},{"id":3,"name":"Roger","email":null}]</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;html&gt;
+</span><span class='line'>&lt;!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"&gt;
+</span><span class='line'>&lt;head&gt;
+</span><span class='line'>&lt;script type="text/javascript" src="%EXT_HOME%/ext-core-debug.js"&gt;&lt;/script&gt;
+</span><span class='line'>&lt;script type="text/javascript" src="%EXT_HOME%/ext-all-debug.js"&gt;&lt;/script&gt;
+</span><span class='line'> 
+</span><span class='line'>Ext.require([
+</span><span class='line'>             'Ext.data.*',
+</span><span class='line'>         ]);
+</span><span class='line'>Ext.onReady(function(){
+</span><span class='line'> 
+</span><span class='line'> 
+</span><span class='line'>    Ext.regModel('User', {
+</span><span class='line'>        fields: ['id', 'name', 'email'],
+</span><span class='line'>        proxy: {
+</span><span class='line'>            type: 'ajax', // load using HTTP
+</span><span class='line'>            url: 'model.json' // 載入下面的json檔案
+</span><span class='line'>        }
+</span><span class='line'>    });
+</span><span class='line'>    var user = Ext.ModelMgr.getModel('User');
+</span><span class='line'>    // 宣告剛成後，user只是一個Ext.data.Model型別的物件
+</span><span class='line'>    // 查Ext.data.Model的API doc可以知道，有一個load method可以用來載入資料
+</span><span class='line'>    // 載入json file第一筆{id=1, name='kent'}記錄進user
+</span><span class='line'>    user.load(1, {
+</span><span class='line'>        scope: this,
+</span><span class='line'>        failure: function(record, operation) {
+</span><span class='line'>            // 載入失敗時，這個method會被呼叫
+</span><span class='line'>        },
+</span><span class='line'>        success: function(record, operation) {
+</span><span class='line'>            // 載入成功時，這個method會被呼叫
+</span><span class='line'>            conlog.log(record); // record本時為json file的第一筆資料，但是Ext.data.Model
+</span><span class='line'>        }
+</span><span class='line'>    });
+</span><span class='line'>    console.log(user); // 注意:這樣得到的user是會空的，因為，取得資料的method 'load'是非同步的，所以，load還沒取回資料前，就會執行load之後的動作了
+</span><span class='line'> 
+</span><span class='line'> 
+</span><span class='line'>    var userStore = new Ext.data.Store({
+</span><span class='line'>        model: 'User',
+</span><span class='line'>        autoLoad: true,
+</span><span class='line'>    });
+</span><span class='line'> 
+</span><span class='line'>    userStore.on('load', function(self, records, success) {
+</span><span class='line'>        // Ext.data.Store.data是Ext.util.MixedCollection型別，MixedCollection中有each method可以取得集合內的每一個內容，每一個內容均為Ext.data.Model
+</span><span class='line'>        userStore.data.each(function(item, index, length){
+</span><span class='line'>            // item此時為json file的"某"一筆資料，被包裝成Ext.data.Model型別,Ext.data.Model有一個data的屬性可以取得物件
+</span><span class='line'>            console.log(item.data.name)
+</span><span class='line'>        });
+</span><span class='line'>    });
+</span><span class='line'>&lt;/script&gt;
+</span><span class='line'> 
+</span><span class='line'>&lt;title&gt;Model Example&lt;/title&gt;
+</span><span class='line'>&lt;/head&gt;
+</span><span class='line'>&lt;body&gt;
+</span><span class='line'>EXT JS Model Test
+</span><span class='line'>&lt;/body&gt;
+</span><span class='line'>&lt;/html&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>透過plugin + API Doc</h4>
+
+<p>EXT是利用動態語言JavaScript寫的，由於動態語言的特性是在Runtime的才能知道物件真正的內容為何，如果要光靠API做物件型別的推斷，會很辛苦。
+再加上EXT JS
+4版後，採用Mixins的技術，會讓物件型別的推斷更加麻煩，所以，建議在API不熟前，可以多利用Debugger工具，在runtime去查出物件的真正型別
+，這樣對初學者，會比較容易克服ext的進入門檻。</p>
+
+<h5>API inspect in action</h5>
+
+<p>這裡利用FireBug + <a href="http://www.illuminations-for-developers.com/" title="http://www.illuminations-for-developers.com/">extjs
+plugin</a>來觀查extjs元件內容並說明如何搭配API文件來將程式改成符合我們需求的設定。</p>
+
+<p>FireBug必須利用script
+debugger的功能，設定中斷點後，執行script會停在中斷點上，便可在執行時可以得知物件型別，對照API一起看，就會很清楚了</p>
+
+<p><img src="/images/wiki/extjs/extjs_101_002.png" alt="extjs_101_002.png" /></p>
+
+<h3>Ext.Template</h3>
+
+<p>範本功能是透過建立一個固定的範本，然後可以將範本裡面特定的內容給取代掉。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>var t = new Ext.Template("&lt;div&gt;Hello {0}.&lt;/div&gt;");
+</span><span class='line'>t.append('some-element', ['foo']);</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>var t = new Ext.Template([
+</span><span class='line'>    '&lt;div name="{id}"&gt;',
+</span><span class='line'>        '&lt;span class="{cls}"&gt;{name:trim} {value:ellipsis(10)}&lt;/span&gt;',
+</span><span class='line'>    '&lt;/div&gt;',
+</span><span class='line'>]);
+</span><span class='line'>t.compile();
+</span><span class='line'>t.append('some-element', {id: 'myid', cls: 'myclass', name: 'foo', value: 'bar'});</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Ext.AbstractComponent</h3>
+
+<p>如下圖，Ext.AbstractComponent是許多元件的共同祖先，提供了許多元件共同的基本行為，像</p>
+
+<p>其有幾個特別需要提及的</p>
+
+<ol>
+<li>getEl()</li>
+<li>getPlugin()</li>
+<li>getXTypes()</li>
+</ol>
+
+
+<h3>事件處理</h3>
+
+<p>Ext.util.Observable是所有事件處理的根基。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>var el = Ext.get('myDiv');
+</span><span class='line'>el.on('click', clickHandle(){});</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>TBD</h3>
+
+<ul>
+<li>Ext.Function.bind 將前一次的function的傳回值當作參數傳入下一次的呼叫
+(有functional programming的味道)</li>
+<li>Ext.Function.pass
+建立一個新的function，用來取代舊function但改變scope</li>
+<li>Ext.Function.defer 延遲一段時間後，進行function call</li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Kent Chiu</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-15T00:00:00+08:00" pubdate data-updated="true">Nov 15<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/extjs/'>extjs</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://blog.kent-chiu.com/blog/2012/11/15/extjs_101/" data-via="" data-counturl="http://blog.kent-chiu.com/blog/2012/11/15/extjs_101/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/10/11/english/" title="Previous Post: English">&laquo; English</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/12/07/resource/" title="Next Post: Maven Resources">Maven Resources &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/07/07/python-101/">Python 101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/25/url-encoding/">URL Encoding</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/04/restful-api-design/">RESTful API Design</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/17/my-intellij-idea-shortcut/">My IntelliJ IDEA Shortcut</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/12/jesper-report-font-issue/">Jesper Report, IReport 匯出成中文PDF</a>
+      </li>
+    
+  </ul>
+</section>
+
+Included file 'asides/twitter.html' not found in _includes directory
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Kent -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'kentchiu';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.kent-chiu.com/blog/2012/11/15/extjs_101/';
+        var disqus_url = 'http://blog.kent-chiu.com/blog/2012/11/15/extjs_101/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

@@ -1,16 +1,3516 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[My Octopress Blog]]></title>
-  <link href="http://kentchiu.github.io/atom.xml" rel="self"/>
-  <link href="http://kentchiu.github.io/"/>
-  <updated>2013-07-11T17:29:47+08:00</updated>
-  <id>http://kentchiu.github.io/</id>
+  <title><![CDATA[Kent's Blog]]></title>
+  <link href="http://blog.kent-chiu.com/atom.xml" rel="self"/>
+  <link href="http://blog.kent-chiu.com/"/>
+  <updated>2013-07-11T21:16:37+08:00</updated>
+  <id>http://blog.kent-chiu.com/</id>
   <author>
-    <name><![CDATA[Your Name]]></name>
+    <name><![CDATA[Kent]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Python 101]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2013/07/07/python-101/"/>
+    <updated>2013-07-07T12:10:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2013/07/07/python-101</id>
+    <content type="html"><![CDATA[<p>本文是初學 Python 遇到的一些問題留下的筆記:</p>
+
+<p>一開始進入 Python 的世界，除了程式語言本身外還有許多基本的工具要先了解:</p>
+
+<ul>
+<li>Python 2 V.S Python 3 : python 語言的版本</li>
+<li>easy_install V.S PIP : 套件安裝工具</li>
+<li>virtualenv            : 虛擬工作環境</li>
+</ul>
+
+
+<h4>Python 2 V.S Python 3</h4>
+
+<p>剛進行 Python 的世界，一開始就要面臨的抉擇，就是要用 Python 2 或 Python 3，因為是初學者，沒有任何包袱，當然是選 Python 3。</p>
+
+<blockquote><p>Mac Os 10.8 (mountain lion)預裝的是 Python 2.7.2，要自行昇級成 Python 3.x (目前 2013/07/07 3.3.2是 release 版)
+可以透過在 Mac OS 的terminal 下執行 <code>python -V</code> 取得版號</p></blockquote>
+
+<h4>Easy_install V.S PIP</h4>
+
+<p>easy_install 跟 <a href="http://www.pip-installer.org/">pip</a> 兩者都是套件安裝工具， easy_install 沒有反安裝套件的功能，而 pip 有反安裝套件的功能，所以建議是裝pip</p>
+
+<p>Mac Os 10.8 (mountain lion) 只有預裝 easy_install，要使用 pip，可以透過 easy_install 來安裝 pip
+安裝 pip 的指令如下 <code>$ easy_install pip</code>，如果無法安裝的話，可以直接抓 source 下來裝
+下載的url為 :</p>
+
+<p>必須先安裝<a href="http://pythonhosted.org/setuptools/">setuptools</a></p>
+
+<pre><code>$ curl -O https://bitbucket.org/pypa/setuptools/raw/0.8/ez_setup.py
+$ python ez_setup.py --user 
+</code></pre>
+
+<p>才能再裝 pip</p>
+
+<pre><code>$ curl -O https://pypi.python.org/packages/source/p/pip/pip-1.3.tar.gz
+$ tar xzf pip-1.3.tar.gz
+$ cd pip-1.3
+$ sudo python setup.py install
+</code></pre>
+
+<p>裝完後檢查一下執行一下 <code>pip</code> 指令，如果不能執行，可能是Path沒設好,Path變數是在 <code>~/.bash_profile</code> 如果沒這個檔，可以自已新增一個</p>
+
+<pre><code>export PATH=/System/Library/Frameworks/Python.framework/Versions/3.3/bin:/Users/kent/Library/Python/3.3/bin:$PATH
+</code></pre>
+
+<h2>Python Language</h2>
+
+<h4>連算子</h4>
+
+<ul>
+<li>沒有增量 <code>++</code>，減量 <code>--</code> 運算子</li>
+<li>+=，-= 這是合法的運算子</li>
+<li>除法用<code>/</code> , 整數除法用 <code>//</code></li>
+</ul>
+
+
+<h4>字串</h4>
+
+<ul>
+<li>字串可用單引號或雙引號，單引號較常用</li>
+<li>字串前面加 <code>r</code> 表示為 raw string, ex: raw = r&#8217;this is a \t\n raw string&#8217;</li>
+<li>字串前面加 <code>u</code> 表示為 unicode string, ex: ustring = u&#8217;A unicode \u018e string \xf1&#8217;</li>
+</ul>
+
+
+<h4>條件式結構</h4>
+
+<pre><code> if speed &gt;= 80:
+    print 'License and registration please'
+    if mood == 'terrible' or speed &gt;= 100:
+      print 'You have the right to remain silent.'
+    elif mood == 'bad' or speed &gt;= 90:
+      print "I'm going to have to write you a ticket."
+      write_ticket()
+    else:
+      print "Let's try to keep it under 80 ok?"
+</code></pre>
+
+<p>較簡潔的語法</p>
+
+<pre><code>if speed &gt;= 80: print 'You are so busted'
+else: print 'Have a nice day'         
+</code></pre>
+
+<ul>
+<li>python不是用 {}，也不是用begin/end，而是用縮排跟冒號<code>:</code>來做為區塊結構的範圍</li>
+<li>不是用 <code>else if</code> 而是 <code>elif</code></li>
+</ul>
+
+
+<h4>List and Array</h4>
+
+<p>list 可視為 array，語法如下</p>
+
+<p>list = [&#8216;larry&#8217;, &#8216;curly&#8217;, &#8216;moe&#8217;]</p>
+
+<blockquote><p>tuple 很像 list，但tuple是不可變的，語法如下 <code>tuple = (1, 2, 'hi')</code></p></blockquote>
+
+<p>list 還有一個很特別的一點是可以直接在 list 裡執行 expression，叫 List Comprehensions,
+語法為 [expr for var in list ]</p>
+
+<p>範例:</p>
+
+<pre><code>nums = [1, 2, 3, 4]
+squares = [ n * n for n in nums ]   ## [1, 4, 9, 16]
+</code></pre>
+
+<h4>初學者必備技能</h4>
+
+<ul>
+<li><p>python Interpreter (直譯器)
+直譯式語言的優點就是會有直譯器可以用，在直譯器執行程式，可以立即得到執行的結果，在不了解API的用法時，我通常會在執譯器上先做測試，或者直接用 unittest 寫<em>Learning Test</em>。
+平常沒事也可以掛著查 API doc</p></li>
+<li><p>help([object])<br/>
+列出說明，會說明該 object 有那些 methods 及使用方式</p></li>
+<li>type(variable)
+取得 object 的型別，撰寫弱型別語言最大的痛苦就是不知道變數是什麼型別，這 type 至少可以在runtime取得變數的型別</li>
+</ul>
+
+
+<h4>學習資源</h4>
+
+<ul>
+<li><a href="https://developers.google.com/edu/python/">https://developers.google.com/edu/python/</a>  - Google Python Course</li>
+<li><a href="http://getpython3.com/diveintopython3">http://getpython3.com/diveintopython3</a> - Dive Into Python 3 免費電子書</li>
+<li><a href="http://chimera.labs.oreilly.com/books/1234000000754/index.html">http://chimera.labs.oreilly.com/books/1234000000754/index.html</a> - Test-Driven Web Development with Python</li>
+<li><a href="http://docs.python.org/2/library/">http://docs.python.org/2/library/</a> - python 標準函式庫文件</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[URL encoding]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2013/06/25/url-encoding/"/>
+    <updated>2013-06-25T11:01:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2013/06/25/url-encoding</id>
+    <content type="html"><![CDATA[<p><code>https://bob:bobby@www.lunatech.com:8080/file;p=1?q=2#third</code></p>
+
+<ul>
+<li>Scheme           : https</li>
+<li>User             : bob</li>
+<li>Password         :bobby</li>
+<li>Host address     : www.lunatech.com</li>
+<li>Port             : 8080</li>
+<li>Path             : /file</li>
+<li>Path parameters  : p=1</li>
+<li>Query parameters : q=2</li>
+<li>Fragment         : third</li>
+</ul>
+
+
+<h6>Path parameters</h6>
+
+<p>Path parameters 又叫 Matrix Parameters, 每個 <em>path segment</em> 可以有自已的 Matrix Parameters，這在 Restful style 的設計上有時會很有用。</p>
+
+<h6>Fragment</h6>
+
+<p>Fragment 是用來指出整份 URL resrouce 的某一特定部份，在網頁設計上是用來做定位用的錨點 (anchor)</p>
+
+<h4>保留字處理</h4>
+
+<p>path 跟 query string 對保留字的處理方式不一樣，所以，在做編解碼時，要分開處理</p>
+
+<p>ex:
+空白字元在 path 會被編成 %20 , &#8216;+&#8217; 會被編成 &#8216;_&#8217; ,但在 query string 空白字元會被編成 &#8216;+&#8217; or &#8216;%20&#8217;, &#8216;+&#8217; 會被編成 &#8216;%2B&#8217;</p>
+
+<p>所以，如果有一個<code>blue+light blue</code>同時放在 path 跟 query string，那結果會是這樣</p>
+
+<pre><code>http://example.com/blue+light%20blue?blue%2Blight+blue
+</code></pre>
+
+<h4>編碼、中文與 Unicode</h4>
+
+<p>RFC 1738 並沒有規定要用什麼樣的編碼，所以，一般會在 HTTP header 指定 encoding 或採用 HTML page encoding</p>
+
+<h2>Resource</h2>
+
+<ul>
+<li><a href="http://blog.lunatech.com/2009/02/03/what-every-web-developer-must-know-about-url-encoding">http://blog.lunatech.com/2009/02/03/what-every-web-developer-must-know-about-url-encoding</a> - What every web developer must know about URL encoding</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[RESTful API Design]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2013/06/04/restful-api-design/"/>
+    <updated>2013-06-04T09:58:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2013/06/04/restful-api-design</id>
+    <content type="html"><![CDATA[<h2>Method</h2>
+
+<p>POST,DELETE : 操作是 non-idempotent(非幕等)</p>
+
+<p>GET, PUT  : 操作是 idempotent(幕等)</p>
+
+<blockquote><p>TBC : 解釋 idempotent</p></blockquote>
+
+<h3>GET</h3>
+
+<p>GET method用來取得一筆或多的資源，如果是多筆資源，還可以加入分頁，過濾等資訊，也可在header傳入分頁的links，ex:&#8217;first&#8217;, &#8216;last&#8217;, &#8216;next&#8217; and &#8216;prev&#8217;</p>
+
+<ul>
+<li>GET     http://www.example.com/orders                           取得多筆訂單</li>
+<li>GET     http://www.example.com/orders/12345                     取得訂單編號為 12345 的訂單</li>
+<li>GET     http://www.example.com/orders/12345/items               取得訂單編號為 12345 的訂單下的所有訂單項目</li>
+<li>GET     http://www.example.com/orders/12345/oitems/678          取得訂單編號為 12345 的訂單下的訂單項目 678</li>
+<li>GET     http://www.example.com/orders?customer=kent             取得客戶 kent 的所有訂單</li>
+</ul>
+
+
+<h5>status code</h5>
+
+<ul>
+<li>200 (OK)            順利取得資源</li>
+<li>400 (BAD REQUEST)   無法順利取得資訊，通常是參數有問題或某個查詢條件失效</li>
+<li>404 (Not Found)     資源不存在</li>
+</ul>
+
+
+<h3>POST</h3>
+
+<p>POST method用來建立新資源，建立完成資源後，通常是回應 201(CREATED) 的狀態碼，而且建立的新資源的 uri link 會放在 HEAD (不是response body)</p>
+
+<pre><code>POST http://www.example.com/order
+</code></pre>
+
+<p>response</p>
+
+<pre><code>200 OK
+Content-Type: application/json
+Location: http://www.example.com/order/123  
+</code></pre>
+
+<h5>status code</h5>
+
+<ul>
+<li>201 (CREATED)       成功建立新資源</li>
+<li>404 (Not Found)     資源不存在</li>
+</ul>
+
+
+<h3>PUT</h3>
+
+<p>POST method 用來更新資源，</p>
+
+<p>如果 resource 的 id，是由前端決定，而不是後端，那麼此時 PUT 也可以拿用做建立新資源的動作</p>
+
+<h5>status code</h5>
+
+<ul>
+<li>200 (OK)            更新成功，如果使用這個status code，response裡會有異動後的內容</li>
+<li>201 (CREATED)       成功建立新資源</li>
+<li>204 (No Content)    更新成功，如果使用這個status code，response裡沒有任何內容</li>
+<li>404 (Not Found)     資源不存在</li>
+</ul>
+
+
+<h3>DELETE</h3>
+
+<h5>status code</h5>
+
+<ul>
+<li>200 (OK)            更新成功，如果使用這個 status code，response裡會有異動後的內容</li>
+<li>204 (No Content)    更新成功，如果使用這個 status code，response裡沒有任何內容</li>
+<li>404 (Not Found)     資源不存在，連續呼叫兩次相同的 delete，會傳回 404</li>
+</ul>
+
+
+<h4>命名規則</h4>
+
+<p>資源命名應為<strong>複數名詞</strong>，不論是 GET, POST, PUT, DELETE 應該都要用<strong>複數名詞</strong>來命名，如果是要取得單筆資訊，
+則是在<strong>複數名詞</strong>的資源後接上該資源的indentity</p>
+
+<ul>
+<li>GET     http://www.example.com/orders             取得多筆訂單</li>
+<li>GET     http://www.example.com/orders/12345       取得訂單編號為 12345 的訂單</li>
+<li>GET     http://www.example.com/users?name=kent    取得使用者 kent 的資訊</li>
+<li>PUT     http://www.example.com/users/kent         更新使用者 kent</li>
+<li>POST    http://www.example.com/users/kent         新增使用者 kent</li>
+<li>DELETE  http://www.example.com/users/kent         刪除使用者 kent</li>
+</ul>
+
+
+<p>所以，一般來說，只有兩種 url 的定義方式</p>
+
+<pre><code>GET | PUT | DELETE  http://www.example.com/orders/{id}
+POST                http://www.example.com/orders
+</code></pre>
+
+<blockquote><p>TBC : 查一下 resource id是用純數字(/user/1)，或使用有意義的名稱為佳(users/kent)
+目前認為用 id 應該會比較好，因為名稱可能會異動，如果要用名稱，應該是類似查詢參數的用法 /users?name=kent</p></blockquote>
+
+<h2>Resource</h2>
+
+<ul>
+<li><a href="http://zh.wikipedia.org/zh-tw/HTTP%E7%8A%B6%E6%80%81%E7%A0%81">http://zh.wikipedia.org/zh-tw/HTTP%E7%8A%B6%E6%80%81%E7%A0%81</a> - HTTP 狀態碼</li>
+<li><p><a href="http://www.restapitutorial.com/lessons/httpmethods.html">http://www.restapitutorial.com/lessons/httpmethods.html</a>  - RESTful Tutorial</p></li>
+<li><p>一般流行的 Rest API</p>
+
+<ul>
+<li><a href="http://docs.aws.amazon.com/AmazonS3/latest/API/APIRest.html">http://docs.aws.amazon.com/AmazonS3/latest/API/APIRest.html</a> - Amazon 的 REST API文件</li>
+<li><a href="https://dev.twitter.com/docs/api/1.1/get/lists/list">https://dev.twitter.com/docs/api/1.1/get/lists/list</a> - twitter 的 REST API文件</li>
+<li><a href="https://developers.facebook.com/docs/reference/api/">https://developers.facebook.com/docs/reference/api/</a> - FaceBook 的 REST API文件</li>
+<li><a href="https://developer.linkedin.com/apis">https://developer.linkedin.com/apis</a> - linkedin 的 REST API文件</li>
+</ul>
+</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[My IntelliJ IDEA Shortcut]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2013/05/17/my-intellij-idea-shortcut/"/>
+    <updated>2013-05-17T11:03:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2013/05/17/my-intellij-idea-shortcut</id>
+    <content type="html"><![CDATA[<p>Intellij IDEA Mac版的 KeyMap 有兩個版本，這邊的是 Mac 專用版的版本 (Mac OS X 10.5+)</p>
+
+<h2>符號說明</h2>
+
+<ul>
+<li>⌘ : cmd key</li>
+<li>⌥ : option / alt key</li>
+<li>⌃ : ctrl key</li>
+<li>⇧ : shift key</li>
+<li>⇥ : tab</li>
+<li>⏎ : enter key</li>
+<li>⌦ : delete (mac pro 上是 fn + backspace)</li>
+<li>⌫ : backspace</li>
+<li>⌙ : space</li>
+<li>⎋ : esc</li>
+<li>⇠⇡⇣⇢ : 方向鍵</li>
+</ul>
+
+
+<h2>常用</h2>
+
+<p>A ~ Z 不分大小寫</p>
+
+<ul>
+<li>⌘ + ⇧ + A   : Find Action，萬鍵之王，可用來找其他快捷鍵，但前提是必須知道對應操作的關鍵字，像 : &#8216;Copy&#8217; , &#8216;Code Completion&#8217;, &#8216;Go To Line&#8217;, &#8230;.</li>
+<li>⌘ + ⇧ + V   : 從剪貼簿選取</li>
+<li>⌘ + ⇧ + E   : 列出最近異動的檔案</li>
+<li>⌘ + ⇧ + F12 : 最大化編輯區</li>
+<li>⌘ + O       : Go to Class</li>
+<li>⌃ + R       : Run</li>
+<li>⌃ + D       : Debug</li>
+<li>⌘ + ⇧ + ⌫   : 跳到上次的異動處</li>
+<li>⌘ + [       : 上一個位置</li>
+<li>⌘ + ]       : 下一個位置</li>
+<li>⌘ + P       : method parameter 提示</li>
+<li>⌃ + space   : 自動完成 (選到method後，用tab可以 overwrite 目前的 method)</li>
+<li>⌘ + D       : 複製游標所在位置的那一行，或已選擇擇的區塊</li>
+<li>⌘ + ⌫       : 刪除游標所在位置的那一行，或已選擇擇的區塊</li>
+<li>⌘ + f12     : member outline</li>
+<li>⌃ + ⌥ + R   : Run&#8230;</li>
+<li>⌃ + ⌥ + D   : Debug&#8230;</li>
+<li>⌃ + ⇧ + R   : run test case (如果是在method內會只會執行該 method)</li>
+<li>⌃ + ⇧ + D   : debug  test case</li>
+<li>⌘ + ⇧ + T   : 程式跟測試程式間互跳</li>
+<li>⌥ + ⇧ + ⇡   : 游標所在位置的那一行或已選擇擇的區塊 上移</li>
+<li>⌥ + ⇧ + ⇣   : 游標所在位置的那一行或已選擇擇的區塊 下移</li>
+<li>⌥ + ⇡       : 增量選擇 (字母 -> 單字 -> 片語 -> 行 -> 區塊 -> &#8230;)</li>
+<li>⌥ + ⇣       : 減量選擇</li>
+<li>⌘ + N       : 產生新的 class, file , test case, getter/setter, toString,&#8230;</li>
+<li>⌘ + F       : Find</li>
+<li>⌘ + R       : Replace</li>
+<li>⌘ + ⇧ + F   : Find in path</li>
+<li>⌘ + ⇧ + R   : Replace in path</li>
+<li>F7          : Step into</li>
+<li>F8          : Step over</li>
+</ul>
+
+
+<h2>少用，但值得記</h2>
+
+<ul>
+<li>⌃ + J       : 調出javadoc</li>
+<li>⌃ ⇧ + J     : 多行合併</li>
+<li>⌘ + ⏎       : 智能分行</li>
+<li>⌃ + T       : 在本行(或標記區塊)加上 try/catch,if block, &#8230;.</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Jesper Report, IReport 匯出成中文PDF]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2013/05/12/jesper-report-font-issue/"/>
+    <updated>2013-05-12T12:22:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2013/05/12/jesper-report-font-issue</id>
+    <content type="html"><![CDATA[<p>jasper report 匯出成 PDF 時， 中文字會無法正常匯出， 需做額外的處理，才能正確的輸出中文。
+中文會有問題主要的原因是缺少中文字體的關係，所以只要滿足了這個條件， PDF 就能顯示中文。</p>
+
+<p>以下步驟為設定 iReport Designer (5.x) 中文字型的方式</p>
+
+<h4>工具 ﹣> 選項</h4>
+
+<p><img src="http://blog.kent-chiu.com/images/blog/2013-05-12-jesper-report-font-issue-000.png" alt="2013-05-12-jesper-report-font-issue-000.png" /></p>
+
+<h4>安裝字型</h4>
+
+<p><img src="http://blog.kent-chiu.com/images/blog/2013-05-12-jesper-report-font-issue-001.png" alt="2013-05-12-jesper-report-font-issue-001.png" /></p>
+
+<p>字形檔為 true type (.ttf)格式，本範例是繁體中文的標楷體 (kaiu.ttf)</p>
+
+<p><img src="http://blog.kent-chiu.com/images/blog/2013-05-12-jesper-report-font-issue-002.png" alt="2013-05-12-jesper-report-font-issue-002.png" /></p>
+
+<blockquote><p>可以在windows的字型檔目錄下取得字型檔，但我在測試時無法直接在windows/font的目錄選得字型檔，
+須把字型檔copy到其他目錄時，iReport 的 <em>Select True Type Font</em> dialog 才看得到字型檔。</p></blockquote>
+
+<h4>設定字型檔的細節</h4>
+
+<p><img src="http://blog.kent-chiu.com/images/blog/2013-05-12-jesper-report-font-issue-005.png" alt="2013-05-12-jesper-report-font-issue-005.png" /></p>
+
+<p>選進來後的Family Name(字型檔名) 預設是 &#8220;標楷體&#8221;，我把它改名成 <em>kaiu</em> (這麼做的原因只是不想讓設定檔出現一堆中文字型名稱，當然，
+你也可以保持預設的名稱 &#8220;標楷體&#8221;)，PDF details的設定要特別注意，
+PDF ENcodeing要設成 <em>Identity-H (Unicode with horizontal writer)</em>, 然後 <em>Enbed this font in PDF document</em>要勾選</p>
+
+<p>到這邊，基本上就算設定好了，之後就是要在範本檔 (jrxml) 裡指定中文字時，要使用剛設定出來的這個字型即可</p>
+
+<h4>在範本檔設定使用中文字型</h4>
+
+<p>文字內容的<code>font name</code>要設定為剛剛新安裝的字型檔名稱</p>
+
+<p><img src="http://blog.kent-chiu.com/images/blog/2013-05-12-jesper-report-font-issue-007.png" alt="2013-05-12-jesper-report-font-issue-007.png" /></p>
+
+<p>做preivew後就會產出 pdf 檔，裡面的中文就會正常顯示了</p>
+
+<h3>用程式匯出成pdf檔時中文的問題</h3>
+
+<p>上述的步驟，只是讓iReport Designer可以正確的匯出有中文字的 pdf，但如果是要用程式做 pdf 匯出的動作，需要把字型檔 export 成 jar 格式的 extension ，
+並丟到 class path 底下，用程式做匯出時，中文字才會正常的顯示。</p>
+
+<p>匯出的功能是在原來安裝字型檔的功能畫面上，裡面有一個 <code>Export as extension</code> 的按鍵，執行後設定 export 的副檔名為 <em>.jar</em> 即可，ex : kaiu.jar</p>
+
+<p>匯出後，將該 jar 檔丟到 class path下即可；如果執行匯出時，發生字型檔找不到的異常，應該是字型檔的 jar 檔沒正確的放在 class path 下</p>
+
+<p><img src="http://blog.kent-chiu.com/images/blog/2013-05-12-jesper-report-font-issue-006.png" alt="2013-05-12-jesper-report-font-issue-006.png" /></p>
+
+<h6>jrxml 範本定義檔 hello.jrxml</h6>
+
+<pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="myreport"&gt;
+
+ &lt;detail&gt;
+    &lt;band height="20"&gt;
+      &lt;staticText&gt;
+        &lt;reportElement x="180" y="0" width="200" height="20"/&gt;
+        &lt;textElement&gt;
+            &lt;font fontName="kaiu" isPdfEmbedded="true"/&gt;
+        &lt;/textElement&gt;
+        &lt;text&gt;&lt;![CDATA[Hello!!! World! 中文字測試]]&gt;&lt;/text&gt;
+      &lt;/staticText&gt;
+    &lt;/band&gt;
+  &lt;/detail&gt;
+&lt;/jasperReport&gt;
+</code></pre>
+
+<p><code>&lt;font fontName="kaiu" isPdfEmbedded="true"/&gt;</code> : fontName 必須設定安裝時設定的名稱</p>
+
+<h6>測試程式</h6>
+
+<pre><code>@Test
+public void exportToPDF_statics_text_only() throws Exception {
+    JasperReport jasperReport;
+    JasperPrint jasperPrint;
+    try {
+        URI uri = getClass().getResource("/hello.jrxml").toURI();
+        File input = new File(uri);
+        jasperReport = JasperCompileManager.compileReport(input.getAbsolutePath());
+        jasperPrint = JasperFillManager.fillReport(jasperReport, new HashMap(), new JREmptyDataSource());
+        String output = input.getParent() + "/hello1.pdf";
+        System.out.println("output to :" +  output);
+        JasperExportManager.exportReportToPdfFile(jasperPrint, output);
+    } catch (JRException e) {
+        e.printStackTrace();
+    }
+}
+</code></pre>
+
+<p>執行 test case後，可以看 output 的目錄看到匯出的 PDF 檔中文是否有正常顯示</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[JasperReport 101]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2013/05/12/jasperreport-101/"/>
+    <updated>2013-05-12T00:49:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2013/05/12/jasperreport-101</id>
+    <content type="html"><![CDATA[<h4>jrxml  report定義檔</h4>
+
+<p>Jasper Report 是由副檔名為 <code>jrxml</code> 的 xml 檔進行報表範本定義，範本檔的主結構可被切割成數個區，每一區有專屬的tag，每個 tag 有各自專屬的位置及功能，
+每個 tag 都不是必要的，可以視需求選用，以下列出 Jasper Report 主結構會用到的 tag</p>
+
+<ol>
+<li><code>&lt;title&gt;</code>            - 主標題，只會出現一次</li>
+<li><code>&lt;pageHeader&gt;</code>       - 頁首標題，每頁頁首都會出現</li>
+<li><code>&lt;columnHeader&gt;</code>     - <code>&lt;detail&gt;</code> 的 header，會出現在每個detail區前面</li>
+<li><code>&lt;detail&gt;</code>           - 內容區，會重覆的出現，一個 detail 對應到 data source 的一個資料列</li>
+<li><code>&lt;columnFooter&gt;</code>     - <code>&lt;detail&gt;</code> 的 footer，會出現在每個detail區後面(可設定只出現在最後的detail區)</li>
+<li><code>&lt;pageFooter&gt;</code>       - 頁尾區，每頁頁尾都會出現，通常來放置頁碼 (可設定只出現在最後一頁)</li>
+<li><code>&lt;summary&gt;</code>          - 總結區，在報表的最後面，只會出現一次</li>
+<li><code>&lt;background&gt;</code>       - 設定背景圖片</li>
+</ol>
+
+
+<p>上面的tag，都需要包含 <code>&lt;band&gt;</code> ，才能再放入報表元素(Report Element）</p>
+
+<p>另外還有 <code>group</code> tag用來做可用來群組化，每個 group tag 下可有自已的 header 跟 footer</p>
+
+<p>每一區的位置如下圖所示</p>
+
+<p><img src="http://blog.kent-chiu.com/images/blog/2013-05-12-jasperreport-101-001.png" alt="2013-05-12-jasperreport-101-001.png" /></p>
+
+<p>比較完整的主結構是像這樣</p>
+
+<p><img src="http://blog.kent-chiu.com/images/blog/2013-05-12-jasperreport-101-002.png" alt="2013-05-12-jasperreport-101-002.png" /></p>
+
+<p>上面有提到，每一區必須要定義一個唯一的 <code>&lt;band&gt;</code> 後，才能放入其他的報表元件 (Report Element), 報表元件有這些 :</p>
+
+<p><img src="http://blog.kent-chiu.com/images/blog/2013-05-12-jasperreport-101-003.png" alt="2013-05-12-jasperreport-101-003.png" /></p>
+
+<h4>Jasper Report 版的 HELLO WORLD</h4>
+
+<p>以下的 hello word 範例，我們不用 designer, 改用全手工的方式打造出最簡單的報表定義檔，定義檔內只有 detail 區， detail 區裡顯示靜態的文字 &#8216;Hello World&#8217;</p>
+
+<blockquote><p>用 designer 產生的定義檔，會多很多 tags，每個 tag 也會多很多屬性，用手工打造比較乾淨，也比較容易理解</p></blockquote>
+
+<h6>xml helloworld.jrxml 定義檔</h6>
+
+<pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="myreport"&gt;
+ &lt;detail&gt;
+    &lt;band height="20"&gt;
+      &lt;staticText&gt;
+        &lt;reportElement x="180" y="0" width="200" height="20"/&gt;
+        &lt;text&gt;&lt;![CDATA[Hello World!]]&gt;&lt;/text&gt;
+      &lt;/staticText&gt;
+    &lt;/band&gt;
+  &lt;/detail&gt;
+&lt;/jasperReport&gt;
+</code></pre>
+
+<p>我們只用了 detail section, 上面有提到 section 內必須要有 <code>&lt;band&gt;</code> tag才能放置其他的 Report Element, 我們這邊用到的 Report Element 為
+<code>&lt;staticText&gt;</code> 用途為顯示靜態文字， <code>&lt;staticText&gt;</code> 使用 <code>&lt;reportElement&gt;</code> 做基本屬性設定，然後用 <code>&lt;text&gt;</code> 設定文字內容</p>
+
+<h6>java junit test case for export pdf</h6>
+
+<pre><code>@Test
+public void exportToPDF_statics_text_only() throws Exception {
+    JasperReport jasperReport;
+    JasperPrint jasperPrint;
+    try {
+        URI uri = getClass().getResource("/helloworld.jrxml").toURI();
+        File input = new File(uri);
+        jasperReport = JasperCompileManager.compileReport(input.getAbsolutePath());
+        jasperPrint = JasperFillManager.fillReport(jasperReport, new HashMap(), new JREmptyDataSource());
+        String output = input.getParent() + "/hello1.pdf";
+        System.out.println("output to :" +  output);
+        JasperExportManager.exportReportToPdfFile(jasperPrint, output);
+    } catch (JRException e) {
+        e.printStackTrace();
+    }
+}
+</code></pre>
+
+<p><code>JasperFillManager.fillReport()</code> 需要三個參數,</p>
+
+<ol>
+<li>jasperReport
+jrxml complied 後的 binary file</li>
+<li>paramaters
+控制報表的參數設定值</li>
+<li>datasource 為 <code>JRDataSource</code> 的 subclass</li>
+</ol>
+
+
+<h6>java JasperFillManager.fill() 的 source code</h6>
+
+<p><code>JasperFillManager.fill()</code> 的 source code 如下</p>
+
+<pre><code>/**
+ * Fills the compiled report design supplied as the first parameter and returns
+ * the generated report object.
+ * 
+ * @param jasperReport compiled report design object to use for filling
+ * @param parameters   report parameters map
+ * @param dataSource   data source object
+ * @return generated report object
+ */
+public JasperPrint fill(
+    JasperReport jasperReport, 
+    Map&lt;String,Object&gt; parameters, 
+    JRDataSource dataSource
+    ) throws JRException
+{
+    return JRFiller.fill(jasperReportsContext, jasperReport, parameters, dataSource);
+}
+</code></pre>
+
+<p>JRDataSource 的 subclass 如下圖，我們這個範例，因為只是單純的顯示靜態文字，不需要任何的資料，所以使用 <code>JREmptyDataSource</code> 即可</p>
+
+<p><img src="http://blog.kent-chiu.com/images/blog/2013-05-12-jasperreport-101-004.png" alt="2013-05-12-jasperreport-101-004.png" /></p>
+
+<h4>JRMapCollectionDataSource</h4>
+
+<p>這個範例改用 java collection 當作 data source</p>
+
+<h6>helloword_collection.xml</h6>
+
+<pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+    name="myreport"&gt;
+    &lt;field name="USER_NAME" class="java.lang.String" /&gt;
+
+    &lt;detail&gt;
+        &lt;band height="30"&gt;
+            &lt;staticText&gt;
+                &lt;reportElement x="10" y="0" width="100" height="20" /&gt;
+                &lt;text&gt;&lt;![CDATA[Hello!]]&gt;&lt;/text&gt;
+            &lt;/staticText&gt;
+            &lt;textField&gt;
+                &lt;reportElement x="80" y="0" width="100" height="20" /&gt;
+                &lt;textFieldExpression&gt;&lt;![CDATA[$F{USER_NAME}]]&gt;&lt;/textFieldExpression&gt;
+            &lt;/textField&gt;
+        &lt;/band&gt;
+    &lt;/detail&gt;
+
+&lt;/jasperReport&gt;
+</code></pre>
+
+<p>範本定義檔裡用了兩個 report element</p>
+
+<ol>
+<li><code>&lt;staticText&gt;</code> : 用來顯示靜態文字</li>
+<li><code>&lt;textField&gt;</code>  : 文字欄位，裡面的 <code>&lt;textFieldExpression&gt;</code> 可以用使用 Jasper Report 的 Expression
+$F{USER_NAME} 為Jasper Report 的 Expression，是變數名稱的 placeholder，在匯出後，
+placeholder 會被 data source 裡對應的值所取代，有幾個資料列就會重覆幾次</li>
+</ol>
+
+
+<h6>java 匯出 PDF 的 test case</h6>
+
+<pre><code>@Test
+public void exportToPDF_data_from_collection() throws Exception {
+    JasperReport jasperReport;
+    JasperPrint jasperPrint;
+    try {
+        URI uri = getClass().getResource("/helloword_collection.xml").toURI();
+        File input = new File(uri);
+        jasperReport = JasperCompileManager.compileReport(input.getAbsolutePath());
+
+        Collection&lt;Map&lt;String, ?&gt;&gt; col = Lists.newArrayList();
+        col.add(ImmutableMap.&lt;String, Object&gt;of("USER_NAME", "Kent"));
+        col.add(ImmutableMap.&lt;String, Object&gt;of("USER_NAME", "Cindy"));
+        JRMapCollectionDataSource ds = new JRMapCollectionDataSource(col );
+        jasperPrint = JasperFillManager.fillReport(jasperReport, new HashMap(), ds);
+        String output = input.getParent() + "/hello1_collection.pdf";
+        System.out.println("output to :" +  output);
+        JasperExportManager.exportReportToPdfFile(jasperPrint, output);
+    } catch (JRException e) {
+        e.printStackTrace();
+    }
+}
+</code></pre>
+
+<ul>
+<li>這個範例改用 java collection 來當作資料源，所以要用 <code>JRMapCollectionDataSource</code></li>
+<li>10 ~ 12 行 放了兩個單位的資料(&#8216;Kent&#8217; &amp; &#8216;Cindy&#8217;) 進去 data source， 所以，在輸出時，會看到這兩組資料會被套用到 detail section</li>
+</ul>
+
+
+<p>輸出的PDF結果如下</p>
+
+<p><img src="http://blog.kent-chiu.com/images/blog/2013-05-12-jasperreport-101-005.png" alt="2013-05-12-jasperreport-101-005.png" /></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Mac Tips]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2013/05/06/mac-tips/"/>
+    <updated>2013-05-06T19:17:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2013/05/06/mac-tips</id>
+    <content type="html"><![CDATA[<p>刪掉在pop menu裡重覆的應用程式開啟選項</p>
+
+<pre><code>/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/LaunchServices.framework/Versions/A/Support/lsregister -kill -r -domain local -domain system -domain user  &amp;&amp; killall Finder
+</code></pre>
+
+<p>  讀不到SD card時，可以試試以下指令</p>
+
+<pre><code>killall Finder
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Clean Code閱讀筆記]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2013/04/22/clean-code/"/>
+    <updated>2013-04-22T10:06:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2013/04/22/clean-code</id>
+    <content type="html"><![CDATA[<h6>代碼被讀取的次數遠比寫的次數多</h6>
+
+<p>之前只會以為這句是很正常不過的話，而且也認為通常是讀代碼的對象大多是自己，但 Uncle Bob 用一個 Editor Replay (讓編輯器或 IDE
+有類似 Media Player replay 的功能)的例子說明，當在 coding 時，在 method 間的查閱，呼叫，引用…等，這就是在閱讀自己的代碼了。
+也就是說，當要寫一個功能時，就一定會不斷的在閱讀自己的代碼了。</p>
+
+<h6>童子軍軍規</h6>
+
+<p>童子軍有一條軍規是<strong>讓營地比你來時更乾淨</strong>，套用在寫程式上，就是在每次的 checkin ，代碼應該都是要比 checkout 時更 clean</p>
+
+<p>很多人都提到好的程式，不是一開始就規畫出來的，而且每天不斷不斷的重構、改進。重構這些也不用刻意安排時間去做，應該是在每次的
+checkin / checkout 時就順手整理。</p>
+
+<h2>命名</h2>
+
+<h6>命名要能揭示他的意圖</h6>
+
+<ul>
+<li>WHY  : 要能看出為何存在</li>
+<li>WHAT : 要能看出做了什麼</li>
+<li>HOW  : 要能看出如何被使用 (是如何被使用，不是如何做)</li>
+</ul>
+
+
+<p>如果命名時還需要加上額外的注釋，就不會是個好的名字</p>
+
+<h6>不要用不夠明確的字</h6>
+
+<pre><code>getActiveAccount()
+getActiveAccounts()
+getActiveAccountInfo()
+</code></pre>
+
+<p>這三者並無法從名字上區分不同，應該要避免。 (不過個人覺得 account, accounts 是有作用的字，一個代表單數，一個代表複數資料結構)
+像是 <em>Info,Object,Data</em> 這樣的字，跟 a, an, the 一樣，太含混的字，不應該用來命名</p>
+
+<p>也不用特意在命名時加上型別， ex: NameString, CustomerObject 因為在 IDE 幫助下，已經可以很方便的知道物件的型號了，不需要特別去加上類別資訊</p>
+
+<h6>採用技術性的命名方式，而已領域性的命名方式</h6>
+
+<p>會去看代碼的，大多是 programmer ，所以應該是用技術性的名字，像是 JobQuery, AccountVisitor 來取名字，而不是領域上的專業術語，如果一定要用到領域上的術語
+，那務必讓術語的名字與領域術語能一致。</p>
+
+<blockquote><p>私以為有時使用領域術語命名，會比較直覺，要維護該程式，應該要對該專業領域有所瞭解</p></blockquote>
+
+<h4>Class Name</h4>
+
+<ul>
+<li>不要有像 Info, Data, Processor這樣的字</li>
+</ul>
+
+
+<h4>命名的一致性</h4>
+
+<ul>
+<li>像 fetch, retrieve, get 意義上相等的字，應該只取一組就好，不要有的 method 是用 get ，有的又用 fetech，還有的用 retrieve 這樣，使用 API 的人，搞不清楚要用那一套</li>
+<li>Driver, Manager, Controller 也是意義上相等的字，應該只取一組就好，因為很難從字面上分辨 DeviceManger 跟 DeviceController 會有什麼不同</li>
+</ul>
+
+
+<blockquote><p>如果是實作上本身就有差異性 ex: insert 跟 append，那兩個近義字同時使用，是可被接授的</p></blockquote>
+
+<h2>Functions</h2>
+
+<ul>
+<li>function 愈短愈好，但怎樣的長度叫短呢？ Uncle Martin 認為應該像 Kent Beck 的寫作風格一樣，每個 method 都不超過5行</li>
+<li>每個 if, else , while statement 的內容，應該要只有一行，可以用 function call (extract to function) 把內容濃縮成一行，
+這樣不但可以讓 method 改小，也可以增加可讀性，也就是說，程式裡只要出現 nest structure 就是一個可以做 extract 的訊號</li>
+<li><p><em>一個 funciton 應該只作一件事</em>，但何謂一件事呢？如果 function 可以的部份內容可以被 extract 成另一個 funciton ，
+extract 後的 function 是一個完全不同於原來 function 的功能，而不只用另一個方式描述原來的功能，就代表了 function 坐了不止一件事</p>
+
+<pre><code>  public static String renderPageWithSetupsAndTeardowns( PageData pageData, boolean isSuite) throws Exception { 
+      if (isTestPage(pageData))
+          includeSetupAndTeardownPages(pageData, isSuite); 
+          return pageData.getHtml();
+      }
+  }
+</code></pre>
+
+<p>如果將上面的 function extract 成</p>
+
+<pre><code>  public static String renderPageWithSetupsAndTeardowns( PageData pageData, boolean isSuite) throws Exception { 
+      return includeSetupsAndTeardownsIfTestPage(pageData, isSuite);
+  }
+
+  public static String includeSetupsAndTeardownsIfTestPage( PageData pageData, boolean isSuite) throws Exception {     
+      if (isTestPage(pageData))
+          includeSetupAndTeardownPages(pageData, isSuite); 
+          return pageData.getHtml();
+      }
+  }
+</code></pre>
+
+<p>新的 <code>includeSetupsAndTeardownsIfTestPage</code> function 只是在用另外一種方式描述 <code>renderPageWithSetupsAndTeardowns()</code> 雖然可以這樣做 extract，
+但這不代表了原來的 <code>includeSetupsAndTeardownsIfTestPage</code>  做了不止一件事，因為新的 function 只是另一種方式來描述原來的 function,
+而如果一個 funtion 的內容，分了成幾個斷落 (sections)，顯示的，這也表明了這個 function 做了不止一件事</p></li>
+</ul>
+
+
+<blockquote><p>我試著去翻出 Kent Beck 最早期的 junit (3.4) 大多的 function 也都相當的短 (10行以下)， 也有少數比較長的，但也沒超過50行
+不過，讓每個 function 都小到了極致，那勢必會產生更多的 fucntions 或 classes 而造成 <em>Divergent Change（發散式變化</em> 或 <em>Shotgun Surgery（霰彈式修改)</em>
+這部份要如果解決，有待確認</p></blockquote>
+
+<ul>
+<li>functon 內的實作抽像等級應該要一致，不要同一個 function 內，有很高階的實作，又有很低階的實作
+高階，低階是指實作的抽象性，像 getHtml() 就是比較高階，而字串相加，就是屬於比較低階的實作</li>
+<li>small function 在取名上也比較容易，因為它只做一件事，就會比較容易給他一個相符的名稱，所以，如果 funciton 在命名上有困難時，也許就是該 funciton 做了不止一件事了</li>
+</ul>
+
+
+<h2>Arguments</h2>
+
+<ul>
+<li>參數的數量愈少愈好，如果能沒有參數最好，三個參數應該已是最大值，四個參數應該是特殊狀況了</li>
+<li><em>參數數量多，程式的可測性也會降，更多的參數，將需要更多的測試</em>，因為參數的排列組合的方式會更多，需要更多的測試</li>
+<li>用布林當參數時，通常代表該 function 可以被切割成兩個 function</li>
+</ul>
+
+
+<h4>回傳值</h4>
+
+<ul>
+<li>應儘量避免使用回傳值，如果回傳值是為了改變某個狀態，應該要直接改變物件本身</li>
+</ul>
+
+
+<h2>Exceptions</h2>
+
+<ul>
+<li>例外處理的 try / catch / finally 本身就是<em>一件事</em>，不可做切割</li>
+<li>例外處理不要值用error code，不然會造成所有人都依賴的這個 error code，要異動時，一定得去異動 error code</li>
+</ul>
+
+
+<h2>Object And Data Structures</h2>
+
+<p>這樣的code，違反了Law of Demeter</p>
+
+<pre><code>final String outputDir = ctxt.getOptions().getScratchDir().getAbsolutePath();
+</code></pre>
+
+<p>最好改成這樣</p>
+
+<pre><code>Options opts = ctxt.getOptions();
+File scratchDir = opts.getScratchDir();
+final String outputDir = scratchDir.getAbsolutePath();
+</code></pre>
+
+<p>不選，如果一個 function 像這樣包含了太多相關的物件，那就應該考慮是不是有責任歸屬的問題，重新釐清每個物件的責任後，或許會有所改善</p>
+
+<h2>Boundaries</h2>
+
+<p>如果需要在物件間傳遞 Map, List, Set 結構時，可以將它包成物件.</p>
+
+<h4>Learning tests</h4>
+
+<p>使用 third-party lib 是件不同易的事，要對 thrid-party lib 整合更是不容易，我們可以透過讀閱讀過文件後，寫一些簡單來驗証 lib 行為，是不是跟我們所理解的一樣。
+這樣的測試叫 Learning tests。</p>
+
+<h2>Testings</h2>
+
+<ul>
+<li>可讀性對 test code 比 production code 更重要。</li>
+<li>專業的程式員應該要將測試重構成更具描述性的表達方式</li>
+<li>每個 test case 裡的 asssertions 應該要儘可能的少，有人甚至主張一個 test case 只能有一個 assertion，至少應該儘量保持 singal concept per test</li>
+</ul>
+
+
+<p>BDD Given/When/Then test case 的寫法</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>
+</span><span class='line'>  public void testGetPageHierarchyAsXml() throws Exception { 
+</span><span class='line'>      givenPages("PageOne", "PageOne.ChildOne", "PageTwo");
+</span><span class='line'>      whenRequestIsIssued("root", "type:pages");
+</span><span class='line'>      thenResponseShouldBeXML();
+</span><span class='line'>   }
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>  public void testGetPageHierarchyHasRightTags() throws Exception { 
+</span><span class='line'>      givenPages("PageOne", "PageOne.ChildOne", "PageTwo");
+</span><span class='line'>      whenRequestIsIssued("root", "type:pages");
+</span><span class='line'>      thenResponseShouldContain("&lt;name&gt;PageOne&lt;/name&gt;", "&lt;name&gt;PageTwo&lt;/name&gt;", "&lt;name&gt;ChildOne&lt;/name&gt;"); 
+</span><span class='line'>  }</span></code></pre></td></tr></table></div></figure>
+
+
+<h6>F.I.R.S.T.</h6>
+
+<ul>
+<li>Fast 執行起來要夠快，才會經常去執行</li>
+<li>Independent 獨立，不需要 testing code 及 production code 以外的東西，像是還要手動設定資料庫，或一定要網路連線</li>
+<li>Repeatable 可重覆 (可重現)</li>
+<li>Self-Validating  簡單而明確的指出測式的結果 (red bar / green bar) 跟失敗的原因</li>
+<li>Timely 測試要在 proudction code 之前寫好，而不是寫好了 production code 再來寫測式 ( test first or TDD )</li>
+</ul>
+
+
+<h2>Classes</h2>
+
+<p>Uncle Bob 提倡<em>報紙代排版</em>，也就是 functions 不是換按照 scope ( public -> package -> protected -> private )，而是照閱讀順序 (stepdown)，
+一般以 plulic scope 的 fucntion 開始，緊接著是依該 public 裡值用到的順序做排列， 這樣會像報紙一樣，以上至下的閱讀。</p>
+
+<blockquote><p>目前要採用這種方式， IDE (eclipse , interllij ) 目前並沒有支援，況且，如果 function 被多個 function 呼叫， 被呼叫的 function 要放那，也是一個問題。
+目前 ide 都有 function 的 outline 可以快速跳掉某個 function ， eclipse 也有可以直接看另一個被呼叫的 function viewer ，
+私以為 newspaper format 不是那麼必要。</p></blockquote>
+
+<h4>保持精簡</h4>
+
+<p>Class 應該儘可能的小，但要小到多少？用 function 的數量來計數比是那麼的精確，用檔案大小來計算，更是不容易反應出 class
+的真實大小，在計算 classs 的大小採用的是所讀的<em>職責數</em>，在 OOP 五大定理原則裡有一個叫 SPR (Single Responsibility
+Principle), 中文為<em>單一職責原則</em>，單一職責原則要求每個 class 應該只有一個責任（只做一件事），所以，我們可以用　class
+是否做了太多的事來判斷 class 是不是太大。</p>
+
+<blockquote><p>用比較實務上的方式來解釋<em>單一職責原則</em>的話，可以這樣說: 當同一個物件需要異動時，應該都是基於相同的理由</p></blockquote>
+
+<pre><code>public class SuperDashboard extends JFrame implements MetaDataUser public Component getLastFocusedComponent()
+public void setLastFocused(Component lastFocused)
+public int getMajorVersionNumber()
+public int getMinorVersionNumber()
+public int getBuildNumber() }
+</code></pre>
+
+<p>以上面的 SuperDashboard class 來說，它就具備了兩個職責</p>
+
+<ol>
+<li>版本資訊</li>
+<li>Java Swing的物件結構</li>
+</ol>
+
+
+<p>所以，當出貨時(理由一)，版本資訊需要異動， focus (GUI 元件的 foucs)異動時，也可能會改變 SuperDashboard，所以這個 class 應該再被細分。</p>
+
+<h4>少量的 Large Class V.S. 大量的 Small Class</h4>
+
+<p>在設計 class 時，多數人更偏好寫一個很大的 class 而不是 許多的小 classes，因為這樣可以不用在 class見跳來跳去的閱讀，可以在同一個檔
+案裡找到所有需要的東西，覺得畫分成小的 class 反而是造成程式可讀性不佳的原兇。其實，<strong>這一定是個誤會</strong>，切成許多單一職責的 classes，
+只要透過系統化的分類，不但可以更快的找到需要的功能。</p>
+
+<p>舉例來說，將許多的小零件分門別類的放在工具箱的小抽遞內，一定比全部混放在一個大抽遞更能被快速的找到。所以，不要害怕 class 的切割，做好
+SPR，其他的問題，可以透過系統化的組織來解決 class 過多的問題，而且 Small Class 在 reused的效果上也更好，測試上也比較容易。</p>
+
+<h4>內聚力</h4>
+
+<p>class 的 instance variables 的被 class 內的 methods 引用的次數愈多，表示其內聚力愈強，如果一個類別的內聚力太低時，就應該考慮是否做切割。</p>
+
+<blockquote><p>內聚力太低時，通常也代表 instance variables 數量太多，某些可能只被特定的 methods 引用，那可能就意味這些 methods 應該被
+extract 出去成為另一個獨立的 class， 這樣對兩個 classes 來說，都會有更高的內聚力</p></blockquote>
+
+<h2>Emergence</h2>
+
+<p>Kent Beck&#8217;s Xp Simplicity Rules:</p>
+
+<ol>
+<li>Runs all the tests</li>
+<li>Contains no duplication</li>
+<li>Expresses the intent of the programmer</li>
+<li>Minimizes the number of classes and methods</li>
+</ol>
+
+
+<p>ref: <a href="http://c2.com/cgi/wiki?XpSimplicityRules">http://c2.com/cgi/wiki?XpSimplicityRules</a></p>
+
+<h4>重構的方向</h4>
+
+<ol>
+<li>去除重覆</li>
+<li>可讀性</li>
+<li>保持最少跟最小的 classes, methods</li>
+</ol>
+
+
+<h2>Resource</h2>
+
+<ul>
+<li>planetgeek.ch 整理的clean code cheetsheet <a href="http://www.planetgeek.ch/2013/06/05/clean-code-cheat-sheet/">http://www.planetgeek.ch/2013/06/05/clean-code-cheat-sheet/</a> , <a href='http://blog.kent-chiu.com/images/blog/2013-04-22-clean-code_Clean-Code-V2.1.pdf'>備份檔</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[在 Windwos OS 上安裝git flow]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2013/03/14/install-git-flow-on-windows/"/>
+    <updated>2013-03-14T21:48:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2013/03/14/install-git-flow-on-windows</id>
+    <content type="html"><![CDATA[<p>git-flow on windows主要是參考這篇文章
+https://github.com/nvie/gitflow/wiki/Windows</p>
+
+<h2>下載相關檔案</h2>
+
+<p>git官網下載的git是屬於MSysGit版的，所以，要按照MSysGit的安裝步驟進行git flow的安裝</p>
+
+<p>首先要先安裝<code>util-linux-ng for Windows</code>,<code>util-linux-ng for Windows</code>可以到
+http://gnuwin32.sourceforge.net/packages/util-linux-ng.htm 下載，點選下圖紅框的檔案連結下次二進制文件的zip檔</p>
+
+<p><img src="http://blog.kent-chiu.com/images/blog/2013-03-14-install-git-flow-on-windows-001.png" alt="2013-03-14-install-git-flow-on-windows-001.png" /></p>
+
+<p>需一併下載上圖中下方紅框的<code>libintl</code>，libintl的連結會進入另一個網頁 http://gnuwin32.sourceforge.net/packages/libintl.htm，一樣下載Binaries的zip檔即可</p>
+
+<p>再來需要確定一下git安裝的路徑，如果是32位元的os會是在 <code>C:\Program Files\Git</code>, 64位元的os會是在 <code>C:\Program Files (x86)\Git</code> (<strong>以下的步驟以64位元的os的git安裝目錄為例</strong>)</p>
+
+<p>下載後的 util-linux-ng-2.14.1-bin.zip 解壓，可以在<code>util-linux-ng-2.14.1-bin\bin</code>找到 getopt.exe
+下載後的libintl-0.14.4-bin.zip解壓，可以在<code>libintl-0.14.4-bin\bin</code>找到 libintl3.dll</p>
+
+<p>將getopt.exe跟 libintl3.dll copy到git安裝目錄 <code>C:\Program Files (x86)\Git</code></p>
+
+<h2>clone git flow</h2>
+
+<p>clone github上的gitflow到臨時性的工作目錄 <code>c:\gitflow</code> (<em>這個目錄做完安裝後可以刪除</em>)</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git clone --recursive git://github.com/nvie/gitflow.git c:\gitflow</span></code></pre></td></tr></table></div></figure>
+
+
+<p>clone完成後，到 c:\gitflow\contrib 執行</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>C:\gitflow\contrib&gt;msysgit-install.cmd "C:\Program Files (x86)\Git"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>執行後，會看到一些檔案被複制到git安裝目錄</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>C:\gitflow\git-flow -&gt; C:\Program Files (x86)\Git\bin\git-flow
+</span><span class='line'>C:\gitflow\git-flow-feature -&gt; C:\Program Files (x86)\Git\bin\git-flow-feature
+</span><span class='line'>C:\gitflow\git-flow-hotfix -&gt; C:\Program Files (x86)\Git\bin\git-flow-hotfix
+</span><span class='line'>C:\gitflow\git-flow-init -&gt; C:\Program Files (x86)\Git\bin\git-flow-init
+</span><span class='line'>C:\gitflow\git-flow-release -&gt; C:\Program Files (x86)\Git\bin\git-flow-release
+</span><span class='line'>C:\gitflow\git-flow-support -&gt; C:\Program Files (x86)\Git\bin\git-flow-support
+</span><span class='line'>C:\gitflow\git-flow-version -&gt; C:\Program Files (x86)\Git\bin\git-flow-version
+</span><span class='line'>已複製 7 個檔案
+</span><span class='line'>C:\gitflow\gitflow-common -&gt; C:\Program Files (x86)\Git\bin\gitflow-common
+</span><span class='line'>C:\gitflow\gitflow-shFlags -&gt; C:\Program Files (x86)\Git\bin\gitflow-shFlags
+</span><span class='line'>已複製 2 個檔案
+</span><span class='line'>C:\gitflow\shFlags\src\shflags -&gt; C:\Program Files (x86)\Git\bin\gitflow-shFlags
+</span><span class='line'>已複製 1 個檔案</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這樣整個安裝步驟就全部完成了</p>
+
+<h2>試車</h2>
+
+<p>可以在windows的command  windows裡打git flow，如果有看到類似以下的訊息就ok了</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>C:\gitflow\contrib&gt;git flow
+</span><span class='line'>usage: git flow &lt;subcommand&gt;
+</span><span class='line'>
+</span><span class='line'>Available subcommands are:
+</span><span class='line'>   init      Initialize a new git repo with suppo
+</span><span class='line'>   feature   Manage your feature branches.
+</span><span class='line'>   release   Manage your release branches.
+</span><span class='line'>   hotfix    Manage your hotfix branches.
+</span><span class='line'>   support   Manage your support branches.
+</span><span class='line'>   version   Shows version information.
+</span><span class='line'>
+</span><span class='line'>Try 'git flow &lt;subcommand&gt; help' for details.</span></code></pre></td></tr></table></div></figure>
+
+
+<p>到這裡都ok的話，之前的臨時性的工作目錄 <code>c:\gitflow</code>可以刪了它</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[如何透過firefox console來加速開發extjs]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2013/03/12/how-to-developing-extjs-app-in-firefox-console/"/>
+    <updated>2013-03-12T12:34:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2013/03/12/how-to-developing-extjs-app-in-firefox-console</id>
+    <content type="html"><![CDATA[<p>test published options
+xxxxx</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Spring Rest檔案上傳及下載]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2013/03/10/file-upload-and-download-in-spring-rest-mvc/"/>
+    <updated>2013-03-10T14:27:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2013/03/10/file-upload-and-download-in-spring-rest-mvc</id>
+    <content type="html"><![CDATA[<p>File upload</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@RequestMapping(value = "/foobar/upload", method = RequestMethod.POST)
+</span><span class='line'>public @ResponseBody
+</span><span class='line'>String upload(@RequestParam("file") MultipartFile file, @RequestParam("fileId") String fileId) {
+</span><span class='line'>  logger.info("save import file {} to {}", file.getOriginalFilename(), fileId);
+</span><span class='line'>
+</span><span class='line'>  File resultHome = getWorkingDir();
+</span><span class='line'>  File temp = new File(resultHome, fileId);
+</span><span class='line'>  try {
+</span><span class='line'>      IOUtils.copy(file.getInputStream(), new FileOutputStream(temp));
+</span><span class='line'>      return "{success: true}";
+</span><span class='line'>  } catch (FileNotFoundException e) {
+</span><span class='line'>      logger.error("upload file fail", e);
+</span><span class='line'>  } catch (IOException e) {
+</span><span class='line'>      logger.error("upload file fail", e);
+</span><span class='line'>  }
+</span><span class='line'>  return "{success: false}";
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>File Download</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@RequestMapping(value = "/forbar/export", method = RequestMethod.GET)
+</span><span class='line'>public HttpEntity&lt;byte[]&gt; excelExcel() throws IOException {
+</span><span class='line'>  File file = new File("myexcel.xls");
+</span><span class='line'>  byte[] body = FileUtils.readFileToByteArray(file);
+</span><span class='line'>  HttpHeaders header = new HttpHeaders();
+</span><span class='line'>  header.setContentType(new MediaType("application", "xls"));
+</span><span class='line'>  header.set("Content-Disposition", "attachment; filename=" + "foobar.xls");
+</span><span class='line'>  header.setContentLength(body.length);
+</span><span class='line'>  return new HttpEntity&lt;byte[]&gt;(body, header);
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Octopress配置]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2013/03/04/octopress-configuration/"/>
+    <updated>2013-03-04T00:31:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2013/03/04/octopress-configuration</id>
+    <content type="html"><![CDATA[<p>配置檔說明在 : https://github.com/mojombo/jekyll/wiki/Configuration</p>
+
+<p>plugins : https://github.com/imathis/octopress/wiki/3rd-party-plugins</p>
+
+<p>小抄: http://dreamrunner.org/wiki/public_html/docs/Web/octopress.html</p>
+
+<hr />
+
+<h4>加快generate的速度</h4>
+
+<p>文章數不到200篇，但在i7的cpu上generate已經要需近一分鐘的時間，還好octopress提供了一個快速generate的指令<code>rake isolate</code>
+，動作原理就是開一個暫存的目錄<code>_stash</code>要generate前會把<code>_post</code>裡的所有檔案copy到暫存的目錄<code>_stash</code>下，等要
+deploy時，再透過指令<code>rake integrate</code>將檔案copy回<code>_post</code></p>
+
+<p>使用範例如下</p>
+
+<p><code>source/_post</code>有10篇文章，其中有一篇檔名為<code>2013-03-04-foo-bar.md</code>是這次要編輯的</p>
+
+<p>透過<code>rake isolate</code>來隔離<code>2013-03-04-foo-bar.md</code>之外的文章</p>
+
+<pre><code> rake isolate[foo-bar]
+</code></pre>
+
+<p>檔名要去掉日期的部份及副檔名, 下完指令後<code>_post</code>目錄下只剩<code>2013-03-04-foo-bar.md</code>這個檔案</p>
+
+<pre><code>rake generate
+</code></pre>
+
+<p>只剩一個檔案，generate速度當然飛快</p>
+
+<p>文章編輯完成，準備發佈前記得透過<code>rake integrate</code>把其他檔案從<code>_stage</code>目錄copy回來</p>
+
+<pre><code>rake integrate
+</code></pre>
+
+<p>此時，所有的檔案已經都回到<code>_post</code>目錄，這時必須再對所有內容<code>generate</code>一次，就可以進行發佈<code>rake deploy</code>了</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Android 模擬器 101]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2012/12/28/android_emulator_101/"/>
+    <updated>2012-12-28T00:00:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2012/12/28/android_emulator_101</id>
+    <content type="html"><![CDATA[<p>Android Emulator是
+QEMU-based的應用程式，主要功能是在PC上建立一個虛擬的Android平台環境，並提供一個GUI的仿手機介面以供操作。
+Android
+Emulator可以模擬任何Android平台的任何功能，可以模擬手機應用程式執行情形，也可以模擬Native
+Code的功能。
+模擬器有可客制化功能，可以在runtime時選定要用那一種角析度的LCD，要支援什麼樣的硬體設備(攝影機、錄音功能、簡訊、GPS…)</p>
+
+<h3>啟動</h3>
+
+<p>可以透過EclipseADT啟動，也可以直接從Command Line啟動</p>
+
+<h4>透過Eclipse ADT啟動</h4>
+
+<p><img src="http://blog.kent-chiu.com/images/wiki/android/android_emulator_101_01.png" alt="android_emulator_101_01.png" /></p>
+
+<p>你可以加入許多<a href="http://developer.android.com/guide/developing/tools/emulator.html#startup-options" title="http://developer.android.com/guide/developing/tools/emulator.html#startup-options">啟動參數</a>來設定啟動後的環境，
+比如說是否啟用debug mode，是否套用特定的skin等。</p>
+
+<p>在Eclipse ADT中加入啟動參數的方法是在menu > Run Configuration > Target
+tab</p>
+
+<p><img src="http://blog.kent-chiu.com/images/wiki/android/android_emulator_101_03.png" alt="android_emulator_101_03.png" /></p>
+
+<h4>從Command Line啟動</h4>
+
+<p>透過command line啟動的方式如下：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>emulator -avd AVD2</span></code></pre></td></tr></table></div></figure>
+
+
+<p>AVD2是上圖的ADV Name，那個是建立<strong>A</strong>ndroid <strong>V</strong>irtual
+<strong>D</strong>evice建，其中一個步驟要求輸入的內容</p>
+
+<h5>啟動後的畫面</h5>
+
+<p>啟動時需要幾秒到幾分鐘的時間(一個完整的OS在VM中啟動，當然要花些時間)，啟動後，你可以一直讓模擬器維持開啟狀況，不必隨著你的程式的關閉而關閉。</p>
+
+<p><img src="http://blog.kent-chiu.com/images/wiki/android/android_emulator_101_02.png" alt="android_emulator_101_02.png" /></p>
+
+<h1>解析度</h1>
+
+<ul>
+<li>QVGA 320×240, 120dpi, 3.3</li>
+<li>WQVGA432 432×240, 120dpi, 3.9</li>
+<li>HVGA 480×320, 160dpi, 3.6</li>
+<li>WVGA800 800×480, 240dpi, 3.9</li>
+<li>WVGA854 854×480, 240dpi, 4.1</li>
+</ul>
+
+
+<p><img src="http://cdn3.techbang.com.tw/system/images/23074/original/ex_1_wv1.jpg" alt="" /></p>
+
+<p>圖片來源
+<a href="http://www.techbang.com.tw/posts/3053-search-text-to-explain-words-wvga-high-resolution-handheld-devices-necessary?utm_source=feedburner&amp;utm_medium=feed&amp;utm_campaign=Feed%3A+techbang+%28T%E5%AE%A2%E9%82%A6+%E6%9C%80%E6%96%B0%E6%96%87%E7%AB%A0%29&amp;utm_content=Google+Reader" title="http://www.techbang.com.tw/posts/3053-search-text-to-explain-words-wvga-high-resolution-handheld-devices-necessary?utm_source=feedburner&amp;utm_medium=feed&amp;utm_campaign=Feed%3A+techbang+%28T%E5%AE%A2%E9%82%A6+%E6%9C%80%E6%96%B0%E6%96%87%E7%AB%A0%29&amp;utm_content=Google+Reader">T客邦</a></p>
+
+<p>在啟動模擬器前，還有一個啟動選項(Launch Options)畫面，將scale to real
+size勾選，可以讓模擬器瑩幕的大小跟實際在手機上看到比較接近。
+這樣可以確定實際按鍵的大小，比較容易評量會不會因為按鍵太小而不容易操作。</p>
+
+<p><img src="http://blog.kent-chiu.com/images/wiki/android/android_emulator_101_004.png" alt="android_emulator_101_004.png" /></p>
+
+<h1>Resources</h1>
+
+<ul>
+<li><a href="http://developer.android.com/guide/developing/tools/emulator.html" title="http://developer.android.com/guide/developing/tools/emulator.html">Android Emulator</a></li>
+<li><a href="http://developer.android.com/guide/developing/tools/avd.html" title="http://developer.android.com/guide/developing/tools/avd.html">Android Virtual Devices</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Maven Resources]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2012/12/07/resource/"/>
+    <updated>2012-12-07T00:00:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2012/12/07/resource</id>
+    <content type="html"><![CDATA[<p>maven的command是有次序性的 ex:
+<code>mvn clean install source:jar javadoc:jar</code>
+只會產生source.jar跟javadoc.jar在target目錄下，但是
+<code>mvn clean source:jar javadoc:jar install</code>
+就會產生source.jar跟javadoc.jar並安裝到local的repository，
+善用這個特性可以加快building的速度</p>
+
+<h3>m2eclipse</h3>
+
+<p>使用m2eclipse時如果過到maven
+console出現求要使用jdk不要使用jre的訊息時，可以透過以-vm指定vm</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>....
+</span><span class='line'>
+</span><span class='line'>-install
+</span><span class='line'>C:\Users\Kent\AppData\Local\Genuitec\Profiles\Bellwin_3.6
+</span><span class='line'>#用這一行指定eclipse使用的vm是jdk版本而不是jre版本後，就正常了
+</span><span class='line'>-vm 
+</span><span class='line'>C:\Program Files\Java\jdk1.6.0_25\bin\javaw.exe 
+</span><span class='line'>-configuration
+</span><span class='line'>C:\Users\Kent\AppData\Local\Genuitec\Profiles\Bellwin_3.6\configuration
+</span><span class='line'>-vmargs
+</span><span class='line'>-Xms250m
+</span><span class='line'>-Xmx768m</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>download source &amp; javadoc</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mvn dependency:sources
+</span><span class='line'>mvn dependency:resolve -Dclassifier=javadoc</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>版本檢查，java source下載</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>versions:display-dependency-updates versions:display-plugin-updates versions:display-property-updates   dependency:sources dependency:resolve -Dclassifier=javadoc</span></code></pre></td></tr></table></div></figure>
+
+
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[EXT JS 101]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2012/11/15/extjs_101/"/>
+    <updated>2012-11-15T00:00:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2012/11/15/extjs_101</id>
+    <content type="html"><![CDATA[<p>本文章內容在說明<a href="http://www.sencha.com/" title="http://www.sencha.com/">EXT JS
+4</a>的基本知識。”EXT JS
+4”(以下簡稱ext)是<a href="http://www.sencha.com/" title="http://www.sencha.com/">Sencha</a>公司出的一套javascript
+lib，有兩種授權模式，但基本上”就是要錢”。</p>
+
+<p>從架構面來看ext可以分成兩部份，ext core跟ext UI componment，ext
+core的部份是跟ui比較沒有關係的核心模型，像資料模型<a href="#model" title="extjs:extjs_101 ↵">Model</a>、後端的溝通處理用的<a href="#proxy" title="extjs:extjs_101 ↵">Proxy</a>、以及<a href="#plugin" title="extjs:extjs_101 ↵">Plugin</a>跟<a href="#extension" title="extjs:extjs_101 ↵">Extension</a>
+。而ext UI
+componment就是一堆UI元件。建議在看完簡單的文件，玩玩ext的hello
+word程式後，可以先從內功(ext
+core)下手，等內功任督二脈打通了後，外功(UI元件)再個個擊破就很快了。</p>
+
+<h2>Data Package</h2>
+
+<p>整個Data Package的主要觀念如下圖:</p>
+
+<p><img src="http://blog.kent-chiu.com/images/wiki/extjs/extjs_101_001.png" alt="extjs_101_001.png" /></p>
+
+<h3>Model</h3>
+
+<p>Model就是資料模型，像User的model，就是具有username, password,
+email,….這些屬性(圖中的Field)的資料模型，
+模型的驗証邏輯(圖中的Validation)及與其他模組關聯(Association)。</p>
+
+<h5>Validation</h5>
+
+<p>可以是單位欄位性質得欄位型態，內容，長度…驗証，也可以是同一個model裡欄位與欄位間關係的驗証，甚至少
+Business Logic的驗証。</p>
+
+<p>過於複雜的驗証，最後再後端處理後，再送回前端</p>
+
+<h3>Proxy</h3>
+
+<p>Proxy負看將資料載入model或儲存model的資料。可分為Client Proxy及Server
+Proxy</p>
+
+<h5>Client Proxy</h5>
+
+<ol>
+<li><p>WebStorageProxy</p>
+
+<ol>
+<li>LocalStorageProxy</li>
+<li>SessionStorageProxy</li>
+</ol>
+</li>
+<li><p>MemoryProxy</p></li>
+</ol>
+
+
+<h5>Server Proxy</h5>
+
+<ol>
+<li><p>AjaxProxy - 透過AJAX跟後端溝通(常用)</p>
+
+<ol>
+<li>RestProxy - 透過REST跟後端REST service進行溝通(利用HTTP protocol
+的uri代表資源位置，GET, POST, PUT, DELETE
+methods來對資源進行Read, Save, Update, Delete的動作)</li>
+</ol>
+</li>
+<li><p>ScriptTagProxy - 透遛JSONP(JSON with
+Padding)的方式與其他domain的server溝通</p></li>
+<li>DirectProxy -</li>
+</ol>
+
+
+<p>JSONP(JSON with
+Padding):browser的限制不能存取其他網域(domain)的資料，而JSONP是利用JSON
++ callback function來跨越這個限制</p>
+
+<h5>Reader</h5>
+
+<p>Reader負責來解析資料格式，目前有</p>
+
+<ol>
+<li><p>JsonReader (預設)</p>
+
+<ol>
+<li>ArrayReader</li>
+</ol>
+</li>
+<li><p>XmlReader</p></li>
+</ol>
+
+
+<h5>Writer</h5>
+
+<p>Writer比Reader複雜一些，通常是被Server
+Proxy使用，Writer裡面有一個叫Operation，Operation會決定url的格式內容及參數。
+透過改成Operation.action 為&#8217;create&#8217;, &#8216;read&#8217;, &#8216;update&#8217; or
+&#8216;destroy&#8217;可以決定要對Server Proxy送出什麼樣的url</p>
+
+<h3>Store</h3>
+
+<p>如果將Model視為處理一筆資料的物件，那麼我們可以說，Store多筆資料(Model)的物件，Store跟Model一樣可以透過Proxy讀取或儲存資料。
+而Store因為資料內容是多筆的，所以，還可以對這些資料進行排序(sorting)，過濾(filtering)，郡組(Grouping)或查詢(querying)的動作.</p>
+
+<h2>如何看懂API</h2>
+
+<p>為了學習如果使用API進行開發，以下設計了一個簡單的例子來說明如果使用FireBug
++ ExtJS的API說明文件來進行練習</p>
+
+<p>一般來說，我們會透過ajax
+proxy跟後端要資料，一開始，我們可以用一個簡單的純文字檔，讓proxy直接跟檔案要資料，而不是跟server
+side要</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[{"id":1,"name":"kent","email":null},{"id":2,"name":"juiwen","email":null},{"id":3,"name":"Roger","email":null}]</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;html&gt;
+</span><span class='line'>&lt;!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"&gt;
+</span><span class='line'>&lt;head&gt;
+</span><span class='line'>&lt;script type="text/javascript" src="%EXT_HOME%/ext-core-debug.js"&gt;&lt;/script&gt;
+</span><span class='line'>&lt;script type="text/javascript" src="%EXT_HOME%/ext-all-debug.js"&gt;&lt;/script&gt;
+</span><span class='line'> 
+</span><span class='line'>Ext.require([
+</span><span class='line'>             'Ext.data.*',
+</span><span class='line'>         ]);
+</span><span class='line'>Ext.onReady(function(){
+</span><span class='line'> 
+</span><span class='line'> 
+</span><span class='line'>    Ext.regModel('User', {
+</span><span class='line'>        fields: ['id', 'name', 'email'],
+</span><span class='line'>        proxy: {
+</span><span class='line'>            type: 'ajax', // load using HTTP
+</span><span class='line'>            url: 'model.json' // 載入下面的json檔案
+</span><span class='line'>        }
+</span><span class='line'>    });
+</span><span class='line'>    var user = Ext.ModelMgr.getModel('User');
+</span><span class='line'>    // 宣告剛成後，user只是一個Ext.data.Model型別的物件
+</span><span class='line'>    // 查Ext.data.Model的API doc可以知道，有一個load method可以用來載入資料
+</span><span class='line'>    // 載入json file第一筆{id=1, name='kent'}記錄進user
+</span><span class='line'>    user.load(1, {
+</span><span class='line'>        scope: this,
+</span><span class='line'>        failure: function(record, operation) {
+</span><span class='line'>            // 載入失敗時，這個method會被呼叫
+</span><span class='line'>        },
+</span><span class='line'>        success: function(record, operation) {
+</span><span class='line'>            // 載入成功時，這個method會被呼叫
+</span><span class='line'>            conlog.log(record); // record本時為json file的第一筆資料，但是Ext.data.Model
+</span><span class='line'>        }
+</span><span class='line'>    });
+</span><span class='line'>    console.log(user); // 注意:這樣得到的user是會空的，因為，取得資料的method 'load'是非同步的，所以，load還沒取回資料前，就會執行load之後的動作了
+</span><span class='line'> 
+</span><span class='line'> 
+</span><span class='line'>    var userStore = new Ext.data.Store({
+</span><span class='line'>        model: 'User',
+</span><span class='line'>        autoLoad: true,
+</span><span class='line'>    });
+</span><span class='line'> 
+</span><span class='line'>    userStore.on('load', function(self, records, success) {
+</span><span class='line'>        // Ext.data.Store.data是Ext.util.MixedCollection型別，MixedCollection中有each method可以取得集合內的每一個內容，每一個內容均為Ext.data.Model
+</span><span class='line'>        userStore.data.each(function(item, index, length){
+</span><span class='line'>            // item此時為json file的"某"一筆資料，被包裝成Ext.data.Model型別,Ext.data.Model有一個data的屬性可以取得物件
+</span><span class='line'>            console.log(item.data.name)
+</span><span class='line'>        });
+</span><span class='line'>    });
+</span><span class='line'>&lt;/script&gt;
+</span><span class='line'> 
+</span><span class='line'>&lt;title&gt;Model Example&lt;/title&gt;
+</span><span class='line'>&lt;/head&gt;
+</span><span class='line'>&lt;body&gt;
+</span><span class='line'>EXT JS Model Test
+</span><span class='line'>&lt;/body&gt;
+</span><span class='line'>&lt;/html&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>透過plugin + API Doc</h4>
+
+<p>EXT是利用動態語言JavaScript寫的，由於動態語言的特性是在Runtime的才能知道物件真正的內容為何，如果要光靠API做物件型別的推斷，會很辛苦。
+再加上EXT JS
+4版後，採用Mixins的技術，會讓物件型別的推斷更加麻煩，所以，建議在API不熟前，可以多利用Debugger工具，在runtime去查出物件的真正型別
+，這樣對初學者，會比較容易克服ext的進入門檻。</p>
+
+<h5>API inspect in action</h5>
+
+<p>這裡利用FireBug + <a href="http://www.illuminations-for-developers.com/" title="http://www.illuminations-for-developers.com/">extjs
+plugin</a>來觀查extjs元件內容並說明如何搭配API文件來將程式改成符合我們需求的設定。</p>
+
+<p>FireBug必須利用script
+debugger的功能，設定中斷點後，執行script會停在中斷點上，便可在執行時可以得知物件型別，對照API一起看，就會很清楚了</p>
+
+<p><img src="http://blog.kent-chiu.com/images/wiki/extjs/extjs_101_002.png" alt="extjs_101_002.png" /></p>
+
+<h3>Ext.Template</h3>
+
+<p>範本功能是透過建立一個固定的範本，然後可以將範本裡面特定的內容給取代掉。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>var t = new Ext.Template("&lt;div&gt;Hello {0}.&lt;/div&gt;");
+</span><span class='line'>t.append('some-element', ['foo']);</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>var t = new Ext.Template([
+</span><span class='line'>    '&lt;div name="{id}"&gt;',
+</span><span class='line'>        '&lt;span class="{cls}"&gt;{name:trim} {value:ellipsis(10)}&lt;/span&gt;',
+</span><span class='line'>    '&lt;/div&gt;',
+</span><span class='line'>]);
+</span><span class='line'>t.compile();
+</span><span class='line'>t.append('some-element', {id: 'myid', cls: 'myclass', name: 'foo', value: 'bar'});</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Ext.AbstractComponent</h3>
+
+<p>如下圖，Ext.AbstractComponent是許多元件的共同祖先，提供了許多元件共同的基本行為，像</p>
+
+<p>其有幾個特別需要提及的</p>
+
+<ol>
+<li>getEl()</li>
+<li>getPlugin()</li>
+<li>getXTypes()</li>
+</ol>
+
+
+<h3>事件處理</h3>
+
+<p>Ext.util.Observable是所有事件處理的根基。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>var el = Ext.get('myDiv');
+</span><span class='line'>el.on('click', clickHandle(){});</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>TBD</h3>
+
+<ul>
+<li>Ext.Function.bind 將前一次的function的傳回值當作參數傳入下一次的呼叫
+(有functional programming的味道)</li>
+<li>Ext.Function.pass
+建立一個新的function，用來取代舊function但改變scope</li>
+<li>Ext.Function.defer 延遲一段時間後，進行function call</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[English]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2012/10/11/english/"/>
+    <updated>2012-10-11T00:00:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2012/10/11/english</id>
+    <content type="html"><![CDATA[<ul>
+<li><a href="http://wiki.kent-chiu.com/doku.php?id=english:notes" title="english:notes">My English
+Notes</a></li>
+<li><a href="http://wiki.kent-chiu.com/doku.php?id=english:defining_vocabulary" title="english:defining_vocabulary">Longman Dictionary Defining Vocabulary (2,000
+words)</a></li>
+<li><a href="http://wiki.kent-chiu.com/doku.php?id=english:my_vocabulary" title="english:my_vocabulary">My
+Vocabulary</a></li>
+<li><a href="http://wiki.kent-chiu.com/doku.php?id=english:collocation" title="english:collocation">搭配詞</a></li>
+<li><a href="http://wiki.kent-chiu.com/doku.php?id=sense_grammer:start" title="sense_grammer:start">文法書</a></li>
+<li><a href="http://wiki.kent-chiu.com/doku.php?id=english:linguistic" title="english:linguistic">語言學簡介</a></li>
+<li>Grammer Mind Map - <a href="http://wiki.kent-chiu.com/doku.php?id=english:grammer" title="english:grammer">Image
+format</a>,
+<a href="http://wiki.kent-chiu.com/lib/exe/fetch.php?media=english:grammar.xmind" title="english:grammar.xmind">XMind format</a></li>
+<li><a href="http://georgechen.idv.tw/wordpress/" title="http://georgechen.idv.tw/wordpress/">英文字典達人的站</a></li>
+<li><a href="http://lsmls.org/" title="http://lsmls.org/">路 - 自學館</a></li>
+<li><a href="http://www.sense-english.com/default.php?id=179" title="http://www.sense-english.com/default.php?id=179">廣讀(extensive
+reading)的作法</a></li>
+<li><a href="http://georgechen.idv.tw/wordpress/?p=59" title="http://georgechen.idv.tw/wordpress/?p=59">為什麼要使用英英字典</a></li>
+<li><a href="http://blog.sina.com.cn/zhangliminqd" title="http://blog.sina.com.cn/zhangliminqd">Longman Dictionary
+Enhancement</a></li>
+<li><a href="http://crazycat1130.pixnet.net/blog/post/15426620" title="http://crazycat1130.pixnet.net/blog/post/15426620">形容詞子句(source:
+瘋小貓的華麗冒險)</a></li>
+<li><a href="http://crazycat1130.pixnet.net/blog/post/17458923" title="http://crazycat1130.pixnet.net/blog/post/17458923">名詞子句(source:
+瘋小貓的華麗冒險)</a></li>
+<li><a href="http://crazycat1130.pixnet.net/blog/post/17459071" title="http://crazycat1130.pixnet.net/blog/post/17459071">Direct/Indirect Speech(source:
+瘋小貓的華麗冒險)</a></li>
+<li><a href="http://www.englishclub.com/writing/spelling_add-ing.htm" title="http://www.englishclub.com/writing/spelling_add-ing.htm">+ing,+ed的方式</a></li>
+</ul>
+
+
+<h2>Phonics</h2>
+
+<ul>
+<li><a href="http://wiki.kent-chiu.com/doku.php?id=english:phonics_101" title="english:phonics_101">Phonics
+101</a></li>
+<li><a href="http://wiki.kent-chiu.com/doku.php?id=english:syllables_101" title="english:syllables_101">Syllable
+101</a></li>
+<li><a href="http://www.phonicsontheweb.com/index.php" title="http://www.phonicsontheweb.com/index.php">Phonics on
+web</a>
+
+<ul>
+<li>the Phonics rules</li>
+</ul>
+</li>
+<li><a href="http://www.cla.calpoly.edu/~jrubba/phon/syllables.html" title="http://www.cla.calpoly.edu/~jrubba/phon/syllables.html">Syllable Structure in
+English</a>
+
+<ul>
+<li>一篇說明如何劃分音節的文章</li>
+</ul>
+</li>
+<li><a href="http://www.spelling.hemscott.net/" title="http://www.spelling.hemscott.net/">Spelling it Right - Learn How to Spell
+Confidently</a></li>
+<li><a href="http://wiki.kent-chiu.com/doku.php?id=english:the_eight_great_spelling_rules" title="english:the_eight_great_spelling_rules">The Eight Great Spelling
+Rules</a></li>
+<li>Phonics Mind Map - <a href="http://wiki.kent-chiu.com/doku.php?id=english:phonics" title="english:phonics">Image
+format</a>,
+<a href="http://wiki.kent-chiu.com/lib/exe/fetch.php?media=english:phonics.xmind" title="english:phonics.xmind">XMind
+format</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[時間日期處理]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2012/09/30/date_and_time/"/>
+    <updated>2012-09-30T00:00:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2012/09/30/date_and_time</id>
+    <content type="html"><![CDATA[<p>日期的處理，在java中，一直是一個麻煩的問題，很多時間或日期操作若只是想透過JDK的<a href="http://download.oracle.com/javase/6/docs/api/java/util/Date.html" title="http://download.oracle.com/javase/6/docs/api/java/util/Date.html">Date</a>
+或<a href="http://download.oracle.com/javase/6/docs/api/java/util/Calendar.html" title="http://download.oracle.com/javase/6/docs/api/java/util/Calendar.html">Calendar</a>來處理，會相當的不方便，況且
+JDK內日期時間就有好幾種，很容易讓許多人無從下手，以下列出JDK
+1.6內的日期時間相關物件(不含時間日期格式物件)</p>
+
+<ol>
+<li><a href="http://download.oracle.com/javase/6/docs/api/java/util/Date.html" title="http://download.oracle.com/javase/6/docs/api/java/util/Date.html">java.util.Date</a>
+java日期物件</li>
+<li><a href="http://download.oracle.com/javase/6/docs/api/java/sql/Date.html" title="http://download.oracle.com/javase/6/docs/api/java/sql/Date.html">java.sql.Date</a>
+資料庫用的日期物件</li>
+<li><a href="http://download.oracle.com/javase/6/docs/api/java/sql/Time.html" title="http://download.oracle.com/javase/6/docs/api/java/sql/Time.html">java.sql.Time</a>
+資料庫用的日期物件</li>
+<li><a href="http://download.oracle.com/javase/6/docs/api/java/sql/Timestamp.html" title="http://download.oracle.com/javase/6/docs/api/java/sql/Timestamp.html">java.sql.Timestamp</a>
+資料庫用的時間戳記物件</li>
+<li><a href="http://download.oracle.com/javase/6/docs/api/java/util/Calendar.html" title="http://download.oracle.com/javase/6/docs/api/java/util/Calendar.html">java.util.Calendar</a>
+java日期物件</li>
+</ol>
+
+
+<p>目前處理日期相關的工具，除了上述的之外，JDK內還有<a href="http://wiki.kent-chiu.com/doku.php?id=java:date_and_time" title="java:date_and_time">日期格式化的相關功能</a>，另外，還有
+Apache
+<a href="http://commons.apache.org/lang/" title="http://commons.apache.org/lang/">connons-lang</a>裡的<a href="http://commons.apache.org/lang/api-2.6/org/apache/commons/lang/time/DateUtils.html" title="http://commons.apache.org/lang/api-2.6/org/apache/commons/lang/time/DateUtils.html">DateUtils</a>有許多好用的method可以做日期的判斷，
+如果還是不足夠的話，還有時間日期處理的終極武器<a href="http://joda-time.sourceforge.net/" title="http://joda-time.sourceforge.net/">Joda
+time</a>，可以很有效的對付時間日期區間的問題(Start
+Time, End Time報表常會用到)， 那也可以看看<a href="http://sourceforge.net/apps/mediawiki/threeten/index.php?title=ThreeTen" title="http://sourceforge.net/apps/mediawiki/threeten/index.php?title=ThreeTen">JSR
+310時間日期處理功能</a>，這個原本有可能是<a href="http://download.oracle.com/javase/7/docs/" title="http://download.oracle.com/javase/7/docs/">JDK
+7</a>的一部份，現在就不了了之了</p>
+
+<h3>日期時間常見的議題有</h3>
+
+<ol>
+<li>例假日</li>
+<li>農民曆</li>
+<li>中華民國歷</li>
+<li>日光節約時間</li>
+<li>地區化</li>
+<li>格式化</li>
+<li>日期區間運算</li>
+</ol>
+
+
+<h1>Apache Commons Lang</h1>
+
+<h4>時間的shift</h4>
+
+<ul>
+<li>addDays</li>
+<li>addHours</li>
+<li>addMinutes</li>
+<li>…</li>
+</ul>
+
+
+<h4>四捨五入，完全捨去，完全進位</h4>
+
+<ul>
+<li>ceiling</li>
+<li>round</li>
+<li>truncate</li>
+</ul>
+
+
+<h4>其他</h4>
+
+<ul>
+<li>toCalendar(Date) Date轉Calendar</li>
+<li>isSameDay 是否為同一天</li>
+<li>parseDate(String, String[]) 將字串轉成日期</li>
+<li>getFragmentInXXX() 經過了多少的時間單位</li>
+<li>iterator</li>
+</ul>
+
+
+<p>getFragmentInXXX()一系列的方法，可以計算出從何時到何時，總共經過了多時間，比如說，今年到今天，總共已經了多少天，或多少小時或多少秒，…</p>
+
+<p>而iterator可以用以下的參數對某一個時間做iterator</p>
+
+<ol>
+<li>RANGE_MONTH_SUNDAY</li>
+<li>RANGE_MONTH_MONDAY</li>
+<li>RANGE_WEEK_SUNDAY</li>
+<li>RANGE_WEEK_MONDAY</li>
+<li>RANGE_WEEK_RELATIVE</li>
+<li>RANGE_WEEK_CENTER</li>
+</ol>
+
+
+<h1>Joda Time</h1>
+
+<ul>
+<li>很容易從jdk的Date,Calendar轉換，只要傳入DateTime的Constructor即可</li>
+<li>所有的datetime
+classes都是immutable，但有提供一些method可以方便的傳回運算後新的datetime</li>
+</ul>
+
+
+<h3>主要的觀念</h3>
+
+<ul>
+<li>Instant - 最基本的觀念，基本上就是一個時間點或DateTime</li>
+<li>Partial -</li>
+<li>Interval - 時間間隔，也就是start time 跟 end time</li>
+<li>Period - 期間，像是3天，6個月，5個小時，可以從interval轉換過來</li>
+<li>Duration -
+期間，跟Interval的不同是Duration是無timezone的，可以從interval轉換過來，但無法轉回interval</li>
+<li>Chronology - 設計日曆的api用，大部份的情況下，可以不管它</li>
+<li>DateTimeZone - Time Zone</li>
+</ul>
+
+
+<p>Duration V.S Period</p>
+
+<p>Duration是很簡純的觀念，它就是一個固定的時間(多少毫秒)，而Period則是會隨CONTEXT變化的時間單位，比如說Period如果為一個月，對
+一月份一的個月，跟二月份的一個月，長度就不一樣。</p>
+
+<p>ex: 1/15要加一個月的時間，用Period來處理，就是1 Month Period,
+(記為P1M)，就是是2/15日，如果用Duration來處理，它只能固定為一個時間長度(換算成milliseconds)，1月到2月是(29天的換算成的milliseconds)，所以就無法用相同的一個Duration來計算下個月的15號時何時(2-3月是30天)。</p>
+
+<p>base, chrono, convert, field and tz這幾個packages是private
+package,一般的application大多字會用到<code>org.joda.time</code> package的內容</p>
+
+<h3>重要的Interface</h3>
+
+<h5>ReadableInstant</h5>
+
+<ol>
+<li>compareTo(Object)</li>
+<li>equals(Object)</li>
+<li>get(DateTimeFieldType)</li>
+<li>getChronology()</li>
+<li>getMillis()</li>
+<li>getZone()</li>
+<li>hashCode()</li>
+<li>isAfter(ReadableInstant)</li>
+<li>isBefore(ReadableInstant)</li>
+<li>isEqual(ReadableInstant)</li>
+<li>isSupported(DateTimeFieldType)</li>
+<li>toInstant()</li>
+<li>toString()</li>
+</ol>
+
+
+<h5>ReadableInterval</h5>
+
+<ol>
+<li>contains(ReadableInstant)</li>
+<li>contains(ReadableInterval)</li>
+<li>equals(Object)</li>
+<li>getChronology()</li>
+<li>getEnd()</li>
+<li>getEndMillis()</li>
+<li>getStart()</li>
+<li>getStartMillis()</li>
+<li>hashCode()</li>
+<li>isAfter(ReadableInstant)</li>
+<li>isAfter(ReadableInterval)</li>
+<li>isBefore(ReadableInstant)</li>
+<li>isBefore(ReadableInterval)</li>
+<li>overlaps(ReadableInterval)</li>
+<li>toDuration()</li>
+<li>toDurationMillis()</li>
+<li>toInterval()</li>
+<li>toMutableInterval()</li>
+<li>toPeriod()</li>
+<li>toPeriod(PeriodType)</li>
+<li>toString()</li>
+</ol>
+
+
+<h5>ReadablePeriod</h5>
+
+<ol>
+<li>equals(Object)</li>
+<li>get(DurationFieldType)</li>
+<li>getFieldType(int)</li>
+<li>getPeriodType()</li>
+<li>getValue(int)</li>
+<li>hashCode()</li>
+<li>isSupported(DurationFieldType)</li>
+<li>size()</li>
+<li>toMutablePeriod()</li>
+<li>toPeriod()</li>
+<li>toString()</li>
+</ol>
+
+
+<p>joda-time中的interface跟一般framework中的interface不大一樣，一般的framework中，會建議儘量宣告物件成interface，但是在joda-time中，大多數的情況下，
+必須用Concreate Class方能取得物件完整的能力</p>
+
+<h3>ISO Date Format</h3>
+
+<p><a href="http://en.wikipedia.org/wiki/ISO_8601" title="http://en.wikipedia.org/wiki/ISO_8601">ISO_8601</a>是關於日期時間格式相關的ISO規定，裡面的日期，是用”-“做分隔符號(而不是”/”)，建議所有的日期格式與ISO
+8601相容 這樣，很多lib(不管是前端或後端)都可以比較容易處理。</p>
+
+<h3>code snippet</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Days days = Days.daysBetween(new DateTime(start), new DateTime(end));</span></code></pre></td></tr></table></div></figure>
+
+
+<p>parse含有AM/PM，要加上Locale.US，不然會出exception</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>SimpleDateFormat df = new SimpleDateFormat("hh:mm aa", Locale.US);</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果有時確定格式是對的，但是就是一直出ParseException，這時記得加上Locale.US的參數試試</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>import org.joda.time.DateTime;
+</span><span class='line'>import org.joda.time.Interval;
+</span><span class='line'> 
+</span><span class='line'>public enum Scheduling {
+</span><span class='line'>    DAILY, WEEKLY, MONTHLY,;
+</span><span class='line'> 
+</span><span class='line'>    public Interval interval(DateTime dt) {
+</span><span class='line'>        DateTime start;
+</span><span class='line'>        DateTime end;
+</span><span class='line'>        switch (this.name()) {
+</span><span class='line'>        case "DAILY":
+</span><span class='line'>            start = dt.withMillisOfDay(0);
+</span><span class='line'>            end = dt.withMillisOfDay(24 * 60 * 60 * 1000 -1);
+</span><span class='line'>            break;
+</span><span class='line'>        case "WEEKLY":
+</span><span class='line'>            start = dt.withDayOfWeek(1);
+</span><span class='line'>            end = dt.withDayOfWeek(7).withMillisOfDay(24 * 60 * 60 * 1000 -1);
+</span><span class='line'>            break;
+</span><span class='line'>        case "MONTHLY":
+</span><span class='line'>            start = dt.withDayOfMonth(1);
+</span><span class='line'>            int max = dt.dayOfMonth().getMaximumValue();
+</span><span class='line'>            end = dt.withDayOfMonth(max).withMillisOfDay(24 * 60 * 60 * 1000 -1);
+</span><span class='line'>            break;
+</span><span class='line'>        default:
+</span><span class='line'>            throw new UnsupportedOperationException("Unknow name :" + this.name());
+</span><span class='line'>        }
+</span><span class='line'>        return new Interval(start, end);
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>}
+</span><span class='line'> 
+</span><span class='line'>//
+</span><span class='line'>// test case 
+</span><span class='line'>//
+</span><span class='line'>import static org.hamcrest.Matchers.is;
+</span><span class='line'>import static org.junit.Assert.assertThat;
+</span><span class='line'> 
+</span><span class='line'>import java.util.Date;
+</span><span class='line'>import java.util.Locale;
+</span><span class='line'> 
+</span><span class='line'>import org.apache.commons.lang3.time.DateUtils;
+</span><span class='line'>import org.joda.time.DateTime;
+</span><span class='line'>import org.joda.time.Interval;
+</span><span class='line'>import org.junit.Test;
+</span><span class='line'> 
+</span><span class='line'>public class SchedulingTest {
+</span><span class='line'> 
+</span><span class='line'>    @Test
+</span><span class='line'>    public void interval_daily() throws Exception {
+</span><span class='line'>        Date date = DateUtils.parseDate("2012/02/14", "yyyy/MM/dd");
+</span><span class='line'>        Interval interval = Scheduling.DAILY.interval(new DateTime(date));
+</span><span class='line'>        assertThat("2012/02/14 00:00:00", is(interval.getStart().toString("yyyy/MM/dd HH:mm:ss")));
+</span><span class='line'>        assertThat("2012/02/14 23:59:59", is(interval.getEnd().toString("yyyy/MM/dd HH:mm:ss")));
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>    @Test
+</span><span class='line'>    public void interval_weekly() throws Exception {
+</span><span class='line'>        Date date = DateUtils.parseDate("2012/02/14", "yyyy/MM/dd"); // 2012/2/14 was a Tuesday
+</span><span class='line'>        Interval interval = Scheduling.WEEKLY.interval(new DateTime(date));
+</span><span class='line'>        assertThat("2012/02/13 00:00:00", is(interval.getStart().toString("yyyy/MM/dd HH:mm:ss")));
+</span><span class='line'>        assertThat("2012/02/19 23:59:59", is(interval.getEnd().toString("yyyy/MM/dd HH:mm:ss")));
+</span><span class='line'>        assertThat(interval.getStart().dayOfWeek().getAsText(Locale.ENGLISH), is("Monday")); // which day is first day of week that depend on OS settings
+</span><span class='line'>        assertThat(interval.getEnd().dayOfWeek().getAsText(Locale.ENGLISH), is("Sunday"));  // which day is end day of week that depend on OS settings
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>    @Test
+</span><span class='line'>    public void interval_monthly() throws Exception {
+</span><span class='line'>        Date date = DateUtils.parseDate("2012/02/14", "yyyy/MM/dd"); 
+</span><span class='line'>        Interval interval = Scheduling.MONTHLY.interval(new DateTime(date));
+</span><span class='line'>        assertThat("2012/02/01 00:00:00", is(interval.getStart().toString("yyyy/MM/dd HH:mm:ss")));
+</span><span class='line'>        assertThat("2012/02/29 23:59:59", is(interval.getEnd().toString("yyyy/MM/dd HH:mm:ss")));
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>Resources</h1>
+
+<ul>
+<li><a href="http://commons.apache.org/lang/" title="http://commons.apache.org/lang/">http://commons.apache.org/lang/</a>
+
+<ul>
+<li>Apache Commons Lang</li>
+</ul>
+</li>
+<li><a href="http://joda-time.sourceforge.net/" title="http://joda-time.sourceforge.net/">joda
+time</a>
+
+<ul>
+<li>joda-time</li>
+</ul>
+</li>
+<li><a href="http://sourceforge.net/apps/mediawiki/threeten/index.php?title=ThreeTen" title="http://sourceforge.net/apps/mediawiki/threeten/index.php?title=ThreeTen">JSR
+310</a>
+
+<ul>
+<li>採用了很多<a href="http://joda-time.sourceforge.net/" title="http://joda-time.sourceforge.net/">joda
+time</a>的API設計，但還沒穩定，建用還是用joda</li>
+</ul>
+</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Regular Expression (RE)]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2012/09/12/regular_expression/"/>
+    <updated>2012-09-12T00:00:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2012/09/12/regular_expression</id>
+    <content type="html"><![CDATA[<h3>The Negated Character ^</h3>
+
+<p>Remember, a negated character class means “match a character that&#8217;s not
+listed” and not “don&#8217;t match what is listed.”</p>
+
+<p>Thus, [^x] doesn&#8217;t mean <strong>“match unless there is an x”, but rather
+match if there is something that is not x .</strong> The difference is subtle,
+but important. The first concept matches a blank line, for example,
+while ![^x] does not.</p>
+
+<p>A character class, even negated, still requires a character to match.</p>
+
+<h3>The Dot Charactor .</h3>
+
+<p>It can be convenient when you want to have an <strong>any character here</strong>
+placeholder in your expression.</p>
+
+<h3>Parenthesis ()</h3>
+
+<ol>
+<li>capture</li>
+<li>grouping</li>
+<li>TBD</li>
+</ol>
+
+
+<h3>Lookaround</h3>
+
+<ul>
+<li>lookahead left to right</li>
+<li>lookbehind right to left</li>
+</ul>
+
+
+<p>lookaround do <strong>NOT</strong> consume text</p>
+
+<h3>Lookaround</h3>
+
+<p>* (?=Expr) - zero-width positive lookahead 符合後面為exp的文字 *
+(?!Expr) - zero-width negative lookahead 符合後面沒接exp的文字 *
+(?⇐Expr) - zero-width positive lookbehind 符合前為為exp的文字
+*(?&lt;!Expr) - zero-width negative lookbehind 符合前面沒接exp字首的文字</p>
+
+<h4>Positive Lookaround</h4>
+
+<p>lookahead及
+lookbehind所搜尋的是目前符合之前或之後的文字，並不包含目前符合本身。這些就如同”^”及”\b”特殊字元，本身並不會對應任何文字
+(用來界定位置)，也因此稱做是zero-width assertions。</p>
+
+<p>可以想像成SQL語法的<strong>LIKE</strong>或<strong>NOT
+LIKE</strong>不過行為並儘相似，反正想到可用SQL
+like來處理的問題，用Lookaround來處理一定可行。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>\b\w+(?=ing\b) (字尾為ing的字，比如說filling所符合的就是fill)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>(?⇐exp)是一個”zero-width positive lookbehind
+assertion”。它指的就是符合字首為exp的文字，但不包含exp本身。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>(?&lt;=\bre)\w+\b (字首為re的字，比如說repeated所符合的就是peated)
+</span><span class='line'>(?&lt;=\d)\d{3}\b (在字尾的三位數字，且之前接一位數字)
+</span><span class='line'>(?&lt;=\s)\w+(?=\s) (由空白字元分隔開的字母數字字串)</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Negative Lookaround</h4>
+
+<p>但如果只是要驗証某字元不存在而不要對應這些字元進來呢?舉個例子來說，假設要搜尋一個字，它的字母裏有q但接下來的字母不是u，可以用下列的RE來做。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>\b\w*q[^u]\w*\b (一個字，其字母裏有q但接下來的字母不是u)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這樣的RE會有一個問題，因為[^u]要對應一個字元，所以若q是字的最後一個字母，[^u]這樣的下法就會將空白字元對應下去，結果就有可能會符合二個字，比如說”Iraq
+haha”這樣的文字。使用Negative Lookaround就能解決這樣的問題。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>\b\w*q(?!u)\w*\b (一個字，其字母裏有q但接下來的字母不是u)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這是”zero-width negative lookahead assertion”。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>\d{3}(?!\d) (三個位元的數字，其後不接一個位元數字)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>同樣的，可以使用(?&lt;!exp)，”zero-width negative lookbehind
+assertion”，來符合前面沒接exp字首的文字串。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>(?&lt;![a-z ])\w{7} (七個字母數字的字串，其前面沒接字母或空格)
+</span><span class='line'>(?&lt;=&lt;(\w+)&gt;).*(?=&lt;\/\1&gt;) (HTML標籤間的文字)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這使用lookahead及lookbehind
+assertion來取出HTML間的文字，不包括HTML標籤。</p>
+
+<h3>MISC</h3>
+
+<p>“03[-./]19[-./]76” 與 “03[.-/]19[.-/]76”不同，因為”-“會變rang的意思</p>
+
+<p>找gary (gery) 可用”gr[ea]y”，”grey|gray”, and even
+“gr(a|e)y”，但不能用”g[a|e]ry” 因為[a|e]會被當作 a or | or e</p>
+
+<p>“gr(a|e)y”跟”gra|ey”是後者找的是gra或者是ey</p>
+
+<p>.-^ 等在character裡面跟外面有不同的意義</p>
+
+<p>可有可以的字用”?” 如 ”(July|Jul)” 可用 “July?”. “4th|4” 可用 4(th)?</p>
+
+<p>”&lt;H[1-6]
+*>”.如果*前面多一個空格，表示要空n格，如果沒有空格表示n個”]”</p>
+
+<h3>\p{class}, \P{class}</h3>
+
+<p>\p{class} - POSIX or unicode character class \P{class} - exculde POSIX
+or unicode character class</p>
+
+<p>if pattern only contains \p(or \P) without {class}, it means all(or
+excluded all) class</p>
+
+<p>Supported class codes</p>
+
+<p>C</p>
+
+<p>Other</p>
+
+<p>Cc</p>
+
+<p>Control</p>
+
+<p>Cf</p>
+
+<p>Format</p>
+
+<p>Cn</p>
+
+<p>Unassigned</p>
+
+<p>Co</p>
+
+<p>Private use</p>
+
+<p>Cs</p>
+
+<p>Surrogate</p>
+
+<p>L</p>
+
+<p>Letter</p>
+
+<p>Ll</p>
+
+<p>Lower case letter</p>
+
+<p>Lm</p>
+
+<p>Modifier letter</p>
+
+<p>Lo</p>
+
+<p>Other letter</p>
+
+<p>Lt</p>
+
+<p>Title case letter</p>
+
+<p>Lu</p>
+
+<p>Upper case letter</p>
+
+<p>M</p>
+
+<p>Mark</p>
+
+<p>Mc</p>
+
+<p>Spacing mark</p>
+
+<p>Me</p>
+
+<p>Enclosing mark</p>
+
+<p>Mn</p>
+
+<p>Non-spacing mark</p>
+
+<p>N</p>
+
+<p>Number</p>
+
+<p>Nd</p>
+
+<p>Decimal number</p>
+
+<p>Nl</p>
+
+<p>Letter number</p>
+
+<p>No</p>
+
+<p>Other number</p>
+
+<p>P</p>
+
+<p>Punctuation</p>
+
+<p>Pc</p>
+
+<p>Connector punctuation</p>
+
+<p>Pd</p>
+
+<p>Dash punctuation</p>
+
+<p>Pe</p>
+
+<p>Close punctuation</p>
+
+<p>Pf</p>
+
+<p>Final punctuation</p>
+
+<p>Pi</p>
+
+<p>Initial punctuation</p>
+
+<p>Po</p>
+
+<p>Other punctuation</p>
+
+<p>Ps</p>
+
+<p>Open punctuation</p>
+
+<p>S</p>
+
+<p>Symbol</p>
+
+<p>Sc</p>
+
+<p>Currency symbol</p>
+
+<p>Sk</p>
+
+<p>Modifier symbol</p>
+
+<p>Sm</p>
+
+<p>Mathematical symbol</p>
+
+<p>So</p>
+
+<p>Other symbol</p>
+
+<p>Z</p>
+
+<p>Separator</p>
+
+<p>Zl</p>
+
+<p>Line separator</p>
+
+<p>Zp</p>
+
+<p>Paragraph separator</p>
+
+<p>Zs</p>
+
+<p>Space separator</p>
+
+<p>中日韓文可以用 \p{InCJKUnifiedIdeographs}</p>
+
+<h3>TBD</h3>
+
+<p>\i - Match of capture group i</p>
+
+<p>\cC - control character</p>
+
+<p>\G - previous match&#8217;s end</p>
+
+<p>\A - The beginning of the input</p>
+
+<p>&amp;&amp;</p>
+
+<p>(Expr) - mark Expr as capture group</p>
+
+<p>(ismd-ismd) - turn flags on or off</p>
+
+<p>(ismd-ismd:Expr) - turn flags on or off in Expr</p>
+
+<p>(?:Expr) - non capture group (有performance問題時才會使用)</p>
+
+<p>(?>Expr) - non capture atomic group</p>
+
+<h2>Lazy quantifiers</h2>
+
+<ol>
+<li>??</li>
+<li>+?</li>
+<li>*?</li>
+<li>{n}?</li>
+<li>{n,}?</li>
+<li>{n,m}?</li>
+</ol>
+
+
+<p>minimal matching, non-greedy, and un-greedy quantifiers.</p>
+
+<h2>Possessive quantifiers</h2>
+
+<ol>
+<li>?+</li>
+<li>++</li>
+<li>*+</li>
+<li>{n}+</li>
+<li>{n,}+</li>
+<li>{n,m}+</li>
+</ol>
+
+
+<p>Only Java supports those quantifiers now</p>
+
+<h2>Regex Modes and Match Modes</h2>
+
+<ol>
+<li>/i - case-insensitive mode</li>
+<li>/x - free-spacing and comments mode</li>
+<li>/s - dot matches-all match mode (a.k.a., single-line mode)</li>
+<li>/m - enhanced line-anchor match mode (a.k.a., multiline mode)</li>
+<li>\Q…\E - literal-text regex mode</li>
+</ol>
+
+
+<h4>free-spacing and comments mode</h4>
+
+<p>all spaces and anything after comment mark(#) will not interpreted.</p>
+
+<p>if you need a space in pattern, using \s instead normal space
+character.</p>
+
+<h4>dot matches-all match mode (a.k.a., single-line mode)</h4>
+
+<p>Usually, dot does not match a newline, but in this mode, dot does.</p>
+
+<h4>\Q&#8230;\E - literal-text regex mode</h4>
+
+<p>\Q, \E means start/end quoting.</p>
+
+<p>the contents of which have all meta-characters ignored (expect the \E
+itself).</p>
+
+<h3>mode modifier (?modifier)</h3>
+
+<p>(?modifier) could be (?i) or (?-i) to enabled/disabled case-sensitive
+matching.</p>
+
+<p>the modifier can be i, x ,m ,s mode of <a href="#regex_modes_and_match_modes" title="prog:regular_expression ↵">Regex Modes and Match
+Modes</a></p>
+
+<h2>Capture (\1) ,(?&lt;Name>&#8230;) or(?P&lt;Name>&#8230;)</h2>
+
+<p>Here&#8217;s a <strong>PHP</strong> regular expression for matching *nested* parentheses
+(e.g. blocks of code):</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>((?:[^()]++|\((?1)\))*)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The ?1 is a recursive reference to the regex marked by the outermost
+parentheses. It is a feature of the PHP regex engine.</p>
+
+<p>See Jeffrey Friedl&#8217;s Mastering Regular Expressions, 3rd ed., p. 476,
+“Recursive reference to a set of capturing parentheses”.</p>
+
+<p>Another potentially useful regex technique is “named capture”:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>^(?P&lt;protocol&gt;https?)://(?P&lt;host&gt;[^/:]+)(?::(?P&lt;port&gt;\d+))?</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Here you can use either \$matches[0], \$matches[1], \$matches[2] or
+\$matches[&#8216;protocol&#8217;], \$matches[&#8216;host&#8217;], \$matches[&#8216;port&#8217;].</p>
+
+<p>This favour has difference implementation in difference language
+(library), you should check manual of yours.</p>
+
+<h2>Greediness (貪婪)</h2>
+
+<p>regexp 的搜尋引擎有一個特性, 叫做 greediness – 能吃多少,
+就盡量吃多少。克服貪婪可用以下方式</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[^...] "除了 ... 之外的任何一個字元"    </span></code></pre></td></tr></table></div></figure>
+
+
+<p>也可利用<a href="#lazy_quantifiers" title="prog:regular_expression ↵">lazy greedy</a></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>.??  或 .*? </span></code></pre></td></tr></table></div></figure>
+
+
+<p>Lazy quantifiers是要用在<code>.*</code>後面，end of match的前面</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"&gt;
+</span><span class='line'>&lt;html&gt;
+</span><span class='line'>&lt;head&gt;
+</span><span class='line'>&lt;meta http-equiv="Content-Type" content="text/html; charset=UTF-8"&gt;
+</span><span class='line'>&lt;title&gt;Insert title here&lt;/title&gt;
+</span><span class='line'>&lt;/head&gt;
+</span><span class='line'>&lt;body&gt;
+</span><span class='line'>&lt;!-- #BeginLibraryItem "/library/page_header.lbi" --&gt;
+</span><span class='line'>content of /page_header.lbi
+</span><span class='line'>&lt;!-- #EndLibraryItem --&gt;
+</span><span class='line'>&lt;!-- #BeginLibraryItem "/library/page_center.lbi" --&gt;
+</span><span class='line'>content of /page_center.lbi
+</span><span class='line'>&lt;!-- #EndLibraryItem --&gt;
+</span><span class='line'>&lt;!-- #BeginLibraryItem "/library/page_footer.lbi" --&gt;
+</span><span class='line'>content of /page_footer.lbi
+</span><span class='line'>&lt;!-- #EndLibraryItem --&gt;
+</span><span class='line'>&lt;/body&gt;
+</span><span class='line'>&lt;/html&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在使用Single-Line (Dot All) mode下，
+如果是以上面這個RE做條件，會從第8行選到第16行，所以這樣會有三個matchs</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;!--\s*#BeginLibraryItem.*#EndLibraryItem\s*--&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;!-- #BeginLibraryItem "/library/page_header.lbi" --&gt;
+</span><span class='line'>content of /page_header.lbi
+</span><span class='line'>&lt;!-- #EndLibraryItem --&gt;
+</span><span class='line'>&lt;!-- #BeginLibraryItem "/library/page_center.lbi" --&gt;
+</span><span class='line'>content of /page_center.lbi
+</span><span class='line'>&lt;!-- #EndLibraryItem --&gt;
+</span><span class='line'>&lt;!-- #BeginLibraryItem "/library/page_footer.lbi" --&gt;
+</span><span class='line'>content of /page_footer.lbi
+</span><span class='line'>&lt;!-- #EndLibraryItem --&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>但是如果利用lazy quantifiers <code>*?</code>
+，就只會選到第一個#EndLibraryItem(第8行到第10行)，所以這樣會有三個matchs</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;!--\s*#BeginLibraryItem.*?#EndLibraryItem\s*--&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;!-- #BeginLibraryItem "/library/page_header.lbi" --&gt;
+</span><span class='line'>content of /page_header.lbi
+</span><span class='line'>&lt;!-- #EndLibraryItem --&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;!-- #BeginLibraryItem "/library/page_center.lbi" --&gt;
+</span><span class='line'>content of /page_center.lbi
+</span><span class='line'>&lt;!-- #EndLibraryItem --&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;!-- #BeginLibraryItem "/library/page_footer.lbi" --&gt;
+</span><span class='line'>content of /page_footer.lbi
+</span><span class='line'>&lt;!-- #EndLibraryItem --&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>The Backtracking</h2>
+
+<p><strong>TBD</strong></p>
+
+<h2>參考資源</h2>
+
+<ul>
+<li>洪朝貴教授的<a href="http://fsoss.fcu.org.tw/2004/hong-chaogui/08-regexp.html" title="http://fsoss.fcu.org.tw/2004/hong-chaogui/08-regexp.html">一輩子受用的 Regular
+Expressions</a></li>
+<li><a href="http://tw2.php.net/manual/en/reference.pcre.pattern.modifiers.php" title="http://tw2.php.net/manual/en/reference.pcre.pattern.modifiers.php">PHP patter
+modifierss</a></li>
+<li><a href="http://tw2.php.net/manual/en/regexp.reference.php" title="http://tw2.php.net/manual/en/regexp.reference.php">PHP RE
+details</a></li>
+<li><a href="http://www.regular-expressions.info/completelines.html" title="http://www.regular-expressions.info/completelines.html">http://www.regular-expressions.info/completelines.html</a>
+
+<ul>
+<li>a lot of RE examples</li>
+</ul>
+</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[SBT 101]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2012/07/24/sbt_101/"/>
+    <updated>2012-07-24T14:27:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2012/07/24/sbt_101</id>
+    <content type="html"><![CDATA[<blockquote><p>dependency時，兩個%%表示cross-build，會把sbt的版號給納入dependency的資訊</p></blockquote>
+
+<h5>Local Maven Repository</h5>
+
+<p>如果要使用local或自己架設的maven
+repository，可以透過<code>resolvers += “name” at “maven repositor url”</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>resolvers += "Local Maven Repository" at "file:///C:/Users/Kent/.m2/repository"</span></code></pre></td></tr></table></div></figure>
+
+
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[JMS 101]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2012/07/13/jms_101/"/>
+    <updated>2012-07-13T00:00:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2012/07/13/jms_101</id>
+    <content type="html"><![CDATA[<p>本文中內容，主要以<a href="http://activemq.apache.org/" title="http://activemq.apache.org/">ActiveMQ
+5.4</a>為主，若不是此版本，程式碼不一定可以執行</p>
+
+<blockquote><p>JMS 2 於2013年Q1 release,使用者更會簡單，也內建訊息延遲發送功能(目前每一個使用方式都不一樣)，如果沒有相容性問題，建議採 JMS 2.0</p></blockquote>
+
+<h1>基本觀念</h1>
+
+<h3>JMS 基本元素</h3>
+
+<ul>
+<li>provider :</li>
+<li>client : 產出(傳送)或消費(接收)訊息</li>
+<li>consumer : 消費(接收)訊息</li>
+<li>message : 在client間被傳遞的訊息物件</li>
+<li><p>destination : 信息的目的或<strong>來源</strong></p>
+
+<ol>
+<li>queue : 訊息佇列,destination在PTP叫queue</li>
+<li>topic :
+一個散佈訊息給多個訂閱者的機制,destination在pub/sub叫topic</li>
+</ol>
+</li>
+<li><p>session : thread context，用來producing/consuming messages</p></li>
+<li>Administered Objects</li>
+</ul>
+
+
+<h3>Messaging Domains</h3>
+
+<h5>Point-to-Point Messaging Domain （PTP）</h5>
+
+<ul>
+<li>基於queues, senders, and receivers的模型</li>
+<li>每一個message<strong>同時只有一個</strong>Consumer</li>
+<li>Consumer跟Producer沒有時間的依賴性，Producer發送訊息後，Consumer可以隨時上去接收</li>
+<li>Consumer回應訊息處理狀態</li>
+</ul>
+
+
+<p>![jms_101_001.gif][]</p>
+
+<h5>Publish/Subscribe Messaging Domain (pub/sub)</h5>
+
+<ul>
+<li><p>主要就三個要素</p>
+
+<ol>
+<li>Publisher 發佈者:發佈訊息</li>
+<li>Subscriber 訂閱者: 訂閱訊息</li>
+<li>Topic 訊息的閱者，為發佈者或訂閱者之間的channel</li>
+</ol>
+</li>
+<li><p>Broadcast型的結構</p></li>
+<li>每一個Topic<strong>可以多個</strong>Subscribers</li>
+<li>Subscriber跟Publisher<strong>有</strong>時間的依賴性，Subscriber可以必須先進行訂閱後，才會收到Producer發佈的Topic</li>
+<li><p>Subscriber 依連線方式可以分為</p>
+
+<ol>
+<li>Nondurable Subscribers : 必須一直保持在接收狀態^<a href="#fn__1">1)</a>^</li>
+<li>Durable Subscribers :
+建立後，如以inactive，當active後，會將累積的訊息一起收下來</li>
+</ol>
+</li>
+<li><p>Subscriber 依建立方式可分為</p>
+
+<ol>
+<li>Dynamic Subscribers : 程式動態建立</li>
+<li>Administered Subscribers : 由provider (server)建立</li>
+</ol>
+</li>
+</ul>
+
+
+<p>![jms_101_002.gif][]</p>
+
+<h3>JMS API</h3>
+
+<p>在JMS裡，上述的觀念，主要是透過JMS API來定義的，JMS
+API只是定義規格(類似於JDBC)，至於實作會由其他實作的vendors提供，JMS
+API主要的類似如下：</p>
+
+<ul>
+<li>ConnectionFactory</li>
+<li>Destination</li>
+<li>Connection</li>
+<li>Session</li>
+<li>Message</li>
+<li>MessageProducer</li>
+<li>MessageConsumer</li>
+</ul>
+
+
+<h1>建立Connection/Session的流程</h1>
+
+<p>不論是PTP或是pub/sub模組，要跟MessageQuery
+Server溝通的流程是差不多的，流程如下</p>
+
+<p>![jms_101_003.gif][]</p>
+
+<ol>
+<li>建立ConnectionFactory</li>
+<li>由ConnectionFactory建立Connection</li>
+<li>由Connection建立Session</li>
+<li>由Session建立訊息(包含訊息內容，目的(Destination)，模型，…)</li>
+</ol>
+
+
+<h3>與Message Server建立連線</h3>
+
+<h4>由ActiveMQ提供的ActiveMQConnectionFactory建立connection</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// ActiveMQConnectionFactory是ActiveMQ專屬寫法，會有平台跟lib依賴性，可用jndi來解決這個問題
+</span><span class='line'>factory = new ActiveMQConnectionFactory("tcp://localhost:61616");
+</span><span class='line'>connection = factory.createConnection();
+</span><span class='line'>connection.start(); </span></code></pre></td></tr></table></div></figure>
+
+
+<p>剛建立好後的connection是在停止狀態的，必需先啟動才有辦法使用，一般啟動後，不用特別去stop，因為stop也會一併停止接受來自mq
+server的訊息，但是如果不希望connection一直連著，可以把他close掉</p>
+
+<h4>用JNDI的方式建立connection</h4>
+
+<p>這種方式比較通用，不會依賴特定平台的API</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Properties env = new Properties();
+</span><span class='line'>env.put(Context.SECURITY_PRINCIPAL, "system");
+</span><span class='line'>env.put(Context.SECURITY_CREDENTIALS, "manager");
+</span><span class='line'>env.put(Context.INITIAL_CONTEXT_FACTORY,"org.apache.activemq.jndi.ActiveMQInitialContextFactory");
+</span><span class='line'>env.put(Context.PROVIDER_URL, "tcp://localhost:61616");
+</span><span class='line'>InitialContext ctx = new InitialContext(env);
+</span><span class='line'>TopicConnectionFactory conFactory = (TopicConnectionFactory)ctx.lookup(topicFactory);</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>建立Session</h3>
+
+<h4>用傳統的方式建立Session</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>connection = factory.createConnection();
+</span><span class='line'>connection.start();
+</span><span class='line'>session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>用Annotation的方式建立connection</h4>
+
+<p>這種方式，需要DI Container的支援</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@Resource(lookup = "jms/Queue")
+</span><span class='line'>private static Queue queue;
+</span><span class='line'> 
+</span><span class='line'>@Resource(lookup = "jms/Topic")
+</span><span class='line'>private static Topic topic;</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>Hello JMS</h1>
+
+<p>以下是幾個比較完整(可執行)的範例，可以在ActiveMQ的web admin(ex:
+<a href="http://localhost:8161/admin/queues.jsp" title="http://localhost:8161/admin/queues.jsp">http://localhost:8161/admin/queues.jsp</a>
+)畫面上看到息的狀態</p>
+
+<h3>傳送訊息 (PTP)</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@Test
+</span><span class='line'>public void sendMessagePTP() throws JMSException {
+</span><span class='line'>    ActiveMQConnectionFactory factory = new ActiveMQConnectionFactory("tcp://localhost:61616"); // 記得先確定61616 port的service有enabled
+</span><span class='line'>    Connection connection = factory.createConnection();
+</span><span class='line'>    connection.start();
+</span><span class='line'>    Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+</span><span class='line'>    Destination destination = session.createQueue("queue1"); // 建立PTP message,Destination為"queue1"
+</span><span class='line'>    MessageProducer sender = session.createProducer(destination);
+</span><span class='line'>    TextMessage message = session.createTextMessage("Hello World!");
+</span><span class='line'>    sender.send(message);
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>執行後可以在ActiveMQ的”Queue”看到”queue1”的message</p>
+
+<p><img src="http://blog.kent-chiu.com/images/wiki/java/jms_101_005.png" alt="jms_101_005.png" /></p>
+
+<ul>
+<li>Number Of Pending Messages: 在queue等待處理的訊息的數量</li>
+<li>Number Of Consumers:
+連線中，正在等待訊息的Consumers的數量(正在listening的client的數量)</li>
+<li>Messages Enqueued : 進入佇列的訊息數量</li>
+<li>Messages Dequeued : 離開佇列的訊息數量</li>
+</ul>
+
+
+<h3>取得訊息 (PTP)</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@Test
+</span><span class='line'>public void retrieveMessagePTP() throws Exception {
+</span><span class='line'>    ActiveMQConnectionFactory factory = new ActiveMQConnectionFactory("tcp://localhost:61616"); // 記得先確定61616 port的service有enabled
+</span><span class='line'>    Connection connection = factory.createConnection();
+</span><span class='line'>    connection.start();
+</span><span class='line'>    Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+</span><span class='line'>    Destination destination = session.createQueue("queue1"); // 建立PTP message,Destination為"queue1"
+</span><span class='line'>    MessageConsumer consumer = session.createConsumer(destination);
+</span><span class='line'>    System.out.println(consumer.receive());
+</span><span class='line'>    // 取回的訊息如下(內容會依執行環境的不同而不同)
+</span><span class='line'>    // ActiveMQTextMessage {commandId = 5, responseRequired = true, messageId = ID:kent-PC-4384-1294370677008-0:0:1:1:1, originalDestination = null, originalTransactionId = null, producerId = ID:kent-PC-4384-1294370677008-0:0:1:1, destination = queue://queue1, transactionId = null, expiration = 0, timestamp = 1294370677215, arrival = 0, brokerInTime = 1294370677215, brokerOutTime = 1294370677264, correlationId = null, replyTo = null, persistent = true, type = null, priority = 4, groupID = null, groupSequence = 0, targetConsumerId = null, compressed = false, userID = null, content = null, marshalledProperties = null, dataStructure = null, redeliveryCounter = 0, size = 0, properties = null, readOnlyProperties = true, readOnlyBody = true, droppable = false, text = Hello World!}
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>建立Topic (Pub/Sub)</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@Test
+</span><span class='line'>public void createTopic() throws Exception {
+</span><span class='line'>    ActiveMQConnectionFactory factory = new ActiveMQConnectionFactory("tcp://localhost:61616");
+</span><span class='line'>    TopicConnection connection = factory.createTopicConnection();
+</span><span class='line'>    connection.start();
+</span><span class='line'>    TopicSession session = connection.createTopicSession(false, Session.AUTO_ACKNOWLEDGE);
+</span><span class='line'>    Topic topic = session.createTopic("MyTopic");
+</span><span class='line'>    TopicPublisher publisher = session.createPublisher(topic);
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>執行後可以在ActiveMQ的”Topic”看到”MyTopic”</p>
+
+<p><img src="http://blog.kent-chiu.com/images/wiki/java/jms_101_006.png" alt="jms_101_006.png" /></p>
+
+<h3>建立Topic並發佈訊息 (Pub/Sub)</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@Test
+</span><span class='line'>public void createTopicAndPublishMessage() throws Exception {
+</span><span class='line'>    ActiveMQConnectionFactory factory = new ActiveMQConnectionFactory("tcp://localhost:61616");
+</span><span class='line'>    TopicConnection connection = factory.createTopicConnection();
+</span><span class='line'>    connection.start();
+</span><span class='line'>    TopicSession session = connection.createTopicSession(false, Session.AUTO_ACKNOWLEDGE);
+</span><span class='line'>    Topic topic = session.createTopic("MyTopic2");
+</span><span class='line'>    TopicPublisher publisher = session.createPublisher(topic);
+</span><span class='line'>    TextMessage message = session.createTextMessage("MyTopic2 Message Body");
+</span><span class='line'>    publisher.publish(message);
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>執行後可以在ActiveMQ的”Topic”看到”MyTopic2”，”Messages Enqueued”會加1</p>
+
+<p><img src="http://blog.kent-chiu.com/images/wiki/java/jms_101_006.png" alt="jms_101_006.png" /></p>
+
+<h3>訂閱Topic</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@Test
+</span><span class='line'>public void subscribeMessage() throws Exception {
+</span><span class='line'>    ActiveMQConnectionFactory factory = new ActiveMQConnectionFactory("tcp://localhost:61616");
+</span><span class='line'>    TopicConnection connection = factory.createTopicConnection();
+</span><span class='line'>    connection.start();
+</span><span class='line'>    TopicSession session = connection.createTopicSession(false, Session.AUTO_ACKNOWLEDGE);
+</span><span class='line'>    Topic topic = session.createTopic("MyTopic2");
+</span><span class='line'>    TopicSubscriber subscriber = session.createSubscriber(topic);
+</span><span class='line'>    System.out.println(subscriber.receive()); // 執行後，會停在這一行，直到有訊息被取回
+</span><span class='line'>    // result
+</span><span class='line'>    // ActiveMQTextMessage {commandId = 7, responseRequired = false, messageId = ID:kent-PC-2524-1294364408121-4:5:1:1:3, originalDestination = null, originalTransactionId = null, producerId = ID:kent-PC-2524-1294364408121-4:5:1:1, destination = topic://MyTopic2, transactionId = null, expiration = 0, timestamp = 1294375382476, arrival = 0, brokerInTime = 1294375382477, brokerOutTime = 1294375382478, correlationId = , replyTo = null, persistent = false, type = , priority = 0, groupID = null, groupSequence = 0, targetConsumerId = null, compressed = false, userID = null, content = null, marshalledProperties = null, dataStructure = null, redeliveryCounter = 0, size = 0, properties = null, readOnlyProperties = true, readOnlyBody = true, droppable = false, text = MyMessage}
+</span><span class='line'> 
+</span><span class='line'>    // 也可以設定timeout，如果timeout前都沒有取到訊息，會傳回null
+</span><span class='line'>    // System.out.println(subscriber.receive(10 * 1000)); // 執行後，會停在這一行，直到有訊息被取回或10秒後timeout，並傳回null
+</span><span class='line'>    // result
+</span><span class='line'>    // null
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>以上面的例子來說，如果是同步接受的，一收完訊息，程式會馬上往下執行，並結速，這樣便無法一直接到MQ
+Server的訊息，
+如果想持續一直收到MQ的訊息，可以recive()後加一個無限迴圈，讓程式不會結束，即可以一直收到訊息</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>TopicSubscriber subscriber = session.createSubscriber(topic);
+</span><span class='line'>subscriber.recive();
+</span><span class='line'>connection.start();
+</span><span class='line'>while (true) {
+</span><span class='line'>    // prevent main thread stop 
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>執行後可以在ActiveMQ的”Topic”看到”MyTopic2”，”Number Of Consumers”會加1</p>
+
+<p><img src="http://blog.kent-chiu.com/images/wiki/java/jms_101_007.png" alt="jms_101_007.png" /></p>
+
+<p>程式會一直hold住(如果沒設timeout的話)，此時，可以透過”Send
+To”的hyperlink，讓”MyTopic2”發佈一個訊息，這樣”subscriber.receive()“就會取得”MyTopic2”發佈的訊息了.</p>
+
+<p><img src="http://blog.kent-chiu.com/images/wiki/java/jms_101_008.png" alt="jms_101_008.png" /></p>
+
+<h1>JMS API使用說明</h1>
+
+<h2>Destination</h2>
+
+<p>Destination的結構如下</p>
+
+<p><img src="http://blog.kent-chiu.com/images/wiki/java/jms_101_004.png" alt="jms_101_004.png" /></p>
+
+<p>Destination本身是一個空的Interface，它主要是要標明，Destination的概念，底下有Queue(用在PTP)跟Topic(用在Pub/Sub)兩個介面繼承自Destination</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>package javax.jms;
+</span><span class='line'> 
+</span><span class='line'>public interface Destination {
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>PTP model</h2>
+
+<h4>Producing / Consuming Message</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>MessageConsumer consumer = session.createConsumer(dest);
+</span><span class='line'>MessageConsumer consumer = session.createConsumer(queue);
+</span><span class='line'>MessageConsumer consumer = session.createConsumer(topic);
+</span><span class='line'> 
+</span><span class='line'>connection.start();
+</span><span class='line'>Message m = consumer.receive();
+</span><span class='line'>connection.start();
+</span><span class='line'>Message m = consumer.receive(1000); // time out after a second</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Queue Browsers</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>QueueBrowser browser = session.createBrowser(queue);</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Pub/Sub model</h2>
+
+<h2>Message</h2>
+
+<h3>Message Header</h3>
+
+<table>
+<thead>
+<tr>
+<th>  Header Field       </th>
+<th> Set By                  </th>
+<th> description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>  JMSDestination     </td>
+<td> send or publish method  </td>
+<td> 訊息的目的地</td>
+</tr>
+<tr>
+<td>  JMSDeliveryMode    </td>
+<td> send or publish method  </td>
+<td> DeliveryMode.NON_PERSISTENT (不存到DB) or DeliveryMode.PERSISTENT (存到DB)</td>
+</tr>
+<tr>
+<td>  JMSExpiration      </td>
+<td> send or publish method  </td>
+<td> 訊息過期的時間</td>
+</tr>
+<tr>
+<td>  JMSPriority        </td>
+<td> send or publish method  </td>
+<td> 0-9的值(9最高)，0-4是一般,5-9是 “加急”</td>
+</tr>
+<tr>
+<td>  JMSMessageID       </td>
+<td> send or publish method  </td>
+<td> 一個唯一的訊息id字串</td>
+</tr>
+<tr>
+<td>  JMSTimestamp       </td>
+<td> send or publish method  </td>
+<td> 訊息傳送的時間</td>
+</tr>
+<tr>
+<td>  JMSCorrelationID   </td>
+<td> Client                  </td>
+<td> 相關的id (參閱<a href="#jmscorrelationid" title="java:jms_101 ↵">下面</a>的說明)</td>
+</tr>
+<tr>
+<td>  JMSReplyTo         </td>
+<td> Client                  </td>
+<td> 讓client知道，要”回信”給誰</td>
+</tr>
+<tr>
+<td>  JMSType            </td>
+<td> Client                  </td>
+<td> <a href="#message_type" title="java:jms_101 ↵">Message Type</a></td>
+</tr>
+<tr>
+<td>  JMSRedelivered     </td>
+<td> JMS provider            </td>
+<td> 值為true或false，指明message之前是否沒有被consumer成功取回</td>
+</tr>
+</tbody>
+</table>
+
+
+<p>只有 Set By
+Client的header需要進行設定，其他的大部份是由send或publish的method設定.</p>
+
+<h5>JMSCorrelationID</h5>
+
+<p>在大多數的情況下，JMSCorrelationID會是指回應那一個JMSMessageID，但JMSCorrelationID可以是任何的值，不見得要是JMSMessageID.
+一般也會被拿來放Application-specific ID.</p>
+
+<h5>Message Type</h5>
+
+<table>
+<thead>
+<tr>
+<th>  Message Type   </th>
+<th> Body Contains</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>  TextMessage    </td>
+<td> A java.lang.String object (for example, the contents of an XML file).</td>
+</tr>
+<tr>
+<td>  MapMessage     </td>
+<td> A set of name-value pairs, with names as String objects and values as primitive types in the Java programming language. The entries can be accessed sequentially by enumerator or randomly by name. The order of the entries is undefined.</td>
+</tr>
+<tr>
+<td>  BytesMessage   </td>
+<td> A stream of uninterpreted bytes. This message type is for literally encoding a body to match an existing message format.</td>
+</tr>
+<tr>
+<td>  StreamMessage  </td>
+<td> A stream of primitive values in the Java programming language, filled and read sequentially.</td>
+</tr>
+<tr>
+<td>  ObjectMessage  </td>
+<td> A Serializable object in the Java programming language.</td>
+</tr>
+<tr>
+<td>  Message        </td>
+<td> Nothing. Composed of header fields and properties only. This message type is useful when a message body is not required.</td>
+</tr>
+</tbody>
+</table>
+
+
+<h3>Message Property</h3>
+
+<p>Property像是message的metadata，可以放入一些特定的屬性，之後可以透過<a href="#message_selectors" title="java:jms_101 ↵">Message
+Selectors</a>的功能來做查詢。^<a href="#fn__2">2)</a>^</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>TextMessage message = pubSession.createTextMessage();
+</span><span class='line'>message.setText(text);
+</span><span class='line'>message.setStringProperty("username",username);
+</span><span class='line'>publisher.publish(message);</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>JMS-Defined Properties &amp; Provider-Specific Properties</h5>
+
+<p>另外，還會有JMS訂義的JMS-Defined Properties及Provider-Specific
+Properties</p>
+
+<p>JMS-Defined Properties</p>
+
+<ol>
+<li>JMSXUserID</li>
+<li>JMSXAppID</li>
+<li>JMSXProducerTXID</li>
+<li>JMSXConsumerTXID</li>
+<li>JMSXRcvTimestamp</li>
+<li>JMSXDeliveryCount</li>
+<li>JMSXState</li>
+<li>JMSXGroupID</li>
+<li>JMSXGroupSeq</li>
+</ol>
+
+
+<h3>Message Selectors</h3>
+
+<p>Message
+Selectors的功能，是在Messages中過濾出需要的部份，Messages只對針對property進行過濾，不能針對message
+body做過濾，但可以透過簡單的expression來操作properties.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>String filter = "(currentRate - newRate) &gt;= 1.0";
+</span><span class='line'>TopicSubscriber subscriber = session.createSubscriber(topic, filter, true);</span></code></pre></td></tr></table></div></figure>
+
+
+<p>currentRate範例中的<code>currentRate</code>跟<code>newRate</code>是message的User定義的<a href="#message_property" title="java:jms_101 ↵">properties</a></p>
+
+<p>Message Selectors的語法是SQL 92的子集，可以用許多SQL
+92的運算符來作為expression的一部份，ex:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Shares &gt; 1000.0 AND Symbol LIKE 'A%C'</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>Message Filtering approach VS Multiple Destination approach</strong></p>
+
+<p>在設計時，可以採用Message Filtering或Multiple
+Destination的方式進行訊息的分類</p>
+
+<p>Message Filtering approach
+:是所有的訊息進到同一個Destination後透過selector進行分類選取。</p>
+
+<p>Multiple Destination
+approach:是不同類的訊息，一開始就分派到不同的Destination。</p>
+
+<h3>Message Persistent</h3>
+
+<p>Message可以選擇Persistent或Nonpersistent,Persistent的訊息是存在db或file，Nonpersistent只是放在memory
+所以Nonpersistent的訊息，在server重啟後就不見了，如果是Persistent，server重啟後，還是會存在。</p>
+
+<p>Persistent或Nonpersistent是由JMSDeliveryMode決定。</p>
+
+<h1>Acknowledge Mode</h1>
+
+<p>Acknowledge
+Mode是用來確定訊息傳遞的可靠性的，需要做Acknowledge(回應，確認)的是在傳送或接收(發佈或訂閱)訊息時，client用來回應provider訊息有確實收到的機制</p>
+
+<p>Acknowledge Mode是在建立session時決定的。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Session = Connect.createTopicSession(false, Session.CLIENT_ACKNOWLEDGE);
+</span><span class='line'>Session = Connect.createQueueSession(false, Session.DUPS_OK_ACKNOWLEDGE);</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Acknowledge Mode有以下幾種</p>
+
+<ol>
+<li><a href="#auto_acknowledge" title="java:jms_101 ↵">AUTO_ACKNOWLEDGE</a> 自動回應</li>
+<li><a href="#client_acknowledge" title="java:jms_101 ↵">CLIENT_ACKNOWLEDGE</a>
+由客戶端自行回應</li>
+<li><a href="#dups_ok_acknowledge" title="java:jms_101 ↵">DUPS_OK_ACKNOWLEDGE</a>
+可重覆的回應</li>
+</ol>
+
+
+<h4>AUTO_ACKNOWLEDGE</h4>
+
+<p>只要訊息成功被傳送或接收，就會產生回應，而且最多只會回應一次(once-and-only-once)</p>
+
+<h4>CLIENT_ACKNOWLEDGE</h4>
+
+<p>如果客戶端需在傳送時接受訊息後，先進行一些額外的處理，等這些額外的處理直正的成功後，才進行回應，如果失敗的話(或沒回應的話)，訊息就不會被產生出來(或消化掉)</p>
+
+<h4>DUPS_OK_ACKNOWLEDGE</h4>
+
+<p>如果不介意訊息被重覆的傳送或接收，可以用這個模式，<strong>DUPS_OK_ACKNOWLEDGE</strong>
+mode，其最大的特色就是效能會有顯著的提昇。 要使用這個模式，需要把
+<code>JMSRedelivered</code>屬性設為<code>true</code></p>
+
+<h1>Transactions</h1>
+
+<p>Transactions是用來做批量messages的處理，用來保證所有的messages都有被成功的同時送出或取回。</p>
+
+<p>Transactions的啟用方式是將createSession的第一個參數設為true，第二個參數將會被忽略，當所以有訊息被處理後，可以透過<code>session.commit()</code>提交或<code>session.rollback()</code>取消。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Session session = connection.createSession(true, Session.SESSION_TRANSACTED);;</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>Transport Connectors (ActiveMQ)</h1>
+
+<p>ActiveMQ提供許多連線的Protocol叫Transport Connectors,Transport
+Connectors所使用的ports是透過ActiveMQ_HOME/conf/activemq.xml進行設定。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;!-- The transport connectors ActiveMQ will listen to --&gt;
+</span><span class='line'>&lt;transportConnectors&gt;
+</span><span class='line'>&lt;transportConnector name="openwire" uri="tcp://localhost:61616"
+</span><span class='line'>discoveryUri="multicast://default"/&gt;
+</span><span class='line'>&lt;transportConnector name="ssl" uri="ssl://localhost:61617"/&gt;
+</span><span class='line'>&lt;transportConnector name="stomp" uri="stomp://localhost:61613"/&gt;
+</span><span class='line'>&lt;transportConnector name="xmpp" uri="xmpp://localhost:61222"/&gt;
+</span><span class='line'>&lt;/transportConnectors&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>連線格式</h3>
+
+<p>JMS是透過URIs當做連線格式</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;scheme&gt;:&lt;scheme-specific-part&gt;
+</span><span class='line'>&lt;scheme&gt;://&lt;authority&gt;&lt;path&gt;&lt;?query&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>ex:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>tcp://localhost:61616
+</span><span class='line'>tcp://hostname:port?key=value&key=value</span></code></pre></td></tr></table></div></figure>
+
+
+<p>特別需要注意的是 JMS 亦提供composite URIs</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>static://(tcp://host1:61616, tcp://host2:61616)</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>Protocol</h5>
+
+<ol>
+<li>tcp</li>
+<li>nio</li>
+<li>ssl (需要認證)</li>
+<li>http/https (80 port)</li>
+<li>VM (with other JVM)</li>
+</ol>
+
+
+<p>如果有許多clients需要連線到MQ，
+連線數可能會受到OS限制，這時可以採用NIO的protocol</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>nio://hostname:port?key=value</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>遠端監控ActiveMQ</h1>
+
+<p>有時需要取得MQ上面的連線資訊或管理MQ
+Server，此時可以透過JMX的功能進行監控。 要進行JMX前，可以需先開啟設定</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;managementContext&gt;
+</span><span class='line'>    &lt;managementContext createConnector="true"/&gt; 
+</span><span class='line'>&lt;/managementContext&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>把managementContext/managementContext的createConnector屬性設成true即可</p>
+
+<p>完成後，重新啟動mq，然後，可以先用jdk內建的jconsole(jdk/bin/jconsole.exe)做連線測試</p>
+
+<p>啟動jconsole後，remote process填入</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>service:jmx:rmi:///jndi/rmi://localhost:1099/jmxrmi</span></code></pre></td></tr></table></div></figure>
+
+
+<p>填入後，按連線即可(本例中，mq跟jconsole在同一台，所以用localhost，如果不同一台，需先確認1099的port沒被防火牆擋住)，
+連線成功後，即可取得MQ的相關資訊，需要的內容會在MBeans的tab頁上</p>
+
+<p><img src="http://blog.kent-chiu.com/images/wiki/java/jms_101_009.png" alt="jms_101_009.png" /></p>
+
+<p>確定可以用jconsole連線後，便可以使用程式取得連線資訊</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>RemoteJMXBrokerFacade createConnector = new RemoteJMXBrokerFacade();
+</span><span class='line'>System.setProperty("webconsole.jmx.url", "service:jmx:rmi:///jndi/rmi://localhost:1099/jmxrmi");
+</span><span class='line'>SystemPropertiesConfiguration configuration = new SystemPropertiesConfiguration();
+</span><span class='line'>createConnector.setConfiguration(configuration);
+</span><span class='line'>// 可透過brokerAdmin取得broker上的資訊
+</span><span class='line'>BrokerViewMBean brokerAdmin = createConnector.getBrokerAdmin();
+</span><span class='line'>String brokerName = brokerAdmin.getBrokerName();
+</span><span class='line'>brokerAdmin.getTotalConsumerCount();  
+</span><span class='line'>brokerAdmin.getTotalMessageCount();</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>Resources</h1>
+
+<ul>
+<li><a href="http://download.oracle.com/javaee/6/tutorial/doc/bncdr.html" title="http://download.oracle.com/javaee/6/tutorial/doc/bncdr.html">Java Message Service Concepts - The Java EE 6
+Tutorial</a>
+
+<ul>
+<li>文章圖片來源大多來自這裡</li>
+</ul>
+</li>
+<li><a href="http://wenku.baidu.com/view/f90394aad1f34693daef3ee8.html" title="http://wenku.baidu.com/view/f90394aad1f34693daef3ee8.html">ActiveMQ in
+action</a></li>
+<li><a href="http://wenku.baidu.com/view/a7a05927a5e9856a5612609a.html" title="http://wenku.baidu.com/view/a7a05927a5e9856a5612609a.html">ActiveMQ in
+action(中文)</a></li>
+</ul>
+
+
+<p>[java</p>
+
+<p>^<a href="#fnt__1">1)</a>^ Durable Subscribe可以不用一直保持連線狀態</p>
+
+<p>^<a href="#fnt__2">2)</a>^ message body本身是沒辦法做查詢的</p>
+]]></content>
+  </entry>
   
 </feed>

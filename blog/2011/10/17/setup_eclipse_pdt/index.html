@@ -1,0 +1,528 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>How to setup PDT - Kent's Blog</title>
+  <meta name="author" content="Kent">
+
+  
+  <meta name="description" content="PDT is Eclipse PHP Development Tools, this article is a
+instuction about how to setup PDT with other useful tools, like: zend debugger
+remote server &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.kent-chiu.com/blog/2011/10/17/setup_eclipse_pdt">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Kent's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-39152849-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Kent's Blog</a></h1>
+  
+    <h2>Kent的學習筆記(剛從dokuwiki搬過來，內容還在整修中)</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.kent-chiu.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">How to Setup PDT</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>PDT is Eclipse <strong>P</strong>HP <strong>D</strong>evelopment <strong>T</strong>ools, this article is a
+instuction about how to setup PDT with other useful tools, like:</p>
+
+<ol>
+<li>zend debugger</li>
+<li>remote server</li>
+</ol>
+
+
+<p>Option:</p>
+
+<ol>
+<li>SVN plugins</li>
+<li>open extern plugins (open contain folder or shell) ()</li>
+<li>QuickREx (Regular Expression tools)</li>
+</ol>
+
+
+<h1>Install PDT by pulse</h1>
+
+<ol>
+<li>download
+<a href="http://www.poweredbypulse.com/" title="http://www.poweredbypulse.com/">pulse</a></li>
+<li>registry a account if necessary</li>
+<li>install Eclipse 3.x For PHP in pulse menu</li>
+</ol>
+
+
+<h1>Install Plugins (Optional)</h1>
+
+<p>searching Subversive, open extern and QucikREx as keyword in pules
+Browser Categories node then install.</p>
+
+<h1>Install Debugger</h1>
+
+<p>there are two debugger supports by PDT now</p>
+
+<ol>
+<li>zend debugger</li>
+<li>XDebug</li>
+</ol>
+
+
+<p>both two can used as Script Debugger or Server Debugger of PDT debug
+functions.</p>
+
+<h2>zend debugger install</h2>
+
+<p>Assumption: PHP install at C:\xampp\php</p>
+
+<h3>downloading</h3>
+
+<p>Download zend debugger extention from
+<a href="http://downloads.zend.com/pdt/server-debugger" title="http://downloads.zend.com/pdt/server-debugger">here</a>,
+we use
+<a href="http://downloads.zend.com/pdt/server-debugger/ZendDebugger-5.2.15-cygwin_nt-i386.zip" title="http://downloads.zend.com/pdt/server-debugger/ZendDebugger-5.2.15-cygwin_nt-i386.zip">ZendDebugger-5.2.15-cygwin_nt-i386.zip</a>
+in this case(maybe you can find the new version then this).</p>
+
+<h3>copy dll to php ext folder</h3>
+
+<p>copy ZendDebugger.dll to C:\xampp\php\ext folder it maybe not as same
+as your path, you need found out somewhere you installed the php.</p>
+
+<h3>put dummy.php to your web root</h3>
+
+<p>saving follow code as dummy.php and put it to web root(e.g
+c:\xampp\htdocs\dummy.php)</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?php
+</span><span class='line'>@ini_set('zend_monitor.enable', 0);
+</span><span class='line'>if(@function_exists('output_cache_disable')) {
+</span><span class='line'>    @output_cache_disable();
+</span><span class='line'>}
+</span><span class='line'>if(isset($_GET['debugger_connect']) && $_GET['debugger_connect'] == 1) {
+</span><span class='line'>    if(function_exists('debugger_connect'))  {
+</span><span class='line'>        debugger_connect();
+</span><span class='line'>        exit();
+</span><span class='line'>    } else {
+</span><span class='line'>        echo "No connector is installed.";
+</span><span class='line'>    }
+</span><span class='line'>}
+</span><span class='line'>?&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>setup php.ini</h3>
+
+<p>put this section to your php.ini.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>; this is to see output while debugging
+</span><span class='line'>implicit_flush = On 
+</span><span class='line'> 
+</span><span class='line'>; this is to see output while debugging
+</span><span class='line'>output_buffering = 0
+</span><span class='line'> 
+</span><span class='line'>[Zend]
+</span><span class='line'>zend_extension_ts="C:\xampp\php\ext\ZendDebugger.dll"
+</span><span class='line'>zend_debugger.allow_hosts=127.0.0.1/32
+</span><span class='line'>zend_debugger.expose_remotely=always</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>XDebug install</h2>
+
+<h3>downloading</h3>
+
+<p>Download zend debugger extention from
+[<a href="http://www.xdebug.org/download.php" title="http://www.xdebug.org/download.php">http://www.xdebug.org/download.php</a>|here]].</p>
+
+<h3>copy dll to php ext folder</h3>
+
+<p>copy php_xdebug_xxx.dll to C:\xampp\php\ext folder it maybe not as
+same as your path, you need found out somewhere you installed the php.</p>
+
+<h3>setup php.ini</h3>
+
+<p>put this section to your php.ini.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[XDebug]
+</span><span class='line'>;; Only Zend OR (!) XDebug
+</span><span class='line'>zend_extension_ts="C:\xampp\php\ext\php_xdebug.dll"
+</span><span class='line'>xdebug.remote_enable=true
+</span><span class='line'>xdebug.remote_host=127.0.0.1
+</span><span class='line'>xdebug.remote_port=9000
+</span><span class='line'>xdebug.remote_handler=dbgp
+</span><span class='line'>xdebug.profiler_enable=1
+</span><span class='line'>xdebug.profiler_output_dir="C:\xampp\tmp"</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>PDT setup</h1>
+
+<h2>setup php executable</h2>
+
+<h2>setup php manual</h2>
+
+<p>point to here:
+<a href="http://www.php.net/manual/en" title="http://www.php.net/manual/en">http://www.php.net/manual/en</a></p>
+
+<h2>set file association</h2>
+
+<h3>HTML editor</h3>
+
+<p>eclipse menu → window → preference</p>
+
+<ol>
+<li>type &#8216;content types&#8217; in filter filed</li>
+<li>select &#8216;HTML&#8217; node</li>
+<li>click &#8216;Add…&#8217; button to pop-up Add Content Type Association window</li>
+<li>input &#8216;*.dwt&#8217; in Content type field</li>
+<li>click &#8216;OK&#8217; to close Add Content Type Association window</li>
+<li>click preference window</li>
+</ol>
+
+
+<p><img src="/images/wiki/php/setup_elcipse_pdt_01.png" alt="setup_elcipse_pdt_01.png" /></p>
+
+<h3>Web Page Editor</h3>
+
+<p>eclipse menu → window → preference</p>
+
+<ol>
+<li>type &#8216;File Accociation&#8217; in filter filed</li>
+<li>Selecte <strong>File Accociation</strong> node</li>
+<li>select <strong>Add…</strong> Button to pop-up <strong>Add File Type</strong> window</li>
+<li>Typing which file type you want to add (should start with *.)</li>
+<li>select <strong>Add…</strong> Button to pop-up
+**<img src="/images/wiki/php/setup_elcipse_pdt_02.png" alt="setup_elcipse_pdt_02.png" />
+<img src="/images/wiki/php/setup_elcipse_pdt_03.png" alt="setup_elcipse_pdt_03.png" />
+
+<ul>
+<li>select the file type you want to associated to editor. -
+select<strong>Add…</strong>Button to pop-up<strong>Editor Selection</strong>window -
+click<strong>OK</strong>Button and confirm the file type is showed in**File
+Association** List.</li>
+</ul>
+</li>
+</ol>
+
+
+<p><img src="/images/wiki/php/setup_elcipse_pdt_04.png" alt="setup_elcipse_pdt_04.png" /></p>
+
+<p>Web Page Editor introduced in WTP 2.0, it provides design time preview
+functionally.</p>
+
+<p><img src="http://www.eclipse.org/webtools/releases/2.0/newandnoteworthy/j2ee/jsf-web-page-editor.png" alt="" /></p>
+
+<h3>Internet Web Browser</h3>
+
+<p>Internet Web Browser can used to preview HTML render with in Eclipse
+View Site.</p>
+
+<p><img src="http://www.eclipse.org/webtools/initial-contribution/IBM/evalGuides/ServerToolsEval_files/monitorBrowser.gif" alt="" /></p>
+
+<p>We also can set *.dwt, *.lbi, *.htm, *.html file association to
+those editors.</p>
+
+<h1>Verifing</h1>
+
+<ul>
+<li>create new project, the project location should set to
+WWW_DOC_ROOT\projectName</li>
+<li>create php file</li>
+<li>run with script or server should all works fine.</li>
+</ul>
+
+
+<h1>Resoures</h1>
+
+<ul>
+<li><a href="http://http://www.poweredbypulse.com/" title="http://http://www.poweredbypulse.com/">pulse</a>
+home</li>
+<li>there are some usful information about how to configurated in <a href="http://www.thierryb.net/pdtwiki/index.php?title=Main_Page" title="http://www.thierryb.net/pdtwiki/index.php?title=Main_Page">pdt
+wiki</a></li>
+<li>the details of how to setup zend debug can be found
+<a href="http://www.thierryb.net/pdtwiki/index.php?title=Using_PDT_:_Installation_:_Installing_the_Zend_Debugger" title="http://www.thierryb.net/pdtwiki/index.php?title=Using_PDT_:_Installation_:_Installing_the_Zend_Debugger">here</a></li>
+<li>the deatils of how to using script and server debugger of PDT,
+please check this
+<a href="http://www.thierryb.net/pdtwiki/index.php?title=Using_PDT_:_User_Guide_:_PHP_Source_Level_Debugging" title="http://www.thierryb.net/pdtwiki/index.php?title=Using_PDT_:_User_Guide_:_PHP_Source_Level_Debugging">reference</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Kent Chiu</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/pdt/'>pdt</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://blog.kent-chiu.com/blog/2011/10/17/setup_eclipse_pdt/" data-via="" data-counturl="http://blog.kent-chiu.com/blog/2011/10/17/setup_eclipse_pdt/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2011/10/17/scrum/" title="Previous Post: SCRUM">&laquo; SCRUM</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2011/10/17/setup_git_server/" title="Next Post: Setup Git Server">Setup Git Server &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/07/07/python-101/">Python 101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/25/url-encoding/">URL Encoding</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/04/restful-api-design/">RESTful API Design</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/17/my-intellij-idea-shortcut/">My IntelliJ IDEA Shortcut</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/12/jesper-report-font-issue/">Jesper Report, IReport 匯出成中文PDF</a>
+      </li>
+    
+  </ul>
+</section>
+
+Included file 'asides/twitter.html' not found in _includes directory
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Kent -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'kentchiu';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.kent-chiu.com/blog/2011/10/17/setup_eclipse_pdt/';
+        var disqus_url = 'http://blog.kent-chiu.com/blog/2011/10/17/setup_eclipse_pdt/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

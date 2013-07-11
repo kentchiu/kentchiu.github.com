@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: sql | Kent's Blog]]></title>
+  <link href="http://blog.kent-chiu.com/blog/categories/sql/atom.xml" rel="self"/>
+  <link href="http://blog.kent-chiu.com/"/>
+  <updated>2013-07-11T21:16:37+08:00</updated>
+  <id>http://blog.kent-chiu.com/</id>
+  <author>
+    <name><![CDATA[Kent]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[最佳實踐]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2012/01/08/best_practice/"/>
+    <updated>2012-01-08T00:00:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2012/01/08/best_practice</id>
+    <content type="html"><![CDATA[<h1>SQL DML</h1>
+
+<ul>
+<li>'in'的效能比'or'好</li>
+<li>避免使用負向的查詢， NOT、!=、&lt;>、!&lt;、!>、NOT EXISTS、NOT
+IN、NOT LIKE等</li>
+<li>避免將'%'放在查詢的條件前面 ex: '%foo' (full table scan)</li>
+<li>避免select (*)</li>
+<li>减少COUNT(*)</li>
+<li>短的sql比長的sql好</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

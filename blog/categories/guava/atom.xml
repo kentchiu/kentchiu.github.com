@@ -1,0 +1,1034 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: guava | Kent's Blog]]></title>
+  <link href="http://blog.kent-chiu.com/blog/categories/guava/atom.xml" rel="self"/>
+  <link href="http://blog.kent-chiu.com/"/>
+  <updated>2013-07-11T21:16:37+08:00</updated>
+  <id>http://blog.kent-chiu.com/</id>
+  <author>
+    <name><![CDATA[Kent]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Google Guava 101]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2012/04/30/google_guava_101/"/>
+    <updated>2012-04-30T00:00:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2012/04/30/google_guava_101</id>
+    <content type="html"><![CDATA[<p>Guava是google的一個開源項目，目的在提供常用工具類的API，字串處理，caching，primitives型別處理，I/O，併行(concurrnecy)處理，
+還有超級好用的Collections處理。</p>
+
+<p>本篇主要著重於<a href="http://wiki.kent-chiu.com/doku.php?id=java:google_guava_-_collection_101" title="java:google_guava_-_collection_101">Collection</a>以外相關的使用介紹，Collection的使用介紹在<a href="http://wiki.kent-chiu.com/doku.php?id=java:google_guava_-_collection_101" title="java:google_guava_-_collection_101">另一篇</a></p>
+
+<ol>
+<li><p><a href="#strings" title="java:google_guava_101 ↵">Strings</a></p>
+
+<ol>
+<li><a href="#joiner" title="java:google_guava_101 ↵">Joiner</a></li>
+<li><a href="#splitter" title="java:google_guava_101 ↵">Splitter</a></li>
+<li><a href="#charmatcher" title="java:google_guava_101 ↵">CharMatcher</a></li>
+</ol>
+</li>
+<li><p><a href="#basic_utilities" title="java:google_guava_101 ↵">Basic Utilities</a></p></li>
+<li><a href="#caches" title="java:google_guava_101 ↵">Caches</a></li>
+<li><a href="#concurrency" title="java:google_guava_101 ↵">Concurrency</a></li>
+<li><a href="#primitives" title="java:google_guava_101 ↵">Primitives</a></li>
+<li><a href="#ranges" title="java:google_guava_101 ↵">Ranges</a></li>
+<li><a href="#hashing" title="java:google_guava_101 ↵">Hashing</a></li>
+<li><a href="#eventbus" title="java:google_guava_101 ↵">EventBus</a></li>
+<li><a href="#math" title="java:google_guava_101 ↵">Math</a></li>
+</ol>
+
+
+<h1>Strings</h1>
+
+<ul>
+<li><a href="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/base/CaseFormat.html" title="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/base/CaseFormat.html">CaseFormat</a></li>
+<li><a href="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/base/CharMatcher.html" title="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/base/CharMatcher.html">CharMatcher</a></li>
+<li><a href="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/base/Charsets.html" title="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/base/Charsets.html">Charsets</a></li>
+<li><a href="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/base/Joiner.html" title="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/base/Joiner.html">Joiner</a></li>
+<li><a href="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/base/Splitter.html" title="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/base/Splitter.html">Splitter</a></li>
+<li><a href="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/base/Strings.html" title="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/base/Strings.html">Strings</a></li>
+</ul>
+
+
+<h5>CharMatcher</h5>
+
+<p><code>
+CharMatcher.is('.').replaceFrom(aStr, '_');                                       // 將字串中的'.'換成'_'
+CharMatcher.DIGIT.matchesAllOf("1231212");                                        // true
+CharMatcher.DIGIT.matchesAnyOf("1231 aa212");                                     // true
+CharMatcher.DIGIT.retainFrom("Hello 1234 567");                                   // "1234567";
+CharMatcher.DIGIT.or(CharMatcher.WHITESPACE).retainFrom("Hello 1234 567");        // " 1234 567"
+CharMatcher.inRange('3', '6').removeFrom("Hello 1234 567");                       // "Hello 12 7";
+CharMatcher.is('$').trimFrom("$$$ This is a $ sign $$$");                         // " This is a $ sign "
+CharMatcher.is('$').or(CharMatcher.is(' ')).trimFrom("$$$ This is a $ sign $$$"); // "This is a $ sign"
+</code></p>
+
+<h5>Joiner</h5>
+
+<p>字串相加</p>
+
+<p>```
+Joiner joiner = Joiner.on("; ").skipNulls();
+return joiner.join("Harry", null, "Ron", "Hermione"); // "Harry; Ron; Hermione"
+ 
+numbersWords.put(1, "one");
+numbersWords.put(2, "two");
+numbersWords.put(3, null);
+numbersWords.put(4, "four");
+Joiner.on(" | ").withKeyValueSeparator(" -> ")</p>
+
+<pre><code>.useForNull("Unknown").join(numbersWords)); // 1 -&gt; one | 2 -&gt; two | 3 -&gt; Unknown | 4 -&gt; four"
+</code></pre>
+
+<p>```</p>
+
+<h5>Splitter</h5>
+
+<p>字串分割</p>
+
+<p>```
+Splitter.on(',')</p>
+
+<pre><code>   .trimResults()
+   .omitEmptyStrings()
+   .split("foo,bar,,   qux");
+</code></pre>
+
+<p>```</p>
+
+<h1>Basic Utilities</h1>
+
+<h3>Optional (Null處理)</h3>
+
+<p>java對null的處理不是很友善，所以常常需要去對null值特別處理，而Optional就是用來處理null問題的利器。</p>
+
+<p>```
+// 是否是常看到這樣的code
+if (foo == null) {
+  // do something
+} else {
+  // do something
+}
+ 
+// servlet總會遇到這個
+String username;
+if (request.getParameter("username") == null) {</p>
+
+<pre><code>username = "Stranger";
+</code></pre>
+
+<p>} else {
+   username = request.getParameter("username");
+}
+ 
+// 或者
+String username = request.getParameter("username") == null ? "Stranger" : request.getParameter("username");
+```</p>
+
+<p>如果改用Optional的話</p>
+
+<p><code>
+Optional.of(request.getParameter("username")).or("default");
+</code></p>
+
+<p>這個class我個人滿少用的，它的一些延伸用法不是很直覺</p>
+
+<h3>Preconditions</h3>
+
+<p>前置條件檢查，通常會在在method的最前面，用來保證參數或變數在一定的狀態，如果不在預期的狀況，就拋出異常。</p>
+
+<ol>
+<li>checkArgument(boolean) : 用來檢查method的參數，不為true則拋出
+IllegalArgumentException</li>
+<li>checkNotNull(T) : 如果是 null 拋出 NullPointerException</li>
+<li>checkState(boolean) :
+跟checkArgument(boolean)很像，但用來檢查非參數的變數，如果不為true，拋出
+IllegalStateException</li>
+<li>checkElementIndex(int index, int size) :
+用來檢查List,Array或字串index的合法性，不合法就拋出
+IndexOutOfBoundsException</li>
+<li>checkPositionIndex(int index, int size) :
+用來檢查List,Array或字串index的合法性，不合法就拋出
+IndexOutOfBoundsException</li>
+<li>checkPositionIndexes(int start, int end, int size) :
+用來檢查List,Array或字串index的合法性，不合法就拋出
+IndexOutOfBoundsException</li>
+</ol>
+
+
+<p>checkElementIndex,checkPositionIndex,checkPositionIndexes用法比較特別，它不需要傳入List,Array或字串本身，只需傳入List,Array或字串的index，size，或start，end</p>
+
+<h3>Ordering</h3>
+
+<p>排序用，如果要被排序的元素本身已有<a href="http://wiki.kent-chiu.com/doku.php?id=java:google_guava_101" title="java:google_guava_101">Comparator</a>的話，可以直做透過Ordering做排序,
+如果沒有，也可以extends Ordering達到排序的效果。</p>
+
+<h3>Object methods</h3>
+
+<p>傳統的Comparable實作方式很煩人，而且容易出錯</p>
+
+<p>```
+class Person implements Comparable<Person> {
+  private String lastName;
+  private String firstName;
+  private int zipCode;
+ 
+  public int compareTo(Person other) {</p>
+
+<pre><code>int cmp = lastName.compareTo(other.lastName);
+if (cmp != 0) {
+  return cmp;
+}
+cmp = firstName.compareTo(other.firstName);
+if (cmp != 0) {
+  return cmp;
+}
+return Integer.compare(zipCode, other.zipCode);
+</code></pre>
+
+<p>  }
+}
+```</p>
+
+<p>Guava提供ComparisonChain簡化Comparable.</p>
+
+<p>```
+   public int compareTo(Foo that) {</p>
+
+<pre><code> return ComparisonChain.start()
+     .compare(this.aString, that.aString)
+     .compare(this.anInt, that.anInt)
+     .compare(this.anEnum, that.anEnum, Ordering.natural().nullsLast())
+     .result();
+</code></pre>
+
+<p>   }
+```</p>
+
+<h3>Throwables</h3>
+
+<p>```
+ try {</p>
+
+<pre><code> someMethodThatCouldThrowAnything();
+</code></pre>
+
+<p>   } catch (IKnowWhatToDoWithThisException e) {</p>
+
+<pre><code> handle(e);
+</code></pre>
+
+<p>   } catch (Throwable t) {</p>
+
+<pre><code> Throwables.propagateIfInstanceOf(t, IOException.class);
+ Throwables.propagateIfInstanceOf(t, SQLException.class);
+ throw Throwables.propagate(t);
+</code></pre>
+
+<p>   }
+```</p>
+
+<h1>Caches</h1>
+
+<p>Guava Cache很像Map，但在使用上跟行為上還是跟Map有許多不同之類。Guava
+Cache只會暫存在Memory(RAM)，不會儲存 在local file system.</p>
+
+<p>建立cache有兩種方式，一種是一開始就load所需要的資料，另一種是如果資料不存在就建立，否則就直接取cache內的資料</p>
+
+<h5>CacheLoader是在開始時就建立好cache的資料</h5>
+
+<p>```
+LoadingCache&lt;Key, Graph> graphs = CacheBuilder.newBuilder()</p>
+
+<pre><code>    .maximumSize(10000)
+    .expireAfterWrite(10, TimeUnit.MINUTES)
+    .removalListener(MY_LISTENER)
+    .build(
+        new CacheLoader&lt;Key, Graph&gt;() {
+            public Graph load(Key key) throws AnyException {
+            return createExpensiveGraph(key);
+        }
+    });
+</code></pre>
+
+<p>```</p>
+
+<h5>Callable是取不到資料時就建立cache</h5>
+
+<p>當執行cache.get，如果有cache就會從cache取，如果沒有cache就會建立一份到cache中</p>
+
+<p>```
+Cache&lt;Key, Value> cache = CacheBuilder.newBuilder()</p>
+
+<pre><code>.maximumSize(1000)
+.build(); // look Ma, no CacheLoader
+</code></pre>
+
+<p>...
+try {
+  // If the key wasn't in the "easy to compute" group, we need to
+  // do things the hard way.
+  cache.get(key, new Callable<Value>() {</p>
+
+<pre><code>@Override
+public Value call() throws AnyException {
+  return doThingsTheHardWay(key);
+}
+</code></pre>
+
+<p>  };
+} catch (ExecutionException e) {
+  throw new OtherException(e.getCause());
+}
+```</p>
+
+<h1>Concurrency</h1>
+
+<p>ListenableFuture Service Using Implementations Monitor</p>
+
+<h1>Primitives</h1>
+
+<p>Primitive arrays General utilities Byte conversion Unsigned support</p>
+
+<h1>Ranges</h1>
+
+<p>用來處理一個範圍內class，主要是透過<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html" title="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html">Comparable</a>來做範圍的運算，
+所以不一定是要數值型的class才能做Range，像有實作Comparable的日期也是可以做範圍處理。</p>
+
+<p>可透過Ranges類別來建立Range</p>
+
+<p><code>
+Ranges.closed(1,10);
+</code></p>
+
+<h1>EventBus</h1>
+
+<p>EventBus是guava的事件處理，但不像傳統的Event-Listener那樣需要implement
+xxxListener那樣(結果就是產生了一堆inner class或anonymous inner class)
+而是透過@Annotation的方式處理。</p>
+
+<p>```
+// Class is typically registered by the container.
+class EventBusChangeRecorder {
+  @Subscribe void recordCustomerChange(ChangeEvent e) {</p>
+
+<pre><code>recordChange(e.getChange());
+</code></pre>
+
+<p>  }
+}
+// somewhere during initialization
+eventBus.register(new EventBusChangeRecorder());
+// much later
+public void changeCustomer() {
+  ChangeEvent event = getChangeEvent();
+  eventBus.post(event);
+}
+```</p>
+
+<h4>Reference</h4>
+
+<ol>
+<li><a href="http://codingjunkie.net/guava-eventbus/" title="http://codingjunkie.net/guava-eventbus/">http://codingjunkie.net/guava-eventbus/</a></li>
+<li><a href="http://tomaszdziurko.pl/2012/01/google-guava-eventbus-easy-elegant-publisher-subscriber-cases/" title="http://tomaszdziurko.pl/2012/01/google-guava-eventbus-easy-elegant-publisher-subscriber-cases/">http://tomaszdziurko.pl/2012/01/google-guava-eventbus-easy-elegant-publisher-subscriber-cases/</a></li>
+</ol>
+
+
+<h1>Math</h1>
+
+<p>TBD</p>
+
+<h1>Resources</h1>
+
+<ul>
+<li><a href="http://code.google.com/p/guava-libraries/" title="http://code.google.com/p/guava-libraries/">Guava
+Home</a></li>
+<li><a href="http://code.google.com/p/guava-libraries/wiki/ExplainedContents" title="http://code.google.com/p/guava-libraries/wiki/ExplainedContents">各功能的使用介紹</a>
+(推薦)</li>
+<li><a href="http://jnb.ociweb.com/jnb/jnbApr2010.html" title="http://jnb.ociweb.com/jnb/jnbApr2010.html">Examples</a></li>
+<li><a href="http://jnb.ociweb.com/jnb/jnbFeb2009.html" title="http://jnb.ociweb.com/jnb/jnbFeb2009.html">Google
+Collections</a></li>
+<li><a href="http://www.copperykeenclaws.com/googles-guava-java-the-easy-parts/" title="http://www.copperykeenclaws.com/googles-guava-java-the-easy-parts/">Google’s guava java: the easy
+parts</a></li>
+<li><a href="http://stackoverflow.com/questions/tagged/guava" title="http://stackoverflow.com/questions/tagged/guava">guava on
+stackoverflow</a></li>
+<li>Using the Google Collections Library for Java
+<a href="http://www.youtube.com/watch?v=ZeO_J2OcHYM" title="http://www.youtube.com/watch?v=ZeO_J2OcHYM">part1</a>
+<a href="http://www.youtube.com/watch?v=9ni_KEkHfto" title="http://www.youtube.com/watch?v=9ni_KEkHfto">part2</a></li>
+<li>带你领略 Google Collections <a href="http://jubin2002.javaeye.com/blog/471661" title="http://jubin2002.javaeye.com/blog/471661">part
+1</a>
+<a href="http://jubin2002.javaeye.com/blog/471698" title="http://jubin2002.javaeye.com/blog/471698">part
+2</a></li>
+<li>MapMaker Usage
+<a href="http://norther.javaeye.com/blog/670414" title="http://norther.javaeye.com/blog/670414">http://norther.javaeye.com/blog/670414</a></li>
+<li><a href="http://www.ibm.com/developerworks/cn/java/j-lo-googlecollection/index.html?ca=drs-" title="http://www.ibm.com/developerworks/cn/java/j-lo-googlecollection/index.html?ca=drs-">Google Guava Collections
+使用介绍</a>
+
+<ul>
+<li>IBM 中國上介紹guava的文章</li>
+</ul>
+</li>
+<li><a href="http://www.tfnico.com/presentations/google-guava" title="http://www.tfnico.com/presentations/google-guava">一些guava使用上的介紹</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Google Guava - Collection 101]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2012/03/20/google_guava_-_collection_101/"/>
+    <updated>2012-03-20T00:00:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2012/03/20/google_guava_-_collection_101</id>
+    <content type="html"><![CDATA[<p>Guava是google的一個開源項目，目的在提供常用工具類的API，字串處理，caching，primitives型別處理，I/O，併行(concurrnecy)處理，
+還有超級好用的Collections處理。</p>
+
+<p>本篇主要著重於Collection相關的使用介紹，有<a href="http://wiki.kent-chiu.com/doku.php?id=java:google_guava_101" title="java:google_guava_101">另外一篇</a>專門在介紹Collection之外其它的功能的用法。</p>
+
+<h1>Iterable &amp; Iterators</h1>
+
+<p>如果之前method的return值習慣用Collection, List, Set, Map,
+建議可以改傳回Iteratable&lt;T></p>
+
+<p><code>
+  // 原本是傳回集合
+  public List&lt;String&gt; getData(){...};
+  // 可以改成傳回Iterable (RECOMMAND)
+  public Iterable&lt;String&gt; getData(){...};
+  // 或改成傳回Iterator
+  public Iterator&lt;String&gt; getData(){...};
+</code></p>
+
+<p>雖然<strong>大部份的API都是傳回Iterator(since JDK1.4)</strong>, 在Hamcrest
+lib中只有提供Iterable(since JDK1.5) base的lib，沒有Iterator base的
+<code>IsIterableWithSize&lt;E&gt; extends FeatureMatcher&lt;Iterable&lt;E&gt;, Integer&gt;</code>
+用Iterable應該會相對方便些，而且Iterable可以取出Iterator，而Iterator沒有辦法直接取得Iterable，而且實作Iterable可以直接餵給foreach</p>
+
+<p><code>
+assertThat(data, Matchers.&lt;MyClass&gt;iterableWithSize(1));
+</code></p>
+
+<h4>Iterable v.s Iterator</h4>
+
+<p>是java
+1.5引入，跟foreach搭配使用的<code>java.lang.Iterable&lt;T&gt;</code>，<code>java.util.Iterator&lt;E&gt;</code>則是java
+1.2引入後，1.5加入泛型的能力。</p>
+
+<p>Iterable是指含有Iterator的物件，而Iterator則是指向集合裡單一的instance。</p>
+
+<p>如果對一個集合取兩次的Iterator，兩次的Iterator是各自獨立的。</p>
+
+<p>```</p>
+
+<pre><code>package java.util;
+ 
+/**
+ * @since 1.2
+ */
+public interface Iterator&lt;E&gt; {
+    boolean hasNext();
+ 
+    E next();
+ 
+    void remove();
+}
+</code></pre>
+
+<p>```</p>
+
+<p>```</p>
+
+<pre><code>/** Implementing this interface allows an object to be the target of
+ *  the "foreach" statement.
+ * @since 1.5
+ */
+public interface Iterable&lt;T&gt; {
+ 
+    Iterator&lt;T&gt; iterator();
+}
+</code></pre>
+
+<p>```</p>
+
+<h4>Iterable Array ?</h4>
+
+<p>在java
+5+，有新的<a href="http://docs.oracle.com/javase/1.5.0/docs/guide/language/foreach.html" title="http://docs.oracle.com/javase/1.5.0/docs/guide/language/foreach.html">For-Each</a>
+loop語法， 它可以用來iterate實作Iterable
+interface的類別。通常是用來iterate Collection(List, Set,
+Map,…)及array，但是
+如果試著把array丟到其他Iterable類型的參數，卻行不通，why?</p>
+
+<p><code>
+String myArray = new String[]{"foo", "bar", "baz"};
+for(String each : myArray) { // this one works
+ 
+}
+ 
+doIterate(myArray); // this cause compiler level error
+ 
+public doIterate(Iterable args) {
+}
+</code></p>
+
+<p>原因為array根本沒有實作Iterable，For-Each
+Loop對array的支援是compiler的syntax
+sugar，compiler會把for-each展開成一般的for-loop</p>
+
+<p>如果需要讓Array讓成iterable，可以用Arrays.asList()</p>
+
+<h1>Function &amp; Predicate</h1>
+
+<p>Function跟Predicate是許多method的參數，像常用的應該是</p>
+
+<h4>Predicaten</h4>
+
+<p>Predicaten常用於</p>
+
+<ol>
+<li>過濾集合中<em>特定條件的元素</em>
+<code>Collections2.filter(Collection&lt;E&gt;, Predicate&lt;? super E&gt;)</code></li>
+<li>搜尋集合中<em>特定條件的元素</em>
+<code>find(Iterator&lt;T&gt;, Predicate&lt;? super T&gt;, T)</code></li>
+<li>定位集合中<em>特定條件的元素</em>
+<code>indexOf(Iterator&lt;T&gt;, Predicate&lt;? super T&gt;)</code></li>
+<li>判斷集合中所有<em>特定條件的元素</em>都符合條件
+<code>Iterators.all(Iterator&lt;T&gt;, Predicate&lt;? super T&gt;)</code></li>
+<li>判斷集合中是否包含任何<em>特定條件的元素</em>
+<code>any(Iterator&lt;T&gt;, Predicate&lt;? super T&gt;)</code></li>
+<li>…</li>
+</ol>
+
+
+<p>上述中的<strong>特定條件的元素</strong>就是用Predicate實作，Predicate是一個interface，宣告如下</p>
+
+<p><code>
+public interface Predicate&lt;T&gt; {
+  /**
+   * Returns the result of applying this predicate to {@code input}. This method is &lt;i&gt;generally
+   * expected&lt;/i&gt;, but not absolutely required, to have the following properties:
+   *
+   * &lt;ul&gt;
+   * &lt;li&gt;Its execution does not cause any observable side effects.
+   * &lt;li&gt;The computation is &lt;i&gt;consistent with equals&lt;/i&gt;; that is, {@link Objects#equal
+   *     Objects.equal}{@code (a, b)} implies that {@code predicate.apply(a) ==
+   *     predicate.apply(b))}.
+   * &lt;/ul&gt;
+   *
+   * @throws NullPointerException if {@code input} is null and this predicate does not accept null
+   *     arguments
+   */
+  boolean apply(@Nullable T input);
+ 
+  /**
+   * Indicates whether another object is equal to this predicate.
+   *
+   * &lt;p&gt;Most implementations will have no reason to override the behavior of {@link Object#equals}.
+   * However, an implementation may also choose to return {@code true} whenever {@code object} is a
+   * {@link Predicate} that it considers &lt;i&gt;interchangeable&lt;/i&gt; with this one. "Interchangeable"
+   * &lt;i&gt;typically&lt;/i&gt; means that {@code this.apply(t) == that.apply(t)} for all {@code t} of type
+   * {@code T}). Note that a {@code false} result from this method does not imply that the
+   * predicates are known &lt;i&gt;not&lt;/i&gt; to be interchangeable.
+   */
+  @Override
+  boolean equals(@Nullable Object object);
+}
+</code></p>
+
+<p>一般來說，就是在apply()裡實作需求就可，apply會依序將集合中的元件透過input傳入，apply一次會處理一個元素(input)，判斷input符不符合<strong>特定條件的元素</strong>，然後return
+true或false</p>
+
+<p>比如說，我們做一個判斷數值是否大於0的Predicate</p>
+
+<p>```</p>
+
+<pre><code>class IsGreateThenZero implements Predicate&lt;Integer&gt; {
+    @Override
+    public boolean apply(Integer input) {
+        return input &gt; 0;
+    }
+}
+</code></pre>
+
+<p>```</p>
+
+<p>這樣就可以用來</p>
+
+<ol>
+<li>過濾集合中<em>大於0的的元素</em>
+<code>Collections2.filter(myIntegerList, new IsGreateThenZero())</code></li>
+<li>搜尋集合中<em>大於0的的元素</em>
+<code>find(myIntegerList,  new IsGreateThenZero())</code></li>
+<li>定位集合中<em>大於0的的元素</em>
+<code>indexOf(myIntegerList, new IsGreateThenZero())</code></li>
+<li>判斷集合是否全部<em>大於0的</em>
+<code>Iterators.all(myIntegerList, new IsGreateThenZero())</code></li>
+<li>判斷集合中是否包含任何<em>大於0的元素</em>
+<code>any(myIntegerList, new IsGreateThenZero())</code></li>
+<li>….</li>
+</ol>
+
+
+<p>另外兩個Predicate間可以做邏輯運算，像AND, OR, NOT …</p>
+
+<p>比如說，我們再寫一個判斷數值是否小於10的Predicate</p>
+
+<p>```</p>
+
+<pre><code>class IsLessThenTen implements Predicate&lt;Integer&gt; {
+    @Override
+    public boolean apply(Integer input) {
+        return input &lt; 10;
+    }
+}
+</code></pre>
+
+<p>```</p>
+
+<p>這樣，我們也可以用來AND, OR來做出 <code>&gt; 0 AND &lt; 10</code>，<code>&gt; 0 OR &lt; 10</code>的新條件</p>
+
+<p><code>
+IsGreateThenZeroAndLessThenTenPredicate = Predicates.and(new IsGreateThenZero(), new IsLessThenTen());
+</code></p>
+
+<p><a href="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/base/Predicates.html" title="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/base/Predicates.html">Predicates</a>裡面還有不少做集合運算的Predicates可以使用。</p>
+
+<h4>Function</h4>
+
+<p>Function常用於transform(轉換)，把某個集合轉成另一個集合，比如說，把List&lt;Integer>專成List&lt;String>，或把List&lt;Integer>轉成Set&lt;Integer>，當然，實際上的用法會比這樣的例子複雜許多，
+不過，基本上想要把一種集合的元素，轉成”另一種”集合的<strong>另一種元素</strong>，就可以用<code>Iterables.transform(Iterable&lt;F&gt;, Function&lt;? super F, ? extends T&gt;)</code>達到</p>
+
+<p>Function的用法上跟<a href="#predicate" title="java:google_guava_-_collection_101 ↵">Predicate</a>差不多，Function也是一個interface，內容如下</p>
+
+<p><code>
+public interface Function&lt;F, T&gt; {
+  /**
+   * Returns the result of applying this function to {@code input}. This method is &lt;i&gt;generally
+   * expected&lt;/i&gt;, but not absolutely required, to have the following properties:
+   *
+   * &lt;ul&gt;
+   * &lt;li&gt;Its execution does not cause any observable side effects.
+   * &lt;li&gt;The computation is &lt;i&gt;consistent with equals&lt;/i&gt;; that is, {@link Objects#equal
+   *     Objects.equal}{@code (a, b)} implies that {@code Objects.equal(function.apply(a),
+   *     function.apply(b))}.
+   * &lt;/ul&gt;
+   *
+   * @throws NullPointerException if {@code input} is null and this function does not accept null
+   *     arguments
+   */
+  T apply(@Nullable F input);
+ 
+  /**
+   * Indicates whether another object is equal to this function.
+   *
+   * &lt;p&gt;Most implementations will have no reason to override the behavior of {@link Object#equals}.
+   * However, an implementation may also choose to return {@code true} whenever {@code object} is a
+   * {@link Function} that it considers &lt;i&gt;interchangeable&lt;/i&gt; with this one. "Interchangeable"
+   * &lt;i&gt;typically&lt;/i&gt; means that {@code Objects.equal(this.apply(f), that.apply(f))} is true for all
+   * {@code f} of type {@code F}. Note that a {@code false} result from this method does not imply
+   * that the functions are known &lt;i&gt;not&lt;/i&gt; to be interchangeable.
+   */
+  @Override
+  boolean equals(@Nullable Object object);
+}
+</code></p>
+
+<p>Function的template有兩個參數F, T，代表著From, To,
+跟Predicate一樣也是實作apply，不過，他的apply的return不是boolean，而是T(To)
+所以，主要的實作就是做input型別F跟return 型別T之間的mapping</p>
+
+<h1>Collection</h1>
+
+<p><a href="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/collect/package-summary.html" title="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/collect/package-summary.html">Collection
+Javadoc</a></p>
+
+<ul>
+<li>Using Multimaps relpace Map&lt;Foo, Collection&lt;Bar» :
+key是唯一值,如果put不同的內容到value,value會一直累加而不是取代</li>
+<li>MapMaker</li>
+<li>BiMap : 雙向的map,可以由key取出value,也可以由value取出key</li>
+<li>ForwardingObject : google
+collections大多宣告成final，無法改寫，而forwarding提供一個decorate的機制，
+可在既有的google collections上做延伸</li>
+</ul>
+
+
+<p>Google Collection裡很多class都不能直接用new產生，必須透過create()
+method來建立 ex: ” HashBiMap.create()”</p>
+
+<p>The following codes is got from many places, you can check the
+<a href="#resources" title="java:google_guava_-_collection_101 ↵">Resources</a> section
+for source and details.</p>
+
+<h3>ImmutableXXX</h3>
+
+<p><code>
+ImmutableMap.&lt;String, Object&gt;builder().put("a", objectA)..put("b", objectB).build();
+</code></p>
+
+<h3>Find in collection</h3>
+
+<p><code>
+find = Iterators.find(myCollection.iterator(), predicate);
+find2 = Iterables.find(myCollection, predicate);
+// find1 == find2
+</code></p>
+
+<h3>Iterators &amp; Iterables</h3>
+
+<p><a href="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/collect/Iterators.html" title="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/collect/Iterators.html">Iterators</a>跟<a href="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/collect/Iterables.html" title="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/collect/Iterables.html">Iterables</a>
+的功能差不多，都是在Collection進行Iterator的相關動作，ex:</p>
+
+<h5>搜尋、過濾與定址取值</h5>
+
+<ol>
+<li>filter</li>
+<li>find</li>
+<li>get</li>
+<li>getFirst</li>
+<li>getLast</li>
+<li>getOnlyElement</li>
+<li>indexOf</li>
+<li>skip</li>
+<li>partition</li>
+<li>limit</li>
+<li>paddedPartition</li>
+<li>peekingIterator (不會造成Iterator.next())</li>
+</ol>
+
+
+<h5>相加</h5>
+
+<ol>
+<li>addAll</li>
+<li>concat</li>
+</ol>
+
+
+<h5>條件測試</h5>
+
+<ol>
+<li>all</li>
+<li>any</li>
+<li>contains</li>
+<li>elementsEqual</li>
+<li>contains</li>
+<li>isEmpty</li>
+<li>elementsEqual (集合內元素順序是否完全相等)</li>
+</ol>
+
+
+<h5>移除</h5>
+
+<ol>
+<li>removeAll</li>
+<li>removeIf</li>
+<li>retainAll</li>
+</ol>
+
+
+<h5>其它</h5>
+
+<ol>
+<li>consumingIterable</li>
+<li>cycle</li>
+<li>unmodifiableIterable</li>
+<li>frequency</li>
+</ol>
+
+
+<h5>轉換</h5>
+
+<ol>
+<li><strong>forArray</strong></li>
+<li>transform</li>
+<li><strong>forEnumeration</strong></li>
+</ol>
+
+
+<h3>transform</h3>
+
+<p>將collection內容的類型轉換成另一種類型(ex: Double → String).
+^<a href="#fn__1">1)</a>^</p>
+
+<p>```</p>
+
+<pre><code>List&lt;String&gt; list1 = Lists.newArrayList("1", "2", "3");
+List&lt;Double&gt; list2 = Lists.transform(list1, new Function&lt;String, Double&gt;() {
+   public Double apply(String from) {
+      return Double.parseDouble(from);
+   }
+});
+System.out.println(Joiner.on(" | ").join(list2));
+ 
+// result
+// 1.0 | 2.0 | 3.0
+</code></pre>
+
+<p>```</p>
+
+<h3>Filter</h3>
+
+<p>利用<strong>Predicate</strong>對collection進行過濾</p>
+
+<p>```</p>
+
+<pre><code>List&lt;String&gt; list = Lists.newArrayList("A100", "B100", null, "B200");
+Iterable&lt;String&gt; filtered = Iterables.filter(list, new Predicate&lt;String&gt;() {
+   public boolean apply(String input) {
+      return input == null || input.startsWith("B");
+   }
+});
+ 
+System.out.println(Joiner.on("; ").useForNull("B000").join(filtered));
+ 
+// result
+// B100; B000; B200
+</code></pre>
+
+<p>```</p>
+
+<h3>Ording</h3>
+
+<p>利用<strong>Compartor</strong>進行排序,也提供<code>max(),min()</code>等功能</p>
+
+<p><code>
+ Ordering.from(lastNameComparator);
+</code></p>
+
+<h3>ComparatorOrdering</h3>
+
+<p>除了基本的比較功能外，還有<strong>Ordering</strong>的功能</p>
+
+<h3>Predicate</h3>
+
+<p>```</p>
+
+<pre><code>import static com.google.common.base.Predicates.and;
+import static com.google.common.base.Predicates.compose;
+import static com.google.common.base.Predicates.in;
+import static com.google.common.base.Predicates.not;
+ 
+List&lt;String&gt; list1 = Lists.newArrayList("1", "2", "3");
+List&lt;String&gt; list2 = Lists.newArrayList("1", "4", "5");
+List&lt;String&gt; list3 = Lists.newArrayList("1", "4", "6");
+ 
+boolean result = and( not( in(list1) ), in(list2), in(list3)).apply("1");
+ 
+System.out.println(result);  // false
+ 
+List&lt;String&gt; list1 = Lists.newArrayList("A1", "A2", "A3");
+boolean result = compose(in(list1), new Function&lt;String, String&gt;() {
+   public String apply(String from) {
+      return "A" + from;
+   }
+}).apply("1");
+ 
+System.out.println(result);  // true
+</code></pre>
+
+<p>```</p>
+
+<h3>Combining and Modifying Comparators</h3>
+
+<p>```</p>
+
+<pre><code>public class Person {
+   private String firstName;
+   private String lastName;
+ 
+   public Person(String firstName, String lastName) {
+      this.setFirstName(firstName);
+      this.setLastName(lastName);
+   }
+ 
+   @Override
+   public String toString() {
+      return getFirstName() + " " + getLastName();
+   }
+ 
+   public void setFirstName(String firstName) {
+      this.firstName = firstName;
+   }
+ 
+   public String getFirstName() {
+      return firstName;
+   }
+ 
+   public void setLastName(String lastName) {
+      this.lastName = lastName;
+   }
+ 
+   public String getLastName() {
+      return lastName;
+   }
+}
+</code></pre>
+
+<p>```</p>
+
+<p>```</p>
+
+<pre><code>List&lt;Person&gt; persons = Lists.newArrayList(
+   new Person("Alfred", "Hitchcock"),
+   null,
+   new Person("Homer", "Simpson"),
+   new Person("Peter", "Fox"),
+   new Person("Bart", "Simpson"));
+ 
+Comparator&lt;Person&gt; lastNameComparator = new Comparator&lt;Person&gt;() {
+   public int compare(Person p1, Person p2) {
+      return p1.getLastName().compareTo(p2.getLastName());
+   }
+};
+ 
+Comparator&lt;Person&gt; firstNameComparator = new Comparator&lt;Person&gt;() {
+   public int compare(Person p1, Person p2) {
+      return p1.getFirstName().compareTo(p2.getFirstName());
+   }
+};
+ 
+// order by last name ascending
+Ordering&lt;Person&gt; ordering = Ordering.from(lastNameComparator);
+System.out.println(ordering.nullsLast().sortedCopy(persons));
+ 
+// order by last name descending, first name ascending
+ordering = ordering.reverse().compound(firstNameComparator);
+System.out.println(ordering.nullsLast().sortedCopy(persons));
+</code></pre>
+
+<p>```</p>
+
+<h3>Constraints</h3>
+
+<p>TBD</p>
+
+<h3>ForwardingObject</h3>
+
+<p><img src="/images/wiki/java/guava_101_001.png" alt="guava_101_001.png" /></p>
+
+<p>ForwardingObject是一種<a href="http://en.wikipedia.org/wiki/Decorator_pattern" title="http://en.wikipedia.org/wiki/Decorator_pattern">Decorator_pattern</a>的實作，而在guava裡，extends自ForwardingObject的類別都是collection，也就是說
+在guava裡ForwardingObject是設計來改寫collection的預設行為的。</p>
+
+<p>example: 改變原來LIST的的add()
+method，如果加入null的話，就採用預設值”UNKNOWN”</p>
+
+<p>```
+import java.util.<em>;
+import com.google.common.collect.</em>;
+ 
+public class ListWithDefault<E> extends ForwardingList<E> {</p>
+
+<pre><code>final E defaultValue;
+final List&lt;E&gt; delegate;
+</code></pre>
+
+<p> </p>
+
+<pre><code>ListWithDefault(List&lt;E&gt; delegate, E defaultValue) {
+    this.delegate = delegate;
+    this.defaultValue = defaultValue;
+}
+@Override protected List delegate() {
+    return delegate;
+}
+@Override public E get(int index) {
+    E v = super.get(index);
+    return (v == null ? defaultValue : v);
+}
+@Override public Iterator&lt;E&gt; iterator() {
+    final Iterator&lt;E&gt; iter = super.iterator();
+    return new ForwardingIterator&lt;E&gt;() {
+        @Override protected Iterator&lt;E&gt; delegate() {
+            return iter;
+        }
+        @Override public E next() {
+            E v = super.next();
+            return (v == null ? defaultValue : v); 
+        }
+    };
+}
+</code></pre>
+
+<p>}
+ 
+public static void main(String[] args) {</p>
+
+<pre><code>List&lt;String&gt; names = new ListWithDefault&lt;String&gt;(
+    Arrays.asList("Alice", null, "Bob", "Carol", null),
+    "UNKNOWN"
+);
+</code></pre>
+
+<p> </p>
+
+<pre><code>for (String name : names) {
+    System.out.println(name);
+}
+// Alice
+// UNKNOWN
+// Bob
+// Carol
+// UNKNOWN
+</code></pre>
+
+<p> </p>
+
+<pre><code>System.out.println(names);
+// [Alice, null, Bob, Carol, null]
+</code></pre>
+
+<p>}
+```</p>
+
+<p>Decorator
+Pattern的精神在不改變原來類別的行為的基礎下，為該類別加入其他功能。
+比如說，原來的類別可以印出 “hello
+word”，如果套入一個叫”StarDecorator”，那原來的輸出會變成 “* hello word
+*” 如果再套上”BarDecorator”那輸出就會變成 “|* hello word *|”</p>
+
+<p>也就是不改成原來印出 “hello word”的功能下，裝飾上星型邊框
+，再裝飾上條狀邊框，這也就是這個pattern的名稱的由來，</p>
+
+<h1>Resources</h1>
+
+<ul>
+<li><a href="http://code.google.com/p/guava-libraries/" title="http://code.google.com/p/guava-libraries/">Guava
+Home</a></li>
+<li><a href="http://code.google.com/p/guava-libraries/wiki/ExplainedContents" title="http://code.google.com/p/guava-libraries/wiki/ExplainedContents">各功能的使用介紹</a></li>
+<li><a href="http://jnb.ociweb.com/jnb/jnbApr2010.html" title="http://jnb.ociweb.com/jnb/jnbApr2010.html">Examples</a></li>
+<li><a href="http://jnb.ociweb.com/jnb/jnbFeb2009.html" title="http://jnb.ociweb.com/jnb/jnbFeb2009.html">Google
+Collections</a></li>
+<li><a href="http://www.copperykeenclaws.com/googles-guava-java-the-easy-parts/" title="http://www.copperykeenclaws.com/googles-guava-java-the-easy-parts/">Google’s guava java: the easy
+parts</a></li>
+<li><a href="http://stackoverflow.com/questions/tagged/guava" title="http://stackoverflow.com/questions/tagged/guava">guava on
+stackoverflow</a></li>
+<li>Using the Google Collections Library for Java
+<a href="http://www.youtube.com/watch?v=ZeO_J2OcHYM" title="http://www.youtube.com/watch?v=ZeO_J2OcHYM">part1</a>
+<a href="http://www.youtube.com/watch?v=9ni_KEkHfto" title="http://www.youtube.com/watch?v=9ni_KEkHfto">part2</a></li>
+<li>带你领略 Google Collections <a href="http://jubin2002.javaeye.com/blog/471661" title="http://jubin2002.javaeye.com/blog/471661">part
+1</a>
+<a href="http://jubin2002.javaeye.com/blog/471698" title="http://jubin2002.javaeye.com/blog/471698">part
+2</a></li>
+<li>MapMaker Usage
+<a href="http://norther.javaeye.com/blog/670414" title="http://norther.javaeye.com/blog/670414">http://norther.javaeye.com/blog/670414</a></li>
+<li><a href="http://www.ibm.com/developerworks/cn/java/j-lo-googlecollection/index.html?ca=drs-" title="http://www.ibm.com/developerworks/cn/java/j-lo-googlecollection/index.html?ca=drs-">Google Guava Collections
+使用介绍</a>
+
+<ul>
+<li>IBM 中國上介紹guava的文章</li>
+</ul>
+</li>
+<li><a href="http://www.tfnico.com/presentations/google-guava" title="http://www.tfnico.com/presentations/google-guava">一些guava使用上的介紹</a></li>
+</ul>
+
+
+<p>^<a href="#fnt__1">1)</a>^ 無法轉換Collection本身的型別 (ex: List → Set)</p>
+]]></content>
+  </entry>
+  
+</feed>

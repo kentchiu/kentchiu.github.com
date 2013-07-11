@@ -1,0 +1,615 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Effective Java Item List - Kent's Blog</title>
+  <meta name="author" content="Kent">
+
+  
+  <meta name="description" content="This item list come for Effective Java Second Edition Creating and Destroying Objects Item 1: Consider static factory methods instead of constructors &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.kent-chiu.com/blog/2012/05/25/effective_java_item_list">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Kent's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-39152849-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Kent's Blog</a></h1>
+  
+    <h2>Kent的學習筆記(剛從dokuwiki搬過來，內容還在整修中)</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.kent-chiu.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Effective Java Item List</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-05-25T00:00:00+08:00" pubdate data-updated="true">May 25<span>th</span>, 2012</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>This item list come for <a href="http://java.sun.com/docs/books/effective/toc.html" title="http://java.sun.com/docs/books/effective/toc.html">Effective Java Second Edition</a></p>
+
+<h1>Creating and Destroying Objects</h1>
+
+<h4>Item 1: Consider static factory methods instead of constructors</h4>
+
+<h4>Item 2: Consider a builder when faced with many constructor parameters</h4>
+
+<h4>Item 3: Enforce the singleton property with a private constructor or an enum type</h4>
+
+<h4>Item 4: Enforce noninstantiability with a private constructor</h4>
+
+<h4>Item 5: Avoid creating unnecessary objects</h4>
+
+<h4>Item 6: Eliminate obsolete object references</h4>
+
+<h4>Item 7: Avoid finalizers</h4>
+
+<h1>Methods Common to All Objects</h1>
+
+<h4>Item 8: Obey the general contract when overriding equals</h4>
+
+<h4>Item 9: Always override hashCode when you override equals</h4>
+
+<h4>Item 10: Always override toString</h4>
+
+<h4>Item 11: Override clone judiciously</h4>
+
+<h4>Item 12: Consider implementing Comparable</h4>
+
+<h1>Classes and Interfaces</h1>
+
+<h4>Item 13: Minimize the accessibility of classes and members</h4>
+
+<h4>Item 14: In public classes, use accessor methods, not public fields</h4>
+
+<h4>Item 15: Minimize mutability</h4>
+
+<h4>Item 16: Favor composition over inheritance</h4>
+
+<h4>Item 17: Design and document for inheritance or else prohibit it</h4>
+
+<h4>Item 18: Prefer interfaces to abstract classes</h4>
+
+<h4>Item 19: Use interfaces only to define types</h4>
+
+<h4>Item 20: Prefer class hierarchies to tagged classes</h4>
+
+<h4>Item 21: Use function objects to represent strategies</h4>
+
+<h4>Item 22: Favor static member classes over nonstatic</h4>
+
+<p>除非member classes有存取到outter class的nonstatic
+method，不然，應該把member classes宣告為statics</p>
+
+<h1>Generics</h1>
+
+<h4>Item 23: Don&#8217;t use raw types in new code</h4>
+
+<h4>Item 24: Eliminate unchecked warnings</h4>
+
+<h4>Item 25: Prefer lists to arrays</h4>
+
+<h4>Item 26: Favor generic types</h4>
+
+<h4>Item 27: Favor generic methods</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Generic method
+</span><span class='line'>public static &lt;E&gt;Set&lt;E&gt;union(Set&lt;E&gt;s1, Set&lt;E&gt;s2) {
+</span><span class='line'>    Set&lt;E&gt;result = new HashSet&lt;E&gt;(s1);
+</span><span class='line'>    result.addAll(s2);
+</span><span class='line'>    return result;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Item 28: Use bounded wildcards to increase API flexibility</h4>
+
+<h4>Item 29: Consider typesafe heterogeneous containers</h4>
+
+<p>利用加上Class&lt;T>來確定T的型別</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Typesafe heterogeneous container pattern - API
+</span><span class='line'>public class Favorites {
+</span><span class='line'>public &lt;T&gt; void putFavorite(Class&lt;T&gt; type, T instance);
+</span><span class='line'>public &lt;T&gt; T getFavorite(Class&lt;T&gt; type);
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>Enums and Annotations</h1>
+
+<h4>Item 30: Use enums instead of int constants</h4>
+
+<h4>Item 31: Use instance fields instead of ordinals</h4>
+
+<h4>Item 32: Use EnumSet instead of bit fields</h4>
+
+<p>如果要用位元開關的效果，可以考慮用EnumSet</p>
+
+<h4>Item 33: Use EnumMap instead of ordinal indexing</h4>
+
+<p>如果需要對Enum進行排序，可以用EnumMap</p>
+
+<h4>Item 34: Emulate extensible enums with interfaces</h4>
+
+<p>Enum是無法繼承的，如果需要類似的功能，可以考慮用interfaces</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Emulated extensible enum using an interface
+</span><span class='line'>public interface Operation {
+</span><span class='line'>    double apply(double x, double y);
+</span><span class='line'>}
+</span><span class='line'> 
+</span><span class='line'>public enum BasicOperation implements Operation {
+</span><span class='line'>    PLUS("+") {
+</span><span class='line'>        public double apply(double x, double y) {
+</span><span class='line'>            return x + y;
+</span><span class='line'>        }
+</span><span class='line'>    },
+</span><span class='line'>    MINUS("-") {
+</span><span class='line'>        public double apply(double x, double y) {
+</span><span class='line'>            return x - y;
+</span><span class='line'>        }
+</span><span class='line'>    },
+</span><span class='line'>    TIMES("*") {
+</span><span class='line'>        public double apply(double x, double y) {
+</span><span class='line'>            return x * y;
+</span><span class='line'>        }
+</span><span class='line'>    },
+</span><span class='line'>    DIVIDE("/") {
+</span><span class='line'>        public double apply(double x, double y) {
+</span><span class='line'>            return x / y;
+</span><span class='line'>        }
+</span><span class='line'> 
+</span><span class='line'>        private final String  symbol;
+</span><span class='line'> 
+</span><span class='line'>        BasicOperation(String symbol) {
+</span><span class='line'>            this.symbol = symbol;
+</span><span class='line'>        }
+</span><span class='line'> 
+</span><span class='line'>        @Override
+</span><span class='line'>        public String toString() {
+</span><span class='line'>            return symbol;
+</span><span class='line'>        }
+</span><span class='line'>    }
+</span><span class='line'>};
+</span><span class='line'> 
+</span><span class='line'>// Emulated extension enum
+</span><span class='line'>public enum ExtendedOperation implements Operation {
+</span><span class='line'>    EXP("^") {
+</span><span class='line'>        public double apply(double x, double y) {
+</span><span class='line'>            return Math.pow(x, y);
+</span><span class='line'>        }
+</span><span class='line'>    },
+</span><span class='line'>    REMAINDER("%") {
+</span><span class='line'>        public double apply(double x, double y) {
+</span><span class='line'>            return x % y;
+</span><span class='line'>        }
+</span><span class='line'>    };
+</span><span class='line'>    private final String  symbol;
+</span><span class='line'> 
+</span><span class='line'>    ExtendedOperation(String symbol) {
+</span><span class='line'>        this.symbol = symbol;
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>    @Override
+</span><span class='line'>    public String toString() {
+</span><span class='line'>        return symbol;
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Item 35: Prefer annotations to naming patterns</h4>
+
+<p>只要想到要用method
+name的rule做判斷邏輯時，可以考慮用annotations或許會更彈性</p>
+
+<h4>Item 36: Consistently use the Override annotation</h4>
+
+<h4>Item 37: Use marker interfaces to define types</h4>
+
+<h1>Methods</h1>
+
+<h4>Item 38: Check parameters for validity</h4>
+
+<h4>Item 39: Make defensive copies when needed</h4>
+
+<h4>Item 40: Design method signatures carefully</h4>
+
+<h4>Item 41: Use overloading judiciously</h4>
+
+<h4>Item 42: Use varargs judiciously</h4>
+
+<h4>Item 43: Return empty arrays or collections, not nulls</h4>
+
+<h4>Item 44: Write doc comments for all exposed API elements</h4>
+
+<h1>General Programming</h1>
+
+<h4>Item 45: Minimize the scope of local variables</h4>
+
+<h4>Item 46: Prefer for-each loops to traditional for loops</h4>
+
+<h4>Item 47: Know and use the libraries</h4>
+
+<h4>Item 48: Avoid float and double if exact answers are required</h4>
+
+<h4>Item 49: Prefer primitive types to boxed primitives</h4>
+
+<h4>Item 50: Avoid strings where other types are more appropriate</h4>
+
+<h4>Item 51: Beware the performance of string concatenation</h4>
+
+<h4>Item 52: Refer to objects by their interfaces</h4>
+
+<h4>Item 53: Prefer interfaces to reflection</h4>
+
+<h4>Item 54: Use native methods judiciously</h4>
+
+<h4>Item 55: Optimize judiciously</h4>
+
+<h4>Item 56: Adhere to generally accepted naming conventions</h4>
+
+<h1>Exceptions</h1>
+
+<h4>Item 57: Use exceptions only for exceptional conditions</h4>
+
+<h4>Item 58: Use checked exceptions for recoverable conditions and runtime exceptions for programming errors</h4>
+
+<p>checked exceptions應該是來被rescue的，只有能被復原的狀況，才用check
+exception</p>
+
+<h4>Item 59: Avoid unnecessary use of checked exceptions</h4>
+
+<h4>Item 60: Favor the use of standard exceptions</h4>
+
+<h4>Item 61: Throw exceptions appropriate to the abstraction</h4>
+
+<h4>Item 62: Document all exceptions thrown by each method</h4>
+
+<h4>Item 63: Include failure-capture information in detail messages</h4>
+
+<h4>Item 64: Strive for failure atomicity</h4>
+
+<h4>Item 65: Don&#8217;t ignore exceptions</h4>
+
+<h1>Concurrency</h1>
+
+<h4>Item 66: Synchronize access to shared mutable data</h4>
+
+<h4>Item 67: Avoid excessive synchronization</h4>
+
+<h4>Item 68: Prefer executors and tasks to threads</h4>
+
+<h4>Item 69: Prefer concurrency utilities to wait and notify</h4>
+
+<h4>Item 70: Document thread safety</h4>
+
+<h4>Item 71: Use lazy initialization judiciously</h4>
+
+<h4>Item 72: Don&#8217;t depend on the thread scheduler</h4>
+
+<h4>Item 73: Avoid thread groups</h4>
+
+<h1>Serialization</h1>
+
+<h4>Item 74: Implement Serializable judiciously</h4>
+
+<h4>Item 75: Consider using a custom serialized form</h4>
+
+<h4>Item 76: Write readObject methods defensively</h4>
+
+<h4>Item 77: For instance control, prefer enum types to readResolve</h4>
+
+<h4>Item 78: Consider serialization proxies instead of serialized instances</h4>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Kent Chiu</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-05-25T00:00:00+08:00" pubdate data-updated="true">May 25<span>th</span>, 2012</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://blog.kent-chiu.com/blog/2012/05/25/effective_java_item_list/" data-via="" data-counturl="http://blog.kent-chiu.com/blog/2012/05/25/effective_java_item_list/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/05/14/tips_and_tricks/" title="Previous Post: Android Tips & Tricks">&laquo; Android Tips & Tricks</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/05/30/postgresql_101/" title="Next Post: PostgreSQL 101">PostgreSQL 101 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/07/07/python-101/">Python 101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/25/url-encoding/">URL Encoding</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/04/restful-api-design/">RESTful API Design</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/17/my-intellij-idea-shortcut/">My IntelliJ IDEA Shortcut</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/12/jesper-report-font-issue/">Jesper Report, IReport 匯出成中文PDF</a>
+      </li>
+    
+  </ul>
+</section>
+
+Included file 'asides/twitter.html' not found in _includes directory
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Kent -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'kentchiu';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.kent-chiu.com/blog/2012/05/25/effective_java_item_list/';
+        var disqus_url = 'http://blog.kent-chiu.com/blog/2012/05/25/effective_java_item_list/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

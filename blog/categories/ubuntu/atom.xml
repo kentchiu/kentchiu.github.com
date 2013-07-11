@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: ubuntu | Kent's Blog]]></title>
+  <link href="http://blog.kent-chiu.com/blog/categories/ubuntu/atom.xml" rel="self"/>
+  <link href="http://blog.kent-chiu.com/"/>
+  <updated>2013-07-11T21:16:37+08:00</updated>
+  <id>http://blog.kent-chiu.com/</id>
+  <author>
+    <name><![CDATA[Kent]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Ubuntu下裝無蝦米(scim)]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2011/10/17/scim_with_liu/"/>
+    <updated>2011-10-17T00:00:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2011/10/17/scim_with_liu</id>
+    <content type="html"><![CDATA[<p>```</p>
+
+<h1>apt-get install scim scim-pinyin scim-chewing scim-tables-zh scim-qtimm im-switch</h1>
+
+<h1>im-switch -s scim</h1>
+
+<p> 
+sudo cp ~/liu.bin /usr/share/scim/tables/Liu5.bin
+sudo cp ~/liu.png /usr/share/scim/icons/liu5.png
+sudo cp
+```</p>
+
+<p>之後重新登入即可</p>
+
+<p>liu5.bin是無蝦米官方版本中release給linux用的檔案 liu5.png是 liu 的 icon
+檔 (由 <a href="http://pank.org/blog/" title="http://pank.org/blog/">Pank</a> 提供）</p>
+
+<h1>Ubuntu下裝無蝦米(ibus)</h1>
+
+<p>取得 <a href="http://github.com/vicamo/ibus-table-boshiamy/downloads" title="http://github.com/vicamo/ibus-table-boshiamy/downloads">無蝦米 deb
+package</a>
+Double Click</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[在Unbuntu安裝PostgreSQL]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2011/10/17/postgresql_install/"/>
+    <updated>2011-10-17T00:00:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2011/10/17/postgresql_install</id>
+    <content type="html"><![CDATA[<p>透過apt-get安裝</p>
+
+<p><code>
+sudo apt-get install postgresql
+</code></p>
+
+<p>因為pgsql預設一開始只有postgres能使用，所以，必需先切換成至postgres user</p>
+
+<p>```</p>
+
+<h1>建立db</h1>
+
+<p>sudo -u postgres createdb mydb</p>
+
+<h1>建立user(role)</h1>
+
+<p>sudo -u postgres createuser --superuser $USER</p>
+
+<h1>執行 pg sql client</h1>
+
+<p>sudo -u postgres psql</p>
+
+<h1>postgres# 表示已在psql command line模式下</h1>
+
+<h1>\password 改變user的密碼</h1>
+
+<p>postgres# \password
+```</p>
+
+<p>建立db跟user(非必要)</p>
+
+<p>```</p>
+
+<h1>建立db</h1>
+
+<p>sudo -u postgres createdb mydb</p>
+
+<h1>建立user(role) 加--superuser會有db superuser的權限 $USER -> 可換成你想要的user name</h1>
+
+<p>sudo -u postgres createuser --superuser $USER
+```</p>
+
+<h1>開放外部ip連入 postgresql</h1>
+
+<p><code>
+sudo vi /etc/postgresql/8.4/main/postgresql.conf
+listen_addresses = '*' &lt;-拿掉註解
+</code></p>
+
+<p>```
+sudo vi /etc/postgresql/8.4/main/pg_hba.conf</p>
+
+<h1>Database administrative login by UNIX sockets</h1>
+
+<p>local   all         postgres                          ident
+ </p>
+
+<h1>TYPE  DATABASE    USER        CIDR-ADDRESS          METHOD</h1>
+
+<p> </p>
+
+<h1>"local" is for Unix domain socket connections only</h1>
+
+<p>local   all         all                               ident</p>
+
+<h1>IPv4 local connections:</h1>
+
+<p>host    all         all        127.0.0.1/32               md5</p>
+
+<h1>host    all         all        218.174.206.1/32           password</h1>
+
+<p> </p>
+
+<h1>IPv6 local connections:</h1>
+
+<p>host    all         all         ::1/128                 md5
+ </p>
+
+<h1>加這行，讓所有外部ip可以透過password的方式連入</h1>
+
+<p>host    all         all        0.0.0.0/0                 password
+```</p>
+
+<p>改完restart server讓設定生效</p>
+
+<p><code>
+/etc/init.d/postgresql-8.4 restart
+</code></p>
+
+<p>這邊使用的postgresql是8.4版，如果版本不同，版號要適當調整</p>
+
+<h1>Resources</h1>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Linux Apache MySQL PHP (a.k.a LAMP)]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2011/10/17/lamp/"/>
+    <updated>2011-10-17T00:00:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2011/10/17/lamp</id>
+    <content type="html"><![CDATA[<p>```</p>
+
+<pre><code>sudo apt-get install apache2
+sudo apt-get install php5
+sudo apt-get install libapache2-mod-php5
+sudo apt-get install mysql-server
+sudo apt-get install libapache2-mod-auth-mysql 
+sudo apt-get install php5-mysql
+</code></pre>
+
+<p>```</p>
+
+<p>if you need to change MySQL password, please check change_password session</p>
+
+<p>```</p>
+
+<pre><code>sudo apt-get install php5-gd
+sudo apt-get install php5-pear
+sudo apt-get install phpmyadmin
+</code></pre>
+
+<p>```</p>
+
+<p>If you're using Ubuntu 7.10 (Gutsy) or later select Apache2 from the
+“Configuring phpmyadmin” dialog box.</p>
+
+<p>To set up under Apache all you need to do is include the following line
+in /etc/apache2/apache2.conf.</p>
+
+<p>```</p>
+
+<pre><code>Include /etc/phpmyadmin/apache.conf
+</code></pre>
+
+<p>```</p>
+
+<p>now, you should see the phpmyadmin @ <a href="http://yourdomain/phpmyadmin">http://yourdomain/phpmyadmin</a></p>
+
+<h2>Apache2</h2>
+
+<p>設定檔(http.conf)位置:</p>
+
+<p><code>
+/etc/apache/httpd.conf
+</code></p>
+
+<p>在 apache2.conf
+只作一些全域的設定，若要設定個別虛擬主機或網站的設定，需要修改的地方就在
+/etc/apache2/sites-available/ 裡面</p>
+
+<p>列出可用的mods</p>
+
+<p><code>
+ls /etc/apache2/mods-available/
+</code></p>
+
+<p>列出enabled的mods</p>
+
+<p><code>
+ls -l /etc/apache2/mods-enabled/
+</code></p>
+
+<p>列出可用的sites</p>
+
+<p><code>
+ls /etc/apache2/sites-available/
+</code></p>
+
+<p>列出enabled的sites</p>
+
+<p><code>
+ls -l /etc/apache2/sites-enabled/
+</code></p>
+
+<p>Enable/Disable mods</p>
+
+<p><code>
+sudo a2dismod php5
+sudo a2enmod php5
+</code></p>
+
+<p>Enable/Disable web site mods</p>
+
+<p><code>
+sudo a2ensite sitename
+sudo a2dissite sitename
+</code></p>
+
+<p>reload server</p>
+
+<p><code>
+sudo /etc/init.d/apache2 force-reload
+</code></p>
+
+<p>restart server</p>
+
+<p><code>
+sudo /etc/init.d/apache2 restart
+</code></p>
+
+<p>檢查設定檔是否有錯誤</p>
+
+<p><code>
+apache2ctl -t
+or
+apache2ctl configtest   
+</code></p>
+
+<p>列出目前伺服器上所有虛擬主機</p>
+
+<p><code>
+apache2ctl -S  
+</code></p>
+
+<h2>MySQL</h2>
+
+<p>MySQL設定檔(my.cnf)位置:</p>
+
+<p><code>
+/etc/mysql/my.cnf
+</code></p>
+
+<p>開啟 port 3306 讓非本地端主機連線</p>
+
+<p>為了安全性因素，預設 MySQL 是不允許 client
+端從非本機端連線查詢資料。在預設的行為中，client 端只能在本機透過
+/var/run/mysqld/mysqld.sock 來和 MySQL
+伺服器溝通，也就是在傳遞資料時是不透過 port 3306 而是透過該 socket
+來提供內部存取和查詢。</p>
+
+<p>若讀者系統的規劃是 MySQL 主機獨立出來，此時網頁主機就需要透過 port 3306
+來和 MySQL 主機連接，這時候就必須在 MySQL 上開啟 port
+3306。或者讀者想要讓該 MySQL
+主機提供給很多非本地端的使用者使用，也需要打開 port 3306。在打開 port
+3306 後，建議讀者要設防火牆來限制可以存取該 MySQL 伺服器的 client
+端位置，不然很容易被入侵。</p>
+
+<p>要讓非本地端使用者可以使用 MySQL 只要如以下範例去修改
+/etc/mysql/my.cnf，整個過程只要註解掉一行，接下來重新啟動 MySQL
+伺服器讓新設定生效。</p>
+
+<p>```</p>
+
+<h1>註解掉下一行來啟用非本地端存取</h1>
+
+<h1>bind-address            = 127.0.0.1</h1>
+
+<p>```</p>
+
+<p>還有character
+set要設定成utf8，不然會出現中文亂碼</p>
+
+<h2>PHP</h2>
+
+<p>Ubuntu PHP設定檔(php.ini)位置:</p>
+
+<p><code>
+/etc/php5/apache2/php.ini  
+</code></p>
+
+<h2>Resources</h2>
+
+<ul>
+<li><a href="http://wiki.ubuntu-tw.org/index.php?title=UbuntuTW_Guide_ch14" title="http://wiki.ubuntu-tw.org/index.php?title=UbuntuTW_Guide_ch14">LAMP guide in Ubuntu
+TW</a></li>
+<li><a href="http://yckuo0301.blogspot.com/2009/03/httpwww.html" title="http://yckuo0301.blogspot.com/2009/03/httpwww.html">萬華鏡:Ubuntu
+apache設定</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[在ibus下使用無蝦米]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2011/10/17/ibus_with_liu/"/>
+    <updated>2011-10-17T00:00:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2011/10/17/ibus_with_liu</id>
+    <content type="html"><![CDATA[<h2>ibus取得表格檔</h2>
+
+<ul>
+<li><a href="http://wiki.kent-chiu.com/lib/exe/fetch.php?media=ubuntu:liu-ibus.zip" title="ubuntu:liu-ibus.zip">liu-ibus</a>
+表格檔部份源自李果正的<a href="http://edt1023.sayya.org/gcin/noseeing-12.tar.gz" title="http://edt1023.sayya.org/gcin/noseeing-12.tar.gz">noseeing
+table</a>
+，ICON來自GCIN</li>
+</ul>
+
+
+<h3>轉換成ibus用的表格檔格式</h3>
+
+<p><code>
+ibus-table-createdb -s noseeing*scimtxt
+</code></p>
+
+<h3>copy 表格檔跟icons到ibus目錄</h3>
+
+<p><code>
+sudo cp noseeing.db /usr/share/ibus-table/tables/
+sudo cp noseeing.png /usr/sha*e/*bus/icons/noseeing.png
+</code></p>
+
+<p>登出/登入 測試</p>
+
+<h3>設定</h3>
+
+<p>參考這裡<a href="http://boshiamy.com/member_download.php" title="http://boshiamy.com/member_download.php">http://boshiamy.com/member_download.php</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Liu in Linux (gcin)]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2011/10/17/gcin_with_liu/"/>
+    <updated>2011-10-17T00:00:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2011/10/17/gcin_with_liu</id>
+    <content type="html"><![CDATA[<h2>Install gcin</h2>
+
+<p><code>
+sudo apt-get install gcin
+sudo im-switch -s gcin
+</code></p>
+
+<p>logout /login</p>
+
+<p><code>
+echo $XMODIFIERS
+// output
+@im=gcin
+</code></p>
+
+<h2>install liu</h2>
+
+<p><code>
+mkdir temp
+cd temp
+wget http://edt1023.sayya.org/misc/noseeing-12.tar.gz
+tar zvxf noseeing-6.tar.gz
+mv noseeing.gtab ~/.gcin
+</code></p>
+
+<p>logout/ login</p>
+
+<p>noseeing-xx, current version is 12 (2010/3/17), but may be newer version
+existing. you better check it.</p>
+
+<h2>setup</h2>
+
+<p>check this
+<a href="http://boshiamy.com/member_download.php" title="http://boshiamy.com/member_download.php">http://boshiamy.com/member_download.php</a></p>
+
+<h1>Resources</h1>
+
+<ul>
+<li><a href="http://wiki.kent-chiu.com/lib/exe/fetch.php?media=ubuntu:noseeing-12.tar.gz" title="ubuntu:noseeing-12.tar.gz">table file</a>
+
+<ul>
+<li>from
+<a href="http://edt1023.sayya.org/misc/noseeing-12.tar.gz" title="http://edt1023.sayya.org/misc/noseeing-12.tar.gz">http://edt1023.sayya.org/misc/noseeing-12.tar.gz</a></li>
+</ul>
+</li>
+<li><a href="http://boshiamy.com/member_download.php" title="http://boshiamy.com/member_download.php">http://boshiamy.com/member_download.php</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

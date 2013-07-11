@@ -1,0 +1,1876 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Kent's Blog</title>
+  <meta name="author" content="Kent">
+
+  
+  <meta name="description" content="Create 1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+var xhr;
+if (window.XMLHttpRequest) { xhr = new XMLHttpRequest();
+}
+else if (window.ActiveXObject) { xhr = new &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.kent-chiu.com/blog/page/9">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Kent's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-39152849-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Kent's Blog</a></h1>
+  
+    <h2>Kent的學習筆記(剛從dokuwiki搬過來，內容還在整修中)</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.kent-chiu.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/xmlhttprequest/">XMLHttpRequest (a.k. A AJAX)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/xmlhttprequest/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>Create</h1>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>var xhr;
+</span><span class='line'>if (window.XMLHttpRequest) {   
+</span><span class='line'>  xhr = new XMLHttpRequest();
+</span><span class='line'>}
+</span><span class='line'>else if (window.ActiveXObject) {   
+</span><span class='line'>  xhr = new ActiveXObject("Msxml2.XMLHTTP");
+</span><span class='line'>}
+</span><span class='line'>else {   
+</span><span class='line'>  throw new Error("Ajax is not supported by this browser"); 
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Method</h2>
+
+<p>  Method                                                             Description</p>
+
+<hr />
+
+<p>  <code>abort()</code>                                                          Stops the current request                                                              <br/>
+  <code>getAllResponseHeaders()</code>                                          Returns complete set of headers (labels and values) as a string                        <br/>
+  <code>getResponseHeader(”headerLabel”)</code>                                 Returns the string value of a single header label                                      <br/>
+  <code>open(”method”, ”URL”[, asyncFlag[, ”userName”[, ”password”]]])</code>   Assigns destination URL, method, and other optional attributes of a pending request    <br/>
+  <code>send(content)</code>                                                    Transmits the request, optionally with postable string or DOM object data              <br/>
+  <code>setRequestHeader(”label”, ”value”)</code>                               Assigns a label/value pair to the header to be sent with a request</p>
+
+<h1>Properties</h1>
+
+<hr />
+
+<p>  Property               Description</p>
+
+<hr />
+
+<p>  <code>onreadystatechange</code>   Event handler for an event that fires at every state change</p>
+
+<p>  <code>readyState</code>           Object status integer:\</p>
+
+<pre><code>                      0 = uninitialized\                                                               
+                      1 = loading\                                                                     
+                      2 = loaded\                                                                      
+                      3 = interactive\                                                                 
+                      4 = complete                                                                     
+</code></pre>
+
+<p>  <code>responseText</code>         String version of data returned from server process</p>
+
+<p>  <code>responseXML</code>          DOM-compatible document object of data returned from server process</p>
+
+<p>  <code>status</code>               Numeric code returned by server, such as 404 for “Not Found” or 200 for “OK”</p>
+
+<p>  <code>statusText</code>           String message accompanying the status code</p>
+
+<hr />
+
+<h1>Status code</h1>
+
+<p>  code   description</p>
+
+<hr />
+
+<p>  100    Continue
+  101    Switching protocols
+  200    OK
+  201    Created
+  202    Accepted
+  203    Non-Authoritative Information
+  204    No Content
+  205    Reset Content
+  206    Partial Content
+  300    Multiple Choices
+  301    Moved Permanently
+  302    Found
+  303    See Other
+  304    Not Modified
+  305    Use Proxy
+  307    Temporary Redirect
+  400    Bad Request
+  401    Unauthorized
+  402    Payment Required
+  403    Forbidden
+  404    Not Found
+  405    Method Not Allowed
+  406    Not Acceptable
+  407    Proxy Authentication Required
+  408    Request Timeout
+  409    Conflict
+  410    Gone
+  411    Length Required
+  412    Precondition Failed
+  413    Request Entity Too Large
+  414    Request-URI Too Long
+  415    Unsupported Media Type
+  416    Requested Range Not Suitable
+  417    Expectation Failed
+  500    Internal Server Error
+  501    Not Implemented
+  502    Bad Gateway
+  503    Service Unavailable
+  504    Gateway Timeout
+  505    HTTP Version Not Supported</p>
+
+<p><a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10" title="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10">more
+details&#8230;</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/word_dna/">英文字彙DNA</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/word_dna/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>本文章內容來節錄自<a href="http://www.epochtimes.com/b5/nf4708.htm" title="http://www.epochtimes.com/b5/nf4708.htm">大記元新聞網</a>，原作者為
+David
+Lee，本內容為了個人學習方便而整理並加上個人學習心得(不保證是正確的)
+如果想看原汁源味的內容^<a href="#fn__1">1)</a>^，還是請到<a href="http://www.epochtimes.com.au/b5/nf4708.htm" title="http://www.epochtimes.com.au/b5/nf4708.htm">這裡</a>吧。
+目前更新到單元 (58)</p>
+
+<h3>導論</h3>
+
+<p>大家都知道，英文字是由26個字母所組成的，但實際上，有大量的字彙，是由一些字首（Prefix）、字根（Root）與字尾（Suffix）的組合。
+這就好像中文字是由一筆一劃所組成的，但其中是有許多「部首」。例如看到有木字旁，就知道這個字與木有關；看到有金字旁，就知道這個字與金屬有關；看到有水字旁，就知道這個字與水有關，等等。
+因此，當你看到有e-
+或ex-時，就要知道那是out的意思；看到su-應知道是under之意，看到co-要知道是together，看到re-要知道是again或back，看到inter-要知道是between之意…等等。
+英文有許多的新字，也是用字根字首來造字的。譬如微軟公司Microsoft,
+原先英文裡並沒有這個字，比爾蓋茲將micro-（微小的）與soft組合起來，就成了他的公司名Microsoft。
+microscope就是顯微鏡的意思，-scope也是一個字根，是to look
+「看」的意思。那麼配上tele-（遠的）字首，就成了telescope 望遠鏡的意思。
+David老師在課堂上常問學員們：microscope有幾個字呢？有的回答十個字。但我告訴同學們：其實只有兩個字，就是micro-
++
+-scope。那麼記兩個字容易、還是記十個字容易呢？大家都會回答：當然是記兩個字容易啊！
+所以許許多多看起來很長的字，如果你用一個字母、一個字母地去記，那就非常辛苦；事實上，它們經常是由2-3個字根、字首或字尾所組成的。好像一樣米養百萬人，但這百萬人其實是23對染色體的排列組合，而每條染色體上有不同的DNA。
+明白了這個道理，我們就趕快來開始學習：組合成英文單字的DNA，相信大家的字彙能力，一定可以在短期內，很快地突飛猛進喔！</p>
+
+<h3>一般單字 V.S 特殊單字</h3>
+
+<p>英文的單字有一個特點，即每一個<strong>基本的</strong>意義都有兩種(或兩種以上)的符號來表示，例如：</p>
+
+<p>  意義   一般單字   特殊單字</p>
+
+<hr />
+
+<p>  吃     eat        ed
+  看     see        vis
+  聽     hear       audi
+  改變   change     mut
+  讀     read       leg
+  相信   believe    cred
+  活     live       viv</p>
+
+<p>一般單字是可以獨立使用符號 – 單字，特殊單字是不可以獨立使用的 –
+字根，學習英語必語<strong>同時</strong>認識兩種符號，才能掌握大量的單字。
+這種”一個意義，兩種符號”的現象形成了英文單字的殊殊性和多樣性，字根雖然是一種不能體使用的符號，不是單字，但實際上它是一種含有具體意義的特殊”單字”，所以，從某種歷義上說，英語中存在著兩套單字：一套是”明的”、一般的單字(see,hear…)，另一套是”暗的”、特殊單字(vism,audi….)。</p>
+
+<h3>字義轉化</h3>
+
+<p>一般來說，知道字根的意義，就可以知道單字的基本意義，再結合字首、字尾，即可得到單字的完整意義，像
+pro- (向前的) + gress(行走) =
+progress(前進)，然而，實際的情況并不完全如此，有一相當部份的單字的字義並不完全等於字首+字根+字尾的意義，甚至，單字的意義與字根的意義間有很大的距離，或毫無關聯，讓我們無法根據字根的意義直接理解單字的意義，例如：</p>
+
+<p>  字根          單字</p>
+
+<hr />
+
+<p>  hospit 客人   hospital醫院
+  sid 坐        president 大學校長，總統
+  ori 昇起      orient 東方
+  vis 看        advise建議
+  port 拿       report報告
+  sect 切，割   insect昆蟲
+  medi 中間     immediate立刻的，直接的
+  spir 呼吸     conspire共謀
+  fer 拿，帶    conference會議
+  ven來         intervention干預
+  sal 鹽        salary工資
+  mini 小       minister大臣，部長</p>
+
+<p>以表面上來看，<strong>意義上風馬牛不相及，但實際上它們之存在著內在的聯系</strong>，它們之間確有一條曲徑相通。這種現象的產生，有的是由于<strong>字義的形成過程過分的曲折，字根的含義由原義引申為其他意義</strong>，有的是由于<strong>字意源自某種歷史背景</strong>，下面對這些字義進行分析溯源：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>hospit 客人 + -al 名詞字尾 -&gt; hospital醫院
+</span><span class='line'>接待"客人"的地方 -&gt; 接待"病客"的地方 -&gt; 醫院
+</span><span class='line'>pre- 前 + sid 坐 -&gt; ent 人的字尾 -&gt; president 大學校長，總統
+</span><span class='line'>開會時"坐在前面的人" -&gt; 主事者，指揮者 -&gt; 大學校長，總統
+</span><span class='line'>ori 昇起 + -ent 名詞字尾 -&gt; 東方
+</span><span class='line'>太陽"昇起"的地方 -&gt; 東方
+</span><span class='line'>ad- 向 + vis 看-&gt; 建議
+</span><span class='line'>"看" -&gt; "看法，意見" -&gt; 向別人提出自已看法或意見
+</span><span class='line'>re- 回 + post 拿 -&gt; repsort 報告
+</span><span class='line'>把消息拿回來
+</span><span class='line'>ad- 向 + vert 轉 + ise 使… -&gt; advertise 廣告
+</span><span class='line'>使人的注意力轉向 -&gt; 使人注意到 -&gt; 廣告
+</span><span class='line'>in- 入 + sect 切割 -&gt; insect昆蟲
+</span><span class='line'>"切入" -&gt; 切裂;昆蟲身體分開像一節一節
+</span><span class='line'>im- 無 + medi 中間 + -ate 的 -&gt; immediate立刻的，直接的
+</span><span class='line'>沒有 中間的 -&gt; 直接的
+</span><span class='line'>con-共同 + spir 呼吸 -&gt; conspire
+</span><span class='line'>共同呼吸 -&gt; 互通氣息 -&gt; 共謀
+</span><span class='line'>con- 共同 + fer 拿 + -ence 名詞字尾 -&gt; conference
+</span><span class='line'>把意見"拿到一起來" -&gt; 交換意見 -&gt; 會議
+</span><span class='line'>inter- 中間 + ven 來 + -tions 名詞字尾 -&gt; intervention 干預
+</span><span class='line'>來到中間 -&gt; 介入其中 -&gt; 干預
+</span><span class='line'>sal 鹽 + -ary  表示物 -&gt; salary 薪水
+</span><span class='line'>古羅馬士兵所領取的"買鹽的錢"，作為生活津貼 -&gt; 薪水
+</span><span class='line'>mini 小 + -ster  表示人 -&gt; minister 部長，大臣
+</span><span class='line'>原義為"小人，僕人"；古時大臣對君王時的自稱</span></code></pre></td></tr></table></div></figure>
+
+
+<p>由上面的分析可看出，一個單字的意義與其字根意義雖然相距很遠，但根據字根的意義，沿著一條曲折的途徑，總是可以尋得單字的意義，一旦透過這種方式了解字根的來源後，對這個單字的印象就會特別的深刻。</p>
+
+<h3>字尾的擴展</h3>
+
+<p>字根 + 字尾形式的單字，一般是非常容易認識的，如</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'> danger 危險 + -ous 的 -&gt; 危險的
+</span><span class='line'> work工作 + -er -&gt;工人</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這類的單字義明顯，容易記憶，只要知道字尾的意義，就能知道單字的意尾。但是<strong>實際上情況並不都是這的簡單</strong>，例如
+supositious去掉-ous後的supositi是什麼呢？如果認得出是suppose，那iti又是什麼？
+rosaceous去掉-ous後的rosace是什麼？
+這個就是英文單字的一個難處，原來這些<strong>單字的字尾都不是-ous</strong>，這些單字的構成是這旁的</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>suppos(e) 假定 + -itious(的)
+</span><span class='line'>ros(e)玫瑰 + aceous(的)
+</span><span class='line'>instant(瞬息) + aneous(的)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>他們的字尾是 -itious,-aceous,-aneous
+這些字尾都含有ous的形式，他們的含義都與=-ous相同，它們稱為”-ous”的擴展形式，-ous是基本形式。
+基本形式的字尾與擴展形式的字尾，是同型字尾，它們都有共同的基本意義，如果只認識”基本形式”而不認識”擴展形式”的字尾，那學習時會愈覺愈困惑的。</p>
+
+<p>可以透過<a href="http://wiki.kent-chiu.com/doku.php?id=word:how_to_split_a_word" title="word:how_to_split_a_word">字首，字根，字尾結合規則</a>解決一部份這方面的問題</p>
+
+<h3>何謂字首字根字尾</h3>
+
+<h5>字首 prefix</h5>
+
+<p>學習難度－中，約80 個﹚，若在字中出現，則在字頭
+﹙有時字根自己一個字，未帶字首，有時同時出現兩個接續的字首﹚。代表下列意思的，幾乎都是字首：
+前、後﹙空間﹚、內、外、先、後﹙時間﹚、遠、近、快、慢、上、下、正、反、新、舊、直、歪、好、壞、優、劣、好﹙喜﹚、惡、是、否、真、偽、主、從、同、異、大、小、多、寡、無、過多、不足、完整、一半、部份、相等、一起、分離、加多、減低、中間、周邊、近旁、彼此之間、超越、次於、橫跨、逼近、離去、分開、轉換、抵擋、針對、數字﹙1-10,
+10的２次方到10的18次方，10 的負2次方到10 的負18次方﹚</p>
+
+<h5>字尾suffix</h5>
+
+<p>學習難度－低，約30 個﹚，若在字中出現，則在字末
+﹙有時字根自己一個字，未帶字尾，有時不只出現一個字尾，而是兩個連接在一起﹚。字尾有兩大辨識作用，可判斷該字屬於何種詞類﹙形容詞、副詞、動詞等﹚，有些字尾也可以代表某種意思，譬如：
+人、物、者、東西、地方、狀態、病症、思想、行為、樣子、方法、制度、現象、行業、身分、領域、化學品、藥物、患者</p>
+
+<h5>字根 root</h5>
+
+<p>﹙學習難度－高，基礎級約２００個﹚，有實質意涵，有時單獨存在為一個字，有時配上另一字根，有時配上字首，有時配上字尾，有時字首字尾都配上，而形成有新意義的字。字根與字首或字尾連接時，<strong>由於發音關係，有時會有拼字上的小變化，譬如添加母音字母、略去母音字母，或因為在希臘或拉丁文的動詞變化時就有衍生字，而至拼法稍有差異。</strong>
+&lt;Note note> 一個字可能會有字首 + 字根，或字根 + 字尾，或字首 + 字根 +
+字尾，但不會只有字首 + 字尾
+字首會影響字的意思，而且字尾通常只是做詞性變化 &lt;/note></p>
+
+<h3>英語說文解字</h3>
+
+<p>語言不是今天的發明，它是文明的產物，是從人與人的互動中產生的，從古代一直流傳下來，隨著人類活動的多樣化與社會的複雜化，文字的內涵也在不斷地增加、愈來愈豐富。
+但即使在最簡單的社會形式中，人也是一張嘴吧、兩隻眼睛、兩隻耳朵、兩隻手、兩隻腳…等等。那麼嘴巴會說、眼睛會看、耳朵會聽，手會拿、會丟、會射、會放置…，腳呢會走、會跑、來來去去…，那麼最早期的字根就從中產生了。
+今天的英文裡，「說」是say，speak，talk等，但在古希臘羅馬文字中，-dict，-cuse，-fess，-nounce等也都是指涉「說」的動作，那麼在漫長的語言形成過程中，許多有關「說」的衍伸字，就是從-dict，-cuse，-fess，-nounce衍伸而來。
+這些動作字根，配上時間、位置、狀態、數量……等字首，就會各自形成不同的意涵的字彙。舉例而言，pre-是「之前」，那麼predict就是「預測」的意思；為什麼是預測呢？因為之前就說了，才算預測嘛！如果之後說，那是放馬後炮，就不算預測了。
+indicate是「指出」之意，point
+out這個片語也很生動地表達「指出來」的意涵。那為什麼indicate是「指出」呢？to
+speak into說到裡邊去了，就是指出囉！
+Excuse是「藉口」的意思，為什麼呢？ex-是位置字根，意思是
+「out」，那麼excuse就是對外說的話，所以是藉口囉！
+confess是懺悔、招供之意，為什麼呢？con-是狀態字首，意思是together，to
+speak together就是統統都說了，懺悔、招供不就是統統都說了嗎？！
+再以denounce為例，denounce是「譴責」的意思，但為什麼是譴責的意思呢？因為de-是狀態字首down或negate，對人說負面、否定的話，所以是譴責的意思。</p>
+
+<h3>談英文的造字法則</h3>
+
+<p>各位讀者好：
+在中文漢字中，大家都知道倉頡造字，造字有造字的法則，主要有象形、會意、形聲、指事、轉注、假借六種。英文也有英文的造字法則，並非是26個字母隨意的排列組合。前文中所提到的字根、字首，都有其基本涵義，許多都是從希臘、羅馬文字中承傳下來的，所以西方人談西方文化，必然離不開希臘、羅馬，因為西方文化就是淵源於希臘、羅馬。
+英文有象形字嗎？其實有。舉個例子：Vase（花瓶）,
+Valley（山谷）,都以V開頭，V這個字像不像是花瓶與山谷呢？不信再看：Mountain（山）這個字，m是不是就像座山呢？
+還有呢：slide, slip, slump, sluggish,
+shed這些字都是下滑的意思，那S這個字是不是就像個「滑坡」呢？再看：snake（蛇）,
+sperm（精子），S這個字是不是也像條蛇、精子呢？
+再談英文的形聲字。David老師常在課堂上問學生，英文是先有聲音？還是先有文字呢？大家都會異口同聲的說：「先有聲音」那麼就字母文化而言，就是如何用
+26個字母將那些聲音拼出來。所以只要知曉如何將聲音字母化的秘訣，其實英文字根本就不用背，你只是用26個字如何把那個聲音拼出來即可。
+有一些聲音，直接就來自於自然界或日常生活中，例如bomb（爆炸）,
+clash（衝突）, crash（撞碎）, crush（壓碎）,
+smash（粉碎）,這些字都是形聲字，直接模仿現象所發出聲音而造的。
+再說到會意字，英文字中最多的大概就屬會意字，其實中文也是如此。像是「昌」這個字，兩個太陽當然就很昌盛囉！「晶」這個字，三個太陽，那真是光亮無比哩！
+那麼英文有那些會意字？其實許許多多的字根組合字，都是屬於會意字，因為有其組合的涵義。例如：coworker,
+一起工作的人，當然就是同事囉！subway，在底下的路，那麼就是地鐵了！predict,
+之前就要說，所以是預測！precaution，之前就要謹慎，所以是預防。
+凡此種種，不勝枚舉。基本上，David老師在這個專欄中舉的大部份例子，都是屬於會意字。</p>
+
+<h3>強調的造字法則(上)</h3>
+
+<p>英文字彙中，有一種造字法則，是把一個字或是一個字根的字首重覆，然後加上a，形成一個新的字，David老師稱此為強調的造字法則。
+以單字為例：
+Set（設定），重複字首加上a，就成了asset，asset是資產的意思，就是強調這幢房子設定給你，就是你的資產了！
+sign（簽署），重複字首加上a，就成了assign，assign是分派的意思，強調主管簽署後分派不同的工作，所以assignment也就是作業了。
+prove（證明），重複字首加上a，就成了approve，approve是批准之意，批准就是強調正式蓋個章，證明Ok了！
+還有像是range（範圍）, locate（座落）,
+等字也都可以依此類推，造出一個新字來，如arrange（安排）,
+allocate（分配）。<em>當然不是所有的字都能運用這個法則</em>，David老師的意思是說，有許多字是透過這樣的造字法則，所造出來的。那麼學會這個造字法則，也就可以很快學會很多字啦！</p>
+
+<p>所以<strong>a</strong>有強調，加強的意思，而且a後面會加上一個重覆的子音字母，所以<strong>a</strong>用在強調時，pattern就是a<strong>xx</strong>，xx是指重覆的字音，也就是在這樣的情況下，<strong>a</strong>才有強調的意思在
+<a href="http://wiki.kent-chiu.com/doku.php?id=word:how_to_split_a_word#total_assimilation" title="word:how_to_split_a_word">total_assimilation</a></p>
+
+<h3>強調的造字法則(下)</h3>
+
+<p>前集中提到，英文字彙中，有一種造字法則，是把一個字或是一個字根的字首重覆，然後加上a，形成一個新的字，David老師稱此為強調的造字法則。
+前集以單字舉例，本集則以字根舉例。</p>
+
+<ul>
+<li>attain=at-+-tain, v. 獲得（重複字根字首+a, 強調造字法）</li>
+<li>announce=an-+-nounce,
+宣佈（重複字根字首＋a,強調造字法則，特別地說，所以是宣佈）</li>
+<li>accuse=ac-+-cuse, 控告（重複字根首字+a,
+強調造字法則，到法庭裡強調地說，因此是控告）</li>
+<li>affect=af-+-fect, v.
+影響（重複字根字首+a，強調造字法則，強調小孩跑來跑去，當然影響大家）</li>
+<li>addict=ad-+-dict, v, 沉溺於（強調造字法則，說話說上癮）</li>
+</ul>
+
+
+<p>–fect=to run –tain=to take</p>
+
+<h3>不同字根組成同義字</h3>
+
+<p>不同字根組成同義字：拒絕
+前集中提到，許多英文字是由字根、字首與字尾所組合而成。也因此，往往有許多情況，是由不同的字根字首，但卻組合成為相同的意思。
+例如：reject與refuse兩個字，都是「拒絕」的意思，分解來看，re-當然都是back之意，-ject是to
+throw丟的意思，to throw back丟回去，當然就是拒絕了。-fuse是to pour
+傾倒之意，to pour
+back傾倒回去，也是表達了拒絕的意函，因此reject與reject就是由不同的字根、相同的字首，組合成為相同的意思。
+不同字根組成同義字：干預 再舉一個例子。interfere, intervene, meddle,
+這三個字都是“干預”的意思，inter-這個字首是between之意。 <strong>-fer是to
+run</strong>, interfere就是to run between，干預就是跑到兩者之間。
+<strong>-vene這個字根是to come</strong>，intervene就是to come
+between，來到二者之間，當然也是干預。
+Meddle是由middle轉換母音i而來，當然也是介入其中之意。所以interfere,
+intervene, meddle就是以不同的字根，組合成為相同的意思。
+不同字根組成同義字：計劃
+不同字根組成同義字，還有一個例子是計劃：project, program,
+proposal這三個字都有計劃的意思，為什麼呢？ -ject這個字根是手的動作to
+throw，丟的意思，pro-則是有關時間先後的字首，這裡是之前的意思，那麼project就是先前就丟出來的的東西，計劃不就是先前丟出來的嗎？
+再看program，-gram是to
+write寫的意思，pro-是之前，之前就寫下來，所以也是計劃。
+那麼proposal呢？-pos 是手的動作，to
+put放置的意思，計劃當然也是事先就要放置出來的東西囉！
+不同字根組成同義字：會議
+再舉一個不同字根組成同義字的例子：會議。請看conference, congress,
+convention, symposium這四個字，為什麼都是會議呢？
+首先看conference，-fer是to run，con- 是together，會議不正是要大家to run
+together跑到一起，才能開會嗎？！ 再看congress，-gress是to go，con-
+是together，會議也是要to go together去到一起，才能開會。
+Convention也是如此，-ven 這個字根是to come之意，to come together
+來到一起，當然也可以是開會。
+至於symposium研討會，sym-也和co-一樣，是together之意，例如symphony
+是交響樂，就是把許多聲音放在一起；sympathy是同情，因為-path是feeling感情之意，有相同的感情，所以是同情。
+那麼字根-pos是手的動作to put之意，合起來就是to put
+together，一個大型的研討會當然是要邀請很多人來，把他們放在一起囉！所以在語意的組合結構上，symposium與conference,
+congress, convention其實都是相同的。</p>
+
+<p>^<a href="#fnt__1">1)</a>^ 而且有一直在新增文章哦</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/vim_101/">Vim 101</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/vim_101/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>Setup</h1>
+
+<h3>Mode</h3>
+
+<ul>
+<li>i : insert mode</li>
+<li>esc : back to normal mode</li>
+<li>ctrl + [ : back to normal mode(fast)</li>
+<li>: : command mode → open file,save file, …</li>
+<li>gQ : Ex mode</li>
+<li>v : visual mode → select text</li>
+<li>a : append mode</li>
+<li>r/R : replace/repace mode</li>
+<li>o : open a new line</li>
+<li>J : joint next line</li>
+</ul>
+
+
+<h1>Commands</h1>
+
+<h2>Motions</h2>
+
+<ul>
+<li>h/j/k/l : left/down/up/right</li>
+<li>0 : line start</li>
+<li>^/\$ : string start/end</li>
+<li>ctrl + d/ ctrl + u : page up / down</li>
+<li>G : end of file</li>
+<li>gg : top of file</li>
+<li>w/b : word / back word</li>
+<li>n| : move to n column</li>
+<li>:n : move to n line</li>
+<li>% : move to matched parentheses</li>
+</ul>
+
+
+<h2>Editing</h2>
+
+<ul>
+<li>:e : reload current file or load a file by path</li>
+<li>:e ^D : list directory</li>
+<li>c : change , c&lt;Motions></li>
+<li>y : yank , y&lt;Motions></li>
+<li>yy : yank current line</li>
+<li>p : paste</li>
+<li>c : change</li>
+<li>d : delete = cut(put to clipboard)</li>
+<li>\~ : change Capital</li>
+<li>s : replace</li>
+<li>ctrl + r : redo</li>
+<li>ct&lt;symbol> : change till &lt;symbol></li>
+<li>« / » : left/right shift a tab</li>
+</ul>
+
+
+<h2>Search and Replace</h2>
+
+<ul>
+<li>//? : search/backwards search</li>
+<li>n/N : next/previous occurance of search term</li>
+<li>:set incsearch/noincsearch → turn on/off incremental search</li>
+<li>*/# : go to next/previous occurence of word uder cursor</li>
+<li>f&lt;symbol> : move cursor to symbol of current word</li>
+<li>;/, : next/previous occurence</li>
+</ul>
+
+
+<h2>Macros</h2>
+
+<ul>
+<li>q &lt;macro name> : start/stop recording</li>
+<li>&lt;times>@&lt;macroname> : play macro</li>
+</ul>
+
+
+<h2>Multi Files Editing</h2>
+
+<ul>
+<li>n edit next file</li>
+<li>2n edit next 2 file</li>
+<li>e# / ctrl + ^ : edit next/previous file</li>
+<li>b&lt;filename or number> : edit that file</li>
+<li>:ls : list file</li>
+</ul>
+
+
+<h2>Visual</h2>
+
+<ul>
+<li>v : v-mode</li>
+<li>V : visual line mode</li>
+<li>ctrl + r : block mode (a.k.a column mode)</li>
+<li>shift + &lt; / shift + > : shift a tab</li>
+</ul>
+
+
+<h2>Window</h2>
+
+<ul>
+<li>ctrl + w n : new window</li>
+<li>ctrl + s : (:sp) split file into 2 window</li>
+<li>ctrl + w o : this window only</li>
+<li>ctrl + w j/k : go to previous/next window</li>
+</ul>
+
+
+<h2>Open files in tabs</h2>
+
+<ul>
+<li>:tabs - View a list of tabs that are open with the file names. Use
+the command &#8216;:tabs&#8217; and Vim will display a list of all the files in
+the tabs. The current window is shown by a ”>” and a ”+” is shown
+for any modifiable buffers.</li>
+<li>:tabc - Close the current tab.</li>
+<li>:tabnew - Open a new file for editing in a separate tab.</li>
+<li>:tab split - Open the file in the current buffer in a new tab page.</li>
+<li>:tabn - Switching to the next tab page.</li>
+<li>:tabp - Switch to the previous tab page.</li>
+<li>:tabr[ewind] - Go to the first tab page. You get the same effect
+when you use the :tabf[irst] command.</li>
+<li>:tabo - Close all other tab pages.</li>
+</ul>
+
+
+<h2>Shell</h2>
+
+<ul>
+<li>:! cmd : execute cmd</li>
+<li>:!! : execute previous command</li>
+<li>sh : execute shell</li>
+</ul>
+
+
+<h2>Key Mapping</h2>
+
+<p><a href="http://greenisland.csie.nctu.edu.tw/wp/2007/02/06/959/" title="http://greenisland.csie.nctu.edu.tw/wp/2007/02/06/959/">sample</a></p>
+
+<h2>Abbreviate</h2>
+
+<ul>
+<li>abbr : using abbreviate in both editor and command line</li>
+<li>cabbr : using abbreviate only in command line</li>
+<li>iabbr : using abbreviate in insert mode only</li>
+<li>una : remove abbreviate</li>
+</ul>
+
+
+<h2>Configuration</h2>
+
+<ul>
+<li>:set : display current settings(modified only)</li>
+<li>:set all : display all settings</li>
+<li>:scriptnames : display the locations of config file</li>
+<li>:set spell/nospell : spelling checking</li>
+<li>:colo[rscheme] {name}: load color scheme {name}.
+
+<ol>
+<li>check
+<a href="http://www.cs.cmu.edu/~maverick/VimColorSchemeTest/" title="http://www.cs.cmu.edu/~maverick/VimColorSchemeTest/">here</a>
+to preview color schema</li>
+</ol>
+</li>
+</ul>
+
+
+<p><a href="http://greenisland.csie.nctu.edu.tw/wp/2005/09/21/341/#more-341" title="http://greenisland.csie.nctu.edu.tw/wp/2005/09/21/341/#more-341">settings sample</a></p>
+
+<h1>Tips</h1>
+
+<h3>^M mark in windows</h3>
+
+<p>Windows(DOS)產生的文件, 在unix環境下使用vim開啟,
+每一行的行尾會出現^M的Dos換行符號. 移除它的方法, 是利用字串取代:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>:%s/\r//g</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Reload vimrc file</h3>
+
+<p>Using <code>source</code> command to reload vimrc (or any vim script) file</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>source ~/vimrc</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Session and Viminfo</h3>
+
+<h4>Save</h4>
+
+<p>Using <code>mksession &lt;filename.vim&gt;</code> to save current session. Using
+<code>wviminfo &lt;filename.viminfo&gt;</code> to write current info.</p>
+
+<h4>Load</h4>
+
+<p>Using <code>source filename</code> to load saved session Using <code>rviminfo</code> to read
+saved viminfo.</p>
+
+<h4>Example</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>:mksession vim101.vim
+</span><span class='line'>:wviminfo vim101.viminfo</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>:source vim101.vim
+</span><span class='line'>:rviminfo vim101.viminfo</span></code></pre></td></tr></table></div></figure>
+
+
+<p>check
+<a href="http://easwy.com/blog/archives/advanced-vim-skills-session-file-and-viminfo/" title="http://easwy.com/blog/archives/advanced-vim-skills-session-file-and-viminfo/">here</a>
+for more details.</p>
+
+<h1>Resources</h1>
+
+<ul>
+<li><a href="http://lucumr.pocoo.org/2007/4/2/vim-as-development-environment" title="http://lucumr.pocoo.org/2007/4/2/vim-as-development-environment">vim as dev
+tools</a></li>
+<li><a href="http://www.geocities.com/volontir/" title="http://www.geocities.com/volontir/">vim
+RE</a></li>
+<li><a href="http://vimcdoc.sourceforge.net/doc/" title="http://vimcdoc.sourceforge.net/doc/">web base online help(Simple
+Chinese)</a></li>
+<li><a href="http://easwy.com/blog/archives/advanced-vim-skills-catalog/" title="http://easwy.com/blog/archives/advanced-vim-skills-catalog/">vim使用进阶</a>
+<a href="http://wiki.kent-chiu.com/lib/exe/fetch.php?media=vim:vim_advanced_usage.pdf" title="vim:vim_advanced_usage.pdf">PDF</a></li>
+<li><a href="http://vim.wikia.com/wiki/Vim_Tips_Wiki" title="http://vim.wikia.com/wiki/Vim_Tips_Wiki">Vim Tips
+Wiki</a></li>
+<li><a href="http://www.newsmth.net/frames.html?mainurl=%2Fbbsdoc.php%3Fboard%3DVIM" title="http://www.newsmth.net/frames.html?mainurl=%2Fbbsdoc.php%3Fboard%3DVIM">水木社區vim板</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/version_plugin/">Maven Version Plugin</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/version_plugin/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://mojo.codehaus.org/versions-maven-plugin/index.html" title="http://mojo.codehaus.org/versions-maven-plugin/index.html">Version Plugin Home</a></p>
+
+<p>檢查maven plugins是否有新版本</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mvn versions:display-plugin-updates</span></code></pre></td></tr></table></div></figure>
+
+
+<p>檢查專案所需的libs(dependencies)是否有新版本</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mvn versions:display-dependency-updates</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/user_story/">User Story簡介</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/user_story/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>這邊採用<a href="http://en.wikipedia.org/wiki/Behavior_Driven_Development" title="http://en.wikipedia.org/wiki/Behavior_Driven_Development">Behavior_Driven_Development</a>所建議的User
+Story格式進行撰寫，簡介可以看<a href="http://dannorth.net/whats-in-a-story" title="http://dannorth.net/whats-in-a-story">這裡</a>或者是<a href="http://c2.com/cgi/wiki?UserStoryTemplate" title="http://c2.com/cgi/wiki?UserStoryTemplate">這裡</a></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Title (one line describing the story)
+</span><span class='line'> 
+</span><span class='line'>Narrative:
+</span><span class='line'>As a [role]
+</span><span class='line'>I want [feature]
+</span><span class='line'>So that [benefit]
+</span><span class='line'> 
+</span><span class='line'>Acceptance Criteria: (presented as Scenarios)
+</span><span class='line'> 
+</span><span class='line'>Scenario 1: Title
+</span><span class='line'>Given [context] And [some more context]...
+</span><span class='line'>When [event]
+</span><span class='line'>Then [outcome] And [another outcome]...
+</span><span class='line'> 
+</span><span class='line'>Scenario 2: ...</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Story: Account Holder withdraws cash
+</span><span class='line'> 
+</span><span class='line'>As an Account Holder
+</span><span class='line'>I want to withdraw cash from an ATM
+</span><span class='line'>So that I can get money when the bank is closed
+</span><span class='line'> 
+</span><span class='line'>Scenario 1: Account has sufficient funds
+</span><span class='line'>Given the account balance is \$100 And the card is valid And the machine contains enough money
+</span><span class='line'>When the Account Holder requests \$20
+</span><span class='line'>Then the ATM should dispense \$20 And the account balance should be \$80 And the card should be returned
+</span><span class='line'> 
+</span><span class='line'>Scenario 2: Account has insufficient funds
+</span><span class='line'>Given the account balance is \$10 And the card is valid And the machine contains enough money
+</span><span class='line'>When the Account Holder requests \$20
+</span><span class='line'>Then the ATM should not dispense any money And the ATM should say there are insufficient funds And the account balance should be \$20 And the card should be returned
+</span><span class='line'> 
+</span><span class='line'>Scenario 3: Card has been disabled
+</span><span class='line'>Given the card is disabled
+</span><span class='line'>When the Account Holder requests \$20
+</span><span class='line'>Then the ATM should retain the card
+</span><span class='line'>And the ATM should say the card has been retained
+</span><span class='line'> 
+</span><span class='line'>Scenario 4: The ATM has insufficient funds
+</span><span class='line'>...</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/upgrade_php_to_5.3.x/">Upgrade PHP to 5.3</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/upgrade_php_to_5.3.x/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>wget http://download.fedora.redhat.com/pub/epel/5/i386/epel-release-5-3.noarch.rpm
+</span><span class='line'>wget http://rpms.famillecollet.com/enterprise/remi-release-5.rpm
+</span><span class='line'>rpm -Uvh remi-release-5*.rpm epel-release-5*.rpm
+</span><span class='line'>yum --enablerepo=remi update php</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>php -v
+</span><span class='line'> 
+</span><span class='line'>PHP 5.3.0 (cli) (built: Jul 19 2009 17:55:08)
+</span><span class='line'>Copyright (c) 1997-2009 The PHP Group
+</span><span class='line'>Zend Engine v2.3.0, Copyright (c) 1998-2009 Zend Technologies</span></code></pre></td></tr></table></div></figure>
+
+
+<p>if you got dependency issue, you should also update mysql as same time
+use this command</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>yum --enablerepo=remi update php mysql</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/update_or_delete_from_subquery_result/">Update or Delete With Subquery Reslut</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/update_or_delete_from_subquery_result/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>if you try to delete a table and that table is using in subquery like
+this</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>DELETE FROM table_a WHERE col_a IN (SELECT col_a FROM table_a) </span></code></pre></td></tr></table></div></figure>
+
+
+<p>The syntax will cause a error says “You can&#8217;t specify target table &#8216;m&#8217;
+for update in FROM clause”, error code is 1093. This is cause by MYSQL
+DON&#8217;T support update table which also used in subquery.</p>
+
+<p>The solution is using alias like this</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>DELETE FROM table_a WHERE col_a IN (SELECT col_a FROM (SELECT col_a FROM table_a) AS table_x)</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/top-down_v.s_bottom-up_design/">由上而下 vs 由下至上 的設計</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/top-down_v.s_bottom-up_design/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>在開始IDCView專案時，因為底層的模型相對複雜，在用Prototype <a href="http://www.balsamiq.com/products/mockups" title="http://www.balsamiq.com/products/mockups">Balsamiq
+Mockups</a>^<a href="#fn__1">1)</a>^軟體繪製完成後，就用<a href="http://wiki.kent-chiu.com/doku.php?id=prog:top-down_v.s_bottom-up_design" title="prog:top-down_v.s_bottom-up_design">Domain
+Driven
+Design</a>的方式對底層的電力設備模型進行分析。模型塑模(modeling)到可開發程度後，就<strong>很真覺</strong>的寫了一些API去操作這些模型。結果就很<strong>順理成章</strong>的採用了Bottom-Up(由下至上)的設計開發方式。</p>
+
+<p>整個架構，為了搭配語言及現有的API^<a href="#fn__2">2)</a>^特性，並沒有使用Rich
+Domain而是採POJO的設計方式，採用了4個主要的layers為<code>presentation → application → service → domain object(POJO)</code>。</p>
+
+<p>在一段開發時間後，寫了好一堆個人認為應該相當好用的APIs(service
+layer)，就打算套到servlet裡，就在這個時侯才發現，設計出來的API，在他的client
+(servlet)裡，並沒有那麼好用，總是需要額外的加工，才有辦法使用這些services或者是要好幾個api
+called才能完成一件事。在發現這個問題後，就改用Top-down的方式開發，事情就順利多了，而且每個設計出來的service也都剛好符合servlet的使用，並不需要太多的加工就可以有合適的service可以用，service的methods數量也大幅的減少。</p>
+
+<p>所以，個人認為Top-down的方式比較能達到<a href="http://wiki.kent-chiu.com/doku.php?id=prog:k.i.s.s" title="prog:k.i.s.s">K.I.S.S</a>的效果，尤其是對採用<a href="http://wiki.kent-chiu.com/doku.php?id=prog:tdd" title="prog:tdd">TDD</a>開發方式的人來說，因為TDD有一個準備動作，就是列出所有待測的TODOs，然後挑一個最簡單的來實作。這樣，其實很容易造成太多用不到的API，因為，基本上這樣的設計方式，是在在設計一個完整的元件，而不是<strong>剛好夠用</strong>元件。</p>
+
+<p>整個開發流程是：</p>
+
+<ol>
+<li>確定網頁大概會傳入/傳出那些參數</li>
+<li>撰寫 servlet test cases</li>
+<li>撰寫 servlet</li>
+<li>決定需要的service API</li>
+<li>Mock service API</li>
+<li>servlet完成</li>
+<li>撰寫 service test cases</li>
+<li>實作 service interface</li>
+<li>用DBUnit模擬db</li>
+</ol>
+
+
+<p>在<em>確定網頁大概會傳入/傳出那些參數</em>後，即可決定servlet的大致動作，然後就可以<em>撰寫
+servlet test
+cases</em>來<strong>mock</strong>參數的傳入及<strong>verify</strong>參數的傳出，然後，即可進行<em>撰寫
+servlet</em>來滿足servlet test cases，但是servlet需要service來完成 business
+logic，而且，因為是直接servlet裡決定service的api<strong>長相</strong>(此時要假設有一個完美的service
+api可以解決掉你的問題，並為這個api取一個直覺的名字)，所以，通常比較能設計出清楚而直接的service
+api，接著，用mock的方式來mock service
+api的動作，一方面可以比較快速的得到一個可以動的api，另一方面可以為設計做一個較乾淨的切割。接再讓Servlet的test
+cases通過測試了。</p>
+
+<p>再來就是service
+API的實作，如果實作部份跟資料庫有關，就用DBUnit來確定service會正常動作，而不是用mockup的方式了。</p>
+
+<p>改採Top-down最大的收獲是最終的設計比較符合<a href="http://wiki.kent-chiu.com/doku.php?id=prog:k.i.s.s" title="prog:k.i.s.s">K.I.S.S</a>的原則，但元件的很多<del>不必要</del>很好用功能的功能就不見了，所以，以後，萬一、如果、可能、或許要用到時，就得再加進去了。</p>
+
+<p>&lt;node
+warn>本文並是不在說Bottom-Up的設計不可取，而是要看需求，之前在開發Framework或Component
+base的程式時，反而是Bottom-Up比較適合，因為，你永遠不知道，別人會怎麼來使用你的API&lt;/note></p>
+
+<h1>Service Design</h1>
+
+<p>在前幾個模組的設計，對於service
+layer是採用一個模組(或servlet)只有一個service的設計方式，而且每個service只有一個interface(class
+file)，也只有一個相對的實作，一開始的動機為了讓模組間切割的更乾淨，但這樣做，會造成了不少重覆實作的Bad
+Smell，所以，最後為了去掉這些重覆，就還是改回多個services的架構.</p>
+
+<p>改成一個模組多個services的架構後，service的interface不但簡化了許多，而且更符合<a href="http://wiki.kent-chiu.com/doku.php?id=prog:ood_5_principles#srp" title="prog:ood_5_principles">SRP</a>，也消除了更多的重覆，更讓整體架構往更佳的方向前進，所以，去除重覆是很多最佳實踐的基石。</p>
+
+<p>^<a href="#fnt__1">1)</a>^ 再次感謝佛心的Balsamiq送我一個lincense</p>
+
+<p>^<a href="#fnt__2">2)</a>^ JPA</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/the_use_the_index_luke_study_note/">The Use Thd index,Luke 學習筆記</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/the_use_the_index_luke_study_note/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>這篇的內容，主要是記錄 <a href="http://use-the-index-luke.com" title="http://use-the-index-luke.com">Use the
+index,Luke</a>
+這本線上書籍的學習筆記。 內容大部份取自該網站。</p>
+
+<p>關於 <a href="http://use-the-index-luke.com" title="http://use-the-index-luke.com">Use the
+index,Luke</a>
+這本書：這本書是以Open
+Document的方式公佈在網路上，有網頁版及pdf版可以下載，
+本書的內容主要描述database
+index的方方面面，該書作者認為對一個開發人員來說，對於database的性能調教，只需要瞭解index就很足够了。</p>
+
+<h2>Anatomy of an SQL Index</h2>
+
+<h3>The Leaf Nodes</h3>
+
+<p><img src="/images/wiki/database/the_use_the_index_luke_study_note_001.png" alt="the_use_the_index_luke_study_note_001.png" /></p>
+
+<ul>
+<li>大部分的database的index設計多以B-Tree結構實作</li>
+<li>index本身不為database的一部分,是另外存放在table之外</li>
+<li>index是在database的block或page上操作</li>
+<li>index結構小且固定，易於排序或異動操作</li>
+<li>一個indexed data對應到一個table row，indexed data是排序過的，但table
+data本身是沒有排序過的</li>
+<li>indexed data的排序不是簡單的由大到小，或由小大而，而是balanced
+search tree (B-Tree)的排序結構</li>
+</ul>
+
+
+<h3>The Tree</h3>
+
+<p><img src="/images/wiki/database/the_use_the_index_luke_study_note_002.png" alt="the_use_the_index_luke_study_note_002.png" /></p>
+
+<ul>
+<li>B-Tree的每一個node有兩個以上的值，會由小到大排列</li>
+<li>B-Tree的next level的節點的最後一個值，會為上一級節點的值</li>
+<li>同一個level的節點內的值也會由小到大依序排列</li>
+<li>值可以是重覆的</li>
+</ul>
+
+
+<p><img src="/images/wiki/database/the_use_the_index_luke_study_note_003.png" alt="the_use_the_index_luke_study_note_003.png" /></p>
+
+<ul>
+<li>以據B-Tree，可以很快的找任一個節點</li>
+<li>以要找值”57”來說，從root開始找的規則如上圖所示
+
+<ol>
+<li>root找57介於39到83之間，找出下一級(level
+2)的節點的最大節為83的節點</li>
+<li>找到level2的節點為
+46,53,57,83，裡面已有我們要的值”57”，再依上述的規則找level3的節點</li>
+<li>找到level3的節點為
+55,57,57,此節點已經是葉節點(leaf)，所以，即為我們的要節點</li>
+</ol>
+</li>
+</ul>
+
+
+<p>一般數百萬的資料，tree的深度約在4\~5層，最糟的情形下，tree的深度也不應該大於7層</p>
+
+<h3>Slow Indexes</h3>
+
+<p>即使使用了index，search的動作還是有可能很慢，主要的原因發生在以下兩個操作</p>
+
+<ol>
+<li>Scanning a wider range than intended</li>
+<li>Table access</li>
+</ol>
+
+
+<h5>Scanning a wider range than intended</h5>
+
+<p>像上例中，57的使在leaf
+node出現了兩次，這代表如果有需要，database會對這個兩個57的子節點做更多的比對，而這種情形，在index愈大時，愈容易發生</p>
+
+<h5>Table access</h5>
+
+<p>在最糟的情形下，每一個rowid可能分佈在不同的table
+block，這表示database需要讀入更多的table
+block才能完成操作，另句話說，如果所有的rowid分佈在同一個table
+block，那麼只需讀一個table block就可以完成search</p>
+
+<h2>The Where Clause</h2>
+
+<h3>The Equals Operator</h3>
+
+<p>以下以此table的schema為例</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>CREATE TABLE employees (
+</span><span class='line'>   employee_id   NUMBER         NOT NULL,
+</span><span class='line'>   first_name    VARCHAR2(1000) NOT NULL,
+</span><span class='line'>   last_name     VARCHAR2(1000) NOT NULL,
+</span><span class='line'>   date_of_birth DATE           NOT NULL,
+</span><span class='line'>   phone_number  VARCHAR2(1000) NOT NULL,
+</span><span class='line'>   CONSTRAINT employees_pk PRIMARY KEY (employee_id)
+</span><span class='line'>);</span></code></pre></td></tr></table></div></figure>
+
+
+<p>employee_id是pk，針對pk做query後得到的execution plan如下</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>SELECT first_name, last_name
+</span><span class='line'>  FROM employees
+</span><span class='line'> WHERE employee_id = 123
+</span><span class='line'> 
+</span><span class='line'> 
+</span><span class='line'>-----------------------------------------------------------------
+</span><span class='line'>| Id | Operation                   | Name         | Rows | Cost |
+</span><span class='line'>-----------------------------------------------------------------
+</span><span class='line'>|  0 | SELECT STATEMENT            |              |    1 |    2 |
+</span><span class='line'>|  1 |  TABLE ACCESS BY INDEX ROWID| EMPLOYEES    |    1 |    2 |
+</span><span class='line'>|* 2 |   INDEX UNIQUE SCAN         | EMPLOYEES_PK |    1 |    1 |
+</span><span class='line'>-----------------------------------------------------------------
+</span><span class='line'> 
+</span><span class='line'>Predicate Information (IDENTIFIED BY operation id):
+</span><span class='line'>---------------------------------------------------
+</span><span class='line'>   2 - access("EMPLOYEE_ID"=123)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>由上面的結果可以看到此sql是透過速度最快的<em>INDEX UNIQUE
+SCAN</em>執行，可以得到唯一的結果，然後需再透過<em>TABLE ACCESS BY INDEX
+ROWID</em>取得”first_name”, “last_name”， 取”first_name”,
+“last_name”是透過<a href="#the_leaf_nodes" title="database:the_use_the_index_luke_study_note">The Leaf Nodes</a>方式，所以速度很快</p>
+
+<p>如果在EMPLOYEE_ID再加入一個sub ID時，讓employee_id,
+subsidiary_id成為一個UNIQUE INDEX</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>CREATE UNIQUE INDEX employee_pk 
+</span><span class='line'>    ON employees (employee_id, subsidiary_id);</span></code></pre></td></tr></table></div></figure>
+
+
+<p>當where條件中，同時包含employee_id, subsidiary_id, 就會用INDEX UNIQUE
+SCAN</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>SELECT first_name, last_name
+</span><span class='line'>  FROM employees
+</span><span class='line'> WHERE employee_id   = 123
+</span><span class='line'>   AND subsidiary_id = 30;
+</span><span class='line'> 
+</span><span class='line'>-----------------------------------------------------------------
+</span><span class='line'>| Id | Operation                   | Name         | Rows | Cost |
+</span><span class='line'>-----------------------------------------------------------------
+</span><span class='line'>|  0 | SELECT STATEMENT            |              |    1 |    2 |
+</span><span class='line'>|  1 |  TABLE ACCESS BY INDEX ROWID| EMPLOYEES    |    1 |    2 |
+</span><span class='line'>|* 2 |   INDEX UNIQUE SCAN         | EMPLOYEES_PK |    1 |    1 |
+</span><span class='line'>-----------------------------------------------------------------
+</span><span class='line'> 
+</span><span class='line'>Predicate Information (IDENTIFIED BY operation id):
+</span><span class='line'>---------------------------------------------------
+</span><span class='line'>   2 - access("EMPLOYEE_ID"=123 AND "SUBSIDIARY_ID"=30)   </span></code></pre></td></tr></table></div></figure>
+
+
+<p>但如果where條件中，只用到SUBSIDIARY_ID，那便會用效率不好的TABLE ACCESS
+FULL (Full Table Scan)</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>SELECT first_name, last_name
+</span><span class='line'>  FROM employees
+</span><span class='line'> WHERE subsidiary_id = 20;
+</span><span class='line'> 
+</span><span class='line'>----------------------------------------------------
+</span><span class='line'>| Id | Operation         | Name      | Rows | Cost |
+</span><span class='line'>----------------------------------------------------
+</span><span class='line'>|  0 | SELECT STATEMENT  |           |  110 |  477 |
+</span><span class='line'>|* 1 |  TABLE ACCESS FULL| EMPLOYEES |  110 |  477 |
+</span><span class='line'>----------------------------------------------------
+</span><span class='line'> 
+</span><span class='line'>Predicate Information (IDENTIFIED BY operation id):
+</span><span class='line'>---------------------------------------------------
+</span><span class='line'>   1 - filter("SUBSIDIARY_ID"=20)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>因為查詢時，是查詢以下的結構</p>
+
+<p><img src="/images/wiki/database/the_use_the_index_luke_study_note_004.png" alt="the_use_the_index_luke_study_note_004.png" /></p>
+
+<p>如果要讓查詢更有效率，可SUBSIDIARY_ID再為加上的一個的index，就會由FULL
+TABLE SCAN變成INDEX RANGE SCAN</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>---------------------------------------------------------------
+</span><span class='line'>| Id | Operation                   | Name       | Rows | Cost |
+</span><span class='line'>---------------------------------------------------------------
+</span><span class='line'>|  0 | SELECT STATEMENT            |            |  110 |   77 |
+</span><span class='line'>|  1 |  TABLE ACCESS BY INDEX ROWID| EMPLOYEES  |  110 |   77 |
+</span><span class='line'>|* 2 |   INDEX RANGE SCAN          | EMP_SUP_ID |  110 |    1 |
+</span><span class='line'>---------------------------------------------------------------
+</span><span class='line'>
+</span><span class='line'>Predicate Information (identified by operation id):
+</span><span class='line'>---------------------------------------------------
+</span><span class='line'>   2 - access("SUBSIDIARY_ID"=20)</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Execution Plan分析</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>SELECT first_name, last_name, subsidiary_id, phone_number
+</span><span class='line'>  FROM employees
+</span><span class='line'> WHERE last_name  = 'WINAND'
+</span><span class='line'>   AND subsidiary_id = 30;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果用以上條件查詢，會產出</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>-----------------------------------------------------------------
+</span><span class='line'>| Id | Operation                   | Name         | Rows | Cost |
+</span><span class='line'>-----------------------------------------------------------------
+</span><span class='line'>|  0 | SELECT STATEMENT            |              |    1 |   30 |
+</span><span class='line'>|* 1 |  TABLE ACCESS BY INDEX ROWID| EMPLOYEES    |    1 |   30 |
+</span><span class='line'>|* 2 |   INDEX RANGE SCAN          | EMPLOYEES_PK |   40 |    2 |
+</span><span class='line'>-----------------------------------------------------------------
+</span><span class='line'> 
+</span><span class='line'>Predicate Information (IDENTIFIED BY operation id):
+</span><span class='line'>---------------------------------------------------
+</span><span class='line'>   1 - filter("LAST_NAME"='WINAND')
+</span><span class='line'>   2 - access("SUBSIDIARY_ID"=30)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>我們一步步解說database做了什麼事</p>
+
+<ol>
+<li>第一步是<em>INDEX RANGE SCAN</em>它的id是2，對應到”2 -
+access(“SUBSIDIARY_ID”=30)“，它會在index
+tree，找出第一個”SUBSIDIARY_ID”=30的leaf node，透過這個leaf
+node可以找出所有相符的資料(可能會有相當多筆，此例中是40筆)</li>
+<li>第二步是<em>TABLE ACCESS BY INDEX
+ROWID</em>會取出ROWID相對的整個資料列(row)，有了整個資料列，便可執行filter(“LAST_NAME”=&#8217;WINAND&#8217;)的動作。</li>
+</ol>
+
+
+<p>在原來有index的欄位上做&#8217;UPPER&#8221;之類的function，會讓查詢變成FULL TABLE
+SCAN</p>
+
+<p>用Bind Parameters可以有以下兩個益處</p>
+
+<ol>
+<li>Security 可以避免SQL Injection</li>
+<li>Performance Optimizer會重用cache住的sql statement，如果執行的sql
+statement相當的相似。</li>
+</ol>
+
+
+<h3>Searching For Ranges</h3>
+
+<p>SQL的查詢的操作運算子(EX:
+&lt;,>,between,…)可以執行基於key的查找，而<strong>查詢欄位的順序</strong>對這類查詢的效能，會有巨大的影響。</p>
+
+<h2>Execution Plan</h2>
+
+<h3>Oracle Scripts</h3>
+
+<h3>PostgreSQL Scripts</h3>
+
+<p>要觀查PostgreSQL的Execution Plan只需要在要執行的statement前加上 EXPLAIN</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>EXPLAIN SELECT * FROM MY_TABLE</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果SQL Statement中有bind parameter (\$1, \$2, …)，就必需先進行prepare</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>PREPARE stmt(int) AS SELECT $1;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>然後再EXPLAIN EXECUTE</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>EXPLAIN EXECUTE stmt(1);</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'> QUERY PLAN
+</span><span class='line'>------------------------------------------
+</span><span class='line'> Result  (cost=0.00..0.01 rows=1 width=0)</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>cost
+cost有兩個值，第一個是啟動所需的cost，第二個是執行後，取回全部資料所需的cost，cost是相對的值，沒有一定的單位，各種資料庫的cost有自已計算的方式</li>
+<li>rows 估計的row count</li>
+<li>width 預期的row width
+:<img src="http://wiki.kent-chiu.com/lib/images/smileys/fixme.gif" alt="FIXME" /></li>
+</ul>
+
+
+<p>EXPLAIN可以加上ANALYZE，會得到更多的資料，但ANALYZE會真正去執行SQL
+COMMAND，所以<strong>當COMMAND是INSERT，UPDAET，DELETE時要特別小心</strong></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>EXPLAIN ANALYZE EXECUTE stmt(1);
+</span><span class='line'> 
+</span><span class='line'>                   QUERY PLAN
+</span><span class='line'>--------------------------------------------------
+</span><span class='line'> Result  (cost=0.00..0.01 rows=1 width=0)(actual time=0.002..0.002 rows=1 loops=1)
+</span><span class='line'> Total runtime: 0.020 ms</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>SQLServer Scripts</h3>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/the_eight_great_spelling_rules/">The Eight Great Spelling Rules</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/the_eight_great_spelling_rules/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>author : Mark Pennington</p>
+
+<p>article source :
+<a href="http://ezinearticles.com/?The-Eight-Great-Spelling-Rules&amp;id=1845169" title="http://ezinearticles.com/?The-Eight-Great-Spelling-Rules&amp;id=1845169">http://ezinearticles.com/?The-Eight-Great-Spelling-Rules&amp;id=1845169</a></p>
+
+<p>Although the American-English spelling system has evolved from many
+sources, there are specific patterns that are well-worth learning. These
+spelling patterns, or spelling rules, all have exceptions; however, they
+are minimal. It is always efficient to memorize the rule, rather than
+all of the exceptions. In baseball, batters are taught to “look for the
+fastball, and adjust for the curve.” The same is true in the
+American-English spelling system. The following are the key spelling
+rules that work most of the time in the American-English spelling
+system.</p>
+
+<h2>The i before e Rule</h2>
+
+<p>Usually spell i before e (believe), but spell e before i after a c
+(receive) and when the letters are pronounced as a long /a/ sound
+(neighbor).</p>
+
+<h2>The Final y Rule</h2>
+
+<p>Keep the y when adding an ending if the word ends in a vowel, then a y
+(delay-delayed), or if the ending begins with an i (copy-copying).
+Change the y to i when adding an ending if the word ends in a consonant,
+then a y (pretty-prettiest).</p>
+
+<h2>The Silent e Rule</h2>
+
+<p>Drop the e (have-having) at the end of a syllable if the ending begins
+with a vowel. Keep the e (close-closely) when the ending begins with a
+consonant, has a soft /c/ or /g/ sound, then an “ous” or “able”
+(peaceable, gorgeous), or if it ends in “ee”, “oe”, or “ye” (freedom,
+shoeing, eyeing).</p>
+
+<h2>The Double the Consonant Rule</h2>
+
+<p>Double the consonant, when adding on an ending (permitted), if all three
+of these conditions are met: 1. the last syllable has the accent (per /
+mit) 2. the last syllable ends in a vowel, then a consonant (permit). 3.
+the ending you add begins with a vowel (ed).</p>
+
+<h2>The Ending &#8220;an&#8221; or &#8220;en&#8221; Rule</h2>
+
+<p>End a word with “ance”, “ancy”, or “ant” (vacancy, arrogance) if the
+root before has a hard /c/ or /g/ sound or if the root ends with “ear”
+or “ure” (clearance, insurance). End a word with “ence”, “ency”, or
+“ent” if the root before has a soft /c/ or /g/ sound (magnificent,
+emergency), after “id” (residence), or if the root ends with “ere”
+(reverence).</p>
+
+<h2>The &#8220;able&#8221; or &#8220;ible&#8221; Rule</h2>
+
+<p>End a word with “able” if the root before has a hard /c/ or /g/ sound
+(despicable, navigable), after a complete root word (teachable), or
+after a silent e (likeable). End a word with “ible” if the root has a
+soft /c/ or /g/ sound (reducible, legible), after an “ss” (admissible),
+or after an incomplete root word (audible).</p>
+
+<h2>The Ending &#8220;ion&#8221; Rule</h2>
+
+<p>Spell “sion” (illusion) for the final zyun sound or the final shun sound
+(expulsion, compassion) if after an l or s. Spell “cian” (musician) for
+a person and “tion” (condition) in most all other cases.</p>
+
+<h2>The Plurals Rule</h2>
+
+<p>Spell plural nouns with an s (dog-dogs), even those that end in y
+(day-days) or those that end in a vowel, then an o (stereo-stereos).
+Spell “es” after the sounds of /s/, /x/, /z/, /ch/, or /sh/ (box-boxes)
+or after a consonant, then an o (potato-potatoes). Change the y to i and
+add “es” when the word ends in a consonant, then a y (ferry-ferries).
+Change the “fe” or “lf” ending to “ves” (knife-knives, shelf-shelves).</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/10/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/blog/page/8/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/07/07/python-101/">Python 101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/25/url-encoding/">URL Encoding</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/04/restful-api-design/">RESTful API Design</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/17/my-intellij-idea-shortcut/">My IntelliJ IDEA Shortcut</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/12/jesper-report-font-issue/">Jesper Report, IReport 匯出成中文PDF</a>
+      </li>
+    
+  </ul>
+</section>
+
+Included file &#8216;asides/twitter.html&#8217; not found in _includes directory
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Kent -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'kentchiu';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,374 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>在 Windwos OS 上安裝git flow - Kent's Blog</title>
+  <meta name="author" content="Kent">
+
+  
+  <meta name="description" content="git-flow on windows主要是參考這篇文章
+https://github.com/nvie/gitflow/wiki/Windows 下載相關檔案 git官網下載的git是屬於MSysGit版的，所以，要按照MSysGit的安裝步驟進行git flow的安裝 首先要先安裝util- &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.kent-chiu.com/blog/2013/03/14/install-git-flow-on-windows">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Kent's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-39152849-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Kent's Blog</a></h1>
+  
+    <h2>Kent的學習筆記(剛從dokuwiki搬過來，內容還在整修中)</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.kent-chiu.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">在 Windwos OS 上安裝git Flow</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-14T21:48:00+08:00" pubdate data-updated="true">Mar 14<span>th</span>, 2013</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>git-flow on windows主要是參考這篇文章
+https://github.com/nvie/gitflow/wiki/Windows</p>
+
+<h2>下載相關檔案</h2>
+
+<p>git官網下載的git是屬於MSysGit版的，所以，要按照MSysGit的安裝步驟進行git flow的安裝</p>
+
+<p>首先要先安裝<code>util-linux-ng for Windows</code>,<code>util-linux-ng for Windows</code>可以到
+http://gnuwin32.sourceforge.net/packages/util-linux-ng.htm 下載，點選下圖紅框的檔案連結下次二進制文件的zip檔</p>
+
+<p><img src="/images/blog/2013-03-14-install-git-flow-on-windows-001.png" alt="2013-03-14-install-git-flow-on-windows-001.png" /></p>
+
+<p>需一併下載上圖中下方紅框的<code>libintl</code>，libintl的連結會進入另一個網頁 http://gnuwin32.sourceforge.net/packages/libintl.htm，一樣下載Binaries的zip檔即可</p>
+
+<p>再來需要確定一下git安裝的路徑，如果是32位元的os會是在 <code>C:\Program Files\Git</code>, 64位元的os會是在 <code>C:\Program Files (x86)\Git</code> (<strong>以下的步驟以64位元的os的git安裝目錄為例</strong>)</p>
+
+<p>下載後的 util-linux-ng-2.14.1-bin.zip 解壓，可以在<code>util-linux-ng-2.14.1-bin\bin</code>找到 getopt.exe
+下載後的libintl-0.14.4-bin.zip解壓，可以在<code>libintl-0.14.4-bin\bin</code>找到 libintl3.dll</p>
+
+<p>將getopt.exe跟 libintl3.dll copy到git安裝目錄 <code>C:\Program Files (x86)\Git</code></p>
+
+<h2>clone git flow</h2>
+
+<p>clone github上的gitflow到臨時性的工作目錄 <code>c:\gitflow</code> (<em>這個目錄做完安裝後可以刪除</em>)</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git clone --recursive git://github.com/nvie/gitflow.git c:\gitflow</span></code></pre></td></tr></table></div></figure>
+
+
+<p>clone完成後，到 c:\gitflow\contrib 執行</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>C:\gitflow\contrib&gt;msysgit-install.cmd "C:\Program Files (x86)\Git"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>執行後，會看到一些檔案被複制到git安裝目錄</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>C:\gitflow\git-flow -&gt; C:\Program Files (x86)\Git\bin\git-flow
+</span><span class='line'>C:\gitflow\git-flow-feature -&gt; C:\Program Files (x86)\Git\bin\git-flow-feature
+</span><span class='line'>C:\gitflow\git-flow-hotfix -&gt; C:\Program Files (x86)\Git\bin\git-flow-hotfix
+</span><span class='line'>C:\gitflow\git-flow-init -&gt; C:\Program Files (x86)\Git\bin\git-flow-init
+</span><span class='line'>C:\gitflow\git-flow-release -&gt; C:\Program Files (x86)\Git\bin\git-flow-release
+</span><span class='line'>C:\gitflow\git-flow-support -&gt; C:\Program Files (x86)\Git\bin\git-flow-support
+</span><span class='line'>C:\gitflow\git-flow-version -&gt; C:\Program Files (x86)\Git\bin\git-flow-version
+</span><span class='line'>已複製 7 個檔案
+</span><span class='line'>C:\gitflow\gitflow-common -&gt; C:\Program Files (x86)\Git\bin\gitflow-common
+</span><span class='line'>C:\gitflow\gitflow-shFlags -&gt; C:\Program Files (x86)\Git\bin\gitflow-shFlags
+</span><span class='line'>已複製 2 個檔案
+</span><span class='line'>C:\gitflow\shFlags\src\shflags -&gt; C:\Program Files (x86)\Git\bin\gitflow-shFlags
+</span><span class='line'>已複製 1 個檔案</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這樣整個安裝步驟就全部完成了</p>
+
+<h2>試車</h2>
+
+<p>可以在windows的command  windows裡打git flow，如果有看到類似以下的訊息就ok了</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>C:\gitflow\contrib&gt;git flow
+</span><span class='line'>usage: git flow &lt;subcommand&gt;
+</span><span class='line'>
+</span><span class='line'>Available subcommands are:
+</span><span class='line'>   init      Initialize a new git repo with suppo
+</span><span class='line'>   feature   Manage your feature branches.
+</span><span class='line'>   release   Manage your release branches.
+</span><span class='line'>   hotfix    Manage your hotfix branches.
+</span><span class='line'>   support   Manage your support branches.
+</span><span class='line'>   version   Shows version information.
+</span><span class='line'>
+</span><span class='line'>Try 'git flow &lt;subcommand&gt; help' for details.</span></code></pre></td></tr></table></div></figure>
+
+
+<p>到這裡都ok的話，之前的臨時性的工作目錄 <code>c:\gitflow</code>可以刪了它</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Kent Chiu</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-14T21:48:00+08:00" pubdate data-updated="true">Mar 14<span>th</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/git/'>git</a>, <a class='category' href='/blog/categories/git-flow/'>git-flow</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://blog.kent-chiu.com/blog/2013/03/14/install-git-flow-on-windows/" data-via="" data-counturl="http://blog.kent-chiu.com/blog/2013/03/14/install-git-flow-on-windows/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/03/12/how-to-developing-extjs-app-in-firefox-console/" title="Previous Post: 如何透過firefox console來加速開發extjs">&laquo; 如何透過firefox console來加速開發extjs</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2013/04/22/clean-code/" title="Next Post: Clean Code閱讀筆記">Clean Code閱讀筆記 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/07/07/python-101/">Python 101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/25/url-encoding/">URL Encoding</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/04/restful-api-design/">RESTful API Design</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/17/my-intellij-idea-shortcut/">My IntelliJ IDEA Shortcut</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/12/jesper-report-font-issue/">Jesper Report, IReport 匯出成中文PDF</a>
+      </li>
+    
+  </ul>
+</section>
+
+Included file 'asides/twitter.html' not found in _includes directory
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Kent -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'kentchiu';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.kent-chiu.com/blog/2013/03/14/install-git-flow-on-windows/';
+        var disqus_url = 'http://blog.kent-chiu.com/blog/2013/03/14/install-git-flow-on-windows/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

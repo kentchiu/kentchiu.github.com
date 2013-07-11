@@ -1,0 +1,552 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>ECShop Study Notes - Kent's Blog</title>
+  <meta name="author" content="Kent">
+
+  
+  <meta name="description" content="ECShop provides themes changed capability, it mean we can switch themes
+to change the look and feels of web site(front end only). The capability
+come &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.kent-chiu.com/blog/2011/10/17/ecshop_study_notes">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Kent's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-39152849-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Kent's Blog</a></h1>
+  
+    <h2>Kent的學習筆記(剛從dokuwiki搬過來，內容還在整修中)</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.kent-chiu.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">ECShop Study Notes</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>ECShop provides themes changed capability, it mean we can switch themes
+to change the look and feels of web site(front end only). The capability
+come from the MVC pattern, it is abbreviated
+<strong>M</strong>odel-<strong>V</strong>iew-<strong>C</strong>ontroller.</p>
+
+<h4>Model</h4>
+
+<p>In ECShop, the model is not mapping to code level (it means there is no
+User object mapping to user table). But we can treating database like
+the model.</p>
+
+<p>the detail about the model of ECShop, please check <a href="http://wiki.kent-chiu.com/doku.php?id=ecshop:database_schema" title="ecshop:database_schema">ECShop Database
+Schema</a></p>
+
+<h4>View</h4>
+
+<p>A theme is all about presentation, all files in the themes
+folder(*.dwt, *.lbi, *.js, *.css) might very difference with other
+themes.</p>
+
+<p>the detail about the model of ECShop, please check
+<a href="http://wiki.kent-chiu.com/doku.php?id=ecshop:template_index" title="ecshop:template_index">這篇文章說明每個模版的功能</a></p>
+
+<h4>Controller</h4>
+
+<p>The controller part (php files under root folder) that is most important
+part of MVC, when we switch between this theme and that theme, the
+controller would not changed, we only need to know which data is push to
+view in controller. Whatever theme is using, it would not out of scope
+of the data that pushed by controller.</p>
+
+<p>Regarding the point of view, the most important thing to study ECShop is
+to learn what controllers done.</p>
+
+<p>the detail about the model of ECShop, please check
+<a href="http://wiki.kent-chiu.com/doku.php?id=ecshop:controller_pages" title="ecshop:controller_pages">Controllers</a></p>
+
+<h2>debug</h2>
+
+<ol>
+<li>using IDE&#8217;s debug as → PHP script</li>
+<li>using IDE&#8217;s debug as → PHP web page</li>
+<li>using this code snippet to output variables to file
+file_put_contents(“debug.log”, var_export(\$var, true));</li>
+<li>ecshop modify the smarty source, so that, we can <strong>NOT</strong> using
+smarty debuging console.</li>
+</ol>
+
+
+<h2>Invoke Sequence</h2>
+
+<p>ex: index page</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>http://www.domain.com/index.php -&gt; ECSHOP_HOME/index.php -&gt; index.dwt -&gt; some of lbi files -&gt; render to html.</span></code></pre></td></tr></table></div></figure>
+
+
+<p>(TBD: rewrite this more clearly)</p>
+
+<h2>Smarty</h2>
+
+<ul>
+<li>Initialized at includes/init.php</li>
+<li>ECShop overwrites smarty as cls_template, therefore, a part of
+smarty function maybe not provides in ECShop.</li>
+<li>ECShop uses <strong>*&lt;!–{ }–></strong>* to make template file more friendly
+to WYSIWYG editor.</li>
+</ul>
+
+
+<p>the <strong>#BeginLibraryItem</strong> is not come from Smarty, it is come from
+Dreamweaver, it means include the library item from
+/library/auction.lbi. the library item is nothing more than a html file.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;!-- #BeginLibraryItem "/library/auction.lbi" --&gt; </span></code></pre></td></tr></table></div></figure>
+
+
+<h2>includes/init.php</h2>
+
+<ul>
+<li>every page should page <strong>*define(&#8216;IN_ECS&#8217;, true);</strong>* or get
+Hacking attempt</li>
+<li>database resource(cls_mysql instant) is put into \$GLOBALS[&#8216;db&#8217;]</li>
+</ul>
+
+
+<h3>Session Control</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@ini_set('memory_limit',          '64M');
+</span><span class='line'>@ini_set('session.cache_expire',  180);
+</span><span class='line'>@ini_set('session.use_trans_sid', 0);
+</span><span class='line'>@ini_set('session.use_cookies',   1);
+</span><span class='line'>@ini_set('session.auto_start',    0);</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Init User Session</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>if (!defined('INIT_NO_USERS'))
+</span><span class='line'>{
+</span><span class='line'>    /* 初始化session */
+</span><span class='line'>    include(ROOT_PATH . 'includes/cls_session.php');
+</span><span class='line'> 
+</span><span class='line'>    $sess = new cls_session($db, $ecs-&gt;table('sessions'), $ecs-&gt;table('sessions_data'));
+</span><span class='line'> 
+</span><span class='line'>    define('SESS_ID', $sess-&gt;get_session_id());
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Display Error</h3>
+
+<p>@ini_set(&#8216;display_errors&#8217;, 1);</p>
+
+<h3>DEBUG MODE</h3>
+
+<p>debug mode using bit operation to determine which mode is in using , it
+means if DEBUG MODE = 15(binary is 1111), it also includes DEBUG MODE =
+1,2,4, 8, if DEBUG MODE = 7 (binary 0111), it is also includes DEBUG
+MODE = 1,2,4</p>
+
+<p>  code   description</p>
+
+<hr />
+
+<p>  0      disabled debug
+  1      output error message
+  2      disabled caching
+  4      showing debug page
+  8      logging SQL query</p>
+
+<h4>code 0</h4>
+
+<ul>
+<li>disabled debug</li>
+</ul>
+
+
+<h4>code 2</h4>
+
+<h5>smarty</h5>
+
+<ul>
+<li>force complied</li>
+<li>direct output</li>
+</ul>
+
+
+<h5>includes/lib_base</h5>
+
+<ul>
+<li>disabled cache writing</li>
+<li>disabled cache reading.</li>
+</ul>
+
+
+<h4>code 4</h4>
+
+<ul>
+<li>showing debug page (includes/lib.debug.php)</li>
+</ul>
+
+
+<h4>code 8</h4>
+
+<ul>
+<li>logging SQL query statement to data/mysql_query_xxxxx</li>
+</ul>
+
+
+<h3>User Input Checking</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/* 对用户传入的变量进行转义操作。*/
+</span><span class='line'>if (!get_magic_quotes_gpc())
+</span><span class='line'>{
+</span><span class='line'>    if (!empty($_GET))
+</span><span class='line'>    {
+</span><span class='line'>        $_GET  = addslashes_deep($_GET);
+</span><span class='line'>    }
+</span><span class='line'>    if (!empty($_POST))
+</span><span class='line'>    {
+</span><span class='line'>        $_POST = addslashes_deep($_POST);
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>    $_COOKIE   = addslashes_deep($_COOKIE);
+</span><span class='line'>    $_REQUEST  = addslashes_deep($_REQUEST);
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>includes/cls_mysql.php</h2>
+
+<ul>
+<li>all database operations should using this class</li>
+<li>this class has cache mechanism</li>
+<li>if you don&#8217;t want to cache a table, you can
+set_disable_cache_tables() method</li>
+</ul>
+
+
+<h2>amdin/shop_config.php</h2>
+
+<ul>
+<li>the main config file of ECShop</li>
+<li>this file <strong>would be caching</strong> for performance reason, if you want
+to change this file, need refresh cache.</li>
+</ul>
+
+
+<p>regarding the caching, the we can find the compiled file
+shop_config.php in temp/static folder, it contains configuration
+information, it&#8217;s useful for debug.</p>
+
+<h2>AJAX</h2>
+
+<p>ecshop裡一ajax主要是透過transport.js裡的AJAX.call.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  /* *
+</span><span class='line'>  * 调用此方法发送HTTP请求。
+</span><span class='line'>  *
+</span><span class='line'>  * @public
+</span><span class='line'>  * @param   {string}    url             请求的URL地址
+</span><span class='line'>  * @param   {mix}       params          发送参数
+</span><span class='line'>  * @param   {Function}  callback        回调函数
+</span><span class='line'>  * @param   {string}    ransferMode     请求的方式，有"GET"和"POST"两种
+</span><span class='line'>  * @param   {string}    responseType    响应类型，有"JSON"、"XML"和"TEXT"三种
+</span><span class='line'>  * @param   {boolean}   asyn            是否异步请求的方式
+</span><span class='line'>  * @param   {boolean}   quiet           是否安静模式请求
+</span><span class='line'>  */
+</span><span class='line'>  call : function (url, params, callback, transferMode, responseType, asyn, quiet)
+</span><span class='line'>  // using : Ajax.call( 'user.php?act=is_registered', 'username=' + username, registed_callback , 'GET', 'TEXT', true, true );</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Kent Chiu</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ecshop/'>ecshop</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://blog.kent-chiu.com/blog/2011/10/17/ecshop_study_notes/" data-via="" data-counturl="http://blog.kent-chiu.com/blog/2011/10/17/ecshop_study_notes/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2011/10/17/ec101/" title="Previous Post: EC 筆記">&laquo; EC 筆記</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2011/10/17/enable_root/" title="Next Post: Enable Root Account">Enable Root Account &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/07/07/python-101/">Python 101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/25/url-encoding/">URL Encoding</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/04/restful-api-design/">RESTful API Design</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/17/my-intellij-idea-shortcut/">My IntelliJ IDEA Shortcut</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/12/jesper-report-font-issue/">Jesper Report, IReport 匯出成中文PDF</a>
+      </li>
+    
+  </ul>
+</section>
+
+Included file 'asides/twitter.html' not found in _includes directory
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Kent -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'kentchiu';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.kent-chiu.com/blog/2011/10/17/ecshop_study_notes/';
+        var disqus_url = 'http://blog.kent-chiu.com/blog/2011/10/17/ecshop_study_notes/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,389 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Content Provider 101 - Kent's Blog</title>
+  <meta name="author" content="Kent">
+
+  
+  <meta name="description" content="基本觀念 永遠不要自行創建ContentProvider的實例(instance)，系統會自動建立所需的instances
+透過ContentResolver來操作ContentProvider，ContentProvider可透過android.content.Context. &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.kent-chiu.com/blog/2012/03/20/content_provider_101">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Kent's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-39152849-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Kent's Blog</a></h1>
+  
+    <h2>Kent的學習筆記(剛從dokuwiki搬過來，內容還在整修中)</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.kent-chiu.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Content Provider 101</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-20T00:00:00+08:00" pubdate data-updated="true">Mar 20<span>th</span>, 2012</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>基本觀念</p>
+
+<ol>
+<li>永遠不要自行創建ContentProvider的實例(instance)，系統會自動建立所需的instances</li>
+<li>透過ContentResolver來操作ContentProvider，ContentProvider可透過<code>android.content.Context.getContentResolver()</code>取得，Application,
+Activity, Service…都是繼承自Context</li>
+<li>繼承自ContentProvider</li>
+<li><p>定義CONTENT_URI <code>public static final Uri CONTENT_URI</code></p>
+
+<ul>
+<li>通常為客制的ContentProvider的完整名稱(pcakge name + class name,
+全小寫)</li>
+</ul>
+</li>
+<li><p>如果content</p></li>
+</ol>
+
+
+<h2>Data Model</h2>
+
+<p>ContentProvider可視為一個<a href="http://en.wikipedia.org/wiki/Data_access_object" title="http://en.wikipedia.org/wiki/Data_access_object">DAO</a>(Data
+Access
+Object)，它提供的是對資料層的存取方法，但不包含資料本身的結構，所以，通常它操作的對象會是
+一個Domain Object, Domain Object所描述的就是資料的結構。</p>
+
+<p>Domain Object的結構，通常會跟資料庫的table對應。</p>
+
+<p>在android，Domain
+Object在實作上，有一些潛規格必需遵守，這樣才會讓我們實作的ContentProvider用法與官方的用法比較一致。</p>
+
+<h2>Content Uri格式</h2>
+
+<p><img src="/images/wiki/android/content_provider_101_001.png" alt="content_provider_101_001.png" /></p>
+
+<p>Content為android辨識資源的方式，它有一定的格式，上圖說明一個完整的Content
+Uri，主要可以分為四個部分：</p>
+
+<ol>
+<li>A : schema部份，一定為content，表示這個uri是要被content
+provider處理的</li>
+<li>B :
+authority部份，用來做權限管控的，通常為客制的ContentProvider的完整名稱(pcakge
+name + class name, 全小寫)</li>
+<li>C : path部份，可以是一或多個區段，像是 “land/bus”, “land/train”,
+“sea/ship”</li>
+<li>D : id部份，資料庫裡的資料的_ID</li>
+</ol>
+
+
+<h2>更新資料狀態到View上</h2>
+
+<p>當androiod送一個元件內的狀態或內容改變，有時需同步更新到畫面上，比如說，
+我們有一個雲端版的音樂播放器，在首頁只會列出專輯，點選專輯後會列出曲目，點選典目後，會從線上直接播發音樂，並同時抓取線上歌詞庫裡的歌詞。
+當音樂開始播發時，歌詞可以還沒下載完成(用非同步下載，以免阻塞UI)，所以，我們在播發器上還看不到歌詞，一旦歌詞下載完成後，播發器上就要自動的開始同步播放歌詞。音檔跟歌詞都必需被保留在手機上，以便下次播放時，可以省去下載的動作。</p>
+
+<p>上面的劇情中，播放器假設是透過一個listview元件顯示一行一行的歌詞，那麼，當歌曲第一次播放時，歌詞還未被下載，所以，listview上是空的，歌曲可能前奏還沒播完，歌詞就被下載完成了，此時，需要一個機制去通知播放器上的顯示歌詞的listview，讓listview
+reload歌詞。</p>
+
+<p>以上面動作，我們把它叫做*新資料抵達*的劇情，所有存在雲端，但只要還沒下載到手機的資料歌詞，都是新資料。
+通當，我們會透過非同步(在worker
+thread進行)下載歌詞，當歌詞下載完成時，需要通知UI的歌詞顯示器(ListView)進行
+畫面更新，將剛下載到的歌詞顯示到畫面上。</p>
+
+<p>要達到以上的動作，處理的順序大致如下：</p>
+
+<ol>
+<li>利用<a href="http://wiki.kent-chiu.com/doku.php?id=android:background_processing" title="android:background_processing">Android
+背景作業處理</a>進行歌詞下載</li>
+<li>下載完歌詞後，透過ContentResolver.notifyChange()發出*新資料抵達*通知</li>
+<li>ListView在onCreate()時，需透過ContentResolver.registerContentObserver()註冊一個ContentObserver來觀察是否有*新資料抵達*通知</li>
+<li>通*新資料抵達*通知發出後，ContentObserver.onChange()會被觸發</li>
+<li>在ContentObserver.onChange()在執行adapter.notifyDataSetChanged(),顯示歌詞的ListView便會自動refresh</li>
+</ol>
+
+
+<h3>Where Clause</h3>
+
+<p>ContentProvider.query((Uri uri, String[] projection, String selection,
+String[] selectionArgs, String
+sortOrder)可用來查詢資料，但當需要查詢的資料只有一筆時，而且知道確切的id，那麼
+上面的method有兩種用法</p>
+
+<ol>
+<li>uri採用帶有id的格式</li>
+<li>uri採用不帶有id的格式，透過在Where Clause(selection指定id)</li>
+</ol>
+
+
+<p>uri採用帶有id的格式</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>query("content://myauth/book/1", null, null,null, null)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>uri採用不帶有id的格式，透過在Where Clause(selection指定id)</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>query("content://myauth/book/1", null, "BOOK_ID=?", new String[]{"1"}, null)
+</span><span class='line'>  </span></code></pre></td></tr></table></div></figure>
+
+
+<p>這兩種方式都可以正確取得book1的資料，但那一種比較好呢？一般來說，大部份情況，應該用uri帶有id的取得單筆資料，但特殊的情形下也可以透過where
+clause指定id的方式取的資料。</p>
+
+<h3>Ref</h3>
+
+<ul>
+<li><a href="http://developer.android.com/guide/topics/providers/content-providers.html" title="http://developer.android.com/guide/topics/providers/content-providers.html">官網說明</a></li>
+<li><a href="http://stackoverflow.com/questions/3544913/android-how-to-use-cursoradapter" title="http://stackoverflow.com/questions/3544913/android-how-to-use-cursoradapter">http://stackoverflow.com/questions/3544913/android-how-to-use-cursoradapter</a></li>
+<li><a href="http://mylifewithandroid.blogspot.com/2008/03/observing-content.html" title="http://mylifewithandroid.blogspot.com/2008/03/observing-content.html">http://mylifewithandroid.blogspot.com/2008/03/observing-content.html</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Kent Chiu</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-20T00:00:00+08:00" pubdate data-updated="true">Mar 20<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/android/'>android</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://blog.kent-chiu.com/blog/2012/03/20/content_provider_101/" data-via="" data-counturl="http://blog.kent-chiu.com/blog/2012/03/20/content_provider_101/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/03/20/concurrency_101/" title="Previous Post: Concurrency 101">&laquo; Concurrency 101</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/03/20/cursor/" title="Next Post: Android Cursor">Android Cursor &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/07/07/python-101/">Python 101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/25/url-encoding/">URL Encoding</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/04/restful-api-design/">RESTful API Design</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/17/my-intellij-idea-shortcut/">My IntelliJ IDEA Shortcut</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/12/jesper-report-font-issue/">Jesper Report, IReport 匯出成中文PDF</a>
+      </li>
+    
+  </ul>
+</section>
+
+Included file 'asides/twitter.html' not found in _includes directory
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Kent -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'kentchiu';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.kent-chiu.com/blog/2012/03/20/content_provider_101/';
+        var disqus_url = 'http://blog.kent-chiu.com/blog/2012/03/20/content_provider_101/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

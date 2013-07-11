@@ -1,0 +1,501 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: centos | Kent's Blog]]></title>
+  <link href="http://blog.kent-chiu.com/blog/categories/centos/atom.xml" rel="self"/>
+  <link href="http://blog.kent-chiu.com/"/>
+  <updated>2013-07-11T21:16:37+08:00</updated>
+  <id>http://blog.kent-chiu.com/</id>
+  <author>
+    <name><![CDATA[Kent]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[yum]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2011/10/17/yum/"/>
+    <updated>2011-10-17T00:00:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2011/10/17/yum</id>
+    <content type="html"><![CDATA[<h3>file conflicts</h3>
+
+<p>如果在packages安裝過程，發生file conflicts</p>
+
+<p>```
+Loaded plugins: fastestmirror
+Loading mirror speeds from cached hostfile
+ * addons: mirror01.idc.hinet.net
+ * base: mirror01.idc.hinet.net
+ * epel: mirror01.idc.hinet.net
+ * extras: mirror01.idc.hinet.net
+ * updates: mirror01.idc.hinet.net
+Setting up Install Process
+Resolving Dependencies
+--> Running transaction check
+---> Package mysql.i386 0:5.0.77-4.el5_5.3 set to be updated
+---> Package mysql.x86_64 0:5.0.77-4.el5_5.3 set to be updated
+--> Finished Dependency Resolution
+ 
+Dependencies Resolved</p>
+
+<h1> </h1>
+
+<h1> Package                                       Arch                                           Version                                                    Repository                                       Size</h1>
+
+<p>Installing:
+ mysql                                         i386                                           5.0.77-4.el5_5.3                                           updates                                         4.8 M
+ mysql                                         x86_64                                         5.0.77-4.el5_5.3                                           updates                                         4.8 M
+ </p>
+
+<h1>Transaction Summary</h1>
+
+<p>Install       2 Package(s)
+Upgrade       0 Package(s)
+ 
+Total size: 9.5 M
+Is this ok [y/N]: y
+Downloading Packages:
+Running rpm_check_debug
+Running Transaction Test
+Finished Transaction Test
+ 
+ 
+Transaction Check Error:
+  file /etc/my.cnf from install of mysql-5.0.77-4.el5_5.3.i386 conflicts with file from package mysql-libs-5.1.50-1.el5.remi.x86_64
+  file /usr/share/mysql/charsets/Index.xml from install of mysql-5.0.77-4.el5_5.3.i386 conflicts with file from package mysql-libs-5.1.50-1.el5.remi.x86_64
+  file /usr/share/mysql/charsets/cp1250.xml from install of mysql-5.0.77-4.el5_5.3.i386 conflicts with file from package mysql-libs-5.1.50-1.el5.remi.x86_64
+  file /usr/share/mysql/czech/errmsg.sys from install of mysql-5.0.77-4.el5_5.3.i386 conflicts with file from package mysql-libs-5.1.50-1.el5.remi.x86_64
+  file /usr/share/mysql/danish/errmsg.sys from install of mysql-5.0.77-4.el5_5.3.i386 conflicts with file from package mysql-libs-5.1.50-1.el5.remi.x86_64
+  file /usr/share/mysql/dutch/errmsg.sys from install of mysql-5.0.77-4.el5_5.3.i386 conflicts with file from package mysql-libs-5.1.50-1.el5.remi.x86_64
+  file /usr/share/mysql/english/errmsg.sys from install of mysql-5.0.77-4.el5_5.3.i386 conflicts with file from package mysql-libs-5.1.50-1.el5.remi.x86_64
+  file /usr/share/mysql/estonian/errmsg.sys from install of mysql-5.0.77-4.el5_5.3.i386 conflicts with file from package mysql-libs-5.1.50-1.el5.remi.x86_64
+  file /usr/share/mysql/french/errmsg.sys from install of mysql-5.0.77-4.el5_5.3.i386 conflicts with file from package mysql-libs-5.1.50-1.el5.remi.x86_64
+  file /usr/share/mysql/german/errmsg.sys from install of mysql-5.0.77-4.el5_5.3.i386 conflicts with file from package mysql-libs-5.1.50-1.el5.remi.x86_64
+  file /usr/share/mysql/greek/errmsg.sys from install of mysql-5.0.77-4.el5_5.3.i386 conflicts with file from package mysql-libs-5.1.50-1.el5.remi.x86_64
+  file /usr/share/mysql/hungarian/errmsg.sys from install of mysql-5.0.77-4.el5_5.3.i386 conflicts with file from package mysql-libs-5.1.50-1.el5.remi.x86_64
+  file /usr/share/mysql/italian/errmsg.sys from install of mysql-5.0.77-4.el5_5.3.i386 conflicts with file from package mysql-libs-5.1.50-1.el5.remi.x86_64
+  file /usr/share/mysql/japanese/errmsg.sys from install of mysql-5.0.77-4.el5_5.3.i386 conflicts with file from package mysql-libs-5.1.50-1.el5.remi.x86_64
+  file /usr/share/mysql/korean/errmsg.sys from install of mysql-5.0.77-4.el5_5.3.i386 conflicts with file from package mysql-libs-5.1.50-1.el5.remi.x86_64
+  file /usr/share/mysql/norwegian-ny/errmsg.sys from install of mysql-5.0.77-4.el5_5.3.i386 conflicts with file from package mysql-libs-5.1.50-1.el5.remi.x86_64
+  file /usr/share/mysql/norwegian/errmsg.sys from install of mysql-5.0.77-4.el5_5.3.i386 conflicts with file from package mysql-libs-5.1.50-1.el5.remi.x86_64
+  file /usr/share/mysql/polish/errmsg.sys from install of mysql-5.0.77-4.el5_5.3.i386 conflicts with file from package mysql-libs-5.1.50-1.el5.remi.x86_64
+  file /usr/share/mysql/portuguese/errmsg.sys from install of mysql-5.0.77-4.el5_5.3.i386 conflicts with file from package mysql-libs-5.1.50-1.el5.remi.x86_64
+  file /usr/share/mysql/romanian/errmsg.sys from install of mysql-5.0.77-4.el5_5.3.i386 conflicts with file from package mysql-libs-5.1.50-1.el5.remi.x86_64
+  file /usr/share/mysql/russian/errmsg.sys from install of mysql-5.0.77-4.el5_5.3.i386 conflicts with file from package mysql-libs-5.1.50-1.el5.remi.x86_64
+  file /usr/share/mysql/serbian/errmsg.sys from install of mysql-5.0.77-4.el5_5.3.i386 conflicts with file from package mysql-libs-5.1.50-1.el5.remi.x86_64
+  file /usr/share/mysql/slovak/errmsg.sys from install of mysql-5.0.77-4.el5_5.3.i386 conflicts with file from package mysql-libs-5.1.50-1.el5.remi.x86_64
+  file /usr/share/mysql/spanish/errmsg.sys from install of mysql-5.0.77-4.el5_5.3.i386 conflicts with file from package mysql-libs-5.1.50-1.el5.remi.x86_64
+  file /usr/share/mysql/swedish/errmsg.sys from install of mysql-5.0.77-4.el5_5.3.i386 conflicts with file from package mysql-libs-5.1.50-1.el5.remi.x86_64
+  file /usr/share/mysql/ukrainian/errmsg.sys from install of mysql-5.0.77-4.el5_5.3.i386 conflicts with file from package mysql-libs-5.1.50-1.el5.remi.x86_64
+  file /usr/lib64/mysql/libmysqlclient.so.15.0.0 from install of mysql-5.0.77-4.el5_5.3.x86_64 conflicts with file from package mysqlclient15-5.0.67-1.el5.remi.x86_64
+  file /usr/lib64/mysql/libmysqlclient_r.so.15.0.0 from install of mysql-5.0.77-4.el5_5.3.x86_64 conflicts with file from package mysqlclient15-5.0.67-1.el5.remi.x86_64
+  file /etc/my.cnf from install of mysql-5.0.77-4.el5_5.3.x86_64 conflicts with file from package mysql-libs-5.1.50-1.el5.remi.x86_64
+  file /usr/share/mysql/charsets/Index.xml from install of mysql-5.0.77-4.el5_5.3.x86_64 conflicts with file from package mysql-libs-5.1.50-1.el5.remi.x86_64
+  file /usr/share/mysql/charsets/cp1250.xml from install of mysql-5.0.77-4.el5_5.3.x86_64 conflicts with file from package mysql-libs-5.1.50-1.el5.remi.x86_64
+  file /usr/share/mysql/czech/errmsg.sys from install of mysql-5.0.77-4.el5_5.3.x86_64 conflicts with file from package mysql-libs-5.1.50-1.el5.remi.x86_64
+  file /usr/share/mysql/danish/errmsg.sys from install of mysql-5.0.77-4.el5_5.3.x86_64 conflicts with file from package mysql-libs-5.1.50-1.el5.remi.x86_64
+  file /usr/share/mysql/dutch/errmsg.sys from install of mysql-5.0.77-4.el5_5.3.x86_64 conflicts with file from package mysql-libs-5.1.50-1.el5.remi.x86_64
+  file /usr/share/mysql/english/errmsg.sys from install of mysql-5.0.77-4.el5_5.3.x86_64 conflicts with file from package mysql-libs-5.1.50-1.el5.remi.x86_64
+  file /usr/share/mysql/estonian/errmsg.sys from install of mysql-5.0.77-4.el5_5.3.x86_64 conflicts with file from package mysql-libs-5.1.50-1.el5.remi.x86_64
+  file /usr/share/mysql/french/errmsg.sys from install of mysql-5.0.77-4.el5_5.3.x86_64 conflicts with file from package mysql-libs-5.1.50-1.el5.remi.x86_64
+  file /usr/share/mysql/german/errmsg.sys from install of mysql-5.0.77-4.el5_5.3.x86_64 conflicts with file from package mysql-libs-5.1.50-1.el5.remi.x86_64
+  file /usr/share/mysql/greek/errmsg.sys from install of mysql-5.0.77-4.el5_5.3.x86_64 conflicts with file from package mysql-libs-5.1.50-1.el5.remi.x86_64
+  file /usr/share/mysql/hungarian/errmsg.sys from install of mysql-5.0.77-4.el5_5.3.x86_64 conflicts with file from package mysql-libs-5.1.50-1.el5.remi.x86_64
+  file /usr/share/mysql/italian/errmsg.sys from install of mysql-5.0.77-4.el5_5.3.x86_64 conflicts with file from package mysql-libs-5.1.50-1.el5.remi.x86_64
+  file /usr/share/mysql/japanese/errmsg.sys from install of mysql-5.0.77-4.el5_5.3.x86_64 conflicts with file from package mysql-libs-5.1.50-1.el5.remi.x86_64
+  file /usr/share/mysql/korean/errmsg.sys from install of mysql-5.0.77-4.el5_5.3.x86_64 conflicts with file from package mysql-libs-5.1.50-1.el5.remi.x86_64
+  file /usr/share/mysql/norwegian-ny/errmsg.sys from install of mysql-5.0.77-4.el5_5.3.x86_64 conflicts with file from package mysql-libs-5.1.50-1.el5.remi.x86_64
+  file /usr/share/mysql/norwegian/errmsg.sys from install of mysql-5.0.77-4.el5_5.3.x86_64 conflicts with file from package mysql-libs-5.1.50-1.el5.remi.x86_64
+  file /usr/share/mysql/polish/errmsg.sys from install of mysql-5.0.77-4.el5_5.3.x86_64 conflicts with file from package mysql-libs-5.1.50-1.el5.remi.x86_64
+  file /usr/share/mysql/portuguese/errmsg.sys from install of mysql-5.0.77-4.el5_5.3.x86_64 conflicts with file from package mysql-libs-5.1.50-1.el5.remi.x86_64
+  file /usr/share/mysql/romanian/errmsg.sys from install of mysql-5.0.77-4.el5_5.3.x86_64 conflicts with file from package mysql-libs-5.1.50-1.el5.remi.x86_64
+  file /usr/share/mysql/russian/errmsg.sys from install of mysql-5.0.77-4.el5_5.3.x86_64 conflicts with file from package mysql-libs-5.1.50-1.el5.remi.x86_64
+  file /usr/share/mysql/serbian/errmsg.sys from install of mysql-5.0.77-4.el5_5.3.x86_64 conflicts with file from package mysql-libs-5.1.50-1.el5.remi.x86_64
+  file /usr/share/mysql/slovak/errmsg.sys from install of mysql-5.0.77-4.el5_5.3.x86_64 conflicts with file from package mysql-libs-5.1.50-1.el5.remi.x86_64
+  file /usr/share/mysql/spanish/errmsg.sys from install of mysql-5.0.77-4.el5_5.3.x86_64 conflicts with file from package mysql-libs-5.1.50-1.el5.remi.x86_64
+  file /usr/share/mysql/swedish/errmsg.sys from install of mysql-5.0.77-4.el5_5.3.x86_64 conflicts with file from package mysql-libs-5.1.50-1.el5.remi.x86_64
+  file /usr/share/mysql/ukrainian/errmsg.sys from install of mysql-5.0.77-4.el5_5.3.x86_64 conflicts with file from package mysql-libs-5.1.50-1.el5.remi.x86_64
+```</p>
+
+<p>可以直接到已被download下來的rpm裡，直接透過rpm的指令強迫安裝</p>
+
+<p><code>
+cd /var/cache/yum/REPOSITORY_NAME/packages
+rpm -Uvh --force package_name
+</code></p>
+
+<p>強迫進行安裝</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Upgrade PHP to 5.3]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2011/10/17/upgrade_php_to_5.3.x/"/>
+    <updated>2011-10-17T00:00:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2011/10/17/upgrade_php_to_5.3.x</id>
+    <content type="html"><![CDATA[<p>```</p>
+
+<pre><code>wget http://download.fedora.redhat.com/pub/epel/5/i386/epel-release-5-3.noarch.rpm
+wget http://rpms.famillecollet.com/enterprise/remi-release-5.rpm
+rpm -Uvh remi-release-5*.rpm epel-release-5*.rpm
+yum --enablerepo=remi update php
+</code></pre>
+
+<p>```</p>
+
+<p><code>
+php -v
+ 
+PHP 5.3.0 (cli) (built: Jul 19 2009 17:55:08)
+Copyright (c) 1997-2009 The PHP Group
+Zend Engine v2.3.0, Copyright (c) 1998-2009 Zend Technologies
+</code></p>
+
+<p>if you got dependency issue, you should also update mysql as same time
+use this command</p>
+
+<p>```</p>
+
+<pre><code>yum --enablerepo=remi update php mysql
+</code></pre>
+
+<p>```</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Subversion Installation]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2011/10/17/subversion_installation/"/>
+    <updated>2011-10-17T00:00:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2011/10/17/subversion_installation</id>
+    <content type="html"><![CDATA[<p>This articles is a guild for installing Subversion (a.k.a SVN) in
+CentOS5.</p>
+
+<h1>Requirement</h1>
+
+<ol>
+<li>apache server 2.x</li>
+</ol>
+
+
+<h1>Install</h1>
+
+<h3>Install Subversion and mod_dav_svn</h3>
+
+<p>Install Subversion server and WEBDev module of Apache - mod_dav_svn</p>
+
+<p><code>
+yum install subversion mod_dav_svn
+</code></p>
+
+<p>mod_dav_svn is a module of Apache server, we need it for accessing svn
+via http(s) protocol.</p>
+
+<h3>Create Repository</h3>
+
+<p>Using following command to create a repository home dictionary.</p>
+
+<p>In this case, we create repository under ”/opt/svn” folder.</p>
+
+<p><code>
+svnadmin create /opt/svn/repos
+</code></p>
+
+<h3>Modify Apache Configuration</h3>
+
+<p>Add a location section into Apache config file, it makes web server
+accessing /opt/svn/repos directory as public folder.</p>
+
+<p>```
+vi /etc/httpd/conf/httpd.conf</p>
+
+<h1>appending flowing section</h1>
+
+<p> 
+<Location /svn/repos>
+  DAV svn
+  SVNPath /opt/svn/repos
+  AuthType Basic
+  AuthName "Subversion repository"
+  AuthUserFile /opt/svn/password
+  Require valid-user
+</Location>
+```</p>
+
+<h3>Changing Directory Owner</h3>
+
+<p><code>
+chown -R apache.apache /opt/svn
+</code></p>
+
+<h3>Add Users For Accessing SVN</h3>
+
+<p>```</p>
+
+<h1>create a new user in password file under /opt/svn with argument -c</h1>
+
+<p>htpasswd -c /opt/svn/password Account1</p>
+
+<h1>appending new users by htpasswd WITHOUT -c argument</h1>
+
+<p>htpasswd /opt/svn/password Account2
+```</p>
+
+<p>you can see all user list in password file under /opt/svn/password, if
+you would like to disable a user, just put '#' in front of it.</p>
+
+<p>&lt;code note> if you got permission denied when committing, you may
+check the SELinux config,disabled it when you are still encoutting the
+permission problem. &lt;/note></p>
+
+<h1>Verify</h1>
+
+<p>open this url in web browser - <a href="http://SVN_SERVER_IP/svn/repos">http://SVN_SERVER_IP/svn/repos</a>, it will
+ask you an account and password.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[LAMP install on CentOS5]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2011/10/17/lamp_install/"/>
+    <updated>2011-10-17T00:00:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2011/10/17/lamp_install</id>
+    <content type="html"><![CDATA[<h2>OS installation</h2>
+
+<h3>VMWare</h3>
+
+<ul>
+<li>掛載iso檔</li>
+<li>網路卡設成NAT</li>
+<li>記憶體可調小一點300M應該就夠了</li>
+<li>不用特別去裝VMTools</li>
+</ul>
+
+
+<h3>CentOS 5</h3>
+
+<ul>
+<li>安裝成text mode的server就可(不用gui)</li>
+<li>照<a href="http://smartraining.cn/centos/server_installation" title="http://smartraining.cn/centos/server_installation">這篇</a>的方式去裝就好了</li>
+<li>網路設定如以改用dhcp</li>
+<li>Firewall disabled</li>
+</ul>
+
+
+<h4>新建一個一般usre</h4>
+
+<p><code>
+adduser username
+passwd username
+</code></p>
+
+<h4>網路設定</h4>
+
+<ul>
+<li>裝完後，如果網路沒有active，可以到/etc/sysconfig/network-scripts/ifcfg-eth0
+修改網路設定</li>
+</ul>
+
+
+<p>指定IP</p>
+
+<p>```</p>
+
+<pre><code>DEVICE=eth0                          #網路卡名稱
+BOOTPROTO=static                     #BOOTP協定
+BROADCAST=192.168.202.255            #廣播 IP Address
+HWADDR=00:15:C5:E5:99:B1             #MAC Address
+IPADDR=192.168.202.100               #IP Address
+NETMASK=255.255.254.0                #Netmask (遮罩)
+NETWORK=192.168.202.0                #網段
+ONBOOT=yes                           #開機自動啟動 
+</code></pre>
+
+<p>```</p>
+
+<p>DHCP</p>
+
+<p>```</p>
+
+<pre><code>DEVICE=eth0
+BOOTPROTO=dhcp
+ONBOOT=yes
+</code></pre>
+
+<p>```</p>
+
+<p>設定完重新啟動網卡</p>
+
+<p>```</p>
+
+<h1>/etc/rc.d/init.d/network restart</h1>
+
+<p>```</p>
+
+<h4>安裝packages</h4>
+
+<ul>
+<li>記得透過<a href="http://smartraining.cn/centos/yum" title="http://smartraining.cn/centos/yum">yum</a>裝以一下以下幾個packages，滿有用的</li>
+</ul>
+
+
+<p><code>
+yum -y  install wget bzip2 unzip zip nmap tree lynx
+</code></p>
+
+<h2>Server installation</h2>
+
+<p>預設的php是5.1.x的，有點太舊了，可以透過<a href="http://www.52crack.com/blog/?action=show&amp;id=368" title="http://www.52crack.com/blog/?action=show&amp;id=368">這個連結</a>的說明更新到5.2.x</p>
+
+<h3>MySQL 5</h3>
+
+<p>MySQL install</p>
+
+<p><code>
+yum -y install mysql-server
+</code></p>
+
+<p>set MySQL as daemon</p>
+
+<p><code>
+chkconfig mysqld on
+</code></p>
+
+<p>check config</p>
+
+<p>```
+chkconfig --list mysqld</p>
+
+<h1>2 - 5 should be on</h1>
+
+<p>mysqld 0:off 1:off 2:on 3:on 4:on 5:on 6:off
+```</p>
+
+<p>startup MySQL server</p>
+
+<p><code>
+/etc/rc.d/init.d/mysqld start
+</code></p>
+
+<p>change password</p>
+
+<p><code>
+mysqladmin -u root password 'Your Password'
+</code></p>
+
+<h3>Apache 2</h3>
+
+<p>install Apache server</p>
+
+<p><code>
+yum -y install httpd
+</code></p>
+
+<h3>PHP 5</h3>
+
+<p>install PHP</p>
+
+<p><code>
+yum -y install php php-mbstring php-mysql php-gd php-pear
+</code></p>
+
+<p>setup php.ini</p>
+
+<p><code>
+date.timezone = "Asia/Taipei"
+</code></p>
+
+<h3>Apache Config</h3>
+
+<p>set Apache as daemon</p>
+
+<p><code>
+chkconfig httpd on
+</code></p>
+
+<p>check config</p>
+
+<p>```
+chkconfig --list httpd</p>
+
+<h1>2 - 5 should be on</h1>
+
+<p>httpd  0:off 1:off 2:on 3:on 4:on 5:on 6:off
+```</p>
+
+<p>startup httpd server</p>
+
+<p><code>
+/etc/rc.d/init.d/httpd start
+</code></p>
+
+<h2>verify installed</h2>
+
+<p>create new php file in document root</p>
+
+<p><code>
+vi /var/www/html/index.php
+</code></p>
+
+<p>```</p>
+
+<pre><code>&lt;?php 
+phpinfo();
+?&gt;
+</code></pre>
+
+<p>```</p>
+
+<p>open by lynx borwser</p>
+
+<p><code>
+lynx http://localhost
+</code></p>
+
+<p>you should check
+<a href="http://wiki.kent-chiu.com/doku.php?id=ubuntu:lamp" title="ubuntu:lamp">this</a>
+article to config LAMP server</p>
+
+<p>如果無法從linux外存取web，可能會firewall的關係，在command
+line下執行<code>setup</code>可以關掉firewall</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[CentOS]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2011/10/17/centos/"/>
+    <updated>2011-10-17T00:00:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2011/10/17/centos</id>
+    <content type="html"><![CDATA[<ul>
+<li><a href="http://smartraining.cn/centos" title="http://smartraining.cn/centos">CentOS 5
+系列??</a>
+
+<ul>
+<li>SmarTraining 工作室</li>
+</ul>
+</li>
+<li><a href="http://wiki.kent-chiu.com/doku.php?id=centos:lamp_install" title="centos:lamp_install">LAMP install on
+CentOS5</a></li>
+<li><a href="http://wiki.kent-chiu.com/doku.php?id=centos:subversion_installation" title="centos:subversion_installation">Subversion
+Installation</a></li>
+<li><a href="http://wiki.kent-chiu.com/doku.php?id=centos:upgrade_php_to_5.3.x" title="centos:upgrade_php_to_5.3.x">upgrade php to
+5.3.x</a></li>
+<li><a href="http://www.wardking.com/blog/read.php/361.htm" title="http://www.wardking.com/blog/read.php/361.htm">install open jdk and tomcat in
+linux</a></li>
+</ul>
+
+
+<h3>Install From Network</h3>
+
+<p><code>
+Web site name: mirror.centos.org
+CentOS directory for i386: /centos/5.5/os/i386
+CentOS directory for x86_64: /centos/5.5/os/x86_64
+</code></p>
+
+<p><a href="http://www.if-not-true-then-false.com/2010/centos-netinstall-network-installation/" title="http://www.if-not-true-then-false.com/2010/centos-netinstall-network-installation/">reference</a></p>
+]]></content>
+  </entry>
+  
+</feed>

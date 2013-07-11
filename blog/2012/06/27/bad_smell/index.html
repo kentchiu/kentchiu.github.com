@@ -1,0 +1,780 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Code Smell - Kent's Blog</title>
+  <meta name="author" content="Kent">
+
+  
+  <meta name="description" content="程式碼的臭味，來自Martin的Refactory一書，用來形容程式碼中邏輯上沒問題，但感覺起來怪怪的(或聞起來臭臭的)地方。你必須知道程式那裡在發臭，才有辦法去除臭。 這些文章很重要呀，一定要不斷的讀，甚至每隔幾周、幾月就重複的看一次，因為當你有實作經驗後，讀起來會有更深刻的體驗呀。 Code &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.kent-chiu.com/blog/2012/06/27/bad_smell">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Kent's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-39152849-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Kent's Blog</a></h1>
+  
+    <h2>Kent的學習筆記(剛從dokuwiki搬過來，內容還在整修中)</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.kent-chiu.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Code Smell</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-06-27T00:00:00+08:00" pubdate data-updated="true">Jun 27<span>th</span>, 2012</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>程式碼的臭味，來自Martin的Refactory一書，用來形容程式碼中邏輯上沒問題，但<strong>感覺</strong>起來怪怪的(或聞起來臭臭的)地方。你必須知道程式那裡在發臭，才有辦法去除臭。</p>
+
+<p>這些文章很重要呀，一定要不斷的讀，甚至每隔幾周、幾月就重複的看一次，因為當你有實作經驗後，讀起來會有更深刻的體驗呀。</p>
+
+<h2>Code Smell Within Classes</h2>
+
+<ol>
+<li>Comments</li>
+<li>Long Method （過長函式）</li>
+<li>Long Parameter List</li>
+<li>Duplicated code （重複的程式碼）</li>
+<li>Conditional Complexity</li>
+<li>Combinitorial Explosion</li>
+<li>Large Class</li>
+<li>Type Embedded in Name</li>
+<li>Uncommunicative Name</li>
+<li>Inconsistent Names</li>
+<li>Dead Code</li>
+<li>Speculative Generality</li>
+<li>Oddball Solution</li>
+<li>Temporary Field</li>
+</ol>
+
+
+<h2>Code Smells Between Classes</h2>
+
+<ol>
+<li>Alternative Classes</li>
+<li>Primitive Obsession</li>
+<li>Data Class</li>
+<li>Data Clumps</li>
+<li>Refused Bequest</li>
+<li>Inappropriate</li>
+<li>Indecent Exposure</li>
+<li>Feature Envy</li>
+<li>Lazy Class</li>
+<li>Message Chains</li>
+<li>Middle Man</li>
+<li>Divergent Change</li>
+<li>Shotgun Surgery</li>
+<li>Parallel Inheritance Hierarchies</li>
+<li>Incomplete Library Class</li>
+<li>Solution Sprawl</li>
+</ol>
+
+
+<h2>Code Smells Category</h2>
+
+<p>以下內容均取自重構一書。</p>
+
+<h3>Duplicated Code（重複的程式碼）</h3>
+
+<p>臭味行列中首當其衝的就是Duplicated
+Code。如果你在一個以上的地點看到相同的程式結構，那麼當可肯定：設法將它們合而為一，程式會變得更好。</p>
+
+<p>最單純的Duplicated Code 就是「<strong>同一個class
+內的兩個函式含有相同算式（expression）</strong>」。這時候你需要做的就是採用Extract
+Method（110）提煉出重複的程式碼，然後讓這兩個地點都呼叫被提煉出來的那一段程式碼。</p>
+
+<p>另一種常見情況就是「<strong>兩個互為兄弟（sibling）的subclasses
+內含相同算式</strong>」。要避免這種情況，只需對兩個classes 都使用Extract
+Method（110），然後再對被提煉出來的程式碼使用Pull Up
+Method（332），將它推入superclass
+內。如果程式碼之間只是類似，並非完全相同，那麼就得運用Extract
+Method（110）將相似部分和差異部分割開，構成單獨一個函式。然後你可能發現或許可以運用Form
+TemplateMethod（345）獲得一個Template Method
+設計範式。如果有些函式以不同的演算法做相同的事，你可以擇定其中較清晰的一個，並使用Substitute
+Algorithm（139）將其他函式的演算法替換掉。</p>
+
+<p>如果兩個毫<strong>不相關的classes 內出現Duplicated
+Code</strong>，你應該考慮對其中一個使用Extract
+Class（149），將重複程式碼提煉到一個獨立class中，然後在另一個class內使用這個新class。但是，重複程式碼所在的函式也可能的確只應該屬於某個class，另一個class只能呼叫它，抑或這個函式可能屬於第三個class，而另個classes應該引用這第三個class。你必須決定這個函式放在哪兒最合適，並確保它被安置後就不會再在其他任何地方出現。</p>
+
+<h3>Long Method（過長函式）</h3>
+
+<p>擁有「短函式」（short
+methods）的物件會活得比較好、比較長。不熟悉物件導向技術的人，常常覺得物件程式中只有無窮無盡的delegation（委託），根本沒有進行任何計算。和此類程式共同生活數年之後，你才會知道，這些小小函式有多大價值。「間接層」所能帶來的全部利益
+— 解釋能力、共享能力、選擇能力 — 都是由小型函式支援的（請看p.61
+的「間接層和重構」）。</p>
+
+<p>很久以前程式員就已認識到：程式愈長愈難理解。早期的編程語言中，「子程式叫用動作」需要額外開銷，這使得人們不太樂意使用small
+method。現代OO語言幾乎已經完全免除了行程（process）內的「函式叫用動作額外開銷」。不過程式碼閱讀者還是得多費力氣，因為他必須經常轉換上下文去看看子程式做了什麼。某些開發環境允許使用者同時看到兩個函式，這可以幫助你省去部分麻煩，但是讓small
+method
+容易理解的真正關鍵在於一個好名字。如果你能給函式起個好名字，讀者就可以通過名字了解函式的作用，根本不必去看其中寫了些什麼。</p>
+
+<p>最終的效果是：你應該更積極進取地分解函式。我們遵循這樣一條原則：每<strong>當感覺需要以註釋來說明點什麼的時候</strong>，我們就把需要說明的東西寫進一個獨立函式中，並以其用途（而非實現手法）命名。我們可以對一組或甚至短短一行程式碼做這件事。哪怕替換後的函式呼叫動作比函式本身還長，只要函式名稱能夠解釋其用途，我們也該毫不猶豫地那麼做。關鍵不在於函式的長度，而在於函式「做什麼」和「如何做」之間的語意距離。</p>
+
+<p>百分之九十九的場合裡，要把函式變小，只需使用Extract
+Method（110）。找到函式中適合集在一起的部分，將它們提煉出來形成一個新函式。</p>
+
+<p>如果<strong>函式內有大量的參數和暫時變數</strong>，它們會對你的函式提煉形成阻礙。如果你嘗試運用Extract
+Method（110），最終就會把許多這些參數和暫時變數當做參數，傳遞給被提煉出來的新函式，導致可讀性幾乎沒有任何提昇。啊是的，你可以經常運用Replace
+Temp with Query（120）來消除這些暫時元素。Introduce
+ParameterObject（295）和Preserve Whole
+Object（288）則可以將過長的參數列變得更簡潔一些。</p>
+
+<p>如果你已經這麼做了，仍然有太多暫時變數和參數，那就應該使出我們的殺手翦：Replace
+Method with Method Object（135）。</p>
+
+<p>如何確定該提煉哪一段程式碼呢？一個很好的技巧是：尋找註釋。它們通常是指出「程式碼用途和實現手法間的語意距離」的信號。如果程式碼前方有一行註釋，就是在提醒你：可以將這段程式碼替換成一個函式，而且可以在註釋的基礎上給這個函式命名。就算只有一行程式碼，如果它需要以註釋來說明，那也值得將它提煉到獨立函式去。</p>
+
+<p><strong>條件式和迴圈常常也是提煉的信號</strong>。你可以使用Decompose
+Conditional（238）處理條件式。至於迴圈，你應該將迴圈和其內的程式碼提煉到一個獨立函式中。</p>
+
+<h3>Large Class（過大類別）</h3>
+
+<p>如果想利用單一class 做太多事情，其內往往就會<strong>出現太多instance
+變數</strong>。一旦如此，Duplicated Code 也就接踵而至了。</p>
+
+<p>你可以運用Extract Class（149）將數個變數一起提煉至新class
+內。提煉時應該選擇class 內彼此相關的變數，將它們放在一起。例如
+“depositAmount” 和”depositCurrency”
+可能應該隸屬同一個class。通常如果class
+內的<strong>數個變數有著相同的字首或字尾</strong>，這就意味有機會把它們提煉到某個組件內。如果這個組件適合作為一個subclass，你會發現Extract
+Subclass（330）往往比較簡單。有時候class
+並非在所有時刻都使用所有instance
+變數。果真如此，你或許可以多次使用Extract Class（149）或Extract
+Subclass（330）。</p>
+
+<p>和「太多instance 變數」一樣，<strong>class
+內如果有太多程式碼</strong>，也是「程式碼重複、混亂、死亡」的絕佳滋生地點。最簡單的解決方案（還記得嗎，我們喜歡簡單的解決方案）是把贅餘的東西消弭於class
+內部。如果有五個「百行函式」，它們之中很多程式碼都相同，那麼或許你可以把它們變成五個「十行函式」和十個提煉出來的「雙行函式」。</p>
+
+<p>和「擁有太多instance變數」一樣，一個class
+如果擁有太多程式碼，往往也適合使用Extract Class（149）和Extract
+Subclass（330）。這裡有個有用技巧：先確定客戶端如何使用它們，然後運用Extract
+Interface（341）為每一種使用方式提煉出一個介面。這或許可以幫助你看清楚如何分解這個class。</p>
+
+<p>如果你的Large Class 是個GUI
+class，你可能需要把資料和行為移到一個獨立的領域物件（domain
+object）去。你可能需要兩邊各保留一些重複資料，並令這些資料同步（sync.）。Duplicate
+Observed
+Data（189）告訴你該怎麼做。這種情況下，特別是如果你使用舊式Abstract
+Windows Toolkit（AWT）組件，你可以採用這種方式去掉GUI class
+並代以Swing組件。</p>
+
+<h5>Long Parameter List（過長參數列）</h5>
+
+<p>剛開始學習編程的時候，老師教我們：把函式所需的所有東西都以參數傳遞進去。這可以理解，因為除此之外就只能選擇全域資料，而全域資料是邪惡的東西。物件技術改變了這一情況，因為如果你手上沒有你所需要的東西，總可以叫另一個物件給你。因此，有了物件，你就不必把函式需要的所有東西都以參數傳遞給它了，你只需傳給它足夠的東西、讓函式能從中獲得自己需要的所有東西就行了。<strong>函式需要的東西多半可以在函式的宿主類別（host
+class）中找到</strong>。物件導向程式中的函式，其參數列通常比在傳統程式中短得多。</p>
+
+<p>這是好現象，因為太長的參數列難以理解，太多參數會造成前後不一致、不易使用，而且一旦你需要更多資料，就不得不修改它。如果將物件傳遞給函式，大多數修改都將沒有必要，因為你很可能只需（在函式內）增加一兩條請求（requests），就能得到更多資料。</p>
+
+<p>如果「向既有物件發出一條請求」就可以取得原本位於參數列上的一份資料，那麼你應該啟動重構準則Replace
+Parameter with Method（292）。上述的既有物件可能是函式所屬class
+內的一個資料欄（field），也可能是另一個參數。你還可以運用Preserve Whole
+Object（288）將來自同一物件的一堆資料收集起來，並以該物件替換它們。如果某些資料缺乏合理的物件歸屬，可使用Introduce
+ParameterObject（295）為它們製造出一個「參數物件」。</p>
+
+<p>此間存在一個重要的例外。有時候你明顯不希望造成「被叫用之物件」與「較大物件」間的某種依存關係。這時候將資料從物件中拆解出來單獨作為參數，也很合情合理。但是請注意其所引發的代價。如果參數列太長或變化太頻繁，你就需要重新考慮自己的依存結構（dependency
+structure）了。</p>
+
+<h3>Divergent Change（發散式變化）</h3>
+
+<p>我們希望軟體能夠更容易被修改 —
+畢竟軟體再怎麼說本來就該是「軟」的。一旦需要修改，我們希望能夠跳到系統的某一點，只在該處作修改。如果不能做到這點，你就嗅出兩種緊密相關的刺鼻味道中的一種了。</p>
+
+<p>如果某個class經常因為不同的原因在不同的方向上發生變化，Divergent
+Change就出現了。當你看著一個class
+說：『呃，如果新加入一個資料庫，我必須修改這三個函式；如果新出現一種金融工具，我必須修改這四個函式』，那麼此時也許將這個物件分成兩個會更好，這麼一來每個物件就可以只因一種變化而需要修改。</p>
+
+<p>當然，往往只有在加入新資料庫或新金融工具後，你才能發現這一點。針對某一<strong>外界變化的所有相應修改，都只應該發生在單一class
+中</strong>，而這個新class
+內的所有內容都應該反應該外界變化。為此，你應該找出因著某特定原因而造成的所有變化，然後運用Extract
+Class（149）將它們提煉到另一個class 中。</p>
+
+<h3>Shotgun Surgery（霰彈式修改）</h3>
+
+<p><strong>Shotgun Surgery類似Divergent
+Change，但恰恰相反</strong>。如果每遇到某種變化， 你都必須在許多不同的classes
+內作出許多小修改以回應之，你所面臨的壞味道就 是Shotgun
+Surgery。如果需要修改的程式碼散佈四處，你不但很難找到它們，
+也很容易忘記某個重要的修改。</p>
+
+<p>這種情況下你應該使用Move Method（142）和Move
+Field（146）<strong>把所有需要修改的程式碼放進同一個class</strong>。如果眼下沒有合適的class
+可以安置這些程式碼，就創造一個。通常你可以運用Inline
+Class（154）把一系列相關行為放進同一個class。這可能會造成少量Divergent
+Change，但你可以輕易處理它。</p>
+
+<p>Divergent Change 是指「一個class 受多種變化的影響」，Shotgun Surgery
+則是指「一種變化引發多個classes
+相應修改」。這兩種情況下你都會希望整理程式碼，取得「外界變化」與「待改類別」呈現一對一關係的理想境地。</p>
+
+<h3>Feature Envy（依戀情結）</h3>
+
+<p>物件技術的全部要點在於：這是一種「將資料和加諸其上的操作行為包裝在一起」的技術。有一種經典氣味是：<strong>函式對某個class
+的興趣高過對自己所處之host
+class的興趣</strong>。這種孺慕之情最通常的焦點便是資料。無數次經驗裡，我們看到某個函式為了計算某值，從另一個物件那兒呼叫幾乎半打的取值函式（getting
+method）。療法顯而易見：把這個函式移至另一個地點。你應該使用Move
+Method（142）把它移到它該去的地方。有時候函式中只有一部分受這種依戀之苦，這時候你應該使用Extract
+Method（110）把這一部分提煉到獨立函式中，再使用Move
+Method（142）帶它去它的夢中家園。</p>
+
+<p>當然，並非所有情況都這麼簡單。一個函式往往會用上數個classes
+特性，那麼它究竟該被置於何處呢？我們的原則是：判斷哪個class
+擁有最多「被此函式使用」的資料，然後就把這個函式和那些資料擺在一起兒。如果先以Extract
+Method（110）將這個函式分解為數個較小函式並分別置放於不同地點，上述步驟也就比較容易完成了。</p>
+
+<p>有數個複雜精巧的範式（patterns）破壞了這個規則。說起這個話題，「四巨頭」
+[Gangof Four] 的Strategy和Visitor立刻跳入我的腦海，Kent Beck的Self
+Delegation[Beck] 也在此列。使用這些範式是為了對抗壞味道Divergent
+Change。最根本的原則是：將總是一起變化的東西放在一塊兒。「資料」和「引用這些資料」的行為總是一起變化的，但也有例外。如果例外出現，我們就搬移那些行為，保持「變化只在一地發生」。Strategy
+和Visitor
+使你得以輕鬆修改函式行為，因為它們將少量需被覆寫（overridden）的行為隔離開來
+— 當然也付出了「多一層間接性」的代價。</p>
+
+<h3>Data Clumps（資料泥團）</h3>
+
+<p>資料項（data
+items）就像小孩子：喜歡成群結隊地待在一塊兒。你常常可以在很多地方看到相同的三或四筆資料項：<strong>兩個classes
+內的相同欄位（field）</strong>、<strong>許多函式署名式（signature）中的相同參數</strong>。這些「總是綁在一起出現的資料」真應該放進屬於它們自己的物件中。首先請找出這些資料的欄位形式（field）出現點，運用Extract
+Class（149）將它們提煉到一個獨立物件中。然後將注意力轉移到函式署名式（signature）上頭，運用Introduce
+Parameter Object（295）或Preserve
+WholeObject（288）為它減肥。這麼做的直接好處是可以將很多參數列縮短，簡化函式呼叫動作。是的，不必因為Data
+Clumps
+只用上新物件的一部分欄位而在意，只要你以新物件取代兩個（或更多）欄位，你就值回票價了。</p>
+
+<p>一個好的評斷辦法是：刪掉眾多資料中的一筆。其他資料有沒有因而失去意義？如果它們不再有意義，這就是個明確信號：你應該為它們產生一個新物件。</p>
+
+<p>縮短欄位個數和參數個數，當然可以去除一些壞味道，但更重要的是：一旦擁有新物件，你就有機會讓程式散發出一種芳香。得到新物件後，你就可以著手尋找Feature
+Envy，這可以幫你指出「可移至新class」中的種種程式行為。不必太久，所有classes都將在它們的小小社會中充分發揮自己的生產力。</p>
+
+<h3>Primitive Obsession（基本型別偏執）</h3>
+
+<p>大多數編程環境都有兩種資料：結構型別（record types）允許你將資料組織成有
+意義的形式；基本型別（primitive
+types）則是構成結構型別的積木塊。結構總是
+會帶來一定的額外開銷。它們有點像資料庫中的表格，或是那些得不償失（只為
+做一兩件事而創建，卻付出太大額外開銷）的東西。</p>
+
+<p>物件的一個極具價值的東西是：它們模糊（甚至打破）了橫亙於基本資料和體積
+較大的classes 之間的界限。你可以輕鬆編寫出一些與語言內建（基本）型別無異
+的小型classes。例如Java就以基本型別表示數值，而以class 表示字串和日期 —
+這 兩個型別在其他許多編程環境中都以基本型別表現。</p>
+
+<p><strong>物件技術的新手通常不願意在小任務上運用小物件 — 像是結合數值和幣別的
+money class、含一個起始值和一個結束值的range
+class、電話號碼或郵遞區號（ZIP） 等等的特殊strings。</strong>你可以運用Replace
+Data Value with Object（175）將原本單
+獨存在的資料值替換為物件，從而走出傳統的洞窟，進入炙手可熱的物件世界。
+如果欲替換之資料值是type code（型別代碼），而它並不影響行為，你可以運用
+Replace Type Code with Class（218）將它換掉。如果你有相依於此type
+code的條 件式，可運用Replace Type Code with Subclass（213）或Replace
+Type Code with State/Strategy（227）加以處理。</p>
+
+<p>如果你有一組應該總是被放在一起的欄位（fields），可運用Extract
+Class（149）。 如果你在參數列中看到基本型資料，不妨試試Introduce
+Parameter Object（295）。
+如果你發現自己正從array中挑選資料，可運用Replace Array with
+Object（186）。</p>
+
+<h3>Switch Statements（switch 驚悚現身）</h3>
+
+<p>物件導向程式的一個最明顯特徵就是：<strong>少用switch（或case）述句</strong>。從本質上說，switch
+述句的問題在於重複（duplication）。你常會發現同樣的switch
+述句散佈於不同地點。如果要為它添加一個新的case
+子句，你必須找到所有switch述句並修改它們。物件導向中的多型（polymorphism）概念可為此帶來優雅的解決辦法。</p>
+
+<p>大多數時候，一看到switch
+述句你就應該考慮以「多型」來替換它。問題是多型該出現在哪兒？switch
+述句常常根據type code（型別代碼）進行選擇，你要的是「與該type
+code相關的函式或class」。所以你應該使用Extract Method（110）將switch
+述句提煉到一個獨立函式中，再以Move
+Method（142）將它搬移到需要多型性的那個class
+裡頭。此時你必須決定是否使用Replace Type Code
+withSubclasses（223）或Replace Type Code with
+State/Strategy（227）。一旦這樣完成繼承結構之後，你就可以運用Replace
+Conditional with Polymorphism（255）了。</p>
+
+<p>如果你只是在單一函式中有些選擇事例，而你並不想改動它們，那麼「多型」就有點殺雞用牛刀了。這種情況下Replace
+Parameter with Explicit
+Methods（285）是個不錯的選擇。如果你的選擇條件之一是null，可以試試Introduce
+Null Object（260）。</p>
+
+<h3>Parallel Inheritance Hierarchies（平行繼承體系）</h3>
+
+<p>Parallel Inheritance Hierarchies其實是Shotgun
+Surgery的特殊情況。在這種情況下，每當你為某個class
+增加一個subclass，必須也為另一個class
+相應增加一個subclass。如果你發現某個繼承體系的class
+名稱字首和另一個繼承體系的class名稱字首完全相同，便是聞到了這種壞味道。</p>
+
+<p>消除這種重複性的一般策略是：讓一個繼承體系的實體（instances）指涉（參考、引用、refer
+to）另一個繼承體系的實體（instances）。如果再接再厲運用Move
+Method（142）和Move Field（146），就可以將指涉端（referring
+class）的繼承體系消弭於無形。</p>
+
+<h3>Lazy Class（冗員類別）</h3>
+
+<p>你所創建的每一個class，都得有人去理解它、維護它，這些工作都是要花錢的。<strong>如果一個class的所得不值其身價，它就應該消失</strong>。專案中經常會出現這樣的情況：某個class
+原本對得起自己的身價，但重構使它身形縮水，不再做那麼多工作；或開發者事前規劃了某些變化，並添加一個class
+來應付這些變化，但變化實際上沒有發生。不論上述哪一種原因，請讓這個class
+莊嚴赴義吧。如果某些subclass 沒有做滿足夠工作，試試Collapse
+Hierarchy（344）。對於幾乎沒用的組件，你應該以Inline
+Class（154）對付它們。</p>
+
+<h3>Speculative Generality（夸夸其談未來性）</h3>
+
+<p>這個令我們十分敏感的壞味道，命名者是Brian
+Foote。當有人說『噢，我想我們總有一天需要做這事』並因而企圖以各式各樣的掛勾（hooks）和特殊情況來處理一些非必要的事情，這種壞味道就出現了。那麼做的結果往往造成系統更難理解和維護。如果所有裝置都會被用到，那就值得那麼做；<strong>如果用不到，就不值得。</strong>用不上的裝置只會擋你的路，所以，把它搬開吧。</p>
+
+<p>如果你的<strong>某個abstract class 其實沒有太大作用，請運用Collapse
+Hierarchy（344）</strong>。<strong>非必要之delegation（委託）可運用Inline
+Class（154）除掉。</strong>如果<strong>函式的某些參數未被用上，可對它實施Remove
+Parameter（277）</strong>。如果函式名稱帶有多餘的抽象意味，應該對它實施Rename
+Method（273）讓它現實一些。</p>
+
+<p>如果函式或class 的惟一使用者是test
+cases（測試案例），這就飄出了壞味道Speculative
+Generality。如果你發現這樣的函式或class，請把它們連同其test
+cases都刪掉。但如果它們的用途是幫助test
+cases檢測正當功能，當然必須刀下留人。</p>
+
+<h3>Temporary Field（令人迷惑的暫時欄位）</h3>
+
+<p>有時你會看到這樣的物件：<strong>其內某個instance
+變數僅為某種特定情勢而設</strong>。這樣的程式碼讓人不易理解，因為你通常認為物件在所有時候都需要它的所有變數。在變數未被使用的情況下猜測當初其設置目的，會讓你發瘋。</p>
+
+<p>請使用Extract
+Class（149）給這個可憐的孤兒創造一個家，然後把所有和這個變數相關的程式碼都放進這個新家。也許你還可以使用Introduce
+Null Object（260）在「變數不合法」的情況下創建一個Null
+物件，從而避免寫出「條件式程式碼」。</p>
+
+<p><strong>如果class
+中有一個複雜演算法，需要好幾個變數，往往就可能導致壞味道Temporary Field
+的出現</strong>。由於實作者不希望傳遞一長串參數（想想為什麼），所以他把這些參數都放進欄位（fields）中。但是這些欄位只在使用該演算法時才有效，其他情況下只會讓人迷惑。這時候你可以利用Extract
+Class（149）把這些變數和其相關函式提煉到一個獨立class中。提煉後的新物件將是一個method
+object[Beck]（譯註：其存在只是為了提供呼叫函式的途徑，class
+本身並無抽象意味）。</p>
+
+<h3>Message Chains（過度耦合的訊息鏈）</h3>
+
+<p>如果你看到用戶向一個物件索求（request）另一個物件，然後再向後者索求另一個物件，然後再索求另一個物件…這就是Message
+Chain。實際程式碼中你看到的可能是一長串getThis()或一長串暫時變數。採行這種方式，意味客戶將與搜尋過程中的航行結構（structure
+of
+navigation）緊密耦合。一旦物件間的關係發生任何變化，客戶端就不得不作出相應修改。</p>
+
+<p>這時候你應該使用Hide Delegate（157）。你可以在Message Chain
+的不同位置進行這種重構手法。理論上你可以重構Message Chain
+上的任何一個物件，但這麼做往往會把所有中介物件（intermediate
+object）都變成Middle Man。通常更好的選擇是：先觀察Message Chain
+最終得到的物件是用來幹什麼的，看看能否以Extract
+Method（110）把使用該物件的程式碼提煉到一個獨立函式中，再運用MoveMethod（142）把這個函式推入Message
+Chain。如果這條鏈上的某個物件有多位客戶打算航行此航線的剩餘部分，就加一個函式來做這件事。</p>
+
+<p>有些人把任何函式鏈（method chain。譯註：就是Message
+Chain；物件導向領域中所謂「發送訊息」就是「喚起函式」）都視為壞東西，我們不這樣想。呵呵，我們的冷靜鎮定是出了名的，起碼在這件事情上是這樣。</p>
+
+<h3>Middle Man（中間轉手人）</h3>
+
+<p>物件的基本特徵之一就是封裝（encapsulation）—
+對外部世界隱藏其內部細節。封裝往往伴隨delegation（委託）。比如說你問主管是否有時間參加一個會議，他就把這個訊息委託給他的記事簿，然後才能回答你。很好，你沒必要知道這位主管到底使用傳統記事簿或電子記事簿抑或秘書來記錄自己的約會。</p>
+
+<p>但是人們<strong>可能過度運用delegation</strong>。你也許會看到<strong>某個class
+介面有一半的函式都委託給其他class，這樣就是過度運用</strong>。這時你應該使用Remove
+Middle
+Man（160），直接和實責物件打交道。如果這樣「不幹實事」的函式只有少數幾個，可以運用InlineMethod（117）把它們
+“inlining” 放進呼叫端。如果這些Middle Man
+還有其他行為，你可以運用Replace Delegation with
+Inheritance（355）把它變成實責物件的subclass，這樣你既可以擴展原物件的行為，又不必負擔那麼多的委託動作。</p>
+
+<h3>Inappropriate Intimacy（狎暱關係）</h3>
+
+<p>有時你會看到<strong>兩個classes 過於親密，花費太多時間去探究彼此的private
+成分。</strong>如果這發生在兩個「人」之間，我們不必做衛道之士；但對於classes，我們希望它們嚴守清規。</p>
+
+<p>就像古代戀人一樣，過份狎暱的classes 必須拆散。你可以採用Move
+Method（142）和Move
+Field（146）幫它們劃清界線，從而減少狎暱行徑。你也可以看看是否運用Change
+Bidirectional Association to Unidirectional（200）讓其中一個class
+對另一個斬斷情思。如果兩個classes 實在是情投意合，可以運用Extract
+Class（149）把兩者共同點提煉到一個安全地點，讓它們坦蕩地使用這個新class。或者也可以嘗試運用Hide
+Delegate（157）讓另一個class 來為它們傳遞相思情。</p>
+
+<p>繼承（inheritance）往往造成過度親密，因為subclass 對superclass
+的了解總是超過superclass
+的主觀願望。如果你覺得該讓這個孩子獨自生活了，請運用ReplaceInheritance
+with Delegation（352）讓它離開繼承體系。</p>
+
+<h3>Alternative Classes with Different Interfaces （異曲同工的類別）</h3>
+
+<p>如果<strong>兩個函式做同一件事，卻有著不同的署名式（signature）</strong>，請運用Rename
+Method（273）根據它們的用途重新命名。但這往往不夠，請反復運用Move
+Method（142）將某些行為移入classes，直到兩者的協定（protocols）一致為止。如果你必須重複而贅餘地移入程式碼才能完成這些，或許可運用Extract
+Superclass（336）為自己贖點罪。</p>
+
+<h3>Incomplete Library Class（不完美的程式庫類別）</h3>
+
+<p>復用（reuse）常被視為物件的終極目的。我們認為這實在是過度估計了（我們只是使用而已）。但是無可否認，許多編程技術都建立在library
+classes（程式庫類別）的基礎上，沒人敢說是不是我們都把排序演算法忘得一乾二淨了。</p>
+
+<p>library classes
+構築者沒有未卜先知的能力，我們不能因此責怪他們。畢竟我們自己也幾乎總是在系統快要構築完成的時候才能弄清楚它的設計，所以library
+構築者的任務真的很艱鉅。麻煩的是library
+的形式（form）往往不夠好，往往不可能讓我們修改其中的classes
+使它完成我們希望完成的工作。這是否意味那些經過實踐檢驗的戰術如Move
+Method（142）等等，如今都派不上用場了？</p>
+
+<p>幸好我們有兩個專門應付這種情況的工具。如果你只想修改library classes
+內的一兩個函式，可以運用Introduce Foreign
+Method（162）；如果想要添加一大堆額外行為，就得運用Introduce Local
+Extension（164）。</p>
+
+<h3>Data Class（純稚的資料類別）</h3>
+
+<p>所謂Data
+Class是指：<strong>它們擁有一些欄位（fields），以及用於存取（讀寫）這些欄位的函式，除此之外一無長物</strong>。這樣的classes
+只是一種「不會說話的資料容器」，它們幾乎一定被其他classes
+過份細瑣地操控著。這些classes
+早期可能擁有public欄位，果真如此你應該在別人注意到它們之前，立刻運用Encapsulate
+Field（206）將它們封裝起來。如果這些classes 內含容器類的欄位（collection
+fields），你應該檢查它們是不是得到了恰當的封裝；如果沒有，就運用Encapsulate
+Collection（208）把它們封裝起來。對於那些不該被其他classes
+修改的欄位，請運用Remove Setting Method（300）。</p>
+
+<p>然後，找出這些「取值/設值」函式（getting and setting
+methods）被其他classes 運用的地點。嘗試以Move
+Method（142）把那些呼叫行為搬移到Data
+Class來。如果無法搬移整個函式，就運用Extract
+Method（110）產生一個可被搬移的函式。不久之後你就可以運用Hide
+Method（303）把這些「取值/設值」函式隱藏起來了。</p>
+
+<p>Data Class
+就像小孩子。作為一個起點很好，但若要讓它們像「成年（成熟）」的物件那樣參與整個系統的工作，它們就必須承擔一定責任。</p>
+
+<h3>Refused Bequest（被拒絕的遺贈）</h3>
+
+<p>subclasses 應該繼承superclass
+的函式和資料。但如果它們不想或不需要繼承，又該怎麼辦呢？它們得到所有禮物，卻只從中挑選幾樣來玩！</p>
+
+<p>按傳統說法，這就意味繼承體系設計錯誤。你需要為這個subclass
+新建一個兄弟（sibling class），再運用Push Down Method（328）和Push Down
+Field（329）把所有用不到的函式下推給那兄弟。這樣一來superclass
+就只持有所有subclasses
+共享的東西。常常你會聽到這樣的建議：所有superclasses
+都應該是抽象的（abstract）。</p>
+
+<p>既然使用「傳統說法」這個略帶貶義的詞，你就可以猜到，我們不建議你這麼做，起碼不建議你每次都這麼做。我們經常利用subclassing
+手法來復用一些行為，並發現這可以很好地應用於日常工作。這也是一種壞味道，我們不否認，但氣味通常並不強烈。所以我們說：如果Refused
+Bequest
+引起困惑和問題，請遵循傳統忠告。但不必認為你每次都得那麼做。十有八九這種壞味道很淡，不值得理睬。</p>
+
+<p>如果subclass 復用了superclass 的行為（實作），卻又不願意支援superclass
+的介面，Refused Bequest 的壞味道就會變得濃烈。拒絕繼承superclass
+的實作，這一點我們不介意；但如果拒絕繼承superclass
+的介面，我們不以為然。不過即使你不願意繼承介面，也不要胡亂修改繼承體系，你應該運用Replace
+Inheritance with Delegation（352）來達到目的。</p>
+
+<h3>Comments（過多的註釋）</h3>
+
+<p>別擔心，我們並不是說你不該寫註釋。從嗅覺上說，Comments不是一種壞味道；事實上它們還是一種香味呢。我們之所以要在這裡提到Comments，因為人們常把它當作除臭劑來使用。常常會有這樣的情況：你看到<strong>一段程式碼有著長長的註釋</strong>，然後發現，這些註釋之所以存在乃是因為程式碼很糟糕。這種情況的發生次數之多，實在令人吃驚。</p>
+
+<p>Comments
+可以帶我們找到本章先前提到的各種壞味道。找到壞味道後，我們首先應該以各種重構手法把壞味道去除。完成之後我們常常會發現：<strong>註釋已經變得多餘了，因為程式碼已經清楚說明了一切</strong>。</p>
+
+<p>如果你需要註釋來解釋一塊程式碼做了什麼，試試Extract
+Method（110）；如果method已經提煉出來，但還是需要註釋來解釋其行為，試試Rename
+Method（273）；如果你需要註釋說明某些系統的需求規格，試試Introduce
+Assertion（267）。</p>
+
+<p>如果你不知道該做什麼，這才是註釋的良好運用時機。除了用來記述將來的打算之外，註釋還可以用來標記你並無十足把握的區域。你可以在註釋裡寫下自己「為什麼做某某事」。這類資訊可以幫助將來的修改者，尤其是那些健忘的傢伙。</p>
+
+<p>當你感覺需要撰寫註釋，請先嘗試重構，試著讓所有註釋都變得多餘。</p>
+
+<h2>臭味 V.S 除臭劑</h2>
+
+<p>  壞味道（smell）                                 常用的重構手法（Common Refactoring）</p>
+
+<hr />
+
+<p>  Alternative Classes with Different Interfaces   Rename Method (273), Move Method (142)
+  Comments                                        Extract Method (110), Introduce Assertion (267)
+  Data Class                                      Move Method (142), Encapsulate Field (206),Encapsulate Collection (208)
+  Data Clumps                                     Extract Class (149), Introduce Parameter Object (295),Preserve Whole Object (288)
+  Divergent Change                                Extract Class (149)
+  Duplicated Code                                 Extract Method (110), Extract Class (149),Pull Up Method (322), Form Template Method (345)
+  Feature Envy                                    Move Method (142), Move Field (146), Extract Method (110)
+  Inappropriate Intimacy                          Move Method (142), Move Field (146), Change Bidirectional Association to Unidirectional (200), Replace Inheritance with Delegation (352), Hide Delegate (157)
+  Incomplete Library Class                        Introduce Foreign Method (162),Introduce Local Extension (164)
+  Large Class                                     Extract Class (149), Extract Subclass (330), Extract Interface (341), Replace Data Value with Object (175)
+  Lazy Class                                      Inline Class (154), Collapse Hierarchy (344)
+  Long Method                                     Extract Method (110), Replace Temp With Query (120),Replace Method with Method Object (135),Decompose Conditional (238)
+  Long Parameter List                             Replace Parameter with Method (292), Introduce Parameter Object (295), Preserve Whole Object (288)
+  Message Chains                                  Hide Delegate (157)
+  Middle Man                                      Remove Middle Man (160), Inline Method (117),Replace Delegation with Inheritance (355)
+  Parallel Inheritance Hierarchies                Move Method (142), Move Field (146)
+  Primitive Obsession                             Replace Data Value with Object (175), Extract Class (149),Introduce Parameter Object (295), Replace Array with Object (186), Replace Type Code with Class (218),Replace Type Code with Subclasses (223),Replace Type Code with State/Strategy (227)
+  Refused Bequest                                 Replace Inheritance with Delegation (352)
+  Shotgun Surgery                                 Replace Inheritance with Delegation (352)
+  Speculative Generality                          Collapse Hierarchy (344), Inline Class (154),Remove Parameter (277), Rename Method (273)
+  Switch Statements                               Replace Conditional with Polymorphism (255), Replace Type Code with Subclasses (223), Replace Type Code with State/Strategy (227), Replace Parameter with Explicit Methods (285), Introduce Null Object (260)
+  Temporary Field                                 Extract Class (149), Introduce Null Object (260)</p>
+
+<h2>Resource</h2>
+
+<ul>
+<li><a href="http://industriallogic.com/papers/smellstorefactorings.pdf" title="http://industriallogic.com/papers/smellstorefactorings.pdf">code
+smell</a></li>
+<li><a href="http://jjhou.csdn.net/jjtbooks-refactoring.htm" title="http://jjhou.csdn.net/jjtbooks-refactoring.htm">Refactoring-Improving the Design of Existing
+Code(重構)</a></li>
+<li><a href="http://www.refactoring.com/catalog/index.html" title="http://www.refactoring.com/catalog/index.html">Refactoring
+Category</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Kent Chiu</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-06-27T00:00:00+08:00" pubdate data-updated="true">Jun 27<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/programming/'>programming</a>, <a class='category' href='/blog/categories/refactory/'>refactory</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://blog.kent-chiu.com/blog/2012/06/27/bad_smell/" data-via="" data-counturl="http://blog.kent-chiu.com/blog/2012/06/27/bad_smell/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/06/21/currying/" title="Previous Post: Currying">&laquo; Currying</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/07/02/play_framework_101/" title="Next Post: play framework 101">play framework 101 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/07/07/python-101/">Python 101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/25/url-encoding/">URL Encoding</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/04/restful-api-design/">RESTful API Design</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/17/my-intellij-idea-shortcut/">My IntelliJ IDEA Shortcut</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/12/jesper-report-font-issue/">Jesper Report, IReport 匯出成中文PDF</a>
+      </li>
+    
+  </ul>
+</section>
+
+Included file 'asides/twitter.html' not found in _includes directory
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Kent -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'kentchiu';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.kent-chiu.com/blog/2012/06/27/bad_smell/';
+        var disqus_url = 'http://blog.kent-chiu.com/blog/2012/06/27/bad_smell/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

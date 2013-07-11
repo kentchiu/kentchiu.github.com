@@ -1,0 +1,339 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>由上而下 vs 由下至上 的設計 - Kent's Blog</title>
+  <meta name="author" content="Kent">
+
+  
+  <meta name="description" content="在開始IDCView專案時，因為底層的模型相對複雜，在用Prototype Balsamiq
+Mockups^1)^軟體繪製完成後，就用Domain
+Driven
+Design的方式對底層的電力設備模型進行分析。模型塑模(modeling)到可開發程度後，就很真覺的寫了一些API去操作這些模型。 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.kent-chiu.com/blog/2011/10/17/top-down_v.s_bottom-up_design">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Kent's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-39152849-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Kent's Blog</a></h1>
+  
+    <h2>Kent的學習筆記(剛從dokuwiki搬過來，內容還在整修中)</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.kent-chiu.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">由上而下 vs 由下至上 的設計</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>在開始IDCView專案時，因為底層的模型相對複雜，在用Prototype <a href="http://www.balsamiq.com/products/mockups" title="http://www.balsamiq.com/products/mockups">Balsamiq
+Mockups</a>^<a href="#fn__1">1)</a>^軟體繪製完成後，就用<a href="http://wiki.kent-chiu.com/doku.php?id=prog:top-down_v.s_bottom-up_design" title="prog:top-down_v.s_bottom-up_design">Domain
+Driven
+Design</a>的方式對底層的電力設備模型進行分析。模型塑模(modeling)到可開發程度後，就<strong>很真覺</strong>的寫了一些API去操作這些模型。結果就很<strong>順理成章</strong>的採用了Bottom-Up(由下至上)的設計開發方式。</p>
+
+<p>整個架構，為了搭配語言及現有的API^<a href="#fn__2">2)</a>^特性，並沒有使用Rich
+Domain而是採POJO的設計方式，採用了4個主要的layers為<code>presentation → application → service → domain object(POJO)</code>。</p>
+
+<p>在一段開發時間後，寫了好一堆個人認為應該相當好用的APIs(service
+layer)，就打算套到servlet裡，就在這個時侯才發現，設計出來的API，在他的client
+(servlet)裡，並沒有那麼好用，總是需要額外的加工，才有辦法使用這些services或者是要好幾個api
+called才能完成一件事。在發現這個問題後，就改用Top-down的方式開發，事情就順利多了，而且每個設計出來的service也都剛好符合servlet的使用，並不需要太多的加工就可以有合適的service可以用，service的methods數量也大幅的減少。</p>
+
+<p>所以，個人認為Top-down的方式比較能達到<a href="http://wiki.kent-chiu.com/doku.php?id=prog:k.i.s.s" title="prog:k.i.s.s">K.I.S.S</a>的效果，尤其是對採用<a href="http://wiki.kent-chiu.com/doku.php?id=prog:tdd" title="prog:tdd">TDD</a>開發方式的人來說，因為TDD有一個準備動作，就是列出所有待測的TODOs，然後挑一個最簡單的來實作。這樣，其實很容易造成太多用不到的API，因為，基本上這樣的設計方式，是在在設計一個完整的元件，而不是<strong>剛好夠用</strong>元件。</p>
+
+<p>整個開發流程是：</p>
+
+<ol>
+<li>確定網頁大概會傳入/傳出那些參數</li>
+<li>撰寫 servlet test cases</li>
+<li>撰寫 servlet</li>
+<li>決定需要的service API</li>
+<li>Mock service API</li>
+<li>servlet完成</li>
+<li>撰寫 service test cases</li>
+<li>實作 service interface</li>
+<li>用DBUnit模擬db</li>
+</ol>
+
+
+<p>在<em>確定網頁大概會傳入/傳出那些參數</em>後，即可決定servlet的大致動作，然後就可以<em>撰寫
+servlet test
+cases</em>來<strong>mock</strong>參數的傳入及<strong>verify</strong>參數的傳出，然後，即可進行<em>撰寫
+servlet</em>來滿足servlet test cases，但是servlet需要service來完成 business
+logic，而且，因為是直接servlet裡決定service的api<strong>長相</strong>(此時要假設有一個完美的service
+api可以解決掉你的問題，並為這個api取一個直覺的名字)，所以，通常比較能設計出清楚而直接的service
+api，接著，用mock的方式來mock service
+api的動作，一方面可以比較快速的得到一個可以動的api，另一方面可以為設計做一個較乾淨的切割。接再讓Servlet的test
+cases通過測試了。</p>
+
+<p>再來就是service
+API的實作，如果實作部份跟資料庫有關，就用DBUnit來確定service會正常動作，而不是用mockup的方式了。</p>
+
+<p>改採Top-down最大的收獲是最終的設計比較符合<a href="http://wiki.kent-chiu.com/doku.php?id=prog:k.i.s.s" title="prog:k.i.s.s">K.I.S.S</a>的原則，但元件的很多<del>不必要</del>很好用功能的功能就不見了，所以，以後，萬一、如果、可能、或許要用到時，就得再加進去了。</p>
+
+<p>&lt;node
+warn>本文並是不在說Bottom-Up的設計不可取，而是要看需求，之前在開發Framework或Component
+base的程式時，反而是Bottom-Up比較適合，因為，你永遠不知道，別人會怎麼來使用你的API&lt;/note></p>
+
+<h1>Service Design</h1>
+
+<p>在前幾個模組的設計，對於service
+layer是採用一個模組(或servlet)只有一個service的設計方式，而且每個service只有一個interface(class
+file)，也只有一個相對的實作，一開始的動機為了讓模組間切割的更乾淨，但這樣做，會造成了不少重覆實作的Bad
+Smell，所以，最後為了去掉這些重覆，就還是改回多個services的架構.</p>
+
+<p>改成一個模組多個services的架構後，service的interface不但簡化了許多，而且更符合<a href="http://wiki.kent-chiu.com/doku.php?id=prog:ood_5_principles#srp" title="prog:ood_5_principles">SRP</a>，也消除了更多的重覆，更讓整體架構往更佳的方向前進，所以，去除重覆是很多最佳實踐的基石。</p>
+
+<p>^<a href="#fnt__1">1)</a>^ 再次感謝佛心的Balsamiq送我一個lincense</p>
+
+<p>^<a href="#fnt__2">2)</a>^ JPA</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Kent Chiu</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/programming/'>programming</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://blog.kent-chiu.com/blog/2011/10/17/top-down_v.s_bottom-up_design/" data-via="" data-counturl="http://blog.kent-chiu.com/blog/2011/10/17/top-down_v.s_bottom-up_design/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2011/10/17/the_use_the_index_luke_study_note/" title="Previous Post: The Use thd index,Luke 學習筆記">&laquo; The Use thd index,Luke 學習筆記</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2011/10/17/update_or_delete_from_subquery_result/" title="Next Post: Update Or Delete with Subquery reslut">Update Or Delete with Subquery reslut &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/07/07/python-101/">Python 101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/25/url-encoding/">URL Encoding</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/04/restful-api-design/">RESTful API Design</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/17/my-intellij-idea-shortcut/">My IntelliJ IDEA Shortcut</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/12/jesper-report-font-issue/">Jesper Report, IReport 匯出成中文PDF</a>
+      </li>
+    
+  </ul>
+</section>
+
+Included file 'asides/twitter.html' not found in _includes directory
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Kent -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'kentchiu';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.kent-chiu.com/blog/2011/10/17/top-down_v.s_bottom-up_design/';
+        var disqus_url = 'http://blog.kent-chiu.com/blog/2011/10/17/top-down_v.s_bottom-up_design/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

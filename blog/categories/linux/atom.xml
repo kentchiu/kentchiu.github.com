@@ -1,0 +1,1038 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: linux | Kent's Blog]]></title>
+  <link href="http://blog.kent-chiu.com/blog/categories/linux/atom.xml" rel="self"/>
+  <link href="http://blog.kent-chiu.com/"/>
+  <updated>2013-07-11T21:16:37+08:00</updated>
+  <id>http://blog.kent-chiu.com/</id>
+  <author>
+    <name><![CDATA[Kent]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Linux Commands]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2012/03/23/commands/"/>
+    <updated>2012-03-23T00:00:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2012/03/23/commands</id>
+    <content type="html"><![CDATA[<h2>Processes</h2>
+
+<p>查看Run Level</p>
+
+<p><code>
+runlevel
+</code></p>
+
+<p>關機</p>
+
+<p><code>
+Shutdown -h now
+init 0
+</code></p>
+
+<p>如果文字模式下無法正常關機，可以用<code>init 0</code>試試</p>
+
+<h5>背景執行 &amp;</h5>
+
+<p>```</p>
+
+<h1>./myService.sh &amp;</h1>
+
+<p>```</p>
+
+<p>但是，這樣登出後，myService.sh的process還是會被kill掉，如果process不想在user登出後被kill，可用
+<strong>nohup</strong></p>
+
+<p>```</p>
+
+<h1>nohup ./myService.sh &amp;</h1>
+
+<p>```</p>
+
+<h5>文字模式下的多session模式</h5>
+
+<p>使用screen可以在一個登入下，變成多個session操作，有點像視窗模式中的分頁功能</p>
+
+<p>ref:<a href="http://blog.roodo.com/albertarea/archives/3358957.html" title="http://blog.roodo.com/albertarea/archives/3358957.html">http://blog.roodo.com/albertarea/archives/3358957.html</a></p>
+
+<h2>執行過的指令歷史</h2>
+
+<p>History是執行過的指令的歷史，簡單的狀況下，可以用上/下鍵來找出之前執行過的指令，但有時，其他的方式會更適合</p>
+
+<h4>history</h4>
+
+<p>history會依序列出執行過的指令</p>
+
+<p>```</p>
+
+<h1>history</h1>
+
+<p>  1 cd
+  2 ls
+  3 ps
+```</p>
+
+<p><code>history -c</code>可以清掉歷史</p>
+
+<h5>!num</h5>
+
+<p>使用<code>! + 數字</code>可以執行history相對的號碼的指令</p>
+
+<p>```</p>
+
+<h1>history</h1>
+
+<p>  1 cd
+  2 ls
+  3 ps</p>
+
+<h1>!3</h1>
+
+<p>```</p>
+
+<p><code>!3</code>會執行<code>ps</code></p>
+
+<h5>!command</h5>
+
+<p>使用<code>! + command</code>可以執行history相對應的指令，比如說，之前執行過<code>ps aux | grep test</code>
+可以使用<code>!ps</code>，這樣會再執行完整的<code>ps aux | grep test</code></p>
+
+<h5>ctrl + r</h5>
+
+<p>ctrl +
+r可以用來快速搜尋hitory中的指令列表，當按下<code>ctrl + r</code>會出現<strong>(reverse-i-search)</strong>，之後可以打要搜尋的指令</p>
+
+<p><code>
+#
+(reverse-i-search)
+</code></p>
+
+<h2>User Management</h2>
+
+<h2>File Management</h2>
+
+<p>檔案列表</p>
+
+<p><code>
+ls
+</code></p>
+
+<p>更新locate資訊</p>
+
+<p><code>
+sudo updatedb
+</code></p>
+
+<p>找檔</p>
+
+<p><code>
+locate [filename]
+</code></p>
+
+<h4>cd -</h4>
+
+<p>在兩個目錄間切換</p>
+
+<p><code>
+/user/home/dir1#cd /user/home/dir2
+/user/home/dir2#cd -
+/user/home/dir1#cd -
+/user/home/dir2#
+</code></p>
+
+<h2>Packages</h2>
+
+<h2>文本处理命令</h2>
+
+<h4>cat</h4>
+
+<ul>
+<li><strong>功能說明</strong>: 用于從文件頭到文件尾方向滾屏顯示文本文件內容</li>
+<li><strong>命令格式</strong>: <code>cat [參數] [&lt;文件&gt; …]</code></li>
+<li><p><strong>常用參數</strong>:</p>
+
+<ul>
+<li><strong>-n</strong> : 由 1 開始對所有輸出的行進行編號</li>
+<li><strong>-b</strong> : 和 -n 相似，只不過對于空行不編號</li>
+<li><strong>-s</strong> : 當遇到有連續兩行以上的空行時，使用一個空行代替</li>
+</ul>
+</li>
+<li><p><strong>使用舉例</strong>:</p></li>
+</ul>
+
+
+<p><code>
+$ cat file
+$ cat -n file
+</code></p>
+
+<ol>
+<li>系統還提供了一個 tac 命令，用于從文件尾到文件頭顯示文件內容。</li>
+<li>系統還提供了一個 rev 命令，與 tac
+不同，它并不反轉行序，而是把每行的內容反轉。</li>
+<li>可以使用cat命令連接多個文本文件，如：</li>
+</ol>
+
+
+<p><code>
+$ cat file1 file2 &gt; files
+</code></p>
+
+<h4>more</h4>
+
+<ul>
+<li><strong>功能說明</strong>: 從文件頭到文件尾分屏顯示文本文件內容</li>
+<li><strong>命令格式</strong>: <code>more [參數] [&lt;文件&gt; …]</code></li>
+<li><p><strong>常用參數</strong>:</p>
+
+<ul>
+<li><strong>-d</strong> : 顯示提示信息“[Press space to continue, 'q' to quit.]”</li>
+<li><strong>-s</strong> : 當遇到有連續兩行以上的空行時，使用一個空行代替</li>
+<li><strong>+num</strong> : 從第 num 行開始顯示</li>
+</ul>
+</li>
+<li><p><strong>使用舉例</strong>:</p></li>
+</ul>
+
+
+<p><code>
+$ more file
+$ more +10 file
+</code></p>
+
+<ol>
+<li>系統還提供了一個 less 命令，用于雙向顯示分屏顯示文本文件內容。</li>
+<li>less 的功能比 more 豐富的多，可以使用如下命令查看其內置功能</li>
+</ol>
+
+
+<p><code>
+$ less --help
+</code></p>
+
+<h4>head</h4>
+
+<ul>
+<li><strong>功能說明</strong>: 顯示文本文件的前部的若干行</li>
+<li><strong>命令格式</strong>: <code>head [參數] [&lt;文件&gt; …]</code></li>
+<li><p><strong>常用參數</strong>:</p>
+
+<ul>
+<li><strong>-n</strong> : 顯示前 n 行，不指定此參數顯示前 10 行</li>
+</ul>
+</li>
+<li><p><strong>使用舉例</strong>:</p></li>
+</ul>
+
+
+<p><code>
+$ head file
+$ head -5 file
+</code></p>
+
+<h4>tail</h4>
+
+<ul>
+<li><strong>功能說明</strong>: 顯示文本文件的后部的若干行</li>
+<li><strong>命令格式</strong>: <code>tail [參數] [&lt;文件&gt; …]</code></li>
+<li><p><strong>常用參數</strong>:</p>
+
+<ul>
+<li><strong>-n</strong> : 顯示后 n 行，不指定此參數顯示后 10 行</li>
+<li><strong>+n</strong> : 從第 n 行顯示到文件尾</li>
+<li><strong>-F</strong> :
+用于跟蹤顯示不斷增長的文件結尾內容（通常用于顯示日志文件）</li>
+</ul>
+</li>
+<li><p><strong>使用舉例</strong>:</p></li>
+</ul>
+
+
+<p><code>
+$ tail file
+$ tail -5 file
+$ tail +5 file
+$ tail -F /var/log/messages
+</code></p>
+
+<h4>cut</h4>
+
+<ul>
+<li><strong>功能說明</strong>: 縱向切割出文本指定的部分并寫到標準輸出</li>
+<li><strong>命令格式</strong>: <code>cut [參數] [&lt;文件&gt; …]</code></li>
+<li><strong>常用參數</strong>:
+
+<ul>
+<li><strong>-b&lt;LIST></strong> : 只列出&lt;LIST>指定的字節</li>
+<li><strong>-c&lt;LIST></strong> : 只列出&lt;LIST>指定的字符</li>
+<li><strong>-f&lt;LIST></strong> :
+只列出&lt;LIST>指定的字段；并打印所有不包含分界符的行，除非 -s
+選項被指定</li>
+<li><strong>-s</strong> : 不打印沒有包含分界符的行</li>
+<li><strong>-d&lt;DELIM></strong> :
+DELIM是分界符，使用指定&lt;DELIM>代替制表符作為區域分界</li>
+<li><strong>–complement</strong> : 補足選中的字節、字符或字段的占位</li>
+<li><strong>–output-delimiter=&lt;STRING></strong> :
+使用指定&lt;STRING>作為輸出分界符默認時采用輸入的分界符</li>
+</ul>
+</li>
+</ul>
+
+
+<p><strong>LIST 的語法</strong></p>
+
+<p>選用 -b、-c 或 -f
+中一個或若干個選項時，每個&lt;LIST>都由一個范圍域或是由逗號分隔開的多個范圍域組成。被選中的輸入會被按照和讀入時相同的次序寫到屏幕，每個輸入只會被輸出一次。
+每個范圍域可以是以下中的任何一種：</p>
+
+<ul>
+<li><strong>N</strong> : 第N個字節、字符或字段，從 1 開始計數</li>
+<li><strong>N-</strong> : 從第N個字節、字符或字段，直到行尾</li>
+<li><strong>N-M</strong> : 從第N個到第M個已包含的字符、字符或字段</li>
+<li><p><strong>-M</strong> : 從第一個到第M個字節、字符或字段</p></li>
+<li><p><strong>使用舉例</strong>:</p></li>
+</ul>
+
+
+<p><code>
+$ cut -b-10 file
+$ cut -c5- file
+$ cut -c5-10,15-20 file
+$ cut -f1,3,5 file
+$ cut -f2-4 file
+$ cut -f2-4 -d' ' file
+$ cut -f1,2-4,6 -d' ' -s file
+</code></p>
+
+<h4>paste</h4>
+
+<ul>
+<li><strong>功能說明</strong>: 縱向合并多個文本并寫到標準輸出</li>
+<li><strong>命令格式</strong>: <code>paste [參數] [&lt;文件&gt; …]</code></li>
+<li><p><strong>常用參數</strong>:</p>
+
+<ul>
+<li><strong>-d&lt;DELIM></strong> :
+DELIM是分界符，使用指定&lt;DELIM>代替制表符作為區域分界</li>
+<li><strong>-s</strong> : 不使用平行的行目輸出模式，而是每個文件占用一行</li>
+</ul>
+</li>
+<li><p><strong>使用舉例</strong>:</p></li>
+</ul>
+
+
+<p><code>
+$ paste file1 file2
+$ paste -s file1 file2
+$ paste -d' ' file1 file2
+</code></p>
+
+<h4>sort</h4>
+
+<ul>
+<li><strong>功能說明</strong>: 以行為單位對文件進行排序</li>
+<li><strong>命令格式</strong>: <code>sort [參數] [&lt;文件&gt; …]</code></li>
+<li><p><strong>常用參數</strong>:</p>
+
+<ul>
+<li><strong>-b</strong> : 忽略前導的空格</li>
+<li><strong>-d</strong> : 只考慮空格,字母,數字</li>
+<li><strong>-f</strong> : 忽略字母的大小寫</li>
+<li><strong>-i</strong> : 只考慮可打印字符</li>
+<li><strong>-M</strong> : 排序月份，(未知詞)&lt;“JAN”&lt; … &lt;“DEC”</li>
+<li><strong>-n</strong> : 根據字符串的數值進行排序</li>
+<li><strong>-r</strong> : 逆向排序</li>
+<li><strong>-u</strong> : 對相同的行只輸出一行</li>
+<li><strong>+n</strong> : n 為數字,對指定的列進行排序,+0 表示第1列,
+以空格或制表符作為列的間隔符</li>
+</ul>
+</li>
+<li><p><strong>使用舉例</strong>:</p></li>
+</ul>
+
+
+<p><code>
+$ sort file
+$ sort -bd file
+$ sort -bn file
+$ sort -r file
+$ sort -u file
+$ sort +5 file
+$ sort +5 -rb file
+$ sort file1 file2
+$ sort -br file1 file2
+</code></p>
+
+<ol>
+<li>本地環境變量會影響排序結果。</li>
+<li>如果希望以字節的自然值獲得最傳統的排序結果，請設定 LC_ALL=C。</li>
+</ol>
+
+
+<h4>uniq</h4>
+
+<ul>
+<li><strong>功能說明</strong>: 刪除文本文件中相鄰的重復的行并寫到標準輸出</li>
+<li><strong>命令格式</strong>: <code>uniq [參數] [&lt;輸入文件&gt; [&lt;輸出文件&gt;]]</code></li>
+<li><p><strong>常用參數</strong>:</p>
+
+<ul>
+<li><strong>-c</strong> : 在每行前加上表示相應行目出現次數的前綴編號</li>
+<li><strong>-d</strong> : 只顯示重復的行</li>
+<li><strong>-i</strong> : 略大小寫差異</li>
+<li><strong>-u</strong> : 只顯示出現一次的行</li>
+<li><strong>-s&lt;N></strong> : &lt;N> 為數字，對各行前&lt;N>個字符不作比較</li>
+<li><strong>-w&lt;N></strong> : &lt;N>
+為數字，對各行第&lt;N>個字符以后的內容不作比較</li>
+</ul>
+</li>
+<li><p><strong>使用舉例</strong>:</p></li>
+</ul>
+
+
+<p><code>
+$ uniq file
+$ uniq -i file
+$ uniq -cd file
+$ uniq -u file
+</code></p>
+
+<h4>wc</h4>
+
+<ul>
+<li><strong>功能說明</strong>: 統計指定文本文件的行數、字數、字符數</li>
+<li><strong>命令格式</strong>: <code>wc [參數] [&lt;文件&gt; …]</code></li>
+<li><p><strong>常用參數</strong>:</p>
+
+<ul>
+<li><strong>-c</strong> : 輸出字節數統計</li>
+<li><strong>-l</strong> : 輸出行數統計</li>
+<li><strong>-L</strong> : 輸出最長一行的長度</li>
+<li><strong>-w</strong> : 輸出單詞數統計</li>
+</ul>
+</li>
+<li><p><strong>使用舉例</strong>:</p></li>
+</ul>
+
+
+<p><code>
+$ wc file
+$ wc -l file
+$ wc -w file
+$ wc -c file
+$ wc -L file
+</code></p>
+
+<h4>expand</h4>
+
+<ul>
+<li><strong>功能說明</strong>: 將文件中的制表符轉換為空格，寫到標準輸出</li>
+<li><strong>命令格式</strong>: <code>expand [參數] [&lt;文件&gt; …]</code></li>
+<li><p><strong>常用參數</strong>:</p>
+
+<ul>
+<li><strong>-i</strong> : 不轉換非空格后的制表符</li>
+<li><strong>-t&lt;N></strong> : 設定每個制表符為指定&lt;N>的寬度，而不是默認的 8</li>
+</ul>
+</li>
+<li><p><strong>使用舉例</strong>:</p></li>
+</ul>
+
+
+<p><code>
+$ expand file
+$ expand -t4 file
+</code></p>
+
+<h4>unexpand</h4>
+
+<ul>
+<li><strong>功能說明</strong>: 將文件中的空格轉換為制表符，寫到標準輸出</li>
+<li><strong>命令格式</strong>: <code>unexpand [參數] [&lt;文件&gt; …]</code></li>
+<li><p><strong>常用參數</strong>:</p>
+
+<ul>
+<li><strong>-a</strong> : 轉換所有空格字符而不僅僅是字母首部的空格</li>
+<li><strong>–first-only</strong> : 只轉換首部的空格字符序列 (覆蓋 -a 選項)</li>
+<li><strong>-t&lt;N></strong> : 設定每個制表符為指定&lt;N>的寬度，而不是默認的 8
+(激活 -a 選項)</li>
+</ul>
+</li>
+<li><p><strong>使用舉例</strong>:</p></li>
+</ul>
+
+
+<p><code>
+$ unexpand file
+$ unexpand -t4 file
+</code></p>
+
+<h4>iconv</h4>
+
+<ul>
+<li><strong>功能說明</strong>: 將文件從一種編碼轉換成另一種編碼</li>
+<li><strong>命令格式</strong>: <code>iconv [參數] &lt;輸入文件&gt;</code></li>
+<li><p><strong>常用參數</strong>:</p>
+
+<ul>
+<li><strong>-f &lt;encoding></strong> : 指定原始文本編碼</li>
+<li><strong>-t &lt;encoding></strong> : 指定要轉換的編碼</li>
+<li><strong>-l</strong> : 列出所有已知編碼字符集</li>
+<li><strong>-c</strong> : 忽略輸出中的無效字符</li>
+<li><strong>-o &lt;output file></strong> : 指定輸出文件，而不是在標準輸出上顯示</li>
+</ul>
+</li>
+<li><p><strong>使用舉例</strong>:</p></li>
+</ul>
+
+
+<p><code>
+$ iconv -l
+$ iconv -f ISO-8859-1 -t UTF-8 -o outputfile inputfile
+$ iconv -f GB2312 -t UTF-8 -o outputfile inputfile
+$ iconv -f GBK -t UTF-8 -o outputfile inputfile
+$ iconv -f BIG5 -t UTF-8 -o outputfile inputfile
+$ iconv -f UTF-8 -t GB2312 -o outputfile inputfile
+</code></p>
+
+<h4>dos2unix</h4>
+
+<ul>
+<li><strong>功能說明</strong>: 將DOS格式的文本文件轉換成UNIX格式的文本文件</li>
+<li><strong>命令格式</strong>: <code>dos2unix [參數] &lt;文件&gt; [&lt;輸出文件&gt;]</code></li>
+<li><p><strong>常用參數</strong>:</p>
+
+<ul>
+<li><strong>-k</strong> : 不改變文件的時間戳</li>
+<li><strong>-n</strong> :
+新文件模式，即不改變原文件將轉換結果保存到指定的輸出文件</li>
+</ul>
+</li>
+<li><p><strong>使用舉例</strong>:</p></li>
+</ul>
+
+
+<p><code>
+$ dos2unix dosfile
+$ dos2unix -n dosfile linuxfile
+$ dos2unix -k *
+$ dos2unix -k -n dosfile linuxfile
+</code></p>
+
+<ol>
+<li>系統還提供了一個 unix2dos
+命令，用于將UNIX格式的文本文件轉換成DOS格式的文本文件。使用方法與
+dos2unix 命令一樣。</li>
+</ol>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[grep command]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2012/01/28/grep_command/"/>
+    <updated>2012-01-28T00:00:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2012/01/28/grep_command</id>
+    <content type="html"><![CDATA[<p>Syntax: grep [options] pattern [files]</p>
+
+<h5>找某個檔案中是否有存在特定文字</h5>
+
+<p>```</p>
+
+<h1>grep foobar ~/myfile.txt</h1>
+
+<p>```</p>
+
+<h5>計算特定文字出現的次數</h5>
+
+<p>```</p>
+
+<h1>grep -c foobar ~/myfile.txt</h1>
+
+<p>```</p>
+
+<h5>找有的目錄下的當案是否有存在特定文字</h5>
+
+<p>```</p>
+
+<h1>grep -ri foobar ~/</h1>
+
+<p>```</p>
+
+<h5>使用Regular Expression</h5>
+
+<p>```</p>
+
+<h1>grep "^foobar" ~/myfile.txt</h1>
+
+<p>```</p>
+
+<p>可以用”^\$”來找出空白行</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Solaris ,RHEL ,Ubuntu - Pros and Cons]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2011/10/17/solaris_rhel_ubuntu_-_pros_and_cons/"/>
+    <updated>2011-10-17T00:00:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2011/10/17/solaris_rhel_ubuntu_-_pros_and_cons</id>
+    <content type="html"><![CDATA[<h2>Comparison Table</h2>
+
+<p>Open Solaris</p>
+
+<p>CentOs</p>
+
+<p>Ubuntu</p>
+
+<p>Version</p>
+
+<p>10</p>
+
+<p>5</p>
+
+<p>904</p>
+
+<p>Kernel</p>
+
+<p>unix</p>
+
+<p>linux</p>
+
+<p>linux</p>
+
+<p>commercial Version</p>
+
+<p>Solaris</p>
+
+<p>Red Hat</p>
+
+<p>X</p>
+
+<p>Availability</p>
+
+<p>★★★★★</p>
+
+<p>★★★★</p>
+
+<p>★★★</p>
+
+<p>LAMP package</p>
+
+<p>★★</p>
+
+<p>★★★</p>
+
+<p>★★★★★</p>
+
+<p>package manager</p>
+
+<p>★★</p>
+
+<p>★★★★</p>
+
+<p>★★★★★</p>
+
+<p>Security</p>
+
+<p>★★★★★</p>
+
+<p>★★★★</p>
+
+<p>★★</p>
+
+<p>Performance(x86 PC)</p>
+
+<p>★★★★</p>
+
+<p>★★★★★</p>
+
+<p>★★★★★</p>
+
+<p>Fault Tolerance</p>
+
+<p>★★★★★</p>
+
+<p>★★★★</p>
+
+<p>★★</p>
+
+<p>Popular(server)</p>
+
+<p>★★★</p>
+
+<p>★★★★★</p>
+
+<p>★★</p>
+
+<p>Community</p>
+
+<p>★★</p>
+
+<p>★★★★</p>
+
+<p>★★★★★</p>
+
+<p>Text Mode^<a href="#fn__1">1)</a>^</p>
+
+<p>No</p>
+
+<p>Yes</p>
+
+<p>Yes</p>
+
+<p>Features</p>
+
+<p>ZFS \
+ D-Trace \
+ Self-Healing</p>
+
+<p>industry standard \
+ Scalable Hardware Support \
+ Cluster and Load Balancing Support</p>
+
+<h3>Trend</h3>
+
+<p><img src="/images/wiki/linux/trend_linux.png" alt="trend_linux.png" /></p>
+
+<h2>Solaris (Open Solaris)</h2>
+
+<h3>Pros</h3>
+
+<ul>
+<li>High Availability</li>
+<li>Unix Base Kernel</li>
+<li><a href="http://en.wikipedia.org/wiki/ZFS" title="http://en.wikipedia.org/wiki/ZFS">ZFS</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Dtrace" title="http://en.wikipedia.org/wiki/Dtrace">D-Trace</a></li>
+</ul>
+
+
+<h3>Cons</h3>
+
+<ul>
+<li><p>Hard to use.</p>
+
+<ul>
+<li>There are not enough document to set functions up of solaris.</li>
+</ul>
+</li>
+<li><p>Difference usage style.</p>
+
+<ul>
+<li>The experience of Linux could not totally apply to Solaris.</li>
+</ul>
+</li>
+<li><p>Sun bought by Oracle, no body know how will Solaris going.</p></li>
+</ul>
+
+
+<h3>Conclusion</h3>
+
+<p>If we need using Open Solaris as our server, we need more efforts on
+this.</p>
+
+<p>The unix base Solaris provides high Availability and more scalability
+and the amazing
+<a href="http://en.wikipedia.org/wiki/ZFS" title="http://en.wikipedia.org/wiki/ZFS">ZFS</a>
+and
+<a href="http://en.wikipedia.org/wiki/Dtrace" title="http://en.wikipedia.org/wiki/Dtrace">D-Trace</a>.</p>
+
+<p>if we don't have man who is familiar with it Solaris, it is hard to
+manage. <strong>More power more responsibility.</strong></p>
+
+<h2>RHEL (CentOS)</h2>
+
+<h3>Pros</h3>
+
+<ul>
+<li>industry standard for production servers</li>
+<li>Stable Builds</li>
+<li>Scalable Hardware Support</li>
+<li>Cluster and Load Balancing Support</li>
+<li>Longer Release Dates and Support</li>
+<li>Enhanced Remote Management</li>
+</ul>
+
+
+<h3>Cons</h3>
+
+<ul>
+<li>for security reason, RHEL disabled most function, we need more
+efforts to set it up if we need those.</li>
+</ul>
+
+
+<h3>Conclusion</h3>
+
+<p>Red Hat Enterprise Linux (RHEL) is quickly becoming the industry
+standard for production servers.The CentOS is a Community version of
+RHEL.</p>
+
+<p>Regarding our resource, if we don't have any professional support, <strong>I
+strong recommended to use RHEL as our production server</strong>.</p>
+
+<p>The RHEL is reliable enough and easy to manage.</p>
+
+<h2>Ubuntu</h2>
+
+<h3>Pros</h3>
+
+<ul>
+<li>Large Community</li>
+</ul>
+
+
+<h3>Cons</h3>
+
+<ul>
+<li>most people using Ubuntu as a Desktop rather than as a Server.</li>
+</ul>
+
+
+<h3>Conclusion</h3>
+
+<p>Not recommended using Ubuntu as a production server.</p>
+
+<p>^<a href="#fnt__1">1)</a>^ running without GUI</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Ubuntu下裝無蝦米(scim)]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2011/10/17/scim_with_liu/"/>
+    <updated>2011-10-17T00:00:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2011/10/17/scim_with_liu</id>
+    <content type="html"><![CDATA[<p>```</p>
+
+<h1>apt-get install scim scim-pinyin scim-chewing scim-tables-zh scim-qtimm im-switch</h1>
+
+<h1>im-switch -s scim</h1>
+
+<p> 
+sudo cp ~/liu.bin /usr/share/scim/tables/Liu5.bin
+sudo cp ~/liu.png /usr/share/scim/icons/liu5.png
+sudo cp
+```</p>
+
+<p>之後重新登入即可</p>
+
+<p>liu5.bin是無蝦米官方版本中release給linux用的檔案 liu5.png是 liu 的 icon
+檔 (由 <a href="http://pank.org/blog/" title="http://pank.org/blog/">Pank</a> 提供）</p>
+
+<h1>Ubuntu下裝無蝦米(ibus)</h1>
+
+<p>取得 <a href="http://github.com/vicamo/ibus-table-boshiamy/downloads" title="http://github.com/vicamo/ibus-table-boshiamy/downloads">無蝦米 deb
+package</a>
+Double Click</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[LAMP install on CentOS5]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2011/10/17/lamp_install/"/>
+    <updated>2011-10-17T00:00:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2011/10/17/lamp_install</id>
+    <content type="html"><![CDATA[<h2>OS installation</h2>
+
+<h3>VMWare</h3>
+
+<ul>
+<li>掛載iso檔</li>
+<li>網路卡設成NAT</li>
+<li>記憶體可調小一點300M應該就夠了</li>
+<li>不用特別去裝VMTools</li>
+</ul>
+
+
+<h3>CentOS 5</h3>
+
+<ul>
+<li>安裝成text mode的server就可(不用gui)</li>
+<li>照<a href="http://smartraining.cn/centos/server_installation" title="http://smartraining.cn/centos/server_installation">這篇</a>的方式去裝就好了</li>
+<li>網路設定如以改用dhcp</li>
+<li>Firewall disabled</li>
+</ul>
+
+
+<h4>新建一個一般usre</h4>
+
+<p><code>
+adduser username
+passwd username
+</code></p>
+
+<h4>網路設定</h4>
+
+<ul>
+<li>裝完後，如果網路沒有active，可以到/etc/sysconfig/network-scripts/ifcfg-eth0
+修改網路設定</li>
+</ul>
+
+
+<p>指定IP</p>
+
+<p>```</p>
+
+<pre><code>DEVICE=eth0                          #網路卡名稱
+BOOTPROTO=static                     #BOOTP協定
+BROADCAST=192.168.202.255            #廣播 IP Address
+HWADDR=00:15:C5:E5:99:B1             #MAC Address
+IPADDR=192.168.202.100               #IP Address
+NETMASK=255.255.254.0                #Netmask (遮罩)
+NETWORK=192.168.202.0                #網段
+ONBOOT=yes                           #開機自動啟動 
+</code></pre>
+
+<p>```</p>
+
+<p>DHCP</p>
+
+<p>```</p>
+
+<pre><code>DEVICE=eth0
+BOOTPROTO=dhcp
+ONBOOT=yes
+</code></pre>
+
+<p>```</p>
+
+<p>設定完重新啟動網卡</p>
+
+<p>```</p>
+
+<h1>/etc/rc.d/init.d/network restart</h1>
+
+<p>```</p>
+
+<h4>安裝packages</h4>
+
+<ul>
+<li>記得透過<a href="http://smartraining.cn/centos/yum" title="http://smartraining.cn/centos/yum">yum</a>裝以一下以下幾個packages，滿有用的</li>
+</ul>
+
+
+<p><code>
+yum -y  install wget bzip2 unzip zip nmap tree lynx
+</code></p>
+
+<h2>Server installation</h2>
+
+<p>預設的php是5.1.x的，有點太舊了，可以透過<a href="http://www.52crack.com/blog/?action=show&amp;id=368" title="http://www.52crack.com/blog/?action=show&amp;id=368">這個連結</a>的說明更新到5.2.x</p>
+
+<h3>MySQL 5</h3>
+
+<p>MySQL install</p>
+
+<p><code>
+yum -y install mysql-server
+</code></p>
+
+<p>set MySQL as daemon</p>
+
+<p><code>
+chkconfig mysqld on
+</code></p>
+
+<p>check config</p>
+
+<p>```
+chkconfig --list mysqld</p>
+
+<h1>2 - 5 should be on</h1>
+
+<p>mysqld 0:off 1:off 2:on 3:on 4:on 5:on 6:off
+```</p>
+
+<p>startup MySQL server</p>
+
+<p><code>
+/etc/rc.d/init.d/mysqld start
+</code></p>
+
+<p>change password</p>
+
+<p><code>
+mysqladmin -u root password 'Your Password'
+</code></p>
+
+<h3>Apache 2</h3>
+
+<p>install Apache server</p>
+
+<p><code>
+yum -y install httpd
+</code></p>
+
+<h3>PHP 5</h3>
+
+<p>install PHP</p>
+
+<p><code>
+yum -y install php php-mbstring php-mysql php-gd php-pear
+</code></p>
+
+<p>setup php.ini</p>
+
+<p><code>
+date.timezone = "Asia/Taipei"
+</code></p>
+
+<h3>Apache Config</h3>
+
+<p>set Apache as daemon</p>
+
+<p><code>
+chkconfig httpd on
+</code></p>
+
+<p>check config</p>
+
+<p>```
+chkconfig --list httpd</p>
+
+<h1>2 - 5 should be on</h1>
+
+<p>httpd  0:off 1:off 2:on 3:on 4:on 5:on 6:off
+```</p>
+
+<p>startup httpd server</p>
+
+<p><code>
+/etc/rc.d/init.d/httpd start
+</code></p>
+
+<h2>verify installed</h2>
+
+<p>create new php file in document root</p>
+
+<p><code>
+vi /var/www/html/index.php
+</code></p>
+
+<p>```</p>
+
+<pre><code>&lt;?php 
+phpinfo();
+?&gt;
+</code></pre>
+
+<p>```</p>
+
+<p>open by lynx borwser</p>
+
+<p><code>
+lynx http://localhost
+</code></p>
+
+<p>you should check
+<a href="http://wiki.kent-chiu.com/doku.php?id=ubuntu:lamp" title="ubuntu:lamp">this</a>
+article to config LAMP server</p>
+
+<p>如果無法從linux外存取web，可能會firewall的關係，在command
+line下執行<code>setup</code>可以關掉firewall</p>
+]]></content>
+  </entry>
+  
+</feed>

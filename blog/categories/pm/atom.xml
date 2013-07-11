@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: pm | Kent's Blog]]></title>
+  <link href="http://blog.kent-chiu.com/blog/categories/pm/atom.xml" rel="self"/>
+  <link href="http://blog.kent-chiu.com/"/>
+  <updated>2013-07-11T21:16:37+08:00</updated>
+  <id>http://blog.kent-chiu.com/</id>
+  <author>
+    <name><![CDATA[Kent]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Project Managememt Resource]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2011/11/16/pm_resource/"/>
+    <updated>2011-11-16T00:00:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2011/11/16/pm_resource</id>
+    <content type="html"><![CDATA[<ul>
+<li><a href="http://wiki.kent-chiu.com/lib/exe/fetch.php?media=pm:the-ad-hoc-plan-project-plan-brcrzawu-1228400718842.xmind" title="pm:the-ad-hoc-plan-project-plan-brcrzawu-1228400718842.xmind">專案計畫書(xmind格式)</a></li>
+<li><a href="http://wiki.kent-chiu.com/doku.php?id=pm:scrum" title="pm:scrum">SCRUM</a></li>
+<li><a href="http://wiki.kent-chiu.com/doku.php?id=pm:xp" title="pm:xp">XP</a></li>
+<li><a href="http://wiki.kent-chiu.com/doku.php?id=pm:agile" title="pm:agile">Aglile</a></li>
+<li><a href="http://wiki.kent-chiu.com/doku.php?id=pm:user_story" title="pm:user_story">User
+Story簡介</a></li>
+<li><a href="http://wiki.kent-chiu.com/lib/exe/fetch.php?media=pm:mantis_introduction.pdf" title="pm:mantis_introduction.pdf">Mantis介紹投影片</a></li>
+<li><a href="http://wiki.kent-chiu.com/doku.php?id=pm:mantis_syntax" title="pm:mantis_syntax">Mantis的語法</a></li>
+<li><a href="http://www.qweruiop.org/nchcrails/posts/49" title="http://www.qweruiop.org/nchcrails/posts/49">Git教學by
+Example</a></li>
+<li><a href="http://www.codediesel.com/testing/running-selenium-testrunner-slowly/" title="http://www.codediesel.com/testing/running-selenium-testrunner-slowly/">Running Selenium TestRunner
+slowly</a></li>
+<li><a href="http://pesty.yichi.org/blog/2011/10/26/how_to_coach_new_partners/" title="http://pesty.yichi.org/blog/2011/10/26/how_to_coach_new_partners/">怎麼帶新人進入軟體團隊？</a></li>
+<li><a href="http://blog.assembla.com/assemblablog/tabid/12618/bid/13707/Tech-Lead-Checklist-to-Kick-your-Team-into-Gear.aspx" title="http://blog.assembla.com/assemblablog/tabid/12618/bid/13707/Tech-Lead-Checklist-to-Kick-your-Team-into-Gear.aspx">Tech Lead Checklist to Kick your Team into
+Gear</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[User Story簡介]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2011/10/17/user_story/"/>
+    <updated>2011-10-17T00:00:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2011/10/17/user_story</id>
+    <content type="html"><![CDATA[<p>這邊採用<a href="http://en.wikipedia.org/wiki/Behavior_Driven_Development" title="http://en.wikipedia.org/wiki/Behavior_Driven_Development">Behavior_Driven_Development</a>所建議的User
+Story格式進行撰寫，簡介可以看<a href="http://dannorth.net/whats-in-a-story" title="http://dannorth.net/whats-in-a-story">這裡</a>或者是<a href="http://c2.com/cgi/wiki?UserStoryTemplate" title="http://c2.com/cgi/wiki?UserStoryTemplate">這裡</a></p>
+
+<p>```</p>
+
+<pre><code>Title (one line describing the story)
+ 
+Narrative:
+As a [role]
+I want [feature]
+So that [benefit]
+ 
+Acceptance Criteria: (presented as Scenarios)
+ 
+Scenario 1: Title
+Given [context] And [some more context]...
+When [event]
+Then [outcome] And [another outcome]...
+ 
+Scenario 2: ...
+</code></pre>
+
+<p>```</p>
+
+<p>```</p>
+
+<pre><code>Story: Account Holder withdraws cash
+ 
+As an Account Holder
+I want to withdraw cash from an ATM
+So that I can get money when the bank is closed
+ 
+Scenario 1: Account has sufficient funds
+Given the account balance is \$100 And the card is valid And the machine contains enough money
+When the Account Holder requests \$20
+Then the ATM should dispense \$20 And the account balance should be \$80 And the card should be returned
+ 
+Scenario 2: Account has insufficient funds
+Given the account balance is \$10 And the card is valid And the machine contains enough money
+When the Account Holder requests \$20
+Then the ATM should not dispense any money And the ATM should say there are insufficient funds And the account balance should be \$20 And the card should be returned
+ 
+Scenario 3: Card has been disabled
+Given the card is disabled
+When the Account Holder requests \$20
+Then the ATM should retain the card
+And the ATM should say the card has been retained
+ 
+Scenario 4: The ATM has insufficient funds
+...
+</code></pre>
+
+<p>```</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Sonar 101]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2011/10/17/sonar_101/"/>
+    <updated>2011-10-17T00:00:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2011/10/17/sonar_101</id>
+    <content type="html"><![CDATA[<h1>如何看懂 Sonar 報表</h1>
+
+<p>Sonar主要還是透過maven的一些plugins像
+<a href="http://maven.apache.org/plugins/maven-pmd-plugin/" title="http://maven.apache.org/plugins/maven-pmd-plugin/">PMD</a>,
+<a href="http://maven.apache.org/plugins/maven-pmd-plugin/" title="http://maven.apache.org/plugins/maven-pmd-plugin/">CPD</a>,
+<a href="http://mojo.codehaus.org/findbugs-maven-plugin/" title="http://mojo.codehaus.org/findbugs-maven-plugin/">findbugs</a>,
+<a href="http://maven.apache.org/plugins/maven-checkstyle-plugin/" title="http://maven.apache.org/plugins/maven-checkstyle-plugin/">checkstyle</a>,
+<a href="http://mojo.codehaus.org/cobertura-maven-plugin/" title="http://mojo.codehaus.org/cobertura-maven-plugin/">cobertura(coverage)</a>,
+<a href="http://mojo.codehaus.org/javancss-maven-plugin/" title="http://mojo.codehaus.org/javancss-maven-plugin/">JavaNCSS</a>,…
+來對java程式碼做靜態分析(static
+analysis),然後用比較美觀的方式呈現將各種報表整合在一起。想要看懂Sonar的分析結果，就得先了解它做了那些方面的分析。
+所有相關分析的術語跟分析方式的概要說明在<a href="http://docs.codehaus.org/display/SONAR/Metric+definitions" title="http://docs.codehaus.org/display/SONAR/Metric+definitions">這裡</a>。</p>
+
+<h2>Dashboard</h2>
+
+<p>Dashboard看的是統計跟平均值，真正有用的資訊，應該是drilldown進去看到細節會比較有用</p>
+
+<p>Dashboard中常會看到向上或向下的三角型，通常會有灰、紅、綠三色，那個叫<a href="http://docs.codehaus.org/display/SONAR/Tendencies" title="http://docs.codehaus.org/display/SONAR/Tendencies">Tendency</a>，是指跟前一次build出來的results比較的結果.</p>
+
+<h3>Rules Compliance</h3>
+
+<p><img src="/images/wiki/maven/sonar_101_001.png" alt="sonar_101_001.png" /></p>
+
+<p>左邊的圖是程式五項能力指標</p>
+
+<ol>
+<li>Usa. Usability 可用性</li>
+<li>Eff. Efficiency 效率</li>
+<li>Mai. Maintainabilitiy 維護性</li>
+<li>Por. Portability 可攜性</li>
+<li>Rel. Reliability 可靠性</li>
+</ol>
+
+
+<p>愈高愈好，最好能五個指標都是 100%</p>
+
+<p>右邊的Voilations是程式經過checkstyle, PDM,
+findbugs,….這些rule檢查後的不通過數量，嚴重性依上而下為</p>
+
+<ul>
+<li>Blocker 阻塞</li>
+<li>Critical 嚴重</li>
+<li>Major 主要</li>
+<li>Minor 次要</li>
+<li>Info 資訊</li>
+</ul>
+
+
+<p>檢查不通過的數量當然是愈少愈好，理想值是都為0</p>
+
+<p>建議盡可能的把所有的check rules打開，然後再把不適用的rule做調整或停用</p>
+
+<h3>Code coverage</h3>
+
+<p><img src="/images/wiki/maven/sonar_101_002.png" alt="sonar_101_002.png" /></p>
+
+<p>程式的單元測試覆蓋率</p>
+
+<ul>
+<li>line converage 行覆蓋率 : 100行程式碼，有95被測到，就算95%</li>
+<li>branch coverage 分支覆蓋率 : if - elseif - else
+如果只測到if內的code就只有33%，若測到 if - elseif 就是66%，if -
+elseif - else全測到就是100%</li>
+<li>tests test class數量</li>
+<li>skipped 略過沒測的數量</li>
+</ul>
+
+
+<p>另外常見的還有</p>
+
+<ul>
+<li>class converage : 類別覆蓋率</li>
+<li>method converage : 方法覆蓋率</li>
+</ul>
+
+
+<p>覆蓋率愈高愈好，100%為理想值，但通常，粒度(Grain)的單位愈小，愈難達到100%，粒度的大小由上至下為，類別
+> 方法 > 分支 >　行 一般來說，建議值為：</p>
+
+<ul>
+<li>class converage 100%</li>
+<li>method converage 100%</li>
+<li>branch coverage
+採用<a href="http://en.wikipedia.org/wiki/Test-driven_development" title="http://en.wikipedia.org/wiki/Test-driven_development">TDD</a>的號稱可以達到95%,
+但個人建議值在 70% 以上</li>
+<li>line coverage
+採用<a href="http://en.wikipedia.org/wiki/Test-driven_development" title="http://en.wikipedia.org/wiki/Test-driven_development">TDD</a>的號稱可以達到95%,
+, 但個人建議值在 80% 以上</li>
+</ul>
+
+
+<p>覆蓋率比較有爭議性， 覆蓋率 !=
+品質，但基本上把不需要測試的settor,gettor去掉後，保持line
+coverage在75%以上，應該不難。</p>
+
+<h3>Complexity</h3>
+
+<p><img src="/images/wiki/maven/sonar_101_003.png" alt="sonar_101_003.png" /></p>
+
+<p>程式的複雜度，採用<a href="http://en.wikipedia.org/wiki/Cyclomatic_complexity" title="http://en.wikipedia.org/wiki/Cyclomatic_complexity">McCabe</a>的計算方式</p>
+
+<p>左邊是平均值，右邊的chart圖是統計值，統計有兩個view，可以從class的角度或從method的角度(建議)來看</p>
+
+<p>x軸是複雜度，y軸是數量， 在本例中：</p>
+
+<ul>
+<li>複雜度為1的method約有600個</li>
+<li>複雜度為2的method約有180個</li>
+<li>複雜度為4的method約有100個</li>
+<li>…</li>
+</ul>
+
+
+<p>以method為計算單位的建議值</p>
+
+<p>  Cyclomatic Complexity   Risk Evaluation                            中文解釋</p>
+
+<hr />
+
+<p>  1 to 10                 a simple program, without very much risk   method夠簡單，風險低
+  11 to 20                a more complex program, moderate risk      method有點複雜，有點風險
+  21 to 50                a complex, high risk program               method很複雜，高風險
+  > 50                   an un-testable program (very high risk)    只有上帝跟原開發者才懂的method(也許過個月後，只有剩上帝懂)</p>
+
+<h3>Chidamber &amp; Kemerer</h3>
+
+<p><img src="/images/wiki/maven/sonar_101_004.png" alt="sonar_101_004.png" /></p>
+
+<p>左邊的chart圖是LCOM4(Lack of cohesion of methods)，右邊是RFC(Response
+for class)
+LCOM4是用來判別類別是否具有太多的責任的指標，一般來說，類別設計應該符合<a href="http://wiki.kent-chiu.com/doku.php?id=prog:ood_5_principles#srp" title="prog:ood_5_principles">單一責任原則</a>,如果一個類別之中的methods，並沒有共同的參數或是公用的field，那表示此類別可能可以進行切割。</p>
+
+<p><a href="http://www.sonarsource.org/clean-up-design-at-class-level-with-sonar/" title="http://www.sonarsource.org/clean-up-design-at-class-level-with-sonar/">LCOM4的說明文章</a>
+LCOM4的chart圖x軸是LCOM4的值，y軸是class的數量</p>
+
+<ul>
+<li>LCOM4 = 1 好的類別，表示類別只有一個責任</li>
+<li>LCOM4 >= 2 可能需進行切割的類別，數字表示可以切割的數量</li>
+<li>LCOM4 = 0 空類別</li>
+</ul>
+
+
+<p><img src="/images/wiki/maven/sonar_101_008.png" alt="sonar_101_008.png" /></p>
+
+<p>上圖中，LCOM4=3，每一個區域表示可以被獨立切割的部份</p>
+
+<p>RFC的chart圖x軸是RFC的值，y軸是class的數量，RFC的值愈小愈好，</p>
+
+<ul>
+<li>0\~50 建議值</li>
+<li>> 50 表示該類別太過複雜</li>
+</ul>
+
+
+<p>這個chart圖，通常會搭配<a href="http://docs.codehaus.org/display/SONAR/Dependency+Structure+Matrix" title="http://docs.codehaus.org/display/SONAR/Dependency+Structure+Matrix">Dependency Structure Matrix
+(DSM)</a></p>
+
+<h3>Comments &amp; Duplications</h3>
+
+<p><img src="/images/wiki/maven/sonar_101_005.png" alt="sonar_101_005.png" /></p>
+
+<p>左邊是程式註解的數量，右邊是程式重覆(copy &amp; paste code)的數量</p>
+
+<h3>Package design</h3>
+
+<p><img src="/images/wiki/maven/sonar_101_006.png" alt="sonar_101_006.png" /></p>
+
+<p>左邊的Package tangle index是指package糾纏指標，右邊的Dependencies to
+cut是指有多少個packages需要做依賴性切割</p>
+
+<p>Package tangle index的值愈小愈好</p>
+
+<ul>
+<li>0% 最佳值</li>
+<li>100% 最差值</li>
+</ul>
+
+
+<p>Dependencies to cut的值愈小愈好，理想值為0</p>
+
+<p>![sonar_101_009.jpg][]</p>
+
+<p>只要圖中消除紅底白色的部份，就可以有效降低Package tangle index</p>
+
+<h3>Size metrics</h3>
+
+<p><img src="/images/wiki/maven/sonar_101_007.png" alt="sonar_101_007.png" /></p>
+
+<p>左邊的Lines of code(loc)是程式數量的統計，右邊的classes是類別內容的統計</p>
+
+<h2>Resource Viewer</h2>
+
+<p>TBD</p>
+
+<h1>Resources</h1>
+
+<ul>
+<li><a href="http://www.sonarsource.org/" title="http://www.sonarsource.org/">官方網站</a></li>
+<li><a href="http://docs.codehaus.org/display/SONAR/Use+Sonar" title="http://docs.codehaus.org/display/SONAR/Use+Sonar">官方文件</a></li>
+<li><a href="http://docs.codehaus.org/display/SONAR/Metric+definitions" title="http://docs.codehaus.org/display/SONAR/Metric+definitions">評估指標的定義</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[SCRUM]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2011/10/17/scrum/"/>
+    <updated>2011-10-17T00:00:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2011/10/17/scrum</id>
+    <content type="html"><![CDATA[<h2>Book</h2>
+
+<ul>
+<li><a href="http://wiki.kent-chiu.com/lib/exe/fetch.php?media=pm:scrum-and-xp-chinese-version.pdf" title="pm:scrum-and-xp-chinese-version.pdf">烟硝中SCRUM與XP(簡體中文)</a>
+
+<ul>
+<li>infoQ的迷你電子書，內容在描述SCURM的實施過程</li>
+</ul>
+</li>
+<li><a href="http://wiki.kent-chiu.com/lib/exe/fetch.php?media=pm:scrum-checklists-chinese.pdf" title="pm:scrum-checklists-chinese.pdf">SCRUM
+checklists(簡體中文)</a></li>
+</ul>
+
+
+<h2>Backlog</h2>
+
+<ul>
+<li><a href="http://wiki.kent-chiu.com/lib/exe/fetch.php?media=pm:simple_backlog.xls" title="pm:simple_backlog.xls">Simple Product and Sprint backlog
+teamplte</a></li>
+<li><a href="http://agilesoftwaredevelopment.com/videos/scrum/simple-product-backlog" title="http://agilesoftwaredevelopment.com/videos/scrum/simple-product-backlog">a video to show you how to using simple product
+backlog</a></li>
+<li><a href="http://agilesoftwaredevelopment.com/videos/scrum/simple-sprint-backlog" title="http://agilesoftwaredevelopment.com/videos/scrum/simple-sprint-backlog">a video to show you how to using simple sprint
+backlog</a></li>
+<li><a href="http://wiki.kent-chiu.com/lib/exe/fetch.php?media=pm:advance_backlog.xls" title="pm:advance_backlog.xls">Advance backlog
+template</a></li>
+<li><a href="http://agilesoftwaredevelopment.com/videos/advanced-excel-template-product-and-sprint-backlog-management" title="http://agilesoftwaredevelopment.com/videos/advanced-excel-template-product-and-sprint-backlog-management">a video to show you how to using advance
+backlog</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Aglile]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2011/10/17/agile/"/>
+    <updated>2011-10-17T00:00:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2011/10/17/agile</id>
+    <content type="html"><![CDATA[<h2>費式數列</h2>
+
+<p>十三世紀的義大利數學家費伯納西 (Fibonacci)
+寫了一本商用的算術和代數手冊《Liber
+abacci》。在這本書裏，他提出了這麼一個有趣的問題：假定一對兔子在它們出生整整兩個月以後可以生一對小兔子，其後每隔一個月又可以再生一對小兔子。假定現在在一個籠子裡有一對剛生下來的小兔子，請問一年以後籠子裏應該有幾對兔子？</p>
+
+<p>每個月的兔子對數應該是1、1、2、3、5、8、13、21、34、55、89、144、233、…，每一項都是前兩項之和。因此，一年後籠子裡應該有233對兔子了。</p>
+
+<p>上面的數列1、1、2、3、5、8、13、21、34、55、89、144、233、…就是費式數列(Fibonacci
+numbers)，但這關Agile Methodology什麼事？</p>
+
+<p>只是因為費式數列可以拿來當評估用的數值，比如說拿來決定<a href="http://wiki.kent-chiu.com/doku.php?id=pm:scurm" title="pm:scurm">SCURM</a>裡的每個backlog的時數。</p>
+]]></content>
+  </entry>
+  
+</feed>

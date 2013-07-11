@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: pear | Kent's Blog]]></title>
+  <link href="http://blog.kent-chiu.com/blog/categories/pear/atom.xml" rel="self"/>
+  <link href="http://blog.kent-chiu.com/"/>
+  <updated>2013-07-11T21:16:37+08:00</updated>
+  <id>http://blog.kent-chiu.com/</id>
+  <author>
+    <name><![CDATA[Kent]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[PEAR 101]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2011/10/17/pear_101/"/>
+    <updated>2011-10-17T00:00:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2011/10/17/pear_101</id>
+    <content type="html"><![CDATA[<h2>pear command</h2>
+
+<h4>install package</h4>
+
+<p>自網路安裝某一個pear程式庫：</p>
+
+<p>　　pear install packagename</p>
+
+<p>下載 packages 但不安裝：</p>
+
+<p>　　pear download packagename 　　pear download-all</p>
+
+<p>安裝已下載的package：</p>
+
+<p>　　pear install filename.tgz</p>
+
+<h4>listing package</h4>
+
+<p>目前pear網站上所有可取得pear程式庫列表：</p>
+
+<p>　　pear remote-list</p>
+
+<p>列出已安裝package：</p>
+
+<p>　　pear list</p>
+
+<p>列出可以升級的package：</p>
+
+<p>　　pear list-upgrades</p>
+
+<h4>upgrade</h4>
+
+<p>更新package：</p>
+
+<p>　　pear upgrade packagename 　　pear upgrade-all</p>
+
+<h4>remove</h4>
+
+<p>刪除已安裝的package：</p>
+
+<p>　　pear uninstall packagename</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Pear Log 101]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2011/10/17/log_101/"/>
+    <updated>2011-10-17T00:00:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2011/10/17/log_101</id>
+    <content type="html"><![CDATA[<p>```</p>
+
+<pre><code>require_once 'Log.php';
+ 
+$logger = &amp;Log::singleton('file', 'debug.log', 'TEST');
+$logger-&gt;log('debug message', PEAR_LOG_DEBUG);
+</code></pre>
+
+<p>```</p>
+
+<p>不同檔案內，需設定不同logger
+file位置的問題，這以下這樣，每個檔案都要重新設定debug.log的位置
+另一種較好的解法是將\$logger定義成global variables</p>
+
+<p><code>
+$logger = &amp;Log::singleton('file', '..\logs\debug.log', 'TEST');
+</code></p>
+
+<h2>Resource</h2>
+
+<ul>
+<li><a href="http://wiki.kent-chiu.com/lib/exe/fetch.php?media=php:lang:tail.rar" title="php:lang:tail.rar">tail</a>
+
+<ul>
+<li>you can using tail to monitoring logfile (you can using tail as
+external tools in Eclipse, it will keep outputting out eclipse
+console)</li>
+</ul>
+</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

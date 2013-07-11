@@ -1,0 +1,782 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Google Guice 101 - Kent's Blog</title>
+  <meta name="author" content="Kent">
+
+  
+  <meta name="description" content="All content is base on guice 2.x. Base Concept Module - 用來決定物件依賴關係的元件
+Binders - 用來將物件綁定在一起的元件 Linked Binding - 將類別與實作類別綁定在一起的元件
+Binding Annotations &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.kent-chiu.com/blog/2012/03/29/google_guice_101">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Kent's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-39152849-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Kent's Blog</a></h1>
+  
+    <h2>Kent的學習筆記(剛從dokuwiki搬過來，內容還在整修中)</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.kent-chiu.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Google Guice 101</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-29T00:00:00+08:00" pubdate data-updated="true">Mar 29<span>th</span>, 2012</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>All content is base on guice 2.x.</p>
+
+<h2>Base Concept</h2>
+
+<ul>
+<li>Module - 用來決定物件依賴關係的元件</li>
+<li><p>Binders - 用來將物件綁定在一起的元件</p>
+
+<ol>
+<li>Linked Binding - 將類別與實作類別綁定在一起的元件</li>
+<li>Binding Annotations - 更細緻的描述要binding那個實作</li>
+<li>Instance Bindings - Binding instance到特定的類別</li>
+<li>@Provides Methods - Factory
+Method，用來提供特定型別的instance，只要有需有這個instance時，就會自動被binding</li>
+<li>Provider Bindings - 另一種型式的Factory Method</li>
+<li>Untargetted Bindings -
+提供跟binder但不指定與誰進行binding，通常與
+@ImplementedBy或@ProvidedBy搭配使用</li>
+<li>Built-in Bindings - 內建的bindings
+
+<ol>
+<li>java.util.logging.Logger 如以binding logger</li>
+<li>Injector 可以把Injector inject到其它物件</li>
+<li>Providers 可以把 Provider inject到其它物件</li>
+<li>TypeLiterals 處理泛型用的</li>
+<li>The Stage</li>
+<li>MembersInjectors
+可以對某個物件進行inject，這個很常用(由其是在測試時，用來inject
+mock object)</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p>TBD</p>
+
+<ol>
+<li>AssistedInject</li>
+<li>PrivateModules</li>
+</ol>
+</li>
+</ul>
+
+
+<h2>Hello Guice</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>package com.kent;
+</span><span class='line'> 
+</span><span class='line'>public interface Service {
+</span><span class='line'>    public String sayHelloTo(String name);
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>package com.kent;
+</span><span class='line'> 
+</span><span class='line'>public class ServiceImpl implements Service {
+</span><span class='line'>    public String sayHelloTo(String id) {
+</span><span class='line'>        return "Hello! " + id;
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>package com.kent;
+</span><span class='line'> 
+</span><span class='line'>import com.google.inject.Inject;
+</span><span class='line'> 
+</span><span class='line'>public class Client {
+</span><span class='line'> 
+</span><span class='line'>    @Inject
+</span><span class='line'>    private Service                service;
+</span><span class='line'> 
+</span><span class='line'>    public String doThing(String id) {
+</span><span class='line'>        return service.sayHelloTo(id);
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>package com.kent;
+</span><span class='line'> 
+</span><span class='line'>import static org.junit.Assert.assertEquals;
+</span><span class='line'> 
+</span><span class='line'>import org.junit.Before;
+</span><span class='line'>import org.junit.Test;
+</span><span class='line'> 
+</span><span class='line'>import com.google.inject.AbstractModule;
+</span><span class='line'>import com.google.inject.Guice;
+</span><span class='line'>import com.google.inject.Inject;
+</span><span class='line'>import com.google.inject.Injector;
+</span><span class='line'>import com.google.inject.Module;
+</span><span class='line'> 
+</span><span class='line'>public class TestClient {
+</span><span class='line'> 
+</span><span class='line'>    @Inject
+</span><span class='line'>    private Service service;
+</span><span class='line'> 
+</span><span class='line'>    @Before
+</span><span class='line'>    public void setUp() throws Exception {
+</span><span class='line'> 
+</span><span class='line'>        Module module = new AbstractModule() {
+</span><span class='line'>            @Override
+</span><span class='line'>            protected void configure() {
+</span><span class='line'>                bind(Service.class).to(ServiceImpl.class);
+</span><span class='line'>            }
+</span><span class='line'>        };
+</span><span class='line'>        Injector injector = Guice.createInjector(module);
+</span><span class='line'>        injector.injectMembers(this);
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>    @Test
+</span><span class='line'>    public void testInection() throws Exception {
+</span><span class='line'>        assertEquals("Hello! Kent", service.sayHelloTo("Kent"));
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Using <code>injector.injectMembers(this);</code> to inject code back to test
+case,so that we can get the <strong>setted</strong> service for work.</p>
+
+<h2>Hello Guice on web</h2>
+
+<p>To enable Guice on web application, we need got the guice-serlet.jar and
+add some settings in web.xml</p>
+
+<p>Guice是透過GuiceFilter取得threadlocal裡request，response等相關的content，所以必須要掛上這個filter。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+</span><span class='line'>&lt;web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+</span><span class='line'>  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5"&gt;
+</span><span class='line'>    &lt;display-name&gt;Archetype Created Web Application&lt;/display-name&gt;
+</span><span class='line'>    &lt;filter&gt;
+</span><span class='line'>        &lt;filter-name&gt;guiceFilter&lt;/filter-name&gt;
+</span><span class='line'>        &lt;filter-class&gt;com.google.inject.servlet.GuiceFilter&lt;/filter-class&gt;
+</span><span class='line'>    &lt;/filter&gt;
+</span><span class='line'>    &lt;filter-mapping&gt;
+</span><span class='line'>        &lt;filter-name&gt;guiceFilter&lt;/filter-name&gt;
+</span><span class='line'>        &lt;url-pattern&gt;/*&lt;/url-pattern&gt;
+</span><span class='line'>    &lt;/filter-mapping&gt;
+</span><span class='line'>&lt;/web-app&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Guice利用GuiceServletContextListener，在server啟動時，把Injector放到ServletContext裡，這樣，其他的servlet就可以從ServletCotext取得Injector。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>package com.kent;
+</span><span class='line'> 
+</span><span class='line'>import javax.servlet.ServletContextEvent;
+</span><span class='line'> 
+</span><span class='line'>import com.google.inject.Binder;
+</span><span class='line'>import com.google.inject.Guice;
+</span><span class='line'>import com.google.inject.Injector;
+</span><span class='line'>import com.google.inject.Module;
+</span><span class='line'>import com.google.inject.servlet.GuiceServletContextListener;
+</span><span class='line'> 
+</span><span class='line'>public class GuiceServletConfig extends GuiceServletContextListener {
+</span><span class='line'> 
+</span><span class='line'>    public static final String KEY = Injector.class.getName();
+</span><span class='line'> 
+</span><span class='line'>    @Override
+</span><span class='line'>    public void contextDestroyed(ServletContextEvent servletContextEvent) {
+</span><span class='line'>        servletContextEvent.getServletContext().removeAttribute(KEY);
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>    @Override
+</span><span class='line'>    public void contextInitialized(ServletContextEvent servletContextEvent) {
+</span><span class='line'>        servletContextEvent.getServletContext().setAttribute(KEY, getInjector());
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>    @Override
+</span><span class='line'>    protected Injector getInjector() {
+</span><span class='line'>        return Guice.createInjector(new Module() {
+</span><span class='line'>            public void configure(Binder binder) {
+</span><span class='line'>                binder.bind(Service.class).to(ServiceImpl.class);
+</span><span class='line'>            }
+</span><span class='line'>        });
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在上面的動作中，Injector被放入ServletContext，在servlet的init()，可以取得Injector，然後用<code>injector.injectMembers(this)</code>對servlet進行injection</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>package com.kent;
+</span><span class='line'> 
+</span><span class='line'>import java.io.IOException;
+</span><span class='line'> 
+</span><span class='line'>import javax.servlet.ServletConfig;
+</span><span class='line'>import javax.servlet.ServletContext;
+</span><span class='line'>import javax.servlet.ServletException;
+</span><span class='line'>import javax.servlet.http.HttpServlet;
+</span><span class='line'>import javax.servlet.http.HttpServletRequest;
+</span><span class='line'>import javax.servlet.http.HttpServletResponse;
+</span><span class='line'> 
+</span><span class='line'>import com.google.inject.Inject;
+</span><span class='line'>import com.google.inject.Injector;
+</span><span class='line'>import com.google.inject.Singleton;
+</span><span class='line'> 
+</span><span class='line'>@Singleton
+</span><span class='line'>public class HelloServlet extends HttpServlet {
+</span><span class='line'> 
+</span><span class='line'>    private static final long serialVersionUID = 1L;
+</span><span class='line'>    @Inject
+</span><span class='line'>    private Service           service;
+</span><span class='line'> 
+</span><span class='line'>    @Override
+</span><span class='line'>    public void init(ServletConfig config) throws ServletException {
+</span><span class='line'> 
+</span><span class='line'>        ServletContext context = config.getServletContext();
+</span><span class='line'>        Injector injector = (Injector) context.getAttribute(Injector.class.getName());
+</span><span class='line'>        if (injector == null) {
+</span><span class='line'>            throw new ServletException("Guice Injector not found");
+</span><span class='line'>        }
+</span><span class='line'>        injector.injectMembers(this);
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>    @Override
+</span><span class='line'>    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+</span><span class='line'>        response.getOutputStream().print(service.sayHelloTo("web"));
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+</span><span class='line'>&lt;web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+</span><span class='line'>  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5"&gt;
+</span><span class='line'>    &lt;display-name&gt;Archetype Created Web Application&lt;/display-name&gt;
+</span><span class='line'>    &lt;filter&gt;
+</span><span class='line'>        &lt;filter-name&gt;guiceFilter&lt;/filter-name&gt;
+</span><span class='line'>        &lt;filter-class&gt;com.google.inject.servlet.GuiceFilter&lt;/filter-class&gt;
+</span><span class='line'>    &lt;/filter&gt;
+</span><span class='line'>    &lt;filter-mapping&gt;
+</span><span class='line'>        &lt;filter-name&gt;guiceFilter&lt;/filter-name&gt;
+</span><span class='line'>        &lt;url-pattern&gt;/*&lt;/url-pattern&gt;
+</span><span class='line'>    &lt;/filter-mapping&gt;
+</span><span class='line'>    &lt;listener&gt;
+</span><span class='line'>        &lt;listener-class&gt;com.kent.GuiceServletConfig&lt;/listener-class&gt;
+</span><span class='line'>    &lt;/listener&gt;
+</span><span class='line'>    &lt;servlet&gt;
+</span><span class='line'>        &lt;servlet-name&gt;HelloServlet&lt;/servlet-name&gt;
+</span><span class='line'>        &lt;servlet-class&gt;com.kent.HelloServlet&lt;/servlet-class&gt;
+</span><span class='line'>    &lt;/servlet&gt;
+</span><span class='line'>    &lt;servlet-mapping&gt;
+</span><span class='line'>        &lt;servlet-name&gt;HelloServlet&lt;/servlet-name&gt;
+</span><span class='line'>        &lt;url-pattern&gt;/*&lt;/url-pattern&gt;
+</span><span class='line'>    &lt;/servlet-mapping&gt;
+</span><span class='line'>&lt;/web-app&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Scopes</h2>
+
+<p>Guice預設的scope是每次產生instnace，如果要變這個預設的行為，是透過scope，預設的scope有</p>
+
+<ol>
+<li>@Singleton - 讓物件變成Singleton，可以讓它宣告成Singleton
+(必須是threadsafe)</li>
+<li>@SessionScoped - 跟http session一樣長的scope
+(必須是threadsafe，必須正確安裝ServletModule)</li>
+<li>@RequestScoped - 每次的 http request才會新物件的scope
+(<strong>不用</strong>是threadsafe，必須正確安裝ServletModule)</li>
+</ol>
+
+
+<p>如果class沒辦法用Annotation宣告(如比說該class來自其他lib)，那可以在binding時，再指定scope，像這樣</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>bind(TransactionLog.class).to(InMemoryTransactionLog.class).in(Singleton.class);
+</span><span class='line'>bind(UserPreferences.class).toProvider(UserPreferencesProvider.class).in(ServletScopes.REQUEST);
+</span><span class='line'>// singleton可以是eager或lazy，eager或lazy是指contruct的方式
+</span><span class='line'>bind(TransactionLog.class).to(InMemoryTransactionLog.class).asEagerSingleton();</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Singleton Scope</h4>
+
+<p>Singleton可以省下很多物件建立及GC的資源，如果物件有以下特性，就可以考慮是否要宣告成Singleton，(，如果物件是stateless，建立新物件的速度，會比從singleton取快得多)</p>
+
+<ul>
+<li>stateful objects, such as configuration or counters</li>
+<li>objects that are expensive to construct or lookup</li>
+<li>objects that tie up resources, such as a database connection pool.</li>
+</ul>
+
+
+<p>雖然Singleton對java來說，一直常被列為<a href="http://en.wikipedia.org/wiki/Singleton_pattern" title="http://en.wikipedia.org/wiki/Singleton_pattern">anti-pattern</a>(主要是因為Singleton的物件沒辦法被overwrite，失去了OO的特性)，
+尤其是採DI的開發方式而言，不過guice可以保留Singleton的優點，但卻沒有Singleton的缺點，所以可以放心使用</p>
+
+<p>If the object truly is stateless, it&#8217;s faster for Guice to create a new
+instance than it is to retrieve a singleton. If Guice creates a new
+instance every time, it can bypass the scoping layer entirely, not to
+mention the logic inside the singleton scope.</p>
+
+<h2>Injection</h2>
+
+<h4>Automatic Injection</h4>
+
+<p>Guice automatically injects all of the following:</p>
+
+<ul>
+<li>instances passed to toInstance() in a bind statement</li>
+<li>provider instances passed to toProvider() in a bind statement</li>
+</ul>
+
+
+<p>The objects will be injected while the injector itself is being created.
+If they&#8217;re needed to satisfy other startup injections, Guice will inject
+them before they&#8217;re used.</p>
+
+<h2>Extensions</h2>
+
+<h3>Multibindings</h3>
+
+<p>Multibindings是可以用來設計plugin的架構，主要的功能是把一個interface
+binding到多個實作上面，而且不需要recompile，可以透過config檔來加入新完成的plugins.</p>
+
+<h2>Resource</h2>
+
+<ul>
+<li><a href="http://code.google.com/p/google-guice/" title="http://code.google.com/p/google-guice/">官網</a></li>
+<li><a href="http://99soft.github.com/rocoto/configuration.html" title="http://99soft.github.com/rocoto/configuration.html">rocoto</a>
+
+<ul>
+<li>guice讀properties，xml的lib</li>
+</ul>
+</li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Kent Chiu</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-29T00:00:00+08:00" pubdate data-updated="true">Mar 29<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/di/'>di</a>, <a class='category' href='/blog/categories/guice/'>guice</a>, <a class='category' href='/blog/categories/java/'>java</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://blog.kent-chiu.com/blog/2012/03/29/google_guice_101/" data-via="" data-counturl="http://blog.kent-chiu.com/blog/2012/03/29/google_guice_101/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/03/23/commands/" title="Previous Post: Linux Commands">&laquo; Linux Commands</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/03/30/dbunit_101/" title="Next Post: DBUnit 101">DBUnit 101 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/07/07/python-101/">Python 101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/25/url-encoding/">URL Encoding</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/04/restful-api-design/">RESTful API Design</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/17/my-intellij-idea-shortcut/">My IntelliJ IDEA Shortcut</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/12/jesper-report-font-issue/">Jesper Report, IReport 匯出成中文PDF</a>
+      </li>
+    
+  </ul>
+</section>
+
+Included file 'asides/twitter.html' not found in _includes directory
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Kent -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'kentchiu';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.kent-chiu.com/blog/2012/03/29/google_guice_101/';
+        var disqus_url = 'http://blog.kent-chiu.com/blog/2012/03/29/google_guice_101/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

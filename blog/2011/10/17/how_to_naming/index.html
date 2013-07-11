@@ -1,0 +1,504 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>How to naming? - Kent's Blog</title>
+  <meta name="author" content="Kent">
+
+  
+  <meta name="description" content="Role-Suggesting Name pattern: the names should be optimized for readability, not ease iof typing. A good name should tell you Why it exists.
+Wait it &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.kent-chiu.com/blog/2011/10/17/how_to_naming">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Kent's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-39152849-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Kent's Blog</a></h1>
+  
+    <h2>Kent的學習筆記(剛從dokuwiki搬過來，內容還在整修中)</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.kent-chiu.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">How to Naming?</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Role-Suggesting Name pattern:</p>
+
+<p>the names should be optimized for readability, not ease iof typing.</p>
+
+<p>A good name should tell you</p>
+
+<ol>
+<li>Why it exists.</li>
+<li>Wait it does.</li>
+<li>How it used.</li>
+</ol>
+
+
+<p>How to nameing:</p>
+
+<ol>
+<li>What is its purpose in the computation?</li>
+<li>How is the object referred to by the variable used?</li>
+<li>What is the scope and lifetime of the variable?</li>
+<li>How widely is the variable referenced?</li>
+</ol>
+
+
+<p>If a name requires a comment, then the name does not reveal its intent.
+If one has to struggle to find a name, it is generally because who don&#8217;t
+understand the computation very well. If the names is too long, it
+reflects there are some design problem. If a method easy be naming, it
+can fit to specification more exactly.</p>
+
+<ul>
+<li>The word variable should never appear in a variable name.</li>
+<li><p>The word table should never appear in a table name.</p></li>
+<li><p>Use Intention-Revealing Names</p></li>
+<li>Use Pronounceable Names</li>
+<li>Use Searchable Names</li>
+</ul>
+
+
+<p>Some useful same:</p>
+
+<ul>
+<li>result, results</li>
+<li>each</li>
+<li>count</li>
+</ul>
+
+
+<h4>Composed Method pattern</h4>
+
+<p>Get your code working, then decide how it should be structured. If got
+problem in composed method, then inline all and re-composed again.</p>
+
+<h4>Intention-Revealing Name pattern</h4>
+
+<p>Methods should be named for the purpose rather the implemention. There
+is valuable to review the method is fit to the story which you want to
+tell after refactoring.</p>
+
+<p>Think about methods&#8217; names based on how they look in calling code. Bad
+practice:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Customer.linearcustomerSearch(String id)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Godd practice:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Customer.find(String id)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The length of a name should correspond to the size of its scope</p>
+
+<p>Why not Hungarian Notation? 1. Historical reason. (Window C API) 2. too
+many type in modern languate (ex:Java.) 3. Strong type. 4. IDE.</p>
+
+<p>Use Factory instead of complex constructor. (and make constoructor
+private)</p>
+
+<h4>Library Class pattern</h4>
+
+<p>Library is :the place where programmer put the common codes</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>People usually uses static method to implement Library Class (utility class), but to use object is a better way.</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>the static method way:
+</span><span class='line'>public static void method(...params...) {
+</span><span class='line'>    ...some logic...
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>the object way:
+</span><span class='line'>public static void method(...params...) {
+</span><span class='line'>    new Library().instanceMethod(...params...);
+</span><span class='line'>}
+</span><span class='line'>private void instanceMethod() {
+</span><span class='line'>... some logic...
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Common State pattern</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Sometime only few subset of class use a variable, it no need to declare as field varible. it can be declare as paramter or Helper Object.</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Local Variable pattern</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>The role of local variable:
+</span><span class='line'>1. Collector
+</span><span class='line'>2. Count
+</span><span class='line'>3. Explaining
+</span><span class='line'>4. Reuse</span></code></pre></td></tr></table></div></figure>
+
+
+<p>if a vaiable used for explaining, it maybe extract to a method.</p>
+
+<h4>Collecting Parameter pattern</h4>
+
+<p>Node asList() {</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>List results = new ArrayList();
+</span><span class='line'>addTo(results);
+</span><span class='line'>return results;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>} addTo(List elements) {</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>elements.add(getValue());
+</span><span class='line'>for(Node each: getchildren())
+</span><span class='line'>    each.addTo(elements);</span></code></pre></td></tr></table></div></figure>
+
+
+<p>}</p>
+
+<h4>Explaining Message pattern</h4>
+
+<p>Sometimes the helper methods invoked by explaining message become
+valuable points for further exetension. ex: highlight(Rectangle area) {
+<em>→ it is make sense for user who wants to invoke this API. but no clue
+to show how this it implemented. reverse(area);</em> → it is so clear how
+this method work. }</p>
+
+<h4>Guard Clause pattern</h4>
+
+<p>Using Guard Clause to improve readability.</p>
+
+<p>if (isInitilized()) {</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>return;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>}</p>
+
+<h4>Checked Exceptions Pattern</h4>
+
+<p>the con of Check Exception: 1. These can easily add 50% to the length of
+method. 2. Checked Exceptions also make changing code more difficult. 3.
+Refactoring code with ckecked exception is more difficult.</p>
+
+<h4>Method Return Type pattern</h4>
+
+<p>Pick the most abstract return type that expresses your intention.</p>
+
+<h4>Method Comment pattern</h4>
+
+<p>Why Method Comment is better then code comment: 1. Updateability 2.
+feedback</p>
+
+<p>Complete Constructor.</p>
+
+<p>​1. new Rectangle(0,0,50,200)</p>
+
+<p>​2. Rectangle box = new Rectangle(); box.setLeft(0); box.setWidth(50);
+box.setHeight(200); box.setTop(0)</p>
+
+<p>the method 1 is more expression then 2. If method 1 is too complicate,
+introduce the factory method instead.</p>
+
+<h4>Query Method pattern</h4>
+
+<p>When an object needs to offer decision criteria as part of its protocal,
+do so with a method whose name is prefixd with form of “be”(like
+“is”,”was” or “have”);</p>
+
+<h4>Setting Method pattern</h4>
+
+<p>​1. paragraph.setJustification(Paragraph.CENTERED) 2.
+paragraph.centered();</p>
+
+<p>Paragraph:centerd() {</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>setJustification(CENTERED);</span></code></pre></td></tr></table></div></figure>
+
+
+<p>}</p>
+
+<p>1 is better then 2.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Kent Chiu</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/programming/'>programming</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://blog.kent-chiu.com/blog/2011/10/17/how_to_naming/" data-via="" data-counturl="http://blog.kent-chiu.com/blog/2011/10/17/how_to_naming/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2011/10/17/how_to_add_new_web_site_outside_htdoc/" title="Previous Post: 在htdoc目錄外新增網站">&laquo; 在htdoc目錄外新增網站</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2011/10/17/how_to_split_a_word/" title="Next Post: 字首，字根，字尾結合規則">字首，字根，字尾結合規則 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/07/07/python-101/">Python 101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/25/url-encoding/">URL Encoding</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/04/restful-api-design/">RESTful API Design</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/17/my-intellij-idea-shortcut/">My IntelliJ IDEA Shortcut</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/12/jesper-report-font-issue/">Jesper Report, IReport 匯出成中文PDF</a>
+      </li>
+    
+  </ul>
+</section>
+
+Included file 'asides/twitter.html' not found in _includes directory
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Kent -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'kentchiu';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.kent-chiu.com/blog/2011/10/17/how_to_naming/';
+        var disqus_url = 'http://blog.kent-chiu.com/blog/2011/10/17/how_to_naming/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,820 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Scala 101 - Kent's Blog</title>
+  <meta name="author" content="Kent">
+
+  
+  <meta name="description" content="Scala IDE eclipse 3.7 (indigo)
+scala IDE plugin 2.9
+jdk 1.7.03 一切換到scala的環境，IDE就凍住了，用VirtualVM觀查的結果是執行scala的vm(不是ide本身的vm)的Permanent
+Generation &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.kent-chiu.com/blog/2012/07/02/scala_101">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Kent's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-39152849-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Kent's Blog</a></h1>
+  
+    <h2>Kent的學習筆記(剛從dokuwiki搬過來，內容還在整修中)</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.kent-chiu.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Scala 101</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-07-02T00:00:00+08:00" pubdate data-updated="true">Jul 2<span>nd</span>, 2012</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Scala IDE</p>
+
+<ol>
+<li>eclipse 3.7 (indigo)</li>
+<li>scala IDE plugin 2.9</li>
+<li>jdk 1.7.03</li>
+</ol>
+
+
+<p>一切換到scala的環境，IDE就凍住了，用<a href="http://wiki.kent-chiu.com/doku.php?id=java:jvm_profile" title="java:jvm_profile">VirtualVM</a>觀查的結果是執行scala的vm(不是ide本身的vm)的Permanent
+Generation
+Memory爆了，把它開到256M(-XX:MaxPermSize=256m)就不會一切到scala
+perspective，IDE就掛掉。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#utf8 (do not remove)
+</span><span class='line'>-startup
+</span><span class='line'>../../Common/plugins/org.eclipse.equinox.launcher_1.2.0.v20110502.jar
+</span><span class='line'>--launcher.library
+</span><span class='line'>../../Common/plugins/org.eclipse.equinox.launcher.i18n.win32.win32.x86_64_4.2.0.v201201111650
+</span><span class='line'>-showsplash
+</span><span class='line'>C:\Genuitec\Common\plugins\org.eclipse.platform_3.7.2.v201202080800\splash.bmp
+</span><span class='line'>--launcher.XXMaxPermSize
+</span><span class='line'>256m
+</span><span class='line'>--launcher.defaultAction
+</span><span class='line'>openFile
+</span><span class='line'>-install
+</span><span class='line'>C:\Genuitec\Profiles\scala
+</span><span class='line'>-configuration
+</span><span class='line'>C:\Genuitec\Profiles\scala\configuration
+</span><span class='line'>-vmargs
+</span><span class='line'>-Xms256m
+</span><span class='line'>-Xmx1024m
+</span><span class='line'>-XX:MaxPermSize=256m</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>scala是可自我成長的語言</li>
+<li>scala混合了oo跟function lang</li>
+<li>java中的static method可以考慮用function的方式實現，statistic
+method可視為一種退化的function lang?</li>
+<li>scala是純oo
+lang，所有的東西都是物件，所有的操作(含運算子)都是method，所以，可以做運算子的override</li>
+<li><p>scala可以與java無縫的整合，事實上，scala很多型號都是來自java。scala
+call java lib會很容易，但java call
+scala會有比較多的限制，因為scala的物件模型及語意比java豐富，java沒辦法一一對應。</p></li>
+<li><p>scala有兩種變數</p></li>
+<li><p>expression後面的分號(;)可有可無</p></li>
+<li>val : 像java的final變數，一旦宣告後，就不能改變
+(如果重新指派，會出reassignment的error)</li>
+<li><p>var : 像java的non final變數，可以重新指派值</p></li>
+<li><p>scala的array跟java一樣是0-base但是，是透過()存取，而不是[]</p></li>
+</ul>
+
+
+<h5>method</h5>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>def mymethod(x: Int, y: Int) : Int = {
+</span><span class='line'>  x + y
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>def mymethod(x: Int, y: Int) = x + y</span></code></pre></td></tr></table></div></figure>
+
+
+<p>所有的運算子在scala都是method，所以<code>1 + 2</code>是這樣的method call</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>(1).+(2)</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>1</code>是物件,<code>+</code>是method name，<code>1</code>物件透過<code>.</code>來呼叫<code>+</code>method並傳入參數值<code>2</code></p>
+
+<p>以這樣的角度來看Array，Array就很直覺了，Array在Scala也只是一般的物件，而不是像java一樣，而不是像java一樣，是屬於語法等級的物件</p>
+
+<h5>foreach</h5>
+
+<p>for (arg ← args) println(arg)</p>
+
+<h3>function</h3>
+
+<h4>function literal</h4>
+
+<p>單行</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>(x: Int, y: Int) =&gt; x + y </span></code></pre></td></tr></table></div></figure>
+
+
+<p>多行時可以用大括號將 functio body括起來</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>(x: Int, y: Int) =&gt; {
+</span><span class='line'>    val z = x + 1
+</span><span class='line'>    z + y
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這邊用function literal來達到foreach的功能，function literal有三種用法</p>
+
+<p>第一種是最囉嗦,array的item要給型別而且給了型別，外面還要配一對括號</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>myarray.foreach((item: String) =&gt; println(item))</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這個是比較正常的用法</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>myarray.foreach(item =&gt; println(item))</span></code></pre></td></tr></table></div></figure>
+
+
+<p>超精簡的用法，但只適用於只有一個參數的狀況</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>myarray.foreach(println)</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>function return type</h5>
+
+<p>為什麼sum function可以不用指定return type，而factorial必須指定return
+type為Int?</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  def sum(a:Int,b:Int) = a+b
+</span><span class='line'>  def factorial(n:Int):Int = if (n==0) 1 else n * factorial(n-1)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>因為在sum function中complier可以推斷(infer)出a +
+b的回傳值是Int型別，但在factorial中，回傳值可能是 1
+或者是<code>n * factorial(n-1)</code>，
+而<code>n * factorial(n-1)</code>是未知型別，所以，我們必須指定return
+type，給complier一個提示。</p>
+
+<p>有些語言的compiler可以由factorial function的第一個回傳值為1來推斷return
+type為Int，但scala的complier不行</p>
+
+<h5>operator notation</h5>
+
+<ol>
+<li>infix 1 + 2</li>
+<li>prefix +1,-1, !foo, \~bar (只有+,-,!,\~可以為prefix
+operator,定為方式為<code>unary_+</code>,<code>unary_-</code>,<code>unary_!</code>,<code>unary_~</code>,)</li>
+<li>postfix 1.toLong</li>
+</ol>
+
+
+<h4>functionN</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>package scala
+</span><span class='line'> 
+</span><span class='line'> 
+</span><span class='line'>trait Function2[@specialized(scala.Int, scala.Long, scala.Double) -T1, @specialized(scala.Int, scala.Long, scala.Double) -T2, @specialized(scala.Unit, scala.Boolean, scala.Int, scala.Float, scala.Long, scala.Double) +R] extends AnyRef { self =&gt;
+</span><span class='line'>  /** Apply the body of this function to the arguments.
+</span><span class='line'>   *  @return   the result of function application.
+</span><span class='line'>   */
+</span><span class='line'>  def apply(v1: T1, v2: T2): R
+</span><span class='line'> 
+</span><span class='line'>  /** Creates a curried version of this function.
+</span><span class='line'>   *
+</span><span class='line'>   *  @return   a function `f` such that `f(x1)(x2) == apply(x1, x2)`
+</span><span class='line'>   */
+</span><span class='line'>  def curried: T1 =&gt; T2 =&gt; R = {
+</span><span class='line'>    (x1: T1) =&gt; (x2: T2) =&gt; apply(x1, x2)
+</span><span class='line'>  }
+</span><span class='line'>  @deprecated("Use 'curried' instead", "2.8.0")
+</span><span class='line'>  def curry = curried
+</span><span class='line'> 
+</span><span class='line'>  /** Creates a tupled version of this function: instead of 2 arguments,
+</span><span class='line'>   *  it accepts a single [[scala.Tuple2]] argument.
+</span><span class='line'>   *
+</span><span class='line'>   *  @return   a function `f` such that `f((x1, x2)) == f(Tuple2(x1, x2)) == apply(x1, x2)`
+</span><span class='line'>   */
+</span><span class='line'>  def tupled: Tuple2[T1, T2] =&gt; R = {
+</span><span class='line'>    case Tuple2(x1, x2) =&gt; apply(x1, x2)
+</span><span class='line'>  }
+</span><span class='line'>  override def toString() = "&lt;function2&gt;"
+</span><span class='line'>}
+</span><span class='line'> 
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>scala中的每個function，都是實作像上面的functionN(N從0\~22)的trait，以<code>(x: Int, y: Int) ⇒ x + y</code>來說，就是上例中的Function2[-T1,
+-T2, +R]， 因為 (x: Int, y: Int) ⇒ x + y 就
+傳入兩個int的參數並傳回一個int的結果，這樣與Function2的<code>def apply(v1: T1, v2: T2): R</code>是相等的。</p>
+
+<h4>closure</h4>
+
+<p>closure跟function literal語法很相似，但closure多了<a href="#free_variables" title="scala:scala_101 ↵">free
+variables</a>，所以，free
+variables可被當做區分closure跟function literal的依據</p>
+
+<h5>free variables</h5>
+
+<p>TBC</p>
+
+<h4>Constructor</h4>
+
+<h5>primary constructor</h5>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class MyClass(x: Int, y: Int)</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>auxiliary constructor</h5>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class MyClass(x: Int) {
+</span><span class='line'>    def this(x:Int) = this(x, 1) 
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在scala，只有primary constructor可以呼叫super class的Constructor</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'> </span></code></pre></td></tr></table></div></figure>
+
+
+<h4>function parameters</h4>
+
+<h5>repeated parameters</h5>
+
+<p>repeated parameters像java的 myfunc(String…
+args)，後面能用0到多個相同型別的參數</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>def myfunc(args: String*)</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>naming parameters</h5>
+
+<p>naming
+parameters主要是在使用functions時可以指定參數的名稱，也因為可以指定參數的名稱，
+所以傳入的參數順序可以跟原來宣告時的不一樣</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>def myfunc(foo: Int, bar: String)
+</span><span class='line'> 
+</span><span class='line'>// call myfunc with naming parameter
+</span><span class='line'>val x = myfunc(bar="test", foo=1)</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>default value</h5>
+
+<p>參數的預設值，如果沒有特別指定時，參數會以預設值為準</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>def myfunc(foo: Int = 5)</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>loop</h5>
+
+<p>如while 或者是 do-while loop 都是會帶有副作用(side
+effect)，請儘量改用其他的方式實作</p>
+
+<h5>for</h5>
+
+<p>for loop有filter的功能</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>val filesHere = (new java.io.File(".")).listFiles
+</span><span class='line'>for (file &lt;- filesHere if file.getName.endsWith(".scala"))
+</span><span class='line'>  println(file)
+</span><span class='line'> 
+</span><span class='line'>// 上面那邊，的效果等同於  
+</span><span class='line'>for (file &lt;- filesHere)
+</span><span class='line'>  if (file.getName.endsWith(".scala"))
+</span><span class='line'>    println(file)  </span></code></pre></td></tr></table></div></figure>
+
+
+<p>filter也可以累加，像這樣</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>for (
+</span><span class='line'>  file &lt;- filesHere
+</span><span class='line'>  if file.isFile
+</span><span class='line'>  if file.getName.endsWith(".scala")
+</span><span class='line'>) println(file)</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>apply() and update()</h5>
+
+<p><code>()</code>跟<code>()=</code>是語法糖(complier sugar)，分別等效於<code>apply()</code>跟<code>update()</code> ()
+: apply() ()= : update()</p>
+
+<h3>Import and Package</h3>
+
+<h5>pacakge</h5>
+
+<ol>
+<li>可以是 java style ，把 package name 放在最上面</li>
+<li>可以是 c# like，用 com.kentchiu { <em>package content } 或 com{
+kentchiu {</em> package content} }</li>
+<li>_root_ package</li>
+</ol>
+
+
+<h5>import</h5>
+
+<p>與 java 的不同</p>
+
+<ol>
+<li>可以直接 import class member</li>
+<li>可以 rename 或隱藏部份被 import 的 members</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>import com.kentchiu.{Foo, Bar}        // 只 import Foo 跟 Bar
+</span><span class='line'>import com.kentchiu.{Foo, Bar =&gt; Baz} // 只 import Foo 跟 Bar， Bar 改名為 Baz
+</span><span class='line'>import com.kentchiu.{Bar =&gt; _, _}     // Bar rename 成 _ ，會變成 import com.kentchiu 但把 Bar 排外</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>trait</h3>
+
+<p>Trait像是java的interface，不過，更像是ruby的mixin</p>
+
+<h5>Ordered Trait</h5>
+
+<p>Ordered Trait是用來說明trait一個很好的例子，Rubyer應該對這個例子很眼熟</p>
+
+<h3>case class</h3>
+
+<h5>function programming</h5>
+
+<p>Functional programming is a programming paradigm that describes
+computation as the evaluation of mathematical functions avoiding state,
+mutual data and therefore side effects</p>
+
+<p>Function programming based on applying functions to arguments in order
+to receive some desired values</p>
+
+<p>The core idea for computation has shifted from a series of instructions
+(which specify precisely how the computation should proceed) to Notation
+of expressions, based on functions and values. You no longer have to
+follow a plan of instructions in order to understand a computation but
+decompose such an expression into its single elements.</p>
+
+<h3>Sequence Comprehensions</h3>
+
+<h3>Tuple</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>scala&gt; val t = (1,2)
+</span><span class='line'>t: (Int, Int) = (1,2)
+</span><span class='line'> 
+</span><span class='line'>scala&gt; val t = new Tuple2(1,2)
+</span><span class='line'>t: (Int, Int) = (1,2)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>tuple是透過特殊index語法存取</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>scala&gt; t._1
+</span><span class='line'>res3: Int = 1
+</span><span class='line'> 
+</span><span class='line'>scala&gt; t._2
+</span><span class='line'>res4: Int = 2</span></code></pre></td></tr></table></div></figure>
+
+
+<p>另外一種建立tuple的語法</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>scala&gt; 1-&gt;2
+</span><span class='line'>res0: (Int, Int) = (1,2)</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Extractors</h3>
+
+<p>利用 <code>unApply()</code> method搭配pattern match將資訊從class中萃取出來</p>
+
+<h3>Parser Combinators</h3>
+
+<ul>
+<li>Christoph Henkelmann’s Blog - An Introduction To Scala Parser
+Combinators
+
+<ol>
+<li><a href="http://henkelmann.eu/2011/01/13/an_introduction_to_scala_parser_combinators" title="http://henkelmann.eu/2011/01/13/an_introduction_to_scala_parser_combinators">Part 1: Parser
+Basics</a></li>
+<li><a href="http://henkelmann.eu/2011/01/28/an_introduction_to_scala_parser_combinators-part_2_literal_expressions" title="http://henkelmann.eu/2011/01/28/an_introduction_to_scala_parser_combinators-part_2_literal_expressions">Part 2: Parsing Literal
+Expressions</a></li>
+<li><a href="http://henkelmann.eu/2011/01/29/an_introduction_to_scala_parser_combinators-part_3_unit_tests" title="http://henkelmann.eu/2011/01/29/an_introduction_to_scala_parser_combinators-part_3_unit_tests">An Introduction To Scala Parser Combinators - Part 3: Writing
+unit tests for
+parsers</a></li>
+</ol>
+</li>
+</ul>
+
+
+<h3>Symbol Literals</h3>
+
+<p>Symbol Literals是在字串前加一個單引號&#8217;，像這樣&#8217;foo</p>
+
+<p>Symbol
+Literal主要作用是用來當作識別用，可以視為一個字串，但它不同於字串的地方有</p>
+
+<ol>
+<li>不可以有任何空白</li>
+<li>一致性</li>
+<li>對重構比較友善</li>
+</ol>
+
+
+<p>像典型的map可以寫成這樣</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>"key" -&gt; "value"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>key的部份可以換成Symbol Literal取代</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>'key -&gt; "value"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這樣的好處是，&#8217;key更能代表唯一性，而且，如果要進行重構，&#8217;key對於重構的支援會比”key”來的好，如果任何地方需要用字串當作識別的時侯，或者可以考慮換成用Symbol
+Literal取代</p>
+
+<h1>TBD</h1>
+
+<ul>
+<li>The Divide and Conquer principle</li>
+<li>Implicit Conversions and Parameters</li>
+</ul>
+
+
+<h1>Resource</h1>
+
+<ul>
+<li><a href="http://www.scala-lang.org/" title="http://www.scala-lang.org/">http://www.scala-lang.org/</a>
+官網</li>
+<li><a href="http://docs.scala-lang.org/index.html" title="http://docs.scala-lang.org/index.html">http://docs.scala-lang.org/index.html</a>
+官網文件</li>
+<li>Functional scala serial
+這一系列教學，很適合java背景，而且沒有function programming的人
+
+<ol>
+<li><a href="http://gleichmann.wordpress.com/2010/10/28/functional-scala-introduction/" title="http://gleichmann.wordpress.com/2010/10/28/functional-scala-introduction/">episode 1:
+Introduction</a></li>
+<li><a href="http://gleichmann.wordpress.com/2010/10/31/functional-scala-functions/" title="http://gleichmann.wordpress.com/2010/10/31/functional-scala-functions/">episode 2:
+Functions</a></li>
+<li><a href="http://gleichmann.wordpress.com/2010/11/08/functional-scala-functions-as-objects-as-functions/" title="http://gleichmann.wordpress.com/2010/11/08/functional-scala-functions-as-objects-as-functions/">episode 3: Functions as Objects as
+Functions</a></li>
+<li><a href="http://gleichmann.wordpress.com/2010/11/15/functional-scala-closures/" title="http://gleichmann.wordpress.com/2010/11/15/functional-scala-closures/">episode 4:
+Closures</a></li>
+<li><a href="http://gleichmann.wordpress.com/2010/11/21/functional-scala-comprehending-comprehensions/" title="http://gleichmann.wordpress.com/2010/11/21/functional-scala-comprehending-comprehensions/">episode 5: Comprehending
+Comprehensions</a></li>
+<li><a href="http://gleichmann.wordpress.com/2010/11/28/high-higher-higher-order-functions/" title="http://gleichmann.wordpress.com/2010/11/28/high-higher-higher-order-functions/">episode 6: High, Higher, Higher Order
+Functions</a></li>
+<li><a href="http://gleichmann.wordpress.com/2010/12/05/functional-scala-lambdas-and-other-shortcuts/" title="http://gleichmann.wordpress.com/2010/12/05/functional-scala-lambdas-and-other-shortcuts/">episode 7: Lambdas and other
+shortcuts</a></li>
+</ol>
+</li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Kent Chiu</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-07-02T00:00:00+08:00" pubdate data-updated="true">Jul 2<span>nd</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/scala/'>scala</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://blog.kent-chiu.com/blog/2012/07/02/scala_101/" data-via="" data-counturl="http://blog.kent-chiu.com/blog/2012/07/02/scala_101/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/07/02/play_framework_101/" title="Previous Post: play framework 101">&laquo; play framework 101</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/07/12/jpa_101/" title="Next Post: JPA 101">JPA 101 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/07/07/python-101/">Python 101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/25/url-encoding/">URL Encoding</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/04/restful-api-design/">RESTful API Design</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/17/my-intellij-idea-shortcut/">My IntelliJ IDEA Shortcut</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/12/jesper-report-font-issue/">Jesper Report, IReport 匯出成中文PDF</a>
+      </li>
+    
+  </ul>
+</section>
+
+Included file 'asides/twitter.html' not found in _includes directory
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Kent -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'kentchiu';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.kent-chiu.com/blog/2012/07/02/scala_101/';
+        var disqus_url = 'http://blog.kent-chiu.com/blog/2012/07/02/scala_101/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

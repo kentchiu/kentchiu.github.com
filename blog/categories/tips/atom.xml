@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: tips | Kent's Blog]]></title>
+  <link href="http://blog.kent-chiu.com/blog/categories/tips/atom.xml" rel="self"/>
+  <link href="http://blog.kent-chiu.com/"/>
+  <updated>2013-07-11T21:16:37+08:00</updated>
+  <id>http://blog.kent-chiu.com/</id>
+  <author>
+    <name><![CDATA[Kent]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Update Or Delete with Subquery reslut]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2011/10/17/update_or_delete_from_subquery_result/"/>
+    <updated>2011-10-17T00:00:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2011/10/17/update_or_delete_from_subquery_result</id>
+    <content type="html"><![CDATA[<p>if you try to delete a table and that table is using in subquery like
+this</p>
+
+<p><code>
+DELETE FROM table_a WHERE col_a IN (SELECT col_a FROM table_a)
+</code></p>
+
+<p>The syntax will cause a error says “You can't specify target table 'm'
+for update in FROM clause”, error code is 1093. This is cause by MYSQL
+DON'T support update table which also used in subquery.</p>
+
+<p>The solution is using alias like this</p>
+
+<p><code>
+DELETE FROM table_a WHERE col_a IN (SELECT col_a FROM (SELECT col_a FROM table_a) AS table_x)
+</code></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[如何讀取許多小icons組合而成圖檔]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2011/10/17/how_to_use_combine_images_in_css/"/>
+    <updated>2011-10-17T00:00:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2011/10/17/how_to_use_combine_images_in_css</id>
+    <content type="html"><![CDATA[<p>設計網站時，常會用到許多小小的icon檔(任何圖檔格式)，如果每個小小的icon都是獨立的檔案，這樣會比較不好管理。</p>
+
+<p>解決的方式是先將數個小圖檔給組合成一個單一的圖檔，然後用css定位跟指定大小的方式來顯示需要的icon。</p>
+
+<p><img src="/images/wiki/web/icons_combined.png" alt="icons_combined.png" /></p>
+
+<p>以上面的圖檔來說，我們若只需要x這個icons，所以我們可以用以下的css語法來顯示這個icon</p>
+
+<p><code>
+x-icon {
+  background-position: -96px -128px; // icons的位置
+  width: 16px;                       // icons的大小
+  height: 16px;                      // icons的大小
+}
+</code></p>
+]]></content>
+  </entry>
+  
+</feed>

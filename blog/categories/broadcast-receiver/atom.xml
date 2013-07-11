@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: broadcast_receiver | Kent's Blog]]></title>
+  <link href="http://blog.kent-chiu.com/blog/categories/broadcast-receiver/atom.xml" rel="self"/>
+  <link href="http://blog.kent-chiu.com/"/>
+  <updated>2013-07-11T21:16:37+08:00</updated>
+  <id>http://blog.kent-chiu.com/</id>
+  <author>
+    <name><![CDATA[Kent]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Android Service 101]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2012/03/20/service_101/"/>
+    <updated>2012-03-20T00:00:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2012/03/20/service_101</id>
+    <content type="html"><![CDATA[<p>Android
+Service可以視為Windows的系統服務或Linux的Daemons，可以長時間在存在系統中(不一定要直在活動狀態)，而且，他有自已的生命周期函數，不會隨著Activity的消滅而消滅。</p>
+
+<p>Android有兩種類型的services</p>
+
+<ol>
+<li>Local Service</li>
+<li>Remote Service (透過AIDL定義)</li>
+</ol>
+
+
+<p>Local Service是該應用程式自已內部要使用的service，而Remote
+Service則可提供給其他應用程式使用。Service執行時，一樣是執行在Main
+Thread(UI Thread)，所以，service會影響到
+UI的操作效能，如果service執行的時間很短，那問題不大
+，一但service要執行很久的時間，那應該要採用<a href="http://wiki.kent-chiu.com/doku.php?id=android:background_processing" title="android:background_processing">背景服務</a>的方式來處理，也就是在service內另外</p>
+
+<p>如果想讓serivce裡的worker
+thread只有一個instance，可以在oncreate建立，這樣就能讓thread
+instance(或者是<a href="http://developer.android.com/reference/java/util/concurrent/ExecutorService.html" title="http://developer.android.com/reference/java/util/concurrent/ExecutorService.html">ExecutorService</a>)只有一份</p>
+
+<p>Android有提供另一個跟Service一樣，適合在背景作業的機制叫<a href="http://developer.android.com/reference/android/content/BroadcastReceiver.html" title="http://developer.android.com/reference/android/content/BroadcastReceiver.html">Broadcast
+Receiver</a>，至於何時該用Servce，何時該用Broadcast
+Receiver可以參考<a href="http://developer.android.com/resources/articles/multitasking-android-way.html" title="http://developer.android.com/resources/articles/multitasking-android-way.html">這篇</a>文章</p>
+
+<h4>Service</h4>
+
+<p>下面是一個簡單的service，<code>onBind()</code>如果不是要做<a href="#bound_service" title="android:service_101 ↵">Bound
+Service</a>的話，就直接return
+null即可，而<code>onStartCommand()</code>則是service主要要實作的部份
+，依收到的intent去決定要實作那些功能，如果比較耗時的功能，記得用<a href="http://wiki.kent-chiu.com/doku.php?id=android:background_processing" title="android:background_processing">Android
+背景作業處理</a>處理，因為service<code>並不是執行在另一個thread</code>。</p>
+
+<p>如果想讓Service執行成另一個獨立的process，可以透過設定service的xml中的process屬性，像這樣</p>
+
+<p>```
+&lt;service</p>
+
+<pre><code>android:name="WordService"
+android:process=":my_process" 
+android:icon="@drawable/icon"
+android:label="@string/service_name"
+&gt;
+</code></pre>
+
+<p></service>
+```</p>
+
+<p>Service的啟動與停止是透過Context中的<code>startService(Intent)</code>及<code>stopService(Intent service)</code>，Activity,Service跟Application都是繼承自Context，所以可以直接呼叫。</p>
+
+<p>比較值得注意的地方為<code>onStartCommand()</code>的傳回值部份，這個跟Service Life
+cycle有關。在系統需要資源時，系統可能會把service給kill掉，而之後等系統比較有空時，
+會再自動把service給叫回來，但這個行為，可以透過指定<code>onStartCommand()</code>的傳回值來改變，有效的傳回值有:</p>
+
+<ol>
+<li>START_STICKY :
+預設的行為，service被系統kill掉後或做完工作後，系統會restart
+service，一般要停止service話，是透過stopService()，或stopSelf()</li>
+<li>START_NOT_STICKY : 如果serice做完工作後，系統會stop
+service，而不是restart
+service，這個很適用來做周期的工作(比如說每15分鐘檢查一次mail
+box)，而不是一直不斷執行的任務，下次收到intent</li>
+<li>START_REDELIVER_INTENT :
+跟START_NOT_STICKY很像，這個適合用來做失敗時會再重做n次的工作，它會在工作沒能成功做完時再次呼叫自己</li>
+</ol>
+
+
+<p>```
+public class MyService extends Service {
+ </p>
+
+<pre><code>@Override
+public IBinder onBind(Intent intent) {
+    return null;
+}
+</code></pre>
+
+<p> </p>
+
+<pre><code>@Override
+public int onStartCommand(Intent intent, int flags, int startId) {
+    return super.onStartCommand(intent, flags, startId);
+}
+</code></pre>
+
+<p> 
+}
+```</p>
+
+<h4>Intent Service</h4>
+
+<p><a href="http://developer.android.com/reference/android/app/IntentService.html" title="http://developer.android.com/reference/android/app/IntentService.html">IntentService</a>會產生一個額外的worker
+thread所以<strong>不需要</strong>在IntentService裡另外使用Thread或AsncTask，但也因為這樣，在IntentService裡做UI動作時，要確定是發生在MainThread</p>
+
+<p>如果要在Intent Service裡對UI進行操作，可以透過Handler的機制</p>
+
+<p>```
+public class MyService extends IntentService {
+ </p>
+
+<pre><code>public MyService() { 
+  super("MyIntentService"); // constructor一定要有一個default的(無參數的)
+}
+</code></pre>
+
+<p> </p>
+
+<pre><code>private Handler handler = new Handler(); // 在這邊宣告的Handler，是attach在Main Thread上面的
+</code></pre>
+
+<p> </p>
+
+<pre><code>@Override
+protected void onHandleIntent(Intent intent) {
+    // 透過attach在Main Thread上面的的handler post的method內的動作，可以對UI進行操作
+    handler.post(new Runnable() {
+        @Override
+        public void run() {
+            Toast.makeText(MyService.this, "Some Message" , Toast.LENGTH_SHORT).show();
+        }
+    });
+}
+</code></pre>
+
+<p>}
+```</p>
+
+<p>Intent Serivce的<code>onStartCommand()</code>實作如下，由實作可以知道Intent
+Service是用來處理一次性的服務，發一次intent，就把該intent要做的事做完後就停止service，而不是讓service一直在執行</p>
+
+<p>```
+@Override
+public int onStartCommand(Intent intent, int flags, int startId) {</p>
+
+<pre><code>onStart(intent, startId);
+return mRedelivery ? START_REDELIVER_INTENT : START_NOT_STICKY;
+</code></pre>
+
+<p>}
+```</p>
+
+<h3>Remote Service</h3>
+
+<p>Remote
+Service跟寫一般RMI(RPC)的程式流程上差不多，定義interface(AIDL)，產生stub
+code，實作stub
+code，實作完是直接使用service，而不是透過intent呼叫。也跟一般的RMI一樣，你必須認真面對複雜型別的Serialization問題。</p>
+
+<h1>Bound Service</h1>
+
+<p>Bound
+Service中的Bound的意思是要跟某個Activity”綁定”，也就是說，這個service的生命周期會受到Activity所控制。</p>
+
+<ul>
+<li>binding是非同步的，也就是，service ready時，才會call back
+ServiceConnection.onServiceConnected() method;</li>
+<li>Binder不要宣告成非static的inner class，不然會發生service
+leaking的問題</li>
+</ul>
+
+
+<p>通用型的Local Service Binder,可適用於大部份的情況</p>
+
+<p>```
+public class LocalBinder<S> extends Binder {</p>
+
+<pre><code>private  WeakReference&lt;S&gt; service;
+</code></pre>
+
+<p> 
+ </p>
+
+<pre><code>public LocalBinder(S service){
+    this.service = new WeakReference&lt;S&gt;(service);
+}
+</code></pre>
+
+<p> 
+ </p>
+
+<pre><code>public S getService() {
+    return service.get();
+}
+</code></pre>
+
+<p>}
+```</p>
+
+<p>那何時需要用到Bound Service，通常是在</p>
+
+<ol>
+<li>希望service的生命周期activity跟一致(一般的service啟動後，就會一直執在背景執行，直到收到stop或被系統kill)</li>
+<li>不希望service在沒預期的情況下被系統kill
+(系統會在資料不足情況下<a href="http://wiki.kent-chiu.com/doku.php?id=android:%E4%BE%9D%E5%BA%8F" title="android:依序">依序</a>殺掉process，當然，你也可以透過<a href="http://developer.android.com/reference/android/app/Service.html#startForeground(int,%20android.app.Notification">startForeground()</a> "http://developer.android.com/reference/android/app/Service.html#startForeground(int, android.app.Notification)")來<strong>降低</strong>被殺掉的機率)</li>
+<li>希望在activity內可以直接對service進行更多操作 (local
+service要透過intent啟動，停止或進行其他command)</li>
+</ol>
+
+
+<h3>開機後自動啟動的Service</h3>
+
+<p>開機後自動啟動的Service算是很常見的應用，很多的app都有這樣的需求，要達到這樣的功能，可以透過BroadcastReceiver去接收<code>android.intent.action.BOOT_COMPLETED</code>的系統事件，這個事件會在開機完成後被廣播一次。</p>
+
+<p>```
+public class MyReceiver extends BroadcastReceiver {
+ </p>
+
+<pre><code>@Override
+public void onReceive(Context context, Intent intent) {
+    Intent service = new Intent(context, MyService.class);
+    context.startService(service);
+}
+</code></pre>
+
+<p>}
+```</p>
+
+<p>```</p>
+
+<pre><code>    &lt;receiver android:name="MyReciever" &gt;
+        &lt;intent filter="" &gt;
+            &lt;action android:name="android.intent.action.BOOT_COMPLETED" /&gt;
+        &lt;/intent&gt;
+    &lt;/receiver&gt;
+    &lt;uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" /&gt;
+</code></pre>
+
+<p>```</p>
+
+<p>如果程式放在SD
+Card上，recive的xml設定檔還要去註冊<code>android.intent.action.ACTION_EXTERNAL_APPLICATIONS_AVAILABLE</code>，另外，在Android
+3.0之後，程式至少要被執行過一次才會接到這個廣播事件。</p>
+
+<h1>Resources</h1>
+
+<ul>
+<li><a href="http://www.ozdroid.com/#!BLOG/2010/12/19/How_to_make_a_local_Service_and_bind_to_it_in_Android" title="http://www.ozdroid.com/#!BLOG/2010/12/19/How_to_make_a_local_Service_and_bind_to_it_in_Android">http://www.ozdroid.com/#!BLOG/2010/12/19/How_to_make_a_local_Service_and_bind_to_it_in_Android</a>
+
+<ul>
+<li>service binding的介紹</li>
+</ul>
+</li>
+<li><a href="http://developer.android.com/resources/articles/multitasking-android-way.html" title="http://developer.android.com/resources/articles/multitasking-android-way.html">http://developer.android.com/resources/articles/multitasking-android-way.html</a>
+
+<ul>
+<li>關於android
+multitasking的介紹，可以更瞭解service的設計與使用的時機</li>
+</ul>
+</li>
+<li><a href="http://www.vogella.de/articles/AndroidServices/article.html" title="http://www.vogella.de/articles/AndroidServices/article.html">http://www.vogella.de/articles/AndroidServices/article.html</a></li>
+</ul>
+
+
+<p>[broadcast</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Broadcast Receiver 101]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2012/03/20/broadcast_receiver_101/"/>
+    <updated>2012-03-20T00:00:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2012/03/20/broadcast_receiver_101</id>
+    <content type="html"><![CDATA[<p>Broadcast receivers是Application
+Fundamentals中的四大組件之一，主要目的用來在背景接收廣播事件，繼承自BroadcastReceiver，之後再透過在AndroidManifest.xml註冊要聆聽的廣播事件。</p>
+
+<p>當廣播事件抵達時，會執行BroadcastReceiver.onReceive()，而要進行廣播則可利用Context.sendBroadcast()來進行廣播。須注意的是BroadcastReceiver的broadcasted出來的訊息處理是非同步的，也不是一boradcast馬上就會執行，順序也是不確定的，所以，另外有一個Context.sendOrderedBroadcast()可以使用，這個可以保證Broadcast出來的intent的順序性及Priority.</p>
+
+<p>在設計上，可以會面臨Backgroud
+Service要以Servicen實作還是要以BroadcastReceiver實作，<a href="http://developer.android.com/resources/articles/multitasking-android-way.html" title="http://developer.android.com/resources/articles/multitasking-android-way.html">這邊</a>有篇文章可以參考兩者中那個比較適合。</p>
+
+<p>BroadcastReceiver超過十秒就會ANR，所以，比較長時間的動作應該都是由service做</p>
+
+<p>以下的例子是實作一個執行BroadcastReceiver去聆聽開機完成事件的功能</p>
+
+<p>```
+public class MyReceiver extends BroadcastReceiver {
+ </p>
+
+<pre><code>@Override
+public void onReceive(Context context, Intent intent) {
+    Intent service = new Intent(context, MyService.class);
+    context.startService(service);
+}
+</code></pre>
+
+<p>}
+```</p>
+
+<p>```</p>
+
+<pre><code>    &lt;receiver android:name="MyReciever" &gt;
+        &lt;intent-filter&gt;
+            &lt;action android:name="android.intent.action.BOOT_COMPLETED" /&gt;
+        &lt;/intent-filter&gt;
+    &lt;/receiver&gt;
+    &lt;uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" /&gt;
+</code></pre>
+
+<p>```</p>
+
+<p>發送broadcast的方式</p>
+
+<p><code>
+context.sendBroadcast(intent);
+</code></p>
+
+<p>如果BroadcastReceiver沒有順利被觸發，可能是因為沒設定權限或者是intent
+filter設定錯誤所導致</p>
+]]></content>
+  </entry>
+  
+</feed>

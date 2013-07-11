@@ -1,0 +1,662 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>時間日期處理 - Kent's Blog</title>
+  <meta name="author" content="Kent">
+
+  
+  <meta name="description" content="日期的處理，在java中，一直是一個麻煩的問題，很多時間或日期操作若只是想透過JDK的Date
+或Calendar來處理，會相當的不方便，況且
+JDK內日期時間就有好幾種，很容易讓許多人無從下手，以下列出JDK
+1.6內的日期時間相關物件(不含時間日期格式物件) java.util.Date &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.kent-chiu.com/blog/2012/09/30/date_and_time">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Kent's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-39152849-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Kent's Blog</a></h1>
+  
+    <h2>Kent的學習筆記(剛從dokuwiki搬過來，內容還在整修中)</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.kent-chiu.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">時間日期處理</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-30T00:00:00+08:00" pubdate data-updated="true">Sep 30<span>th</span>, 2012</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>日期的處理，在java中，一直是一個麻煩的問題，很多時間或日期操作若只是想透過JDK的<a href="http://download.oracle.com/javase/6/docs/api/java/util/Date.html" title="http://download.oracle.com/javase/6/docs/api/java/util/Date.html">Date</a>
+或<a href="http://download.oracle.com/javase/6/docs/api/java/util/Calendar.html" title="http://download.oracle.com/javase/6/docs/api/java/util/Calendar.html">Calendar</a>來處理，會相當的不方便，況且
+JDK內日期時間就有好幾種，很容易讓許多人無從下手，以下列出JDK
+1.6內的日期時間相關物件(不含時間日期格式物件)</p>
+
+<ol>
+<li><a href="http://download.oracle.com/javase/6/docs/api/java/util/Date.html" title="http://download.oracle.com/javase/6/docs/api/java/util/Date.html">java.util.Date</a>
+java日期物件</li>
+<li><a href="http://download.oracle.com/javase/6/docs/api/java/sql/Date.html" title="http://download.oracle.com/javase/6/docs/api/java/sql/Date.html">java.sql.Date</a>
+資料庫用的日期物件</li>
+<li><a href="http://download.oracle.com/javase/6/docs/api/java/sql/Time.html" title="http://download.oracle.com/javase/6/docs/api/java/sql/Time.html">java.sql.Time</a>
+資料庫用的日期物件</li>
+<li><a href="http://download.oracle.com/javase/6/docs/api/java/sql/Timestamp.html" title="http://download.oracle.com/javase/6/docs/api/java/sql/Timestamp.html">java.sql.Timestamp</a>
+資料庫用的時間戳記物件</li>
+<li><a href="http://download.oracle.com/javase/6/docs/api/java/util/Calendar.html" title="http://download.oracle.com/javase/6/docs/api/java/util/Calendar.html">java.util.Calendar</a>
+java日期物件</li>
+</ol>
+
+
+<p>目前處理日期相關的工具，除了上述的之外，JDK內還有<a href="http://wiki.kent-chiu.com/doku.php?id=java:date_and_time" title="java:date_and_time">日期格式化的相關功能</a>，另外，還有
+Apache
+<a href="http://commons.apache.org/lang/" title="http://commons.apache.org/lang/">connons-lang</a>裡的<a href="http://commons.apache.org/lang/api-2.6/org/apache/commons/lang/time/DateUtils.html" title="http://commons.apache.org/lang/api-2.6/org/apache/commons/lang/time/DateUtils.html">DateUtils</a>有許多好用的method可以做日期的判斷，
+如果還是不足夠的話，還有時間日期處理的終極武器<a href="http://joda-time.sourceforge.net/" title="http://joda-time.sourceforge.net/">Joda
+time</a>，可以很有效的對付時間日期區間的問題(Start
+Time, End Time報表常會用到)， 那也可以看看<a href="http://sourceforge.net/apps/mediawiki/threeten/index.php?title=ThreeTen" title="http://sourceforge.net/apps/mediawiki/threeten/index.php?title=ThreeTen">JSR
+310時間日期處理功能</a>，這個原本有可能是<a href="http://download.oracle.com/javase/7/docs/" title="http://download.oracle.com/javase/7/docs/">JDK
+7</a>的一部份，現在就不了了之了</p>
+
+<h3>日期時間常見的議題有</h3>
+
+<ol>
+<li>例假日</li>
+<li>農民曆</li>
+<li>中華民國歷</li>
+<li>日光節約時間</li>
+<li>地區化</li>
+<li>格式化</li>
+<li>日期區間運算</li>
+</ol>
+
+
+<h1>Apache Commons Lang</h1>
+
+<h4>時間的shift</h4>
+
+<ul>
+<li>addDays</li>
+<li>addHours</li>
+<li>addMinutes</li>
+<li>…</li>
+</ul>
+
+
+<h4>四捨五入，完全捨去，完全進位</h4>
+
+<ul>
+<li>ceiling</li>
+<li>round</li>
+<li>truncate</li>
+</ul>
+
+
+<h4>其他</h4>
+
+<ul>
+<li>toCalendar(Date) Date轉Calendar</li>
+<li>isSameDay 是否為同一天</li>
+<li>parseDate(String, String[]) 將字串轉成日期</li>
+<li>getFragmentInXXX() 經過了多少的時間單位</li>
+<li>iterator</li>
+</ul>
+
+
+<p>getFragmentInXXX()一系列的方法，可以計算出從何時到何時，總共經過了多時間，比如說，今年到今天，總共已經了多少天，或多少小時或多少秒，…</p>
+
+<p>而iterator可以用以下的參數對某一個時間做iterator</p>
+
+<ol>
+<li>RANGE_MONTH_SUNDAY</li>
+<li>RANGE_MONTH_MONDAY</li>
+<li>RANGE_WEEK_SUNDAY</li>
+<li>RANGE_WEEK_MONDAY</li>
+<li>RANGE_WEEK_RELATIVE</li>
+<li>RANGE_WEEK_CENTER</li>
+</ol>
+
+
+<h1>Joda Time</h1>
+
+<ul>
+<li>很容易從jdk的Date,Calendar轉換，只要傳入DateTime的Constructor即可</li>
+<li>所有的datetime
+classes都是immutable，但有提供一些method可以方便的傳回運算後新的datetime</li>
+</ul>
+
+
+<h3>主要的觀念</h3>
+
+<ul>
+<li>Instant - 最基本的觀念，基本上就是一個時間點或DateTime</li>
+<li>Partial -</li>
+<li>Interval - 時間間隔，也就是start time 跟 end time</li>
+<li>Period - 期間，像是3天，6個月，5個小時，可以從interval轉換過來</li>
+<li>Duration -
+期間，跟Interval的不同是Duration是無timezone的，可以從interval轉換過來，但無法轉回interval</li>
+<li>Chronology - 設計日曆的api用，大部份的情況下，可以不管它</li>
+<li>DateTimeZone - Time Zone</li>
+</ul>
+
+
+<p>Duration V.S Period</p>
+
+<p>Duration是很簡純的觀念，它就是一個固定的時間(多少毫秒)，而Period則是會隨CONTEXT變化的時間單位，比如說Period如果為一個月，對
+一月份一的個月，跟二月份的一個月，長度就不一樣。</p>
+
+<p>ex: 1/15要加一個月的時間，用Period來處理，就是1 Month Period,
+(記為P1M)，就是是2/15日，如果用Duration來處理，它只能固定為一個時間長度(換算成milliseconds)，1月到2月是(29天的換算成的milliseconds)，所以就無法用相同的一個Duration來計算下個月的15號時何時(2-3月是30天)。</p>
+
+<p>base, chrono, convert, field and tz這幾個packages是private
+package,一般的application大多字會用到<code>org.joda.time</code> package的內容</p>
+
+<h3>重要的Interface</h3>
+
+<h5>ReadableInstant</h5>
+
+<ol>
+<li>compareTo(Object)</li>
+<li>equals(Object)</li>
+<li>get(DateTimeFieldType)</li>
+<li>getChronology()</li>
+<li>getMillis()</li>
+<li>getZone()</li>
+<li>hashCode()</li>
+<li>isAfter(ReadableInstant)</li>
+<li>isBefore(ReadableInstant)</li>
+<li>isEqual(ReadableInstant)</li>
+<li>isSupported(DateTimeFieldType)</li>
+<li>toInstant()</li>
+<li>toString()</li>
+</ol>
+
+
+<h5>ReadableInterval</h5>
+
+<ol>
+<li>contains(ReadableInstant)</li>
+<li>contains(ReadableInterval)</li>
+<li>equals(Object)</li>
+<li>getChronology()</li>
+<li>getEnd()</li>
+<li>getEndMillis()</li>
+<li>getStart()</li>
+<li>getStartMillis()</li>
+<li>hashCode()</li>
+<li>isAfter(ReadableInstant)</li>
+<li>isAfter(ReadableInterval)</li>
+<li>isBefore(ReadableInstant)</li>
+<li>isBefore(ReadableInterval)</li>
+<li>overlaps(ReadableInterval)</li>
+<li>toDuration()</li>
+<li>toDurationMillis()</li>
+<li>toInterval()</li>
+<li>toMutableInterval()</li>
+<li>toPeriod()</li>
+<li>toPeriod(PeriodType)</li>
+<li>toString()</li>
+</ol>
+
+
+<h5>ReadablePeriod</h5>
+
+<ol>
+<li>equals(Object)</li>
+<li>get(DurationFieldType)</li>
+<li>getFieldType(int)</li>
+<li>getPeriodType()</li>
+<li>getValue(int)</li>
+<li>hashCode()</li>
+<li>isSupported(DurationFieldType)</li>
+<li>size()</li>
+<li>toMutablePeriod()</li>
+<li>toPeriod()</li>
+<li>toString()</li>
+</ol>
+
+
+<p>joda-time中的interface跟一般framework中的interface不大一樣，一般的framework中，會建議儘量宣告物件成interface，但是在joda-time中，大多數的情況下，
+必須用Concreate Class方能取得物件完整的能力</p>
+
+<h3>ISO Date Format</h3>
+
+<p><a href="http://en.wikipedia.org/wiki/ISO_8601" title="http://en.wikipedia.org/wiki/ISO_8601">ISO_8601</a>是關於日期時間格式相關的ISO規定，裡面的日期，是用”-“做分隔符號(而不是”/”)，建議所有的日期格式與ISO
+8601相容 這樣，很多lib(不管是前端或後端)都可以比較容易處理。</p>
+
+<h3>code snippet</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Days days = Days.daysBetween(new DateTime(start), new DateTime(end));</span></code></pre></td></tr></table></div></figure>
+
+
+<p>parse含有AM/PM，要加上Locale.US，不然會出exception</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>SimpleDateFormat df = new SimpleDateFormat("hh:mm aa", Locale.US);</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果有時確定格式是對的，但是就是一直出ParseException，這時記得加上Locale.US的參數試試</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>import org.joda.time.DateTime;
+</span><span class='line'>import org.joda.time.Interval;
+</span><span class='line'> 
+</span><span class='line'>public enum Scheduling {
+</span><span class='line'>    DAILY, WEEKLY, MONTHLY,;
+</span><span class='line'> 
+</span><span class='line'>    public Interval interval(DateTime dt) {
+</span><span class='line'>        DateTime start;
+</span><span class='line'>        DateTime end;
+</span><span class='line'>        switch (this.name()) {
+</span><span class='line'>        case "DAILY":
+</span><span class='line'>            start = dt.withMillisOfDay(0);
+</span><span class='line'>            end = dt.withMillisOfDay(24 * 60 * 60 * 1000 -1);
+</span><span class='line'>            break;
+</span><span class='line'>        case "WEEKLY":
+</span><span class='line'>            start = dt.withDayOfWeek(1);
+</span><span class='line'>            end = dt.withDayOfWeek(7).withMillisOfDay(24 * 60 * 60 * 1000 -1);
+</span><span class='line'>            break;
+</span><span class='line'>        case "MONTHLY":
+</span><span class='line'>            start = dt.withDayOfMonth(1);
+</span><span class='line'>            int max = dt.dayOfMonth().getMaximumValue();
+</span><span class='line'>            end = dt.withDayOfMonth(max).withMillisOfDay(24 * 60 * 60 * 1000 -1);
+</span><span class='line'>            break;
+</span><span class='line'>        default:
+</span><span class='line'>            throw new UnsupportedOperationException("Unknow name :" + this.name());
+</span><span class='line'>        }
+</span><span class='line'>        return new Interval(start, end);
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>}
+</span><span class='line'> 
+</span><span class='line'>//
+</span><span class='line'>// test case 
+</span><span class='line'>//
+</span><span class='line'>import static org.hamcrest.Matchers.is;
+</span><span class='line'>import static org.junit.Assert.assertThat;
+</span><span class='line'> 
+</span><span class='line'>import java.util.Date;
+</span><span class='line'>import java.util.Locale;
+</span><span class='line'> 
+</span><span class='line'>import org.apache.commons.lang3.time.DateUtils;
+</span><span class='line'>import org.joda.time.DateTime;
+</span><span class='line'>import org.joda.time.Interval;
+</span><span class='line'>import org.junit.Test;
+</span><span class='line'> 
+</span><span class='line'>public class SchedulingTest {
+</span><span class='line'> 
+</span><span class='line'>    @Test
+</span><span class='line'>    public void interval_daily() throws Exception {
+</span><span class='line'>        Date date = DateUtils.parseDate("2012/02/14", "yyyy/MM/dd");
+</span><span class='line'>        Interval interval = Scheduling.DAILY.interval(new DateTime(date));
+</span><span class='line'>        assertThat("2012/02/14 00:00:00", is(interval.getStart().toString("yyyy/MM/dd HH:mm:ss")));
+</span><span class='line'>        assertThat("2012/02/14 23:59:59", is(interval.getEnd().toString("yyyy/MM/dd HH:mm:ss")));
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>    @Test
+</span><span class='line'>    public void interval_weekly() throws Exception {
+</span><span class='line'>        Date date = DateUtils.parseDate("2012/02/14", "yyyy/MM/dd"); // 2012/2/14 was a Tuesday
+</span><span class='line'>        Interval interval = Scheduling.WEEKLY.interval(new DateTime(date));
+</span><span class='line'>        assertThat("2012/02/13 00:00:00", is(interval.getStart().toString("yyyy/MM/dd HH:mm:ss")));
+</span><span class='line'>        assertThat("2012/02/19 23:59:59", is(interval.getEnd().toString("yyyy/MM/dd HH:mm:ss")));
+</span><span class='line'>        assertThat(interval.getStart().dayOfWeek().getAsText(Locale.ENGLISH), is("Monday")); // which day is first day of week that depend on OS settings
+</span><span class='line'>        assertThat(interval.getEnd().dayOfWeek().getAsText(Locale.ENGLISH), is("Sunday"));  // which day is end day of week that depend on OS settings
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>    @Test
+</span><span class='line'>    public void interval_monthly() throws Exception {
+</span><span class='line'>        Date date = DateUtils.parseDate("2012/02/14", "yyyy/MM/dd"); 
+</span><span class='line'>        Interval interval = Scheduling.MONTHLY.interval(new DateTime(date));
+</span><span class='line'>        assertThat("2012/02/01 00:00:00", is(interval.getStart().toString("yyyy/MM/dd HH:mm:ss")));
+</span><span class='line'>        assertThat("2012/02/29 23:59:59", is(interval.getEnd().toString("yyyy/MM/dd HH:mm:ss")));
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>Resources</h1>
+
+<ul>
+<li><a href="http://commons.apache.org/lang/" title="http://commons.apache.org/lang/">http://commons.apache.org/lang/</a>
+
+<ul>
+<li>Apache Commons Lang</li>
+</ul>
+</li>
+<li><a href="http://joda-time.sourceforge.net/" title="http://joda-time.sourceforge.net/">joda
+time</a>
+
+<ul>
+<li>joda-time</li>
+</ul>
+</li>
+<li><a href="http://sourceforge.net/apps/mediawiki/threeten/index.php?title=ThreeTen" title="http://sourceforge.net/apps/mediawiki/threeten/index.php?title=ThreeTen">JSR
+310</a>
+
+<ul>
+<li>採用了很多<a href="http://joda-time.sourceforge.net/" title="http://joda-time.sourceforge.net/">joda
+time</a>的API設計，但還沒穩定，建用還是用joda</li>
+</ul>
+</li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Kent Chiu</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-30T00:00:00+08:00" pubdate data-updated="true">Sep 30<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/java/'>java</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://blog.kent-chiu.com/blog/2012/09/30/date_and_time/" data-via="" data-counturl="http://blog.kent-chiu.com/blog/2012/09/30/date_and_time/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/09/12/regular_expression/" title="Previous Post: Regular Expression (RE)">&laquo; Regular Expression (RE)</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/10/11/english/" title="Next Post: English">English &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/07/07/python-101/">Python 101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/25/url-encoding/">URL Encoding</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/04/restful-api-design/">RESTful API Design</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/17/my-intellij-idea-shortcut/">My IntelliJ IDEA Shortcut</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/12/jesper-report-font-issue/">Jesper Report, IReport 匯出成中文PDF</a>
+      </li>
+    
+  </ul>
+</section>
+
+Included file 'asides/twitter.html' not found in _includes directory
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Kent -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'kentchiu';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.kent-chiu.com/blog/2012/09/30/date_and_time/';
+        var disqus_url = 'http://blog.kent-chiu.com/blog/2012/09/30/date_and_time/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

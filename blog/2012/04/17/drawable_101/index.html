@@ -1,0 +1,741 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Android Drawable 101 - Kent's Blog</title>
+  <meta name="author" content="Kent">
+
+  
+  <meta name="description" content="這篇文章裡的原始碼我放在GITHUB上 :
+https://github.com/DraculaCwg/android_exercise 在android中，要設計出美觀的ui，通常都跟Drawable相關的物件脫離不了關係，Drawable翻成中文為”可繪的”， 由上面的類別結構圖可以得知，圖檔 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.kent-chiu.com/blog/2012/04/17/drawable_101">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Kent's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-39152849-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Kent's Blog</a></h1>
+  
+    <h2>Kent的學習筆記(剛從dokuwiki搬過來，內容還在整修中)</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.kent-chiu.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Android Drawable 101</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-17T00:00:00+08:00" pubdate data-updated="true">Apr 17<span>th</span>, 2012</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>這篇文章裡的原始碼我放在GITHUB上 :
+<a href="https://github.com/DraculaCwg/android_exercise" title="https://github.com/DraculaCwg/android_exercise">https://github.com/DraculaCwg/android_exercise</a></p>
+
+<p>在android中，要設計出美觀的ui，通常都跟<code>Drawable</code>相關的物件脫離不了關係，<code>Drawable</code>翻成中文為”可繪的”，</p>
+
+<p><img src="/images/wiki/android/drawable_101_001.png" alt="drawable_101_001.png" /></p>
+
+<p>由上面的類別結構圖可以得知，圖檔、顏色、動畫、圖形，漸層這些都是屬於<code>Drawable</code>的子類別。
+回過頭來看所有gui元件的祖先<code>View</code>
+class，裡面跟<code>Drawable</code>有關的是setBackground開頭的幾個method，
+也就是說，對於所有的元件，我們都可以透過圖片、形狀、顏色、…等<code>Drawable</code>的子類別來改變元件的外觀。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public class View implements Drawable.Callback, KeyEvent.Callback, AccessibilityEventSource {
+</span><span class='line'>    public void setBackgroundColor(int color) {
+</span><span class='line'>        setBackgroundDrawable(new ColorDrawable(color));
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>    public void setBackgroundColor(int color) {
+</span><span class='line'>       ...
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>    @RemotableViewMethod
+</span><span class='line'>    public void setBackgroundResource(int resid) {
+</span><span class='line'>        if (resid != 0 && resid == mBackgroundResource) {
+</span><span class='line'>            return;
+</span><span class='line'>        }
+</span><span class='line'> 
+</span><span class='line'>        Drawable d= null;
+</span><span class='line'>        if (resid != 0) {
+</span><span class='line'>            d = mResources.getDrawable(resid);
+</span><span class='line'>        }
+</span><span class='line'>        setBackgroundDrawable(d);
+</span><span class='line'> 
+</span><span class='line'>        mBackgroundResource = resid;
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>    public void setBackgroundDrawable(Drawable d) {
+</span><span class='line'>        ...
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>實務上比較常用的做法，是透過xml來設定元件的background，而官網文件上的<a href="http://developer.android.com/guide/topics/resources/drawable-resource.html" title="http://developer.android.com/guide/topics/resources/drawable-resource.html">Drawable
+Resources</a>
+裡面的xml tag都可以找到跟上面的類別相對應的tag，需要特別注意的是 .png,
+.9.png,.jpg, or
+.gif這些圖檔只要放在res\drawable的目錄下，就會自動依檔名變成可以直接在XML裡引用的Drawable
+Resource，不需額外的tag
+而另外常用的還有<code>Shape Drawable</code>這種resource，他裡面包含了處理顏色、形狀，外框的子tags</p>
+
+<p>基本上，只要透過圖片跟Shape
+Drawable，就可以玩出很多效果了，先從簡單的來好了:</p>
+
+<h3>圖片</h3>
+
+<p>要改變元件的外觀，最快的方式就是把元件加上背景圖片，下圖效果都是單純的把元件的背景圖片換掉而已</p>
+
+<p><img src="/images/wiki/android/drawable_101_002.png" alt="drawable_101_002.png" /></p>
+
+<p>上圖三個view，分別是用這三個圖片當底圖 (圖片來源 :
+<a href="http://www.dibbus.com/2011/03/9patch-images-in-android/" title="http://www.dibbus.com/2011/03/9patch-images-in-android/">http://www.dibbus.com/2011/03/9patch-images-in-android/</a>)</p>
+
+<p>![drawable_101_003.png][]
+![drawable_101_004.png][]
+![drawable_101_005.png][]</p>
+
+<p>透過把android:background設定成圖片的resource就可以達到上面的效果</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+</span><span class='line'>&lt;LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+</span><span class='line'>    android:layout_width="match_parent"
+</span><span class='line'>    android:layout_height="match_parent"
+</span><span class='line'>    android:orientation="vertical" &gt;
+</span><span class='line'> 
+</span><span class='line'>    &lt;TextView
+</span><span class='line'>        android:id="@+id/bule"
+</span><span class='line'>        android:layout_width="match_parent"
+</span><span class='line'>        android:layout_height="100dp"
+</span><span class='line'>        android:background="@drawable/btn_blue_matte"
+</span><span class='line'>        android:gravity="center"
+</span><span class='line'>        android:text="bule"
+</span><span class='line'>        android:textColor="@color/White" /&gt;
+</span><span class='line'> 
+</span><span class='line'>    &lt;TextView
+</span><span class='line'>        android:id="@+id/bule_glossy"
+</span><span class='line'>        android:layout_width="match_parent"
+</span><span class='line'>        android:layout_height="100dp"
+</span><span class='line'>        android:background="@drawable/btn_blue_glossy"
+</span><span class='line'>        android:gravity="center"
+</span><span class='line'>        android:text="bule glossy"
+</span><span class='line'>        android:textColor="@color/White" /&gt;
+</span><span class='line'> 
+</span><span class='line'>    &lt;TextView
+</span><span class='line'>        android:id="@+id/corner"
+</span><span class='line'>        android:layout_width="match_parent"
+</span><span class='line'>        android:layout_height="100dp"
+</span><span class='line'>        android:background="@drawable/btn_blue_pink_glossy"
+</span><span class='line'>        android:gravity="center"
+</span><span class='line'>        android:text="blue glossy with pink"
+</span><span class='line'>        android:textColor="@color/White" /&gt;
+</span><span class='line'> 
+</span><span class='line'>&lt;/LinearLayout&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Shape Drawable</h3>
+
+<p>除了用圖片，也可以用<code>Shape Drawable</code>的方式來改變元件的外觀，Shape
+Drawable可以運用的tag如下</p>
+
+<ol>
+<li>&lt;corners> 圖形的四個角的形狀</li>
+<li>&lt;gradient> 漸層</li>
+<li>&lt;padding> 內部圖文</li>
+<li>&lt;size></li>
+<li>&lt;solid> 填滿的顏色</li>
+<li>&lt;stroke> 外框的線條效果</li>
+</ol>
+
+
+<p>下面就是透過設定<code>Shape Drawable</code>的tag達到的效果</p>
+
+<ol>
+<li>第一個view是使用了數個子tag達到的</li>
+<li>第二個view是只使用<code>&lt;gradient&gt;</code>做漸層</li>
+<li>第三個view是只使用<code>&lt;corners&gt;</code>來設定圖形為圓角(round)</li>
+<li>第四個view是只使用<code>&lt;solid&gt;</code>設定背景為綠色</li>
+<li>第五個view是只使用<code>&lt;stroke&gt;</code>來設定外框的效果</li>
+</ol>
+
+
+<p><img src="/images/wiki/android/drawable_101_006.png" alt="drawable_101_006.png" /></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+</span><span class='line'>&lt;LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+</span><span class='line'>    android:layout_width="match_parent"
+</span><span class='line'>    android:layout_height="match_parent"
+</span><span class='line'>    android:orientation="vertical" &gt;
+</span><span class='line'> 
+</span><span class='line'>    &lt;TextView
+</span><span class='line'>        android:id="@+id/all"
+</span><span class='line'>        android:layout_width="match_parent"
+</span><span class='line'>        android:layout_height="75dp"
+</span><span class='line'>        android:gravity="center"
+</span><span class='line'>        android:background="@drawable/shape_all"
+</span><span class='line'>        android:textColor="@color/Black"
+</span><span class='line'>        android:text="shape mix" /&gt;
+</span><span class='line'> 
+</span><span class='line'>    &lt;TextView
+</span><span class='line'>        android:id="@+id/gradient"
+</span><span class='line'>        android:layout_width="match_parent"
+</span><span class='line'>        android:layout_height="75dp"
+</span><span class='line'>        android:gravity="center"
+</span><span class='line'>        android:background="@drawable/shape_gradient"
+</span><span class='line'>        android:textColor="@color/Black"
+</span><span class='line'>        android:text="gradient" /&gt;
+</span><span class='line'> 
+</span><span class='line'>    &lt;TextView
+</span><span class='line'>        android:id="@+id/corner"
+</span><span class='line'>        android:layout_width="match_parent"
+</span><span class='line'>        android:layout_height="75dp"
+</span><span class='line'>        android:gravity="center"
+</span><span class='line'>        android:background="@drawable/shape_corners"
+</span><span class='line'>        android:textColor="@color/Black"
+</span><span class='line'>        android:text="corner" /&gt;
+</span><span class='line'> 
+</span><span class='line'> 
+</span><span class='line'>    &lt;TextView
+</span><span class='line'>        android:id="@+id/corner"
+</span><span class='line'>        android:layout_width="match_parent"
+</span><span class='line'>        android:layout_height="75dp"
+</span><span class='line'>        android:gravity="center"
+</span><span class='line'>        android:background="@drawable/shape_solid"
+</span><span class='line'>        android:textColor="@color/Black"
+</span><span class='line'>        android:text="corner" /&gt;
+</span><span class='line'>    &lt;TextView
+</span><span class='line'>        android:id="@+id/stroke"
+</span><span class='line'>        android:layout_width="match_parent"
+</span><span class='line'>        android:layout_height="75dp"
+</span><span class='line'>        android:gravity="center"
+</span><span class='line'>        android:background="@drawable/shape_stroke"
+</span><span class='line'>        android:textColor="@color/White"
+</span><span class='line'>        android:text="stroke" /&gt;
+</span><span class='line'> 
+</span><span class='line'>&lt;/LinearLayout&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+</span><span class='line'>&lt;shape xmlns:android="http://schemas.android.com/apk/res/android" &gt;
+</span><span class='line'>    &lt;gradient
+</span><span class='line'>        android:centerColor="@color/WhiteSmoke"
+</span><span class='line'>        android:endColor="@color/Yellow"
+</span><span class='line'>        android:startColor="@color/Blue" /&gt;
+</span><span class='line'>    &lt;corners android:radius="50dp" /&gt;
+</span><span class='line'>    &lt;stroke
+</span><span class='line'>        android:dashGap="5dp"
+</span><span class='line'>        android:dashWidth="3dp"
+</span><span class='line'>        android:width="5dp"
+</span><span class='line'>        android:color="@color/DarkSalmon" /&gt;
+</span><span class='line'>&lt;/shape&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>漸層</h5>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+</span><span class='line'>&lt;shape xmlns:android="http://schemas.android.com/apk/res/android" &gt;
+</span><span class='line'> 
+</span><span class='line'>    &lt;gradient
+</span><span class='line'>        android:angle="90"
+</span><span class='line'>        android:centerColor="@color/WhiteSmoke"
+</span><span class='line'>        android:endColor="@color/Yellow"
+</span><span class='line'>        android:startColor="@color/Blue" /&gt;
+</span><span class='line'> 
+</span><span class='line'>&lt;/shape&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>圓角</h5>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+</span><span class='line'>&lt;shape xmlns:android="http://schemas.android.com/apk/res/android" &gt;
+</span><span class='line'>    &lt;corners android:radius="50dp"/&gt;
+</span><span class='line'>    &lt;solid android:color="@color/White"/&gt;
+</span><span class='line'>&lt;/shape&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>背景色</h5>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+</span><span class='line'>&lt;shape xmlns:android="http://schemas.android.com/apk/res/android" &gt;
+</span><span class='line'> 
+</span><span class='line'>    &lt;solid android:color="@color/Green" /&gt;
+</span><span class='line'> 
+</span><span class='line'>&lt;/shape&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>外框</h5>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+</span><span class='line'>&lt;shape xmlns:android="http://schemas.android.com/apk/res/android" &gt;
+</span><span class='line'>    &lt;stroke android:width="5dp"
+</span><span class='line'>        android:color="@color/Red"
+</span><span class='line'>        android:dashWidth="3dp"
+</span><span class='line'>        android:dashGap="5dp"
+</span><span class='line'>        /&gt;
+</span><span class='line'>&lt;/shape&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>半透明效果</h3>
+
+<p>像下圖的半透明效果(Smoked
+Glass)，可以直接透過設定backgroud的顏色的透明度來達到，</p>
+
+<p><img src="/images/wiki/android/drawable_101_007.png" alt="drawable_101_007.png" /></p>
+
+<p>上圖的效果，主要就是在下面的這張圖上，放了一個半透明的text
+view，要讓view半透明就是設定View的backgroud屬性，<code>android:background=”#77000000”</code>
+#77000000是傳統的RGB前面加上一個透明度(alpha)，以傳統的RGB值#000000是全黑，#FFFFFF是全白，而前面的alpha的值也是00\~FF，這邊設成77剛好是一半。</p>
+
+<p>[[android:drawable_101_008.png][]</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+</span><span class='line'> 
+</span><span class='line'>&lt;FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+</span><span class='line'>    android:id="@+id/frameLayout1"
+</span><span class='line'>    android:layout_width="match_parent"
+</span><span class='line'>    android:layout_height="200dp"
+</span><span class='line'>    android:background="@drawable/google_doodle" &gt;
+</span><span class='line'> 
+</span><span class='line'>    &lt;TextView
+</span><span class='line'>        android:id="@android:id/text2"
+</span><span class='line'>        android:layout_width="fill_parent"
+</span><span class='line'>        android:layout_height="100dp"
+</span><span class='line'>        android:background="#77000000"
+</span><span class='line'>        android:gravity="center_vertical"
+</span><span class='line'>        android:text="smoked glass"
+</span><span class='line'>        android:textColor="#ffffffff"
+</span><span class='line'>        android:textSize="30dip" /&gt;
+</span><span class='line'> 
+</span><span class='line'>&lt;/FrameLayout&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>透明度的效果好不好，會跟後面的背景有關，有時，同一個透明度的值，在不同的背景下，效果就會差很多</p>
+
+<h1>Resource</h1>
+
+<ul>
+<li><a href="http://www.dibbus.com/2011/03/9patch-images-in-android/" title="http://www.dibbus.com/2011/03/9patch-images-in-android/">http://www.dibbus.com/2011/03/9patch-images-in-android/</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Kent Chiu</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-17T00:00:00+08:00" pubdate data-updated="true">Apr 17<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/android/'>android</a>, <a class='category' href='/blog/categories/drawable/'>drawable</a>, <a class='category' href='/blog/categories/ui/'>ui</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://blog.kent-chiu.com/blog/2012/04/17/drawable_101/" data-via="" data-counturl="http://blog.kent-chiu.com/blog/2012/04/17/drawable_101/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/04/13/unit_testing_in_android/" title="Previous Post: Android Unit Test 101">&laquo; Android Unit Test 101</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/04/20/actionbar/" title="Next Post: Action Bar">Action Bar &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/07/07/python-101/">Python 101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/25/url-encoding/">URL Encoding</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/04/restful-api-design/">RESTful API Design</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/17/my-intellij-idea-shortcut/">My IntelliJ IDEA Shortcut</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/12/jesper-report-font-issue/">Jesper Report, IReport 匯出成中文PDF</a>
+      </li>
+    
+  </ul>
+</section>
+
+Included file 'asides/twitter.html' not found in _includes directory
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Kent -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'kentchiu';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.kent-chiu.com/blog/2012/04/17/drawable_101/';
+        var disqus_url = 'http://blog.kent-chiu.com/blog/2012/04/17/drawable_101/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

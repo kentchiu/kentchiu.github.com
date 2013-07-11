@@ -1,0 +1,456 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Apache Shiro 101 - Kent's Blog</title>
+  <meta name="author" content="Kent">
+
+  
+  <meta name="description" content="Apache Shiro
+(之前叫JSecurity)是RBAC權限系統，也就是以角色為主的權限。
+目前survey過的幾套java base的權限系統有 Spring
+Security(之前叫Acige
+Security)
+JPA
+Security
+Apache
+Shiro( &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.kent-chiu.com/blog/2012/03/20/shiro_101">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Kent's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-39152849-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Kent's Blog</a></h1>
+  
+    <h2>Kent的學習筆記(剛從dokuwiki搬過來，內容還在整修中)</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.kent-chiu.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Apache Shiro 101</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-20T00:00:00+08:00" pubdate data-updated="true">Mar 20<span>th</span>, 2012</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Apache <a href="http://shiro.apache.org/" title="http://shiro.apache.org/">Shiro</a>
+(之前叫JSecurity)是<a href="http://en.wikipedia.org/wiki/Role-based_access_control" title="http://en.wikipedia.org/wiki/Role-based_access_control">RBAC</a>權限系統，也就是以角色為主的權限。
+目前survey過的幾套java base的權限系統有</p>
+
+<ol>
+<li><a href="http://static.springsource.org/spring-security/site/index.html" title="http://static.springsource.org/spring-security/site/index.html">Spring
+Security</a>(之前叫Acige
+Security)</li>
+<li><a href="http://jpasecurity.sourceforge.net/" title="http://jpasecurity.sourceforge.net/">JPA
+Security</a></li>
+<li><a href="http://incubator.apache.org/shiro/index.html" title="http://incubator.apache.org/shiro/index.html">Apache
+Shiro</a>(之前叫JSecurity或ki)</li>
+</ol>
+
+
+<h5>Spring Security</h5>
+
+<p>之前做文件管理系統時有採用過，很強大，但使用上也很複雜，特點是透過AOP來管控access，
+而且可以依權限產生相對的Query (sql query or JPA query).
+但目前一定要搭著Spring使用<img src="http://wiki.kent-chiu.com/lib/images/smileys/icon_sad.gif" alt=":-(" /></p>
+
+<h5>JPA Security</h5>
+
+<p>透過Annotation控管權限，特點是owner-ship(擁有權)的處理，而且會依不同的權限，產生不同的query條件(where
+conditions)</p>
+
+<h5>Apache Shiro</h5>
+
+<p>Apache
+Shiro的特色在permission的管控，所有的permission是透過特定格式的文字來記錄，語法大概像這樣
+<code>domain:operations:instance</code>，並搭配wildcard(通配字元)進行較大範圍的控制。</p>
+
+<h1>WildcardPermission</h1>
+
+<p>Format:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>domain:action:instances</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Simple Usage</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>editNewsletter 新聞編輯的權限
+</span><span class='line'>*              所有的權限(root)</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Multiple Levels</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>newsletter:edit             新聞編輯的權限
+</span><span class='line'>newsletter:edit,remove,add  新聞編輯、移除、加入的權限
+</span><span class='line'>newsletter:*                新聞所有的權限
+</span><span class='line'>*:view                      所有VIEW的權限</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Instance-level Access Control</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>newsletter:edit:12,13,18   對12,13,18這三則新聞編輯的權限
+</span><span class='line'>newsletter:*:12,13,18      對12,13,18這三則新聞所有的權限
+</span><span class='line'>newsletter:*:*             對所有新聞的所有權限</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>Modeling</h1>
+
+<p>以下是Shiro的創建者Les Hazlewood建議的modeling方式</p>
+
+<p>Les general rule of thumb:</p>
+
+<ol>
+<li>a Role is a named Set of permissions</li>
+<li>a User &#8216;has&#8217; a Set of one or more Roles</li>
+<li>a User &#8216;has&#8217; a Set of permissions for <strong>that-user-only</strong> permissions
+(not shared with anyone else - otherwise they&#8217;d go in a Role)</li>
+<li>a Group is a named Set of &#8216;Party&#8217; objects (a User is a Party and a
+Group is a Party - allowing for instances of both to exist in
+hierarchical Party trees)</li>
+</ol>
+
+
+<p>Les並建議不要採用deney的方式modeling權限，而且採用Aggregated Roles的方式
+(<a href="http://shiro-user.582556.n2.nabble.com/Permission-Implementation-td3554707.html#a3554707" title="http://shiro-user.582556.n2.nabble.com/Permission-Implementation-td3554707.html#a3554707">原文參考</a>)</p>
+
+<p>針對第三點，Kent還是偏好用<strong>that-user-only</strong>
+role，而不是直接把permission指派給user</p>
+
+<h3>Instance Level範例</h3>
+
+<p>權限系統中，Kent個人認為，最關鍵也是最麻煩的地方在對Instance Level
+resource的管控。
+也就怎如何控制，具有相同角色(也就是擁有相同的權限)的人對相同類型的資源，有不同的控制能力。
+舉例來說： IT Manager跟ServiceDesk
+Manager都具有部門主管的角色，所以都擁有業務審核(auditing)的權限，
+但因為IT Manager是IT部門主管，Service Desk
+Manager是ServiceDesk主管，所以</p>
+
+<ul>
+<li>IT Manager只能審核IT部門的業務</li>
+<li>Service Desk Manager只能審核ServiceDesk部門的業務</li>
+</ul>
+
+
+<p>正常來說設計成</p>
+
+<ul>
+<li>部門主管擁有審核的權限</li>
+</ul>
+
+
+<p>會比</p>
+
+<ul>
+<li>IT Manager只能審核IT部門的業務</li>
+<li>Service Desk Manager只能審核Service Desk部門的業務</li>
+</ul>
+
+
+<p>來的直覺，而且比較符合Business
+Rules，而且不會造成角色爆炸問題(如果有100個部門，就要需100個角色^<a href="#fn__1">1)</a>^)</p>
+
+<p>要達到第一種的設計方式，就是要從Instance Level的權限來做管控。 像這樣:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># IT Manager
+</span><span class='line'>performance:auditing:it_department_id
+</span><span class='line'># Service Desk Manager
+</span><span class='line'>performance:auditing:it_servicedesk_id</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>performance:auditing:it_department_id</code>或<code>performance:auditing:it_servicedesk_id</code>指派給Manager
+Role時 Manager Role會同時具有IT, ServiceDesk
+Manager的權限，可是，我們要的是讓每個部門的Manager有專屬的權限，此時就需要把權限指派給
+User，更好的方式是讓每個User擁有自已專屬的Role，然後指<code>performance:auditing:it_department_id</code>或<code>performance:auditing:it_servicedesk_id</code>指派給User的role，並讓user具有manager的role
+。這樣，不但可以保持只有一個叫<code>Manager</code>的Role，而且IT manager跟Service
+Desk的權限是不同的。 ^<a href="#fn__2">2)</a>^</p>
+
+<h1>Things that need to know</h1>
+
+<ol>
+<li>Shiro的實際運用上，permission會比role更實用，實作時，
+應該是針對permission。</li>
+<li>Shiro會cache住AuthorizationInfo，你可以透過<code>clearCachedAuthorizationInfo</code>來refresh
+caching</li>
+<li>Shiro並未提供直接的API去異動role, permission…，必須自行extend
+Realm以達到這個功能</li>
+<li>Shiro並未提供直接Group，Role Hierarchal, Role(Group)
+Inheritance等data model，但有需要的話，可以自行實作
+(<a href="http://shiro-user.582556.n2.nabble.com/Privilages-inheritance-in-groups-td3253048.html#a3253048" title="http://shiro-user.582556.n2.nabble.com/Privilages-inheritance-in-groups-td3253048.html#a3253048">範例</a>)</li>
+</ol>
+
+
+<h1>Resources</h1>
+
+<ul>
+<li><a href="http://incubator.apache.org/shiro/permissions.html" title="http://incubator.apache.org/shiro/permissions.html">Shiro
+permissions</a></li>
+</ul>
+
+
+<p>^<a href="#fnt__1">1)</a>^
+也有人主張可以把權限直接直派給<strong>人</strong>而不是角色，來解決這樣的問題,詳見note說明</p>
+
+<p>^<a href="#fnt__2">2)</a>^ 或許有更好的解法</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Kent Chiu</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-20T00:00:00+08:00" pubdate data-updated="true">Mar 20<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/java/'>java</a>, <a class='category' href='/blog/categories/security/'>security</a>, <a class='category' href='/blog/categories/shiro/'>shiro</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://blog.kent-chiu.com/blog/2012/03/20/shiro_101/" data-via="" data-counturl="http://blog.kent-chiu.com/blog/2012/03/20/shiro_101/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/03/20/servlet_and_jsp_page_encoding_setting/" title="Previous Post: Servlet And JSP encoding setting">&laquo; Servlet And JSP encoding setting</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/03/20/style_and_theme_101/" title="Next Post: Android Style & Theme 101">Android Style & Theme 101 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/07/07/python-101/">Python 101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/25/url-encoding/">URL Encoding</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/04/restful-api-design/">RESTful API Design</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/17/my-intellij-idea-shortcut/">My IntelliJ IDEA Shortcut</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/12/jesper-report-font-issue/">Jesper Report, IReport 匯出成中文PDF</a>
+      </li>
+    
+  </ul>
+</section>
+
+Included file 'asides/twitter.html' not found in _includes directory
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Kent -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'kentchiu';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.kent-chiu.com/blog/2012/03/20/shiro_101/';
+        var disqus_url = 'http://blog.kent-chiu.com/blog/2012/03/20/shiro_101/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

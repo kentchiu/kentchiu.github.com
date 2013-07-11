@@ -1,0 +1,552 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Hamcrest 101 - Kent's Blog</title>
+  <meta name="author" content="Kent">
+
+  
+  <meta name="description" content="Matcher 實作這個Matcher以接受各式各樣格式的參數進行比對。
+一般Unit Test的extension
+framework都會實作自己的Matcher，並且提供Matcher的factory
+methods或factory class。 Description &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.kent-chiu.com/blog/2012/03/20/hamcrest_101">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Kent's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-39152849-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Kent's Blog</a></h1>
+  
+    <h2>Kent的學習筆記(剛從dokuwiki搬過來，內容還在整修中)</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.kent-chiu.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Hamcrest 101</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-20T00:00:00+08:00" pubdate data-updated="true">Mar 20<span>th</span>, 2012</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h4>Matcher</h4>
+
+<p>實作這個<a href="http://grepcode.com/file/repo1.maven.org/maven2/org.hamcrest/hamcrest-api/1.0/org/hamcrest/Matcher.java?av=f" title="http://grepcode.com/file/repo1.maven.org/maven2/org.hamcrest/hamcrest-api/1.0/org/hamcrest/Matcher.java?av=f">Matcher</a>以接受各式各樣格式的參數進行比對。
+一般Unit Test的extension
+framework都會實作自己的Matcher，並且提供Matcher的factory
+methods或factory class。</p>
+
+<h4>Description</h4>
+
+<p>透過<a href="http://grepcode.com/file/repo1.maven.org/maven2/org.hamcrest/hamcrest-api/1.0/org/hamcrest/Description.java#Description" title="http://grepcode.com/file/repo1.maven.org/maven2/org.hamcrest/hamcrest-api/1.0/org/hamcrest/Description.java#Description">Description</a>class讓test
+results更具可讀性。</p>
+
+<p>在eclipse的static import favorite設定一下幾個factory class即可</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>org.hamcrest.Matchers.*</span></code></pre></td></tr></table></div></figure>
+
+
+<p>有些method不能直接使用，要給予明確的型別資訊，像這樣</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>assertThat(data, Matchers.&lt;MyClass&gt;iterableWithSize(1));</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Junit &amp; Hamcrest</h3>
+
+<p>Junit目前(4.8.x版)對Hamcrest有相容性的依賴，無法使用Hamcrest
+1.1以上的版本，但可以透過引用<code>unit-dep</code>然後把hamcrest-core的dependency結移除</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;dependency&gt;
+</span><span class='line'>    &lt;groupId&gt;junit&lt;/groupId&gt;
+</span><span class='line'>    &lt;artifactId&gt;junit-dep&lt;/artifactId&gt;
+</span><span class='line'>    &lt;version&gt;4.8.2&lt;/version&gt;
+</span><span class='line'>    &lt;scope&gt;test&lt;/scope&gt;
+</span><span class='line'>    &lt;exclusions&gt;
+</span><span class='line'>        &lt;exclusion&gt;
+</span><span class='line'>            &lt;groupId&gt;org.hamcrest&lt;/groupId&gt;
+</span><span class='line'>            &lt;artifactId&gt;hamcrest-core&lt;/artifactId&gt;
+</span><span class='line'>        &lt;/exclusion&gt;
+</span><span class='line'>    &lt;/exclusions&gt;
+</span><span class='line'>&lt;/dependency&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>移除後，用下面的設定即可使用1.1以上的hamcrest</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;dependency&gt;
+</span><span class='line'>    &lt;groupId&gt;junit&lt;/groupId&gt;
+</span><span class='line'>    &lt;artifactId&gt;junit-dep&lt;/artifactId&gt;
+</span><span class='line'>    &lt;version&gt;4.8.2&lt;/version&gt;
+</span><span class='line'>&lt;/dependency&gt;
+</span><span class='line'>&lt;dependency&gt;
+</span><span class='line'>    &lt;groupId&gt;org.hamcrest&lt;/groupId&gt;
+</span><span class='line'>    &lt;artifactId&gt;hamcrest-library&lt;/artifactId&gt;
+</span><span class='line'>    &lt;version&gt;1.3&lt;/version&gt;
+</span><span class='line'>&lt;/dependency&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<blockquote><p>junit 4.11後已經從程式碼移除對hamcrest的依賴了，可以直接用 <code>&lt;artifactId&gt;junit&lt;/artifactId&gt;</code> 而不需用  <code>&lt;artifactId&gt;junit-dep&lt;/artifactId&gt;</code></p></blockquote>
+
+<h3>Matchers</h3>
+
+<p>以下列出幾個比較特別的Matcher</p>
+
+<ol>
+<li>describedAs()</li>
+<li>either()</li>
+<li>both()</li>
+<li>emptyIterable()</li>
+<li>emptyArray()</li>
+<li>eventFrom()</li>
+<li>hasEntry()</li>
+<li>hasItem()</li>
+<li>hasItemInArray()</li>
+<li>hasItems()</li>
+<li>hasProperty</li>
+<li>hasXPath()</li>
+<li>hasSize()</li>
+<li>hasToString()</li>
+<li>isIn()</li>
+<li>isOneOf()</li>
+<li>nullValue()</li>
+<li>samePropertyValuesAs()</li>
+<li>typeCompatibleWith()</li>
+</ol>
+
+
+<p>日期處理？</p>
+
+<h3>Hamcrest &amp; Android</h3>
+
+<p>Hamcreate(1.3-R.C2)有兩個包裝方式，一個是
+all-in-one的jar，一個是lib跟core分開的jars，不論那一種格式，丟到android的開發環境，都會在compile成dalvik版本時發生以下的錯誤：</p>
+
+<p>hamcreat-all.jar的錯誤是JFlexLexer不能被compile成dalvik版的</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>UNEXPECTED TOP-LEVEL EXCEPTION:
+</span><span class='line'>com.android.dx.cf.code.SimException: local variable type mismatch: attempt to set or access a value of type java.lang.Object using a local variable of type int. This is symptomatic of .class transformation tools that ignore local variable information.
+</span><span class='line'>[2011-04-12 10:16:57 - Android-libmpg_Test] Dx  at com.android.dx.cf.code.BaseMachine.throwLocalMismatch(BaseMachine.java:550)
+</span><span class='line'>[2011-04-12 10:16:57 - Android-libmpg_Test] Dx  at com.android.dx.cf.code.Simulator$SimVisitor.visitLocal(Simulator.java:570)
+</span><span class='line'>[2011-04-12 10:16:57 - Android-libmpg_Test] Dx  at com.android.dx.cf.code.BytecodeArray.parseInstruction(BytecodeArray.java:481)
+</span><span class='line'>[2011-04-12 10:16:57 - Android-libmpg_Test] Dx  at com.android.dx.cf.code.Simulator.simulate(Simulator.java:99)
+</span><span class='line'>[2011-04-12 10:16:57 - Android-libmpg_Test] Dx  at com.android.dx.cf.code.Ropper.processBlock(Ropper.java:684)
+</span><span class='line'>[2011-04-12 10:16:57 - Android-libmpg_Test] Dx  at com.android.dx.cf.code.Ropper.doit(Ropper.java:639)
+</span><span class='line'>[2011-04-12 10:16:57 - Android-libmpg_Test] Dx  at com.android.dx.cf.code.Ropper.convert(Ropper.java:252)
+</span><span class='line'>[2011-04-12 10:16:57 - Android-libmpg_Test] Dx  at com.android.dx.dex.cf.CfTranslator.processMethods(CfTranslator.java:252)
+</span><span class='line'>[2011-04-12 10:16:57 - Android-libmpg_Test] Dx  at com.android.dx.dex.cf.CfTranslator.translate0(CfTranslator.java:131)
+</span><span class='line'>[2011-04-12 10:16:57 - Android-libmpg_Test] Dx  at com.android.dx.dex.cf.CfTranslator.translate(CfTranslator.java:85)
+</span><span class='line'>[2011-04-12 10:16:57 - Android-libmpg_Test] Dx  at com.android.dx.command.dexer.Main.processClass(Main.java:369)
+</span><span class='line'>[2011-04-12 10:16:57 - Android-libmpg_Test] Dx  at com.android.dx.command.dexer.Main.processFileBytes(Main.java:346)
+</span><span class='line'>[2011-04-12 10:16:57 - Android-libmpg_Test] Dx  at com.android.dx.command.dexer.Main.access$400(Main.java:59)
+</span><span class='line'>[2011-04-12 10:16:57 - Android-libmpg_Test] Dx  at com.android.dx.command.dexer.Main$1.processFileBytes(Main.java:294)
+</span><span class='line'>[2011-04-12 10:16:57 - Android-libmpg_Test] Dx  at com.android.dx.cf.direct.ClassPathOpener.processArchive(ClassPathOpener.java:244)
+</span><span class='line'>[2011-04-12 10:16:57 - Android-libmpg_Test] Dx  at com.android.dx.cf.direct.ClassPathOpener.processOne(ClassPathOpener.java:130)
+</span><span class='line'>[2011-04-12 10:16:57 - Android-libmpg_Test] Dx  at com.android.dx.cf.direct.ClassPathOpener.process(ClassPathOpener.java:108)
+</span><span class='line'>[2011-04-12 10:16:57 - Android-libmpg_Test] Dx  at com.android.dx.command.dexer.Main.processOne(Main.java:313)
+</span><span class='line'>[2011-04-12 10:16:57 - Android-libmpg_Test] Dx  at com.android.dx.command.dexer.Main.processAllFiles(Main.java:233)
+</span><span class='line'>[2011-04-12 10:16:57 - Android-libmpg_Test] Dx  at com.android.dx.command.dexer.Main.run(Main.java:185)
+</span><span class='line'>[2011-04-12 10:16:57 - Android-libmpg_Test] Dx  at sun.reflect.GeneratedMethodAccessor13.invoke(Unknown Source)
+</span><span class='line'>[2011-04-12 10:16:57 - Android-libmpg_Test] Dx  at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+</span><span class='line'>[2011-04-12 10:16:57 - Android-libmpg_Test] Dx  at java.lang.reflect.Method.invoke(Method.java:597)
+</span><span class='line'>[2011-04-12 10:16:57 - Android-libmpg_Test] Dx  at com.android.ide.eclipse.adt.internal.build.DexWrapper.run(DexWrapper.java:179)
+</span><span class='line'>[2011-04-12 10:16:57 - Android-libmpg_Test] Dx  at com.android.ide.eclipse.adt.internal.build.BuildHelper.executeDx(BuildHelper.java:585)
+</span><span class='line'>[2011-04-12 10:16:57 - Android-libmpg_Test] Dx  at com.android.ide.eclipse.adt.internal.build.builders.PostCompilerBuilder.build(PostCompilerBuilder.java:490)
+</span><span class='line'>[2011-04-12 10:16:57 - Android-libmpg_Test] Dx  at org.eclipse.core.internal.events.BuildManager$2.run(BuildManager.java:629)
+</span><span class='line'>[2011-04-12 10:16:57 - Android-libmpg_Test] Dx  at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+</span><span class='line'>[2011-04-12 10:16:57 - Android-libmpg_Test] Dx  at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:172)
+</span><span class='line'>[2011-04-12 10:16:57 - Android-libmpg_Test] Dx  at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:203)
+</span><span class='line'>[2011-04-12 10:16:57 - Android-libmpg_Test] Dx  at org.eclipse.core.internal.events.BuildManager$1.run(BuildManager.java:255)
+</span><span class='line'>[2011-04-12 10:16:57 - Android-libmpg_Test] Dx  at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+</span><span class='line'>[2011-04-12 10:16:57 - Android-libmpg_Test] Dx  at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:258)
+</span><span class='line'>[2011-04-12 10:16:57 - Android-libmpg_Test] Dx  at org.eclipse.core.internal.events.BuildManager.basicBuildLoop(BuildManager.java:311)
+</span><span class='line'>[2011-04-12 10:16:57 - Android-libmpg_Test] Dx  at org.eclipse.core.internal.events.BuildManager.build(BuildManager.java:343)
+</span><span class='line'>[2011-04-12 10:16:57 - Android-libmpg_Test] Dx  at org.eclipse.core.internal.events.AutoBuildJob.doBuild(AutoBuildJob.java:144)
+</span><span class='line'>[2011-04-12 10:16:57 - Android-libmpg_Test] Dx  at org.eclipse.core.internal.events.AutoBuildJob.run(AutoBuildJob.java:242)
+</span><span class='line'>[2011-04-12 10:16:57 - Android-libmpg_Test] Dx  at org.eclipse.core.internal.jobs.Worker.run(Worker.java:54)
+</span><span class='line'>...at bytecode offset 0000001b
+</span><span class='line'>locals[0000]: Lorg/hamcrest/generator/qdox/parser/impl/JFlexLexer;
+</span><span class='line'>locals[0001]: I
+</span><span class='line'>locals[0002]: [C
+</span><span class='line'>locals[0003]: [C
+</span><span class='line'>locals[0004]: [I
+</span><span class='line'>locals[0005]: [I
+</span><span class='line'>locals[0006]: &lt;invalid&gt;
+</span><span class='line'>locals[0007]: &lt;invalid&gt;
+</span><span class='line'>locals[0008]: &lt;invalid&gt;
+</span><span class='line'>locals[0009]: &lt;invalid&gt;
+</span><span class='line'>locals[000a]: &lt;invalid&gt;
+</span><span class='line'>locals[000b]: &lt;invalid&gt;
+</span><span class='line'>locals[000c]: &lt;invalid&gt;
+</span><span class='line'>locals[000d]: &lt;invalid&gt;
+</span><span class='line'>locals[000e]: &lt;invalid&gt;
+</span><span class='line'>locals[000f]: &lt;invalid&gt;
+</span><span class='line'>locals[0010]: &lt;invalid&gt;
+</span><span class='line'>stack[top0]: [B
+</span><span class='line'>...while working on block 001b
+</span><span class='line'>...while working on method yylex:()I
+</span><span class='line'>...while processing yylex ()I
+</span><span class='line'>...while processing org/hamcrest/generator/qdox/parser/impl/JFlexLexer.class</span></code></pre></td></tr></table></div></figure>
+
+
+<p>而 hamcrest-core-1.3.RC2.jar + hamcrest-library-1.3.RC2.jar 版的則是</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>The error you get in Android ADK is:-
+</span><span class='line'>Error generating final archive: duplicate entry: LICENSE.txt</span></code></pre></td></tr></table></div></figure>
+
+
+<p>最簡單的方式就是core +
+lib這版的中其一個LICENSE.txt刪掉即可，如果jar裡沒有LICENSE.txt的會有版權問題，可以再把兩個jar壓縮成一個jar，保留一個LICENSE.txt即可。
+處理完後，不會像官版的hamcreat-all.jar有JFlexLexer錯誤的錯誤，那個JFlexLexer好像是<a href="http://code.google.com/p/hamcrest/wiki/Tutorial#Sugar_generation" title="http://code.google.com/p/hamcrest/wiki/Tutorial#Sugar_generation">Matcher的包裝工具</a>用到的class，可有可無。</p>
+
+<p>有個功能跟hamcrest很像，但api比較直覺的assertion framework - <a href="http://docs.codehaus.org/display/FEST/Fluent+Assertions+Module" title="http://docs.codehaus.org/display/FEST/Fluent+Assertions+Module">FEST
+assert</a></p>
+
+<h1>Resources</h1>
+
+<ul>
+<li><a href="http://code.google.com/p/hamcrest/" title="http://code.google.com/p/hamcrest/">hamcrest
+home</a></li>
+<li><a href="http://code.google.com/p/hamcrest-text-patterns/" title="http://code.google.com/p/hamcrest-text-patterns/">http://code.google.com/p/hamcrest-text-patterns/</a></li>
+<li><a href="http://joe.truemesh.com/blog/000511.html" title="http://joe.truemesh.com/blog/000511.html">Flexible JUnit assertions with assertThat() by
+Hamcrest</a></li>
+<li><a href="http://code.google.com/p/hamcrest/wiki/Tutorial" title="http://code.google.com/p/hamcrest/wiki/Tutorial">official
+tutorial</a></li>
+<li><a href="http://www.jeviathon.com/2010/11/latest-and-greatest-junit-features.html" title="http://www.jeviathon.com/2010/11/latest-and-greatest-junit-features.html">The latest and greatest JUnit features&#8230; expand your
+toolset</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Kent Chiu</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-20T00:00:00+08:00" pubdate data-updated="true">Mar 20<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/android/'>android</a>, <a class='category' href='/blog/categories/hamcrest/'>hamcrest</a>, <a class='category' href='/blog/categories/java/'>java</a>, <a class='category' href='/blog/categories/testing/'>testing</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://blog.kent-chiu.com/blog/2012/03/20/hamcrest_101/" data-via="" data-counturl="http://blog.kent-chiu.com/blog/2012/03/20/hamcrest_101/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/03/20/google_guava_-_collection_101/" title="Previous Post: Google Guava - Collection 101">&laquo; Google Guava - Collection 101</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/03/20/hierarchy_viewer/" title="Next Post: Android Hierarchy Viewer">Android Hierarchy Viewer &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/07/07/python-101/">Python 101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/25/url-encoding/">URL Encoding</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/04/restful-api-design/">RESTful API Design</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/17/my-intellij-idea-shortcut/">My IntelliJ IDEA Shortcut</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/12/jesper-report-font-issue/">Jesper Report, IReport 匯出成中文PDF</a>
+      </li>
+    
+  </ul>
+</section>
+
+Included file 'asides/twitter.html' not found in _includes directory
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Kent -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'kentchiu';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.kent-chiu.com/blog/2012/03/20/hamcrest_101/';
+        var disqus_url = 'http://blog.kent-chiu.com/blog/2012/03/20/hamcrest_101/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

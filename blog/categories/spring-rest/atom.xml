@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: spring rest | Kent's Blog]]></title>
+  <link href="http://blog.kent-chiu.com/blog/categories/spring-rest/atom.xml" rel="self"/>
+  <link href="http://blog.kent-chiu.com/"/>
+  <updated>2013-07-11T21:16:37+08:00</updated>
+  <id>http://blog.kent-chiu.com/</id>
+  <author>
+    <name><![CDATA[Kent]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Spring Rest檔案上傳及下載]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2013/03/10/file-upload-and-download-in-spring-rest-mvc/"/>
+    <updated>2013-03-10T14:27:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2013/03/10/file-upload-and-download-in-spring-rest-mvc</id>
+    <content type="html"><![CDATA[<p>File upload</p>
+
+<p>```</p>
+
+<pre><code>@RequestMapping(value = "/foobar/upload", method = RequestMethod.POST)
+public @ResponseBody
+String upload(@RequestParam("file") MultipartFile file, @RequestParam("fileId") String fileId) {
+    logger.info("save import file {} to {}", file.getOriginalFilename(), fileId);
+
+    File resultHome = getWorkingDir();
+    File temp = new File(resultHome, fileId);
+    try {
+        IOUtils.copy(file.getInputStream(), new FileOutputStream(temp));
+        return "{success: true}";
+    } catch (FileNotFoundException e) {
+        logger.error("upload file fail", e);
+    } catch (IOException e) {
+        logger.error("upload file fail", e);
+    }
+    return "{success: false}";
+}
+</code></pre>
+
+<p>```</p>
+
+<p>File Download</p>
+
+<p>```</p>
+
+<pre><code>@RequestMapping(value = "/forbar/export", method = RequestMethod.GET)
+public HttpEntity&lt;byte[]&gt; excelExcel() throws IOException {
+    File file = new File("myexcel.xls");
+    byte[] body = FileUtils.readFileToByteArray(file);
+    HttpHeaders header = new HttpHeaders();
+    header.setContentType(new MediaType("application", "xls"));
+    header.set("Content-Disposition", "attachment; filename=" + "foobar.xls");
+    header.setContentLength(body.length);
+    return new HttpEntity&lt;byte[]&gt;(body, header);
+}
+</code></pre>
+
+<p>```</p>
+]]></content>
+  </entry>
+  
+</feed>

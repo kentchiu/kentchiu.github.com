@@ -1,0 +1,630 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>MYSQL Commands - Kent's Blog</title>
+  <meta name="author" content="Kent">
+
+  
+  <meta name="description" content="Client connect to db 1
+mysql -u username -p Database list all databases; 1
+show databases; swith to database 1
+use database_name create database 1 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.kent-chiu.com/blog/2011/10/17/commands">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Kent's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-39152849-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Kent's Blog</a></h1>
+  
+    <h2>Kent的學習筆記(剛從dokuwiki搬過來，內容還在整修中)</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.kent-chiu.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">MYSQL Commands</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2>Client</h2>
+
+<p>connect to db</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mysql -u username -p</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Database</h2>
+
+<p>list all databases;</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>show databases;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>swith to database</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>use database_name</span></code></pre></td></tr></table></div></figure>
+
+
+<p>create database</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>CREATE DATABASE forum;</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Table</h2>
+
+<p>create table</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>CREATE TABLE users (
+</span><span class='line'>    user_id MEDIUMINT UNSIGNED NOT NULL
+</span><span class='line'>    AUTO_INCREMENT,
+</span><span class='line'>    first_name VARCHAR(20) NOT NULL,
+</span><span class='line'>    last_name VARCHAR(40) NOT NULL,
+</span><span class='line'>    email VARCHAR(60) NOT NULL,
+</span><span class='line'>    pass CHAR(40) NOT NULL,
+</span><span class='line'>    registration_date DATETIME NOT NULL,
+</span><span class='line'>    PRIMARY KEY (user_id)
+</span><span class='line'>);</span></code></pre></td></tr></table></div></figure>
+
+
+<p>insert data</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>INSERT INTO tablename (col1, col2) VALUES (x, y)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>show all table in current database.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>SHOW TABLES;</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Column</h2>
+
+<p>show all column from users table</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>SHOW COLUMNS FROM users;</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>User</h2>
+
+<h2>Password Change</h2>
+
+<h2>FullText Search</h2>
+
+<ul>
+<li>need to create fulltext index</li>
+<li>requires a MyISAM table</li>
+<li>Using MATCH…KAGAINST in where clause</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>SELECT * FROM tablename WHERE MATCH (columns) AGAINST (terms)</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Inserting records into tables with FULLTEXT indexes can be much
+slower because of the complex index that&#8217;s required.</li>
+<li>need to use
+<a href="http://en.wikipedia.org/wiki/N-gram" title="http://en.wikipedia.org/wiki/N-gram">N-gram</a>
+in Chinese word.</li>
+</ul>
+
+
+<h2>Get Detail Information Of Column</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>DESCRIBE table [column];</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>EXPLAIN</h2>
+
+<p>show the table deatil.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>EXPLAIN table;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>show how query explain</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>EXPLAIN query;</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>LOAD DATA INFILE</h2>
+
+<ul>
+<li>data fields in the file must be separated by tabs</li>
+<li>enclosed in single quotation marks</li>
+<li>each row must be separated by a newline (\n).</li>
+<li>Special characters must be escaped out with a slash (\)</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>LOAD DATA INFILE 'ewbooks.txt'  INTO TABLE books;</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Storage Engines</h2>
+
+<ul>
+<li>MyISAM</li>
+<li>MEMORY</li>
+<li>MERGE</li>
+<li>ARCHIVE</li>
+<li>CSV</li>
+<li>InnoDB</li>
+</ul>
+
+
+<h3>MyISAM</h3>
+
+<p>Used in most situations.</p>
+
+<h3>InnoDB</h3>
+
+<p>Used in transaction are importantsuch as for tables storing financial
+data or for situations in which INSERTs and SELECTs are being
+interleaved, such as online message boards or forums.</p>
+
+<h2>Change Password</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mysqladmin -u &lt;帳號&gt; -p password &lt;輸入您要的新密碼&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在 Ubuntu 或 Debian 的 MySQL 都有一個很特殊的帳號
+debian-sys-maint，這個帳號是安裝完 MySQL
+後自動產生的，並且擁有所有權限。它的帳號和密碼寫在 /etc/mysql/debian.cnf
+裡面。</p>
+
+<p>這個帳號是拿來救急用的</p>
+
+<h2>Forget Password</h2>
+
+<h3>Ubuntu or Debian</h3>
+
+<p>在 Ubuntu 或 Debian 的 MySQL 都有一個很特殊的帳號
+debian-sys-maint，這個帳號是安裝完 MySQL
+後自動產生的，並且擁有所有權限。它的帳號和密碼寫在 /etc/mysql/debian.cnf
+裡面。為了安全因素，它的權限是 600，也就是只有 root
+可以看的到它！由於這個帳號的密碼是隨機產生的，所以並不適合用在網頁中或者其他正式用途上，讀者應該把這個帳號當成救急用或者管理使用。還有一個需要讀者注意的是，讀者不能直接改
+debian.cnf
+來改這個帳號的密碼，這是沒有效的！實際上它的密碼是放在資料庫，所以你改了該檔案後還是不會同步回資料庫裡面，Ubuntu
+把密碼寫在那個檔案純粹是提醒讀者和救急使用的唷！若真的逼不得已要改，必須修改
+debian.cnf 後，再用後面講到的方式修改該帳號的密碼到資料庫。</p>
+
+<p>當您不知道原先的密碼時，或者密碼遺失等等，可以使用救急帳號的帳號密碼來修改其他帳號的密碼。當您修改過
+debian.cnf 要把他同步回資料庫，也可以使用這種方式。</p>
+
+<p>用急救帳號或者 root 帳號修改其他帳號的 MySQL 密碼：</p>
+
+<p>當使用救急帳號時，其實可以不用輸入帳號和密碼，直接用以下指令引入
+debian.cnf</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mysql --defaults-extra-file=/etc/mysql/debian.cnf </span></code></pre></td></tr></table></div></figure>
+
+
+<p>或者</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mysql -u &lt;救急帳號&gt; -p 
+</span><span class='line'>Enter password: &lt;---- 這裡輸入在 Debian.cnf 看到的密碼 
+</span><span class='line'> 
+</span><span class='line'>mysql&gt; use mysql
+</span><span class='line'>mysql&gt; update user set password=password('abcdef') where user='root';
+</span><span class='line'>mysql&gt; flush privileges; 
+</span><span class='line'>mysql&gt; quit</span></code></pre></td></tr></table></div></figure>
+
+
+<p>最後一種情形是 debian.cnf 裡面的帳號莫名其妙的不能用，而且 root
+帳號的密碼也搞丟了，這時候就比較麻煩了！此時需加上省略帳號認證的參數來略過帳號檢查並進入
+MySQL 系統中。</p>
+
+<p>當什們帳號密碼都不知道時，修改 MySQL 密碼的方式：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo /etc/init.d/mysql stop # 關閉 MySQL 
+</span><span class='line'>sudo mysqld_safe --skip-grant-table</span></code></pre></td></tr></table></div></figure>
+
+
+<p>接下來就和上一個範例一樣，輸入 SQL
+指令來修改密碼，唯一不同的是，這個方式進入 MySQL
+是不用密碼的！注意，改完後要趕快關閉
+MySQL，再用正常的方式重新啟動，不然很容易被入侵！</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mysqladmin -u root -p shutdown # 關閉 MySQL 伺服器 
+</span><span class='line'>Enter password: &lt;---- 輸入剛才改完的密碼 
+</span><span class='line'>sudo /etc/init.d/mysql start # 啟動 MySQL 伺服器 </span></code></pre></td></tr></table></div></figure>
+
+
+<h3>CentOS or Fedora</h3>
+
+<p>Stop Server</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/etc/init.d/mysqld stop</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Running Server in background mode</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/usr/bin/mysqld_safe --skip-grant-tables &</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Login MySQL Server without password</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mysql --user=root mysql</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reset root password</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>update user set Password=PASSWORD('new-password-here') WHERE User='root';
+</span><span class='line'>flush privileges;
+</span><span class='line'>exit;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Restart and login with new password</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/etc/init.d/mysql start</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Backup and Restore</h2>
+
+<h3>資料庫備份</h3>
+
+<p>除了透過 phpMyAdmin 來用網頁介面備份資料庫，常見的作法是備份整個
+/var/lib/mysql，還原的方式也很簡單，只要拷回去即可，通常會配合 crontab
+定時把該目錄 tar 起來。</p>
+
+<h4>使用 tar 備份完整資料庫</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo tar zcvf sql_backup.tgz /var/lib/mysql</span></code></pre></td></tr></table></div></figure>
+
+
+<p>但是透過備份 /var/lib/myqsl 的交換性比較差，有時候換到不同版本的 MySQL
+主機可能會不相容，所以這裡筆者比較常把 SQL 資料 dump
+到一個文字檔裡面，這裡面還會包含還原資料庫的 SQL
+指令，所以很容易帶到不同主機上還原使用。</p>
+
+<h4>使用 mysqldump 備份資料庫</h4>
+
+<ol>
+<li>使用以下指令可以用 root 身份備份 mysql 這個資料庫到 filename.sql</li>
+<li>若要寫在 crontab 裡面使用，那麼輸入 MySQL root
+帳號的密碼是很麻煩的！</li>
+<li>此時筆者會配合 –defaults-extra-file=/etc/mysql/debian.cnf</li>
+<li>自動輸入帳號密碼。若要備份整個資料庫的話，需要用 –all-databases
+的參數。</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mysqldump -u root -p --databases mysql &gt; filename.sql</span></code></pre></td></tr></table></div></figure>
+
+
+<p>以下範例將會引入 debian.cnf
+來達成不需要輸入密碼的備份，且將系統上所有的資料庫都備份起來，同時也壓縮成
+gz 檔。因為不需要輸入密碼，很適合放在 crontab 裡面自動定時備份。dump
+下來的 SQL
+原始檔是文字檔，有時候在傳遞時會因為不同系統換行等問題把檔案損毀，所以壓縮起來可以避免這個問題，且大約會讓備份的檔案減少到原來的
+30% 左右。</p>
+
+<p>使用 mysqldump 的範例：</p>
+
+<ol>
+<li>以下有兩行，第一行最後面的 \ 代表換行。如果不打 \
+也可以，就接下去打，</li>
+<li>不用換行。讀者也可以用 bzip 取代 gzip，壓縮率會比較好，不過壓縮</li>
+<li>時間會多很多倍！</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo mysqldump --defaults-extra-file=/etc/mysql/debian.cnf --all-databases | gzip &gt; backup.sql.gz</span></code></pre></td></tr></table></div></figure>
+
+
+<p>察看備份檔內容</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>zcat backup.sql.gz -- MySQL dump 10.10 -- Host: localhost Database: -- Server version 5.0.22-Debian_0ubuntu6.06.2-log</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>資料還原</h3>
+
+<p>上面使用 mysqldump
+下來的資料庫備份檔本質是文字檔，那我們要如何復原到資料庫裡面？其實我們只要使用
+mysql -u root -p &lt; backup.sql
+來匯入該文字檔。遇到壓縮過的資料庫檔案，其實道理是一樣的。因為之前舉的例子是壓縮過的，所以在以下範例中筆者使用
+zcat 透過 stdin 送到 mysql 這個程式，並且利用 debian.cnf
+裡面的帳號密碼來達成不需要輸入密碼的功能。</p>
+
+<p>將壓縮後的 backup.s ql.gz 資料庫備份還原範例：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>zcat backup.sql.gz | sudo mysql \ --defaults-extra-file=/etc/mysql/debian.cnf    </span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Kent Chiu</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/mysql/'>mysql</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://blog.kent-chiu.com/blog/2011/10/17/commands/" data-via="" data-counturl="http://blog.kent-chiu.com/blog/2011/10/17/commands/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2011/10/17/class_type_hints/" title="Previous Post: Class Type Hints">&laquo; Class Type Hints</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2011/10/17/conference/" title="Next Post: 技術大會">技術大會 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/07/07/python-101/">Python 101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/25/url-encoding/">URL Encoding</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/04/restful-api-design/">RESTful API Design</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/17/my-intellij-idea-shortcut/">My IntelliJ IDEA Shortcut</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/12/jesper-report-font-issue/">Jesper Report, IReport 匯出成中文PDF</a>
+      </li>
+    
+  </ul>
+</section>
+
+Included file 'asides/twitter.html' not found in _includes directory
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Kent -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'kentchiu';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.kent-chiu.com/blog/2011/10/17/commands/';
+        var disqus_url = 'http://blog.kent-chiu.com/blog/2011/10/17/commands/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: actionbar | Kent's Blog]]></title>
+  <link href="http://blog.kent-chiu.com/blog/categories/actionbar/atom.xml" rel="self"/>
+  <link href="http://blog.kent-chiu.com/"/>
+  <updated>2013-07-11T21:16:37+08:00</updated>
+  <id>http://blog.kent-chiu.com/</id>
+  <author>
+    <name><![CDATA[Kent]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Action Bar]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2012/04/20/actionbar/"/>
+    <updated>2012-04-20T00:00:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2012/04/20/actionbar</id>
+    <content type="html"><![CDATA[<p>android 3.0+ (API level 11)</p>
+
+<p><img src="http://developer.android.com/design/media/action_bar_basics.png" alt="img" /></p>
+
+<ol>
+<li>具有 tab 的效果，可以在多個 fragments 間切換</li>
+<li>具有 options menu 的功能， options menu 在 3.0 之後會用改採 action
+item 的實作呈現</li>
+</ol>
+
+
+<p>基本的 actionbar
+應用，可以參數<a href="http://developer.android.com/design/patterns/actionbar.html" title="http://developer.android.com/design/patterns/actionbar.html">這裡</a></p>
+
+<p><img src="/images/wiki/android/actionbar_001.png" alt="actionbar_001.png" /></p>
+
+<h5>移除 ActionBar</h5>
+
+<p><code>
+&lt;activity android:theme="@android:style/Theme.Holo.NoActionBar"&gt;
+</code></p>
+
+<p>移除後，在程式裡面呼叫 <code>getActionBar()</code> 會得到 null</p>
+
+<p><img src="/images/wiki/android/actionbar_002.png" alt="actionbar_002.png" /></p>
+
+<h5>隱藏 ActionBar</h5>
+
+<p><code>
+ActionBar actionBar = getActionBar();
+actionBar.hide();
+</code></p>
+
+<h3>建立 Action Item</h3>
+
+<p>建立 Action Item 的方式跟之前建立 Option Menu 的方式一樣，只是有些 xml
+屬性不一樣</p>
+
+<p>```</p>
+
+<pre><code>@Override
+public boolean onCreateOptionsMenu(Menu menu) {
+    getMenuInflater().inflate(R.menu.menu_foobar, menu);
+    return true;
+}
+</code></pre>
+
+<p>```</p>
+
+<p>```
+&lt;?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"></p>
+
+<pre><code>&lt;item android:id="@+id/menu_save"
+      android:icon="@drawable/ic_menu_save"
+      android:title="@string/menu_save"
+      android:showAsAction="ifRoom|withText" /&gt;
+</code></pre>
+
+<p></menu>
+```</p>
+
+<p>主要的差別在 <code>android:showAsAction</code> 屬性 <strong>ifRoom</strong>
+是指如果空間夠的話，放呈現該item ， <strong>withText</strong> 則是該 item 需不需要
+title 。 不過，就算指定了 title ，如果空間不足時，還是 title
+還是有可能不會出現，但基本上，把 id, icon, titile 視為必要屬性就好了。</p>
+
+<h3>建立 Action View</h3>
+
+<p>```</p>
+
+<pre><code>&lt;item
+    android:id="@+id/menu_my_action_vew"
+    android:actionViewClass="com.kentchiu.MyActionView"
+    android:icon="@android:drawable/ic_dialog_alert"
+    android:showAsAction="always"
+    android:title="my test action view"/&gt;
+</code></pre>
+
+<p>```</p>
+
+<p>```
+package com.kentchiu;
+ 
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.widget.LinearLayout;
+ 
+public class MyActionView extends LinearLayout {
+ </p>
+
+<pre><code>public MyActionView(Context context) {
+    super(context);
+    LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    inflater.inflate(R.layout.action_test, this, true);
+}
+</code></pre>
+
+<p>}
+```</p>
+
+<p>如果需要支援 Collapsible 的動作，就要實作
+<code>android.view.CollapsibleActionView</code>。</p>
+
+<h1>TBC</h1>
+
+<ol>
+<li>Action Provider</li>
+<li>Navigation Tabs</li>
+<li>Drop-down Navigation</li>
+</ol>
+
+]]></content>
+  </entry>
+  
+</feed>

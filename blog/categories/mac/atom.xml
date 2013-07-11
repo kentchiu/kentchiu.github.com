@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: mac | Kent's Blog]]></title>
+  <link href="http://blog.kent-chiu.com/blog/categories/mac/atom.xml" rel="self"/>
+  <link href="http://blog.kent-chiu.com/"/>
+  <updated>2013-07-11T21:16:37+08:00</updated>
+  <id>http://blog.kent-chiu.com/</id>
+  <author>
+    <name><![CDATA[Kent]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Mac Tips]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2013/05/06/mac-tips/"/>
+    <updated>2013-05-06T19:17:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2013/05/06/mac-tips</id>
+    <content type="html"><![CDATA[<p>刪掉在pop menu裡重覆的應用程式開啟選項</p>
+
+<pre><code>/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/LaunchServices.framework/Versions/A/Support/lsregister -kill -r -domain local -domain system -domain user  &amp;&amp; killall Finder
+</code></pre>
+
+<p>  讀不到SD card時，可以試試以下指令</p>
+
+<pre><code>killall Finder
+</code></pre>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: oracle | Kent's Blog]]></title>
+  <link href="http://blog.kent-chiu.com/blog/categories/oracle/atom.xml" rel="self"/>
+  <link href="http://blog.kent-chiu.com/"/>
+  <updated>2013-07-11T21:16:37+08:00</updated>
+  <id>http://blog.kent-chiu.com/</id>
+  <author>
+    <name><![CDATA[Kent]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Oracle 101]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2011/10/17/oracle_101/"/>
+    <updated>2011-10-17T00:00:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2011/10/17/oracle_101</id>
+    <content type="html"><![CDATA[<h4>Schema</h4>
+
+<p>Oracle的資料庫觀念，與MySql,MSSQL並大一樣，，在連入(不管透過工具或jdbc
+driver)，都必需使用特定的user name連到特定的Schema
+在查詢時，也需指明確的指出查那一個shema</p>
+
+<p>在oracle中，有部份constrain匯入後，有異常，例如說：
+function_log這個table中的 constrain，匯入後是</p>
+
+<p>function_log.<strong>logId</strong> → user_info.userId</p>
+
+<p>但應該下面的才是正確的</p>
+
+<p>function_log.<strong>userId</strong>→ user_info.userId</p>
+
+<h4>Auto Increment</h4>
+
+<p>oracle中沒有自動增值(每次insert後，自動產生+1的值給Primary
+Key使用)，但還是可以透過sequence達到類似的功能，
+惟sequence是須在insert時自行加入Insert
+Statement中，而不是Database自動幫我們設定到PK中</p>
+
+<p><a href="http://fanqiang.chinaunix.net/a2/b2/20010514/10150052_b.html" title="http://fanqiang.chinaunix.net/a2/b2/20010514/10150052_b.html">這裡</a>有相關的說明</p>
+
+<p>Example: 建立給user info用的sequence</p>
+
+<p>```
+CREATE SEQUENCE userinfo_sequence</p>
+
+<pre><code>INCREMENT BY 1   
+START WITH 1     
+NOMAXVALUE       
+NOCYCLE          
+CACHE 10;  
+</code></pre>
+
+<p>```</p>
+
+<p><code>
+INSERT INTO SCOTT.USER_INFO (USERID,USERNAME) VALUES(userinfo_sequence.NEXTVAL,'kent')
+</code></p>
+
+<h5>測試是否有Sequence存取權限</h5>
+
+<p>該使用者要有存取<a href="http://www.adp-gmbh.ch/ora/misc/dual.html" title="http://www.adp-gmbh.ch/ora/misc/dual.html">daul</a>
+table的權限。<code>daul</code> table是記錄<code>SEQUENCE</code>的table.
+可以透過些語法測試是否有存取<code>daul</code> table的權限</p>
+
+<p><code>
+select USERINFO_SEQUENCE.NEXTVAL from DUAL
+</code></p>
+
+<h5>所出所有Sequences</h5>
+
+<p>查詢所有<code>SEQUENCE</code>的語法(需要DBA權限)</p>
+
+<p><code>
+SELECT * FROM dba_sequences
+</code></p>
+
+<h4>Driver</h4>
+
+<p>oracle有提供type 4的jdbc driver (ojdbc or
+odbc)，每一個資料庫版本適用的driver不太一樣，常見的有這幾種</p>
+
+<p>  jar name       For Oracle   說明</p>
+
+<hr />
+
+<p>  oracle12.jar   ALL          for jdk 1.2
+  oracle14.jar   ALL          for jdk 1.4
+  oracle5.jar    11g          for jdk 1.5, 我們主要用的driver
+  oracle6 .jar   11g          for jdk 1.6</p>
+
+<h4>DataType</h4>
+
+<p>Oracle與SQL Server的資料型別上有些差異，我們有用到的部份，表列如下：</p>
+
+<h4>Null與空字串</h4>
+
+<p>Oracle會把空字串(empty string, length=0)當作是null</p>
+
+<h4>SQL syntax</h4>
+
+<p>TBD</p>
+
+<h4>Commands</h4>
+
+<h5>desc</h5>
+
+<p>顯示table的描述</p>
+
+<p>```</p>
+
+<h1>語法</h1>
+
+<p>desc table_name</p>
+
+<h1>範例</h1>
+
+<p>desc my_table
+```</p>
+
+<h5>list all tables in current schema</h5>
+
+<p><code>
+SELECT table_name FROM user_tables;
+</code></p>
+
+<h5>list all tables current user</h5>
+
+<p><code>
+SELECT table_name FROM all_tables;
+ 
+SELECT table_name FROM user_tables where owner='SYS';
+</code></p>
+
+<p>Oracle的字串是區分會小寫，where owner='SYS' 跟where
+owner='sys'查到的結果是不一樣的</p>
+
+<h5>list all schemas</h5>
+
+<p><code>
+SELECT username FROM all_users ORDER BY username;
+</code></p>
+
+<h5>top n records</h5>
+
+<p><code>
+SELECT * FROM table_name where rownum &lt; n;
+</code></p>
+]]></content>
+  </entry>
+  
+</feed>

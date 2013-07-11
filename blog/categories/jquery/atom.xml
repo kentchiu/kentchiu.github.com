@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: jquery | Kent's Blog]]></title>
+  <link href="http://blog.kent-chiu.com/blog/categories/jquery/atom.xml" rel="self"/>
+  <link href="http://blog.kent-chiu.com/"/>
+  <updated>2013-07-11T21:16:37+08:00</updated>
+  <id>http://blog.kent-chiu.com/</id>
+  <author>
+    <name><![CDATA[Kent]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[JQuery 101]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2011/10/17/jquery_101/"/>
+    <updated>2011-10-17T00:00:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2011/10/17/jquery_101</id>
+    <content type="html"><![CDATA[<h1>Installation</h1>
+
+<ul>
+<li>download uncompressed version
+<a href="http://docs.jquery.com/Downloading_jQuery" title="http://docs.jquery.com/Downloading_jQuery">JQuery.js</a></li>
+<li>includes in html file</li>
+</ul>
+
+
+<p>```</p>
+
+<pre><code>&lt;html&gt;
+&lt;head&gt;
+&lt;script type="text/javascript" src="../js/jquery.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript"&gt;
+     $(document).ready(function(){
+       $("a").click(function(event){
+         alert("Hello JQuery!");
+       });
+     });
+&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;a href="http://jquery.com/"&gt;jQuery&lt;/a&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>```</p>
+
+<p>&lt;box round 80% red | document.ready() v.s document.onload()> why we
+using ready() event rather than onload() event. Because the onload()
+event is fired after all elements in page loading finished.Eventually
+all image files. But the ready() event only have been waiting until all
+elements in page expect image files. &lt;/box></p>
+
+<p>if you can see the 'Hello JQuery' message poped up after page load, this
+means, the JQuery lib is installed well. if not, please check src
+attribute of
+<code>&lt;script type=“text/javascript” src=”../js/jquery.js”&gt;&lt;/script&gt;</code>.</p>
+
+<h4>shorthand format</h4>
+
+<p>The doucment.ready function in above example can be rewrote as this
+style</p>
+
+<p>```</p>
+
+<pre><code>&lt;script type="text/javascript"&gt;
+     $(function(){
+       $("a").click(function(event){
+         alert("Hello JQuery!");
+       });
+     });
+&lt;/script&gt;
+</code></pre>
+
+<p>```</p>
+
+<h4>Callbacks and Functions</h4>
+
+<h5>Callback without arguments</h5>
+
+<p><code>
+$.get('myhtmlpage.html', myCallBack);
+</code></p>
+
+<h5>Callback with arguments</h5>
+
+<p><code>
+$.get('myhtmlpage.html', function(){
+  myCallBack(param1, param2);
+});
+</code></p>
+
+<p>Why not just <code>$.get('myhtmlpage.html', myCallBack(param1, param2));</code>,
+becuase regading the JavaScript interpretor, the sub-expression
+<code>myCallBack(param1, param2)</code> is evaluated before being passed as a
+function, so that why we need to use anonymous function.</p>
+
+<h2>Using Selectors</h2>
+
+<p>jQuery provides two approaches to select elements. The first uses a
+combination of CSS and XPath selectors passed as a string to the jQuery
+constructor (eg. \$(“div > ul a”)). The second uses several methods of
+the jQuery object. Both approaches can be combined.</p>
+
+<p>list of all available expressions can be found
+<a href="http://docs.jquery.com/Selectors" title="http://docs.jquery.com/Selectors">here</a>.</p>
+
+<h4>Using child Selector</h4>
+
+<p><strong>Following Example comes from JQuery in Action</strong></p>
+
+<p><img src="/images/wiki/jquery/jquery_101_01.png" alt="jquery_101_01.png" /></p>
+
+<p>in above figure, if we want to select this link</p>
+
+<p><code>
+&lt;a href="http://jquery.com"&gt;jQuery supports&lt;/a&gt;
+</code></p>
+
+<p>we may use this syntax</p>
+
+<p><code>
+ul.myList  li  a
+</code></p>
+
+<p>but it will selects all links inside <code>&lt;ul class=“myList”&gt;</code></p>
+
+<p><img src="/images/wiki/jquery/jquery_101_02.png" alt="jquery_101_02.png" /></p>
+
+<p>is this situation, we need to use child selector, it will only selects
+only child of li</p>
+
+<p><code>
+ul.myList &gt; li &gt; a
+</code></p>
+
+<p><img src="/images/wiki/jquery/jquery_101_03.png" alt="jquery_101_03.png" /></p>
+
+<h4>:nth-child(Xn+Y)</h4>
+
+<p><code>:nth-child(Xn + Y)</code>，其中，X後面那個n可以解釋為<strong>每n個</strong>，因為它會以n為單位做iterate，
+而如果再加上<strong>Y</strong>, 可以解釋為以n為一個重覆的第Y個</p>
+
+<p><code>
+e1 e2 e3 e4 e5 e6 e7 e8 e9
+</code></p>
+
+<p>如果是<code>nth-child(3)</code>，那麼只有e3會被選到，如果是<code>nth-child(3n)</code>，那麼e3,
+e6, e9會被選到 如果是<code>nth-child(3n + 2)</code>，那麼e2, e5,
+e8會被選到(以三個elements為一個單位，選擇其中的第2個)</p>
+
+<h4>extend JQuery</h4>
+
+<p>```</p>
+
+<pre><code>$("form#myForm input.special").disable();
+</code></pre>
+
+<p>```</p>
+
+<p>there is no function to disable all element in a form, but we can create
+one.</p>
+
+<p>Regarding the function we need as above, we can create a function
+implementation like this:</p>
+
+<p>```</p>
+
+<pre><code>$.fn.disable = function() {
+  return this.each(function() {
+    if (typeof this.disabled != "undefined") this.disabled = true;
+  });
+}
+</code></pre>
+
+<p>```</p>
+
+<h1>Selectors</h1>
+
+<h2>Basic CSS Selectors</h2>
+
+<p>  Syntax     Description</p>
+
+<hr />
+
+<p>  *         Matches any element.
+  E          Matches all elements with tag name E.
+  E F        Matches all elements with tag name F that are descendants of E.
+  E>F       Matches all elements with tag name F that are direct children of E.
+  E+F        Matches all elements with tag name F that are immediately preceded by a sibling of tag name E.
+  E\~F       Matches all elements with tag name F that are preceded by any sibling of tag name E.
+  E:has(F)   Matches all elements with tag name E that have at least one descendant with tag name F.
+  E.c        Matches all elements E that possess a class name of c. Omitting E is identical to *.c.
+  E#i       Matches all elements E that possess an id value of i. Omitting E is identical to *#i.
+  E[a]       Matches all elements E that posses an attribute a of any value.
+  E[a=v]     Matches all elements E that posses an attribute a whose value is exactly v.
+  E[a^=v]   Matches all elements E that posses an attribute a whose value starts with v.
+  E[a\$=v]   Matches all elements E that posses an attribute a whose value ends with v.
+  E[a*=v]   Matches all elements E that posses an attribute a whose value contains v.</p>
+
+<h4>Examples</h4>
+
+<ul>
+<li>\$('div') selects all &lt;div> elements</li>
+<li>\$('fieldset a') selects all &lt;a> elements within &lt;fieldset>
+elements</li>
+<li>\$('li>p') selects all &lt;p> elements that are direct children of
+&lt;li> elements</li>
+<li>\$('div\~p') selects all &lt;div> elements that are preceded by a
+&lt;p> element</li>
+<li>\$('p:has(b)') selects all &lt;p> elements that contain a &lt;b>
+element</li>
+<li>\$('div.someClass') selects all &lt;div> elements with a class name
+of someClass</li>
+<li>\$('.someClass') selects all elements with class name someClass</li>
+<li>\$('#testButton') selects the element with the id value of
+testButton</li>
+<li>\$('img[alt]') selects all &lt;img> elements that possess an alt
+attribute</li>
+<li>\$('a[href\$=.pdf]') selects all &lt;a> elements that possess an href
+attribute that ends in .pdf</li>
+<li>\$('button[id*=test]') selects all buttons whose id attributes
+contain test</li>
+</ul>
+
+
+<h2>Positional Selectors</h2>
+
+<p>  Syntax                  Description</p>
+
+<hr />
+
+<p>  B:first                 Selects the first element on the page matching the base selector B.
+  B:last                  Selects the last element on the page matching the base selector B.
+  B:first-child           Selects all elements from B that are first children.
+  B:last-child            Selects all elements from B that are last children.
+  B:only-child            Selects all elements from B that are only children.
+  B:nth-child(n)          Selects all elements from B that are n-th ordinal children. Starts at 1.
+  B:nth-child(odd|even)   Selects all elements from B that are even or odd ordinal children. The first child is considered odd (ordinal 1).
+  B:nth-child(Xn+Y)       Selects all elements from B that match the formula. X denotes an ordinal multiplier, while Y denotes an offset. Y may be omitted if 0. See the following examples.
+  B:even                  Selects the even elements within the set of elementsdefined by B.
+  B:odd                   Selects the odd elements within the set of elements defined by B.
+  B:eq(n)                 Selects the n-th element within the set of elements defined by B. Starts at 0.
+  B:gt(n)                 Selects elements within the set of elements defined by B that follow the n-th element (exclusive). Starts at 0.
+  B:lt(n)                 Selects elements within the set of elements defined by B that precede the n-th element (exclusive). Starts at 0.</p>
+
+<h4>Examples</h4>
+
+<ul>
+<li>\$('p:first') selects the first &lt;p> element on the page</li>
+<li>\$('img[src\$=.png]:first') selects the first &lt;img> element on the
+page that has a src attribute ending in .png</li>
+<li>\$('button.small:last') selects the last &lt;button> element on the
+page that has a class name of small</li>
+<li>\$('li:first-child') selects all &lt;li> elements that are first
+children within their lists</li>
+<li>\$('a:only-child') selects all &lt;a> elements that are the only
+element within their parent</li>
+<li>\$('li:nth-child(2)') selects all &lt;li> elements that are the
+second item within their lists</li>
+<li>\$('tr:nth-child(odd)') selects all odd &lt;tr> elements within a
+table</li>
+<li>\$('div:nth-child(5n)') selects every 5th &lt;div> element</li>
+<li>\$('div:nth-child(5n+1)') selects the element after every 5th
+&lt;div> element</li>
+<li>\$('.someClass:eq(1)') selects the second element with a class name
+of someClass</li>
+<li>\$('.someClass:gt(1)') selects all but the first two elements with a
+class name of someClass</li>
+<li>\$('.someClass:lt(4)') selects the first four elements with a class
+name of someClass</li>
+</ul>
+
+
+<h2>jQuery Custom Selectors</h2>
+
+<p>  Syntax       Description</p>
+
+<hr />
+
+<p>  B:animated   Selects elements from the base set B that are currently under animated control via one of the jQuery animation methods.
+  B:button     Selects elements of B that are of any button type; that is: button, input[type=submit], input[type=reset] or input[type=button].
+  B:checkbox   Selects elements of B that are of type input[type=checkbox].
+  B:enabled    Selects form elements from B that are in enabled state.
+  B:file       Selects elements of B that are of type input[type=file].
+  B:header     Selects elements from B that are of the header types: that is &lt;h1> through &lt;h6>.
+  B:hidden     Selects elements of B that are hidden.
+  B:image      Selects elements of B that are of type input[type=image].
+  B:input      Selects form input elements from B; that is, &lt;input>, &lt;select>, &lt;textarea> and &lt;button> elements.
+  B:not(f)     Selects elements of B that do not match the filter selector specified by f. A filter selector is any selector beginning with : (colon), A base set B cannot be specified as part of f.
+  B:parent     Selects elements of B that are parents of non-empty element children.
+  B:password   Selects elements of B that are of type input[type=password].
+  B:radio      Selects elements of B that are of type input[type=radio].
+  B:reset      Selects elements of B that are of type input[type=reset] or button[type=reset].
+  B:selected   Selects elements of B that are in selected state. Only &lt;option> elements posses this state.
+  B:submit     Selects elements of B that are of type input[type=submit] or button[type=submit].
+  B:text       Selects elements of B that are of type input[type=text].
+  B:visible    Selects form elements from B that are not hidden.</p>
+
+<h4>Examples</h4>
+
+<ul>
+<li>\$('img:animated') selects all &lt;img> elements that are undergoing
+animation</li>
+<li>\$(':button:hidden') selects all button type elements that are
+hidden</li>
+<li>\$('input[name=myRadioGroup]:radio:checked') selects all radio
+elements with the name attribute value of myRadioGroup that are
+checked</li>
+<li>\$(':text:disabled') selects all text fields that are disabled</li>
+<li>\$('#xyz p :header') selects all header type elements within &lt;p>
+elements that are within an element with an id value of xyz. Note
+the space before :header that prevents it from binding directly to
+the p.</li>
+<li>\$('option:not(:selected)') selects all unselected &lt;option>
+elements</li>
+<li>\$('#myForm button:not(.someClass)') selects all buttons from the
+&lt;form> with the id of myForm that do not possess the class name
+someClass.</li>
+<li>\$('select[name=choices] :selected') selects the selected &lt;option>
+elements within the &lt;select> element named choices.</li>
+<li>\$('p:contains(coffee)') selects all &lt;p> elements that contain the
+text coffee</li>
+</ul>
+
+
+<h1>MISC</h1>
+
+<h5>Check a radio button</h5>
+
+<p>```</p>
+
+<h1>check first button of radio</h1>
+
+<p>$(":radio[name='aName']:eq(0)").attr("checked",'checked');</p>
+
+<h1>check second button of radio</h1>
+
+<p>$(":radio[name='aName']:eq(1)").attr("checked",'checked');
+```</p>
+]]></content>
+  </entry>
+  
+</feed>

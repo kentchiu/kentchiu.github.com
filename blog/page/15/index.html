@@ -1,0 +1,1540 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Kent's Blog</title>
+  <meta name="author" content="Kent">
+
+  
+  <meta name="description" content="設計網站時，常會用到許多小小的icon檔(任何圖檔格式)，如果每個小小的icon都是獨立的檔案，這樣會比較不好管理。 解決的方式是先將數個小圖檔給組合成一個單一的圖檔，然後用css定位跟指定大小的方式來顯示需要的icon。 以上面的圖檔來說，我們若只需要x這個icons， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.kent-chiu.com/blog/page/15">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Kent's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-39152849-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Kent's Blog</a></h1>
+  
+    <h2>Kent的學習筆記(剛從dokuwiki搬過來，內容還在整修中)</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.kent-chiu.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/how_to_use_combine_images_in_css/">如何讀取許多小icons組合而成圖檔</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/how_to_use_combine_images_in_css/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>設計網站時，常會用到許多小小的icon檔(任何圖檔格式)，如果每個小小的icon都是獨立的檔案，這樣會比較不好管理。</p>
+
+<p>解決的方式是先將數個小圖檔給組合成一個單一的圖檔，然後用css定位跟指定大小的方式來顯示需要的icon。</p>
+
+<p><img src="/images/wiki/web/icons_combined.png" alt="icons_combined.png" /></p>
+
+<p>以上面的圖檔來說，我們若只需要x這個icons，所以我們可以用以下的css語法來顯示這個icon</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>x-icon {
+</span><span class='line'>  background-position: -96px -128px; // icons的位置 
+</span><span class='line'>  width: 16px;                       // icons的大小
+</span><span class='line'>  height: 16px;                      // icons的大小 
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/how_to_test_protected_methods/">How to Test Protected Methods</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/how_to_test_protected_methods/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>In PHP5, the <strong>protected</strong> scope means only class itself and subclass
+can access it. PHPUnit (3.x) is extends from
+<strong>*PHPUnit_Framework_TestCase</strong>*, and PHP5 don&#8217;t support
+multi-inherited, therefore, there is not way to access test target
+directly.</p>
+
+<p>The only way I know that can test <strong>protected</strong> scope method. That is
+used a adapter class that subclass the target class, and do re-publish
+protected methods as public.</p>
+
+<p>I don&#8217;t how to test private method in PHP5. The mock object (stub , or
+whatever )don&#8217;t make sense in this case.</p>
+
+<h2>example</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class Foo {
+</span><span class='line'>    protected function bar() {
+</span><span class='line'>        return "bar";
+</span><span class='line'>        }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class FooAdapter extends Foo {
+</span><span class='line'>        // re-publish tested method as public scope for test purpose only
+</span><span class='line'>    public function bar() {
+</span><span class='line'>        // calling parent tested method
+</span><span class='line'>                return parent::bar();
+</span><span class='line'>    }
+</span><span class='line'>}
+</span><span class='line'> 
+</span><span class='line'>class FooTest extends PHPUnit_Framework_TestCase {
+</span><span class='line'>        // testing the subclass FooAdapter of Foo class instead.
+</span><span class='line'>    private $foo;
+</span><span class='line'>    public function testFoo() {
+</span><span class='line'>        $foo = new FooAdapter;
+</span><span class='line'>        // now we can invoke bar() method. 
+</span><span class='line'>        $foo.bar();
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The Adapter Class should put in test folder with other testcase, and
+never released as production.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/how_to_split_a_word/">字首，字根，字尾結合規則</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/how_to_split_a_word/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>原始資料來源為<a href="http://xination.pixnet.net/blog" title="http://xination.pixnet.net/blog">倫倫的小blog</a>，應該是作者上過莫清威(莫力)老師的詞彙班後所整理的筆記，
+這套方法可以說字首，字根裡一些變化的規則。在學習字首，字根，字尾前，應該要俱備這些基本知識才能事半功倍(相見恨晚呀).</p>
+
+<p>內容我有加入我自已的心得跟筆記，不一定是正確的，所以，最好還是去<a href="http://xination.pixnet.net/blog/post/22544974" title="http://xination.pixnet.net/blog/post/22544974">這裡</a>看原汁原味的原著，還有影音教學哦.</p>
+
+<h1>本文</h1>
+
+<p>本文主要是說明為何同一個字義會有那麼多字源(ad, af, ac, …..
+都是ad的同義字)，以強化字根觀念，如果搭配<a href="http://wiki.kent-chiu.com/doku.php?id=english:grimm_s_law" title="english:grimm_s_law">格林法則</a>就會更有概念。</p>
+
+<p>所有語言文化都是先有聲音再有文字的，尤其對拼音語言(像英文)，文字通常都是為了記錄聲音的，所以都會從聲音那邊發展過來，也會受發音的差異而造成拼法不同的變體字。</p>
+
+<p>e結尾的字通常是動詞, ex: excrete</p>
+
+<h1>Deletion Rules</h1>
+
+<p><a href="#x_deletion" title="word:how_to_split_a_word ↵">X Deletion</a>跟<a href="#s_deletion" title="word:how_to_split_a_word ↵">S
+Deletion</a>都是跟ex有關，ex +
+子音，都是把<strong>x去掉</strong>，ex + s 就是把<strong>s去掉</strong></p>
+
+<p><a href="#d_deletion" title="word:how_to_split_a_word ↵">D Deletion</a>而如果是d +
+s<strong>字尾</strong>就把d去掉</p>
+
+<h2>Vowel Deletion</h2>
+
+<p>當字首+字根，或是，字根+字尾為： 子音母音~1~ +
+母音~2~子音時，會把前一個母音刪掉，變成子音母音~1~子音(刪掉前面的母音，保留後面的母音)。
+例如</p>
+
+<p>anti-       anti + pathy      ant+ agnoize\
+ auto        auto + graph      ant + ism       </p>
+
+<p>s是字音，v(vowel)是母音</p>
+
+<h3>要把h當母音</h3>
+
+<p>anti        ant + helion</p>
+
+<h3>一個音節的字首不適用</h3>
+
+<p>bi-         bi + ped            bi + ennial \
+ de-         de + duce           de + oxide \
+ re-         re + ply            re + act \</p>
+
+<h2>E Deletion</h2>
+
+<p>當後面接的為母音開頭時，前面的e會省略。</p>
+
+<p>mater       mater + nal         matr + ilineal</p>
+
+<p>mat<del><strong>e</strong></del>r + ilineal → matrilineal</p>
+
+<h2>S Deletion</h2>
+
+<p>當在ex後，s會被省略。</p>
+
+<p>spir        in + spir + e       ex + pir + e</p>
+
+<h2>D Deletion</h2>
+
+<p>當d後面接s開頭的字尾時，d會被省略</p>
+
+<p>clud        con + clud + e      con + clu + sion</p>
+
+<p>con + clu<del><strong>d</strong></del> + sion → conclusion</p>
+
+<h2>V-C Deletion</h2>
+
+<p>當後面接y時，v-c(母音 + 字母c)會被省略，跟<a href="#vowel_deletion" title="word:how_to_split_a_word ↵">Vowel
+Deletion</a>類似，只不過是多了一個c</p>
+
+<p>spec        spec + tacle        sp + y</p>
+
+<p>sp<del><strong>ec</strong></del> + y → spy</p>
+
+<h2>N Deletion</h2>
+
+<p>當n後，接子音時，n會被省略</p>
+
+<p>an-         an + harmonic       a + pathy</p>
+
+<p>an + <em>h</em>armonic h要當母音</p>
+
+<h2>X Deletion</h2>
+
+<p>當x後，接有聲子音，x會被省去。</p>
+
+<h4>無聲子音</h4>
+
+<p>p        ex + pel \
+ t        ex + tend \
+ k(q)     ex + quisite \
+ s(c )     ex + cise \</p>
+
+<h4>母音</h4>
+
+<p>a        ex + alted \
+ e        ex + empt \
+ i        ex + it \
+ o        ex + odus \
+ u        ex + uberant \
+ h        ex + hale \</p>
+
+<h4>有聲子音</h4>
+
+<p>b        e + bullient \
+ d        e + duc + ate \
+ g        e + gress \
+ j        e + ject \
+ m        e + mit \
+ l        e + licit \
+ r        e + rase \
+ v        e + volve \</p>
+
+<p>原本的ex中的x被刪掉了，簡單來說，就是看到e + 字音，那e原來應該是ex</p>
+
+<h1>Change Rules</h1>
+
+<h2>Total and Partial Assimilation</h2>
+
+<h3>Total Assimilation</h3>
+
+<hr />
+
+<p>         b         c     f     g     l     m     n    p         r     s    t
+  ab-              abs                                                     abs
+  ad-    ab        ac    af    ag    al          an   ap        ar    as   at
+  dis-                   dif                                                
+  ex-                    ef                                                 
+  ob-    ob        oc    of                           op                    
+  sub-   sub       suc   suf   sug                    sup       sur         
+  syn-   <strong>sym</strong>                     syl   sym        <strong>sym</strong>               </p>
+
+<hr />
+
+<p>syn跟in的變化很類似，只差syn不會受r影響</p>
+
+<p>Total Assimilation(完全同化)是指，</p>
+
+<p>原本為<strong>ad-</strong>的字首:</p>
+
+<blockquote><p>如果後面過到<strong>b</strong>xxx開頭的字，就會同化成<strong>abb</strong>xxx\
+ 如果後面過到<strong>c</strong>xxx開頭的字，就會同化成<strong>abc</strong>xxx\
+ 如果後面過到<strong>f</strong>xxx開頭的字，就會同化成<strong>abf</strong>xxx\
+ 如果後面過到<strong>g</strong>xxx開頭的字，就會同化成<strong>abg</strong>xxx\
+ 如果後面過到<strong>l</strong>xxx開頭的字，就會同化成<strong>abl</strong>xxx\
+ 如果後面過到<strong>n</strong>xxx開頭的字，就會同化成<strong>abn</strong>xxx\
+ 如果後面過到<strong>p</strong>xxx開頭的字，就會同化成<strong>abp</strong>xxx\
+ 如果後面過到<strong>r</strong>xxx開頭的字，就會同化成<strong>abr</strong>xxx\
+ 如果後面過到<strong>s</strong>xxx開頭的字，就會同化成<strong>abs</strong>xxx\
+ 如果後面過到<strong>t</strong>xxx開頭的字，就會同化成<strong>abt</strong>xxx</p>
+
+<blockquote><p>Examples:\
+ a<strong>d</strong> + <strong>b</strong>reviate → <strong>abb</strong>reviate\
+ a<strong>d</strong> + <strong>c</strong>ede → <strong>acc</strong>ede\
+ a<strong>d</strong> + <strong>f</strong>ord → <strong>aff</strong>ord</p></blockquote></blockquote>
+
+<h3>Parital Assimilation</h3>
+
+<p>  original   become   conditions</p>
+
+<hr />
+
+<p>  con        com      p、b、m  (雙唇音)
+  con        col      l
+  con        cor      r
+  con        con      others</p>
+
+<p>Parital Assimilation(部份同化)是指</p>
+
+<blockquote><p>原本為con，如果後面過到p、b、m就會同化成com\
+ 原本為con，如果後面過到l就會同化成col\
+ 原本為con，如果後面過r就會同化成cor</p>
+
+<blockquote><p>Examples:\
+ con + mensurate → commensurate\
+ con + laborate → collaborate\
+ con + ordination → coordination</p></blockquote></blockquote>
+
+<p>  original   become   conditions</p>
+
+<hr />
+
+<p>  in         im       p、b、m  (雙唇音)
+  in         il       l
+  in         ir       r
+  In         In       others</p>
+
+<h2>Voicing Assimilation</h2>
+
+<p>當有聲子音，後接無聲子音時，會同化成無聲子音</p>
+
+<p>g → c \
+ b → p\</p>
+
+<p>reg        reg + u +late          e + rec + t\
+ scrib      in + scirb + e         in + scrip + tion</p>
+
+<h2>Weakening</h2>
+
+<h3>A-weakening</h3>
+
+<p>當含有a字母的字根，在字中、字尾會弱化成e</p>
+
+<p>ann        ann + ual          bi + enn +ial</p>
+
+<p>apt        apt + itude        in + ept</p>
+
+<h3>E-weakening</h3>
+
+<p>當含有e字母的字根，在字中，後接母音，且e後不超過一個子音，會弱化</p>
+
+<p>reg         reg + ular        incor + rig + ible\
+ spec        spec + tacle      con + spic + uous\</p>
+
+<p>cor + rec +t   [後接子音不弱化]\
+ in + spec +t   [後接子音不弱化]\</p>
+
+<p>ab + e<em>rr</em> + ent [超過一個子音不弱化]\
+ at + te<em>nd</em> +ant [超過一個子音不弱化]</p>
+
+<h3>Double-Weakening</h3>
+
+<p>當含有a字母的字根，弱化成i</p>
+
+<p>tag     in + teg + rate      con + tig +u +ous \
+ fac     de + fec + t         de + fic + i + ent \
+ cap     in + cep + tion      in + cip + i + ent \</p>
+
+<h2>E Change</h2>
+
+<p>當el、ol後接子音時，會變成ul</p>
+
+<p>pel     pro + pel            pro + pul + sion \
+ ol      ad + ol +esc +ent    ad + ul +t\</p>
+
+<p>當al弱化成el時也可以由E Change，變成ul</p>
+
+<p>calc    calc +u +late        in+ culc +ate</p>
+
+<h2>T Change</h2>
+
+<p>當t，\
+ 後接{y，e}變成c\
+ 後接{is，ia}時變成s</p>
+
+<p>ec + sta<em>t</em> +y → ec + sta<em>c</em> +y\
+ se + cre + <em>t</em> + y  → se +cre +<em>c</em> +y\</p>
+
+<p>ad+ ol +esc +en<em>t</em> +e → ad+ ol +esc +en<em>c</em> +e \
+ ad+ sist +an<em>t</em> +e → ad+ sist +an<em>c</em> +e \</p>
+
+<p>sta<em>t</em> +is → sta<em>s</em> +is \
+ syn + the +<em>t</em> +is → syn + the +<em>s</em> +is \</p>
+
+<p>an + esthe<em>t</em> +ia  → an + esthe<em>s</em> +ia \
+ dys+ pep<em>t</em> +ia → dys+ pep<em>s</em> +ia \</p>
+
+<p>這條好容易忘記</p>
+
+<h2>V Change</h2>
+
+<p>當v後接，子音時，變成u</p>
+
+<p>volv    re+ volv +e     re+ volu +tion</p>
+
+<h1>Other Rules</h1>
+
+<h2>U addition</h2>
+
+<hr />
+
+<p>  bl   後接母音時   bul
+  cl   後接母音時   cul
+  gl   後接母音時   gul</p>
+
+<hr />
+
+<p>amble      ambul +ate \
+ circle     circul +ate \
+ angle      angul +ar \</p>
+
+<h2>P Addition</h2>
+
+<p>m_t，加上p</p>
+
+<p>assume    assum + p + tion \
+ redeem    redem + p + tion</p>
+
+<h2>Spelling Rules</h2>
+
+<h3>X-Replacement</h3>
+
+<p>當c+s → x</p>
+
+<p>equ + i + no<em>c+s</em> → equ + i + nox \
+ con + ple<em>c+s</em> → com + plex \</p>
+
+<h3>Consonant Doubling</h3>
+
+<p>雙音節字、單子音結尾、重音在後</p>
+
+<p>propel  → prope<em>ll</em>ent \
+ transmit → transmi<em>tt</em>al</p>
+
+<h3>Y change</h3>
+
+<p>缺規則說明</p>
+
+<p>pit<em>y</em> → pit<em>i</em>ful \
+ victor<em>y</em> → victor<em>i</em>ous</p>
+
+<h3>Sterm extender</h3>
+
+<p>i.y.o.u.r.n.s.t</p>
+
+<p>i.y.o.u.r.n.s.t 這幾個字母可能被加入，只是為了輔助發音，本身並無特別意義</p>
+
+<p>ex:</p>
+
+<blockquote><p>equ + <strong>i</strong> + nox → i
+本身為沒有其他特別意義，只是為了輔助發音，其他還有y.o.u.r.n.s.t這七個字也可能被加入當作發音的輔助</p></blockquote>
+
+<p>可用 i your nst來記</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/how_to_naming/">How to Naming?</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/how_to_naming/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Role-Suggesting Name pattern:</p>
+
+<p>the names should be optimized for readability, not ease iof typing.</p>
+
+<p>A good name should tell you</p>
+
+<ol>
+<li>Why it exists.</li>
+<li>Wait it does.</li>
+<li>How it used.</li>
+</ol>
+
+
+<p>How to nameing:</p>
+
+<ol>
+<li>What is its purpose in the computation?</li>
+<li>How is the object referred to by the variable used?</li>
+<li>What is the scope and lifetime of the variable?</li>
+<li>How widely is the variable referenced?</li>
+</ol>
+
+
+<p>If a name requires a comment, then the name does not reveal its intent.
+If one has to struggle to find a name, it is generally because who don&#8217;t
+understand the computation very well. If the names is too long, it
+reflects there are some design problem. If a method easy be naming, it
+can fit to specification more exactly.</p>
+
+<ul>
+<li>The word variable should never appear in a variable name.</li>
+<li><p>The word table should never appear in a table name.</p></li>
+<li><p>Use Intention-Revealing Names</p></li>
+<li>Use Pronounceable Names</li>
+<li>Use Searchable Names</li>
+</ul>
+
+
+<p>Some useful same:</p>
+
+<ul>
+<li>result, results</li>
+<li>each</li>
+<li>count</li>
+</ul>
+
+
+<h4>Composed Method pattern</h4>
+
+<p>Get your code working, then decide how it should be structured. If got
+problem in composed method, then inline all and re-composed again.</p>
+
+<h4>Intention-Revealing Name pattern</h4>
+
+<p>Methods should be named for the purpose rather the implemention. There
+is valuable to review the method is fit to the story which you want to
+tell after refactoring.</p>
+
+<p>Think about methods&#8217; names based on how they look in calling code. Bad
+practice:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Customer.linearcustomerSearch(String id)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Godd practice:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Customer.find(String id)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The length of a name should correspond to the size of its scope</p>
+
+<p>Why not Hungarian Notation? 1. Historical reason. (Window C API) 2. too
+many type in modern languate (ex:Java.) 3. Strong type. 4. IDE.</p>
+
+<p>Use Factory instead of complex constructor. (and make constoructor
+private)</p>
+
+<h4>Library Class pattern</h4>
+
+<p>Library is :the place where programmer put the common codes</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>People usually uses static method to implement Library Class (utility class), but to use object is a better way.</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>the static method way:
+</span><span class='line'>public static void method(...params...) {
+</span><span class='line'>    ...some logic...
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>the object way:
+</span><span class='line'>public static void method(...params...) {
+</span><span class='line'>    new Library().instanceMethod(...params...);
+</span><span class='line'>}
+</span><span class='line'>private void instanceMethod() {
+</span><span class='line'>... some logic...
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Common State pattern</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Sometime only few subset of class use a variable, it no need to declare as field varible. it can be declare as paramter or Helper Object.</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Local Variable pattern</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>The role of local variable:
+</span><span class='line'>1. Collector
+</span><span class='line'>2. Count
+</span><span class='line'>3. Explaining
+</span><span class='line'>4. Reuse</span></code></pre></td></tr></table></div></figure>
+
+
+<p>if a vaiable used for explaining, it maybe extract to a method.</p>
+
+<h4>Collecting Parameter pattern</h4>
+
+<p>Node asList() {</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>List results = new ArrayList();
+</span><span class='line'>addTo(results);
+</span><span class='line'>return results;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>} addTo(List elements) {</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>elements.add(getValue());
+</span><span class='line'>for(Node each: getchildren())
+</span><span class='line'>    each.addTo(elements);</span></code></pre></td></tr></table></div></figure>
+
+
+<p>}</p>
+
+<h4>Explaining Message pattern</h4>
+
+<p>Sometimes the helper methods invoked by explaining message become
+valuable points for further exetension. ex: highlight(Rectangle area) {
+<em>→ it is make sense for user who wants to invoke this API. but no clue
+to show how this it implemented. reverse(area);</em> → it is so clear how
+this method work. }</p>
+
+<h4>Guard Clause pattern</h4>
+
+<p>Using Guard Clause to improve readability.</p>
+
+<p>if (isInitilized()) {</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>return;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>}</p>
+
+<h4>Checked Exceptions Pattern</h4>
+
+<p>the con of Check Exception: 1. These can easily add 50% to the length of
+method. 2. Checked Exceptions also make changing code more difficult. 3.
+Refactoring code with ckecked exception is more difficult.</p>
+
+<h4>Method Return Type pattern</h4>
+
+<p>Pick the most abstract return type that expresses your intention.</p>
+
+<h4>Method Comment pattern</h4>
+
+<p>Why Method Comment is better then code comment: 1. Updateability 2.
+feedback</p>
+
+<p>Complete Constructor.</p>
+
+<p>​1. new Rectangle(0,0,50,200)</p>
+
+<p>​2. Rectangle box = new Rectangle(); box.setLeft(0); box.setWidth(50);
+box.setHeight(200); box.setTop(0)</p>
+
+<p>the method 1 is more expression then 2. If method 1 is too complicate,
+introduce the factory method instead.</p>
+
+<h4>Query Method pattern</h4>
+
+<p>When an object needs to offer decision criteria as part of its protocal,
+do so with a method whose name is prefixd with form of “be”(like
+“is”,”was” or “have”);</p>
+
+<h4>Setting Method pattern</h4>
+
+<p>​1. paragraph.setJustification(Paragraph.CENTERED) 2.
+paragraph.centered();</p>
+
+<p>Paragraph:centerd() {</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>setJustification(CENTERED);</span></code></pre></td></tr></table></div></figure>
+
+
+<p>}</p>
+
+<p>1 is better then 2.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/how_to_add_new_web_site_outside_htdoc/">在htdoc目錄外新增網站</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/how_to_add_new_web_site_outside_htdoc/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>    Alias /dokuwiki "D:/docs/wiki/dokuwiki"
+</span><span class='line'>    &lt;Directory "D:/docs/wiki/dokuwiki"&gt;
+</span><span class='line'>        AllowOverride None
+</span><span class='line'>        Order Deny,Allow 
+</span><span class='line'>    &lt;/Directory&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果是這樣，可能會有問題</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>AllowOverride None
+</span><span class='line'>Order Deny,Allow
+</span><span class='line'>Deny from all </span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/how_to_add_new_virtual_host/">Add New Virtual Host</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/how_to_add_new_virtual_host/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>...
+</span><span class='line'># remember to uncomment  NameVirtualHost 
+</span><span class='line'>NameVirtualHost *:80
+</span><span class='line'>...
+</span><span class='line'>&lt;VirtualHost *:80&gt;
+</span><span class='line'>  ServerName svn.domain.com.tw
+</span><span class='line'>  ServerAdmin admin@domain.com.tw
+</span><span class='line'>  DocumentRoot "/opt/svn/repos"
+</span><span class='line'>  &lt;Location /&gt;
+</span><span class='line'>    DAV svn
+</span><span class='line'>    SVNListParentPath on
+</span><span class='line'>    SVNParentPath /opt/svn/repos
+</span><span class='line'>    AuthType Basic
+</span><span class='line'>    AuthName "Subversion repository"
+</span><span class='line'>    AuthUserFile /opt/svn/password
+</span><span class='line'>    AuthzSVNAccessFile /opt/svn/access
+</span><span class='line'>    Require valid-user
+</span><span class='line'>  &lt;/Location&gt;
+</span><span class='line'>&lt;/VirtualHost&gt;
+</span><span class='line'> 
+</span><span class='line'>RedirectMatch ^(/svn)$ $1/
+</span><span class='line'> 
+</span><span class='line'>&lt;VirtualHost *:80&gt;
+</span><span class='line'>  ServerName site1.domain.com.tw
+</span><span class='line'>  ServerAdmin admin@domain.com.tw
+</span><span class='line'>  DocumentRoot "/var/www/html/site1"
+</span><span class='line'>  alias /site1 "/var/www/html/site1"
+</span><span class='line'>  &lt;Directory "/var/www/html/site1"&gt;
+</span><span class='line'>        AllowOverride all
+</span><span class='line'>        Order Deny,Allow
+</span><span class='line'>  &lt;/Directory&gt;
+</span><span class='line'>&lt;/VirtualHost&gt;
+</span><span class='line'> 
+</span><span class='line'>&lt;VirtualHost *:80&gt;
+</span><span class='line'>    ServerName issue.domain.com.tw
+</span><span class='line'>    ServerAdmin admin@domain.com.tw
+</span><span class='line'>    DocumentRoot "/var/www/html/mantis"
+</span><span class='line'>&lt;/VirtualHost&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>remember to uncomment NameVirtualHost, like this NameVirtualHost *:80</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/high_performance_mysql_study_notes/">High Performance MySQL Study Notes</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/high_performance_mysql_study_notes/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>Lock Control</h2>
+
+<h3>Table Locks</h3>
+
+<ul>
+<li>最基本的鎖定略策略</li>
+<li>成本最低</li>
+<li>效能較佳</li>
+</ul>
+
+
+<h4>動作方式</h4>
+
+<p>When a client wishes to write to a table (insert, delete,update, etc.),
+it acquires a write lock. This keeps all other read and write operations
+at bay. When nobody is writing, readers can obtain read locks, which
+don’t conflictwith other read locks.</p>
+
+<p>Table locks have variations for good performance in specific situations.
+For example, READ LOCAL table locks allow some types of concurrent write
+operations. <strong>Write locks also have a higher priority than read locks</strong>,
+so a request for a write lock will advance to the front of the lock
+queue even if readers are already in the queue (write locks can advance
+past read locks in the queue, but read locks cannot advance past write
+locks).</p>
+
+<h3>Row Locks</h3>
+
+<ul>
+<li>最佳的concurrency control</li>
+<li>花費較高的resources</li>
+<li>需使用InnoDB and Falcon storage engines</li>
+</ul>
+
+
+<h3>Implicit and explicit locking</h3>
+
+<p>InnoDB會依isolation level自動處理鎖定，但是也可以用SQL Commands來控制</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># method 1
+</span><span class='line'>SELECT ... LOCK IN SHARE MODE
+</span><span class='line'># method 2
+</span><span class='line'>SELECT ... FOR UPDATE</span></code></pre></td></tr></table></div></figure>
+
+
+<p>雖然MySQL有提供lock table的指令，但能不用就不要用，不論使用何種 storage
+engine，除了在transaction中而且autocommit是disabled的，不然不要使用lock
+table的指令，因為lock跟transaction的交互是相當的複雜的</p>
+
+<h2>Isolation Levels</h2>
+
+<ul>
+<li><a href="#read_uncommitted" title="mysql:high_performance_mysql_study_notes ↵">READ
+UNCOMMITTED</a></li>
+<li><a href="#read_committed" title="mysql:high_performance_mysql_study_notes ↵">READ
+COMMITTED</a></li>
+<li><a href="#repeatable_read" title="mysql:high_performance_mysql_study_notes ↵">REPEATABLE
+READ</a></li>
+<li><a href="#serializable" title="mysql:high_performance_mysql_study_notes ↵">SERIALIZABLE</a></li>
+</ul>
+
+
+<p>nonrepeatable read : running the same statement twice and see different
+data.</p>
+
+<p>phantom reads : when you select some range of rows, another transaction
+inserts a new row into the range, and then you select the same range
+<strong>again</strong>; <strong>you will then see the new “phantom” row.</strong></p>
+
+<h4>READ UNCOMMITTED</h4>
+
+<ul>
+<li>transactions can view the results of uncommitted transactions.</li>
+<li>a.k.a dirty read</li>
+<li>實務應用上用少使用</li>
+<li>效能也並末比其他的level好很多</li>
+</ul>
+
+
+<h4>READ COMMITTED</h4>
+
+<ul>
+<li>許多資料庫系統預設的level<strong>(但不包含MySQL)</strong></li>
+<li>transaction只會看到其他transactions已經commited的資料</li>
+</ul>
+
+
+<h4>REPEATABLE READ</h4>
+
+<ul>
+<li>MySQL預設的level</li>
+<li>解決<a href="#read_uncommitted" title="mysql:high_performance_mysql_study_notes ↵">READ
+UNCOMMITTED</a>的問題</li>
+<li>但還是有可能發會phantom reads的問題</li>
+<li>InnoDB and Falcon solve the phantom read problem with multiversion
+concurrency control.</li>
+</ul>
+
+
+<h4>SERIALIZABLE</h4>
+
+<ul>
+<li>解決phantom read problem問題</li>
+<li>容易發生timeout跟鎖定衝突等問題</li>
+<li>實務上也比較少用</li>
+<li>等高等級的Isolation Levels(最耗資源)</li>
+</ul>
+
+
+<h3>ANSI SQL isolation levels</h3>
+
+<p>Isolation level</p>
+
+<p>Dirty reads possible</p>
+
+<p>Nonrepeatable reads possible</p>
+
+<p>Phantom reads possible</p>
+
+<p>Locking reads READ</p>
+
+<p>UNCOMMITTED</p>
+
+<p>Yes</p>
+
+<p>Yes</p>
+
+<p>Yes</p>
+
+<p>No</p>
+
+<p>READ COMMITTED</p>
+
+<p>No</p>
+
+<p>Yes</p>
+
+<p>Yes</p>
+
+<p>No</p>
+
+<p>REPEATABLE READ</p>
+
+<p>No</p>
+
+<p>No</p>
+
+<p>Yes</p>
+
+<p>No</p>
+
+<p>SERIALIZABLE</p>
+
+<p>No</p>
+
+<p>No</p>
+
+<p>No</p>
+
+<p>Yes</p>
+
+<h2>Uncategory</h2>
+
+<h4>Transactional Tables</h4>
+
+<ol>
+<li>InnoDB</li>
+<li>Falcon</li>
+<li>PBXT</li>
+</ol>
+
+
+<h4>Non-Transactional Tables</h4>
+
+<ol>
+<li>MyISAM table</li>
+<li>Memory table</li>
+</ol>
+
+
+<p>non-transactional
+table還是可以在transaction中使用，但rollback時無法正常回復</p>
+
+<h4>Storage Engines</h4>
+
+<ol>
+<li>InnoDB</li>
+<li>NDB Cluster</li>
+<li>Falcon</li>
+</ol>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/grimm_s_law/">格林法則(Grimm&#8217;s Law)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/grimm_s_law/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>格林法則指的是發音部位相近的聲可以互換：</p>
+
+<h5>字音</h5>
+
+<ul>
+<li>ｂ,ｐ,ｍ,ｆ,ｖ</li>
+<li>ｄ,ｔ,ｎ,ｌ,ｒ　</li>
+<li>ｇ,ｋ,ｈ,ｃ,ｓ,ｚ,ｔｈ,ｘ</li>
+<li>ｍ,ｎ</li>
+<li>ｗ,ｕ,ｖ</li>
+</ul>
+
+
+<p><img src="/images/wiki/english/pronounce.jpg" alt="pronounce.jpg" /></p>
+
+<p>(圖片來自<a href="http://www.christabelle.idv.tw/archives/459">Christabelle的藝想世界</a></p>
+
+<h5>母音</h5>
+
+<ul>
+<li>ａ,ｅ,ｉ,ｏ,ｕ　</li>
+</ul>
+
+
+<h5>例子</h5>
+
+<p>以companion來說 pan(麵包)來自 bun(麵包) ｂ=ｐ、ａ=ｕ母音互換</p>
+
+<p>com pan　ion 一起　麵包　名詞字尾 companion = 一起吃麵包的人 = 同伴</p>
+
+<p>所以，以後看到字根的時候，可以想套用這個law，應該是對理解會有幫助。</p>
+
+<blockquote><ul>
+<li>用你的嘴巴看穿英語字根1 <a href="http://www.christabelle.idv.tw/archives/459">http://www.christabelle.idv.tw/archives/459</a></li>
+<li>用你的嘴巴看穿英語字根2 <a href="http://www.christabelle.idv.tw/archives/509">http://www.christabelle.idv.tw/archives/509</a></li>
+</ul>
+</blockquote>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/grep_console_plugin/">Grep Console</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/grep_console_plugin/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>settings</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>.*(\QERROR\E).*
+</span><span class='line'>.*(\QDEBUG\E).*</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/grammer/">English Grammer MindMap</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/grammer/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img src="/images/wiki/english/grammer.png" alt="grammer.png" /></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/16/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/blog/page/14/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/07/07/python-101/">Python 101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/25/url-encoding/">URL Encoding</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/04/restful-api-design/">RESTful API Design</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/17/my-intellij-idea-shortcut/">My IntelliJ IDEA Shortcut</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/12/jesper-report-font-issue/">Jesper Report, IReport 匯出成中文PDF</a>
+      </li>
+    
+  </ul>
+</section>
+
+Included file &#8216;asides/twitter.html&#8217; not found in _includes directory
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Kent -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'kentchiu';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,365 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>JVM 記憶體調校 - Kent's Blog</title>
+  <meta name="author" content="Kent">
+
+  
+  <meta name="description" content="JVM記憶體相關參數 Xmx : 記憶體使用上限
+Xms : 記憶體使用下限(啟始值)
+Xss : stack
+server :
+client :
+XX:PermSize : Perm for Permanent:編譯後的class，或固定的資料結構會佔用這一個值
+XX: &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.kent-chiu.com/blog/2012/05/05/jvm_profile">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Kent's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-39152849-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Kent's Blog</a></h1>
+  
+    <h2>Kent的學習筆記(剛從dokuwiki搬過來，內容還在整修中)</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.kent-chiu.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">JVM 記憶體調校</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-05-05T00:00:00+08:00" pubdate data-updated="true">May 5<span>th</span>, 2012</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h4>JVM記憶體相關參數</h4>
+
+<ul>
+<li>Xmx                        : 記憶體使用上限</li>
+<li>Xms                        : 記憶體使用下限(啟始值)</li>
+<li>Xss                        : stack</li>
+<li>server                     :</li>
+<li>client                     :</li>
+<li>XX:PermSize                : Perm for Permanent:編譯後的class，或固定的資料結構會佔用這一個值</li>
+<li>XX:MaxGCPauseMillis        : GC暫停的毫秒數，這個只是&#8221;建議&#8221;GC而已，GC會儘量滿足這個建議值</li>
+<li>XX:+ScavengeBeforeFullGC   :</li>
+<li>XX:-UseParallelOldGC       :</li>
+<li>XX:NewRatio                : sets the size of the old generation to three times the size of the new generation</li>
+</ul>
+
+
+<p>![jvm_profile_01.jpg][jvm_profile_01.jpg]</p>
+
+<p>圖片來源 :<a href="http://redstack.wordpress.com/">Red Stack&#8217;s Blog</a></p>
+
+<p>GC就是在空間不足時，將不活躍的物件從記憶體中移除，如果在GC時存活下的物件，就可能很上晉昇(Young
+→ Old → Permanent)</p>
+
+<ol>
+<li>Permanent Generation:Old Generation進行GC(major GC or full
+GC)後，如空間不夠，就會將Old
+Generation活躍的物件(未被GC的)移到這區。建立越多的物件，此區域就要越大</li>
+<li>Old Generation: 當Young Generation進行gc (minor
+GC)後，空間仍舊不夠放新建立的物件時，會將Young Generation移到Old
+Generation</li>
+<li>New(Young) Generation():
+
+<ol>
+<li>to: Survivor space1(S1)
+gc時,會將eden區未被gc的物件COPY到S1或S2區</li>
+<li>from: Survivor space2(S2)
+gc時,會將eden區未被gc的物件COPY到S1或S2區</li>
+<li>eden: (伊甸) 看名字就知道是新生命(New
+Object)誕生的地方,每new一個Object時會佔用這個區域，eden滿了，會引發gc
+(minor GC)</li>
+</ol>
+</li>
+</ol>
+
+
+<p>Heap= Old Generation + New Generation</p>
+
+<p>可以透過JDK內附的virtualVm來觀察jvm memory的使用情形</p>
+
+<p><img src="/images/wiki/java/jvm_profile_02.png" alt="jvm_profile_02.png" /></p>
+
+<h3>常用工具</h3>
+
+<ol>
+<li>jinfo</li>
+<li>jmap</li>
+<li>jstack</li>
+<li>jstat</li>
+<li>java.lang.management (API level)</li>
+</ol>
+
+
+<h2>Resources</h2>
+
+<ul>
+<li><a href="http://redstack.wordpress.com/2011/01/06/visualising-garbage-collection-in-the-jvm/" title="http://redstack.wordpress.com/2011/01/06/visualising-garbage-collection-in-the-jvm/">簡單而清楚的JVM
+Memory教學</a></li>
+<li><a href="http://www.infoq.com/cn/articles/cf-java-garbage-references" title="http://www.infoq.com/cn/articles/cf-java-garbage-references">infoQ中國站關於gc的文章(簡體中文)</a></li>
+<li><a href="http://java.sun.com/docs/hotspot/gc/" title="http://java.sun.com/docs/hotspot/gc/">http://java.sun.com/docs/hotspot/gc/</a></li>
+<li><a href="http://javarevisited.blogspot.com/2011/11/hotspot-jvm-options-java-examples.html" title="http://javarevisited.blogspot.com/2011/11/hotspot-jvm-options-java-examples.html">10 jvm options java developers should
+know</a></li>
+<li><a href="http://eclipse.org/mat/" title="http://eclipse.org/mat/">Eclipse MAT</a> -
+這個比virtualVM更好用</li>
+<li><a href="http://kohlerm.blogspot.com/2009/07/eclipse-memory-analyzer-10-useful.html" title="http://kohlerm.blogspot.com/2009/07/eclipse-memory-analyzer-10-useful.html">Eclipse
+MAT使用的文章</a></li>
+<li><a href="http://www.cubrid.org/blog/dev-platform/understanding-java-garbage-collection/" title="http://www.cubrid.org/blog/dev-platform/understanding-java-garbage-collection/">GC</a>
+
+<ul>
+<li>說明GC的機制及時機，有5種gc策略的說明</li>
+</ul>
+</li>
+<li><a href="http://www.cubrid.org/blog/dev-platform/how-to-monitor-java-garbage-collection/" title="http://www.cubrid.org/blog/dev-platform/how-to-monitor-java-garbage-collection/">如何監控GC的教學</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Kent Chiu</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-05-05T00:00:00+08:00" pubdate data-updated="true">May 5<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/java/'>java</a>, <a class='category' href='/blog/categories/jvm/'>jvm</a>, <a class='category' href='/blog/categories/mat/'>mat</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://blog.kent-chiu.com/blog/2012/05/05/jvm_profile/" data-via="" data-counturl="http://blog.kent-chiu.com/blog/2012/05/05/jvm_profile/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/04/30/google_guava_101/" title="Previous Post: Google Guava 101">&laquo; Google Guava 101</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/05/14/tips_and_tricks/" title="Next Post: Android Tips & Tricks">Android Tips & Tricks &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/07/07/python-101/">Python 101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/25/url-encoding/">URL Encoding</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/04/restful-api-design/">RESTful API Design</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/17/my-intellij-idea-shortcut/">My IntelliJ IDEA Shortcut</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/12/jesper-report-font-issue/">Jesper Report, IReport 匯出成中文PDF</a>
+      </li>
+    
+  </ul>
+</section>
+
+Included file 'asides/twitter.html' not found in _includes directory
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Kent -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'kentchiu';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.kent-chiu.com/blog/2012/05/05/jvm_profile/';
+        var disqus_url = 'http://blog.kent-chiu.com/blog/2012/05/05/jvm_profile/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,1751 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Kent's Blog</title>
+  <meta name="author" content="Kent">
+
+  
+  <meta name="description" content="NOTICE: The most data in this page is come from Pro
+Git. Basic The Three States committed - the data is safely stored in your local database
+modified &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.kent-chiu.com/blog/page/16">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Kent's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-39152849-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Kent's Blog</a></h1>
+  
+    <h2>Kent的學習筆記(剛從dokuwiki搬過來，內容還在整修中)</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.kent-chiu.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/git_101/">GIT 101</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/git_101/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>NOTICE: The most data in this page is come from <a href="http://progit.org/book/" title="http://progit.org/book/">Pro
+Git</a>.</p>
+
+<h2>Basic</h2>
+
+<h3>The Three States</h3>
+
+<ol>
+<li>committed - the data is safely stored in your local database</li>
+<li>modified - file is changed but have not committed</li>
+<li>staged - marked a modified file in its current version to go into
+your next commit snapshot.</li>
+</ol>
+
+
+<p><img src="/images/wiki/git/git_101_001.png" alt="git_101_001.png" /></p>
+
+<ul>
+<li>The Git directory is where Git stores the metadata and object
+database for your project</li>
+<li>The working directory is a single checkout of one version of the
+project.</li>
+<li>The staging area is a simple file, generally contained in your Git
+directory, that stores information about what will go into your next
+commit. It’s sometimes referred to as the index, but it’s becoming
+standard to refer to it as the staging area.</li>
+</ul>
+
+
+<h4>Basic Git workflow</h4>
+
+<ol>
+<li>You modify files in your working directory.</li>
+<li>You stage the files, adding snapshots of them to your staging area.</li>
+<li>You do a commit, which takes the files as they are in the staging
+area and stores that snapshot permanently to your Git directory.</li>
+</ol>
+
+
+<h4>Install Git</h4>
+
+<h5>Windows</h5>
+
+<p>download <a href="http://code.google.com/p/msysgit">msysgit</a> and install it.</p>
+
+<h5>Linux</h5>
+
+<pre><code>$ yum install git-core
+
+
+$ apt-get install git-core
+</code></pre>
+
+<h4>Terms</h4>
+
+<ul>
+<li>HEAD : 一個特殊的指標(pointer)，它指向current branch.</li>
+<li>master : 預設的branch</li>
+<li>origin : 預設遠端的master branch</li>
+<li>remote : 遠端 repository</li>
+<li>tracking branch: 從遠端fetch到local端的branch</li>
+<li>rebase :
+將原先branch出來的時間點(版本)向前或向後移動，這樣可以讓該branch移除或加入功能別的branch的功能</li>
+<li><p>cherry pick commit : 只挑選同一branch的部份commits做merge</p>
+
+<pre><code>A - B - C - D - E   master
+  \ - X - Y  - Z   branch 1
+</code></pre></li>
+</ul>
+
+
+<h5>rebase</h5>
+
+<p>本來branch 1不包含B特性，可以透過rebase將B包含進去</p>
+
+<pre><code>A - B - C - D - E   master
+      \ - X - Y  - Z   branch 1
+</code></pre>
+
+<h5>cherry pick commit</h5>
+
+<p>如果將branch 1 merge 回master，會包含X,Y,Z特性，但可以透過cherry pick
+commit，則可以選擇merge時不包含X,或X,Y</p>
+
+<pre><code>A - B - C - D - E    master
+  \ - X - Y  - Z   branch 1
+</code></pre>
+
+<h4>Tracking Branches</h4>
+
+<p>跟遠端repository的branch有對應關係的local branch，叫tracking branch，如果branch是一個tracking branch
+那麼push時，會自動push到遠端的對應的branch，如果不是tracking branch，就需要特別指定要push到遠端的那一個branch</p>
+
+<p>像這樣 <code>git push origin master</code>，我們在init git repository後，第一次的push需要下這個commit，就是
+因為一開始local的(master) barnch 沒有跟遠端的關聯，所以我們要跟git說要push到遠端(預設遠端的名字叫origin,當然，
+你也可以取其他的名稱ex: github，bitbucket或mycompany)的master上</p>
+
+<h2>Command</h2>
+
+<p>從遠端fetch到local端的branch是無法直接更改的，想要更改必須在建立自已新的branch</p>
+
+<pre><code>checkout -b branch1  remote_server/branch1
+checkout -b feature/peak --track origin/feature/peak
+</code></pre>
+
+<h4>config</h4>
+
+<p>config有三個等級，由小到大分別為</p>
+
+<ol>
+<li>庫等級(repository裡)，只會單一的repository有影響</li>
+<li>全局(global)，放在user home，對user會存取的庫有影響</li>
+<li>系統等級(system),放在系統的配置目錄下(ex: /etc),對所有的user有影響</li>
+</ol>
+
+
+<p>而優先權則相反，以repository的為主，再來是global的，最後才是system的，很直覺也很合理</p>
+
+<h5>list config</h5>
+
+<pre><code>$ git config --list
+user.name=Scott Chacon
+user.email=schacon@gmail.com
+color.status=auto
+color.branch=auto
+color.interactive=auto
+color.diff=auto
+...
+</code></pre>
+
+<p>config是git跟svn最大不同的地方，git必需要正確定user info後，操作會才正常</p>
+
+<h5>config user name and email</h5>
+
+<pre><code>$ git config --global user.name "Kent Chiu"
+$ git config --global user.email kent.chiu@example.com
+</code></pre>
+
+<h5>clone from windows local</h5>
+
+<pre><code>file:///d:/PATH/PROJECT_HOME
+</code></pre>
+
+<h4>add</h4>
+
+<p>add是個多功能的指令，它可以</p>
+
+<ul>
+<li>把untrack file變成tracked file</li>
+<li>把modified file變成staged file</li>
+</ul>
+
+
+<p>或commit時同時做add的動作(不建議)</p>
+
+<pre><code>$ git add -a -m 'comment'
+</code></pre>
+
+<h4>commit</h4>
+
+<pre><code>$ git add *.c
+$ git add README
+# files need be staged before commit
+$ git commit -m 'initial project version'
+</code></pre>
+
+<p>提交所有控版下的檔案</p>
+
+<pre><code>$ git commit -a -m 'comment'
+# 也可以把 a (all) m (message)合在一起用 
+$ git commit -am 'comment'
+</code></pre>
+
+<p>如果對前一次提交的訊息不滿意，可以透過<code>amend</code>做修改</p>
+
+<pre><code>$ git commit --amend -m 'modify comment'
+</code></pre>
+
+<h4>rm</h4>
+
+<p>remove files. 如果是直接從file system刪檔，而沒透過git指令，那該檔案的狀態會變成 <strong>Changed but not updated</strong> (unstaged)</p>
+
+<blockquote><p>上面的<code>add</code> command並不會把檔案刪除的動作加到stage裡</p></blockquote>
+
+<h5>remove file and delete it</h5>
+
+<pre><code>$git rm myfile.txt
+</code></pre>
+
+<h5>remove files from staged</h5>
+
+<p>untracking files but keep in file system.
+這個指定通常用在想把版控的檔案變成非版控</p>
+
+<pre><code>$git rm --staged myfile.txt
+</code></pre>
+
+<h5>清除untracked files</h5>
+
+<p>如果想快速的清除還沒有加到 index 的 file ，可以用以下的指令</p>
+
+<pre><code>$git clean -f -d
+</code></pre>
+
+<p>參數 <code>-d</code> 是指連 untracked 的目錄一併清除</p>
+
+<h4>mv</h4>
+
+<p>搬移/更名</p>
+
+<pre><code>$ git  README README.txt
+</code></pre>
+
+<h4>status</h4>
+
+<p>顯示異動檔案狀態</p>
+
+<h4>log</h4>
+
+<p>顯示異動檔案細節</p>
+
+<pre><code>$ git log
+</code></pre>
+
+<h5>常用參數</h5>
+
+<ul>
+<li>-p 列出細節</li>
+<li>-n n表數字，列出最新的幾個</li>
+<li>–graph 祖譜圖</li>
+<li>–pretty 改變預設的輸出格式</li>
+<li>–pretty:format自定輸出格式 <code>$ git log --pretty=format:"%h - %an, %ar : %s"</code></li>
+</ul>
+
+
+<h5>過濾(limit by commit attributes)</h5>
+
+<pre><code>$ git log --author=kent
+$ git log --committer=kent 
+$ git log --grep="commit .*message"
+</code></pre>
+
+<h5>search for a change</h5>
+
+<pre><code>$ git log -S"Some code change"
+$ git log --pickaxe-regex -S "some.*text"
+</code></pre>
+
+<h5>limit by changes to specific path</h5>
+
+<pre><code>git lot -- some/file
+</code></pre>
+
+<h4>遠端相關的指令</h4>
+
+<h5>show remote repositories</h5>
+
+<pre><code>$ git remote -v
+origin  git://github.com/schacon/ticgit.git
+</code></pre>
+
+<h5>adding remote repositories</h5>
+
+<pre><code>$ git remote add pb git://github.com/paulboone/ticgit.git
+$ git remote -v
+origin  git://github.com/schacon/ticgit.git
+pb  git://github.com/paulboone/ticgit.git
+</code></pre>
+
+<h4>gitk</h4>
+
+<p>Using a GUI to Visualize History.</p>
+
+<h4>mergetool</h4>
+
+<p>Calling merge tool.</p>
+
+<h4>reset</h4>
+
+<p>將檔案unsatged</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  工作區         暫存區          HEAD
+</span><span class='line'>    | &lt;---------- |                       git reset         重置加入暫存區的動作(也就是取消 git add) 
+</span><span class='line'>                  | &lt;---------- |         git reset --soft  重置加入版本庫的動作(也就是取消commited)，但commmit過的檔案會保留在工作區                
+</span><span class='line'>    | &lt;---------- | &lt;---------- |         git reset --hard  完整的取消整個commit，工作區會的檔案會被恢復到送個版本</span></code></pre></td></tr></table></div></figure>
+
+
+<blockquote><p><code>git reset</code>, <code>git reset HEAD</code>, <code>git reset --mixed</code>這三個指令做的是一樣的事
+<code>git reset --hard</code> 使用上要小心，commit的歷史記錄會不見</p></blockquote>
+
+<p>使用時機</p>
+
+<ul>
+<li><code>git reset</code>          不小心加入不想加入暫存取(index)的檔案，可用這個取消</li>
+<li><code>git reset --soft</code>   想重新修正某一次的commit (<code>git commit --amend</code>就是透過這個指令完成的)</li>
+<li><code>git reset --hard</code>   回到某個版本，就像完做過異動一樣，merge失敗時，也常用這個來恢復到merged前的狀態</li>
+</ul>
+
+
+<h4>diff</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  工作區         暫存區          HEAD
+</span><span class='line'>     
+</span><span class='line'>    | &lt;---------&gt; |                       git diff                  比對工作區跟暫存區的差異
+</span><span class='line'>                  | &lt;---------&gt; |         git diff --staged         比對HEAD跟暫存區的差異
+</span><span class='line'>    | &lt;-----------------------&gt; |         git diff HEAD             比對HEAD跟工作區的差異
+</span><span class='line'>                            ┌-&gt; |
+</span><span class='line'>                            |   |         git diff $commit $commit  比對兩個commits間的差異
+</span><span class='line'>                            └-&gt; |</span></code></pre></td></tr></table></div></figure>
+
+
+<blockquote><p>如果是要比對某個檔在在不同的 commits 間的差異，可使用以下指令
+<code>git diff $commit $commit -- path/file</code></p></blockquote>
+
+<h4>解讀diff</h4>
+
+<pre><code>@@ -3,7 +3,7 @@
+ &lt;h1&gt;Tag Colud&lt;/h1&gt;
+ &lt;ul&gt;
+   &lt;li&gt;&lt;a href='/blog/categories/actionbar'&gt;Actionbar (1)&lt;/a&gt;&lt;/li&gt;
+-  &lt;li&gt;&lt;a href='/blog/categories/android'&gt;Android (26)&lt;/a&gt;&lt;/li&gt;
++  &lt;li&gt;&lt;a href='/blog/categories/android'&gt;Android (24)&lt;/a&gt;&lt;/li&gt;
+   &lt;li&gt;&lt;a href='/blog/categories/apache'&gt;Apache (8)&lt;/a&gt;&lt;/li&gt;
+   &lt;li&gt;&lt;a href='/blog/categories/broadcast-receiver'&gt;Broadcast_receiver (2)&lt;/a&gt;&lt;
+   &lt;li&gt;&lt;a href='/blog/categories/cdi'&gt;Cdi (2)&lt;/a&gt;&lt;/li&gt;
+</code></pre>
+
+<p>diff中的資訊包含兩部份，第一部份是異動概要 <code>@@ -3,7 +3,7 @@</code>，第二部份是異動細節
+第一部份的是資訊 <code>@@ -3,7 +3,7 @@</code>是說原始文件從第3行開始，後面的7行(也就是第3~10行)異動成為新文件的第3行到第7行(也是第3~10行)，本例中因為是調整了某一行的內容，所以異動範圍都是七行，如果新的文件的範圍可能更大(ex:加了幾行)，或更小(刪了幾行)。</p>
+
+<blockquote><p>上述的異動範為7行，是指相關的上下文共有七行，而不是這七行都有改到</p></blockquote>
+
+<p>第二部份比較直覺，就上例中的第六行</p>
+
+<pre><code>-  &lt;li&gt;&lt;a href='/blog/categories/android'&gt;Android (26)&lt;/a&gt;&lt;/li&gt;
+</code></pre>
+
+<p>及第七行</p>
+
+<pre><code>+  &lt;li&gt;&lt;a href='/blog/categories/android'&gt;Android (24)&lt;/a&gt;&lt;/li&gt;
+</code></pre>
+
+<p>代表著第六行的內容被異動成第七行</p>
+
+<h4>show</h4>
+
+<h5>review last commit</h5>
+
+<pre><code>$ git show
+ 
+### output ###
+ 
+commit b8d5b1e2944d1785a3e8ca15979f9c462eb611c9
+Author: Kent Chiu &lt;kent.chiu@techmore.com.tw&gt;
+Date:   Thu Feb 18 13:07:49 2010 +0800
+ 
+    foo
+ 
+diff --git a/dir/foo b/dir/foo
+new file mode 100644
+index 0000000..257cc56
+--- /dev/null
++++ b/dir/foo
+@@ -0,0 +1 @@
++foo
+</code></pre>
+
+<h5>show the stats</h5>
+
+<pre><code>$ git show --stat
+ 
+### output ###
+ 
+commit b8d5b1e2944d1785a3e8ca15979f9c462eb611c9
+Author: Kent Chiu &lt;kent.chiu@techmore.com.tw&gt;
+Date:   Thu Feb 18 13:07:49 2010 +0800
+ 
+    foo
+ 
+ dir/foo |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
+</code></pre>
+
+<h5>show SVN style status</h5>
+
+<pre><code>$ git show --name-status
+ 
+### output ###
+ 
+commit b8d5b1e2944d1785a3e8ca15979f9c462eb611c9
+Author: Kent Chiu &lt;kent.chiu@techmore.com.tw&gt;
+Date:   Thu Feb 18 13:07:49 2010 +0800
+ 
+    foo
+ 
+A       dir/foo
+</code></pre>
+
+<h4>push</h4>
+
+<h5>deleting remote branches</h5>
+
+<pre><code>$ git push origin :serverfix
+To git@github.com:schacon/simplegit.git
+ - [deleted]         serverfix
+</code></pre>
+
+<p>This is called by</p>
+
+<pre><code>$ git push [remotename] [localbranch]:[remotebranch]
+$ git push origin                    :serverfix 
+</code></pre>
+
+<p>let localbranch blank means deleted it.</p>
+
+<h4>git 全域設定檔</h4>
+
+<p>ini git configuration</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[user]
+</span><span class='line'>  name = kent
+</span><span class='line'>  email = kent@mail.com
+</span><span class='line'>
+</span><span class='line'>[alias]
+</span><span class='line'>  st = status
+</span><span class='line'>    ci = commit
+</span><span class='line'>    co = checkout
+</span><span class='line'>    br = branch
+</span><span class='line'>
+</span><span class='line'>[color]
+</span><span class='line'>  ui = true
+</span><span class='line'>  diff = auto
+</span><span class='line'>  status = auto
+</span><span class='line'>  branch = auto</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>常用指令</h2>
+
+<h4>檢視 fetch 下來但尚未被 merged 的資料</h4>
+
+<p>從遠端 fetch 新資料下來，如果想先在做 merge 前先查看資料的異動狀況，可以透過 log 跟 diff，log 可以查看 commits 的記錄，而 diff 可以對檔案內容做比對</p>
+
+<p>查看 fetch 下來，等著被 merged 的 commits</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git fetch                 # 或者是用 git remote update 來 fetch 所有 branches
+</span><span class='line'>$ git log HEAD..origin      # 在pull (也就是 merge ) 前，可以先用這個指令查看那些 commits 會被 merged
+</span><span class='line'>$ git diff HEAD...origin    # 在pull (也就是 merge ) 前，可以先用這個指令查看那些 diffs 會被 merged</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<blockquote><p>執行 fetch 是把 server 上的 branch 更新到 local repository 的 remote branch
+所以需要進行差異性檢視的內容是 HEAD 到 origin</p></blockquote>
+
+<h4>checkout 新的 remote branch 並 tracking</h4>
+
+<p>之前常會發生 checkout 每個 branch後，要 push 遠端server時，卻都只是 push 到 local，這是因為預設的 checkout 指令是不會去 tracking remote branch
+所以，如果要 checkout 後能夠讓 branch 成為 track branch，就要加上 <code>--track</code> 的參數</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ checkout -b new_branch --track origin/branch_name </span></code></pre></td></tr></table></div></figure>
+
+
+<h1>Resource</h1>
+
+<ul>
+<li>幾種merge的手法 <a href="http://eclipsesource.com/blogs/2011/05/30/merging-branches-in-eclipse-git-egit/">http://eclipsesource.com/blogs/2011/05/30/merging-branches-in-eclipse-git-egit/</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/gcin_with_liu/">Liu in Linux (Gcin)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/gcin_with_liu/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>Install gcin</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo apt-get install gcin
+</span><span class='line'>sudo im-switch -s gcin</span></code></pre></td></tr></table></div></figure>
+
+
+<p>logout /login</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>echo $XMODIFIERS
+</span><span class='line'>// output 
+</span><span class='line'>@im=gcin</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>install liu</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mkdir temp
+</span><span class='line'>cd temp
+</span><span class='line'>wget http://edt1023.sayya.org/misc/noseeing-12.tar.gz
+</span><span class='line'>tar zvxf noseeing-6.tar.gz
+</span><span class='line'>mv noseeing.gtab ~/.gcin</span></code></pre></td></tr></table></div></figure>
+
+
+<p>logout/ login</p>
+
+<p>noseeing-xx, current version is 12 (2010/3/17), but may be newer version
+existing. you better check it.</p>
+
+<h2>setup</h2>
+
+<p>check this
+<a href="http://boshiamy.com/member_download.php" title="http://boshiamy.com/member_download.php">http://boshiamy.com/member_download.php</a></p>
+
+<h1>Resources</h1>
+
+<ul>
+<li><a href="http://wiki.kent-chiu.com/lib/exe/fetch.php?media=ubuntu:noseeing-12.tar.gz" title="ubuntu:noseeing-12.tar.gz">table file</a>
+
+<ul>
+<li>from
+<a href="http://edt1023.sayya.org/misc/noseeing-12.tar.gz" title="http://edt1023.sayya.org/misc/noseeing-12.tar.gz">http://edt1023.sayya.org/misc/noseeing-12.tar.gz</a></li>
+</ul>
+</li>
+<li><a href="http://boshiamy.com/member_download.php" title="http://boshiamy.com/member_download.php">http://boshiamy.com/member_download.php</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/findbugs/">FindBugs Plugin Configuration</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/findbugs/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>If findbugs is too strict to you, you might want to bypass some checking
+rules. Here is the way.</p>
+
+<p>We need tell findbugs plugin uses our configuration rather default.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;plugin&gt;
+</span><span class='line'>    &lt;groupId&gt;org.codehaus.mojo&lt;/groupId&gt;
+</span><span class='line'>    &lt;artifactId&gt;findbugs-maven-plugin&lt;/artifactId&gt;
+</span><span class='line'>    &lt;configuration&gt;
+</span><span class='line'>        &lt;debug&gt;true&lt;/debug&gt;
+</span><span class='line'>    &lt;/configuration&gt;
+</span><span class='line'>&lt;/plugin&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>run</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mvn findbugs:findbugs</span></code></pre></td></tr></table></div></figure>
+
+
+<p>then, we got a report like this.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+</span><span class='line'>&lt;BugCollection version='1.3.9' threshold='medium' effort='min'&gt;
+</span><span class='line'>    &lt;file classname='com.bellwin.idcview.Jqgrid%24Cell'&gt;
+</span><span class='line'>        &lt;BugInstance type='URF_UNREAD_FIELD' priority='Normal' category='PERFORMANCE'
+</span><span class='line'>          message='Unread field: com.bellwin.idcview.Jqgrid$Cell.cell' lineNumber='16' /&gt;
+</span><span class='line'>    &lt;/file&gt;
+</span><span class='line'>    &lt;file classname='com.bellwin.idcview.device.servlet.DeviceServlet'&gt;
+</span><span class='line'>        &lt;BugInstance type='SE_BAD_FIELD' priority='Normal' category='BAD_PRACTICE'
+</span><span class='line'>          message='Class com.bellwin.idcview.device.servlet.DeviceServlet defines non-transient non-serializable instance field deviceService'
+</span><span class='line'>          lineNumber='-1' /&gt;
+</span><span class='line'>    &lt;/file&gt;
+</span><span class='line'>    &lt;Error&gt;&lt;/Error&gt;
+</span><span class='line'>    &lt;Project&gt;
+</span><span class='line'>        &lt;SrcDir&gt;D:\dev\workspaces\bellwin\web\src\main\java&lt;/SrcDir&gt;
+</span><span class='line'>    &lt;/Project&gt;
+</span><span class='line'>&lt;/BugCollection&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The above report was output by findbugs. There are two rules not pass</p>
+
+<ol>
+<li>URF_UNREAD_FIELD in PERFORMANCE category</li>
+<li>SE_BAD_FIELD in BAD_PRACTICE category</li>
+</ol>
+
+
+<p>If we want don&#8217;t want to check the rule <strong>URF_UNREAD_FIELD</strong>, we need
+check
+<a href="http://findbugs.googlecode.com/svn/trunk/findbugs/etc/findbugs.xml" title="http://findbugs.googlecode.com/svn/trunk/findbugs/etc/findbugs.xml">findbugs.xml</a>
+setting file.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  &lt;Detector class="edu.umd.cs.findbugs.detect.UnreadFields" 
+</span><span class='line'>            speed="fast"
+</span><span class='line'>            reports="ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD,NP_UNWRITTEN_FIELD,UWF_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR,UWF_NULL_FIELD,UWF_UNWRITTEN_FIELD,SS_SHOULD_BE_STATIC,UUF_UNUSED_FIELD,URF_UNREAD_FIELD,SIC_INNER_SHOULD_BE_STATIC,SIC_INNER_SHOULD_BE_STATIC_ANON,SIC_INNER_SHOULD_BE_STATIC_NEEDS_THIS,SIC_THREADLOCAL_DEADLY_EMBRACE" /&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The URF_UNREAD_FIELD rule is implemented by <code>UnreadFields</code> class. We
+put UnreadFields to <code>&lt;omitVisitors&gt;</code> tag of plugin&#8217;s configuration. This
+forece Findbugs omit the <code>URF_UNREAD_FIELD</code> rule.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;plugin&gt;
+</span><span class='line'>    &lt;groupId&gt;org.codehaus.mojo&lt;/groupId&gt;
+</span><span class='line'>    &lt;artifactId&gt;findbugs-maven-plugin&lt;/artifactId&gt;
+</span><span class='line'>    &lt;configuration&gt;
+</span><span class='line'>        &lt;omitVisitors&gt;UnreadFields&lt;/omitVisitors&gt;
+</span><span class='line'>        &lt;!--
+</span><span class='line'>           Uses comma-delimited to apply more rules
+</span><span class='line'>           &lt;omitVisitors&gt;FindDeadLocalStores,UnreadFields&lt;/omitVisitors&gt;
+</span><span class='line'>        --&gt;
+</span><span class='line'>        &lt;debug&gt;true&lt;/debug&gt;
+</span><span class='line'>    &lt;/configuration&gt;
+</span><span class='line'>&lt;/plugin&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/find_command/">Find Command</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/find_command/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Examples</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>find -name 'mypage.htm'</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In the above command the system would search for any file named
+mypage.htm in the current directory and any subdirectory.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>find / -name 'mypage.htm'</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In the above example the system would search for any file named
+mypage.htm on the root and all subdirectories from the root.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>find -name 'file*'</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In the above example the system would search for any file beginning with
+file in the current directory and any subdirectory.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>find -name '*' -size +1000k</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In the above example the system would search for any file that is larger
+then 1000k.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>find . -size +500000 -print</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Next, similar to the above example, just formatted differently this
+command would find anything above 500MB.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/extjs_resource/">EXT JS Resources</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/extjs_resource/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>EXT JS
+4是<a href="http://www.sencha.com/" title="http://www.sencha.com/">Sencha</a>公司出的一套javascript
+lib，提供豐富的網頁元件，可以方便的建構出網頁應用程式</p>
+
+<ul>
+<li><a href="http://wiki.kent-chiu.com/doku.php?id=extjs:extjs_101" title="extjs:extjs_101">EXT JS
+101</a>
+
+<ul>
+<li>心得筆記</li>
+</ul>
+</li>
+<li><a href="http://www.sencha.com/" title="http://www.sencha.com/">http://www.sencha.com/</a>
+
+<ul>
+<li>官網</li>
+</ul>
+</li>
+<li><p><a href="http://www.sencha.com/conference/videos/" title="http://www.sencha.com/conference/videos/">官網的視頻教學</a></p>
+
+<ol>
+<li>Introducing Ext JS 4
+<a href="http://vimeo.com/17733892" title="http://vimeo.com/17733892">視頻</a>
+<a href="http://www.slideshare.net/edspencer/intro-to-ext-4" title="http://www.slideshare.net/edspencer/intro-to-ext-4">投影片</a>
+
+<ul>
+<li>建議觀看</li>
+</ul>
+</li>
+<li>Ext JS 4 Architecture
+<a href="http://vimeo.com/17733892" title="http://vimeo.com/17733892">視頻</a>
+<a href="http://www.slideshare.net/edspencer/ext-js-4-architecture" title="http://www.slideshare.net/edspencer/ext-js-4-architecture">投影片</a>
+
+<ul>
+<li>強烈建議觀看</li>
+</ul>
+</li>
+</ol>
+</li>
+<li><p><a href="http://www.sencha.com/products/extjs/examples/" title="http://www.sencha.com/products/extjs/examples/">http://www.sencha.com/products/extjs/examples/</a>
+-ext js 4.0 examples</p></li>
+<li><a href="http://docs.sencha.com/ext-js/4-0/api/" title="http://docs.sencha.com/ext-js/4-0/api/">http://docs.sencha.com/ext-js/4-0/api/</a>
+
+<ul>
+<li>API</li>
+</ul>
+</li>
+<li><a href="http://dev.sencha.com/deploy/ext-4.0-beta3/docs/guide/application_architecture.html" title="http://dev.sencha.com/deploy/ext-4.0-beta3/docs/guide/application_architecture.html">MVC</a></li>
+<li><a href="http://www.sencha.com/products/extjs/examples/" title="http://www.sencha.com/products/extjs/examples/">http://www.sencha.com/products/extjs/examples/</a>
+
+<ul>
+<li>3.x的examples</li>
+</ul>
+</li>
+<li><a href="http://dev.sencha.com/deploy/dev/docs/index.html" title="http://dev.sencha.com/deploy/dev/docs/index.html">http://dev.sencha.com/deploy/dev/docs/index.html</a>
+
+<ul>
+<li>3.x的API</li>
+</ul>
+</li>
+<li><a href="http://extjs.org.cn/" title="http://extjs.org.cn/">http://extjs.org.cn/</a>
+
+<ul>
+<li>中國的extjs網站(非官網，但一些官網文章的翻譯)</li>
+</ul>
+</li>
+<li><a href="http://www.illuminations-for-developers.com/" title="http://www.illuminations-for-developers.com/">Illuminations</a>
+
+<ul>
+<li>firebug上extjs的plugin</li>
+</ul>
+</li>
+<li><img src="/images/wiki/extjs/extjs_101_003.png" alt="extjs_101_003.png" />
+
+<ul>
+<li>ExtJs 3.0類別圖 (class diagram) author: rhio.kim@gmail.com</li>
+</ul>
+</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/equinox_101/">Equinox 101</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/equinox_101/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Bundles for http servlet.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>0 ACTIVE      org.eclipse.osgi_3.5.2.R35x_v20100126
+</span><span class='line'>1   ACTIVE      javax.servlet_2.5.0.v200806031605
+</span><span class='line'>17  ACTIVE      org.apache.commons.logging_1.0.4.v200904062259
+</span><span class='line'>18  ACTIVE      org.mortbay.jetty.util_6.1.15.v200905182336
+</span><span class='line'>19  ACTIVE      org.eclipse.equinox.http.registry_1.0.200.v20090520-1800
+</span><span class='line'>20  ACTIVE      org.mortbay.jetty.server_6.1.15.v200905151201
+</span><span class='line'>21  ACTIVE      org.eclipse.equinox.http.jetty_2.0.0.v20090520-1800
+</span><span class='line'>22  ACTIVE      org.eclipse.equinox.http.servlet_1.0.200.v20090520-1800
+</span><span class='line'>23  ACTIVE      org.eclipse.osgi.services_3.2.0.v20090520-1800
+</span><span class='line'>24  ACTIVE      org.eclipse.equinox.registry_3.4.100.v20090520-1800
+</span><span class='line'>25  ACTIVE      org.eclipse.equinox.common_3.5.1.R35x_v20090807-1100</span></code></pre></td></tr></table></div></figure>
+
+
+<p>After startting. invoke url <a href="http://localhost/">http://localhost/</a> will get the web render.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/enabled_ssh/">Enaled SSH</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/enabled_ssh/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>install openssh server</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo apt-get install openssh-server</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>check installation</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ps aux | grep ssh</span></code></pre></td></tr></table></div></figure>
+
+
+<p>ps should output more then 2 lines information.</p>
+
+<p>ps - report a snapshot of the current processes</p>
+
+<h3>config</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo vim /etc/ssh/sshd_config</span></code></pre></td></tr></table></div></figure>
+
+
+<p>if you need to disable root login.</p>
+
+<p>change</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>PermitRootLogin Yes </span></code></pre></td></tr></table></div></figure>
+
+
+<p>to</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>PermitRootLogin no</span></code></pre></td></tr></table></div></figure>
+
+
+<p>if you want to change default listener port 22</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># What ports, IPs and protocols we listen for 
+</span><span class='line'>Port 22 </span></code></pre></td></tr></table></div></figure>
+
+
+<h3>restart</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo /etc/init.d/ssh stop
+</span><span class='line'>sudo /etc/init.d/ssh start</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Please remember to configure allow hosts and deny hosts in production
+environment.</p>
+
+<h3>resource</h3>
+
+<ul>
+<li><a href="http://blog.udn.com/nigerchen/2262865" title="http://blog.udn.com/nigerchen/2262865">SSH
+setup</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/enabled_slow_queries/">Watching Queries Executing</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/enabled_slow_queries/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Enabled slow queries will hit performance</p>
+
+<h1>Enabled Slow Queries</h1>
+
+<p>check log status</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mysql&gt;show variables like 'log_%'; </span></code></pre></td></tr></table></div></figure>
+
+
+<p>The config file should be named my.ini or my.cnf.</p>
+
+<p>In Linux, file would be located at /etc; in Windows would be locate in
+mysql_home\bin</p>
+
+<p>To enable slow queries, put this section in your config file</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[mysqld]
+</span><span class='line'># log-error="mysql/logs/error.log"  
+</span><span class='line'># log="mysql/logs/mysql.log"
+</span><span class='line'># logging query every 2 seconds    
+</span><span class='line'>#if query is more then long_query_time seconds, it will be logging.  
+</span><span class='line'># log-slow-queries= "mysql/logs/slowquery.log"  </span></code></pre></td></tr></table></div></figure>
+
+
+<p>&lt;note note> You need to restart mysql after configured. &lt;note></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/enable_root/">Enable Root Account</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/enable_root/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><ol>
+<li>使用隨便一個帳號登入，然後開啟終端機</li>
+<li>輸入 sudo passwd root</li>
+<li>輸入一次你個管理帳號</li>
+<li>設定全新的root帳號</li>
+<li>再輸入一次</li>
+<li>改密完成</li>
+<li>跟換使用者為root</li>
+</ol>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/ecshop_study_notes/">ECShop Study Notes</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/ecshop_study_notes/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>ECShop provides themes changed capability, it mean we can switch themes
+to change the look and feels of web site(front end only). The capability
+come from the MVC pattern, it is abbreviated
+<strong>M</strong>odel-<strong>V</strong>iew-<strong>C</strong>ontroller.</p>
+
+<h4>Model</h4>
+
+<p>In ECShop, the model is not mapping to code level (it means there is no
+User object mapping to user table). But we can treating database like
+the model.</p>
+
+<p>the detail about the model of ECShop, please check <a href="http://wiki.kent-chiu.com/doku.php?id=ecshop:database_schema" title="ecshop:database_schema">ECShop Database
+Schema</a></p>
+
+<h4>View</h4>
+
+<p>A theme is all about presentation, all files in the themes
+folder(*.dwt, *.lbi, *.js, *.css) might very difference with other
+themes.</p>
+
+<p>the detail about the model of ECShop, please check
+<a href="http://wiki.kent-chiu.com/doku.php?id=ecshop:template_index" title="ecshop:template_index">這篇文章說明每個模版的功能</a></p>
+
+<h4>Controller</h4>
+
+<p>The controller part (php files under root folder) that is most important
+part of MVC, when we switch between this theme and that theme, the
+controller would not changed, we only need to know which data is push to
+view in controller. Whatever theme is using, it would not out of scope
+of the data that pushed by controller.</p>
+
+<p>Regarding the point of view, the most important thing to study ECShop is
+to learn what controllers done.</p>
+
+<p>the detail about the model of ECShop, please check
+<a href="http://wiki.kent-chiu.com/doku.php?id=ecshop:controller_pages" title="ecshop:controller_pages">Controllers</a></p>
+
+<h2>debug</h2>
+
+<ol>
+<li>using IDE&#8217;s debug as → PHP script</li>
+<li>using IDE&#8217;s debug as → PHP web page</li>
+<li>using this code snippet to output variables to file
+file_put_contents(“debug.log”, var_export(\$var, true));</li>
+<li>ecshop modify the smarty source, so that, we can <strong>NOT</strong> using
+smarty debuging console.</li>
+</ol>
+
+
+<h2>Invoke Sequence</h2>
+
+<p>ex: index page</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>http://www.domain.com/index.php -&gt; ECSHOP_HOME/index.php -&gt; index.dwt -&gt; some of lbi files -&gt; render to html.</span></code></pre></td></tr></table></div></figure>
+
+
+<p>(TBD: rewrite this more clearly)</p>
+
+<h2>Smarty</h2>
+
+<ul>
+<li>Initialized at includes/init.php</li>
+<li>ECShop overwrites smarty as cls_template, therefore, a part of
+smarty function maybe not provides in ECShop.</li>
+<li>ECShop uses <strong>*&lt;!–{ }–></strong>* to make template file more friendly
+to WYSIWYG editor.</li>
+</ul>
+
+
+<p>the <strong>#BeginLibraryItem</strong> is not come from Smarty, it is come from
+Dreamweaver, it means include the library item from
+/library/auction.lbi. the library item is nothing more than a html file.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;!-- #BeginLibraryItem "/library/auction.lbi" --&gt; </span></code></pre></td></tr></table></div></figure>
+
+
+<h2>includes/init.php</h2>
+
+<ul>
+<li>every page should page <strong>*define(&#8216;IN_ECS&#8217;, true);</strong>* or get
+Hacking attempt</li>
+<li>database resource(cls_mysql instant) is put into \$GLOBALS[&#8216;db&#8217;]</li>
+</ul>
+
+
+<h3>Session Control</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@ini_set('memory_limit',          '64M');
+</span><span class='line'>@ini_set('session.cache_expire',  180);
+</span><span class='line'>@ini_set('session.use_trans_sid', 0);
+</span><span class='line'>@ini_set('session.use_cookies',   1);
+</span><span class='line'>@ini_set('session.auto_start',    0);</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Init User Session</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>if (!defined('INIT_NO_USERS'))
+</span><span class='line'>{
+</span><span class='line'>    /* 初始化session */
+</span><span class='line'>    include(ROOT_PATH . 'includes/cls_session.php');
+</span><span class='line'> 
+</span><span class='line'>    $sess = new cls_session($db, $ecs-&gt;table('sessions'), $ecs-&gt;table('sessions_data'));
+</span><span class='line'> 
+</span><span class='line'>    define('SESS_ID', $sess-&gt;get_session_id());
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Display Error</h3>
+
+<p>@ini_set(&#8216;display_errors&#8217;, 1);</p>
+
+<h3>DEBUG MODE</h3>
+
+<p>debug mode using bit operation to determine which mode is in using , it
+means if DEBUG MODE = 15(binary is 1111), it also includes DEBUG MODE =
+1,2,4, 8, if DEBUG MODE = 7 (binary 0111), it is also includes DEBUG
+MODE = 1,2,4</p>
+
+<p>  code   description</p>
+
+<hr />
+
+<p>  0      disabled debug
+  1      output error message
+  2      disabled caching
+  4      showing debug page
+  8      logging SQL query</p>
+
+<h4>code 0</h4>
+
+<ul>
+<li>disabled debug</li>
+</ul>
+
+
+<h4>code 2</h4>
+
+<h5>smarty</h5>
+
+<ul>
+<li>force complied</li>
+<li>direct output</li>
+</ul>
+
+
+<h5>includes/lib_base</h5>
+
+<ul>
+<li>disabled cache writing</li>
+<li>disabled cache reading.</li>
+</ul>
+
+
+<h4>code 4</h4>
+
+<ul>
+<li>showing debug page (includes/lib.debug.php)</li>
+</ul>
+
+
+<h4>code 8</h4>
+
+<ul>
+<li>logging SQL query statement to data/mysql_query_xxxxx</li>
+</ul>
+
+
+<h3>User Input Checking</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/* 对用户传入的变量进行转义操作。*/
+</span><span class='line'>if (!get_magic_quotes_gpc())
+</span><span class='line'>{
+</span><span class='line'>    if (!empty($_GET))
+</span><span class='line'>    {
+</span><span class='line'>        $_GET  = addslashes_deep($_GET);
+</span><span class='line'>    }
+</span><span class='line'>    if (!empty($_POST))
+</span><span class='line'>    {
+</span><span class='line'>        $_POST = addslashes_deep($_POST);
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>    $_COOKIE   = addslashes_deep($_COOKIE);
+</span><span class='line'>    $_REQUEST  = addslashes_deep($_REQUEST);
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>includes/cls_mysql.php</h2>
+
+<ul>
+<li>all database operations should using this class</li>
+<li>this class has cache mechanism</li>
+<li>if you don&#8217;t want to cache a table, you can
+set_disable_cache_tables() method</li>
+</ul>
+
+
+<h2>amdin/shop_config.php</h2>
+
+<ul>
+<li>the main config file of ECShop</li>
+<li>this file <strong>would be caching</strong> for performance reason, if you want
+to change this file, need refresh cache.</li>
+</ul>
+
+
+<p>regarding the caching, the we can find the compiled file
+shop_config.php in temp/static folder, it contains configuration
+information, it&#8217;s useful for debug.</p>
+
+<h2>AJAX</h2>
+
+<p>ecshop裡一ajax主要是透過transport.js裡的AJAX.call.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  /* *
+</span><span class='line'>  * 调用此方法发送HTTP请求。
+</span><span class='line'>  *
+</span><span class='line'>  * @public
+</span><span class='line'>  * @param   {string}    url             请求的URL地址
+</span><span class='line'>  * @param   {mix}       params          发送参数
+</span><span class='line'>  * @param   {Function}  callback        回调函数
+</span><span class='line'>  * @param   {string}    ransferMode     请求的方式，有"GET"和"POST"两种
+</span><span class='line'>  * @param   {string}    responseType    响应类型，有"JSON"、"XML"和"TEXT"三种
+</span><span class='line'>  * @param   {boolean}   asyn            是否异步请求的方式
+</span><span class='line'>  * @param   {boolean}   quiet           是否安静模式请求
+</span><span class='line'>  */
+</span><span class='line'>  call : function (url, params, callback, transferMode, responseType, asyn, quiet)
+</span><span class='line'>  // using : Ajax.call( 'user.php?act=is_registered', 'username=' + username, registed_callback , 'GET', 'TEXT', true, true );</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/17/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/blog/page/15/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/07/07/python-101/">Python 101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/25/url-encoding/">URL Encoding</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/04/restful-api-design/">RESTful API Design</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/17/my-intellij-idea-shortcut/">My IntelliJ IDEA Shortcut</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/12/jesper-report-font-issue/">Jesper Report, IReport 匯出成中文PDF</a>
+      </li>
+    
+  </ul>
+</section>
+
+Included file &#8216;asides/twitter.html&#8217; not found in _includes directory
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Kent -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'kentchiu';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

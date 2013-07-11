@@ -1,0 +1,698 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Google Guava 101 - Kent's Blog</title>
+  <meta name="author" content="Kent">
+
+  
+  <meta name="description" content="Guava是google的一個開源項目，目的在提供常用工具類的API，字串處理，caching，primitives型別處理，I/O，併行(concurrnecy)處理，
+還有超級好用的Collections處理。 本篇主要著重於Collection以外相關的使用介紹， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.kent-chiu.com/blog/2012/04/30/google_guava_101">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Kent's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-39152849-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Kent's Blog</a></h1>
+  
+    <h2>Kent的學習筆記(剛從dokuwiki搬過來，內容還在整修中)</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.kent-chiu.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Google Guava 101</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-30T00:00:00+08:00" pubdate data-updated="true">Apr 30<span>th</span>, 2012</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Guava是google的一個開源項目，目的在提供常用工具類的API，字串處理，caching，primitives型別處理，I/O，併行(concurrnecy)處理，
+還有超級好用的Collections處理。</p>
+
+<p>本篇主要著重於<a href="http://wiki.kent-chiu.com/doku.php?id=java:google_guava_-_collection_101" title="java:google_guava_-_collection_101">Collection</a>以外相關的使用介紹，Collection的使用介紹在<a href="http://wiki.kent-chiu.com/doku.php?id=java:google_guava_-_collection_101" title="java:google_guava_-_collection_101">另一篇</a></p>
+
+<ol>
+<li><p><a href="#strings" title="java:google_guava_101 ↵">Strings</a></p>
+
+<ol>
+<li><a href="#joiner" title="java:google_guava_101 ↵">Joiner</a></li>
+<li><a href="#splitter" title="java:google_guava_101 ↵">Splitter</a></li>
+<li><a href="#charmatcher" title="java:google_guava_101 ↵">CharMatcher</a></li>
+</ol>
+</li>
+<li><p><a href="#basic_utilities" title="java:google_guava_101 ↵">Basic Utilities</a></p></li>
+<li><a href="#caches" title="java:google_guava_101 ↵">Caches</a></li>
+<li><a href="#concurrency" title="java:google_guava_101 ↵">Concurrency</a></li>
+<li><a href="#primitives" title="java:google_guava_101 ↵">Primitives</a></li>
+<li><a href="#ranges" title="java:google_guava_101 ↵">Ranges</a></li>
+<li><a href="#hashing" title="java:google_guava_101 ↵">Hashing</a></li>
+<li><a href="#eventbus" title="java:google_guava_101 ↵">EventBus</a></li>
+<li><a href="#math" title="java:google_guava_101 ↵">Math</a></li>
+</ol>
+
+
+<h1>Strings</h1>
+
+<ul>
+<li><a href="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/base/CaseFormat.html" title="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/base/CaseFormat.html">CaseFormat</a></li>
+<li><a href="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/base/CharMatcher.html" title="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/base/CharMatcher.html">CharMatcher</a></li>
+<li><a href="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/base/Charsets.html" title="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/base/Charsets.html">Charsets</a></li>
+<li><a href="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/base/Joiner.html" title="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/base/Joiner.html">Joiner</a></li>
+<li><a href="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/base/Splitter.html" title="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/base/Splitter.html">Splitter</a></li>
+<li><a href="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/base/Strings.html" title="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/base/Strings.html">Strings</a></li>
+</ul>
+
+
+<h5>CharMatcher</h5>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>CharMatcher.is('.').replaceFrom(aStr, '_');                                       // 將字串中的'.'換成'_'
+</span><span class='line'>CharMatcher.DIGIT.matchesAllOf("1231212");                                        // true
+</span><span class='line'>CharMatcher.DIGIT.matchesAnyOf("1231 aa212");                                     // true
+</span><span class='line'>CharMatcher.DIGIT.retainFrom("Hello 1234 567");                                   // "1234567";
+</span><span class='line'>CharMatcher.DIGIT.or(CharMatcher.WHITESPACE).retainFrom("Hello 1234 567");        // " 1234 567"
+</span><span class='line'>CharMatcher.inRange('3', '6').removeFrom("Hello 1234 567");                       // "Hello 12 7";
+</span><span class='line'>CharMatcher.is('$').trimFrom("$$$ This is a $ sign $$$");                         // " This is a $ sign "
+</span><span class='line'>CharMatcher.is('$').or(CharMatcher.is(' ')).trimFrom("$$$ This is a $ sign $$$"); // "This is a $ sign"</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>Joiner</h5>
+
+<p>字串相加</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Joiner joiner = Joiner.on("; ").skipNulls();
+</span><span class='line'>return joiner.join("Harry", null, "Ron", "Hermione"); // "Harry; Ron; Hermione"
+</span><span class='line'> 
+</span><span class='line'>numbersWords.put(1, "one");
+</span><span class='line'>numbersWords.put(2, "two");
+</span><span class='line'>numbersWords.put(3, null);
+</span><span class='line'>numbersWords.put(4, "four");
+</span><span class='line'>Joiner.on(" | ").withKeyValueSeparator(" -&gt; ")
+</span><span class='line'>    .useForNull("Unknown").join(numbersWords)); // 1 -&gt; one | 2 -&gt; two | 3 -&gt; Unknown | 4 -&gt; four"</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>Splitter</h5>
+
+<p>字串分割</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Splitter.on(',')
+</span><span class='line'>       .trimResults()
+</span><span class='line'>       .omitEmptyStrings()
+</span><span class='line'>       .split("foo,bar,,   qux");</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>Basic Utilities</h1>
+
+<h3>Optional (Null處理)</h3>
+
+<p>java對null的處理不是很友善，所以常常需要去對null值特別處理，而Optional就是用來處理null問題的利器。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// 是否是常看到這樣的code
+</span><span class='line'>if (foo == null) {
+</span><span class='line'>  // do something
+</span><span class='line'>} else {
+</span><span class='line'>  // do something
+</span><span class='line'>}
+</span><span class='line'> 
+</span><span class='line'>// servlet總會遇到這個
+</span><span class='line'>String username;
+</span><span class='line'>if (request.getParameter("username") == null) {
+</span><span class='line'>    username = "Stranger";
+</span><span class='line'>} else {
+</span><span class='line'>   username = request.getParameter("username");
+</span><span class='line'>}
+</span><span class='line'> 
+</span><span class='line'>// 或者
+</span><span class='line'>String username = request.getParameter("username") == null ? "Stranger" : request.getParameter("username");</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果改用Optional的話</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Optional.of(request.getParameter("username")).or("default");</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這個class我個人滿少用的，它的一些延伸用法不是很直覺</p>
+
+<h3>Preconditions</h3>
+
+<p>前置條件檢查，通常會在在method的最前面，用來保證參數或變數在一定的狀態，如果不在預期的狀況，就拋出異常。</p>
+
+<ol>
+<li>checkArgument(boolean) : 用來檢查method的參數，不為true則拋出
+IllegalArgumentException</li>
+<li>checkNotNull(T) : 如果是 null 拋出 NullPointerException</li>
+<li>checkState(boolean) :
+跟checkArgument(boolean)很像，但用來檢查非參數的變數，如果不為true，拋出
+IllegalStateException</li>
+<li>checkElementIndex(int index, int size) :
+用來檢查List,Array或字串index的合法性，不合法就拋出
+IndexOutOfBoundsException</li>
+<li>checkPositionIndex(int index, int size) :
+用來檢查List,Array或字串index的合法性，不合法就拋出
+IndexOutOfBoundsException</li>
+<li>checkPositionIndexes(int start, int end, int size) :
+用來檢查List,Array或字串index的合法性，不合法就拋出
+IndexOutOfBoundsException</li>
+</ol>
+
+
+<p>checkElementIndex,checkPositionIndex,checkPositionIndexes用法比較特別，它不需要傳入List,Array或字串本身，只需傳入List,Array或字串的index，size，或start，end</p>
+
+<h3>Ordering</h3>
+
+<p>排序用，如果要被排序的元素本身已有<a href="http://wiki.kent-chiu.com/doku.php?id=java:google_guava_101" title="java:google_guava_101">Comparator</a>的話，可以直做透過Ordering做排序,
+如果沒有，也可以extends Ordering達到排序的效果。</p>
+
+<h3>Object methods</h3>
+
+<p>傳統的Comparable實作方式很煩人，而且容易出錯</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class Person implements Comparable&lt;Person&gt; {
+</span><span class='line'>  private String lastName;
+</span><span class='line'>  private String firstName;
+</span><span class='line'>  private int zipCode;
+</span><span class='line'> 
+</span><span class='line'>  public int compareTo(Person other) {
+</span><span class='line'>    int cmp = lastName.compareTo(other.lastName);
+</span><span class='line'>    if (cmp != 0) {
+</span><span class='line'>      return cmp;
+</span><span class='line'>    }
+</span><span class='line'>    cmp = firstName.compareTo(other.firstName);
+</span><span class='line'>    if (cmp != 0) {
+</span><span class='line'>      return cmp;
+</span><span class='line'>    }
+</span><span class='line'>    return Integer.compare(zipCode, other.zipCode);
+</span><span class='line'>  }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Guava提供ComparisonChain簡化Comparable.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>   public int compareTo(Foo that) {
+</span><span class='line'>     return ComparisonChain.start()
+</span><span class='line'>         .compare(this.aString, that.aString)
+</span><span class='line'>         .compare(this.anInt, that.anInt)
+</span><span class='line'>         .compare(this.anEnum, that.anEnum, Ordering.natural().nullsLast())
+</span><span class='line'>         .result();
+</span><span class='line'>   }</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Throwables</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'> try {
+</span><span class='line'>     someMethodThatCouldThrowAnything();
+</span><span class='line'>   } catch (IKnowWhatToDoWithThisException e) {
+</span><span class='line'>     handle(e);
+</span><span class='line'>   } catch (Throwable t) {
+</span><span class='line'>     Throwables.propagateIfInstanceOf(t, IOException.class);
+</span><span class='line'>     Throwables.propagateIfInstanceOf(t, SQLException.class);
+</span><span class='line'>     throw Throwables.propagate(t);
+</span><span class='line'>   }</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>Caches</h1>
+
+<p>Guava Cache很像Map，但在使用上跟行為上還是跟Map有許多不同之類。Guava
+Cache只會暫存在Memory(RAM)，不會儲存 在local file system.</p>
+
+<p>建立cache有兩種方式，一種是一開始就load所需要的資料，另一種是如果資料不存在就建立，否則就直接取cache內的資料</p>
+
+<h5>CacheLoader是在開始時就建立好cache的資料</h5>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>LoadingCache&lt;Key, Graph&gt; graphs = CacheBuilder.newBuilder()
+</span><span class='line'>        .maximumSize(10000)
+</span><span class='line'>        .expireAfterWrite(10, TimeUnit.MINUTES)
+</span><span class='line'>        .removalListener(MY_LISTENER)
+</span><span class='line'>        .build(
+</span><span class='line'>            new CacheLoader&lt;Key, Graph&gt;() {
+</span><span class='line'>                public Graph load(Key key) throws AnyException {
+</span><span class='line'>                return createExpensiveGraph(key);
+</span><span class='line'>            }
+</span><span class='line'>        });</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>Callable是取不到資料時就建立cache</h5>
+
+<p>當執行cache.get，如果有cache就會從cache取，如果沒有cache就會建立一份到cache中</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Cache&lt;Key, Value&gt; cache = CacheBuilder.newBuilder()
+</span><span class='line'>    .maximumSize(1000)
+</span><span class='line'>    .build(); // look Ma, no CacheLoader
+</span><span class='line'>...
+</span><span class='line'>try {
+</span><span class='line'>  // If the key wasn't in the "easy to compute" group, we need to
+</span><span class='line'>  // do things the hard way.
+</span><span class='line'>  cache.get(key, new Callable&lt;Value&gt;() {
+</span><span class='line'>    @Override
+</span><span class='line'>    public Value call() throws AnyException {
+</span><span class='line'>      return doThingsTheHardWay(key);
+</span><span class='line'>    }
+</span><span class='line'>  };
+</span><span class='line'>} catch (ExecutionException e) {
+</span><span class='line'>  throw new OtherException(e.getCause());
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>Concurrency</h1>
+
+<p>ListenableFuture Service Using Implementations Monitor</p>
+
+<h1>Primitives</h1>
+
+<p>Primitive arrays General utilities Byte conversion Unsigned support</p>
+
+<h1>Ranges</h1>
+
+<p>用來處理一個範圍內class，主要是透過<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html" title="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html">Comparable</a>來做範圍的運算，
+所以不一定是要數值型的class才能做Range，像有實作Comparable的日期也是可以做範圍處理。</p>
+
+<p>可透過Ranges類別來建立Range</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Ranges.closed(1,10);</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>EventBus</h1>
+
+<p>EventBus是guava的事件處理，但不像傳統的Event-Listener那樣需要implement
+xxxListener那樣(結果就是產生了一堆inner class或anonymous inner class)
+而是透過@Annotation的方式處理。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Class is typically registered by the container.
+</span><span class='line'>class EventBusChangeRecorder {
+</span><span class='line'>  @Subscribe void recordCustomerChange(ChangeEvent e) {
+</span><span class='line'>    recordChange(e.getChange());
+</span><span class='line'>  }
+</span><span class='line'>}
+</span><span class='line'>// somewhere during initialization
+</span><span class='line'>eventBus.register(new EventBusChangeRecorder());
+</span><span class='line'>// much later
+</span><span class='line'>public void changeCustomer() {
+</span><span class='line'>  ChangeEvent event = getChangeEvent();
+</span><span class='line'>  eventBus.post(event);
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Reference</h4>
+
+<ol>
+<li><a href="http://codingjunkie.net/guava-eventbus/" title="http://codingjunkie.net/guava-eventbus/">http://codingjunkie.net/guava-eventbus/</a></li>
+<li><a href="http://tomaszdziurko.pl/2012/01/google-guava-eventbus-easy-elegant-publisher-subscriber-cases/" title="http://tomaszdziurko.pl/2012/01/google-guava-eventbus-easy-elegant-publisher-subscriber-cases/">http://tomaszdziurko.pl/2012/01/google-guava-eventbus-easy-elegant-publisher-subscriber-cases/</a></li>
+</ol>
+
+
+<h1>Math</h1>
+
+<p>TBD</p>
+
+<h1>Resources</h1>
+
+<ul>
+<li><a href="http://code.google.com/p/guava-libraries/" title="http://code.google.com/p/guava-libraries/">Guava
+Home</a></li>
+<li><a href="http://code.google.com/p/guava-libraries/wiki/ExplainedContents" title="http://code.google.com/p/guava-libraries/wiki/ExplainedContents">各功能的使用介紹</a>
+(推薦)</li>
+<li><a href="http://jnb.ociweb.com/jnb/jnbApr2010.html" title="http://jnb.ociweb.com/jnb/jnbApr2010.html">Examples</a></li>
+<li><a href="http://jnb.ociweb.com/jnb/jnbFeb2009.html" title="http://jnb.ociweb.com/jnb/jnbFeb2009.html">Google
+Collections</a></li>
+<li><a href="http://www.copperykeenclaws.com/googles-guava-java-the-easy-parts/" title="http://www.copperykeenclaws.com/googles-guava-java-the-easy-parts/">Google’s guava java: the easy
+parts</a></li>
+<li><a href="http://stackoverflow.com/questions/tagged/guava" title="http://stackoverflow.com/questions/tagged/guava">guava on
+stackoverflow</a></li>
+<li>Using the Google Collections Library for Java
+<a href="http://www.youtube.com/watch?v=ZeO_J2OcHYM" title="http://www.youtube.com/watch?v=ZeO_J2OcHYM">part1</a>
+<a href="http://www.youtube.com/watch?v=9ni_KEkHfto" title="http://www.youtube.com/watch?v=9ni_KEkHfto">part2</a></li>
+<li>带你领略 Google Collections <a href="http://jubin2002.javaeye.com/blog/471661" title="http://jubin2002.javaeye.com/blog/471661">part
+1</a>
+<a href="http://jubin2002.javaeye.com/blog/471698" title="http://jubin2002.javaeye.com/blog/471698">part
+2</a></li>
+<li>MapMaker Usage
+<a href="http://norther.javaeye.com/blog/670414" title="http://norther.javaeye.com/blog/670414">http://norther.javaeye.com/blog/670414</a></li>
+<li><a href="http://www.ibm.com/developerworks/cn/java/j-lo-googlecollection/index.html?ca=drs-" title="http://www.ibm.com/developerworks/cn/java/j-lo-googlecollection/index.html?ca=drs-">Google Guava Collections
+使用介绍</a>
+
+<ul>
+<li>IBM 中國上介紹guava的文章</li>
+</ul>
+</li>
+<li><a href="http://www.tfnico.com/presentations/google-guava" title="http://www.tfnico.com/presentations/google-guava">一些guava使用上的介紹</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Kent Chiu</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-30T00:00:00+08:00" pubdate data-updated="true">Apr 30<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/guava/'>guava</a>, <a class='category' href='/blog/categories/java/'>java</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://blog.kent-chiu.com/blog/2012/04/30/google_guava_101/" data-via="" data-counturl="http://blog.kent-chiu.com/blog/2012/04/30/google_guava_101/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/04/26/vim/" title="Previous Post: VIM">&laquo; VIM</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/05/05/jvm_profile/" title="Next Post: JVM 記憶體調校">JVM 記憶體調校 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/07/07/python-101/">Python 101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/25/url-encoding/">URL Encoding</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/04/restful-api-design/">RESTful API Design</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/17/my-intellij-idea-shortcut/">My IntelliJ IDEA Shortcut</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/12/jesper-report-font-issue/">Jesper Report, IReport 匯出成中文PDF</a>
+      </li>
+    
+  </ul>
+</section>
+
+Included file 'asides/twitter.html' not found in _includes directory
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Kent -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'kentchiu';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.kent-chiu.com/blog/2012/04/30/google_guava_101/';
+        var disqus_url = 'http://blog.kent-chiu.com/blog/2012/04/30/google_guava_101/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

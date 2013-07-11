@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: osgi | Kent's Blog]]></title>
+  <link href="http://blog.kent-chiu.com/blog/categories/osgi/atom.xml" rel="self"/>
+  <link href="http://blog.kent-chiu.com/"/>
+  <updated>2013-07-11T21:16:37+08:00</updated>
+  <id>http://blog.kent-chiu.com/</id>
+  <author>
+    <name><![CDATA[Kent]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Spring DM 101]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2011/10/17/spring_dm_101/"/>
+    <updated>2011-10-17T00:00:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2011/10/17/spring_dm_101</id>
+    <content type="html"><![CDATA[<p>Since OSGi, with its class wiring, versioning, reloading, superseeds the
+WAR classpath, Spring DM will ignore the WAR predefined locations and
+will always use the OSGi classpath instead. This means that classes
+imported by a WAR bundle can be used even if they are not present under
+WEB-INF/classes folder or inside a jar under WEB-INF/lib. This also
+means that any class under WEB-INF/classes will not be considered if
+it's not available in the WAR OSGi classpath.</p>
+
+<p>the easiest ways to support the pre-defined WAR locations, is to add
+them to the bundle classpath, by adding them to the bundle manifest:</p>
+
+<p><code>
+Bundle-Classpath: .,WEB-INF/classes,WEB-INF/lib/some.jar,WEB-INF/lib/lib.jar
+</code></p>
+
+<h4>tag lib</h4>
+
+<p>the tag definitions are automatically discovered, the tag classes are
+not - again, the OSGi classpath takes priority. When dealing with
+libraries that export a lot of tags, one can use the Require-Bundle
+header instead of Import-Package for importing the tags:</p>
+
+<p><code>
+Require-Bundle: org.springframework.osgi.jstl.osgi
+</code></p>
+
+<h1>Configuration</h1>
+
+<h3>The Service Registry</h3>
+
+<p>```
+&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;beans xmlns="http://www.springframework.org/schema/beans"</p>
+
+<pre><code>   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xmlns:osgi="http://www.springframework.org/schema/osgi"
+   xsi:schemaLocation="
+</code></pre>
+
+<p>  http://www.springframework.org/schema/beans
+  http://www.springframework.org/schema/beans/spring-beans.xsd
+  http://www.springframework.org/schema/osgi
+  http://www.springframework.org/schema/osgi/spring-osgi.xsd">
+ </p>
+
+<pre><code>&lt;bean id="weatherDao" class="org.springframework.osgi.samples.weather.dao.StaticDataWeatherDaoImpl"/&gt;
+</code></pre>
+
+<p> </p>
+
+<pre><code>&lt;osgi:service ref="weatherDao" interface="org.springframework.osgi.samples.weather.dao.WeatherDao"/&gt;
+</code></pre>
+
+<p> 
+</beans>
+```</p>
+
+<h3>Using Service</h3>
+
+<p>```
+&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;beans xmlns="http://www.springframework.org/schema/beans"</p>
+
+<pre><code>   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xmlns:osgi="http://www.springframework.org/schema/osgi"
+   xsi:schemaLocation="
+</code></pre>
+
+<p>  http://www.springframework.org/schema/beans
+  http://www.springframework.org/schema/beans/spring-beans.xsd
+  http://www.springframework.org/schema/osgi
+  http://www.springframework.org/schema/osgi/spring-osgi.xsd">
+ </p>
+
+<pre><code>&lt;bean id="weatherService"
+    class="org.springframework.osgi.samples.weather.service.WeatherServiceImpl"&gt;
+    &lt;property name="weatherDao"&gt;
+        &lt;osgi:reference interface="org.springframework.osgi.samples.weather.dao.WeatherDao"/&gt;
+    &lt;/property&gt;
+&lt;/bean&gt;
+</code></pre>
+
+<p> 
+ </p>
+
+<pre><code>&lt;osgi:service ref="weatherService"&gt;
+    &lt;osgi:interfaces&gt;
+        &lt;value&gt;org.springframework.osgi.samples.weather.service.WeatherService&lt;/value&gt;
+    &lt;/osgi:interfaces&gt;
+    &lt;osgi:service-properties&gt;
+        &lt;entry key="foo" value="bar"/&gt;
+        &lt;entry key="baz" value="myprop"/&gt;
+    &lt;/osgi:service-properties&gt;
+&lt;/osgi:service&gt;
+</code></pre>
+
+<p> 
+</beans>
+```</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[PAX 101]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2011/10/17/pax_101/"/>
+    <updated>2011-10-17T00:00:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2011/10/17/pax_101</id>
+    <content type="html"><![CDATA[<h1>Quick Satrt</h1>
+
+<ul>
+<li>download <a href="http://www.ops4j.org/projects/pax/construct/index.html" title="http://www.ops4j.org/projects/pax/construct/index.html">pax
+construct</a></li>
+<li>setup path</li>
+<li>create a new OSGi project <code>pax-create-project -g examples -a test</code></li>
+<li>create a Bundle
+<code>pax-create-bundle -p org.example.pkg -n test.bundle</code></li>
+<li>build and deploy <code>mvn clean install pax:provision</code></li>
+<li>shutdown felix server by <code>shutdown</code> commend</li>
+</ul>
+
+
+<h1>setup your own env</h1>
+
+<p>```</p>
+
+<pre><code>  &lt;plugin&gt;
+    &lt;groupId&gt;org.ops4j&lt;/groupId&gt;
+    &lt;artifactId&gt;maven-pax-plugin&lt;/artifactId&gt;
+    &lt;version&gt;1.4&lt;/version&gt;
+    &lt;configuration&gt;
+      &lt;!--
+       | some example Pax-Runner settings
+      --&gt;
+      &lt;provision&gt;
+        &lt;param&gt;--platform=felix&lt;/param&gt;
+      &lt;/provision&gt;
+    &lt;/configuration&gt;
+    &lt;executions&gt;
+      &lt;!--
+       | uncomment to auto-generate IDE files
+      &lt;execution&gt;
+        &lt;id&gt;ide-support&lt;/id&gt;
+        &lt;goals&gt;
+          &lt;goal&gt;eclipse&lt;/goal&gt;
+        &lt;/goals&gt;
+      &lt;/execution&gt;
+      --&gt;
+    &lt;/executions&gt;
+  &lt;/plugin&gt;
+  &lt;plugin&gt;
+&lt;artifactId&gt;maven-compiler-plugin&lt;/artifactId&gt;
+&lt;configuration&gt;
+  &lt;source&gt;1.5&lt;/source&gt;
+  &lt;target&gt;1.5&lt;/target&gt;
+  &lt;encoding&gt;UTF-8&lt;/encoding&gt;
+&lt;/configuration&gt;
+  &lt;/plugin&gt;      
+</code></pre>
+
+<p>```</p>
+
+<p>default pom.xml under proejct is like above. You can
+<code>&lt;param&gt;–platform=felix&lt;/param&gt;</code> to <code>&lt;param&gt;–platform=equinox&lt;/param&gt;</code>
+and enabled ide support by remove comment.</p>
+
+<h1>embed 3th party jar</h1>
+
+<ol>
+<li>pax-embed-jar</li>
+<li>mvn install</li>
+<li>pax-provision</li>
+</ol>
+
+
+<p>embed or wrap</p>
+
+<p>embed: just put jar in container wrap: provides capability for install,
+resoled, unstall, update, export package ….</p>
+
+<h1>Enable Spring DM</h1>
+
+<ul>
+<li>check
+<a href="http://www.ops4j.org/projects/pax/construct/examples/spring-osgi.html" title="http://www.ops4j.org/projects/pax/construct/examples/spring-osgi.html">here</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Equinox 101]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2011/10/17/equinox_101/"/>
+    <updated>2011-10-17T00:00:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2011/10/17/equinox_101</id>
+    <content type="html"><![CDATA[<p>Bundles for http servlet.</p>
+
+<p><code>
+0 ACTIVE      org.eclipse.osgi_3.5.2.R35x_v20100126
+1   ACTIVE      javax.servlet_2.5.0.v200806031605
+17  ACTIVE      org.apache.commons.logging_1.0.4.v200904062259
+18  ACTIVE      org.mortbay.jetty.util_6.1.15.v200905182336
+19  ACTIVE      org.eclipse.equinox.http.registry_1.0.200.v20090520-1800
+20  ACTIVE      org.mortbay.jetty.server_6.1.15.v200905151201
+21  ACTIVE      org.eclipse.equinox.http.jetty_2.0.0.v20090520-1800
+22  ACTIVE      org.eclipse.equinox.http.servlet_1.0.200.v20090520-1800
+23  ACTIVE      org.eclipse.osgi.services_3.2.0.v20090520-1800
+24  ACTIVE      org.eclipse.equinox.registry_3.4.100.v20090520-1800
+25  ACTIVE      org.eclipse.equinox.common_3.5.1.R35x_v20090807-1100
+</code></p>
+
+<p>After startting. invoke url <a href="http://localhost/">http://localhost/</a> will get the web render.</p>
+]]></content>
+  </entry>
+  
+</feed>
