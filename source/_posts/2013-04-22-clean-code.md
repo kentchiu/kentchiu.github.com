@@ -160,7 +160,9 @@ checkin / checkout 時就順手整理。
 - 每個 test case 裡的 asssertions 應該要儘可能的少，有人甚至主張一個 test case 只能有一個 assertion，至少應該儘量保持 singal concept per test
 
 
-``` java BDD Given/When/Then test case 的寫法
+BDD Given/When/Then test case 的寫法
+
+``` 
 
 	public void testGetPageHierarchyAsXml() throws Exception { 
 		givenPages("PageOne", "PageOne.ChildOne", "PageTwo");

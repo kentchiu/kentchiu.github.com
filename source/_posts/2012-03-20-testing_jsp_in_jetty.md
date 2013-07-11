@@ -16,7 +16,7 @@ categories:
 
 
 
-``` java
+```
 package com.bellwin.idcview.login.page;
  
 import static org.junit.Assert.assertTrue;

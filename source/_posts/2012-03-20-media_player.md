@@ -103,7 +103,7 @@ thread進行preparing的動作，可以讓block情況減緩一些。
 
 透過prepareAsync()可以進行非同步的preparing，因為是非同步的，所以如果要知道何時會prepared完成，那就必須透過`MediaPlayer.OnPreparedListener`
 
-``` java
+```
 	public class MyService extends Service implements MediaPlayer.OnPreparedListener {
 	    private static final ACTION_PLAY = "com.example.action.PLAY";
 	    MediaPlayer mMediaPlayer = null;
@@ -137,7 +137,7 @@ bar需要一直不斷跟MediaPlayer進行同步
 bar不管怎麼調，都沒Android內建的[MediaController](http://developer.android.com/reference/android/widget/MediaController.html "http://developer.android.com/reference/android/widget/MediaController.html")好。
 去查了一下MediaController的source發現他是用**recursive(遞歸)的方法**處理的。
 
-``` java
+``` 
 	Thread syncSeekBarThread = new Thread(new Runnable() {
 	    @Override
 	    public void run() {
@@ -172,7 +172,7 @@ bar不管怎麼調，都沒Android內建的[MediaController](http://developer.an
 
 相當巧妙的解法，難怪大家都建議多看Android的source，改成這樣後，ProgressBar果然有比較平順。
 
-``` java
+```
 	private class SyncHandler extends Handler {
 	    @Override
 	    public void handleMessage(Message msg) {

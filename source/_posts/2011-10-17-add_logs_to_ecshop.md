@@ -21,16 +21,13 @@ production
 environment不應該就log放到web可以access到的資料夾，不然log會被看光光
 
 
-```
     require_once 'Log.php';
     $logger = &Log::singleton('file', ROOT_PATH . 'logs/debug.log', 'TEST');
-```
 
 
-```
+
     require_once 'Log.php';
     $logger = &Log::singleton('file', ROOT_PATH . 'logs/debug.log', 'TEST');
-```
 
 -   admin跟商城的init.php是分開的，所以兩邊都要放
 -   \$logger的宣告要放在init.php前面一點的地方，因為include\_path會被改寫，改寫後，會發生找不到log定義的問題

@@ -11,9 +11,9 @@ categories:
 ---
 
 
+File upload
 
-
-``` java File Upload
+``` 
 	@RequestMapping(value = "/foobar/upload", method = RequestMethod.POST)
 	public @ResponseBody
 	String upload(@RequestParam("file") MultipartFile file, @RequestParam("fileId") String fileId) {
@@ -34,9 +34,9 @@ categories:
 ```
 
 
+File Download
 
-
-``` java File Download
+``` 
 	@RequestMapping(value = "/forbar/export", method = RequestMethod.GET)
 	public HttpEntity<byte[]> excelExcel() throws IOException {
 		File file = new File("myexcel.xls");
