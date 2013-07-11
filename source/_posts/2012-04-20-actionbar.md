@@ -18,7 +18,7 @@ categories:
 
 android 3.0+ (API level 11)
 
-![http://developer.android.com/design/media/action_bar_basics.png][]
+![img](http://developer.android.com/design/media/action_bar_basics.png)
 
 1.  具有 tab 的效果，可以在多個 fragments 間切換
 2.  具有 options menu 的功能， options menu 在 3.0 之後會用改採 action

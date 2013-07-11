@@ -48,7 +48,7 @@ Android測試架構
     OS，所以是屬於整合測試，而不是單元測試(像是eclipse的plugin測試方式)
 -   需繼承特定的TestCase以便可以取得一些測試的基本功能
 
-![]http://developer.android.com/images/testing/android_test_framework.png)
+![](http://developer.android.com/images/testing/android_test_framework.png)
 
 Android應用程式跟測試程式透過Instrumentation Test
 Runner執行在同一個Process, 所以，在執行測試時，需透過Instrumentation
@@ -164,7 +164,6 @@ Framework中最重要的一個物件，在許多地方都會用到它，`這邊�
 AndroidTestCase啟動時，會先做自我檢測，先驗証測試環境是否ready to
 use.有提供幾個預先定義好的assert.
 
-![android_test_framework.png][]
 
 ### ProviderTestCase2
 
@@ -514,7 +513,7 @@ public class ContextWrapper extends Context {
 這個Context把跟設備相關的method改掉掉，讓context不與設備直接溝通，但又提供足夠的功能以測試可以進行。
 被IsolatedContext改寫掉的methods如下
 
-![unit_testing_in_android_006.png][unit_testing_in_android_006.png]
+(圖丟了 XD)
 
 ##### RenamingDelegatingContext
 

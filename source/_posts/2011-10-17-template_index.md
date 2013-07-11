@@ -207,99 +207,99 @@ Library
 
 ### brand.dwt (商品品牌頁)
 
-![template_index_article.dwt.gif.dwt.gif][]
+![template_index_article.dwt.gif][]
 
 ### brand.dw (商品品牌頁)
 
-![template_index_brand.dwt.gif.dwt.gif][]
+![template_index_brand.dwt.gif][]
 
 ### article.dw (文章內容頁)
 
-![template_index_article.dwt.gif.dwt.gif][]
+![template_index_article.dwt.gif][]
 
 ### article\_cat.dwt (文章列表頁)
 
-![template_index_article_cat.dwt.gif.dwt.gif][]
+![template_index_article_cat.dwt.gif][]
 
 ### catalog.dw (所有分類頁)
 
-![template_index_catalog.dwt.gif.dwt.gif][]
+![template_index_catalog.dwt.gif][]
 
 ### category.dwt (商品列表頁)
 
-![template_index_category.dwt.gif.dwt.gif][]
+![template_index_category.dwt.gif][]
 
 ### compare.dw (商品比較頁)
 
-![template_index_compare.dwt.gif.dwt.gif][]
+![template_index_compare.dwt.gif][]
 
 ### flow.dwt (購物車和購物流程頁)
 
-![template_index_flow.dwt.gif.dwt.gif][]
+![template_index_flow.dwt.gif][]
 
 ### gallery.dw (商品相冊頁)
 
-![template_index_gallery.dwt.gif.dwt.gif][]
+![template_index_gallery.dwt.gif][]
 
 ### goods.dw (商品詳情頁)
 
-![template_index_goods.dwt.gif.dwt.gif][]
+![template_index_goods.dwt.gif][]
 
 ### group\_buy\_goods.dwt (團購商品詳情頁)
 
-![template_index_group_buy_goods.dwt.gif.dwt.gif][]
+![template_index_group_buy_goods.dwt.gif][]
 
 ### group\_buy\_list.dwt (團購商品列表頁)
 
-![template_index_group_buy_list.dwt.gif.dwt.gif][]
+![template_index_group_buy_list.dwt.gif][]
 
 ### index.dw (首頁)
 
 兩張圖的layout沒有完全一致，參考看看就好
 
-![template_index_index.dwt.gif.dwt.gif][]
+![template_index_index.dwt.gif][]
 
 ![template_index_index.png][template_index_index.png]
 
 ### message.dw ( 資訊提示頁)
 
-![template_index_message.dwt.gif.dwt.gif][]
+![template_index_message.dwt.gif][]
 
 ### pick\_out.dwt (選購中心頁)
 
-![template_index_pick_out.dwt.gif.dwt.gif][]
+![template_index_pick_out.dwt.gif][]
 
 ### receive.dw (收貨確認資訊頁)
 
-![template_index_receive.dwt.gif.dwt.gif][]
+![template_index_receive.dwt.gif][]
 
 ### respond.dw (線上支付結果提示資訊頁)
 
-![template_index_respond.dwt.gif.dwt.gif][]
+![template_index_respond.dwt.gif][]
 
 ### search.dwt (商品搜尋網頁)
 
-![template_index_search.dwt.gif.dwt.gif][]
+![template_index_search.dwt.gif][]
 
 ### snatch.dwt (奪寶奇兵頁)
 
-![template_index_snatch.dwt.gif.dwt.gif][]
+![template_index_snatch.dwt.gif][]
 
 ### tag\_cloud.dwt (標籤雲頁)
 
-![template_index_tag_cloud.dwt.gif.dwt.gif][]
+![template_index_tag_cloud.dwt.gif][]
 
 ### user\_clips.dwt (用戶中心頁)
 
-![template_index_user_clips.dwt.gif.dwt.gif][]
+![template_index_user_clips.dwt.gif][]
 
 ### user\_passport.dwt (用戶安全頁)
 
-![template_index_user_passport.dwt.gif.dwt.gif][]
+![template_index_user_passport.dwt.gif][]
 
 ### user\_transaction.dwt (用戶中心頁)
 
-![template_index_user_transaction.dwt.gif.dwt.gif][]
+![template_index_user_transaction.dwt.gif][]
 
 
 

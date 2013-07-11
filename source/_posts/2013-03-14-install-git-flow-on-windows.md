@@ -23,7 +23,7 @@ git官網下載的git是屬於MSysGit版的，所以，要按照MSysGit的安裝
 首先要先安裝`util-linux-ng for Windows`,`util-linux-ng for Windows`可以到
 http://gnuwin32.sourceforge.net/packages/util-linux-ng.htm 下載，點選下圖紅框的檔案連結下次二進制文件的zip檔
 
-![util-linux-ng][]
+![2013-03-14-install-git-flow-on-windows-001.png][]
 
 需一併下載上圖中下方紅框的`libintl`，libintl的連結會進入另一個網頁 http://gnuwin32.sourceforge.net/packages/libintl.htm，一樣下載Binaries的zip檔即可
 
@@ -95,4 +95,4 @@ clone完成後，到 c:\gitflow\contrib 執行
 到這裡都ok的話，之前的臨時性的工作目錄 `c:\gitflow`可以刪了它
 
 
-  [util-linux-ng]: /images/blog/2013-03-14-install-git-flow-on-windows-001.png
+  [2013-03-14-install-git-flow-on-windows-001.png]: /images/blog/2013-03-14-install-git-flow-on-windows-001.png
