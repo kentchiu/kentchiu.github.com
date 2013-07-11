@@ -9,12 +9,9 @@
   <meta name="author" content="Kent">
 
   
-  <meta name="description" content="Intellij IDEA Mac版的 KeyMap 有兩個版本，這邊的是 Mac 專用版的版本 (Mac OS X 10.5+) 符號說明 ⌘ : cmd key
-⌥ : option / alt key
-⌃ : ctrl key
-⇧ : shift key
-⇥ : tab
-⏎ : enter &hellip;">
+  <meta name="description" content="本文是初學 Python 遇到的一些問題留下的筆記: 一開始進入 Python 的世界，除了程式語言本身外還有許多基本的工具要先了解: Python 2 V.S Python 3 : python 語言的版本
+easy_install V.S PIP : 套件安裝工具
+virtualenv : &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -55,7 +52,7 @@
   <header role="banner"><hgroup>
   <h1><a href="/">Kent's Blog</a></h1>
   
-    <h2>Kent的學習筆記(剛從dokuwiki搬過來，內容還在整修中)</h2>
+    <h2>Kent的學習筆記</h2>
   
 </hgroup>
 
@@ -82,6 +79,410 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/07/07/python-101/">Python 101</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-07T12:10:00+08:00" pubdate data-updated="true">Jul 7<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/07/07/python-101/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>本文是初學 Python 遇到的一些問題留下的筆記:</p>
+
+<p>一開始進入 Python 的世界，除了程式語言本身外還有許多基本的工具要先了解:</p>
+
+<ul>
+<li>Python 2 V.S Python 3 : python 語言的版本</li>
+<li>easy_install V.S PIP : 套件安裝工具</li>
+<li>virtualenv            : 虛擬工作環境</li>
+</ul>
+
+
+<h4>Python 2 V.S Python 3</h4>
+
+<p>剛進行 Python 的世界，一開始就要面臨的抉擇，就是要用 Python 2 或 Python 3，因為是初學者，沒有任何包袱，當然是選 Python 3。</p>
+
+<blockquote><p>Mac Os 10.8 (mountain lion)預裝的是 Python 2.7.2，要自行昇級成 Python 3.x (目前 2013/07/07 3.3.2是 release 版)
+可以透過在 Mac OS 的terminal 下執行 <code>python -V</code> 取得版號</p></blockquote>
+
+<h4>Easy_install V.S PIP</h4>
+
+<p>easy_install 跟 <a href="http://www.pip-installer.org/">pip</a> 兩者都是套件安裝工具， easy_install 沒有反安裝套件的功能，而 pip 有反安裝套件的功能，所以建議是裝pip</p>
+
+<p>Mac Os 10.8 (mountain lion) 只有預裝 easy_install，要使用 pip，可以透過 easy_install 來安裝 pip
+安裝 pip 的指令如下 <code>$ easy_install pip</code>，如果無法安裝的話，可以直接抓 source 下來裝
+下載的url為 :</p>
+
+<p>必須先安裝<a href="http://pythonhosted.org/setuptools/">setuptools</a></p>
+
+<pre><code>$ curl -O https://bitbucket.org/pypa/setuptools/raw/0.8/ez_setup.py
+$ python ez_setup.py --user 
+</code></pre>
+
+<p>才能再裝 pip</p>
+
+<pre><code>$ curl -O https://pypi.python.org/packages/source/p/pip/pip-1.3.tar.gz
+$ tar xzf pip-1.3.tar.gz
+$ cd pip-1.3
+$ sudo python setup.py install
+</code></pre>
+
+<p>裝完後檢查一下執行一下 <code>pip</code> 指令，如果不能執行，可能是Path沒設好,Path變數是在 <code>~/.bash_profile</code> 如果沒這個檔，可以自已新增一個</p>
+
+<pre><code>export PATH=/System/Library/Frameworks/Python.framework/Versions/3.3/bin:/Users/kent/Library/Python/3.3/bin:$PATH
+</code></pre>
+
+<h2>Python Language</h2>
+
+<h4>連算子</h4>
+
+<ul>
+<li>沒有增量 <code>++</code>，減量 <code>--</code> 運算子</li>
+<li>+=，-= 這是合法的運算子</li>
+<li>除法用<code>/</code> , 整數除法用 <code>//</code></li>
+</ul>
+
+
+<h4>字串</h4>
+
+<ul>
+<li>字串可用單引號或雙引號，單引號較常用</li>
+<li>字串前面加 <code>r</code> 表示為 raw string, ex: raw = r&#8217;this is a \t\n raw string&#8217;</li>
+<li>字串前面加 <code>u</code> 表示為 unicode string, ex: ustring = u&#8217;A unicode \u018e string \xf1&#8217;</li>
+</ul>
+
+
+<h4>條件式結構</h4>
+
+<pre><code> if speed &gt;= 80:
+    print 'License and registration please'
+    if mood == 'terrible' or speed &gt;= 100:
+      print 'You have the right to remain silent.'
+    elif mood == 'bad' or speed &gt;= 90:
+      print "I'm going to have to write you a ticket."
+      write_ticket()
+    else:
+      print "Let's try to keep it under 80 ok?"
+</code></pre>
+
+<p>較簡潔的語法</p>
+
+<pre><code>if speed &gt;= 80: print 'You are so busted'
+else: print 'Have a nice day'         
+</code></pre>
+
+<ul>
+<li>python不是用 {}，也不是用begin/end，而是用縮排跟冒號<code>:</code>來做為區塊結構的範圍</li>
+<li>不是用 <code>else if</code> 而是 <code>elif</code></li>
+</ul>
+
+
+<h4>List and Array</h4>
+
+<p>list 可視為 array，語法如下</p>
+
+<p>list = [&#8216;larry&#8217;, &#8216;curly&#8217;, &#8216;moe&#8217;]</p>
+
+<blockquote><p>tuple 很像 list，但tuple是不可變的，語法如下 <code>tuple = (1, 2, 'hi')</code></p></blockquote>
+
+<p>list 還有一個很特別的一點是可以直接在 list 裡執行 expression，叫 List Comprehensions,
+語法為 [expr for var in list ]</p>
+
+<p>範例:</p>
+
+<pre><code>nums = [1, 2, 3, 4]
+squares = [ n * n for n in nums ]   ## [1, 4, 9, 16]
+</code></pre>
+
+<h4>初學者必備技能</h4>
+
+<ul>
+<li><p>python Interpreter (直譯器)
+直譯式語言的優點就是會有直譯器可以用，在直譯器執行程式，可以立即得到執行的結果，在不了解API的用法時，我通常會在執譯器上先做測試，或者直接用 unittest 寫<em>Learning Test</em>。
+平常沒事也可以掛著查 API doc</p></li>
+<li><p>help([object])<br/>
+列出說明，會說明該 object 有那些 methods 及使用方式</p></li>
+<li>type(variable)
+取得 object 的型別，撰寫弱型別語言最大的痛苦就是不知道變數是什麼型別，這 type 至少可以在runtime取得變數的型別</li>
+</ul>
+
+
+<h4>學習資源</h4>
+
+<ul>
+<li><a href="https://developers.google.com/edu/python/">https://developers.google.com/edu/python/</a>  - Google Python Course</li>
+<li><a href="http://getpython3.com/diveintopython3">http://getpython3.com/diveintopython3</a> - Dive Into Python 3 免費電子書</li>
+<li><a href="http://chimera.labs.oreilly.com/books/1234000000754/index.html">http://chimera.labs.oreilly.com/books/1234000000754/index.html</a> - Test-Driven Web Development with Python</li>
+<li><a href="http://docs.python.org/2/library/">http://docs.python.org/2/library/</a> - python 標準函式庫文件</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/06/25/url-encoding/">URL Encoding</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-25T11:01:00+08:00" pubdate data-updated="true">Jun 25<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/06/25/url-encoding/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><code>https://bob:bobby@www.lunatech.com:8080/file;p=1?q=2#third</code></p>
+
+<ul>
+<li>Scheme           : https</li>
+<li>User             : bob</li>
+<li>Password         :bobby</li>
+<li>Host address     : www.lunatech.com</li>
+<li>Port             : 8080</li>
+<li>Path             : /file</li>
+<li>Path parameters  : p=1</li>
+<li>Query parameters : q=2</li>
+<li>Fragment         : third</li>
+</ul>
+
+
+<h6>Path parameters</h6>
+
+<p>Path parameters 又叫 Matrix Parameters, 每個 <em>path segment</em> 可以有自已的 Matrix Parameters，這在 Restful style 的設計上有時會很有用。</p>
+
+<h6>Fragment</h6>
+
+<p>Fragment 是用來指出整份 URL resrouce 的某一特定部份，在網頁設計上是用來做定位用的錨點 (anchor)</p>
+
+<h4>保留字處理</h4>
+
+<p>path 跟 query string 對保留字的處理方式不一樣，所以，在做編解碼時，要分開處理</p>
+
+<p>ex:
+空白字元在 path 會被編成 %20 , &#8216;+&#8217; 會被編成 &#8216;_&#8217; ,但在 query string 空白字元會被編成 &#8216;+&#8217; or &#8216;%20&#8217;, &#8216;+&#8217; 會被編成 &#8216;%2B&#8217;</p>
+
+<p>所以，如果有一個<code>blue+light blue</code>同時放在 path 跟 query string，那結果會是這樣</p>
+
+<pre><code>http://example.com/blue+light%20blue?blue%2Blight+blue
+</code></pre>
+
+<h4>編碼、中文與 Unicode</h4>
+
+<p>RFC 1738 並沒有規定要用什麼樣的編碼，所以，一般會在 HTTP header 指定 encoding 或採用 HTML page encoding</p>
+
+<h2>Resource</h2>
+
+<ul>
+<li><a href="http://blog.lunatech.com/2009/02/03/what-every-web-developer-must-know-about-url-encoding">http://blog.lunatech.com/2009/02/03/what-every-web-developer-must-know-about-url-encoding</a> - What every web developer must know about URL encoding</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/06/04/restful-api-design/">RESTful API Design</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-04T09:58:00+08:00" pubdate data-updated="true">Jun 4<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/06/04/restful-api-design/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>Method</h2>
+
+<p>POST,DELETE : 操作是 non-idempotent(非幕等)</p>
+
+<p>GET, PUT  : 操作是 idempotent(幕等)</p>
+
+<blockquote><p>TBC : 解釋 idempotent</p></blockquote>
+
+<h3>GET</h3>
+
+<p>GET method用來取得一筆或多的資源，如果是多筆資源，還可以加入分頁，過濾等資訊，也可在header傳入分頁的links，ex:&#8217;first&#8217;, &#8216;last&#8217;, &#8216;next&#8217; and &#8216;prev&#8217;</p>
+
+<ul>
+<li>GET     http://www.example.com/orders                           取得多筆訂單</li>
+<li>GET     http://www.example.com/orders/12345                     取得訂單編號為 12345 的訂單</li>
+<li>GET     http://www.example.com/orders/12345/items               取得訂單編號為 12345 的訂單下的所有訂單項目</li>
+<li>GET     http://www.example.com/orders/12345/oitems/678          取得訂單編號為 12345 的訂單下的訂單項目 678</li>
+<li>GET     http://www.example.com/orders?customer=kent             取得客戶 kent 的所有訂單</li>
+</ul>
+
+
+<h5>status code</h5>
+
+<ul>
+<li>200 (OK)            順利取得資源</li>
+<li>400 (BAD REQUEST)   無法順利取得資訊，通常是參數有問題或某個查詢條件失效</li>
+<li>404 (Not Found)     資源不存在</li>
+</ul>
+
+
+<h3>POST</h3>
+
+<p>POST method用來建立新資源，建立完成資源後，通常是回應 201(CREATED) 的狀態碼，而且建立的新資源的 uri link 會放在 HEAD (不是response body)</p>
+
+<pre><code>POST http://www.example.com/order
+</code></pre>
+
+<p>response</p>
+
+<pre><code>200 OK
+Content-Type: application/json
+Location: http://www.example.com/order/123  
+</code></pre>
+
+<h5>status code</h5>
+
+<ul>
+<li>201 (CREATED)       成功建立新資源</li>
+<li>404 (Not Found)     資源不存在</li>
+</ul>
+
+
+<h3>PUT</h3>
+
+<p>POST method 用來更新資源，</p>
+
+<p>如果 resource 的 id，是由前端決定，而不是後端，那麼此時 PUT 也可以拿用做建立新資源的動作</p>
+
+<h5>status code</h5>
+
+<ul>
+<li>200 (OK)            更新成功，如果使用這個status code，response裡會有異動後的內容</li>
+<li>201 (CREATED)       成功建立新資源</li>
+<li>204 (No Content)    更新成功，如果使用這個status code，response裡沒有任何內容</li>
+<li>404 (Not Found)     資源不存在</li>
+</ul>
+
+
+<h3>DELETE</h3>
+
+<h5>status code</h5>
+
+<ul>
+<li>200 (OK)            更新成功，如果使用這個 status code，response裡會有異動後的內容</li>
+<li>204 (No Content)    更新成功，如果使用這個 status code，response裡沒有任何內容</li>
+<li>404 (Not Found)     資源不存在，連續呼叫兩次相同的 delete，會傳回 404</li>
+</ul>
+
+
+<h4>命名規則</h4>
+
+<p>資源命名應為<strong>複數名詞</strong>，不論是 GET, POST, PUT, DELETE 應該都要用<strong>複數名詞</strong>來命名，如果是要取得單筆資訊，
+則是在<strong>複數名詞</strong>的資源後接上該資源的indentity</p>
+
+<ul>
+<li>GET     http://www.example.com/orders             取得多筆訂單</li>
+<li>GET     http://www.example.com/orders/12345       取得訂單編號為 12345 的訂單</li>
+<li>GET     http://www.example.com/users?name=kent    取得使用者 kent 的資訊</li>
+<li>PUT     http://www.example.com/users/kent         更新使用者 kent</li>
+<li>POST    http://www.example.com/users/kent         新增使用者 kent</li>
+<li>DELETE  http://www.example.com/users/kent         刪除使用者 kent</li>
+</ul>
+
+
+<p>所以，一般來說，只有兩種 url 的定義方式</p>
+
+<pre><code>GET | PUT | DELETE  http://www.example.com/orders/{id}
+POST                http://www.example.com/orders
+</code></pre>
+
+<blockquote><p>TBC : 查一下 resource id是用純數字(/user/1)，或使用有意義的名稱為佳(users/kent)
+目前認為用 id 應該會比較好，因為名稱可能會異動，如果要用名稱，應該是類似查詢參數的用法 /users?name=kent</p></blockquote>
+
+<h2>Resource</h2>
+
+<ul>
+<li><a href="http://zh.wikipedia.org/zh-tw/HTTP%E7%8A%B6%E6%80%81%E7%A0%81">http://zh.wikipedia.org/zh-tw/HTTP%E7%8A%B6%E6%80%81%E7%A0%81</a> - HTTP 狀態碼</li>
+<li><p><a href="http://www.restapitutorial.com/lessons/httpmethods.html">http://www.restapitutorial.com/lessons/httpmethods.html</a>  - RESTful Tutorial</p></li>
+<li><p>一般流行的 Rest API</p>
+
+<ul>
+<li><a href="http://docs.aws.amazon.com/AmazonS3/latest/API/APIRest.html">http://docs.aws.amazon.com/AmazonS3/latest/API/APIRest.html</a> - Amazon 的 REST API文件</li>
+<li><a href="https://dev.twitter.com/docs/api/1.1/get/lists/list">https://dev.twitter.com/docs/api/1.1/get/lists/list</a> - twitter 的 REST API文件</li>
+<li><a href="https://developers.facebook.com/docs/reference/api/">https://developers.facebook.com/docs/reference/api/</a> - FaceBook 的 REST API文件</li>
+<li><a href="https://developer.linkedin.com/apis">https://developer.linkedin.com/apis</a> - linkedin 的 REST API文件</li>
+</ul>
+</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -224,22 +625,22 @@
 
 <h4>工具 ﹣> 選項</h4>
 
-<p><img src="http://blog.kent-chiu.com/images/blog/2013-05-12-jesper-report-font-issue-000.png" alt="2013-05-12-jesper-report-font-issue-000.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2013-05-12/2013-05-12-jesper-report-font-issue-000.png" alt="2013-05-12-jesper-report-font-issue-000.png" /></p>
 
 <h4>安裝字型</h4>
 
-<p><img src="http://blog.kent-chiu.com/images/blog/2013-05-12-jesper-report-font-issue-001.png" alt="2013-05-12-jesper-report-font-issue-001.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2013-05-12/2013-05-12-jesper-report-font-issue-001.png" alt="2013-05-12-jesper-report-font-issue-001.png" /></p>
 
 <p>字形檔為 true type (.ttf)格式，本範例是繁體中文的標楷體 (kaiu.ttf)</p>
 
-<p><img src="http://blog.kent-chiu.com/images/blog/2013-05-12-jesper-report-font-issue-002.png" alt="2013-05-12-jesper-report-font-issue-002.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2013-05-12/2013-05-12-jesper-report-font-issue-002.png" alt="2013-05-12-jesper-report-font-issue-002.png" /></p>
 
 <blockquote><p>可以在windows的字型檔目錄下取得字型檔，但我在測試時無法直接在windows/font的目錄選得字型檔，
 須把字型檔copy到其他目錄時，iReport 的 <em>Select True Type Font</em> dialog 才看得到字型檔。</p></blockquote>
 
 <h4>設定字型檔的細節</h4>
 
-<p><img src="http://blog.kent-chiu.com/images/blog/2013-05-12-jesper-report-font-issue-005.png" alt="2013-05-12-jesper-report-font-issue-005.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2013-05-12/2013-05-12-jesper-report-font-issue-005.png" alt="2013-05-12-jesper-report-font-issue-005.png" /></p>
 
 <p>選進來後的Family Name(字型檔名) 預設是 &#8220;標楷體&#8221;，我把它改名成 <em>kaiu</em> (這麼做的原因只是不想讓設定檔出現一堆中文字型名稱，當然，
 你也可以保持預設的名稱 &#8220;標楷體&#8221;)，PDF details的設定要特別注意，
@@ -251,7 +652,7 @@ PDF ENcodeing要設成 <em>Identity-H (Unicode with horizontal writer)</em>, 然
 
 <p>文字內容的<code>font name</code>要設定為剛剛新安裝的字型檔名稱</p>
 
-<p><img src="http://blog.kent-chiu.com/images/blog/2013-05-12-jesper-report-font-issue-007.png" alt="2013-05-12-jesper-report-font-issue-007.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2013-05-12/2013-05-12-jesper-report-font-issue-007.png" alt="2013-05-12-jesper-report-font-issue-007.png" /></p>
 
 <p>做preivew後就會產出 pdf 檔，裡面的中文就會正常顯示了</p>
 
@@ -264,7 +665,7 @@ PDF ENcodeing要設成 <em>Identity-H (Unicode with horizontal writer)</em>, 然
 
 <p>匯出後，將該 jar 檔丟到 class path下即可；如果執行匯出時，發生字型檔找不到的異常，應該是字型檔的 jar 檔沒正確的放在 class path 下</p>
 
-<p><img src="http://blog.kent-chiu.com/images/blog/2013-05-12-jesper-report-font-issue-006.png" alt="2013-05-12-jesper-report-font-issue-006.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2013-05-12/2013-05-12-jesper-report-font-issue-006.png" alt="2013-05-12-jesper-report-font-issue-006.png" /></p>
 
 <h6>jrxml 範本定義檔 hello.jrxml</h6>
 
@@ -368,15 +769,15 @@ public void exportToPDF_statics_text_only() throws Exception {
 
 <p>每一區的位置如下圖所示</p>
 
-<p><img src="http://blog.kent-chiu.com/images/blog/2013-05-12-jasperreport-101-001.png" alt="2013-05-12-jasperreport-101-001.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2013-05-12/2013-05-12-jasperreport-101-001.png" alt="2013-05-12-jasperreport-101-001.png" /></p>
 
 <p>比較完整的主結構是像這樣</p>
 
-<p><img src="http://blog.kent-chiu.com/images/blog/2013-05-12-jasperreport-101-002.png" alt="2013-05-12-jasperreport-101-002.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2013-05-12/2013-05-12-jasperreport-101-002.png" alt="2013-05-12-jasperreport-101-002.png" /></p>
 
 <p>上面有提到，每一區必須要定義一個唯一的 <code>&lt;band&gt;</code> 後，才能放入其他的報表元件 (Report Element), 報表元件有這些 :</p>
 
-<p><img src="http://blog.kent-chiu.com/images/blog/2013-05-12-jasperreport-101-003.png" alt="2013-05-12-jasperreport-101-003.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2013-05-12/2013-05-12-jasperreport-101-003.png" alt="2013-05-12-jasperreport-101-003.png" /></p>
 
 <h4>Jasper Report 版的 HELLO WORLD</h4>
 
@@ -458,7 +859,7 @@ public JasperPrint fill(
 
 <p>JRDataSource 的 subclass 如下圖，我們這個範例，因為只是單純的顯示靜態文字，不需要任何的資料，所以使用 <code>JREmptyDataSource</code> 即可</p>
 
-<p><img src="http://blog.kent-chiu.com/images/blog/2013-05-12-jasperreport-101-004.png" alt="2013-05-12-jasperreport-101-004.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2013-05-12/2013-05-12-jasperreport-101-004.png" alt="2013-05-12-jasperreport-101-004.png" /></p>
 
 <h4>JRMapCollectionDataSource</h4>
 
@@ -531,7 +932,7 @@ public void exportToPDF_data_from_collection() throws Exception {
 
 <p>輸出的PDF結果如下</p>
 
-<p><img src="http://blog.kent-chiu.com/images/blog/2013-05-12-jasperreport-101-005.png" alt="2013-05-12-jasperreport-101-005.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2013-05-12/2013-05-12-jasperreport-101-005.png" alt="2013-05-12-jasperreport-101-005.png" /></p>
 </div>
   
   
@@ -951,7 +1352,7 @@ https://github.com/nvie/gitflow/wiki/Windows</p>
 <p>首先要先安裝<code>util-linux-ng for Windows</code>,<code>util-linux-ng for Windows</code>可以到
 http://gnuwin32.sourceforge.net/packages/util-linux-ng.htm 下載，點選下圖紅框的檔案連結下次二進制文件的zip檔</p>
 
-<p><img src="/images/blog/2013-03-14-install-git-flow-on-windows-001.png" alt="2013-03-14-install-git-flow-on-windows-001.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2013-03-14/2013-03-14-install-git-flow-on-windows-001.png" alt="2013-03-14-install-git-flow-on-windows-001.png" /></p>
 
 <p>需一併下載上圖中下方紅框的<code>libintl</code>，libintl的連結會進入另一個網頁 http://gnuwin32.sourceforge.net/packages/libintl.htm，一樣下載Binaries的zip檔即可</p>
 
@@ -1051,7 +1452,7 @@ http://gnuwin32.sourceforge.net/packages/util-linux-ng.htm 下載，點選下圖
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2013/03/10/file-upload-and-download-in-spring-rest-mvc/">Spring Rest檔案上傳及下載</a></h1>
+      <h1 class="entry-title"><a href="/blog/2013/03/12/how-to-developing-extjs-app-in-firefox-console/">如何透過firefox Console來加速開發extjs</a></h1>
     
     
       <p class="meta">
@@ -1067,347 +1468,17 @@ http://gnuwin32.sourceforge.net/packages/util-linux-ng.htm 下載，點選下圖
   
 
 
-<time datetime="2013-03-10T14:27:00+08:00" pubdate data-updated="true">Mar 10<span>th</span>, 2013</time>
+<time datetime="2013-03-12T12:34:00+08:00" pubdate data-updated="true">Mar 12<span>th</span>, 2013</time>
         
-         | <a href="/blog/2013/03/10/file-upload-and-download-in-spring-rest-mvc/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>File upload</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>@RequestMapping(value = "/foobar/upload", method = RequestMethod.POST)
-</span><span class='line'>public @ResponseBody
-</span><span class='line'>String upload(@RequestParam("file") MultipartFile file, @RequestParam("fileId") String fileId) {
-</span><span class='line'>  logger.info("save import file {} to {}", file.getOriginalFilename(), fileId);
-</span><span class='line'>
-</span><span class='line'>  File resultHome = getWorkingDir();
-</span><span class='line'>  File temp = new File(resultHome, fileId);
-</span><span class='line'>  try {
-</span><span class='line'>      IOUtils.copy(file.getInputStream(), new FileOutputStream(temp));
-</span><span class='line'>      return "{success: true}";
-</span><span class='line'>  } catch (FileNotFoundException e) {
-</span><span class='line'>      logger.error("upload file fail", e);
-</span><span class='line'>  } catch (IOException e) {
-</span><span class='line'>      logger.error("upload file fail", e);
-</span><span class='line'>  }
-</span><span class='line'>  return "{success: false}";
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>File Download</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>@RequestMapping(value = "/forbar/export", method = RequestMethod.GET)
-</span><span class='line'>public HttpEntity&lt;byte[]&gt; excelExcel() throws IOException {
-</span><span class='line'>  File file = new File("myexcel.xls");
-</span><span class='line'>  byte[] body = FileUtils.readFileToByteArray(file);
-</span><span class='line'>  HttpHeaders header = new HttpHeaders();
-</span><span class='line'>  header.setContentType(new MediaType("application", "xls"));
-</span><span class='line'>  header.set("Content-Disposition", "attachment; filename=" + "foobar.xls");
-</span><span class='line'>  header.setContentLength(body.length);
-</span><span class='line'>  return new HttpEntity&lt;byte[]&gt;(body, header);
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/03/04/octopress-configuration/">Octopress配置</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-03-04T00:31:00+08:00" pubdate data-updated="true">Mar 4<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/03/04/octopress-configuration/#disqus_thread">Comments</a>
+         | <a href="/blog/2013/03/12/how-to-developing-extjs-app-in-firefox-console/#disqus_thread">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>配置檔說明在 : https://github.com/mojombo/jekyll/wiki/Configuration</p>
-
-<p>plugins : https://github.com/imathis/octopress/wiki/3rd-party-plugins</p>
-
-<p>小抄: http://dreamrunner.org/wiki/public_html/docs/Web/octopress.html</p>
-
-<hr />
-
-<h4>加快generate的速度</h4>
-
-<p>文章數不到200篇，但在i7的cpu上generate已經要需近一分鐘的時間，還好octopress提供了一個快速generate的指令<code>rake isolate</code>
-，動作原理就是開一個暫存的目錄<code>_stash</code>要generate前會把<code>_post</code>裡的所有檔案copy到暫存的目錄<code>_stash</code>下，等要
-deploy時，再透過指令<code>rake integrate</code>將檔案copy回<code>_post</code></p>
-
-<p>使用範例如下</p>
-
-<p><code>source/_post</code>有10篇文章，其中有一篇檔名為<code>2013-03-04-foo-bar.md</code>是這次要編輯的</p>
-
-<p>透過<code>rake isolate</code>來隔離<code>2013-03-04-foo-bar.md</code>之外的文章</p>
-
-<pre><code> rake isolate[foo-bar]
-</code></pre>
-
-<p>檔名要去掉日期的部份及副檔名, 下完指令後<code>_post</code>目錄下只剩<code>2013-03-04-foo-bar.md</code>這個檔案</p>
-
-<pre><code>rake generate
-</code></pre>
-
-<p>只剩一個檔案，generate速度當然飛快</p>
-
-<p>文章編輯完成，準備發佈前記得透過<code>rake integrate</code>把其他檔案從<code>_stage</code>目錄copy回來</p>
-
-<pre><code>rake integrate
-</code></pre>
-
-<p>此時，所有的檔案已經都回到<code>_post</code>目錄，這時必須再對所有內容<code>generate</code>一次，就可以進行發佈<code>rake deploy</code>了</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/12/28/android_emulator_101/">Android 模擬器 101</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-12-28T00:00:00+08:00" pubdate data-updated="true">Dec 28<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/12/28/android_emulator_101/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Android Emulator是
-QEMU-based的應用程式，主要功能是在PC上建立一個虛擬的Android平台環境，並提供一個GUI的仿手機介面以供操作。
-Android
-Emulator可以模擬任何Android平台的任何功能，可以模擬手機應用程式執行情形，也可以模擬Native
-Code的功能。
-模擬器有可客制化功能，可以在runtime時選定要用那一種角析度的LCD，要支援什麼樣的硬體設備(攝影機、錄音功能、簡訊、GPS…)</p>
-
-<h3>啟動</h3>
-
-<p>可以透過EclipseADT啟動，也可以直接從Command Line啟動</p>
-
-<h4>透過Eclipse ADT啟動</h4>
-
-<p><img src="/images/wiki/android/android_emulator_101_01.png" alt="android_emulator_101_01.png" /></p>
-
-<p>你可以加入許多<a href="http://developer.android.com/guide/developing/tools/emulator.html#startup-options" title="http://developer.android.com/guide/developing/tools/emulator.html#startup-options">啟動參數</a>來設定啟動後的環境，
-比如說是否啟用debug mode，是否套用特定的skin等。</p>
-
-<p>在Eclipse ADT中加入啟動參數的方法是在menu > Run Configuration > Target
-tab</p>
-
-<p><img src="/images/wiki/android/android_emulator_101_03.png" alt="android_emulator_101_03.png" /></p>
-
-<h4>從Command Line啟動</h4>
-
-<p>透過command line啟動的方式如下：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>emulator -avd AVD2</span></code></pre></td></tr></table></div></figure>
-
-
-<p>AVD2是上圖的ADV Name，那個是建立<strong>A</strong>ndroid <strong>V</strong>irtual
-<strong>D</strong>evice建，其中一個步驟要求輸入的內容</p>
-
-<h5>啟動後的畫面</h5>
-
-<p>啟動時需要幾秒到幾分鐘的時間(一個完整的OS在VM中啟動，當然要花些時間)，啟動後，你可以一直讓模擬器維持開啟狀況，不必隨著你的程式的關閉而關閉。</p>
-
-<p><img src="/images/wiki/android/android_emulator_101_02.png" alt="android_emulator_101_02.png" /></p>
-
-<h1>解析度</h1>
-
-<ul>
-<li>QVGA 320×240, 120dpi, 3.3</li>
-<li>WQVGA432 432×240, 120dpi, 3.9</li>
-<li>HVGA 480×320, 160dpi, 3.6</li>
-<li>WVGA800 800×480, 240dpi, 3.9</li>
-<li>WVGA854 854×480, 240dpi, 4.1</li>
-</ul>
-
-
-<p><img src="http://cdn3.techbang.com.tw/system/images/23074/original/ex_1_wv1.jpg" alt="" /></p>
-
-<p>圖片來源
-<a href="http://www.techbang.com.tw/posts/3053-search-text-to-explain-words-wvga-high-resolution-handheld-devices-necessary?utm_source=feedburner&amp;utm_medium=feed&amp;utm_campaign=Feed%3A+techbang+%28T%E5%AE%A2%E9%82%A6+%E6%9C%80%E6%96%B0%E6%96%87%E7%AB%A0%29&amp;utm_content=Google+Reader" title="http://www.techbang.com.tw/posts/3053-search-text-to-explain-words-wvga-high-resolution-handheld-devices-necessary?utm_source=feedburner&amp;utm_medium=feed&amp;utm_campaign=Feed%3A+techbang+%28T%E5%AE%A2%E9%82%A6+%E6%9C%80%E6%96%B0%E6%96%87%E7%AB%A0%29&amp;utm_content=Google+Reader">T客邦</a></p>
-
-<p>在啟動模擬器前，還有一個啟動選項(Launch Options)畫面，將scale to real
-size勾選，可以讓模擬器瑩幕的大小跟實際在手機上看到比較接近。
-這樣可以確定實際按鍵的大小，比較容易評量會不會因為按鍵太小而不容易操作。</p>
-
-<p><img src="/images/wiki/android/android_emulator_101_004.png" alt="android_emulator_101_004.png" /></p>
-
-<h1>Resources</h1>
-
-<ul>
-<li><a href="http://developer.android.com/guide/developing/tools/emulator.html" title="http://developer.android.com/guide/developing/tools/emulator.html">Android Emulator</a></li>
-<li><a href="http://developer.android.com/guide/developing/tools/avd.html" title="http://developer.android.com/guide/developing/tools/avd.html">Android Virtual Devices</a></li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/12/07/resource/">Maven Resources</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-12-07T00:00:00+08:00" pubdate data-updated="true">Dec 7<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/12/07/resource/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>maven的command是有次序性的 ex:
-<code>mvn clean install source:jar javadoc:jar</code>
-只會產生source.jar跟javadoc.jar在target目錄下，但是
-<code>mvn clean source:jar javadoc:jar install</code>
-就會產生source.jar跟javadoc.jar並安裝到local的repository，
-善用這個特性可以加快building的速度</p>
-
-<h3>m2eclipse</h3>
-
-<p>使用m2eclipse時如果過到maven
-console出現求要使用jdk不要使用jre的訊息時，可以透過以-vm指定vm</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>....
-</span><span class='line'>
-</span><span class='line'>-install
-</span><span class='line'>C:\Users\Kent\AppData\Local\Genuitec\Profiles\Bellwin_3.6
-</span><span class='line'>#用這一行指定eclipse使用的vm是jdk版本而不是jre版本後，就正常了
-</span><span class='line'>-vm 
-</span><span class='line'>C:\Program Files\Java\jdk1.6.0_25\bin\javaw.exe 
-</span><span class='line'>-configuration
-</span><span class='line'>C:\Users\Kent\AppData\Local\Genuitec\Profiles\Bellwin_3.6\configuration
-</span><span class='line'>-vmargs
-</span><span class='line'>-Xms250m
-</span><span class='line'>-Xmx768m</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>download source &amp; javadoc</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>mvn dependency:sources
-</span><span class='line'>mvn dependency:resolve -Dclassifier=javadoc</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>版本檢查，java source下載</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>versions:display-dependency-updates versions:display-plugin-updates versions:display-property-updates   dependency:sources dependency:resolve -Dclassifier=javadoc</span></code></pre></td></tr></table></div></figure>
-
-
-
+  <div class="entry-content"><p>test published options
+xxxxx</p>
 </div>
   
   
@@ -1430,23 +1501,23 @@ console出現求要使用jdk不要使用jre的訊息時，可以透過以-vm指�
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/07/07/python-101/">Python 101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/25/url-encoding/">URL Encoding</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/04/restful-api-design/">RESTful API Design</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/05/17/my-intellij-idea-shortcut/">My IntelliJ IDEA Shortcut</a>
       </li>
     
       <li class="post">
         <a href="/blog/2013/05/12/jesper-report-font-issue/">Jesper Report, IReport 匯出成中文PDF</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/05/12/jasperreport-101/">JasperReport 101</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/05/06/mac-tips/">Mac Tips</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/04/22/clean-code/">Clean Code閱讀筆記</a>
       </li>
     
   </ul>

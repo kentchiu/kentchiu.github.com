@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: python | Kent's Blog]]></title>
+  <link href="http://blog.kent-chiu.com/blog/categories/python/atom.xml" rel="self"/>
+  <link href="http://blog.kent-chiu.com/"/>
+  <updated>2013-07-11T21:59:18+08:00</updated>
+  <id>http://blog.kent-chiu.com/</id>
+  <author>
+    <name><![CDATA[Kent]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Python 101]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2013/07/07/python-101/"/>
+    <updated>2013-07-07T12:10:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2013/07/07/python-101</id>
+    <content type="html"><![CDATA[<p>本文是初學 Python 遇到的一些問題留下的筆記:</p>
+
+<p>一開始進入 Python 的世界，除了程式語言本身外還有許多基本的工具要先了解:</p>
+
+<ul>
+<li>Python 2 V.S Python 3 : python 語言的版本</li>
+<li>easy_install V.S PIP : 套件安裝工具</li>
+<li>virtualenv            : 虛擬工作環境</li>
+</ul>
+
+
+<h4>Python 2 V.S Python 3</h4>
+
+<p>剛進行 Python 的世界，一開始就要面臨的抉擇，就是要用 Python 2 或 Python 3，因為是初學者，沒有任何包袱，當然是選 Python 3。</p>
+
+<blockquote><p>Mac Os 10.8 (mountain lion)預裝的是 Python 2.7.2，要自行昇級成 Python 3.x (目前 2013/07/07 3.3.2是 release 版)
+可以透過在 Mac OS 的terminal 下執行 <code>python -V</code> 取得版號</p></blockquote>
+
+<h4>Easy_install V.S PIP</h4>
+
+<p>easy_install 跟 <a href="http://www.pip-installer.org/">pip</a> 兩者都是套件安裝工具， easy_install 沒有反安裝套件的功能，而 pip 有反安裝套件的功能，所以建議是裝pip</p>
+
+<p>Mac Os 10.8 (mountain lion) 只有預裝 easy_install，要使用 pip，可以透過 easy_install 來安裝 pip
+安裝 pip 的指令如下 <code>$ easy_install pip</code>，如果無法安裝的話，可以直接抓 source 下來裝
+下載的url為 :</p>
+
+<p>必須先安裝<a href="http://pythonhosted.org/setuptools/">setuptools</a></p>
+
+<pre><code>$ curl -O https://bitbucket.org/pypa/setuptools/raw/0.8/ez_setup.py
+$ python ez_setup.py --user 
+</code></pre>
+
+<p>才能再裝 pip</p>
+
+<pre><code>$ curl -O https://pypi.python.org/packages/source/p/pip/pip-1.3.tar.gz
+$ tar xzf pip-1.3.tar.gz
+$ cd pip-1.3
+$ sudo python setup.py install
+</code></pre>
+
+<p>裝完後檢查一下執行一下 <code>pip</code> 指令，如果不能執行，可能是Path沒設好,Path變數是在 <code>~/.bash_profile</code> 如果沒這個檔，可以自已新增一個</p>
+
+<pre><code>export PATH=/System/Library/Frameworks/Python.framework/Versions/3.3/bin:/Users/kent/Library/Python/3.3/bin:$PATH
+</code></pre>
+
+<h2>Python Language</h2>
+
+<h4>連算子</h4>
+
+<ul>
+<li>沒有增量 <code>++</code>，減量 <code>--</code> 運算子</li>
+<li>+=，-= 這是合法的運算子</li>
+<li>除法用<code>/</code> , 整數除法用 <code>//</code></li>
+</ul>
+
+
+<h4>字串</h4>
+
+<ul>
+<li>字串可用單引號或雙引號，單引號較常用</li>
+<li>字串前面加 <code>r</code> 表示為 raw string, ex: raw = r'this is a \t\n raw string'</li>
+<li>字串前面加 <code>u</code> 表示為 unicode string, ex: ustring = u'A unicode \u018e string \xf1'</li>
+</ul>
+
+
+<h4>條件式結構</h4>
+
+<pre><code> if speed &gt;= 80:
+    print 'License and registration please'
+    if mood == 'terrible' or speed &gt;= 100:
+      print 'You have the right to remain silent.'
+    elif mood == 'bad' or speed &gt;= 90:
+      print "I'm going to have to write you a ticket."
+      write_ticket()
+    else:
+      print "Let's try to keep it under 80 ok?"
+</code></pre>
+
+<p>較簡潔的語法</p>
+
+<pre><code>if speed &gt;= 80: print 'You are so busted'
+else: print 'Have a nice day'         
+</code></pre>
+
+<ul>
+<li>python不是用 {}，也不是用begin/end，而是用縮排跟冒號<code>:</code>來做為區塊結構的範圍</li>
+<li>不是用 <code>else if</code> 而是 <code>elif</code></li>
+</ul>
+
+
+<h4>List and Array</h4>
+
+<p>list 可視為 array，語法如下</p>
+
+<p>list = ['larry', 'curly', 'moe']</p>
+
+<blockquote><p>tuple 很像 list，但tuple是不可變的，語法如下 <code>tuple = (1, 2, 'hi')</code></p></blockquote>
+
+<p>list 還有一個很特別的一點是可以直接在 list 裡執行 expression，叫 List Comprehensions,
+語法為 [expr for var in list ]</p>
+
+<p>範例:</p>
+
+<pre><code>nums = [1, 2, 3, 4]
+squares = [ n * n for n in nums ]   ## [1, 4, 9, 16]
+</code></pre>
+
+<h4>初學者必備技能</h4>
+
+<ul>
+<li><p>python Interpreter (直譯器)
+直譯式語言的優點就是會有直譯器可以用，在直譯器執行程式，可以立即得到執行的結果，在不了解API的用法時，我通常會在執譯器上先做測試，或者直接用 unittest 寫<em>Learning Test</em>。
+平常沒事也可以掛著查 API doc</p></li>
+<li><p>help([object])<br/>
+列出說明，會說明該 object 有那些 methods 及使用方式</p></li>
+<li>type(variable)
+取得 object 的型別，撰寫弱型別語言最大的痛苦就是不知道變數是什麼型別，這 type 至少可以在runtime取得變數的型別</li>
+</ul>
+
+
+<h4>學習資源</h4>
+
+<ul>
+<li><a href="https://developers.google.com/edu/python/">https://developers.google.com/edu/python/</a>  - Google Python Course</li>
+<li><a href="http://getpython3.com/diveintopython3">http://getpython3.com/diveintopython3</a> - Dive Into Python 3 免費電子書</li>
+<li><a href="http://chimera.labs.oreilly.com/books/1234000000754/index.html">http://chimera.labs.oreilly.com/books/1234000000754/index.html</a> - Test-Driven Web Development with Python</li>
+<li><a href="http://docs.python.org/2/library/">http://docs.python.org/2/library/</a> - python 標準函式庫文件</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

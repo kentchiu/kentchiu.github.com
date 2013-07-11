@@ -9,14 +9,9 @@
   <meta name="author" content="Kent">
 
   
-  <meta name="description" content="柯里化(currying)是指把多個參數的單一function轉換成只使用單一參數多個functions，轉換的方式，是把參數折分後，將前一個function的執行結果傳入下一個function，
-功能上的作用是讓每個function都只有一個參數，而實際上的運用是用來 1
-2
-3
-4
-5
-6
-7 &hellip;">
+  <meta name="description" content="Java Persistence API(JPA) Where to put the persistence.xml for web application → WEB-INF/classes/META-INF/persistence.xml
+for jar →
+for maven main &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -57,7 +52,7 @@
   <header role="banner"><hgroup>
   <h1><a href="/">Kent's Blog</a></h1>
   
-    <h2>Kent的學習筆記(剛從dokuwiki搬過來，內容還在整修中)</h2>
+    <h2>Kent的學習筆記</h2>
   
 </hgroup>
 
@@ -84,6 +79,2207 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/07/12/jpa_101/">JPA 101</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-07-12T00:00:00+08:00" pubdate data-updated="true">Jul 12<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/07/12/jpa_101/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Java Persistence API(JPA)</p>
+
+<h1>Where to put the persistence.xml</h1>
+
+<ul>
+<li>for web application → WEB-INF/classes/META-INF/persistence.xml</li>
+<li>for jar →</li>
+<li>for maven main folder → src/main/resource/META-INF/persistence.xml</li>
+<li>for maven test folder → src/test/resource/META-INF/persistence.xml</li>
+</ul>
+
+
+<p>If uses maven structure in Eclipse IDE, main resource and test resource
+would complied to same directory(the build directory), we should avoid
+using the same <strong>persistence-unit</strong> name in test and main resources</p>
+
+<h1>presitence.xml</h1>
+
+<h3>Hibernate</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+</span><span class='line'>&lt;persistence version="1.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"&gt;
+</span><span class='line'>    &lt;persistence-unit name="entity" transaction-type="RESOURCE_LOCAL"&gt;
+</span><span class='line'>        &lt;provider&gt;org.hibernate.ejb.HibernatePersistence&lt;/provider&gt;
+</span><span class='line'>        &lt;class&gt;com.kent.MyClass&lt;/class&gt;
+</span><span class='line'>        &lt;properties&gt;
+</span><span class='line'>            &lt;property name="hibernate.hbm2ddl.auto" value="update" /&gt;
+</span><span class='line'>            &lt;property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" /&gt;
+</span><span class='line'>            &lt;property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver" /&gt;
+</span><span class='line'>            &lt;property name="hibernate.connection.url" value="jdbc:mysql://localhost/database_name" /&gt;
+</span><span class='line'>            &lt;property name="hibernate.connection.username" value="root" /&gt;
+</span><span class='line'>            &lt;property name="hibernate.connection.password" value="" /&gt;
+</span><span class='line'>                        &lt;property name="hibernate.show_sql" value="true" /&gt;
+</span><span class='line'>        &lt;/properties&gt;
+</span><span class='line'>    &lt;/persistence-unit&gt;
+</span><span class='line'>&lt;/persistence&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>set property bernate.show_sql to true to output HSQL → SQL in console.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" /&gt;
+</span><span class='line'>&lt;property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver" /&gt;
+</span><span class='line'>&lt;property name="hibernate.connection.url" value="jdbc:mysql://localhost/database_name" /&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;property name="hibernate.connection.url" value="jdbc:hsqldb:mem:database_name"/&gt;
+</span><span class='line'>&lt;property name="hibernate.connection.driver_class" value="org.hsqldb.jdbcDriver"/&gt;
+</span><span class='line'>&lt;property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect"/&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;property name="hibernate.connection.url" value="jdbc:derby:memory:database_name"/&gt;
+</span><span class='line'>&lt;property name="hibernate.connection.driver_class" value="org.apache.derby.jdbc.EmbeddedDriver"/&gt;
+</span><span class='line'>&lt;property name="hibernate.dialect" value="org.hibernate.dialect.DerbyDialect"/&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5432/databaseName"/&gt;
+</span><span class='line'>&lt;property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/&gt;
+</span><span class='line'>&lt;property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>MySQL encoding issue. If you encountered encoding issue when result set
+contains CJK code, you can add this property to url connection string.
+<code>?useUnicode=true&amp;amp;characterEncoding=UTF-8</code> ex:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  jdbc:mysql://localhost/database_name?useUnicode=true&amp;characterEncoding=UTF-8</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>EclipseLink - MySQL</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+</span><span class='line'>&lt;persistence version="1.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"&gt;
+</span><span class='line'>    &lt;persistence-unit name="entity" transaction-type="RESOURCE_LOCAL"&gt;
+</span><span class='line'>    &lt;provider&gt;org.eclipse.persistence.jpa.PersistenceProvider&lt;/provider&gt;
+</span><span class='line'>        &lt;class&gt;com.kent.MyClass&lt;/class&gt;
+</span><span class='line'>        &lt;properties&gt;
+</span><span class='line'>            &lt;property name="eclipselink.target-database" value="MYSQL"/&gt;
+</span><span class='line'>            &lt;property name="eclipselink.jdbc.url" value="jdbc:mysql://localhost/database_name"/&gt;
+</span><span class='line'>            &lt;property name="eclipselink.jdbc.driver" value="com.mysql.jdbc.Driver"/&gt;
+</span><span class='line'>            &lt;property name="eclipselink.jdbc.user" value="root"/&gt;
+</span><span class='line'>            &lt;property name="eclipselink.jdbc.password" value=""/&gt;
+</span><span class='line'>            &lt;property name="eclipselink.ddl-generation" value="update-tables"/&gt;
+</span><span class='line'>            &lt;property name="eclipselink.logging.level" value="SEVERE"/&gt;
+</span><span class='line'>        &lt;/properties&gt;
+</span><span class='line'>    &lt;/persistence-unit&gt;
+</span><span class='line'>&lt;/persistence&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>EclipseLink - HSQL</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+</span><span class='line'>&lt;persistence version="1.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"&gt;
+</span><span class='line'>    &lt;persistence-unit name="entity" transaction-type="RESOURCE_LOCAL"&gt;
+</span><span class='line'>    &lt;provider&gt;org.eclipse.persistence.jpa.PersistenceProvider&lt;/provider&gt;
+</span><span class='line'>        &lt;class&gt;com.kent.MyClass&lt;/class&gt;
+</span><span class='line'>        &lt;properties&gt;
+</span><span class='line'>            &lt;property name="eclipselink.target-database" value="HSQL"/&gt;
+</span><span class='line'>            &lt;property name="eclipselink.jdbc.url" value="jdbc:hsqldb:mem:database_name"/&gt;
+</span><span class='line'>            &lt;property name="eclipselink.jdbc.driver" value="org.hsqldb.jdbcDriver"/&gt;
+</span><span class='line'>            &lt;property name="eclipselink.jdbc.user" value="sa"/&gt;
+</span><span class='line'>            &lt;property name="eclipselink.jdbc.password" value=""/&gt;
+</span><span class='line'>            &lt;property name="eclipselink.ddl-generation" value="create-tables"/&gt;
+</span><span class='line'>            &lt;property name="eclipselink.logging.level" value="SEVERE"/&gt;
+</span><span class='line'>        &lt;/properties&gt;
+</span><span class='line'>    &lt;/persistence-unit&gt;
+</span><span class='line'>&lt;/persistence&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>Properties</h1>
+
+<p>EclipseLink does NOT support the property <code>show sql</code> like hibernate, but
+we can turn the logging system to <code>FINE</code> level
+(<code>&lt;property name=“eclipselink.logging.level” value=“FINE”/&gt;</code>), the
+interpret SQL would be dumped.</p>
+
+<h1>CRUD</h1>
+
+<p><strong>C</strong>reate, <strong>R</strong>ead, <strong>U</strong>pdate, <strong>D</strong>elete operations in JPA</p>
+
+<p>Read類型的methods像find(), getReference(), refresh(), detach() and read
+queries，可以在transaction外執行(沒有tx.begin()/tx.commit()的包覆).</p>
+
+<h4>Create</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>entityManager.getTransaction().begin();
+</span><span class='line'>Employee newEmployee = new Employee(5);
+</span><span class='line'>entityManager.persist(newEmployee);
+</span><span class='line'>entityManager.getTransaction().commit();</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Read</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>entityManager.find(Employee.class, 1);
+</span><span class='line'>// lazy load (as same as hibernate load() method)
+</span><span class='line'>entityManager.getReference(Employee.class, 1);
+</span><span class='line'>entityManager.createQuery("select employee from Employee employee");</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>for single result uses <code>query.getSingleResult()</code>;</li>
+<li>for multiple results (result set) uses <code>query.getResultList()</code>;</li>
+</ul>
+
+
+<h4>Update</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>entityManager.getTransaction().begin();
+</span><span class='line'>Employee existingEmployee = entityManager.find(Employee.class, 5);
+</span><span class='line'>existingEmployee.setLastName("NewLastName");
+</span><span class='line'>entityManager.getTransaction().commit();</span></code></pre></td></tr></table></div></figure>
+
+
+<p>or</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Employee existingEmployee = entityManager.find(Employee.class, 5);
+</span><span class='line'>existingEmployee.setLastName("NewLastName");
+</span><span class='line'> 
+</span><span class='line'>entityManager.getTransaction().begin();
+</span><span class='line'>entityManager.getTransaction().commit();</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Delete</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>entityManager.getTransaction().begin();
+</span><span class='line'>Employee existingEmployee = entityManager.find(Employee.class, 5);
+</span><span class='line'>entityManager.remove(existingEmployee);
+</span><span class='line'>entityManager.getTransaction().commit();</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Bulk Update / Delete</h3>
+
+<h4>Bulk Update</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>EntityManager entityManager = entityManagerFactory.createEntityManager();
+</span><span class='line'>entityManager.getTransaction().begin();
+</span><span class='line'>String jpqlUpdate = "update Customer set name = :newName where name = :oldName"
+</span><span class='line'>int updatedEntities = entityManager.createQuery( jpqlUpdate )
+</span><span class='line'>                            .setParameter( "newName", newName )
+</span><span class='line'>                            .setParameter( "oldName", oldName )
+</span><span class='line'>                            .executeUpdate();
+</span><span class='line'>entityManager.getTransaction().commit();
+</span><span class='line'>entityManager.close();</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Bulk Delete</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>EntityManager entityManager = entityManagerFactory.createEntityManager();
+</span><span class='line'>entityManager.getTransaction().begin();
+</span><span class='line'>String hqlDelete = "delete Customer where name = :oldName";
+</span><span class='line'>int deletedEntities = entityManager.createQuery( hqlDelete )
+</span><span class='line'>                            .setParameter( "oldName", oldName )
+</span><span class='line'>                            .executeUpdate();
+</span><span class='line'>entityManager.getTransaction().commit();
+</span><span class='line'>entityManager.close();</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>Tips</h1>
+
+<ul>
+<li>Using wrapper type rather than primitive type to avoid <a href="http://stackoverflow.com/questions/2565352/whats-difference-between-primitive-and-wrapper-class-in-jpa-hibernate-column-m" title="http://stackoverflow.com/questions/2565352/whats-difference-between-primitive-and-wrapper-class-in-jpa-hibernate-column-m">null
+assinged
+issue</a>.</li>
+</ul>
+
+
+<h1>FK constraint violation</h1>
+
+<p>Sometime the forgine key constraint that export by DDL tools would be a
+problem when doing unit testing. But there is no way to disable
+hibernate FK constraints exports. In the situation we can rewrite the
+Dialect to prevent FK constraints exported.</p>
+
+<p>In this case, we created our own H2Dialet (for <a href="http://www.h2database.com/html/main.html" title="http://www.h2database.com/html/main.html">H2
+database</a>)
+and let <code>getAddForeignKeyConstraintString()</code> method empty. Which will
+disable the original <code>org.hibernate.dialect.H2Dialect</code> constraint
+generating statement.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>package com.kent.hibernate.dialect;
+</span><span class='line'>
+</span><span class='line'>public class H2Dialect extends org.hibernate.dialect.H2Dialect {
+</span><span class='line'>    @Override
+</span><span class='line'>    public String getAddForeignKeyConstraintString(String constraintName, String[] foreignKey, String referencedTable, String[] primaryKey, boolean referencesPrimaryKey) {
+</span><span class='line'>        return "";
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Once we have the Dialect, we need apply it our persistence.xml, after
+done, when the schema be generated, the schema will not include any FK
+constraint.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+</span><span class='line'>&lt;persistence version="1.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"&gt;
+</span><span class='line'>    &lt;persistence-unit name="entity-test" transaction-type="RESOURCE_LOCAL"&gt;
+</span><span class='line'>        &lt;provider&gt;org.hibernate.ejb.HibernatePersistence&lt;/provider&gt;
+</span><span class='line'>                 ...
+</span><span class='line'>        &lt;properties&gt;
+</span><span class='line'>            ...
+</span><span class='line'>            &lt;property name="hibernate.hbm2ddl.auto" value="create-drop" /&gt;
+</span><span class='line'>                        &lt;property name="hibernate.dialect" value="com.kent.hibernate.dialect.H2Dialect"/&gt;
+</span><span class='line'>            ...
+</span><span class='line'>        &lt;/properties&gt;
+</span><span class='line'>    &lt;/persistence-unit&gt;
+</span><span class='line'>&lt;/persistence&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>JPA Query</h1>
+
+<p>JPA Query supports</p>
+
+<ol>
+<li>query</li>
+<li><strong>update</strong></li>
+<li><strong>delete</strong></li>
+</ol>
+
+
+<p>function to retrieves, modify, remove data from database.</p>
+
+<h5>IS [NOT] EMPTY</h5>
+
+<p>JPA provides a <strong>empty</strong> to test a collection empty or not:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>select book from Book book where book.chapters is not empty</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>Join Fetch</h5>
+
+<p>JPA tries to fetch any entity as LAZY as possible whatever uses JPA QL
+or get by API.</p>
+
+<p>Fetch lazy or eager is by JPA vendor implementation, not all field type
+can fetch as LAZY</p>
+
+<h3>Local Manager Transaction</h3>
+
+<p>In a non-managed environment, an EntityManagerFactory is usually
+responsible for its own database connection pool. The application
+developer has to manually set transaction boundaries, in other words,
+begin, commit, or rollback database transactions itself</p>
+
+<p>If using local manager transaction, better to apply this template in
+code.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Non-managed environment idiom
+</span><span class='line'>EntityManager em = emf.createEntityManager();
+</span><span class='line'>EntityTransaction tx = null;
+</span><span class='line'>try {
+</span><span class='line'>    tx = em.getTransaction();
+</span><span class='line'>    tx.begin();
+</span><span class='line'>    // do some work
+</span><span class='line'>    ...
+</span><span class='line'>    tx.commit();
+</span><span class='line'>} catch (RuntimeException e) {
+</span><span class='line'>    if ( tx != null && tx.isActive() ) tx.rollback();
+</span><span class='line'>    throw e; // or display error message
+</span><span class='line'>} finally {
+</span><span class='line'>    em.close(); // make sure you always close and never outside of guaranteed finally block
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Joins and Fetches</h3>
+
+<ol>
+<li>inner join = join</li>
+<li>left out join = left join</li>
+<li>fetch = 用一個select把屬性或集合一次取回</li>
+<li>fetch all = 如果有lazy properties，可用fetch all去init all lazy</li>
+</ol>
+
+
+<h1>Expressions</h1>
+
+<ul>
+<li>is empty, is not empty</li>
+<li>member of, not member of 僅適用於embedded object</li>
+<li>elements 測試某個element是否在elements中</li>
+<li>minimum, maximum, minindex, maxindex 可用於 array, list, map</li>
+<li>KEY() and VALUE() 可用於map</li>
+<li>any, some, all, exists, in 這幾個可以和elements,minimum, maximum,
+minindex, maxinde 搭配使用</li>
+<li>current_date(), current_time(), current_timestamp()</li>
+<li>second(…), minute(…), hour(…), day(…), month(…), year(…), (specific
+to HQL)</li>
+<li>coalesce() and nullif() coalesce（） 取回第一個非NULL的值</li>
+<li>TYPE … in …</li>
+<li>cast(… as …)</li>
+<li>Java public static final constants eg.Color.TABBY</li>
+</ul>
+
+
+<h5>member of</h5>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>'867-5309' MEMBER OF p.phoneNumbers</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>coalesce</h5>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>SELECT COALESCE( NULL, 34, 13, 0 )
+</span><span class='line'>// return 34</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>any, some, all, exists, in</h5>
+
+<p><a href="http://twpug.net/docs/postgresql-doc-8.0-zh_TW/functions-subquery.html" title="http://twpug.net/docs/postgresql-doc-8.0-zh_TW/functions-subquery.html">any, some, all, exists,
+in</a>在SQL-92中的定義</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>select mother from Cat as mother, Cat as kit
+</span><span class='line'>where kit in elements(foo.kittens)</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>select p from NameList list, Person p where p.name = some elements(list.names)</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>select cat from Cat cat where exists elements(cat.kittens)</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>select cat from Player p where 3 &gt; all elements(p.scores)</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>select cat from Show show where 'fizard' in indices(show.acts)</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>index</h5>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>select order from Order order where order.items[0].id = 1234</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>KEY(),VALUE()</h5>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>select i.name, VALUE(p) FROM Item i JOIN i.photos p WHERE KEY(p) LIKE ‘%egret’</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Data in collection</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public List&lt;Role&gt; listRolesByPermissions(Set&lt;String&gt; permissions) {
+</span><span class='line'>  String ql = "select role from Role role left join role.permissions p where p in (:perms)";
+</span><span class='line'>  Query q = entityManager.createQuery(ql).setParameter("perms", permissions);
+</span><span class='line'>  return q.getResultList();
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面的例子採用naming parameter可以正常動作，但下面採用position
+parameter的方式卻不行？</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public List&lt;Role&gt; listRolesByPermissions(Set&lt;String&gt; permissions) {
+</span><span class='line'>  String ql = "select role from Role role left join role.permissions p where p in (?)";
+</span><span class='line'>  Query q = entityManager.createQuery(ql).setParameter(1, permissions);
+</span><span class='line'>  return q.getResultList();
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>Implementation Restrictions</h1>
+
+<p>To avoid conflicts with the original database operation that fires the
+entity lifecycle event (which is still in progress) callback methods
+should not call <code>EntityManager</code> or <code>Query</code> methods and should not access
+other entity objects.</p>
+
+<p>If a callback method throws an exception within an active transaction,
+the transaction is marked for rollback and no more callback methods are
+invoked for that operation.</p>
+
+<h1>Architecture</h1>
+
+<h4>EntityManagerFactory</h4>
+
+<p>建立時會比較耗時耗資源，所以應隨server啟動而啟動，關閉而關閉.</p>
+
+<h4>EntityManager</h4>
+
+<p>The EntityManager API is used to access a database in a particular unit
+of work. 正常來說，EntityManager的life cycle應該是一個database
+transaction(也就是說，應隨著transaction committed而close),
+但也可以跨多個database
+transactions(跟hibernate的session一樣，可以跟多個transaction).
+如果發生任何例外的話，應該要立即呼叫<code>EntityManager.close()</code>，並且棄用EntityManager
+instance.</p>
+
+<h1>Annotations</h1>
+
+<p>如果需要讓boolean有預設值，可透過<code>@Column</code>的<code>columnDefinition</code>屬性</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@Column(columnDefinition = "bool default false")
+</span><span class='line'>private boolean   boolField;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果要讓欄位接受null，要宣告成物件型別(Object
+type)而非原生型別(primitive type)</p>
+
+<h1>Resources</h1>
+
+<ul>
+<li><a href="http://wiki.eclipse.org/Using_EclipseLink_JPA_Extensions_%28ELUG%29" title="http://wiki.eclipse.org/Using_EclipseLink_JPA_Extensions_%28ELUG%29">EclipseLink
+properties</a></li>
+<li><a href="http://docs.jboss.org/hibernate/stable/annotations/reference/en/html_single/" title="http://docs.jboss.org/hibernate/stable/annotations/reference/en/html_single/">hibernate annotations reference
+manual</a></li>
+<li><a href="http://docs.jboss.org/hibernate/stable/entitymanager/reference/en/html/index.html" title="http://docs.jboss.org/hibernate/stable/entitymanager/reference/en/html/index.html">hibernate Entity Manager reference
+manual</a></li>
+<li><a href="http://en.wikibooks.org/wiki/Java_Persistence" title="http://en.wikibooks.org/wiki/Java_Persistence">JPA 2 on
+wikibook</a></li>
+<li><a href="http://wiki.kent-chiu.com/lib/exe/fetch.php?media=java:jpa_mapping.pdf" title="java:jpa_mapping.pdf">A JavaTM Persistence API Mapping Magical Mystery
+Tour</a>
+
+<ul>
+<li>相當清晰的MAPPING介紹</li>
+</ul>
+</li>
+<li><a href="http://uaihebert.com/?p=1274" title="http://uaihebert.com/?p=1274">JPA Queries and
+Tips</a> -
+JPA的使用實例，有不到best practices的使用</li>
+</ul>
+
+
+<p>[java</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/07/02/scala_101/">Scala 101</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-07-02T00:00:00+08:00" pubdate data-updated="true">Jul 2<span>nd</span>, 2012</time>
+        
+         | <a href="/blog/2012/07/02/scala_101/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Scala IDE</p>
+
+<ol>
+<li>eclipse 3.7 (indigo)</li>
+<li>scala IDE plugin 2.9</li>
+<li>jdk 1.7.03</li>
+</ol>
+
+
+<p>一切換到scala的環境，IDE就凍住了，用<a href="http://wiki.kent-chiu.com/doku.php?id=java:jvm_profile" title="java:jvm_profile">VirtualVM</a>觀查的結果是執行scala的vm(不是ide本身的vm)的Permanent
+Generation
+Memory爆了，把它開到256M(-XX:MaxPermSize=256m)就不會一切到scala
+perspective，IDE就掛掉。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#utf8 (do not remove)
+</span><span class='line'>-startup
+</span><span class='line'>../../Common/plugins/org.eclipse.equinox.launcher_1.2.0.v20110502.jar
+</span><span class='line'>--launcher.library
+</span><span class='line'>../../Common/plugins/org.eclipse.equinox.launcher.i18n.win32.win32.x86_64_4.2.0.v201201111650
+</span><span class='line'>-showsplash
+</span><span class='line'>C:\Genuitec\Common\plugins\org.eclipse.platform_3.7.2.v201202080800\splash.bmp
+</span><span class='line'>--launcher.XXMaxPermSize
+</span><span class='line'>256m
+</span><span class='line'>--launcher.defaultAction
+</span><span class='line'>openFile
+</span><span class='line'>-install
+</span><span class='line'>C:\Genuitec\Profiles\scala
+</span><span class='line'>-configuration
+</span><span class='line'>C:\Genuitec\Profiles\scala\configuration
+</span><span class='line'>-vmargs
+</span><span class='line'>-Xms256m
+</span><span class='line'>-Xmx1024m
+</span><span class='line'>-XX:MaxPermSize=256m</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>scala是可自我成長的語言</li>
+<li>scala混合了oo跟function lang</li>
+<li>java中的static method可以考慮用function的方式實現，statistic
+method可視為一種退化的function lang?</li>
+<li>scala是純oo
+lang，所有的東西都是物件，所有的操作(含運算子)都是method，所以，可以做運算子的override</li>
+<li><p>scala可以與java無縫的整合，事實上，scala很多型號都是來自java。scala
+call java lib會很容易，但java call
+scala會有比較多的限制，因為scala的物件模型及語意比java豐富，java沒辦法一一對應。</p></li>
+<li><p>scala有兩種變數</p></li>
+<li><p>expression後面的分號(;)可有可無</p></li>
+<li>val : 像java的final變數，一旦宣告後，就不能改變
+(如果重新指派，會出reassignment的error)</li>
+<li><p>var : 像java的non final變數，可以重新指派值</p></li>
+<li><p>scala的array跟java一樣是0-base但是，是透過()存取，而不是[]</p></li>
+</ul>
+
+
+<h5>method</h5>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>def mymethod(x: Int, y: Int) : Int = {
+</span><span class='line'>  x + y
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>def mymethod(x: Int, y: Int) = x + y</span></code></pre></td></tr></table></div></figure>
+
+
+<p>所有的運算子在scala都是method，所以<code>1 + 2</code>是這樣的method call</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>(1).+(2)</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>1</code>是物件,<code>+</code>是method name，<code>1</code>物件透過<code>.</code>來呼叫<code>+</code>method並傳入參數值<code>2</code></p>
+
+<p>以這樣的角度來看Array，Array就很直覺了，Array在Scala也只是一般的物件，而不是像java一樣，而不是像java一樣，是屬於語法等級的物件</p>
+
+<h5>foreach</h5>
+
+<p>for (arg ← args) println(arg)</p>
+
+<h3>function</h3>
+
+<h4>function literal</h4>
+
+<p>單行</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>(x: Int, y: Int) =&gt; x + y </span></code></pre></td></tr></table></div></figure>
+
+
+<p>多行時可以用大括號將 functio body括起來</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>(x: Int, y: Int) =&gt; {
+</span><span class='line'>    val z = x + 1
+</span><span class='line'>    z + y
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這邊用function literal來達到foreach的功能，function literal有三種用法</p>
+
+<p>第一種是最囉嗦,array的item要給型別而且給了型別，外面還要配一對括號</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>myarray.foreach((item: String) =&gt; println(item))</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這個是比較正常的用法</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>myarray.foreach(item =&gt; println(item))</span></code></pre></td></tr></table></div></figure>
+
+
+<p>超精簡的用法，但只適用於只有一個參數的狀況</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>myarray.foreach(println)</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>function return type</h5>
+
+<p>為什麼sum function可以不用指定return type，而factorial必須指定return
+type為Int?</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  def sum(a:Int,b:Int) = a+b
+</span><span class='line'>  def factorial(n:Int):Int = if (n==0) 1 else n * factorial(n-1)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>因為在sum function中complier可以推斷(infer)出a +
+b的回傳值是Int型別，但在factorial中，回傳值可能是 1
+或者是<code>n * factorial(n-1)</code>，
+而<code>n * factorial(n-1)</code>是未知型別，所以，我們必須指定return
+type，給complier一個提示。</p>
+
+<p>有些語言的compiler可以由factorial function的第一個回傳值為1來推斷return
+type為Int，但scala的complier不行</p>
+
+<h5>operator notation</h5>
+
+<ol>
+<li>infix 1 + 2</li>
+<li>prefix +1,-1, !foo, \~bar (只有+,-,!,\~可以為prefix
+operator,定為方式為<code>unary_+</code>,<code>unary_-</code>,<code>unary_!</code>,<code>unary_~</code>,)</li>
+<li>postfix 1.toLong</li>
+</ol>
+
+
+<h4>functionN</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>package scala
+</span><span class='line'> 
+</span><span class='line'> 
+</span><span class='line'>trait Function2[@specialized(scala.Int, scala.Long, scala.Double) -T1, @specialized(scala.Int, scala.Long, scala.Double) -T2, @specialized(scala.Unit, scala.Boolean, scala.Int, scala.Float, scala.Long, scala.Double) +R] extends AnyRef { self =&gt;
+</span><span class='line'>  /** Apply the body of this function to the arguments.
+</span><span class='line'>   *  @return   the result of function application.
+</span><span class='line'>   */
+</span><span class='line'>  def apply(v1: T1, v2: T2): R
+</span><span class='line'> 
+</span><span class='line'>  /** Creates a curried version of this function.
+</span><span class='line'>   *
+</span><span class='line'>   *  @return   a function `f` such that `f(x1)(x2) == apply(x1, x2)`
+</span><span class='line'>   */
+</span><span class='line'>  def curried: T1 =&gt; T2 =&gt; R = {
+</span><span class='line'>    (x1: T1) =&gt; (x2: T2) =&gt; apply(x1, x2)
+</span><span class='line'>  }
+</span><span class='line'>  @deprecated("Use 'curried' instead", "2.8.0")
+</span><span class='line'>  def curry = curried
+</span><span class='line'> 
+</span><span class='line'>  /** Creates a tupled version of this function: instead of 2 arguments,
+</span><span class='line'>   *  it accepts a single [[scala.Tuple2]] argument.
+</span><span class='line'>   *
+</span><span class='line'>   *  @return   a function `f` such that `f((x1, x2)) == f(Tuple2(x1, x2)) == apply(x1, x2)`
+</span><span class='line'>   */
+</span><span class='line'>  def tupled: Tuple2[T1, T2] =&gt; R = {
+</span><span class='line'>    case Tuple2(x1, x2) =&gt; apply(x1, x2)
+</span><span class='line'>  }
+</span><span class='line'>  override def toString() = "&lt;function2&gt;"
+</span><span class='line'>}
+</span><span class='line'> 
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>scala中的每個function，都是實作像上面的functionN(N從0\~22)的trait，以<code>(x: Int, y: Int) ⇒ x + y</code>來說，就是上例中的Function2[-T1,
+-T2, +R]， 因為 (x: Int, y: Int) ⇒ x + y 就
+傳入兩個int的參數並傳回一個int的結果，這樣與Function2的<code>def apply(v1: T1, v2: T2): R</code>是相等的。</p>
+
+<h4>closure</h4>
+
+<p>closure跟function literal語法很相似，但closure多了<a href="#free_variables" title="scala:scala_101 ↵">free
+variables</a>，所以，free
+variables可被當做區分closure跟function literal的依據</p>
+
+<h5>free variables</h5>
+
+<p>TBC</p>
+
+<h4>Constructor</h4>
+
+<h5>primary constructor</h5>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class MyClass(x: Int, y: Int)</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>auxiliary constructor</h5>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class MyClass(x: Int) {
+</span><span class='line'>    def this(x:Int) = this(x, 1) 
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在scala，只有primary constructor可以呼叫super class的Constructor</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'> </span></code></pre></td></tr></table></div></figure>
+
+
+<h4>function parameters</h4>
+
+<h5>repeated parameters</h5>
+
+<p>repeated parameters像java的 myfunc(String…
+args)，後面能用0到多個相同型別的參數</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>def myfunc(args: String*)</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>naming parameters</h5>
+
+<p>naming
+parameters主要是在使用functions時可以指定參數的名稱，也因為可以指定參數的名稱，
+所以傳入的參數順序可以跟原來宣告時的不一樣</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>def myfunc(foo: Int, bar: String)
+</span><span class='line'> 
+</span><span class='line'>// call myfunc with naming parameter
+</span><span class='line'>val x = myfunc(bar="test", foo=1)</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>default value</h5>
+
+<p>參數的預設值，如果沒有特別指定時，參數會以預設值為準</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>def myfunc(foo: Int = 5)</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>loop</h5>
+
+<p>如while 或者是 do-while loop 都是會帶有副作用(side
+effect)，請儘量改用其他的方式實作</p>
+
+<h5>for</h5>
+
+<p>for loop有filter的功能</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>val filesHere = (new java.io.File(".")).listFiles
+</span><span class='line'>for (file &lt;- filesHere if file.getName.endsWith(".scala"))
+</span><span class='line'>  println(file)
+</span><span class='line'> 
+</span><span class='line'>// 上面那邊，的效果等同於  
+</span><span class='line'>for (file &lt;- filesHere)
+</span><span class='line'>  if (file.getName.endsWith(".scala"))
+</span><span class='line'>    println(file)  </span></code></pre></td></tr></table></div></figure>
+
+
+<p>filter也可以累加，像這樣</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>for (
+</span><span class='line'>  file &lt;- filesHere
+</span><span class='line'>  if file.isFile
+</span><span class='line'>  if file.getName.endsWith(".scala")
+</span><span class='line'>) println(file)</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>apply() and update()</h5>
+
+<p><code>()</code>跟<code>()=</code>是語法糖(complier sugar)，分別等效於<code>apply()</code>跟<code>update()</code> ()
+: apply() ()= : update()</p>
+
+<h3>Import and Package</h3>
+
+<h5>pacakge</h5>
+
+<ol>
+<li>可以是 java style ，把 package name 放在最上面</li>
+<li>可以是 c# like，用 com.kentchiu { <em>package content } 或 com{
+kentchiu {</em> package content} }</li>
+<li>_root_ package</li>
+</ol>
+
+
+<h5>import</h5>
+
+<p>與 java 的不同</p>
+
+<ol>
+<li>可以直接 import class member</li>
+<li>可以 rename 或隱藏部份被 import 的 members</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>import com.kentchiu.{Foo, Bar}        // 只 import Foo 跟 Bar
+</span><span class='line'>import com.kentchiu.{Foo, Bar =&gt; Baz} // 只 import Foo 跟 Bar， Bar 改名為 Baz
+</span><span class='line'>import com.kentchiu.{Bar =&gt; _, _}     // Bar rename 成 _ ，會變成 import com.kentchiu 但把 Bar 排外</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>trait</h3>
+
+<p>Trait像是java的interface，不過，更像是ruby的mixin</p>
+
+<h5>Ordered Trait</h5>
+
+<p>Ordered Trait是用來說明trait一個很好的例子，Rubyer應該對這個例子很眼熟</p>
+
+<h3>case class</h3>
+
+<h5>function programming</h5>
+
+<p>Functional programming is a programming paradigm that describes
+computation as the evaluation of mathematical functions avoiding state,
+mutual data and therefore side effects</p>
+
+<p>Function programming based on applying functions to arguments in order
+to receive some desired values</p>
+
+<p>The core idea for computation has shifted from a series of instructions
+(which specify precisely how the computation should proceed) to Notation
+of expressions, based on functions and values. You no longer have to
+follow a plan of instructions in order to understand a computation but
+decompose such an expression into its single elements.</p>
+
+<h3>Sequence Comprehensions</h3>
+
+<h3>Tuple</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>scala&gt; val t = (1,2)
+</span><span class='line'>t: (Int, Int) = (1,2)
+</span><span class='line'> 
+</span><span class='line'>scala&gt; val t = new Tuple2(1,2)
+</span><span class='line'>t: (Int, Int) = (1,2)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>tuple是透過特殊index語法存取</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>scala&gt; t._1
+</span><span class='line'>res3: Int = 1
+</span><span class='line'> 
+</span><span class='line'>scala&gt; t._2
+</span><span class='line'>res4: Int = 2</span></code></pre></td></tr></table></div></figure>
+
+
+<p>另外一種建立tuple的語法</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>scala&gt; 1-&gt;2
+</span><span class='line'>res0: (Int, Int) = (1,2)</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Extractors</h3>
+
+<p>利用 <code>unApply()</code> method搭配pattern match將資訊從class中萃取出來</p>
+
+<h3>Parser Combinators</h3>
+
+<ul>
+<li>Christoph Henkelmann’s Blog - An Introduction To Scala Parser
+Combinators
+
+<ol>
+<li><a href="http://henkelmann.eu/2011/01/13/an_introduction_to_scala_parser_combinators" title="http://henkelmann.eu/2011/01/13/an_introduction_to_scala_parser_combinators">Part 1: Parser
+Basics</a></li>
+<li><a href="http://henkelmann.eu/2011/01/28/an_introduction_to_scala_parser_combinators-part_2_literal_expressions" title="http://henkelmann.eu/2011/01/28/an_introduction_to_scala_parser_combinators-part_2_literal_expressions">Part 2: Parsing Literal
+Expressions</a></li>
+<li><a href="http://henkelmann.eu/2011/01/29/an_introduction_to_scala_parser_combinators-part_3_unit_tests" title="http://henkelmann.eu/2011/01/29/an_introduction_to_scala_parser_combinators-part_3_unit_tests">An Introduction To Scala Parser Combinators - Part 3: Writing
+unit tests for
+parsers</a></li>
+</ol>
+</li>
+</ul>
+
+
+<h3>Symbol Literals</h3>
+
+<p>Symbol Literals是在字串前加一個單引號&#8217;，像這樣&#8217;foo</p>
+
+<p>Symbol
+Literal主要作用是用來當作識別用，可以視為一個字串，但它不同於字串的地方有</p>
+
+<ol>
+<li>不可以有任何空白</li>
+<li>一致性</li>
+<li>對重構比較友善</li>
+</ol>
+
+
+<p>像典型的map可以寫成這樣</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>"key" -&gt; "value"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>key的部份可以換成Symbol Literal取代</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>'key -&gt; "value"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這樣的好處是，&#8217;key更能代表唯一性，而且，如果要進行重構，&#8217;key對於重構的支援會比”key”來的好，如果任何地方需要用字串當作識別的時侯，或者可以考慮換成用Symbol
+Literal取代</p>
+
+<h1>TBD</h1>
+
+<ul>
+<li>The Divide and Conquer principle</li>
+<li>Implicit Conversions and Parameters</li>
+</ul>
+
+
+<h1>Resource</h1>
+
+<ul>
+<li><a href="http://www.scala-lang.org/" title="http://www.scala-lang.org/">http://www.scala-lang.org/</a>
+官網</li>
+<li><a href="http://docs.scala-lang.org/index.html" title="http://docs.scala-lang.org/index.html">http://docs.scala-lang.org/index.html</a>
+官網文件</li>
+<li>Functional scala serial
+這一系列教學，很適合java背景，而且沒有function programming的人
+
+<ol>
+<li><a href="http://gleichmann.wordpress.com/2010/10/28/functional-scala-introduction/" title="http://gleichmann.wordpress.com/2010/10/28/functional-scala-introduction/">episode 1:
+Introduction</a></li>
+<li><a href="http://gleichmann.wordpress.com/2010/10/31/functional-scala-functions/" title="http://gleichmann.wordpress.com/2010/10/31/functional-scala-functions/">episode 2:
+Functions</a></li>
+<li><a href="http://gleichmann.wordpress.com/2010/11/08/functional-scala-functions-as-objects-as-functions/" title="http://gleichmann.wordpress.com/2010/11/08/functional-scala-functions-as-objects-as-functions/">episode 3: Functions as Objects as
+Functions</a></li>
+<li><a href="http://gleichmann.wordpress.com/2010/11/15/functional-scala-closures/" title="http://gleichmann.wordpress.com/2010/11/15/functional-scala-closures/">episode 4:
+Closures</a></li>
+<li><a href="http://gleichmann.wordpress.com/2010/11/21/functional-scala-comprehending-comprehensions/" title="http://gleichmann.wordpress.com/2010/11/21/functional-scala-comprehending-comprehensions/">episode 5: Comprehending
+Comprehensions</a></li>
+<li><a href="http://gleichmann.wordpress.com/2010/11/28/high-higher-higher-order-functions/" title="http://gleichmann.wordpress.com/2010/11/28/high-higher-higher-order-functions/">episode 6: High, Higher, Higher Order
+Functions</a></li>
+<li><a href="http://gleichmann.wordpress.com/2010/12/05/functional-scala-lambdas-and-other-shortcuts/" title="http://gleichmann.wordpress.com/2010/12/05/functional-scala-lambdas-and-other-shortcuts/">episode 7: Lambdas and other
+shortcuts</a></li>
+</ol>
+</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/07/02/play_framework_101/">Play Framework 101</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-07-02T00:00:00+08:00" pubdate data-updated="true">Jul 2<span>nd</span>, 2012</time>
+        
+         | <a href="/blog/2012/07/02/play_framework_101/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>在eclipse直接執行play console</h3>
+
+<h3>Http Request處理流程</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>browser : http://localhost/foo?bar=baz
+</span><span class='line'>
+</span><span class='line'># project_home/conf/routes
+</span><span class='line'>GET    /foo                        controllers.Application.foo(bar: String)
+</span><span class='line'>
+</span><span class='line'># project_home/app/controllers/Application.scala
+</span><span class='line'>object Application extends Controller {
+</span><span class='line'>
+</span><span class='line'>    def foo(bar: String) = Action {
+</span><span class='line'>        Ok("bar param value is: " +  bar) // 網頁顯示 bar param value is: baz
+</span><span class='line'>    }
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>由網頁發起url: http://localhost/foo?bar=baz</li>
+<li>play收到url後，會由routes這個設定檔來決定負責處理的controller是誰</li>
+<li>controller中會有一個跟url
+path相符的method進行處理，然後回應一個Action</li>
+</ol>
+
+
+<p>主要的流程就這樣，相當的單純</p>
+
+<h3>Controller</h3>
+
+<p>Controller是一個Singlton
+Object，用來產生Action</p>
+
+<h3>Action</h3>
+
+<p>在play.api.mvc裡有兩個Action，一個是Singlton Object,另一個是trait，
+trait的這個Action是一個 <code>play.api.mvc.Request ⇒ play.api.mvc.Result</code>
+function負責處理並回應http request， 而Singtlton
+Object這個Action是companion object，提供建立Action的一些helper
+methods</p>
+
+<p>Ok()這個method會回http status code 200給browser，http status code
+200，就是沒有任何錯誤</p>
+
+<p><img src="http://blog.kent-chiu.com/images/2012-07-02/play_framework_101-001.png" alt="play_framework_101-001.png" /></p>
+
+<p>上面有提到Action是<code>play.api.mvc.Request ⇒ play.api.mvc.Result</code>
+function，而AsyncResult, ChunkedResult, PlainResult, SimpleResult,
+Status都是extends自trait Result，所以可以當作Action的傳回值</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>package controllers
+</span><span class='line'> 
+</span><span class='line'>import play.api._
+</span><span class='line'>import play.api.mvc._
+</span><span class='line'> 
+</span><span class='line'>object Application extends Controller {
+</span><span class='line'> 
+</span><span class='line'>  def index = Action {
+</span><span class='line'>    Ok(views.html.index("Your new application is ready."))
+</span><span class='line'>  }
+</span><span class='line'> 
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Ok(context) 表示回應http 200(正常)給網頁，content是要顯示的內容</p>
+
+<p>ex:</p>
+
+<p><code>Ok("Hello World")</code></p>
+
+<p>網頁就會顯示 Hello World</p>
+
+<p><code>views.html.index("Your new application is ready.")</code></p>
+
+<p>則是套用play的template來顯示內容</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>def index(param: String) = Action { implicit request =&gt;
+</span><span class='line'>  Ok("Got request [" + request + "] with param [" + param +"]")
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Request and Session</h3>
+
+<p>Play的Session可以透過request.session取得，它是用cookie實作的，而且沒有所謂的session
+timeout，如果需要session timeout的功能，要自已實作。</p>
+
+<p>Play的Request不像java那樣，可以直接當作資料的載體，需透過Flash
+Scope(也就是java servlet的request scope)</p>
+
+<h2>Scala Template Engine</h2>
+
+<h4>Handling the form submission</h4>
+
+<p>在todolist這個教學中，有一段code是在建立 new
+task的，這一些，對非scala的熟手來說不是那麼的易懂</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Application
+</span><span class='line'>def newTask = Action { implicit request =&gt;
+</span><span class='line'>  taskForm.bindFromRequest.fold(
+</span><span class='line'>    errors =&gt; BadRequest(views.html.index(Task.all(), errors)),
+</span><span class='line'>    label =&gt; {
+</span><span class='line'>      Task.create(label)
+</span><span class='line'>      Redirect(routes.Application.tasks)
+</span><span class='line'>    }
+</span><span class='line'>  )
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>newTask這個method的傳回值是Action型別,
+taskForm一是個<code>play.api.data.Form</code>型別，而<code>bindFromRequest</code>跟<code>fold</code>的API如下:
+taskForm.bindFromRequest的回傳值是Form[String]，而newTask的型別是Action，所以taskForm.bindFromRequest的結果不能直接當newAction的結果。
+fold的回傳值是R，我們只要讓R為Action型別即可當newTask的回傳值。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/**
+</span><span class='line'> * Binds request data to this form, i.e. handles form submission.
+</span><span class='line'> *
+</span><span class='line'> * @return a copy of this form filled with the new data
+</span><span class='line'> */
+</span><span class='line'>def bindFromRequest()(implicit request: play.api.mvc.Request[_]): Form[T] = {
+</span><span class='line'>  val data = (request.body match {
+</span><span class='line'>    case body: play.api.mvc.AnyContent if body.asFormUrlEncoded.isDefined =&gt; body.asFormUrlEncoded.get
+</span><span class='line'>    case body: play.api.mvc.AnyContent if body.asMultipartFormData.isDefined =&gt; body.asMultipartFormData.get.asFormUrlEncoded
+</span><span class='line'>    case body: play.api.mvc.AnyContent if body.asJson.isDefined =&gt; FormUtils.fromJson(js = body.asJson.get).mapValues(Seq(_))
+</span><span class='line'>    case body: Map[_, _] =&gt; body.asInstanceOf[Map[String, Seq[String]]]
+</span><span class='line'>    case body: play.api.mvc.MultipartFormData[_] =&gt; body.asFormUrlEncoded
+</span><span class='line'>    case body: play.api.libs.json.JsValue =&gt; FormUtils.fromJson(js = body).mapValues(Seq(_))
+</span><span class='line'>    case _ =&gt; Map.empty[String, Seq[String]]
+</span><span class='line'>  }) ++ request.queryString
+</span><span class='line'>  bind(data.mapValues(_.headOption.getOrElse("")))
+</span><span class='line'>}
+</span><span class='line'>   
+</span><span class='line'>   
+</span><span class='line'>def fold[R](hasErrors: Form[T] =&gt; R, success: T =&gt; R): R = value.map(success(_)).getOrElse(hasErrors(this))</span></code></pre></td></tr></table></div></figure>
+
+
+<p>fold的第一個hasErrors的參數是，在這邊是個像這樣的function literal
+Form[String] ⇒ R(也就是你需要傳入適合的function value進去)
+因為我們希望fold的結果可以直接當newTask
+method的回傳值，所以R的型別為Action，也就是</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>def fold[R](hasErrors: Form[T] =&gt; R, success: T =&gt; R): R = value.map(success(_)).getOrElse(hasErrors(this))</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在這個例子的實際的型別是</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>def fold[Action](hasErrors: Form[String] =&gt; Action, success: String =&gt; Action): Action = value.map(success(_)).getOrElse(hasErrors(this))</span></code></pre></td></tr></table></div></figure>
+
+
+<p>fold的使用範例是這樣</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>    anyForm.bindFromRequest().fold(
+</span><span class='line'>       f =&gt; redisplayForm(f),                   // hasErrors: Form[String] =&gt; Action
+</span><span class='line'>       t =&gt; handleValidFormSubmission(t)        // success: String =&gt; Action 
+</span><span class='line'>    )
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>裡面的redisplayForm跟handleValidFormSubmission並不是play
+API的一部份，他只是一個pseudo
+code，用來表示通常hasErrors的處理方式是redisplayForm，而success的處理方式是handleValidFormSubmission</p>
+
+<p>再回來看成來的例子</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Application
+</span><span class='line'>def newTask = Action { implicit request =&gt;
+</span><span class='line'>  taskForm.bindFromRequest.fold(
+</span><span class='line'>    errors =&gt; BadRequest(views.html.index(Task.all(), errors)),  // hasErrors: Form[String] =&gt; Action
+</span><span class='line'>    label =&gt; {                                                   // success: String =&gt; Action 
+</span><span class='line'>      Task.create(label)
+</span><span class='line'>      Redirect(routes.Application.tasks)
+</span><span class='line'>    }
+</span><span class='line'>  )
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>hasErrors參數的部份</h5>
+
+<p>errors是Form[String]，而BadRequest是Action型別</p>
+
+<p>hasErrors時會redisaply form，也就是用BadRequest(status 400)取代Ok(status
+200)呼叫views.html.index，並把form的內容傳入</p>
+
+<h5>success參數的部份</h5>
+
+<p>label是String型別,
+而傳回值Redirect(routes.Application.tasks)是Action型別 success時會handle
+valid form submission，也就是建立task後，然後再轉到task list的頁面</p>
+
+<h1>MISC</h1>
+
+<h3>mapping method in Form</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>import play.api.data._
+</span><span class='line'>import play.api.data.Forms._
+</span><span class='line'> 
+</span><span class='line'>case class User(name: String, age: Int)
+</span><span class='line'> 
+</span><span class='line'>val userForm = Form(
+</span><span class='line'>  mapping(
+</span><span class='line'>    "name" -&gt; text,
+</span><span class='line'>    "age" -&gt; number
+</span><span class='line'>  )(User.apply)(User.unapply)
+</span><span class='line'>)
+</span><span class='line'> 
+</span><span class='line'>val anyData = Map("name" -&gt; "bob", "age" -&gt; "18")
+</span><span class='line'>val user: User = userForm.bind(anyData).get</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Form裡面的mapping，對於play的新手，很容易誤為是Form.mapping()，但怎麼看，都對不起來，完全不知道為什麼可以用apply()跟unapply()，其實它是Forms.mapping()</p>
+
+<p>Forms.mapping是長這樣</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/**
+</span><span class='line'> * Creates a Mapping of type `T`.
+</span><span class='line'> *
+</span><span class='line'> * For example:
+</span><span class='line'> *
+</span><span class='line'> * @tparam T the mapped type
+</span><span class='line'> * @param apply A function able to create a value of T from a value of A1 (If T is case class you can use its own apply function)
+</span><span class='line'> * @param unapply A function able to create A1 from a value of T (If T is a case class you can use its own unapply function)
+</span><span class='line'> * @return a mapping for type `T`
+</span><span class='line'> */
+</span><span class='line'>def mapping[R, A1](a1: (String, Mapping[A1]))(apply: Function1[A1, R])(unapply: Function1[R, Option[(A1)]]): Mapping[R] = {
+</span><span class='line'>  ObjectMapping1(apply, unapply, a1)
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>對於本來就看不太懂API的新手，還找錯API，只會讓新手更覺得太多無法理解的migic</p>
+
+<h4>細節說明</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mapping[R, A1](a1: (String, Mapping[A1]))(apply: Function1[A1, R])(unapply: Function1[R, Option[(A1)]]): Mapping[R]</span></code></pre></td></tr></table></div></figure>
+
+
+<p>mapping(…)(…)(…)把參數分成多個”群組”，表示這個function是<em>curried(柯里化)</em></p>
+
+<p>先做大部拆解，這個method可以分為五個部份</p>
+
+<ol>
+<li>mapping[R, A1] 名稱，對應到上例中的mapping</li>
+<li>(a1: (String, Mapping[A1])) 參數第一組，對應到上例中的 “email” →
+of[String]</li>
+<li>(apply: Function1[A1, R]) 參數第二組，對應到上例中的 User.apply</li>
+<li>(unapply: Function1[R, Option[(A1)]]) 參數第三組，對應到上例中的
+User.unapply</li>
+<li>Mapping[R] 回傳值</li>
+</ol>
+
+
+<p>apply,unapply是來自case class</p>
+
+<h5>mapping[R, A1]</h5>
+
+<p>這部份可以知道裡面會有兩個泛型，一個是R,一個是A1</p>
+
+<h5>(a1: (String, Mapping[A1]))</h5>
+
+<p><code>(String, Mapping[A1])</code>是一個tuple，本例中為<code>“email” → of[String]</code></p>
+
+<p>Mapping[A1]中的Mapping是trait型別，主要的功能是做格式間的轉換，本例是將request
+string透過轉成String,Int,…格式</p>
+
+<h5>(apply: Function1[A1, R])</h5>
+
+<p><code>(apply: Function1[A1, R])</code>是一個function literal,在本例中為<code>User.apply</code>，</p>
+
+<p>作用是將mapping的結果轉成User物件</p>
+
+<p>由API可以知道Mapping是泛型<code>Mapping[R]</code>，所以R在例中，是<code>User</code></p>
+
+<h5>(unapply: Function1[R, Option[(A1)]])</h5>
+
+<p><code>(unapply: Function1[R, Option[(A1)]])</code>是一個function
+literal,本例中為<code>User.unapply</code></p>
+
+<p>作用是將User物件解構，把User的值再指派到<code>“email” → of[String]</code></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/06/27/bad_smell/">Code Smell</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-06-27T00:00:00+08:00" pubdate data-updated="true">Jun 27<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/06/27/bad_smell/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>程式碼的臭味，來自Martin的Refactory一書，用來形容程式碼中邏輯上沒問題，但<strong>感覺</strong>起來怪怪的(或聞起來臭臭的)地方。你必須知道程式那裡在發臭，才有辦法去除臭。</p>
+
+<p>這些文章很重要呀，一定要不斷的讀，甚至每隔幾周、幾月就重複的看一次，因為當你有實作經驗後，讀起來會有更深刻的體驗呀。</p>
+
+<h2>Code Smell Within Classes</h2>
+
+<ol>
+<li>Comments</li>
+<li>Long Method （過長函式）</li>
+<li>Long Parameter List</li>
+<li>Duplicated code （重複的程式碼）</li>
+<li>Conditional Complexity</li>
+<li>Combinitorial Explosion</li>
+<li>Large Class</li>
+<li>Type Embedded in Name</li>
+<li>Uncommunicative Name</li>
+<li>Inconsistent Names</li>
+<li>Dead Code</li>
+<li>Speculative Generality</li>
+<li>Oddball Solution</li>
+<li>Temporary Field</li>
+</ol>
+
+
+<h2>Code Smells Between Classes</h2>
+
+<ol>
+<li>Alternative Classes</li>
+<li>Primitive Obsession</li>
+<li>Data Class</li>
+<li>Data Clumps</li>
+<li>Refused Bequest</li>
+<li>Inappropriate</li>
+<li>Indecent Exposure</li>
+<li>Feature Envy</li>
+<li>Lazy Class</li>
+<li>Message Chains</li>
+<li>Middle Man</li>
+<li>Divergent Change</li>
+<li>Shotgun Surgery</li>
+<li>Parallel Inheritance Hierarchies</li>
+<li>Incomplete Library Class</li>
+<li>Solution Sprawl</li>
+</ol>
+
+
+<h2>Code Smells Category</h2>
+
+<p>以下內容均取自重構一書。</p>
+
+<h3>Duplicated Code（重複的程式碼）</h3>
+
+<p>臭味行列中首當其衝的就是Duplicated
+Code。如果你在一個以上的地點看到相同的程式結構，那麼當可肯定：設法將它們合而為一，程式會變得更好。</p>
+
+<p>最單純的Duplicated Code 就是「<strong>同一個class
+內的兩個函式含有相同算式（expression）</strong>」。這時候你需要做的就是採用Extract
+Method（110）提煉出重複的程式碼，然後讓這兩個地點都呼叫被提煉出來的那一段程式碼。</p>
+
+<p>另一種常見情況就是「<strong>兩個互為兄弟（sibling）的subclasses
+內含相同算式</strong>」。要避免這種情況，只需對兩個classes 都使用Extract
+Method（110），然後再對被提煉出來的程式碼使用Pull Up
+Method（332），將它推入superclass
+內。如果程式碼之間只是類似，並非完全相同，那麼就得運用Extract
+Method（110）將相似部分和差異部分割開，構成單獨一個函式。然後你可能發現或許可以運用Form
+TemplateMethod（345）獲得一個Template Method
+設計範式。如果有些函式以不同的演算法做相同的事，你可以擇定其中較清晰的一個，並使用Substitute
+Algorithm（139）將其他函式的演算法替換掉。</p>
+
+<p>如果兩個毫<strong>不相關的classes 內出現Duplicated
+Code</strong>，你應該考慮對其中一個使用Extract
+Class（149），將重複程式碼提煉到一個獨立class中，然後在另一個class內使用這個新class。但是，重複程式碼所在的函式也可能的確只應該屬於某個class，另一個class只能呼叫它，抑或這個函式可能屬於第三個class，而另個classes應該引用這第三個class。你必須決定這個函式放在哪兒最合適，並確保它被安置後就不會再在其他任何地方出現。</p>
+
+<h3>Long Method（過長函式）</h3>
+
+<p>擁有「短函式」（short
+methods）的物件會活得比較好、比較長。不熟悉物件導向技術的人，常常覺得物件程式中只有無窮無盡的delegation（委託），根本沒有進行任何計算。和此類程式共同生活數年之後，你才會知道，這些小小函式有多大價值。「間接層」所能帶來的全部利益
+— 解釋能力、共享能力、選擇能力 — 都是由小型函式支援的（請看p.61
+的「間接層和重構」）。</p>
+
+<p>很久以前程式員就已認識到：程式愈長愈難理解。早期的編程語言中，「子程式叫用動作」需要額外開銷，這使得人們不太樂意使用small
+method。現代OO語言幾乎已經完全免除了行程（process）內的「函式叫用動作額外開銷」。不過程式碼閱讀者還是得多費力氣，因為他必須經常轉換上下文去看看子程式做了什麼。某些開發環境允許使用者同時看到兩個函式，這可以幫助你省去部分麻煩，但是讓small
+method
+容易理解的真正關鍵在於一個好名字。如果你能給函式起個好名字，讀者就可以通過名字了解函式的作用，根本不必去看其中寫了些什麼。</p>
+
+<p>最終的效果是：你應該更積極進取地分解函式。我們遵循這樣一條原則：每<strong>當感覺需要以註釋來說明點什麼的時候</strong>，我們就把需要說明的東西寫進一個獨立函式中，並以其用途（而非實現手法）命名。我們可以對一組或甚至短短一行程式碼做這件事。哪怕替換後的函式呼叫動作比函式本身還長，只要函式名稱能夠解釋其用途，我們也該毫不猶豫地那麼做。關鍵不在於函式的長度，而在於函式「做什麼」和「如何做」之間的語意距離。</p>
+
+<p>百分之九十九的場合裡，要把函式變小，只需使用Extract
+Method（110）。找到函式中適合集在一起的部分，將它們提煉出來形成一個新函式。</p>
+
+<p>如果<strong>函式內有大量的參數和暫時變數</strong>，它們會對你的函式提煉形成阻礙。如果你嘗試運用Extract
+Method（110），最終就會把許多這些參數和暫時變數當做參數，傳遞給被提煉出來的新函式，導致可讀性幾乎沒有任何提昇。啊是的，你可以經常運用Replace
+Temp with Query（120）來消除這些暫時元素。Introduce
+ParameterObject（295）和Preserve Whole
+Object（288）則可以將過長的參數列變得更簡潔一些。</p>
+
+<p>如果你已經這麼做了，仍然有太多暫時變數和參數，那就應該使出我們的殺手翦：Replace
+Method with Method Object（135）。</p>
+
+<p>如何確定該提煉哪一段程式碼呢？一個很好的技巧是：尋找註釋。它們通常是指出「程式碼用途和實現手法間的語意距離」的信號。如果程式碼前方有一行註釋，就是在提醒你：可以將這段程式碼替換成一個函式，而且可以在註釋的基礎上給這個函式命名。就算只有一行程式碼，如果它需要以註釋來說明，那也值得將它提煉到獨立函式去。</p>
+
+<p><strong>條件式和迴圈常常也是提煉的信號</strong>。你可以使用Decompose
+Conditional（238）處理條件式。至於迴圈，你應該將迴圈和其內的程式碼提煉到一個獨立函式中。</p>
+
+<h3>Large Class（過大類別）</h3>
+
+<p>如果想利用單一class 做太多事情，其內往往就會<strong>出現太多instance
+變數</strong>。一旦如此，Duplicated Code 也就接踵而至了。</p>
+
+<p>你可以運用Extract Class（149）將數個變數一起提煉至新class
+內。提煉時應該選擇class 內彼此相關的變數，將它們放在一起。例如
+“depositAmount” 和”depositCurrency”
+可能應該隸屬同一個class。通常如果class
+內的<strong>數個變數有著相同的字首或字尾</strong>，這就意味有機會把它們提煉到某個組件內。如果這個組件適合作為一個subclass，你會發現Extract
+Subclass（330）往往比較簡單。有時候class
+並非在所有時刻都使用所有instance
+變數。果真如此，你或許可以多次使用Extract Class（149）或Extract
+Subclass（330）。</p>
+
+<p>和「太多instance 變數」一樣，<strong>class
+內如果有太多程式碼</strong>，也是「程式碼重複、混亂、死亡」的絕佳滋生地點。最簡單的解決方案（還記得嗎，我們喜歡簡單的解決方案）是把贅餘的東西消弭於class
+內部。如果有五個「百行函式」，它們之中很多程式碼都相同，那麼或許你可以把它們變成五個「十行函式」和十個提煉出來的「雙行函式」。</p>
+
+<p>和「擁有太多instance變數」一樣，一個class
+如果擁有太多程式碼，往往也適合使用Extract Class（149）和Extract
+Subclass（330）。這裡有個有用技巧：先確定客戶端如何使用它們，然後運用Extract
+Interface（341）為每一種使用方式提煉出一個介面。這或許可以幫助你看清楚如何分解這個class。</p>
+
+<p>如果你的Large Class 是個GUI
+class，你可能需要把資料和行為移到一個獨立的領域物件（domain
+object）去。你可能需要兩邊各保留一些重複資料，並令這些資料同步（sync.）。Duplicate
+Observed
+Data（189）告訴你該怎麼做。這種情況下，特別是如果你使用舊式Abstract
+Windows Toolkit（AWT）組件，你可以採用這種方式去掉GUI class
+並代以Swing組件。</p>
+
+<h5>Long Parameter List（過長參數列）</h5>
+
+<p>剛開始學習編程的時候，老師教我們：把函式所需的所有東西都以參數傳遞進去。這可以理解，因為除此之外就只能選擇全域資料，而全域資料是邪惡的東西。物件技術改變了這一情況，因為如果你手上沒有你所需要的東西，總可以叫另一個物件給你。因此，有了物件，你就不必把函式需要的所有東西都以參數傳遞給它了，你只需傳給它足夠的東西、讓函式能從中獲得自己需要的所有東西就行了。<strong>函式需要的東西多半可以在函式的宿主類別（host
+class）中找到</strong>。物件導向程式中的函式，其參數列通常比在傳統程式中短得多。</p>
+
+<p>這是好現象，因為太長的參數列難以理解，太多參數會造成前後不一致、不易使用，而且一旦你需要更多資料，就不得不修改它。如果將物件傳遞給函式，大多數修改都將沒有必要，因為你很可能只需（在函式內）增加一兩條請求（requests），就能得到更多資料。</p>
+
+<p>如果「向既有物件發出一條請求」就可以取得原本位於參數列上的一份資料，那麼你應該啟動重構準則Replace
+Parameter with Method（292）。上述的既有物件可能是函式所屬class
+內的一個資料欄（field），也可能是另一個參數。你還可以運用Preserve Whole
+Object（288）將來自同一物件的一堆資料收集起來，並以該物件替換它們。如果某些資料缺乏合理的物件歸屬，可使用Introduce
+ParameterObject（295）為它們製造出一個「參數物件」。</p>
+
+<p>此間存在一個重要的例外。有時候你明顯不希望造成「被叫用之物件」與「較大物件」間的某種依存關係。這時候將資料從物件中拆解出來單獨作為參數，也很合情合理。但是請注意其所引發的代價。如果參數列太長或變化太頻繁，你就需要重新考慮自己的依存結構（dependency
+structure）了。</p>
+
+<h3>Divergent Change（發散式變化）</h3>
+
+<p>我們希望軟體能夠更容易被修改 —
+畢竟軟體再怎麼說本來就該是「軟」的。一旦需要修改，我們希望能夠跳到系統的某一點，只在該處作修改。如果不能做到這點，你就嗅出兩種緊密相關的刺鼻味道中的一種了。</p>
+
+<p>如果某個class經常因為不同的原因在不同的方向上發生變化，Divergent
+Change就出現了。當你看著一個class
+說：『呃，如果新加入一個資料庫，我必須修改這三個函式；如果新出現一種金融工具，我必須修改這四個函式』，那麼此時也許將這個物件分成兩個會更好，這麼一來每個物件就可以只因一種變化而需要修改。</p>
+
+<p>當然，往往只有在加入新資料庫或新金融工具後，你才能發現這一點。針對某一<strong>外界變化的所有相應修改，都只應該發生在單一class
+中</strong>，而這個新class
+內的所有內容都應該反應該外界變化。為此，你應該找出因著某特定原因而造成的所有變化，然後運用Extract
+Class（149）將它們提煉到另一個class 中。</p>
+
+<h3>Shotgun Surgery（霰彈式修改）</h3>
+
+<p><strong>Shotgun Surgery類似Divergent
+Change，但恰恰相反</strong>。如果每遇到某種變化， 你都必須在許多不同的classes
+內作出許多小修改以回應之，你所面臨的壞味道就 是Shotgun
+Surgery。如果需要修改的程式碼散佈四處，你不但很難找到它們，
+也很容易忘記某個重要的修改。</p>
+
+<p>這種情況下你應該使用Move Method（142）和Move
+Field（146）<strong>把所有需要修改的程式碼放進同一個class</strong>。如果眼下沒有合適的class
+可以安置這些程式碼，就創造一個。通常你可以運用Inline
+Class（154）把一系列相關行為放進同一個class。這可能會造成少量Divergent
+Change，但你可以輕易處理它。</p>
+
+<p>Divergent Change 是指「一個class 受多種變化的影響」，Shotgun Surgery
+則是指「一種變化引發多個classes
+相應修改」。這兩種情況下你都會希望整理程式碼，取得「外界變化」與「待改類別」呈現一對一關係的理想境地。</p>
+
+<h3>Feature Envy（依戀情結）</h3>
+
+<p>物件技術的全部要點在於：這是一種「將資料和加諸其上的操作行為包裝在一起」的技術。有一種經典氣味是：<strong>函式對某個class
+的興趣高過對自己所處之host
+class的興趣</strong>。這種孺慕之情最通常的焦點便是資料。無數次經驗裡，我們看到某個函式為了計算某值，從另一個物件那兒呼叫幾乎半打的取值函式（getting
+method）。療法顯而易見：把這個函式移至另一個地點。你應該使用Move
+Method（142）把它移到它該去的地方。有時候函式中只有一部分受這種依戀之苦，這時候你應該使用Extract
+Method（110）把這一部分提煉到獨立函式中，再使用Move
+Method（142）帶它去它的夢中家園。</p>
+
+<p>當然，並非所有情況都這麼簡單。一個函式往往會用上數個classes
+特性，那麼它究竟該被置於何處呢？我們的原則是：判斷哪個class
+擁有最多「被此函式使用」的資料，然後就把這個函式和那些資料擺在一起兒。如果先以Extract
+Method（110）將這個函式分解為數個較小函式並分別置放於不同地點，上述步驟也就比較容易完成了。</p>
+
+<p>有數個複雜精巧的範式（patterns）破壞了這個規則。說起這個話題，「四巨頭」
+[Gangof Four] 的Strategy和Visitor立刻跳入我的腦海，Kent Beck的Self
+Delegation[Beck] 也在此列。使用這些範式是為了對抗壞味道Divergent
+Change。最根本的原則是：將總是一起變化的東西放在一塊兒。「資料」和「引用這些資料」的行為總是一起變化的，但也有例外。如果例外出現，我們就搬移那些行為，保持「變化只在一地發生」。Strategy
+和Visitor
+使你得以輕鬆修改函式行為，因為它們將少量需被覆寫（overridden）的行為隔離開來
+— 當然也付出了「多一層間接性」的代價。</p>
+
+<h3>Data Clumps（資料泥團）</h3>
+
+<p>資料項（data
+items）就像小孩子：喜歡成群結隊地待在一塊兒。你常常可以在很多地方看到相同的三或四筆資料項：<strong>兩個classes
+內的相同欄位（field）</strong>、<strong>許多函式署名式（signature）中的相同參數</strong>。這些「總是綁在一起出現的資料」真應該放進屬於它們自己的物件中。首先請找出這些資料的欄位形式（field）出現點，運用Extract
+Class（149）將它們提煉到一個獨立物件中。然後將注意力轉移到函式署名式（signature）上頭，運用Introduce
+Parameter Object（295）或Preserve
+WholeObject（288）為它減肥。這麼做的直接好處是可以將很多參數列縮短，簡化函式呼叫動作。是的，不必因為Data
+Clumps
+只用上新物件的一部分欄位而在意，只要你以新物件取代兩個（或更多）欄位，你就值回票價了。</p>
+
+<p>一個好的評斷辦法是：刪掉眾多資料中的一筆。其他資料有沒有因而失去意義？如果它們不再有意義，這就是個明確信號：你應該為它們產生一個新物件。</p>
+
+<p>縮短欄位個數和參數個數，當然可以去除一些壞味道，但更重要的是：一旦擁有新物件，你就有機會讓程式散發出一種芳香。得到新物件後，你就可以著手尋找Feature
+Envy，這可以幫你指出「可移至新class」中的種種程式行為。不必太久，所有classes都將在它們的小小社會中充分發揮自己的生產力。</p>
+
+<h3>Primitive Obsession（基本型別偏執）</h3>
+
+<p>大多數編程環境都有兩種資料：結構型別（record types）允許你將資料組織成有
+意義的形式；基本型別（primitive
+types）則是構成結構型別的積木塊。結構總是
+會帶來一定的額外開銷。它們有點像資料庫中的表格，或是那些得不償失（只為
+做一兩件事而創建，卻付出太大額外開銷）的東西。</p>
+
+<p>物件的一個極具價值的東西是：它們模糊（甚至打破）了橫亙於基本資料和體積
+較大的classes 之間的界限。你可以輕鬆編寫出一些與語言內建（基本）型別無異
+的小型classes。例如Java就以基本型別表示數值，而以class 表示字串和日期 —
+這 兩個型別在其他許多編程環境中都以基本型別表現。</p>
+
+<p><strong>物件技術的新手通常不願意在小任務上運用小物件 — 像是結合數值和幣別的
+money class、含一個起始值和一個結束值的range
+class、電話號碼或郵遞區號（ZIP） 等等的特殊strings。</strong>你可以運用Replace
+Data Value with Object（175）將原本單
+獨存在的資料值替換為物件，從而走出傳統的洞窟，進入炙手可熱的物件世界。
+如果欲替換之資料值是type code（型別代碼），而它並不影響行為，你可以運用
+Replace Type Code with Class（218）將它換掉。如果你有相依於此type
+code的條 件式，可運用Replace Type Code with Subclass（213）或Replace
+Type Code with State/Strategy（227）加以處理。</p>
+
+<p>如果你有一組應該總是被放在一起的欄位（fields），可運用Extract
+Class（149）。 如果你在參數列中看到基本型資料，不妨試試Introduce
+Parameter Object（295）。
+如果你發現自己正從array中挑選資料，可運用Replace Array with
+Object（186）。</p>
+
+<h3>Switch Statements（switch 驚悚現身）</h3>
+
+<p>物件導向程式的一個最明顯特徵就是：<strong>少用switch（或case）述句</strong>。從本質上說，switch
+述句的問題在於重複（duplication）。你常會發現同樣的switch
+述句散佈於不同地點。如果要為它添加一個新的case
+子句，你必須找到所有switch述句並修改它們。物件導向中的多型（polymorphism）概念可為此帶來優雅的解決辦法。</p>
+
+<p>大多數時候，一看到switch
+述句你就應該考慮以「多型」來替換它。問題是多型該出現在哪兒？switch
+述句常常根據type code（型別代碼）進行選擇，你要的是「與該type
+code相關的函式或class」。所以你應該使用Extract Method（110）將switch
+述句提煉到一個獨立函式中，再以Move
+Method（142）將它搬移到需要多型性的那個class
+裡頭。此時你必須決定是否使用Replace Type Code
+withSubclasses（223）或Replace Type Code with
+State/Strategy（227）。一旦這樣完成繼承結構之後，你就可以運用Replace
+Conditional with Polymorphism（255）了。</p>
+
+<p>如果你只是在單一函式中有些選擇事例，而你並不想改動它們，那麼「多型」就有點殺雞用牛刀了。這種情況下Replace
+Parameter with Explicit
+Methods（285）是個不錯的選擇。如果你的選擇條件之一是null，可以試試Introduce
+Null Object（260）。</p>
+
+<h3>Parallel Inheritance Hierarchies（平行繼承體系）</h3>
+
+<p>Parallel Inheritance Hierarchies其實是Shotgun
+Surgery的特殊情況。在這種情況下，每當你為某個class
+增加一個subclass，必須也為另一個class
+相應增加一個subclass。如果你發現某個繼承體系的class
+名稱字首和另一個繼承體系的class名稱字首完全相同，便是聞到了這種壞味道。</p>
+
+<p>消除這種重複性的一般策略是：讓一個繼承體系的實體（instances）指涉（參考、引用、refer
+to）另一個繼承體系的實體（instances）。如果再接再厲運用Move
+Method（142）和Move Field（146），就可以將指涉端（referring
+class）的繼承體系消弭於無形。</p>
+
+<h3>Lazy Class（冗員類別）</h3>
+
+<p>你所創建的每一個class，都得有人去理解它、維護它，這些工作都是要花錢的。<strong>如果一個class的所得不值其身價，它就應該消失</strong>。專案中經常會出現這樣的情況：某個class
+原本對得起自己的身價，但重構使它身形縮水，不再做那麼多工作；或開發者事前規劃了某些變化，並添加一個class
+來應付這些變化，但變化實際上沒有發生。不論上述哪一種原因，請讓這個class
+莊嚴赴義吧。如果某些subclass 沒有做滿足夠工作，試試Collapse
+Hierarchy（344）。對於幾乎沒用的組件，你應該以Inline
+Class（154）對付它們。</p>
+
+<h3>Speculative Generality（夸夸其談未來性）</h3>
+
+<p>這個令我們十分敏感的壞味道，命名者是Brian
+Foote。當有人說『噢，我想我們總有一天需要做這事』並因而企圖以各式各樣的掛勾（hooks）和特殊情況來處理一些非必要的事情，這種壞味道就出現了。那麼做的結果往往造成系統更難理解和維護。如果所有裝置都會被用到，那就值得那麼做；<strong>如果用不到，就不值得。</strong>用不上的裝置只會擋你的路，所以，把它搬開吧。</p>
+
+<p>如果你的<strong>某個abstract class 其實沒有太大作用，請運用Collapse
+Hierarchy（344）</strong>。<strong>非必要之delegation（委託）可運用Inline
+Class（154）除掉。</strong>如果<strong>函式的某些參數未被用上，可對它實施Remove
+Parameter（277）</strong>。如果函式名稱帶有多餘的抽象意味，應該對它實施Rename
+Method（273）讓它現實一些。</p>
+
+<p>如果函式或class 的惟一使用者是test
+cases（測試案例），這就飄出了壞味道Speculative
+Generality。如果你發現這樣的函式或class，請把它們連同其test
+cases都刪掉。但如果它們的用途是幫助test
+cases檢測正當功能，當然必須刀下留人。</p>
+
+<h3>Temporary Field（令人迷惑的暫時欄位）</h3>
+
+<p>有時你會看到這樣的物件：<strong>其內某個instance
+變數僅為某種特定情勢而設</strong>。這樣的程式碼讓人不易理解，因為你通常認為物件在所有時候都需要它的所有變數。在變數未被使用的情況下猜測當初其設置目的，會讓你發瘋。</p>
+
+<p>請使用Extract
+Class（149）給這個可憐的孤兒創造一個家，然後把所有和這個變數相關的程式碼都放進這個新家。也許你還可以使用Introduce
+Null Object（260）在「變數不合法」的情況下創建一個Null
+物件，從而避免寫出「條件式程式碼」。</p>
+
+<p><strong>如果class
+中有一個複雜演算法，需要好幾個變數，往往就可能導致壞味道Temporary Field
+的出現</strong>。由於實作者不希望傳遞一長串參數（想想為什麼），所以他把這些參數都放進欄位（fields）中。但是這些欄位只在使用該演算法時才有效，其他情況下只會讓人迷惑。這時候你可以利用Extract
+Class（149）把這些變數和其相關函式提煉到一個獨立class中。提煉後的新物件將是一個method
+object[Beck]（譯註：其存在只是為了提供呼叫函式的途徑，class
+本身並無抽象意味）。</p>
+
+<h3>Message Chains（過度耦合的訊息鏈）</h3>
+
+<p>如果你看到用戶向一個物件索求（request）另一個物件，然後再向後者索求另一個物件，然後再索求另一個物件…這就是Message
+Chain。實際程式碼中你看到的可能是一長串getThis()或一長串暫時變數。採行這種方式，意味客戶將與搜尋過程中的航行結構（structure
+of
+navigation）緊密耦合。一旦物件間的關係發生任何變化，客戶端就不得不作出相應修改。</p>
+
+<p>這時候你應該使用Hide Delegate（157）。你可以在Message Chain
+的不同位置進行這種重構手法。理論上你可以重構Message Chain
+上的任何一個物件，但這麼做往往會把所有中介物件（intermediate
+object）都變成Middle Man。通常更好的選擇是：先觀察Message Chain
+最終得到的物件是用來幹什麼的，看看能否以Extract
+Method（110）把使用該物件的程式碼提煉到一個獨立函式中，再運用MoveMethod（142）把這個函式推入Message
+Chain。如果這條鏈上的某個物件有多位客戶打算航行此航線的剩餘部分，就加一個函式來做這件事。</p>
+
+<p>有些人把任何函式鏈（method chain。譯註：就是Message
+Chain；物件導向領域中所謂「發送訊息」就是「喚起函式」）都視為壞東西，我們不這樣想。呵呵，我們的冷靜鎮定是出了名的，起碼在這件事情上是這樣。</p>
+
+<h3>Middle Man（中間轉手人）</h3>
+
+<p>物件的基本特徵之一就是封裝（encapsulation）—
+對外部世界隱藏其內部細節。封裝往往伴隨delegation（委託）。比如說你問主管是否有時間參加一個會議，他就把這個訊息委託給他的記事簿，然後才能回答你。很好，你沒必要知道這位主管到底使用傳統記事簿或電子記事簿抑或秘書來記錄自己的約會。</p>
+
+<p>但是人們<strong>可能過度運用delegation</strong>。你也許會看到<strong>某個class
+介面有一半的函式都委託給其他class，這樣就是過度運用</strong>。這時你應該使用Remove
+Middle
+Man（160），直接和實責物件打交道。如果這樣「不幹實事」的函式只有少數幾個，可以運用InlineMethod（117）把它們
+“inlining” 放進呼叫端。如果這些Middle Man
+還有其他行為，你可以運用Replace Delegation with
+Inheritance（355）把它變成實責物件的subclass，這樣你既可以擴展原物件的行為，又不必負擔那麼多的委託動作。</p>
+
+<h3>Inappropriate Intimacy（狎暱關係）</h3>
+
+<p>有時你會看到<strong>兩個classes 過於親密，花費太多時間去探究彼此的private
+成分。</strong>如果這發生在兩個「人」之間，我們不必做衛道之士；但對於classes，我們希望它們嚴守清規。</p>
+
+<p>就像古代戀人一樣，過份狎暱的classes 必須拆散。你可以採用Move
+Method（142）和Move
+Field（146）幫它們劃清界線，從而減少狎暱行徑。你也可以看看是否運用Change
+Bidirectional Association to Unidirectional（200）讓其中一個class
+對另一個斬斷情思。如果兩個classes 實在是情投意合，可以運用Extract
+Class（149）把兩者共同點提煉到一個安全地點，讓它們坦蕩地使用這個新class。或者也可以嘗試運用Hide
+Delegate（157）讓另一個class 來為它們傳遞相思情。</p>
+
+<p>繼承（inheritance）往往造成過度親密，因為subclass 對superclass
+的了解總是超過superclass
+的主觀願望。如果你覺得該讓這個孩子獨自生活了，請運用ReplaceInheritance
+with Delegation（352）讓它離開繼承體系。</p>
+
+<h3>Alternative Classes with Different Interfaces （異曲同工的類別）</h3>
+
+<p>如果<strong>兩個函式做同一件事，卻有著不同的署名式（signature）</strong>，請運用Rename
+Method（273）根據它們的用途重新命名。但這往往不夠，請反復運用Move
+Method（142）將某些行為移入classes，直到兩者的協定（protocols）一致為止。如果你必須重複而贅餘地移入程式碼才能完成這些，或許可運用Extract
+Superclass（336）為自己贖點罪。</p>
+
+<h3>Incomplete Library Class（不完美的程式庫類別）</h3>
+
+<p>復用（reuse）常被視為物件的終極目的。我們認為這實在是過度估計了（我們只是使用而已）。但是無可否認，許多編程技術都建立在library
+classes（程式庫類別）的基礎上，沒人敢說是不是我們都把排序演算法忘得一乾二淨了。</p>
+
+<p>library classes
+構築者沒有未卜先知的能力，我們不能因此責怪他們。畢竟我們自己也幾乎總是在系統快要構築完成的時候才能弄清楚它的設計，所以library
+構築者的任務真的很艱鉅。麻煩的是library
+的形式（form）往往不夠好，往往不可能讓我們修改其中的classes
+使它完成我們希望完成的工作。這是否意味那些經過實踐檢驗的戰術如Move
+Method（142）等等，如今都派不上用場了？</p>
+
+<p>幸好我們有兩個專門應付這種情況的工具。如果你只想修改library classes
+內的一兩個函式，可以運用Introduce Foreign
+Method（162）；如果想要添加一大堆額外行為，就得運用Introduce Local
+Extension（164）。</p>
+
+<h3>Data Class（純稚的資料類別）</h3>
+
+<p>所謂Data
+Class是指：<strong>它們擁有一些欄位（fields），以及用於存取（讀寫）這些欄位的函式，除此之外一無長物</strong>。這樣的classes
+只是一種「不會說話的資料容器」，它們幾乎一定被其他classes
+過份細瑣地操控著。這些classes
+早期可能擁有public欄位，果真如此你應該在別人注意到它們之前，立刻運用Encapsulate
+Field（206）將它們封裝起來。如果這些classes 內含容器類的欄位（collection
+fields），你應該檢查它們是不是得到了恰當的封裝；如果沒有，就運用Encapsulate
+Collection（208）把它們封裝起來。對於那些不該被其他classes
+修改的欄位，請運用Remove Setting Method（300）。</p>
+
+<p>然後，找出這些「取值/設值」函式（getting and setting
+methods）被其他classes 運用的地點。嘗試以Move
+Method（142）把那些呼叫行為搬移到Data
+Class來。如果無法搬移整個函式，就運用Extract
+Method（110）產生一個可被搬移的函式。不久之後你就可以運用Hide
+Method（303）把這些「取值/設值」函式隱藏起來了。</p>
+
+<p>Data Class
+就像小孩子。作為一個起點很好，但若要讓它們像「成年（成熟）」的物件那樣參與整個系統的工作，它們就必須承擔一定責任。</p>
+
+<h3>Refused Bequest（被拒絕的遺贈）</h3>
+
+<p>subclasses 應該繼承superclass
+的函式和資料。但如果它們不想或不需要繼承，又該怎麼辦呢？它們得到所有禮物，卻只從中挑選幾樣來玩！</p>
+
+<p>按傳統說法，這就意味繼承體系設計錯誤。你需要為這個subclass
+新建一個兄弟（sibling class），再運用Push Down Method（328）和Push Down
+Field（329）把所有用不到的函式下推給那兄弟。這樣一來superclass
+就只持有所有subclasses
+共享的東西。常常你會聽到這樣的建議：所有superclasses
+都應該是抽象的（abstract）。</p>
+
+<p>既然使用「傳統說法」這個略帶貶義的詞，你就可以猜到，我們不建議你這麼做，起碼不建議你每次都這麼做。我們經常利用subclassing
+手法來復用一些行為，並發現這可以很好地應用於日常工作。這也是一種壞味道，我們不否認，但氣味通常並不強烈。所以我們說：如果Refused
+Bequest
+引起困惑和問題，請遵循傳統忠告。但不必認為你每次都得那麼做。十有八九這種壞味道很淡，不值得理睬。</p>
+
+<p>如果subclass 復用了superclass 的行為（實作），卻又不願意支援superclass
+的介面，Refused Bequest 的壞味道就會變得濃烈。拒絕繼承superclass
+的實作，這一點我們不介意；但如果拒絕繼承superclass
+的介面，我們不以為然。不過即使你不願意繼承介面，也不要胡亂修改繼承體系，你應該運用Replace
+Inheritance with Delegation（352）來達到目的。</p>
+
+<h3>Comments（過多的註釋）</h3>
+
+<p>別擔心，我們並不是說你不該寫註釋。從嗅覺上說，Comments不是一種壞味道；事實上它們還是一種香味呢。我們之所以要在這裡提到Comments，因為人們常把它當作除臭劑來使用。常常會有這樣的情況：你看到<strong>一段程式碼有著長長的註釋</strong>，然後發現，這些註釋之所以存在乃是因為程式碼很糟糕。這種情況的發生次數之多，實在令人吃驚。</p>
+
+<p>Comments
+可以帶我們找到本章先前提到的各種壞味道。找到壞味道後，我們首先應該以各種重構手法把壞味道去除。完成之後我們常常會發現：<strong>註釋已經變得多餘了，因為程式碼已經清楚說明了一切</strong>。</p>
+
+<p>如果你需要註釋來解釋一塊程式碼做了什麼，試試Extract
+Method（110）；如果method已經提煉出來，但還是需要註釋來解釋其行為，試試Rename
+Method（273）；如果你需要註釋說明某些系統的需求規格，試試Introduce
+Assertion（267）。</p>
+
+<p>如果你不知道該做什麼，這才是註釋的良好運用時機。除了用來記述將來的打算之外，註釋還可以用來標記你並無十足把握的區域。你可以在註釋裡寫下自己「為什麼做某某事」。這類資訊可以幫助將來的修改者，尤其是那些健忘的傢伙。</p>
+
+<p>當你感覺需要撰寫註釋，請先嘗試重構，試著讓所有註釋都變得多餘。</p>
+
+<h2>臭味 V.S 除臭劑</h2>
+
+<p>  壞味道（smell）                                 常用的重構手法（Common Refactoring）</p>
+
+<hr />
+
+<p>  Alternative Classes with Different Interfaces   Rename Method (273), Move Method (142)
+  Comments                                        Extract Method (110), Introduce Assertion (267)
+  Data Class                                      Move Method (142), Encapsulate Field (206),Encapsulate Collection (208)
+  Data Clumps                                     Extract Class (149), Introduce Parameter Object (295),Preserve Whole Object (288)
+  Divergent Change                                Extract Class (149)
+  Duplicated Code                                 Extract Method (110), Extract Class (149),Pull Up Method (322), Form Template Method (345)
+  Feature Envy                                    Move Method (142), Move Field (146), Extract Method (110)
+  Inappropriate Intimacy                          Move Method (142), Move Field (146), Change Bidirectional Association to Unidirectional (200), Replace Inheritance with Delegation (352), Hide Delegate (157)
+  Incomplete Library Class                        Introduce Foreign Method (162),Introduce Local Extension (164)
+  Large Class                                     Extract Class (149), Extract Subclass (330), Extract Interface (341), Replace Data Value with Object (175)
+  Lazy Class                                      Inline Class (154), Collapse Hierarchy (344)
+  Long Method                                     Extract Method (110), Replace Temp With Query (120),Replace Method with Method Object (135),Decompose Conditional (238)
+  Long Parameter List                             Replace Parameter with Method (292), Introduce Parameter Object (295), Preserve Whole Object (288)
+  Message Chains                                  Hide Delegate (157)
+  Middle Man                                      Remove Middle Man (160), Inline Method (117),Replace Delegation with Inheritance (355)
+  Parallel Inheritance Hierarchies                Move Method (142), Move Field (146)
+  Primitive Obsession                             Replace Data Value with Object (175), Extract Class (149),Introduce Parameter Object (295), Replace Array with Object (186), Replace Type Code with Class (218),Replace Type Code with Subclasses (223),Replace Type Code with State/Strategy (227)
+  Refused Bequest                                 Replace Inheritance with Delegation (352)
+  Shotgun Surgery                                 Replace Inheritance with Delegation (352)
+  Speculative Generality                          Collapse Hierarchy (344), Inline Class (154),Remove Parameter (277), Rename Method (273)
+  Switch Statements                               Replace Conditional with Polymorphism (255), Replace Type Code with Subclasses (223), Replace Type Code with State/Strategy (227), Replace Parameter with Explicit Methods (285), Introduce Null Object (260)
+  Temporary Field                                 Extract Class (149), Introduce Null Object (260)</p>
+
+<h2>Resource</h2>
+
+<ul>
+<li><a href="http://industriallogic.com/papers/smellstorefactorings.pdf" title="http://industriallogic.com/papers/smellstorefactorings.pdf">code
+smell</a></li>
+<li><a href="http://jjhou.csdn.net/jjtbooks-refactoring.htm" title="http://jjhou.csdn.net/jjtbooks-refactoring.htm">Refactoring-Improving the Design of Existing
+Code(重構)</a></li>
+<li><a href="http://www.refactoring.com/catalog/index.html" title="http://www.refactoring.com/catalog/index.html">Refactoring
+Category</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1050,7 +3246,7 @@ leaking</p>
 
 <p>在許多listview的應用裡可以見到這樣的應用</p>
 
-<p><img src="https://raw.github.com/johannilsson/android-pulltorefresh/master/android-pull-to-refresh.png" alt="android-pull-to-refresh.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2012-05-14/android-pull-to-refresh.png" alt="android-pull-to-refresh.png" /></p>
 
 <p>這個效果的做法的基本原理，是在listview的header放一個layout，在偵測到listview的scroll事件後，讓layout進行動畫播放，再callback一個AsyncTask去取得資料再更新listview。</p>
 
@@ -1139,7 +3335,7 @@ PullToRefreshExpandableListView的下拉後更新，程式結構也比較清晰<
 </ul>
 
 
-<p>![jvm_profile_01.jpg][jvm_profile_01.jpg]</p>
+<p><img src="http://blog.kent-chiu.com/images/2012-05-05/jvm_profile_01.jpg" alt="jvm_profile_01.jpg" /></p>
 
 <p>圖片來源 :<a href="http://redstack.wordpress.com/">Red Stack&#8217;s Blog</a></p>
 
@@ -1172,7 +3368,7 @@ Object)誕生的地方,每new一個Object時會佔用這個區域，eden滿了�
 
 <p>可以透過JDK內附的virtualVm來觀察jvm memory的使用情形</p>
 
-<p><img src="/images/wiki/java/jvm_profile_02.png" alt="jvm_profile_02.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2012-05-05/jvm_profile_02.png" alt="jvm_profile_02.png" /></p>
 
 <h3>常用工具</h3>
 
@@ -1673,1607 +3869,6 @@ stackoverflow</a></li>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/04/26/vim/">VIM</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-04-26T00:00:00+08:00" pubdate data-updated="true">Apr 26<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/04/26/vim/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><ul>
-<li><a href="http://wiki.kent-chiu.com/doku.php?id=vim:vim_101" title="vim:vim_101">Vim 101</a></li>
-<li><a href="http://wiki.kent-chiu.com/doku.php?id=vim:vim_for_phper" title="vim:vim_for_phper">VIM for  PHPer</a></li>
-<li><a href="http://www.oualline.com/vim-cook.html" title="http://www.oualline.com/vim-cook.html">VIM cookbook</a></li>
-<li>vim Recipes
-<a href="http://wiki.kent-chiu.com/lib/exe/fetch.php?media=vim:vim-recipes.pdf" title="vim:vim-recipes.pdf">pdf</a>
-<a href="http://vim.runpaint.org/" title="http://vim.runpaint.org/">網站(有search功能)</a></li>
-<li><img src="/images/wiki/vim/vim-cheat-sheet-full.png" alt="vim-cheat-sheet-full.png" />
-<a href="http://blog.vgod.tw/2009/12/08/vim-cheat-sheet-for-programmers/" title="http://blog.vgod.tw/2009/12/08/vim-cheat-sheet-for-programmers/">vim cheat sheet from
-vgod</a></li>
-<li><a href="http://coolshell.cn/articles/5426.html" title="http://coolshell.cn/articles/5426.html">简明 Vim
-练级攻略</a>
-
-<ul>
-<li>一些基本到進階的常用技巧，有圖片及gif動畫說明</li>
-</ul>
-</li>
-<li><a href="http://yannesposito.com/Scratch/en/blog/Learn-Vim-Progressively/" title="http://yannesposito.com/Scratch/en/blog/Learn-Vim-Progressively/">VIM常用指令</a></li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/04/20/actionbar/">Action Bar</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-04-20T00:00:00+08:00" pubdate data-updated="true">Apr 20<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/04/20/actionbar/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>android 3.0+ (API level 11)</p>
-
-<p><img src="http://developer.android.com/design/media/action_bar_basics.png" alt="img" /></p>
-
-<ol>
-<li>具有 tab 的效果，可以在多個 fragments 間切換</li>
-<li>具有 options menu 的功能， options menu 在 3.0 之後會用改採 action
-item 的實作呈現</li>
-</ol>
-
-
-<p>基本的 actionbar
-應用，可以參數<a href="http://developer.android.com/design/patterns/actionbar.html" title="http://developer.android.com/design/patterns/actionbar.html">這裡</a></p>
-
-<p><img src="/images/wiki/android/actionbar_001.png" alt="actionbar_001.png" /></p>
-
-<h5>移除 ActionBar</h5>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;activity android:theme="@android:style/Theme.Holo.NoActionBar"&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>移除後，在程式裡面呼叫 <code>getActionBar()</code> 會得到 null</p>
-
-<p><img src="/images/wiki/android/actionbar_002.png" alt="actionbar_002.png" /></p>
-
-<h5>隱藏 ActionBar</h5>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ActionBar actionBar = getActionBar();
-</span><span class='line'>actionBar.hide();</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>建立 Action Item</h3>
-
-<p>建立 Action Item 的方式跟之前建立 Option Menu 的方式一樣，只是有些 xml
-屬性不一樣</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>@Override
-</span><span class='line'>public boolean onCreateOptionsMenu(Menu menu) {
-</span><span class='line'>    getMenuInflater().inflate(R.menu.menu_foobar, menu);
-</span><span class='line'>    return true;
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="utf-8"?&gt;
-</span><span class='line'>&lt;menu xmlns:android="http://schemas.android.com/apk/res/android"&gt;
-</span><span class='line'>    &lt;item android:id="@+id/menu_save"
-</span><span class='line'>          android:icon="@drawable/ic_menu_save"
-</span><span class='line'>          android:title="@string/menu_save"
-</span><span class='line'>          android:showAsAction="ifRoom|withText" /&gt;
-</span><span class='line'>&lt;/menu&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>主要的差別在 <code>android:showAsAction</code> 屬性 <strong>ifRoom</strong>
-是指如果空間夠的話，放呈現該item ， <strong>withText</strong> 則是該 item 需不需要
-title 。 不過，就算指定了 title ，如果空間不足時，還是 title
-還是有可能不會出現，但基本上，把 id, icon, titile 視為必要屬性就好了。</p>
-
-<h3>建立 Action View</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;item
-</span><span class='line'>    android:id="@+id/menu_my_action_vew"
-</span><span class='line'>    android:actionViewClass="com.kentchiu.MyActionView"
-</span><span class='line'>    android:icon="@android:drawable/ic_dialog_alert"
-</span><span class='line'>    android:showAsAction="always"
-</span><span class='line'>    android:title="my test action view"/&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>package com.kentchiu;
-</span><span class='line'> 
-</span><span class='line'>import android.content.Context;
-</span><span class='line'>import android.view.LayoutInflater;
-</span><span class='line'>import android.widget.LinearLayout;
-</span><span class='line'> 
-</span><span class='line'>public class MyActionView extends LinearLayout {
-</span><span class='line'> 
-</span><span class='line'>    public MyActionView(Context context) {
-</span><span class='line'>        super(context);
-</span><span class='line'>        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-</span><span class='line'>        inflater.inflate(R.layout.action_test, this, true);
-</span><span class='line'>    }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>如果需要支援 Collapsible 的動作，就要實作
-<code>android.view.CollapsibleActionView</code>。</p>
-
-<h1>TBC</h1>
-
-<ol>
-<li>Action Provider</li>
-<li>Navigation Tabs</li>
-<li>Drop-down Navigation</li>
-</ol>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/04/17/drawable_101/">Android Drawable 101</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-04-17T00:00:00+08:00" pubdate data-updated="true">Apr 17<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/04/17/drawable_101/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>這篇文章裡的原始碼我放在GITHUB上 :
-<a href="https://github.com/DraculaCwg/android_exercise" title="https://github.com/DraculaCwg/android_exercise">https://github.com/DraculaCwg/android_exercise</a></p>
-
-<p>在android中，要設計出美觀的ui，通常都跟<code>Drawable</code>相關的物件脫離不了關係，<code>Drawable</code>翻成中文為”可繪的”，</p>
-
-<p><img src="/images/wiki/android/drawable_101_001.png" alt="drawable_101_001.png" /></p>
-
-<p>由上面的類別結構圖可以得知，圖檔、顏色、動畫、圖形，漸層這些都是屬於<code>Drawable</code>的子類別。
-回過頭來看所有gui元件的祖先<code>View</code>
-class，裡面跟<code>Drawable</code>有關的是setBackground開頭的幾個method，
-也就是說，對於所有的元件，我們都可以透過圖片、形狀、顏色、…等<code>Drawable</code>的子類別來改變元件的外觀。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>public class View implements Drawable.Callback, KeyEvent.Callback, AccessibilityEventSource {
-</span><span class='line'>    public void setBackgroundColor(int color) {
-</span><span class='line'>        setBackgroundDrawable(new ColorDrawable(color));
-</span><span class='line'>    }
-</span><span class='line'> 
-</span><span class='line'>    public void setBackgroundColor(int color) {
-</span><span class='line'>       ...
-</span><span class='line'>    }
-</span><span class='line'> 
-</span><span class='line'>    @RemotableViewMethod
-</span><span class='line'>    public void setBackgroundResource(int resid) {
-</span><span class='line'>        if (resid != 0 && resid == mBackgroundResource) {
-</span><span class='line'>            return;
-</span><span class='line'>        }
-</span><span class='line'> 
-</span><span class='line'>        Drawable d= null;
-</span><span class='line'>        if (resid != 0) {
-</span><span class='line'>            d = mResources.getDrawable(resid);
-</span><span class='line'>        }
-</span><span class='line'>        setBackgroundDrawable(d);
-</span><span class='line'> 
-</span><span class='line'>        mBackgroundResource = resid;
-</span><span class='line'>    }
-</span><span class='line'> 
-</span><span class='line'>    public void setBackgroundDrawable(Drawable d) {
-</span><span class='line'>        ...
-</span><span class='line'>    }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>實務上比較常用的做法，是透過xml來設定元件的background，而官網文件上的<a href="http://developer.android.com/guide/topics/resources/drawable-resource.html" title="http://developer.android.com/guide/topics/resources/drawable-resource.html">Drawable
-Resources</a>
-裡面的xml tag都可以找到跟上面的類別相對應的tag，需要特別注意的是 .png,
-.9.png,.jpg, or
-.gif這些圖檔只要放在res\drawable的目錄下，就會自動依檔名變成可以直接在XML裡引用的Drawable
-Resource，不需額外的tag
-而另外常用的還有<code>Shape Drawable</code>這種resource，他裡面包含了處理顏色、形狀，外框的子tags</p>
-
-<p>基本上，只要透過圖片跟Shape
-Drawable，就可以玩出很多效果了，先從簡單的來好了:</p>
-
-<h3>圖片</h3>
-
-<p>要改變元件的外觀，最快的方式就是把元件加上背景圖片，下圖效果都是單純的把元件的背景圖片換掉而已</p>
-
-<p><img src="/images/wiki/android/drawable_101_002.png" alt="drawable_101_002.png" /></p>
-
-<p>上圖三個view，分別是用這三個圖片當底圖 (圖片來源 :
-<a href="http://www.dibbus.com/2011/03/9patch-images-in-android/" title="http://www.dibbus.com/2011/03/9patch-images-in-android/">http://www.dibbus.com/2011/03/9patch-images-in-android/</a>)</p>
-
-<p>![drawable_101_003.png][]
-![drawable_101_004.png][]
-![drawable_101_005.png][]</p>
-
-<p>透過把android:background設定成圖片的resource就可以達到上面的效果</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="utf-8"?&gt;
-</span><span class='line'>&lt;LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-</span><span class='line'>    android:layout_width="match_parent"
-</span><span class='line'>    android:layout_height="match_parent"
-</span><span class='line'>    android:orientation="vertical" &gt;
-</span><span class='line'> 
-</span><span class='line'>    &lt;TextView
-</span><span class='line'>        android:id="@+id/bule"
-</span><span class='line'>        android:layout_width="match_parent"
-</span><span class='line'>        android:layout_height="100dp"
-</span><span class='line'>        android:background="@drawable/btn_blue_matte"
-</span><span class='line'>        android:gravity="center"
-</span><span class='line'>        android:text="bule"
-</span><span class='line'>        android:textColor="@color/White" /&gt;
-</span><span class='line'> 
-</span><span class='line'>    &lt;TextView
-</span><span class='line'>        android:id="@+id/bule_glossy"
-</span><span class='line'>        android:layout_width="match_parent"
-</span><span class='line'>        android:layout_height="100dp"
-</span><span class='line'>        android:background="@drawable/btn_blue_glossy"
-</span><span class='line'>        android:gravity="center"
-</span><span class='line'>        android:text="bule glossy"
-</span><span class='line'>        android:textColor="@color/White" /&gt;
-</span><span class='line'> 
-</span><span class='line'>    &lt;TextView
-</span><span class='line'>        android:id="@+id/corner"
-</span><span class='line'>        android:layout_width="match_parent"
-</span><span class='line'>        android:layout_height="100dp"
-</span><span class='line'>        android:background="@drawable/btn_blue_pink_glossy"
-</span><span class='line'>        android:gravity="center"
-</span><span class='line'>        android:text="blue glossy with pink"
-</span><span class='line'>        android:textColor="@color/White" /&gt;
-</span><span class='line'> 
-</span><span class='line'>&lt;/LinearLayout&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Shape Drawable</h3>
-
-<p>除了用圖片，也可以用<code>Shape Drawable</code>的方式來改變元件的外觀，Shape
-Drawable可以運用的tag如下</p>
-
-<ol>
-<li>&lt;corners> 圖形的四個角的形狀</li>
-<li>&lt;gradient> 漸層</li>
-<li>&lt;padding> 內部圖文</li>
-<li>&lt;size></li>
-<li>&lt;solid> 填滿的顏色</li>
-<li>&lt;stroke> 外框的線條效果</li>
-</ol>
-
-
-<p>下面就是透過設定<code>Shape Drawable</code>的tag達到的效果</p>
-
-<ol>
-<li>第一個view是使用了數個子tag達到的</li>
-<li>第二個view是只使用<code>&lt;gradient&gt;</code>做漸層</li>
-<li>第三個view是只使用<code>&lt;corners&gt;</code>來設定圖形為圓角(round)</li>
-<li>第四個view是只使用<code>&lt;solid&gt;</code>設定背景為綠色</li>
-<li>第五個view是只使用<code>&lt;stroke&gt;</code>來設定外框的效果</li>
-</ol>
-
-
-<p><img src="/images/wiki/android/drawable_101_006.png" alt="drawable_101_006.png" /></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="utf-8"?&gt;
-</span><span class='line'>&lt;LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-</span><span class='line'>    android:layout_width="match_parent"
-</span><span class='line'>    android:layout_height="match_parent"
-</span><span class='line'>    android:orientation="vertical" &gt;
-</span><span class='line'> 
-</span><span class='line'>    &lt;TextView
-</span><span class='line'>        android:id="@+id/all"
-</span><span class='line'>        android:layout_width="match_parent"
-</span><span class='line'>        android:layout_height="75dp"
-</span><span class='line'>        android:gravity="center"
-</span><span class='line'>        android:background="@drawable/shape_all"
-</span><span class='line'>        android:textColor="@color/Black"
-</span><span class='line'>        android:text="shape mix" /&gt;
-</span><span class='line'> 
-</span><span class='line'>    &lt;TextView
-</span><span class='line'>        android:id="@+id/gradient"
-</span><span class='line'>        android:layout_width="match_parent"
-</span><span class='line'>        android:layout_height="75dp"
-</span><span class='line'>        android:gravity="center"
-</span><span class='line'>        android:background="@drawable/shape_gradient"
-</span><span class='line'>        android:textColor="@color/Black"
-</span><span class='line'>        android:text="gradient" /&gt;
-</span><span class='line'> 
-</span><span class='line'>    &lt;TextView
-</span><span class='line'>        android:id="@+id/corner"
-</span><span class='line'>        android:layout_width="match_parent"
-</span><span class='line'>        android:layout_height="75dp"
-</span><span class='line'>        android:gravity="center"
-</span><span class='line'>        android:background="@drawable/shape_corners"
-</span><span class='line'>        android:textColor="@color/Black"
-</span><span class='line'>        android:text="corner" /&gt;
-</span><span class='line'> 
-</span><span class='line'> 
-</span><span class='line'>    &lt;TextView
-</span><span class='line'>        android:id="@+id/corner"
-</span><span class='line'>        android:layout_width="match_parent"
-</span><span class='line'>        android:layout_height="75dp"
-</span><span class='line'>        android:gravity="center"
-</span><span class='line'>        android:background="@drawable/shape_solid"
-</span><span class='line'>        android:textColor="@color/Black"
-</span><span class='line'>        android:text="corner" /&gt;
-</span><span class='line'>    &lt;TextView
-</span><span class='line'>        android:id="@+id/stroke"
-</span><span class='line'>        android:layout_width="match_parent"
-</span><span class='line'>        android:layout_height="75dp"
-</span><span class='line'>        android:gravity="center"
-</span><span class='line'>        android:background="@drawable/shape_stroke"
-</span><span class='line'>        android:textColor="@color/White"
-</span><span class='line'>        android:text="stroke" /&gt;
-</span><span class='line'> 
-</span><span class='line'>&lt;/LinearLayout&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="utf-8"?&gt;
-</span><span class='line'>&lt;shape xmlns:android="http://schemas.android.com/apk/res/android" &gt;
-</span><span class='line'>    &lt;gradient
-</span><span class='line'>        android:centerColor="@color/WhiteSmoke"
-</span><span class='line'>        android:endColor="@color/Yellow"
-</span><span class='line'>        android:startColor="@color/Blue" /&gt;
-</span><span class='line'>    &lt;corners android:radius="50dp" /&gt;
-</span><span class='line'>    &lt;stroke
-</span><span class='line'>        android:dashGap="5dp"
-</span><span class='line'>        android:dashWidth="3dp"
-</span><span class='line'>        android:width="5dp"
-</span><span class='line'>        android:color="@color/DarkSalmon" /&gt;
-</span><span class='line'>&lt;/shape&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<h5>漸層</h5>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="utf-8"?&gt;
-</span><span class='line'>&lt;shape xmlns:android="http://schemas.android.com/apk/res/android" &gt;
-</span><span class='line'> 
-</span><span class='line'>    &lt;gradient
-</span><span class='line'>        android:angle="90"
-</span><span class='line'>        android:centerColor="@color/WhiteSmoke"
-</span><span class='line'>        android:endColor="@color/Yellow"
-</span><span class='line'>        android:startColor="@color/Blue" /&gt;
-</span><span class='line'> 
-</span><span class='line'>&lt;/shape&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<h5>圓角</h5>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="utf-8"?&gt;
-</span><span class='line'>&lt;shape xmlns:android="http://schemas.android.com/apk/res/android" &gt;
-</span><span class='line'>    &lt;corners android:radius="50dp"/&gt;
-</span><span class='line'>    &lt;solid android:color="@color/White"/&gt;
-</span><span class='line'>&lt;/shape&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<h5>背景色</h5>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="utf-8"?&gt;
-</span><span class='line'>&lt;shape xmlns:android="http://schemas.android.com/apk/res/android" &gt;
-</span><span class='line'> 
-</span><span class='line'>    &lt;solid android:color="@color/Green" /&gt;
-</span><span class='line'> 
-</span><span class='line'>&lt;/shape&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<h5>外框</h5>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="utf-8"?&gt;
-</span><span class='line'>&lt;shape xmlns:android="http://schemas.android.com/apk/res/android" &gt;
-</span><span class='line'>    &lt;stroke android:width="5dp"
-</span><span class='line'>        android:color="@color/Red"
-</span><span class='line'>        android:dashWidth="3dp"
-</span><span class='line'>        android:dashGap="5dp"
-</span><span class='line'>        /&gt;
-</span><span class='line'>&lt;/shape&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>半透明效果</h3>
-
-<p>像下圖的半透明效果(Smoked
-Glass)，可以直接透過設定backgroud的顏色的透明度來達到，</p>
-
-<p><img src="/images/wiki/android/drawable_101_007.png" alt="drawable_101_007.png" /></p>
-
-<p>上圖的效果，主要就是在下面的這張圖上，放了一個半透明的text
-view，要讓view半透明就是設定View的backgroud屬性，<code>android:background=”#77000000”</code>
-#77000000是傳統的RGB前面加上一個透明度(alpha)，以傳統的RGB值#000000是全黑，#FFFFFF是全白，而前面的alpha的值也是00\~FF，這邊設成77剛好是一半。</p>
-
-<p>[[android:drawable_101_008.png][]</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="utf-8"?&gt;
-</span><span class='line'> 
-</span><span class='line'>&lt;FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-</span><span class='line'>    android:id="@+id/frameLayout1"
-</span><span class='line'>    android:layout_width="match_parent"
-</span><span class='line'>    android:layout_height="200dp"
-</span><span class='line'>    android:background="@drawable/google_doodle" &gt;
-</span><span class='line'> 
-</span><span class='line'>    &lt;TextView
-</span><span class='line'>        android:id="@android:id/text2"
-</span><span class='line'>        android:layout_width="fill_parent"
-</span><span class='line'>        android:layout_height="100dp"
-</span><span class='line'>        android:background="#77000000"
-</span><span class='line'>        android:gravity="center_vertical"
-</span><span class='line'>        android:text="smoked glass"
-</span><span class='line'>        android:textColor="#ffffffff"
-</span><span class='line'>        android:textSize="30dip" /&gt;
-</span><span class='line'> 
-</span><span class='line'>&lt;/FrameLayout&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>透明度的效果好不好，會跟後面的背景有關，有時，同一個透明度的值，在不同的背景下，效果就會差很多</p>
-
-<h1>Resource</h1>
-
-<ul>
-<li><a href="http://www.dibbus.com/2011/03/9patch-images-in-android/" title="http://www.dibbus.com/2011/03/9patch-images-in-android/">http://www.dibbus.com/2011/03/9patch-images-in-android/</a></li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/04/13/unit_testing_in_android/">Android Unit Test 101</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-04-13T00:00:00+08:00" pubdate data-updated="true">Apr 13<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/04/13/unit_testing_in_android/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>這邊並不算真正的unit
-test，因為整個測試還是需要模擬器或實機執行，而且很依賴測試環境的context，如果有需要
-也是會去連網路或資料庫。</p>
-
-<h1>準備工作</h1>
-
-<p>要進行Android Testing通常是把test cases建立在另一個Test
-Project而不是像一般的java(maven base)目錄結構一樣
-在同一個project建立test folder.</p>
-
-<p>Testing project可透過eclipse的android project
-wizard建立，建立後記得先把production project裡用到的lib export出來給test
-project使用</p>
-
-<p><img src="/images/wiki/android/unit_testing_in_android_003.png" alt="unit_testing_in_android_003.png" /></p>
-
-<p>而測試專案只需要放只有測試時會用到的lib，因為Tesing
-Project有reference到Production Project，所以會一併引用Production Project
-export 出來的lib。</p>
-
-<p>一般習慣把被測的程式的專案叫Production
-project(或<a href="http://xunitpatterns.com/SUT.html" title="http://xunitpatterns.com/SUT.html">SUT</a>)，
-而測試程式專案叫Testing Project</p>
-
-<h1>Android測試架構</h1>
-
-<ul>
-<li>測試方式是透過建立測試專案來測試待測專案(<a href="http://xunitpatterns.com/SUT.html" title="http://xunitpatterns.com/SUT.html">SUT</a>)</li>
-<li>需啟動Android
-OS，所以是屬於整合測試，而不是單元測試(像是eclipse的plugin測試方式)</li>
-<li>需繼承特定的TestCase以便可以取得一些測試的基本功能</li>
-</ul>
-
-
-<p><img src="http://developer.android.com/images/testing/android_test_framework.png" alt="" /></p>
-
-<p>Android應用程式跟測試程式透過Instrumentation Test
-Runner執行在同一個Process, 所以，在執行測試時，需透過Instrumentation
-Test Runner。</p>
-
-<p><img src="/images/wiki/android/unit_testing_in_android_001.png" alt="unit_testing_in_android_001.png" /></p>
-
-<p>測試分為兩大類</p>
-
-<ol>
-<li>Instrumentation Testing</li>
-<li>Android Testing</li>
-</ol>
-
-
-<h3>Instrumentation Testing</h3>
-
-<p>這類型的testing會啟動instrumentation Test Runner。
-Instrumentation可以使用instrumentation framework，有了Instrumentation
-framework，可以透過Android的事件處理系統傳送訊息給Android應用程式，以便於模擬像”收到mail”，”收到簡訊”，”有電話calling進來”等等的動作，或者是對UI進行自動化測試。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>TestCase
-</span><span class='line'> |
-</span><span class='line'> `- InstrumentationTestCase
-</span><span class='line'>    |
-</span><span class='line'>    `- ActivityTestCase
-</span><span class='line'>    |  |
-</span><span class='line'>    |  `- ActivityInstrumentationTestCase&lt;T&gt;
-</span><span class='line'>    |  |
-</span><span class='line'>    |  `- ActivityInstrumentationTestCase2&lt;T&gt;
-</span><span class='line'>    |  |
-</span><span class='line'>    |  `- ActivityUnitTestCase&lt;T&gt;
-</span><span class='line'>    |
-</span><span class='line'>    `- ProviderTestCase&lt;T&gt;
-</span><span class='line'>    |
-</span><span class='line'>    `- SingleLaunchActivityTestCase&lt;T&gt;
-</span><span class='line'>    |
-</span><span class='line'>    `- SyncBaseInstrumentation</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Android Testing</h3>
-
-<p>提供Context給測試程式</p>
-
-<p>以下的TestCase提供跟Android應用程式相關的Context，透過Context，可以取到Android的檔案系統，資料庫，資源檔…。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>TestCase
-</span><span class='line'> |
-</span><span class='line'> `- AndroidTestCase
-</span><span class='line'>    |
-</span><span class='line'>    `- ProviderTestCase2&lt;T&gt;
-</span><span class='line'>    |
-</span><span class='line'>    `- ServiceTestCase&lt;T&gt;
-</span><span class='line'>    |
-</span><span class='line'>    `- ApplicationTestCase&lt;T&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>XxxTestCase2&lt;T>中的<code>tempalte &lt;T&gt;</code>在使用時要宣告成要被測試的class，就像泛型容器的用法一樣
-ex: <code>List&lt;MyClass&gt;</code></p>
-
-<h3>AndroidTestCase Or InstrumentationTestCase</h3>
-
-<h5>AndroidTestCase V.S InstrumentationTestCase</h5>
-
-<p>如果測試的對象是ui元件的話，那就必需要用InstrumentationTestCase體系的test
-cases，如果要測試non-UI的功能，像permissions之類的功能，那使用AndroidTestCase體系的的test
-case即可。
-@UiThreadTest(android.test.UiThreadTest)是使用在InstrumentationTestCase的test
-method上，用來標明該method會存取UI元件，需要在main thread執行。
-或者是，測試時需要使用到test project裡才有的resource(assets, res, …
-目錄下的東西)，那就得使用InstrumentationTestCase，因為InstrumentationTestCase才會去處理test
-project下的AndroidManifest.xml。</p>
-
-<p>元件測試或應用程式測試，元件測試主要是以下三種</p>
-
-<ol>
-<li><a href="http://developer.android.com/guide/topics/testing/activity_testing.html" title="http://developer.android.com/guide/topics/testing/activity_testing.html">Activity
-Testing</a></li>
-<li><a href="http://developer.android.com/guide/topics/testing/contentprovider_testing.html" title="http://developer.android.com/guide/topics/testing/contentprovider_testing.html">Content Provider
-Testing</a></li>
-<li><a href="http://developer.android.com/guide/topics/testing/service_testing.html" title="http://developer.android.com/guide/topics/testing/service_testing.html">Service
-Testing</a></li>
-</ol>
-
-
-<p>而應該程式測試測是測試<a href="http://developer.android.com/reference/android/app/Application.html" title="http://developer.android.com/reference/android/app/Application.html">Application</a></p>
-
-<ol>
-<li><a href="http://developer.android.com/guide/topics/testing/service_testing.html" title="http://developer.android.com/guide/topics/testing/service_testing.html">ApplicationTestCase</a></li>
-</ol>
-
-
-<p><a href="http://developer.android.com/reference/android/test/TouchUtils.html" title="http://developer.android.com/reference/android/test/TouchUtils.html">TouchUtils</a>
-(android.test.TouchUtils)可用來產生touch
-events，通常在InstrumentationTestCase or
-ActivityInstrumentationTestCase2中使用。</p>
-
-<h1>TestCases</h1>
-
-<ul>
-<li><p><a href="#androidtestcase" title="android:unit_testing_in_android ↵">AndroidTestCase</a></p>
-
-<ol>
-<li><a href="#providertestcase2" title="android:unit_testing_in_android ↵">ProviderTestCase2</a></li>
-<li><a href="#servicetestcase" title="android:unit_testing_in_android ↵">ServiceTestCase</a></li>
-<li><a href="#applicationtestcase" title="android:unit_testing_in_android ↵">ApplicationTestCase</a></li>
-</ol>
-</li>
-<li><p><a href="#instrumentationtestcase" title="android:unit_testing_in_android ↵">InstrumentationTestCase</a></p>
-
-<ol>
-<li><p><a href="#activitytestcase" title="android:unit_testing_in_android ↵">ActivityTestCase</a></p>
-
-<ol>
-<li><a href="#activityinstrumentationtestcase" title="android:unit_testing_in_android ↵">ActivityInstrumentationTestCase</a></li>
-<li><a href="#activityinstrumentationtestcase2" title="android:unit_testing_in_android ↵">ActivityInstrumentationTestCase2</a></li>
-<li><a href="#activityunittestcase" title="android:unit_testing_in_android ↵">ActivityUnitTestCase</a></li>
-</ol>
-</li>
-<li><p><a href="#providertestcase" title="android:unit_testing_in_android ↵">ProviderTestCase</a></p></li>
-<li><a href="#singlelaunchactivitytestcase" title="android:unit_testing_in_android ↵">SingleLaunchActivityTestCase</a></li>
-<li><a href="#syncbaseinstrumentation" title="android:unit_testing_in_android ↵">SyncBaseInstrumentation</a></li>
-</ol>
-</li>
-</ul>
-
-
-<h3>AndroidTestCase</h3>
-
-<p>提供context是在Android
-Framework中最重要的一個物件，在許多地方都會用到它，<code>這邊的context是test project的context</code>。
-AndroidTestCase啟動時，會先做自我檢測，先驗証測試環境是否ready to
-use.有提供幾個預先定義好的assert.</p>
-
-<h3>ProviderTestCase2</h3>
-
-<p>測試Provider的test
-case,如果要測試資料而非UI的話，那測試的對象應該是<a href="http://developer.android.com/guide/topics/providers/content-providers.html" title="http://developer.android.com/guide/topics/providers/content-providers.html">Content
-Provider</a>及Content
-Provider用到的相關物件。</p>
-
-<p>Android Test Framework有提供ProviderTestCase2可以Content
-Provider進行獨立的測試。使用方式如下：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>public class MyContentProviderTest extends ProviderTestCase2&lt;MyContentProvider&gt; {
-</span><span class='line'> 
-</span><span class='line'>    public MyContentProviderTest() {
-</span><span class='line'>        super(MyContentProvider.class, MyContentProvider.class.getName());
-</span><span class='line'>    }
-</span><span class='line'> 
-</span><span class='line'>    @Override
-</span><span class='line'>    protected void setUp() throws Exception {
-</span><span class='line'>        super.setUp();
-</span><span class='line'>    }
-</span><span class='line'> 
-</span><span class='line'>    public void testInsert() throws Exception {
-</span><span class='line'>        ContentValues values = new ContentValues();
-</span><span class='line'>        values.put("name", "foo");
-</span><span class='line'>        getProvider().insert("context://xxx/xx", values);
-</span><span class='line'>        // do assert here
-</span><span class='line'>    }
-</span><span class='line'> 
-</span><span class='line'>    public void testQuery() throws Exception {
-</span><span class='line'>        getProvider().query("context://xxx/xx", null, null, null, null);
-</span><span class='line'>        // do assert here
-</span><span class='line'>    }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>此例中，測是對象為MyContentProvider,使用上要注意的有：</p>
-
-<ol>
-<li><p>Testcase要繼承自<a href="http://developer.android.com/reference/android/test/ProviderTestCase2.html" title="http://developer.android.com/reference/android/test/ProviderTestCase2.html">ProviderTestCase2</a></p>
-
-<ul>
-<li>可以將<code>ProviderTestCase2&lt;T&gt;</code>的template
-&lt;T>指定成對象為MyContentProvider，這樣可以testcase內就會引用MyContentProvider而非ContentProvider</li>
-</ul>
-</li>
-<li><p>必須要建立一個無參數的建構子(Constructor)</p></li>
-<li><p>Constructor裡必須呼叫<code>super(MyContentProvider.class, MyContentProvider.class.getName());</code></p>
-
-<ul>
-<li>因為MyContentProvider的Authority為<code>MyContentProvider.class.getName()</code></li>
-</ul>
-</li>
-<li><p>Testcase中透過getProvider()來取得MyContentProvider的instance，而不是自已創建MyContentProvider的instance</p></li>
-</ol>
-
-
-<h3>ServiceTestCase</h3>
-
-<p>ServiceTestCase可以用來測試Android Service,ServiceTestCase</p>
-
-<p><img src="/images/wiki/android/unit_testing_in_android_002.png" alt="unit_testing_in_android_002.png" /></p>
-
-<p>基本的使用方式如下：</p>
-
-<ol>
-<li>宣告class時，把<code>template &lt;T&gt;</code>換成要被測試的Service(Service Under
-Test)</li>
-<li>建立default的constructor，並呼叫parent的constructor，代入class name</li>
-<li>setUp()時，ServiceTestCase會將real context儲存到systemContext</li>
-<li>透過startService()或bindService()啟動service
-(呼叫service.onCreate())</li>
-<li>test case的tearDown()會stop 跟 destroy service</li>
-<li>如果有需要的話，可以透過setCotext()或setApplication()換掉test
-case裡的context跟application.</li>
-</ol>
-
-
-<p>ServiceTestCase預設是使用MockApplication + Test Proejct的Context</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>public abstract class ServiceTestCase&lt;T extends Service&gt; extends AndroidTestCase {
-</span><span class='line'>    protected void setupService() {
-</span><span class='line'>        mService = null;
-</span><span class='line'>        try {
-</span><span class='line'>            mService = mServiceClass.newInstance();
-</span><span class='line'>        } catch (Exception e) {
-</span><span class='line'>            assertNotNull(mService);
-</span><span class='line'>        }
-</span><span class='line'>        if (getApplication() == null) {
-</span><span class='line'>            setApplication(new MockApplication());  // 使用mock版的Application()，而不是真正的
-</span><span class='line'>        }
-</span><span class='line'>        mService.attach(getContext(), null,  mServiceClass.getName(), null, getApplication(), null);
-</span><span class='line'>        assertNotNull(mService);
-</span><span class='line'>        mServiceId = new Random().nextInt();
-</span><span class='line'>        mServiceAttached = true;
-</span><span class='line'>    }
-</span><span class='line'>} </span></code></pre></td></tr></table></div></figure>
-
-
-<p>Android有提供<a href="#renamingdelegatingcontext" title="android:unit_testing_in_android ↵">RenamingDelegatingContext</a>,
-<a href="#contextwrapper" title="android:unit_testing_in_android ↵">ContextWrapper</a>,
-<a href="#isolatedcontext" title="android:unit_testing_in_android ↵">IsolatedContext</a>跟<a href="#mockcontext" title="android:unit_testing_in_android ↵">MockContext</a>來換原MockContext，也可以自已Mock一個</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>public class MyServiceTest extends ServiceTestCase&lt;MyService&gt; {
-</span><span class='line'>    public MyServiceTest() {
-</span><span class='line'>        super(MyService.class);
-</span><span class='line'>    }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p><img src="/images/wiki/android/unit_testing_in_android_002.png" alt="unit_testing_in_android_002.png" /></p>
-
-<p>ServiceTestCase提供<code>getService()</code>可以取得要被測試的service，<code>getSystemContext()</code>可以取得test
-project context</p>
-
-<h5>getContext() vs getSystemContext()</h5>
-
-<p>在預設的情況下，如果沒有特別去設定context，getContext(),getSystemContext()是同一個instance，但是
-如果有設定mock版的context，ex:
-<code>setConext(new MockContext());</code>，那麼getContext()會取到mock版的，
-而getSystemContext()會取到原來的(測試專案的)。</p>
-
-<h3>ApplicationTestCase</h3>
-
-<p>測試Application的test case</p>
-
-<h3>InstrumentationTestCase</h3>
-
-<h3>ActivityTestCase</h3>
-
-<h3>ActivityInstrumentationTestCase</h3>
-
-<h3>ActivityInstrumentationTestCase2</h3>
-
-<h3>ActivityUnitTestCase</h3>
-
-<h3>ProviderTestCase</h3>
-
-<h3>SingleLaunchActivityTestCase</h3>
-
-<h3>SyncBaseInstrumentation</h3>
-
-<h1>要測那些東西</h1>
-
-<h5>Activity lifecycle events</h5>
-
-<p>如果有在Activity lifecycle events像是onCreate(), onResume(), onPause(),
-…中保存activity的狀態，那麼應該要對這些methods進行測式，而當
-Configuration-changed事件發生時，也需要確定這些event的動作都正確。</p>
-
-<p><img src="http://developer.android.com/images/activity_lifecycle.png" alt="" /></p>
-
-<p>TestCase :
-<a href="#activityinstrumentationtestcase2" title="android:unit_testing_in_android ↵">ActivityInstrumentationTestCase2</a>
-(大多數情況用這個),
-<a href="#activitytestcase" title="android:unit_testing_in_android ↵">ActivityTestCase</a>,
-<a href="#singlelaunchactivitytestcase" title="android:unit_testing_in_android ↵">SingleLaunchActivityTestCase</a></p>
-
-<h5>Content Provder</h5>
-
-<p>Content
-Provder在大部份的情況下，不需要自行建立，也不建議直接建立，所以，Content
-Provder在測試時， Insert, Update, Query,
-Delete等method，還有getType()這些基本的methods都要被測到，如果沒有必要的話，
-儘量不要自已publish額外的method，因為在程式裡，只能取到ContentProvder型別，無法直接取得子型別(除非透過型別轉換，但不建議)，
-所以，ContentProvider的子類別，應儘量避免publish額外的API.</p>
-
-<p>TestCase :
-<a href="#providertestcase2" title="android:unit_testing_in_android ↵">ProviderTestCase2</a></p>
-
-<h5>ListView Adapter</h5>
-
-<p>ListView用的Adapter，ListView是UI裡很重要的一個元件，幾乎每個應該程式都會用到，而ListView
-Adapter又是ListView中 主要的元件，對Adapter測試的重要性，不言可喻。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>public class ScriptListAdapterTest extends AndroidTestCase {
-</span><span class='line'> 
-</span><span class='line'>    public void testExtractWords_none_words() throws Exception {
-</span><span class='line'>        ScriptListAdapter adapter = new ScriptListAdapter(getContext(), R.layout.script_list_item, R.id.scriptLine, ImmutableList.&lt;String&gt; of());
-</span><span class='line'>        adapter.setRichScript("foo bar");
-</span><span class='line'>        assertThat(adapter.extractWord(), Matchers.&lt;String&gt; emptyIterable());
-</span><span class='line'>    }
-</span><span class='line'> 
-</span><span class='line'>    public void testExtractWords_one_word() throws Exception {
-</span><span class='line'>        ScriptListAdapter adapter = new ScriptListAdapter(getContext(), R.layout.script_list_item, R.id.scriptLine, ImmutableList.&lt;String&gt; of());
-</span><span class='line'>        adapter.setRichScript("foo &lt;b&gt;bar&lt;/b&gt; baz");
-</span><span class='line'>        Iterable&lt;String&gt; words = adapter.extractWord();
-</span><span class='line'>        assertThat(words, hasItem("bar"));
-</span><span class='line'>    }
-</span><span class='line'> 
-</span><span class='line'>    public void testExtractWords_two_words() throws Exception {
-</span><span class='line'>        ScriptListAdapter adapter = new ScriptListAdapter(getContext(), R.layout.script_list_item, R.id.scriptLine, ImmutableList.&lt;String&gt; of());
-</span><span class='line'>        adapter.setRichScript("&lt;b&gt;foo&lt;/b&gt; bar &lt;b&gt;baz&lt;/b&gt;");
-</span><span class='line'>        Iterable&lt;String&gt; words = adapter.extractWord();
-</span><span class='line'>        assertThat(words, hasItems("foo", "baz"));
-</span><span class='line'>        assertThat(words, not(hasItem("bar")));
-</span><span class='line'>    }
-</span><span class='line'> 
-</span><span class='line'>    public void testRichText() throws Exception {
-</span><span class='line'>        ScriptListAdapter adapter = new ScriptListAdapter(getContext(), R.layout.script_list_item, R.id.scriptLine, ImmutableList.&lt;String&gt; of());
-</span><span class='line'>        CharSequence text = adapter.richText("this is a foo bar string", ImmutableList.of("foo", "string"));
-</span><span class='line'>        System.out.println(text);
-</span><span class='line'> 
-</span><span class='line'>    }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>TestCase :
-<a href="#androidtestcase" title="android:unit_testing_in_android ↵">AndroidTestCase</a></p>
-
-<h5>Database &amp; File</h5>
-
-<p>我通常會對DatabaseHelper進行測試，以確定table可以正確的被建立或版更</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>public class DatabaseHelperTest extends TestCase {
-</span><span class='line'>    private DatabaseHelper    helper;
-</span><span class='line'>    private SQLiteDatabase    db;
-</span><span class='line'> 
-</span><span class='line'>    @Override
-</span><span class='line'>    public void tearDown() {
-</span><span class='line'>        helper.close();
-</span><span class='line'>    }
-</span><span class='line'> 
-</span><span class='line'>    public void testDictionaryBankTable() throws Exception {
-</span><span class='line'>        Cursor c = db.query(DatabaseHelper.DICTIONARY_TABLE_NAME, null, null, null, null, null, null);
-</span><span class='line'>        assertEquals(4, c.getColumnCount());
-</span><span class='line'>    }
-</span><span class='line'> 
-</span><span class='line'>    public void testPodcastTable() throws Exception {
-</span><span class='line'>        Cursor c = db.query(DatabaseHelper.PODCAST_TABLE_NAME, null, null, null, null, null, null);
-</span><span class='line'>        assertEquals(13, c.getColumnCount());
-</span><span class='line'>    }
-</span><span class='line'> 
-</span><span class='line'>    public void testWordBankTable() throws Exception {
-</span><span class='line'>        Cursor c = db.query(DatabaseHelper.WORD_BANK_TABLE_NAME, null, null, null, null, null, null);
-</span><span class='line'>        assertEquals(2, c.getColumnCount());
-</span><span class='line'>    }
-</span><span class='line'> 
-</span><span class='line'>    @Override
-</span><span class='line'>    protected void setUp() throws Exception {
-</span><span class='line'>        super.setUp();
-</span><span class='line'>        db = SQLiteDatabase.create(null);
-</span><span class='line'>        helper = new DatabaseHelper(null, "podcast.db", null);
-</span><span class='line'>        helper.onOpen(db);
-</span><span class='line'>        helper.onCreate(db);
-</span><span class='line'>    }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>TestCase: 沒有用到android 的context，只需用Junit內建的TestCase即可</p>
-
-<h5>Helper &amp; Utils</h5>
-
-<p>Helper跟Utils指的是跟Android比較無關類別，有可能用到網路或檔案系統等的class，可視情況選擇用TestCase,
-AndroidTestCase, InstrumentationTestCase
-通常我都是先用最簡單的，如果不適合，再找次簡單的。</p>
-
-<h1>Test Helper</h1>
-
-<h3>Mock Objects</h3>
-
-<p>Android Test Framework也有提供一列系的mock
-objects，如果在測試時採用Depedency Injection的方式把這些mock
-object注入，會讓測試更簡單，更獨立。 這些mock
-oject被放在<a href="http://developer.android.com/reference/android/test/mock/package-summary.html" title="http://developer.android.com/reference/android/test/mock/package-summary.html">android.test.mock
-package</a>內，主要有下列這些mock
-objects</p>
-
-<ol>
-<li>MockApplication A mock Application class.</li>
-<li>MockContentProvider Mock implementation of ContentProvider.</li>
-<li>MockContentResolver An extension of ContentResolver that is designed
-for testing.</li>
-<li>MockContext A mock Context class.</li>
-<li>MockCursor A mock Cursor class that isolates the test code from real
-Cursor implementation.</li>
-<li>MockDialogInterface A mock DialogInterface class.</li>
-<li>MockPackageManager A mock PackageManager class.</li>
-<li>MockResources A mock Resources class.</li>
-</ol>
-
-
-<p>這些class採的mock
-strategy是stubbing而不是mocking，也就是說，使用時必須overwrite掉要提供資訊的methods</p>
-
-<p>曾經試著將在Android test framework上使用幾個mock
-framework，都失敗了，目前都是直接使用Android test
-framework內建的mocks，雖不好用但可以接受。</p>
-
-<ol>
-<li>mockito 1.8.5 - 無法通過編譯，殘念</li>
-<li>easymock 3 - extension的部份無法通過編譯，也就是只能mock
-interface，殘念</li>
-<li>powermock - 還是需要mocktio或easymock的jar，殘念</li>
-<li>jmock - 沒試</li>
-</ol>
-
-
-<p><a href="https://sites.google.com/site/androiddevtesting/" title="https://sites.google.com/site/androiddevtesting/">這裡</a>有篇文章說明為何大多數的Mock
-framework在Android上的無法正常動作， 只要是Mock
-Framework有用到CGLib就無法在Dalvik
-VM上執行，ex:EasyMock,Mockito都有用到這個lib</p>
-
-<p>2012/3/16 己經有android team的member在將mockito
-porting到android上了，或許不久的將來就有android
-compatible的mockito可以用了 :) ，詳情 :
-<a href="http://code.google.com/p/mockito/issues/detail?id=308" title="http://code.google.com/p/mockito/issues/detail?id=308">http://code.google.com/p/mockito/issues/detail?id=308</a></p>
-
-<h3>Context For Testing</h3>
-
-<p>Context的type hierarchy</p>
-
-<p><img src="/images/wiki/android/unit_testing_in_android_002.png" alt="unit_testing_in_android_002.png" /></p>
-
-<p>跟測試比較相關的有</p>
-
-<ol>
-<li><a href="#contextwrapper" title="android:unit_testing_in_android ↵">ContextWrapper</a></li>
-<li><a href="#isolatedcontext" title="android:unit_testing_in_android ↵">IsolatedContext</a></li>
-<li><a href="#renamingdelegatingcontext" title="android:unit_testing_in_android ↵">RenamingDelegatingContext</a></li>
-<li><a href="#mockcontext" title="android:unit_testing_in_android ↵">MockContext</a></li>
-</ol>
-
-
-<h5>ContextWrapper</h5>
-
-<p>嚴格來說，這個並不算是testing專用的，其他不少context也是從這個開始繼承的，他的實作很簡單
-，就是把被wrapped的context的delegate給ContextWrapper，所以，每個method大多長這樣</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>/**
-</span><span class='line'> * Proxying implementation of Context that simply delegates all of its calls to
-</span><span class='line'> * another Context.  Can be subclassed to modify behavior without changing
-</span><span class='line'> * the original Context.
-</span><span class='line'> */
-</span><span class='line'>public class ContextWrapper extends Context {
-</span><span class='line'>    Context mBase;
-</span><span class='line'>
-</span><span class='line'>    @Override
-</span><span class='line'>    public AssetManager getAssets() {
-</span><span class='line'>        return mBase.getAssets();
-</span><span class='line'>    }
-</span><span class='line'>
-</span><span class='line'>    @Override
-</span><span class='line'>    public Resources getResources()
-</span><span class='line'>    {
-</span><span class='line'>        return mBase.getResources();
-</span><span class='line'>    }
-</span><span class='line'>
-</span><span class='line'>    @Override
-</span><span class='line'>    public PackageManager getPackageManager() {
-</span><span class='line'>        return mBase.getPackageManager();
-</span><span class='line'>    }
-</span><span class='line'>    ...
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<h5>IsolatedContext</h5>
-
-<p>這個Context把跟設備相關的method改掉掉，讓context不與設備直接溝通，但又提供足夠的功能以測試可以進行。
-被IsolatedContext改寫掉的methods如下</p>
-
-<p>(圖丟了 XD)</p>
-
-<h5>RenamingDelegatingContext</h5>
-
-<p>正常來說，如果production code裡用到的db 叫
-foo.db跟一個檔案叫bar.txt，但測試時，希望不要去動到原來的foo.db,bar.txt
-，而是提供一組測試用的foo.db跟bar.txt那就可以用RenamingDelegatingContext處理，可以把測試的命名成
-test_foo.db跟test_bar.txt，然後跟RenamingDelegatingContext測試用的contxt是以”test_”當prefix即可，這樣所有測試用的
-的檔案名稱跟DB名稱就是原來的名稱加上”test_”，用以避免prodcution
-code跟testing code互相感染。</p>
-
-<p>RenamingDelegatingContext是用來處理檔案都是放在application
-project中的情況，但實際使用上，在測試專案上的相同的位置放上一個同檔名的檔案，會比用RenamingDelegatingContext適合，
-不過，如果取得測試案專案的resource，就得繼承自InstrumentationTestCase而非AndroidTestCase體系</p>
-
-<h5>MockContext</h5>
-
-<p>Mock版的Context，裡面的implement就是丟出UnsupportedOperationException，所以如果要用這個context，那
-測試中有用到的method，就要自行改寫，不然就等著接UnsupportedOperationException。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>/**
-</span><span class='line'> * A mock {@link android.content.Context} class.  All methods are non-functional and throw 
-</span><span class='line'> * {@link java.lang.UnsupportedOperationException}.  You can use this to inject other dependencies,
-</span><span class='line'> * mocks, or monitors into the classes you are testing.
-</span><span class='line'> */
-</span><span class='line'>public class MockContext extends Context {
-</span><span class='line'> 
-</span><span class='line'>    @Override
-</span><span class='line'>    public AssetManager getAssets() {
-</span><span class='line'>        throw new UnsupportedOperationException();
-</span><span class='line'>    }
-</span><span class='line'> 
-</span><span class='line'>    @Override
-</span><span class='line'>    public Resources getResources() {
-</span><span class='line'>        throw new UnsupportedOperationException();
-</span><span class='line'>    }
-</span><span class='line'> 
-</span><span class='line'>    @Override
-</span><span class='line'>    public PackageManager getPackageManager() {
-</span><span class='line'>        throw new UnsupportedOperationException();
-</span><span class='line'>    }
-</span><span class='line'>    ...
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Assertion classes</h3>
-
-<p>除了基本的Junit Assertions外，Android Test Framework還提供了</p>
-
-<ol>
-<li><a href="http://developer.android.com/reference/android/test/MoreAsserts.html" title="http://developer.android.com/reference/android/test/MoreAsserts.html">More
-Asserts</a>
-
-<ul>
-<li>一些android testing
-assertions的延伸，不過我覺得<a href="http://wiki.kent-chiu.com/doku.php?id=java:hamcrest_101" title="java:hamcrest_101">hamcrest</a>更好用</li>
-</ul>
-</li>
-<li><a href="http://developer.android.com/reference/android/test/ViewAsserts.html" title="http://developer.android.com/reference/android/test/ViewAsserts.html">View
-Asserts</a>
-
-<ul>
-<li>一些跟view有關的assertions，像是view跟view之間的關係、對齊方式、…</li>
-</ul>
-</li>
-</ol>
-
-
-<p>目前Android Test Framework(Android
-2.3)還都是基於Junit3,Junit3的assertions在使用上沒有Junit4的來方便(powered
-by Hamcrest)，Junit3沒有內建<code>assertThat()</code>，
-Hamcrest的assertions是一個獨立的lib，所以，還是可以拿來跟Junit3搭著用，但是，Hamrcest的jar檔(1.3-R.C2)丟到Eclipse
-ADT時，無法順利通過編譯，<a href="http://wiki.kent-chiu.com/doku.php?id=java:hamcrest_101#hamcrest_android" title="java:hamcrest_101">這裡有提供解決的方式</a>
-，至於Hamcrest的assertion，可以參閱<a href="http://code.google.com/p/hamcrest/wiki/Tutorial" title="http://code.google.com/p/hamcrest/wiki/Tutorial">Hamcrest網站的教學</a>或<a href="http://wiki.kent-chiu.com/doku.php?id=java:hamcrest_101" title="java:hamcrest_101">這裡</a>也有一個簡單的說明。</p>
-
-<h4>MISC</h4>
-
-<ol>
-<li>RenamingDelegating - Product
-code用的是一個名字，測試時用的是另一個名字(檔案或資料庫)，用來避開testing
-code改到product code的內容</li>
-<li>ActivityMonitor -
-android.app.Instrumentation.ActivityMonitor是Instrumentation的內部類別，可以用來monitor系統的行為。</li>
-</ol>
-
-
-<p>如果test proejct跟production project有用到相同的jars，只需由production
-project export出jars讓testing project使用即可，如果testing
-project有跟production project相同的lib，可能compile time會出錯</p>
-
-<h1>Resources</h1>
-
-<ul>
-<li><a href="http://developer.android.com/resources/tutorials/testing/helloandroid_test.html" title="http://developer.android.com/resources/tutorials/testing/helloandroid_test.html">Hello World
-Test</a></li>
-<li><a href="http://developer.android.com/guide/topics/testing/testing_android.html" title="http://developer.android.com/guide/topics/testing/testing_android.html">Testing and
-Instrumentation</a></li>
-<li><a href="http://developer.android.com/guide/developing/testing/testing_eclipse.html" title="http://developer.android.com/guide/developing/testing/testing_eclipse.html">Testing In Eclipse, with
-ADT</a></li>
-<li><a href="http://codinghard.wordpress.com/2009/06/04/a-first-look-at-the-android-testing-framework/" title="http://codinghard.wordpress.com/2009/06/04/a-first-look-at-the-android-testing-framework/">http://codinghard.wordpress.com/2009/06/04/a-first-look-at-the-android-testing-framework/</a></li>
-<li><a href="http://code.google.com/p/nativedriver/" title="http://code.google.com/p/nativedriver/">Native
-Driver</a>
-
-<ul>
-<li>google官方的ui test
-api，webdriver(<a href="http://code.google.com/p/selenium/" title="http://code.google.com/p/selenium/">selenium</a>)
-like的測試工具</li>
-</ul>
-</li>
-<li><p>RenamingDelegatingContext的使用方式可以參考下面的資料</p>
-
-<ol>
-<li><a href="http://blog.jayway.com/2011/10/10/using-renamingdelegatingcontext-to-mock-contentresolver-in-android/" title="http://blog.jayway.com/2011/10/10/using-renamingdelegatingcontext-to-mock-contentresolver-in-android/">http://blog.jayway.com/2011/10/10/using-renamingdelegatingcontext-to-mock-contentresolver-in-android/</a></li>
-<li><a href="https://docs.google.com/View?id=ddwc44gs_21737cgtvfj" title="https://docs.google.com/View?id=ddwc44gs_21737cgtvfj">https://docs.google.com/View?id=ddwc44gs_21737cgtvfj</a></li>
-</ol>
-</li>
-<li><p><a href="http://www.slideshare.net/dtmilano/introduction-to-android-testing" title="http://www.slideshare.net/dtmilano/introduction-to-android-testing">http://www.slideshare.net/dtmilano/introduction-to-android-testing</a></p>
-
-<ul>
-<li>android testing的簡介投影片，有每個test case使用上的差異</li>
-</ul>
-</li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/4/">&larr; Older</a>
@@ -3291,23 +3886,23 @@ like的測試工具</li>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/07/07/python-101/">Python 101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/25/url-encoding/">URL Encoding</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/04/restful-api-design/">RESTful API Design</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/05/17/my-intellij-idea-shortcut/">My IntelliJ IDEA Shortcut</a>
       </li>
     
       <li class="post">
         <a href="/blog/2013/05/12/jesper-report-font-issue/">Jesper Report, IReport 匯出成中文PDF</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/05/12/jasperreport-101/">JasperReport 101</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/05/06/mac-tips/">Mac Tips</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/04/22/clean-code/">Clean Code閱讀筆記</a>
       </li>
     
   </ul>

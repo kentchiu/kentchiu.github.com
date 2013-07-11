@@ -4,7 +4,7 @@
   <title><![CDATA[Category: play_framework | Kent's Blog]]></title>
   <link href="http://blog.kent-chiu.com/blog/categories/play-framework/atom.xml" rel="self"/>
   <link href="http://blog.kent-chiu.com/"/>
-  <updated>2013-07-11T21:27:53+08:00</updated>
+  <updated>2013-07-11T21:59:18+08:00</updated>
   <id>http://blog.kent-chiu.com/</id>
   <author>
     <name><![CDATA[Kent]]></name>
@@ -66,7 +66,7 @@ methods</p>
 <p>Ok()這個method會回http status code 200給browser，http status code
 200，就是沒有任何錯誤</p>
 
-<p><img src="/images/wiki/scala/play_framework_101-001.png" alt="play_framework_101-001.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2012-07-02/play_framework_101-001.png" alt="play_framework_101-001.png" /></p>
 
 <p>上面有提到Action是<code>play.api.mvc.Request ⇒ play.api.mvc.Result</code>
 function，而AsyncResult, ChunkedResult, PlainResult, SimpleResult,

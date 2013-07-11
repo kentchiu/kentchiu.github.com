@@ -9,24 +9,7 @@
   <meta name="author" content="Kent">
 
   
-  <meta name="description" content="可以透xml(建議)或程式直接設定layout
-太過複雜的Layout會影響操作效能跟操作性，應盡可能保持Layout愈簡單愈好 1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-&lt;?xml version="1.0" encoding="utf-8"?&gt &hellip;">
+  <meta name="description" content="AndroidMainfest.xml 如果需要從網路下載音訊檔，需要開放android.permission.INTERNET權限 &lt;uses-permission android:name="android.permission.INTERNET" /&gt; 使用流程 State &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -67,7 +50,7 @@
   <header role="banner"><hgroup>
   <h1><a href="/">Kent's Blog</a></h1>
   
-    <h2>Kent的學習筆記(剛從dokuwiki搬過來，內容還在整修中)</h2>
+    <h2>Kent的學習筆記</h2>
   
 </hgroup>
 
@@ -94,6 +77,1033 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/03/20/media_player/">Android Media Player</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-20T00:00:00+08:00" pubdate data-updated="true">Mar 20<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/03/20/media_player/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h5>AndroidMainfest.xml</h5>
+
+<p>如果需要從網路下載音訊檔，需要開放<code>android.permission.INTERNET</code>權限</p>
+
+<pre><code>&lt;uses-permission android:name="android.permission.INTERNET" /&gt;
+</code></pre>
+
+<h3>使用流程</h3>
+
+<h5>State Diagram</h5>
+
+<p>狀態對<a href="http://developer.android.com/reference/android/media/MediaPlayer.html" title="http://developer.android.com/reference/android/media/MediaPlayer.html">MediaPlayer</a>來說是相當重要的，
+在不適當的狀態下呼叫不適當的method會導致MediaPlay丟出例常。</p>
+
+<p><img src="http://developer.android.com/images/mediaplayer_state_diagram.gif" alt="image" /></p>
+
+<p>基本上的使用流程如下</p>
+
+<ol>
+<li>透過<code>create()</code>建立(idle狀態)</li>
+<li>透過<code>setDataSource()</code>初始化MediaPlayer (initialized狀態)</li>
+<li>透過<code>prepare()</code>預備播放 (preparing and prepared狀態)</li>
+<li>透過<code>start()</code>播放 (started狀態)</li>
+<li>之後可以進行播放相關的控制</li>
+<li>透過<code>stop()</code>停止播放 (stop狀態)</li>
+<li><strong>沒有要用MediaPlayer時，記得呼叫release()釋放資源</strong> (end狀態)</li>
+</ol>
+
+
+<h3>音訊來源</h3>
+
+<p>要播放的訊息檔可以來自</p>
+
+<ol>
+<li>Local resources (放程式/raw目錄的檔案，有resource id的)</li>
+<li>Internal URIs (內部uri是指可以透過Content Resolver取存的)</li>
+<li>External URLs (外部url大多是指網路上的檔案，只能以streaming讀取)</li>
+</ol>
+
+
+<p>streaming需要先下載到buffer後再進行播放，未下載的部份，無法做位置控制(forward，reverse，seeking)
+，用串流播放時，前端通常會實作兩段式的progress
+bar，第一段是目前播放的進度，另一段是已下載到buffer的進度。</p>
+
+<h5>播放程式內*有resource id)的音訊檔</h5>
+
+<p>這種方式通常是用來播放跟程式中預先定義好的音效，音樂…</p>
+
+<pre><code>MediaPlayer mediaPlayer = MediaPlayer.create(context, R.raw.sound_file_1);
+mediaPlayer.start(); // no need to call prepare(); create() does that for you
+</code></pre>
+
+<p>讀取resource是透過create時指定resource
+id，這種方式不用自已呼叫prepare(),create()內會自行呼叫prepare()。</p>
+
+<h5>播放手機內部音訊檔</h5>
+
+<p>這種方式是透過Content URI取得內部的音訊資源</p>
+
+<pre><code>Uri myUri = ....; // initialize Uri here
+MediaPlayer mediaPlayer = new MediaPlayer();
+mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+mediaPlayer.setDataSource(getApplicationContext(), myUri);
+mediaPlayer.prepare();
+mediaPlayer.start();
+</code></pre>
+
+<h5>播放網路上的音訊檔</h5>
+
+<p>這種方式是透過標準的url來播放網路上的音訊檔</p>
+
+<pre><code>String url = "http://........"; // your URL here
+MediaPlayer mediaPlayer = new MediaPlayer();
+mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+mediaPlayer.setDataSource(url);
+mediaPlayer.prepare(); // might take long! (for buffering, etc)
+mediaPlayer.start();
+</code></pre>
+
+<h3>Preparation</h3>
+
+<p>MediaPlayer要能開始播放，必須先進入Prepared狀態。</p>
+
+<h5>Asynchronous Preparation</h5>
+
+<p>進入Prepared狀態會花掉一些時間，因為prepare可能需要抓取及解碼音訊檔(可能需幾秒)，如果Prepared是在main
+thread呼叫，會把ui給block住，這樣會影響操作性。
+所以MediaPlayer有提供非同步的Preparation方式，也就是在work
+thread進行preparing的動作，可以讓block情況減緩一些。</p>
+
+<p>透過prepareAsync()可以進行非同步的preparing，因為是非同步的，所以如果要知道何時會prepared完成，那就必須透過<code>MediaPlayer.OnPreparedListener</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public class MyService extends Service implements MediaPlayer.OnPreparedListener {
+</span><span class='line'>    private static final ACTION_PLAY = "com.example.action.PLAY";
+</span><span class='line'>    MediaPlayer mMediaPlayer = null;
+</span><span class='line'> 
+</span><span class='line'>    public int onStartCommand(Intent intent, int flags, int startId) {
+</span><span class='line'>        ...
+</span><span class='line'>        if (intent.getAction().equals(ACTION_PLAY)) {
+</span><span class='line'>            mMediaPlayer = ... // initialize it here
+</span><span class='line'>            mMediaPlayer.setOnPreparedListener(this);
+</span><span class='line'>            mMediaPlayer.prepareAsync(); // prepare async to not block main thread
+</span><span class='line'>        }
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>    /** Called when MediaPlayer is ready */
+</span><span class='line'>    public void onPrepared(MediaPlayer player) {
+</span><span class='line'>        player.start();
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>同步播放進度</h3>
+
+<p>MediaPlayer本身並不包含UI相關的component，如果要控制MediaPlayer的播放動作，可以透過Button去呼叫播放的API。
+其中，有一個比較麻煩的是顯示播放進度的ProgressBar(或SeekBar)，因為progress
+bar需要一直不斷跟MediaPlayer進行同步
+最直接的方式是寫一個thread，然後透過Handler(WorkerThread不能直接存取UI元件)去取得MediaPlayer目前播放進度的資料，並持續的設定到ProgressBar上。</p>
+
+<h5>透過thread同步ProcessBar</h5>
+
+<p>像下面code的這樣，但是，實際使用上，發現效能不是很好，progress
+bar不管怎麼調，都沒Android內建的<a href="http://developer.android.com/reference/android/widget/MediaController.html" title="http://developer.android.com/reference/android/widget/MediaController.html">MediaController</a>好。
+去查了一下MediaController的source發現他是用<strong>recursive(遞歸)的方法</strong>處理的。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Thread syncSeekBarThread = new Thread(new Runnable() {
+</span><span class='line'>    @Override
+</span><span class='line'>    public void run() {
+</span><span class='line'>        int currentPosition = 0;
+</span><span class='line'>        while (player != null && currentPosition &lt; total) {
+</span><span class='line'>            int currentPosition = mPlayer.getCurrentPosition();
+</span><span class='line'>            Message msg = new Message();
+</span><span class='line'>            msg.what = currentPosition;
+</span><span class='line'>            threadHandler.sendMessage(msg);
+</span><span class='line'>            Thread.sleep(1000);
+</span><span class='line'>        }
+</span><span class='line'>    }
+</span><span class='line'>});
+</span><span class='line'> 
+</span><span class='line'>syncSeekBarThread.start(); // start synchronizing
+</span><span class='line'> 
+</span><span class='line'> 
+</span><span class='line'>private Handler threadHandler = new Handler(){
+</span><span class='line'>    public void handleMessage(Message msg){
+</span><span class='line'>        seekBar.setProgress(msg.what);
+</span><span class='line'>    }
+</span><span class='line'>};</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>透過Handler的recursive同步ProcessBar</h5>
+
+<p>主要的重點有</p>
+
+<ol>
+<li>要找一個觸發recursive的好地點，播放器上的play button是一個不錯的位置</li>
+<li>handleMessage一但開始接到Message後，就會不斷的送Message給自已</li>
+<li>用sendMessageDelayed來計算下次的觸發時間</li>
+</ol>
+
+
+<p>相當巧妙的解法，難怪大家都建議多看Android的source，改成這樣後，ProgressBar果然有比較平順。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>private class SyncHandler extends Handler {
+</span><span class='line'>    @Override
+</span><span class='line'>    public void handleMessage(Message msg) {
+</span><span class='line'>        int current = msg.what;
+</span><span class='line'>        seekBar.setProgress(current);
+</span><span class='line'>        if (!seekbarChangeListener.isDragging()) {
+</span><span class='line'>            Message m = obtainMessage();
+</span><span class='line'>            m.what = player.getCurrentPosition();
+</span><span class='line'>            // Send meesage to Handler itself will fire handleMessage() again with new Message.
+</span><span class='line'>            sendMessageDelayed(m, 1000 - player.getCurrentPosition() % 1000);
+</span><span class='line'>        }
+</span><span class='line'>    }
+</span><span class='line'>}
+</span><span class='line'> 
+</span><span class='line'>private Handler    handler = new SyncHandler();
+</span><span class='line'> 
+</span><span class='line'>/**
+</span><span class='line'>  * strt
+</span><span class='line'>  *
+</span><span class='line'>  */
+</span><span class='line'>public void PlayButtonOnClick() {
+</span><span class='line'>    handler.sendEmptyMessage(player.getCurrentPosition());
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>Resource</h1>
+
+<ul>
+<li><a href="http://developer.android.com/guide/topics/media/mediaplayer.html" title="http://developer.android.com/guide/topics/media/mediaplayer.html">官網文件</a></li>
+<li><a href="http://developer.android.com/reference/android/media/MediaPlayer.html" title="http://developer.android.com/reference/android/media/MediaPlayer.html">API</a></li>
+<li><a href="http://developer.android.com/guide/topics/media/mediaplayer.html#wakelocks" title="http://developer.android.com/guide/topics/media/mediaplayer.html#wakelocks">Wake  locks</a>
+
+<ul>
+<li>如果要必免待機時，播放器被停掉，可以設定wake mode</li>
+</ul>
+</li>
+<li><a href="http://developer.android.com/guide/topics/media/mediaplayer.html#audiofocus" title="http://developer.android.com/guide/topics/media/mediaplayer.html#audiofocus">Audio  focus</a>
+
+<ul>
+<li>如果要處理接到電話或其他事件時，把播放器暫停，可以透過audio focus(2.2+)</li>
+</ul>
+</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/03/20/logback_101/">Logback 101</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-20T00:00:00+08:00" pubdate data-updated="true">Mar 20<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/03/20/logback_101/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>在使用log4j時，遇到幾個問題，剛好這個幾個問題是<a href="http://logback.qos.ch/index.html" title="http://logback.qos.ch/index.html">logback</a>特別強調他可以解決的(所以，我們應該是遇到了大多數使用log4j的開發人員會遇到的麻煩)。
+而且，一直以為都是使用<a href="http://www.slf4j.org/" title="http://www.slf4j.org/">SLF4J</a>當作logger的API(slf4j底層是呼叫log4j)，logback也可以無痛轉換，所以就試著把Log4j換成logback</p>
+
+<p>Appender Additivity(疊加)是一個很常用的功能，官網上對它的說明是這樣的</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Appender Additivity
+</span><span class='line'> 
+</span><span class='line'>The output of a log statement of logger L will go to all the appenders in L and its ancestors. This is the meaning of the term "appender additivity".
+</span><span class='line'> 
+</span><span class='line'>However, if an ancestor of logger L, say P, has the additivity flag set to false, then L's output will be directed to all the appenders in L and its ancestors up to and including P but not the appenders in any of the ancestors of P.
+</span><span class='line'> 
+</span><span class='line'>Loggers have their additivity flag set to true by default.</span></code></pre></td></tr></table></div></figure>
+
+
+<p>example</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  Logger Name       Attached Appenders   Additivity Flag   Output Targets           Comment
+</span><span class='line'>  ----------------- -------------------- ----------------- ------------------------ ---------------------------------------root              A1                   not applicable    A1                       Since the root logger stands at the top of the logger hierarchy, the additivity flag does not apply to it.
+</span><span class='line'>  x                 A-x1, A-x2           true              A1, A-x1, A-x2           Appenders of “x” and of root.
+</span><span class='line'>  x.y               none                 true              A1, A-x1, A-x2           Appenders of “x” and of root.
+</span><span class='line'>  x.y.z             A-xyz1               true              A1, A-x1, A-x2, A-xyz1   Appenders of “x.y.z”, “x” and of root.
+</span><span class='line'>  security          A-sec                false             A-sec                    No appender accumulation since the additivity flag is set to “false”. Only appender A-sec will be used.
+</span><span class='line'>  security.access   none                 true              A-sec                    Only appenders of “security” because the additivity flag in “security” is set to “false”.</span></code></pre></td></tr></table></div></figure>
+
+
+<p>基本上，也就是設定<code>Additivity=false</code>時，該logger所宣告的所有appenders不會附加到parent上面(常用來抑制logging到root)，其子logger也不會繼承這個logger所宣告的appenders。</p>
+
+<h4>在配置檔使用變數</h4>
+
+<p>配置檔內可以透過<code>&lt;property&gt;</code>
+tag來定義變數，並透過<code>${變數名稱}</code>來引用它。系統變數也可以直接使用，像<code>${user.home}</code>，另外，也可以用一個獨立的屬性檔(filename.properties)來定義屬性，之後再引入
+<code>&lt;property file=“filename.properties” /&gt;</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;configuration&gt;
+</span><span class='line'> 
+</span><span class='line'>  &lt;property name="USER_HOME" value="/home/sebastien" /&gt;
+</span><span class='line'> 
+</span><span class='line'>  &lt;appender name="FILE" class="ch.qos.logback.core.FileAppender"&gt;
+</span><span class='line'>    &lt;file&gt;${USER_HOME}/myApp.log&lt;/file&gt;
+</span><span class='line'>    &lt;encoder&gt;
+</span><span class='line'>      &lt;pattern&gt;%msg%n&lt;/pattern&gt;
+</span><span class='line'>    &lt;/encoder&gt;
+</span><span class='line'>  &lt;/appender&gt;
+</span><span class='line'> 
+</span><span class='line'>  &lt;root level="debug"&gt;
+</span><span class='line'>    &lt;appender-ref ref="FILE" /&gt;
+</span><span class='line'>  &lt;/root&gt;
+</span><span class='line'>&lt;/configuration&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果定義的變數需要預設使，那可以透過<code>:-</code>符號，ex:
+<code>${aKey:-golden}</code>，如果aKey是null，那就會用<strong>golden</strong>取代</p>
+
+<h1>Log4j to Logback porting筆記</h1>
+
+<h3>換掉library</h3>
+
+<p>專案是用maven管理的，所以，換lib相當簡單，到<a href="http://search.maven.org/" title="http://search.maven.org/">maven的lib搜尋引擎</a>找出最新的logback，換上即可</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;dependency&gt;
+</span><span class='line'>    &lt;groupId&gt;org.slf4j&lt;/groupId&gt;
+</span><span class='line'>    &lt;artifactId&gt;slf4j-api&lt;/artifactId&gt;
+</span><span class='line'>    &lt;version&gt;1.6.3&lt;/version&gt;
+</span><span class='line'>&lt;/dependency&gt;
+</span><span class='line'>&lt;dependency&gt;
+</span><span class='line'>    &lt;groupId&gt;org.slf4j&lt;/groupId&gt;
+</span><span class='line'>    &lt;artifactId&gt;slf4j-log4j12&lt;/artifactId&gt;
+</span><span class='line'>    &lt;version&gt;1.6.3&lt;/version&gt;
+</span><span class='line'>&lt;/dependency&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>換成</h5>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;dependency&gt;
+</span><span class='line'>    &lt;groupId&gt;ch.qos.logback&lt;/groupId&gt;
+</span><span class='line'>    &lt;artifactId&gt;logback-classic&lt;/artifactId&gt;
+</span><span class='line'>    &lt;version&gt;0.9.30&lt;/version&gt;
+</span><span class='line'>&lt;/dependency&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>結果</h5>
+
+<p>因為之前都是slf4j寫的，完全不用改code，但是連其他lib裡的logger都輸出到console了(logback會有一個預設的設定檔，所以，不需要像log4j一樣，一定要給log4.xml或log4j.properties)
+但是用預設的設定，會連其它freamwork的log訊息一起輸出(像hibernate)，log4j在沒有配置檔時，會吐出設定檔不存在的訊息，但是logback則會以預設(內建)的配置檔做設定。</p>
+
+<h3>使用客製的配置檔</h3>
+
+<p>logback會在classpath下依序尋找</p>
+
+<ol>
+<li>logback.groovy (logback可以用groovy當設定檔)</li>
+<li>logback-test.xml (通常用於測試)</li>
+<li>logback.xml (一般是用這個)</li>
+<li><a href="http://logback.qos.ch/xref/ch/qos/logback/classic/BasicConfigurator.html" title="http://logback.qos.ch/xref/ch/qos/logback/classic/BasicConfigurator.html">BasicConfigurator</a>
+如果上面三個都不存在時，會用這個class的內容當作配置檔(預設)</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;configuration  scan="true" scanPeriod="30 seconds" &gt; 
+</span><span class='line'> 
+</span><span class='line'>  &lt;appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender"&gt;
+</span><span class='line'>    &lt;!-- encoders are assigned the type
+</span><span class='line'>         ch.qos.logback.classic.encoder.PatternLayoutEncoder by default --&gt;
+</span><span class='line'>    &lt;encoder&gt;
+</span><span class='line'>      &lt;pattern&gt;%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n&lt;/pattern&gt;
+</span><span class='line'>    &lt;/encoder&gt;
+</span><span class='line'>  &lt;/appender&gt;
+</span><span class='line'> 
+</span><span class='line'>  &lt;root level="debug"&gt;
+</span><span class='line'>    &lt;appender-ref ref="STDOUT" /&gt;
+</span><span class='line'>  &lt;/root&gt;
+</span><span class='line'>&lt;/configuration&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;configuration  
+</span><span class='line'>  scan="true"                 // 更改配置檔內容時，不用重啟程式
+</span><span class='line'>  scanPeriod="30 seconds"     // 多久偵測一次變更
+</span><span class='line'>&gt; </span></code></pre></td></tr></table></div></figure>
+
+
+<h5>Rolling Appender</h5>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  &lt;appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender"&gt;
+</span><span class='line'>        &lt;file&gt;${USER_HOME}/foo.log&lt;/file&gt;
+</span><span class='line'>        &lt;rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy"&gt;
+</span><span class='line'>            &lt;!-- daily rollover --&gt;
+</span><span class='line'>            &lt;fileNamePattern&gt;${USER_HOME}/foo.%d{yyyy-MM-dd}.log&lt;/fileNamePattern&gt;
+</span><span class='line'>            &lt;!-- keep 120 days' worth of history --&gt;
+</span><span class='line'>            &lt;maxHistory&gt;120&lt;/maxHistory&gt;
+</span><span class='line'>        &lt;/rollingPolicy&gt;
+</span><span class='line'>        &lt;encoder&gt;
+</span><span class='line'>            &lt;pattern&gt;%d{HH:mm:ss.SSS} [%thread] %-5level %30.20logger{0}.%-30method - %msg%n&lt;/pattern&gt;
+</span><span class='line'>        &lt;/encoder&gt;
+</span><span class='line'>    &lt;/appender&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>讓Logger周期性的改名成舊版(Rolling)是一個很常見的需求，像是每天午夜12點整，把log改名成前一日的日期，然後當日的log則從新檔開始，這樣可以避免單一的log檔過大，
+這樣的行為，我們叫Daily Rolling。</p>
+
+<p>LogBack的Rolling的設定上很直覺，只要設定fileNamePattern中的日期格式，它就會依設定日期格式的最小單位做Rolling。但要注意的是如果<code>&lt;appender&gt;&lt;file&gt;</code>tag有設定路徑，那<code>&lt;fileNamePattern&gt;</code>也要設定相同的路徑，這樣可以讓舊的log(有包含日期的檔名)跟新的log(作用中的log)在同一個目錄</p>
+
+<p>這樣設定後，在使用者的家目錄下，可以看到類似下面的檔案列要</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>foo.log   // 作用中的log
+</span><span class='line'>foo.2012-01-01.log 
+</span><span class='line'>foo.2012-01-02.log 
+</span><span class='line'>foo.2012-01-03.log 
+</span><span class='line'>foo.2012-01-04.log 
+</span><span class='line'>...</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>TBD</h3>
+
+<ul>
+<li>出異常時，自動修改設定檔，讓其輸出錯誤細節</li>
+</ul>
+
+
+<h1>Resource</h1>
+
+<ul>
+<li><a href="http://logback.qos.ch/" title="http://logback.qos.ch/">官網</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/03/20/listview_style/">ListView Style</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-20T00:00:00+08:00" pubdate data-updated="true">Mar 20<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/03/20/listview_style/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>以下用幾個簡單的步驟來美化ListView</p>
+
+<h5>原始</h5>
+
+<p><img src="http://blog.kent-chiu.com/images/2012-03-20/listview_style_002.png" alt="listview_style_002.png" /></p>
+
+<h5>結果</h5>
+
+<p><img src="http://blog.kent-chiu.com/images/2012-03-20/listview_style_003.png" alt="listview_style_003.png" /></p>
+
+<h5>底圖</h5>
+
+<p>如果沒什麼美工底子，可以到<a href="http://www.bgpatterns.com/" title="http://www.bgpatterns.com/">這個</a>網站產生一個簡易的底圖(下載後檔名改成app_bg.png)</p>
+
+<p><img src="http://blog.kent-chiu.com/images/2012-03-20/listview_style_001.png" alt="listview_style_001.png" /></p>
+
+<h5>drawable/app_background.xm</h5>
+
+<p>因為底圖不會剛好跟螢幕大小一樣，所以要透過bitmap讓底圖重覆</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+</span><span class='line'>&lt;bitmap xmlns:android="http://schemas.android.com/apk/res/android"
+</span><span class='line'>    android:src="@drawable/app_bg"
+</span><span class='line'>    android:tileMode="repeat" /&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>values/styles.xml</h5>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+</span><span class='line'>&lt;resources&gt;
+</span><span class='line'>    &lt;style name="app_theme" parent="android:Theme"&gt;
+</span><span class='line'>        &lt;item name="android:windowBackground"&gt;@drawable/app_background&lt;/item&gt;
+</span><span class='line'>        &lt;item name="android:listViewStyle"&gt;@style/TransparentListView&lt;/item&gt;
+</span><span class='line'>        &lt;item name="android:expandableListViewStyle"&gt;@style/TransparentExpandableListView&lt;/item&gt;
+</span><span class='line'>    &lt;/style&gt;
+</span><span class='line'>    &lt;style name="TransparentListView" parent="@android:style/Widget.ListView"&gt;
+</span><span class='line'>        &lt;item name="android:cacheColorHint"&gt;@android:color/transparent&lt;/item&gt;
+</span><span class='line'>    &lt;/style&gt;
+</span><span class='line'>    &lt;style name="TransparentExpandableListView" parent="@android:style/Widget.ExpandableListView"&gt;
+</span><span class='line'>        &lt;item name="android:cacheColorHint"&gt;@android:color/transparent&lt;/item&gt;
+</span><span class='line'>    &lt;/style&gt;
+</span><span class='line'>&lt;/resources&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>AndroidManifest.xml</h5>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;application android:theme="@style/app_theme"&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>在eclipse預覽</h3>
+
+<p>如果一切都很順利的話，可以用eclipse的layout
+editor打開任一個activity，然後，右邊的theme可以看到剛剛新增的<code>app_theme</code>
+可以看到底圖重覆的在activity的背景</p>
+
+<p><img src="http://blog.kent-chiu.com/images/2012-03-20/listview_style_004.png" alt="listview_style_004.png" /></p>
+
+<p>如果在eclipse看不到預覽，可以執著執行程式，看看emulator或device有沒有效果，或者試著重開eclipse可能就可以看到preview了</p>
+
+<h1>Resource</h1>
+
+<ol>
+<li><a href="http://stackoverflow.com/questions/2706913/how-to-make-android-apps-background-image-repeat" title="http://stackoverflow.com/questions/2706913/how-to-make-android-apps-background-image-repeat">本文主要參考這邊</a></li>
+<li><a href="http://androidblogger.blogspot.com/2009/01/how-to-have-tiled-background-cont.html" title="http://androidblogger.blogspot.com/2009/01/how-to-have-tiled-background-cont.html">http://androidblogger.blogspot.com/2009/01/how-to-have-tiled-background-cont.html</a>
+
+<ul>
+<li>如何設定底圖</li>
+</ul>
+</li>
+</ol>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/03/20/listview/">ListView</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-20T00:00:00+08:00" pubdate data-updated="true">Mar 20<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/03/20/listview/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>ListView是android裡一個很常用的元件，但他的使用上並不是那麼直接，而且有許多事項要去注意。</p>
+
+<p>ListView元件被設計時，考慮到ListView主要是要來呈現許多類似的內容列表，但因為要運在手機上，所以
+就算是有大量的內容，也不能影響到操作的效能。</p>
+
+<p>基於以上原因，在使用ListView時的API時，有一些潛規格及patterns要遵守，當然，你也可以去hack這個行為，但
+通常這樣做的後果，就是比較差的效果，以及可能會破壞一些本來可以跟ListView可以互動良好的機制。</p>
+
+<p>建議在使用ListView前，先閱讀一下<a href="#resource" title="android:listview ↵">Resource</a>中Google
+IO大會的相關資訊，可以避免掉很常見的陷阱</p>
+
+<h4>Item Properties</h4>
+
+<ul>
+<li>enabled/disabled → make item selectabled/unselectabled</li>
+<li><p>choice mode</p>
+
+<ol>
+<li>Single choice mode → getCheckedItemPositions()</li>
+<li>Multiple choice mode → getCheckedItemPositions() or
+getCheckedItemIds()</li>
+</ol>
+</li>
+<li><p>focusabled</p>
+
+<ol>
+<li>true : select whole row</li>
+<li>false : select component inside view</li>
+</ol>
+</li>
+</ul>
+
+
+<p>ListView的list
+item預設的情況下，如果被clicked(selected)整個item會變highlight，但是如果list
+item上有其他的元件，像是button，
+就不會觸發到click事件(highlight的效果不見了)，如果要讓list
+item變成clickable，那只需要將會載取fouce的元件(此到中的button)的<strong>focusable</strong>屬性設定成false,EX:<code>android:focusable=“false”</code>
+這樣便可以恢復ListItem預設的click功能</p>
+
+<h4>Headers And Footers</h4>
+
+<ul>
+<li>ListView.addHeaderView() called before setAdapter()</li>
+<li>ListView.addFooterView() called before setAdapter()</li>
+</ul>
+
+
+<h4>List Selectors</h4>
+
+<ul>
+<li>Highlight selected item</li>
+<li>Not Shown in touch mode (no selection in touch mode)</li>
+<li>Shown behind list items → android:drawSelectOnTop=“true”</li>
+</ul>
+
+
+<h4>Transcript Mode</h4>
+
+<p>當content changes的行為。</p>
+
+<ol>
+<li>disabled</li>
+<li>normal</li>
+<li>alwaysScoll</li>
+</ol>
+
+
+<p>TBD</p>
+
+<h4>Stack Frame</h4>
+
+<p>ListItem是由下而上成長</p>
+
+<h1>View Recycler</h1>
+
+<p>ListView是用來處理大量類似的資料，但是，如果資料量一次是一萬筆、十萬筆、甚至百萬筆時，勢必會造成記憶不足的錯誤，那麼，andoird如何有效的減少記憶體的使用呢？
+所有GUI對像ListView這樣需要處理大量資料的元件，大多數的解決方式都是只針對顯示在畫面上的資料建立視覺化的元件，其他的部份不建立，這種方式常被稱View
+Window (View Part)</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>比方說，畫面上一次最多只能顯示出5個list item，那麼android只需要建立5個相對的view，顯示item 1~5
+</span><span class='line'> 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0  
+</span><span class='line'>|---------|
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>當使用者向上捲動時2個單位時，畫面也是只有5個相對的view，顯示item 3~7的內容
+</span><span class='line'> 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0  
+</span><span class='line'>    |---------|</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這樣的方式可以解決記憶體問題，但是如果當畫面從顯示
+1\~5，捲動到3\~7時，1跟2是消失在畫面，而6跟7是出現在畫面的下面，如果只是單純的把1個2的view做destory()，6跟7做view的create()
+，那會造成需要大量的建立/消滅物件的動作，這樣會消耗不少cpu資源，所以，android採用<strong>回收</strong>的機制來避免大量物件建立。</p>
+
+<p>ListView的ListItem有一個特色，就是每個item
+view大多長得差不多，只是顯示的內容不大一樣，所以，android用一個Recycler來重複使用畫面上的物件。</p>
+
+<p>如果每個一item都是類似的layout，那麼回收再使用相對簡單，但layout不見得每個item都一樣，就要利用ViewType的輔助功能。</p>
+
+<p>典型的BaseAdapter.getView()的實作。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public class MyAdapter extends BaseAdapter {
+</span><span class='line'>    @Override
+</span><span class='line'>    public View getView(int position, View convertView, ViewGroup parent) {
+</span><span class='line'>        ViewHolder holder = null;
+</span><span class='line'>        if (convertView == null) {
+</span><span class='line'>            convertView = mInflater.inflate(R.layout.item1, null);
+</span><span class='line'>            holder = new ViewHolder();
+</span><span class='line'>            holder.textView = (TextView)convertView.findViewById(R.id.text);
+</span><span class='line'>            convertView.setTag(holder);
+</span><span class='line'>        } else {
+</span><span class='line'>            holder = (ViewHolder)convertView.getTag();
+</span><span class='line'>        }
+</span><span class='line'>        holder.textView.setText(mData.get(position));
+</span><span class='line'>        return convertView;    
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>但如果要用在不同layout的listview，那adapter要實作ViewType相關的methods。</p>
+
+<ol>
+<li>getViewTypeCount() 改寫這個method，決定總共會幾種類型的layout</li>
+<li>getItemViewType(position) - 改寫這個method，每個layout的id</li>
+<li>改寫getView，利用getViewTypeCount()，getItemViewType(position)決定view的外觀(layout)</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@Override
+</span><span class='line'>public View getView(int position, View convertView, ViewGroup parent) {
+</span><span class='line'>    ViewHolder holder = null;
+</span><span class='line'>    int type = getItemViewType(position);
+</span><span class='line'>    System.out.println("getView " + position + " " + convertView + " type = " + type);
+</span><span class='line'>    if (convertView == null) {
+</span><span class='line'>        holder = new ViewHolder();
+</span><span class='line'>        switch (layoutType) {
+</span><span class='line'>            case TYPE_1:
+</span><span class='line'>                convertView = mInflater.inflate(layout1, null);
+</span><span class='line'>                break;
+</span><span class='line'>            case TYPE_2:
+</span><span class='line'>                convertView = mInflater.inflate(layout2, null);
+</span><span class='line'>                break;
+</span><span class='line'>        }
+</span><span class='line'>        convertView.setTag(holder);
+</span><span class='line'>    } else {
+</span><span class='line'>        holder = (ViewHolder)convertView.getTag();
+</span><span class='line'>    }
+</span><span class='line'>    holder.textView.setText(mData.get(position));
+</span><span class='line'>    return convertView;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>不要這樣用<code>android:layout_height=“wrap_content”</code>，因為</p>
+
+<ol>
+<li>ListView每一個children的高度的一致的</li>
+<li>Android Framework實際上只會量測前三個children</li>
+</ol>
+
+
+<p>如果資料量不大，就不要用ListView，ListView算是android
+widget中比較複雜的元件，資料量少時，可以用LinerLayout加上動態產生view來模擬</p>
+
+<h2>Do Not</h2>
+
+<p>請不要試著這樣做，這樣做只是拿石頭砸自已的腳，並不會達到你想要的那個效果</p>
+
+<ul>
+<li>Local view cache</li>
+<li>Accessing views from the adapter</li>
+<li>Change convertView’s structure</li>
+<li>Assumptions about getView calls</li>
+</ul>
+
+
+<p>基本上這些都是跟ViewItems回收機制有關，很多行為都讓你驚訝，怎麼跟想像的不一樣，這可已經違反了API設計上的原則(No
+Surprise^<a href="#fn__1">1)</a>^)。</p>
+
+<h1>Resource</h1>
+
+<ul>
+<li><a href="http://ysl-paradise.blogspot.com/2011/04/listview-i.html" title="http://ysl-paradise.blogspot.com/2011/04/listview-i.html">使用 ListView 元件時該注意的技巧 -
+I</a>
+<a href="http://ysl-paradise.blogspot.com/2011/05/listview-ii.html" title="http://ysl-paradise.blogspot.com/2011/05/listview-ii.html">使用 ListView 元件時該注意的技巧 -
+II</a>
+
+<ul>
+<li><a href="http://ysl-paradise.blogspot.com/" title="http://ysl-paradise.blogspot.com/">ysl
+的程式天堂</a>對ListView使用上的一些技巧的介紹</li>
+</ul>
+</li>
+<li><a href="http://android.amberfog.com/?p=296" title="http://android.amberfog.com/?p=296">http://android.amberfog.com/?p=296</a>
+
+<ul>
+<li>解說Recycler的文章</li>
+</ul>
+</li>
+<li><a href="http://blog.jteam.nl/2009/09/17/exploring-the-world-of-android-part-2/" title="http://blog.jteam.nl/2009/09/17/exploring-the-world-of-android-part-2/">http://blog.jteam.nl/2009/09/17/exploring-the-world-of-android-part-2/</a>
+
+<ul>
+<li>異步載入image到listview的教學</li>
+</ul>
+</li>
+<li>Google IO大會中關於listview的介紹(強烈建議至少看過一次)
+
+<ol>
+<li>Turbo-charge your UI: How to Make your Android UI Fast and
+Efficient
+<a href="http://dl.google.com/io/2009/pres/Th_0230_TurboChargeYourUI-HowtomakeyourAndroidUIfastandefficient.pdf" title="http://dl.google.com/io/2009/pres/Th_0230_TurboChargeYourUI-HowtomakeyourAndroidUIfastandefficient.pdf">投影片</a>,<a href="http://www.youtube.com/watch?v=N6YdwzAvwOA&amp;feature=player_embedded" title="http://www.youtube.com/watch?v=N6YdwzAvwOA&amp;feature=player_embedded">影片</a>
+
+<ul>
+<li>adapter效能優化方式</li>
+</ul>
+</li>
+<li>The world of ListView
+<a href="http://dl.google.com/googleio/2010/android-world-of-listview-android.pdf" title="http://dl.google.com/googleio/2010/android-world-of-listview-android.pdf">投影片</a>
+,<a href="http://www.youtube.com/watch?v=wDBM6wVEO70&amp;feature=player_embedded" title="http://www.youtube.com/watch?v=wDBM6wVEO70&amp;feature=player_embedded">影片</a>
+
+<ul>
+<li>ListView使用的注意事項(一堆要注意的陷阱)</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+
+
+<p>^<a href="#fnt__1">1)</a>^ API的設計上應該不能讓使用的人感到意外</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -688,7 +1698,7 @@ today?”這是一整段字串，但其中的username會需被置換成使用者
 <p>字串裏面包含多種形態的變數，顯示日期，時間，貨幣等，可用<strong>Message
 Pattern</strong>的方式來處理</p>
 
-<p>![i18n_101_001.gif][]</p>
+<p><img src="http://blog.kent-chiu.com/images/2012-03-20/i18n_101_001.gif" alt="i18n_101_001.gif" /></p>
 
 <p>ex:</p>
 
@@ -757,7 +1767,7 @@ Prefect兩種工具可以對UI進行除錯跟最佳化，兩種工具都可以�
 
 <p>只有debug這一欄為true，才能使用Hierarchy Viewer tool.</p>
 
-<p><img src="/images/wiki/android/hierarchy_viewer_001.png" alt="hierarchy_viewer_001.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2012-03-20/hierarchy_viewer_001.png" alt="hierarchy_viewer_001.png" /></p>
 
 <p>Hierarchy
 Viewer可以獨立執行，也可以直接在eclipse使用，獨立使用的方式，執行
@@ -767,7 +1777,7 @@ ANDROID_SDK_HOME\tools\hierarchyviewer.bat
 Viewer後，便可以在window
 viewer中看到執行後的專案，click專案的那個item後，就會出現專案的ui結構圖</p>
 
-<p><img src="/images/wiki/android/hierarchy_viewer_002.png" alt="hierarchy_viewer_002.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2012-03-20/hierarchy_viewer_002.png" alt="hierarchy_viewer_002.png" /></p>
 
 <h1>Resources</h1>
 
@@ -1826,7 +2836,7 @@ for source and details.</p>
 
 <h3>ForwardingObject</h3>
 
-<p><img src="/images/wiki/java/guava_101_001.png" alt="guava_101_001.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2012-03-20/guava_101_001.png" alt="guava_101_001.png" /></p>
 
 <p>ForwardingObject是一種<a href="http://en.wikipedia.org/wiki/Decorator_pattern" title="http://en.wikipedia.org/wiki/Decorator_pattern">Decorator_pattern</a>的實作，而在guava裡，extends自ForwardingObject的類別都是collection，也就是說
 在guava裡ForwardingObject是設計來改寫collection的預設行為的。</p>
@@ -1977,789 +2987,6 @@ stackoverflow</a></li>
 <li><a href="http://www.tfnico.com/presentations/google-guava" title="http://www.tfnico.com/presentations/google-guava">一些guava使用上的介紹</a></li>
 </ul>
 
-
-<p>^<a href="#fnt__1">1)</a>^ 無法轉換Collection本身的型別 (ex: List → Set)</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/03/20/gesture/">Android Gesture</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-03-20T00:00:00+08:00" pubdate data-updated="true">Mar 20<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/03/20/gesture/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Android
-Gesture是用來偵測、處理手勢的相關動作，像是手指頭在螢幕畫出圖案，大部份的應用是拿來偵測上下或左右滑過螢幕(swipe)，
-如果不需要處理特別的手勢，那通常用<a href="http://wiki.kent-chiu.com/doku.php?id=android:gesture" title="android:gesture">GestureDetector</a>相關的類別即可。</p>
-
-<p>幾個主要的類別是：</p>
-
-<ol>
-<li>android.view.GestureDetector 偵測手勢</li>
-<li>android.view.GestureDetector.OnGestureListener 處理Gesture事件</li>
-<li>android.view.GestureDetector.OnDoubleTapListener
-處理double-tap(雙擊)事件</li>
-<li>android.view.GestureDetector.SimpleOnGestureListener
-一個基本的Gesture
-Listener實作，直接extneds這個類別可以不用實作一堆OnGestureListener,OnDoubleTapListener用不著的methods</li>
-<li>android.view.View.OnTouchListener
-用來把View上所發生的事件傳給GestureDetector</li>
-</ol>
-
-
-<p>處理多點觸控的相關類別是：</p>
-
-<ol>
-<li>android.view.ScaleGestureDetector</li>
-<li>android.view.OnScaleGestureListener</li>
-<li>android.view.SimpleOnScaleGestureListener</li>
-</ol>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>public class MyActivity extends Activity {
-</span><span class='line'> 
-</span><span class='line'>    private GestureDetector    detector;
-</span><span class='line'>    private WebView myWebView;
-</span><span class='line'> 
-</span><span class='line'>    @Override
-</span><span class='line'>    public void onCreate(Bundle savedInstanceState) {
-</span><span class='line'>        detector = new GestureDetector(new MyOnGestureListener());
-</span><span class='line'>        myWebView.setOnTouchListener(new MyOnTouchListener());
-</span><span class='line'>    }    
-</span><span class='line'> 
-</span><span class='line'> 
-</span><span class='line'>    class MyOnGestureListener implements OnGestureListener {
-</span><span class='line'> 
-</span><span class='line'>        @Override
-</span><span class='line'>        public boolean onDown(MotionEvent e) {
-</span><span class='line'>            return false;
-</span><span class='line'>        }
-</span><span class='line'> 
-</span><span class='line'>        @Override
-</span><span class='line'>        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-</span><span class='line'>            if (e1.getX() - e2.getX() &gt; 200) { //swipe left，如果向左滑動的距離超過200才執行
-</span><span class='line'>            } else if (e2.getX() - e1.getX() &gt; 200) { // 如果向向滑動的距離超過200才執行
-</span><span class='line'>            }
-</span><span class='line'>            return true;
-</span><span class='line'>        }
-</span><span class='line'> 
-</span><span class='line'>        @Override
-</span><span class='line'>        public void onLongPress(MotionEvent e) {
-</span><span class='line'>        }
-</span><span class='line'> 
-</span><span class='line'>        @Override
-</span><span class='line'>        public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-</span><span class='line'>            return false;
-</span><span class='line'>        }
-</span><span class='line'> 
-</span><span class='line'>        @Override
-</span><span class='line'>        public void onShowPress(MotionEvent e) {
-</span><span class='line'> 
-</span><span class='line'>        }
-</span><span class='line'> 
-</span><span class='line'>        @Override
-</span><span class='line'>        public boolean onSingleTapUp(MotionEvent e) {
-</span><span class='line'>            return false;
-</span><span class='line'>        }
-</span><span class='line'>    }
-</span><span class='line'> 
-</span><span class='line'> 
-</span><span class='line'>    class MyOnTouchListener implements OnTouchListener {
-</span><span class='line'>        @Override
-</span><span class='line'>        public boolean onTouch(View v, MotionEvent event) {
-</span><span class='line'>            return detector.onTouchEvent(event);
-</span><span class='line'>        }
-</span><span class='line'>    }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>使用上比較需要注意的是OnTouchListener，這個要設定到你操作的元件上，本例中，Activity上面是整個被WebView(myWebView)佔住了
-，所以所有的手勢操作是發生在WebView上而不是Activity，所以必須把WebView的TouchEvent傳給detector</p>
-
-<p>上面的MyOnGestureListener可以用下面的這個MySimpleOnGestureListener取代，可以不用實作一堆空methods</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>class MySimpleOnGestureListener extends SimpleOnGestureListener {
-</span><span class='line'> 
-</span><span class='line'> 
-</span><span class='line'>    @Override
-</span><span class='line'>    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-</span><span class='line'>        if (e1.getX() - e2.getX() &gt; 200) { //swipe left，如果向左滑動的距離超過200才執行
-</span><span class='line'>        } else if (e2.getX() - e1.getX() &gt; 200) { // 如果向向滑動的距離超過200才執行
-</span><span class='line'>        }
-</span><span class='line'>        return true;
-</span><span class='line'>    }
-</span><span class='line'> 
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/03/20/enum/">Enum 進階應用</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-03-20T00:00:00+08:00" pubdate data-updated="true">Mar 20<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/03/20/enum/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>用多型取代if-else</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>public enum VoltageRange {
-</span><span class='line'>    V100_120, V200_240, V100_240;
-</span><span class='line'>
-</span><span class='line'>    public boolean isVoltageInRange(int voltage) {
-</span><span class='line'>        if (StringUtils.equals("V100_120", name())) {
-</span><span class='line'>            IntRange v100to120 = new IntRange(100, 120);
-</span><span class='line'>            return v100to120.containsInteger(voltage);
-</span><span class='line'>        } else if (StringUtils.equals("V200_240", name())) {
-</span><span class='line'>            IntRange v200to240 = new IntRange(200, 240);
-</span><span class='line'>            return v200to240.containsInteger(voltage);
-</span><span class='line'>        } else if (StringUtils.equals("V100_240", name())) {
-</span><span class='line'>            IntRange v100to120 = new IntRange(100, 120);
-</span><span class='line'>            IntRange v200to240 = new IntRange(200, 240);
-</span><span class='line'>            return v100to120.containsInteger(voltage) || v200to240.containsInteger(voltage);
-</span><span class='line'>        }
-</span><span class='line'>        return false;
-</span><span class='line'>    }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>package com.bellwin.idcview.device.model;
-</span><span class='line'>
-</span><span class='line'>import org.apache.commons.lang.math.IntRange;
-</span><span class='line'>
-</span><span class='line'>public enum VoltageRange {
-</span><span class='line'>    V100_120 {
-</span><span class='line'>        @Override
-</span><span class='line'>        public boolean isVoltageInRange(int voltage) {
-</span><span class='line'>            IntRange v100to120 = new IntRange(100, 120);
-</span><span class='line'>            return v100to120.containsInteger(voltage);
-</span><span class='line'>        }
-</span><span class='line'>
-</span><span class='line'>    },
-</span><span class='line'>    V200_240 {
-</span><span class='line'>        @Override
-</span><span class='line'>        public boolean isVoltageInRange(int voltage) {
-</span><span class='line'>            IntRange v200to240 = new IntRange(200, 240);
-</span><span class='line'>            return v200to240.containsInteger(voltage);
-</span><span class='line'>        }
-</span><span class='line'>
-</span><span class='line'>    },
-</span><span class='line'>    V100_240 {
-</span><span class='line'>        @Override
-</span><span class='line'>        public boolean isVoltageInRange(int voltage) {
-</span><span class='line'>            IntRange v100to120 = new IntRange(100, 120);
-</span><span class='line'>            IntRange v200to240 = new IntRange(200, 240);
-</span><span class='line'>            return v100to120.containsInteger(voltage) || v200to240.containsInteger(voltage);
-</span><span class='line'>        }
-</span><span class='line'>
-</span><span class='line'>    };
-</span><span class='line'>    
-</span><span class='line'>    // 因為 V100_120, V200_240, V100_240 實際上是VoltageRange的instnace，所以必須要宣告一個method(是不是需要為abstract method視需求而定)
-</span><span class='line'>    public abstract boolean isVoltageInRange(int voltage);
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>改變ordinal的預設行為</h3>
-
-<p>JPA如果選擇以<code>@Enumerated(EnumType.ORDINAL)</code>，他的值一定是一個順序值, 0,
-1, 2, 3, 4, …
-，沒辦法跳號，而且存入資料庫的值也會是這樣的順序號，無法跳號，
-但有時如果我們的物件模型不見得是順序號的時侯，這時就會比較麻煩。</p>
-
-<p>比如說，以家用電源來說，有單相(SINGLE_PHASE)跟三相(THREE_PHASE)，但沒有雙相電，雖然我們宣告一個電力相的物件模型為這樣的列舉值</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>public enum PhaseType {
-</span><span class='line'>    SINGLE_PHASE(1), THREE_PHASE(3);
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>但JPA若選擇以<code>@Enumerated(EnumType.ORDINAL)</code>方式存入資料庫，那麼存入db的值是會取決於ordinal()這個method，所以會是單相電會存入&#8217;0&#8217;，三相電會存入&#8217;1&#8217;到db。我們可以選擇用<code>@Enumerated(EnumType.STRING)</code>來處理，但這樣存入db的型態會是字串，另一種較好的方式，改寫列舉型別PhaseType，並要求使用他的對象類別(此例中的AirCon)配合修改</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>public enum PhaseType {
-</span><span class='line'> 
-</span><span class='line'>    SINGLE_PHASE(1), THREE_PHASE(3);
-</span><span class='line'> 
-</span><span class='line'>    // 用parse來決定value真正的值
-</span><span class='line'>    public static PhaseType parse(int id) {
-</span><span class='line'>        PhaseType type = null; // Default
-</span><span class='line'>        for (PhaseType item : PhaseType.values()) {
-</span><span class='line'>            if (item.getValue() == id) {
-</span><span class='line'>                type = item;
-</span><span class='line'>                break;
-</span><span class='line'>            }
-</span><span class='line'>        }
-</span><span class='line'>        return type;
-</span><span class='line'>    }
-</span><span class='line'> 
-</span><span class='line'>    private final int    value;
-</span><span class='line'> 
-</span><span class='line'>    PhaseType(int value) {
-</span><span class='line'>        this.value = value;
-</span><span class='line'>    }
-</span><span class='line'> 
-</span><span class='line'>    public int getValue() {
-</span><span class='line'>        return value;
-</span><span class='line'>    }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>光是這樣是不夠的，使用列舉型別PhaseType的對象，也需要配合修改</p>
-
-<ol>
-<li>將原本定義為@Enumerated改成數值型態</li>
-<li>getter跟setter要呼叫PhaseType裡的getValue()跟parse()將PhaseType轉成數值型態</li>
-</ol>
-
-
-<p>這樣修改後，對於使用AirCon(冷氣機)物件來說，還是使用列舉型別PhaseType，但存入db的由原來的0(單相)、1(三相)變成更直覺的1(單相)、3(三相)</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>@Entity
-</span><span class='line'>public AirCon {
-</span><span class='line'>    /**
-</span><span class='line'>     * 原本是宣告成PhaseType列舉型別
-</span><span class='line'>     */
-</span><span class='line'>    //@Enumerated(EnumType.ORDINAL)
-</span><span class='line'>    //private PhaseType   voltageRange;
-</span><span class='line'>    // 改成宣告為數值
-</span><span class='line'>    private Integer           phaseType;
-</span><span class='line'> 
-</span><span class='line'>    // getter跟setter要配合修改，將PhaseType轉成int，這樣對使用AirCon來說，還是使用比較直覺的列舉型別PhaseType
-</span><span class='line'>    @Override
-</span><span class='line'>    public PhaseType getPhaseType() {
-</span><span class='line'>        return PhaseType.parse(phaseType);
-</span><span class='line'>    }
-</span><span class='line'> 
-</span><span class='line'>    public void setPhaseType(PhaseType phaseType) {
-</span><span class='line'>        this.phaseType = phaseType.getValue();
-</span><span class='line'>    }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/03/20/developing_restful_android_applications/">開發RESTful應用程式</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-03-20T00:00:00+08:00" pubdate data-updated="true">Mar 20<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/03/20/developing_restful_android_applications/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>andoird程式中，常常會有以下類型的動作方式：</p>
-
-<ol>
-<li>到網路抓取資料</li>
-<li>儲存到手機</li>
-<li>檢查並更新手機上的資料</li>
-</ol>
-
-
-<p>像Rss Reader就是很典型的範例，使用者需要在網路有效時對遠端的rss
-server同部rss資料，並可以在沒有網路時在local進行離線閱讀。
-這類型的程式有幾個困難需要處理</p>
-
-<ol>
-<li>不能在activity進行網路抓資料的動作，因為極可能會block住ui，user無法進行其他操作</li>
-<li>抓取資料後，需要在local進行cache(通常是存在SQLite資料庫)</li>
-<li>需對資料庫跟遠端的rss進行同步，如果有新的rss，應該進行通知</li>
-<li>又不能太過頻繁的進行同步</li>
-<li>同步後，使用者在畫面上可以馬上讀取到</li>
-</ol>
-
-
-<p>解決這些問題，不是在一個activity中全部做完即可，而是需要許多個組件相互配合，才不會讓user有不好的使用經驗，為了解決這些問題，google建議了三個處理這個問題的patterns。詳情請參閱參考資源。</p>
-
-<p><img src="/images/wiki/android/developing_restful_android_applications_001.png" alt="developing_restful_android_applications_001.png" /></p>
-
-<p><img src="/images/wiki/android/developing_restful_android_applications_002.png" alt="developing_restful_android_applications_002.png" /></p>
-
-<h5>處理檔案跟資料庫間的關聯</h5>
-
-<p>在應用上，db的資料，常常會跟某些特定的某些檔案做關聯，傳統的做法，可能是把檔案位置記在table的某個欄位，或用特殊的命名規則來讓table的record跟檔案名稱可以對應的起來。
-Google的提供了另一種方式，主要做法如下：</p>
-
-<ul>
-<li>為檔案建立一個專屬的table，裡面包含 “_id”,”_data”兩個欄位</li>
-<li>建立存取檔案專用的content
-uri，該uri可以指定該table的”_id”，便可取得檔案的相關資訊”_data”</li>
-<li>利用ContentResolver.openInputStream直接開啟檔案</li>
-</ul>
-
-
-<p>這樣做的好處是，ContentProvider的client端(使用ContentProvider
-API的程式)不用管實體檔案存那，就算檔案從手機移到SD
-card或網路上，都不會影響到client的用法。ContentProvider的client面對的都是相同的Content
-URI.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>User Table                                                  User Picture Table
-</span><span class='line'>*-----*------*----------*-------------------------------*  *-----*------------------------------------------*
-</span><span class='line'>| _id | name | password | picture                       |  | _id | _data                                    |
-</span><span class='line'>*-----*------*----------*-------------------------------*  *-----*------------------------------------------*
-</span><span class='line'>|   1 | Kent | xxx      | content://foo.bar.Picture/101 |  | 101 | app_data/data/kent_picture.png           | (user的大頭照在手機記憶體)
-</span><span class='line'>|   2 | John | ooo      | content://foo.bar.Picture/102 |  | 102 | http://www.domain.com/john.png           | (user的大頭照在網路上)
-</span><span class='line'>|   3 | Bob  | ***      | content://foo.bar.Picture/103 |  | 103 | sd_card/data/profile_picture_of_bob.jpg  | (user的大頭照在sd card上)
-</span><span class='line'>*-----*------*----------*-------------------------------*  *-----*------------------------------------------*</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>說明</h4>
-
-<p>左邊User Table記錄的是user的基本資料，右邊的User Picture
-Table是記錄user的大頭照存放位置。user
-table裡並不直接存放大頭照檔案的位置，取而代之的是把大頭的位置放在User
-Picture Table，然後透過user table裡的picture欄位存的content uri,
-來取得User Picture
-Table中的相對row(_id=101),真正存放檔案的欄位一定要叫<strong>_data</strong>，當android收到<code>ContentResolver.openInputStream</code>的需求時，android會將<strong>_data</strong>欄位以streaming的方式開啟。</p>
-
-<p>如果直接將檔案實際路徑(ex:app_data/data/kent_picture.png)放到user的picture的欄位中，而不是放content
-uri，這樣，其他程式則會因沒有權限而無法開啟</p>
-
-<h2>Resource</h2>
-
-<ul>
-<li><a href="http://www.google.com/events/io/2010/sessions/developing-RESTful-android-apps.html" title="http://www.google.com/events/io/2010/sessions/developing-RESTful-android-apps.html">google I/O 2010大會上介紹的處理RESTful Android
-Applications</a>
-<a href="http://www.youtube.com/watch?v=xHXn3Kg2IQE&amp;feature=player_embedded" title="http://www.youtube.com/watch?v=xHXn3Kg2IQE&amp;feature=player_embedded">說明影片</a>
-<a href="http://dl.google.com/googleio/2010/android-developing-RESTful-android-apps.pdf" title="http://dl.google.com/googleio/2010/android-developing-RESTful-android-apps.pdf">投影片</a></li>
-<li><a href="http://programming-android.labs.oreilly.com/ch13.html" title="http://programming-android.labs.oreilly.com/ch13.html">Programming
-Android</a>
-
-<ul>
-<li>oreilly線上書籍Programming Android關於android開發RESTful
-client的注意事項</li>
-</ul>
-</li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/03/20/cursor/">Android Cursor</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-03-20T00:00:00+08:00" pubdate data-updated="true">Mar 20<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/03/20/cursor/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://developer.android.com/reference/android/database/Cursor.html" title="http://developer.android.com/reference/android/database/Cursor.html">Cursor</a>(游標)是Android資料模組裡很重要的一個結構，他不僅會跟Database有關，
-也跟其他需要處理多筆資料的類別有很緊密的關係，像是在Media, Video,
-ContentProvider, Listview都可以見到Cursor的蹤影。</p>
-
-<h3>Cursor的階層體系</h3>
-
-<p><img src="/images/wiki/android/cursor_001.png" alt="cursor_001.png" /></p>
-
-<h5>跟Bundle相關的method</h5>
-
-<ul>
-<li>getExtras()</li>
-<li>respond(Bundle)</li>
-</ul>
-
-
-<h5>Metadata相關的method</h5>
-
-<ul>
-<li>getColumnCount()</li>
-<li>getColumnIndex(String)</li>
-<li>getColumnIndexOrThrow(String)</li>
-<li>getColumnName(int)</li>
-<li>getColumnNames()</li>
-</ul>
-
-
-<h5>位置相關的method</h5>
-
-<ul>
-<li>isAfterLast()</li>
-<li>isBeforeFirst()</li>
-<li>isClosed()</li>
-<li>isFirst()</li>
-<li>isLast()</li>
-<li>isNull(int)</li>
-<li>move(int)</li>
-<li>moveToFirst()</li>
-<li>moveToLast()</li>
-<li>moveToNext()</li>
-<li>moveToPosition(int)</li>
-<li>moveToPrevious()</li>
-</ul>
-
-
-<h5>讀取資料相關的method</h5>
-
-<ul>
-<li>getCount()</li>
-<li>getDouble(int)</li>
-<li>getFloat(int)</li>
-<li>getInt(int)</li>
-<li>getLong(int)</li>
-<li>getPosition()</li>
-<li>getShort(int)</li>
-<li>getString(int)</li>
-<li>getBlob(int)</li>
-</ul>
-
-
-<h5>資料異動通知相關的method</h5>
-
-<ul>
-<li>registerContentObserver(ContentObserver)</li>
-<li>registerDataSetObserver(DataSetObserver)</li>
-<li>setNotificationUri(ContentResolver, Uri)</li>
-<li>unregisterContentObserver(ContentObserver)</li>
-<li>unregisterDataSetObserver(DataSetObserver)</li>
-</ul>
-
-
-<p>registerContentObserver是接收(觀察)ContentResolver.notifyChange(uri,
-null)的事件，當notifyChange()被呼叫時，ContentObserver會被通知。
-notifyChange()是一個程式慣例，要由寫程式的人自已進行呼叫。</p>
-
-<p>setNotificationUri通常用在ContentProvider.query()，裡，在下面的例子中
-<code>c.setNotificationUri(getContext().getContentResolver(), uri);</code>
-是用在cursor被建立後，如果資料內容被其它程式異動時，cursor會自已知道已經不是最新狀態而自行requery.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// SQLiteQueryBuilder is a helper class that creates the
-</span><span class='line'>        // proper SQL syntax for us.
-</span><span class='line'>        SQLiteQueryBuilder qBuilder = new SQLiteQueryBuilder();
-</span><span class='line'> 
-</span><span class='line'>        // Set the table we're querying.
-</span><span class='line'>        qBuilder.setTables(DATABASE_TABLE_NAME);
-</span><span class='line'> 
-</span><span class='line'>        // If the query ends in a specific record number, we're
-</span><span class='line'>        // being asked for a specific record, so set the
-</span><span class='line'>        // WHERE clause in our query.
-</span><span class='line'>        if((URI_MATCHER.match(uri)) == SPECIFIC_MESSAGE){
-</span><span class='line'>            qBuilder.appendWhere("_id=" + uri.getPathLeafId());
-</span><span class='line'>        }
-</span><span class='line'> 
-</span><span class='line'>        // Make the query.
-</span><span class='line'>        Cursor c = qBuilder.query(mDb,
-</span><span class='line'>                projection,
-</span><span class='line'>                selection,
-</span><span class='line'>                selectionArgs,
-</span><span class='line'>                groupBy,
-</span><span class='line'>                having,
-</span><span class='line'>                sortOrder);
-</span><span class='line'>        c.setNotificationUri(getContext().getContentResolver(), uri);
-</span><span class='line'>        return c</span></code></pre></td></tr></table></div></figure>
-
-
-
 </div>
   
   
@@ -2784,23 +3011,23 @@ notifyChange()是一個程式慣例，要由寫程式的人自已進行呼叫。
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/07/07/python-101/">Python 101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/25/url-encoding/">URL Encoding</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/04/restful-api-design/">RESTful API Design</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/05/17/my-intellij-idea-shortcut/">My IntelliJ IDEA Shortcut</a>
       </li>
     
       <li class="post">
         <a href="/blog/2013/05/12/jesper-report-font-issue/">Jesper Report, IReport 匯出成中文PDF</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/05/12/jasperreport-101/">JasperReport 101</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/05/06/mac-tips/">Mac Tips</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/04/22/clean-code/">Clean Code閱讀筆記</a>
       </li>
     
   </ul>

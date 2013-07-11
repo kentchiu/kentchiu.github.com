@@ -9,8 +9,9 @@
   <meta name="author" content="Kent">
 
   
-  <meta name="description" content="This articles is a guild for installing Subversion (a.k.a SVN) in
-CentOS5. Requirement apache server 2.x Install Install Subversion and mod_dav_svn &hellip;">
+  <meta name="description" content="基本上，每個template的layout也不用特意去強記，因為，每一個theme里的每一個template(lib,dwt,
+wherever…)，總之就是themes目錄下的所有檔案都不一樣。
+所以，應該比較用心去了解的反而是將資料往smarty (templates) &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -51,7 +52,7 @@ CentOS5. Requirement apache server 2.x Install Install Subversion and mod_dav_sv
   <header role="banner"><hgroup>
   <h1><a href="/">Kent's Blog</a></h1>
   
-    <h2>Kent的學習筆記(剛從dokuwiki搬過來，內容還在整修中)</h2>
+    <h2>Kent的學習筆記</h2>
   
 </hgroup>
 
@@ -78,6 +79,1435 @@ CentOS5. Requirement apache server 2.x Install Install Subversion and mod_dav_sv
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/template_index/">這篇文章說明每個模版的功能</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/template_index/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>基本上，每個template的layout也不用特意去強記，因為，每一個theme里的每一個template(lib,dwt,
+wherever…)，總之就是themes目錄下的所有檔案都不一樣。
+所以，應該比較用心去了解的反而是將資料往smarty (templates)
+pushing的那些php檔。能夠了解每個php送出的資訊，大概也就知道template的能秀出那麼東西了。</p>
+
+<p>dwt應該是<strong>D</strong>ream<strong>W</strong>eaver
+<strong>T</strong>emplate的縮寫，而lbi也是dreamweaver裡的一種格式。它可以透過一些特殊的tags達到server
+side的include效果。 在dwt檔裡有許多地方都有以下兩組tags</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;!-- #BeginLibraryItem "/library/xxx.lbi" --&gt;&lt;!-- #EndLibraryItem --&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;!-- TemplateBeginEditable name="xxx" --&gt;&lt;!-- TemplateEndEditable --&gt;  </span></code></pre></td></tr></table></div></figure>
+
+
+<p>第一組tag的功能是include
+lbi檔，如果tag有內容，內容應該會與被included的檔案一模一樣，這是因為<strong>某些</strong>editor(dreamweaver)自動include進來的
+，但是如果<strong>直接去編輯tag內容(inner
+text)是沒用的，頁面並不會相對改變</strong>，惟有直接修改lbi檔的內容，頁面才會改變。</p>
+
+<p>第二組tag不太清楚實際的作用是什麼^<a href="#fn__1">1)</a>^可以直接拿掉，但tag內容要保留。</p>
+
+<p>以一個簡單的例子來說明這種效果</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;b&gt;Hello World!&lt;/b&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;!-- #BeginLibraryItem "/library/my.lbi" --&gt;
+</span><span class='line'>&lt;b&gt;Hello World!&lt;/b&gt;
+</span><span class='line'>&lt;!-- #EndLibraryItem --&gt;
+</span><span class='line'>&lt;!-- TemplateBeginEditable name="foo" --&gt;
+</span><span class='line'>&lt;b&gt;Kent&lt;/b&gt;
+</span><span class='line'>&lt;!-- TemplateEndEditable --&gt;  </span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面的lib會被included到my.dwt內，所以輸出會像這樣：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Hello World!Kent</span></code></pre></td></tr></table></div></figure>
+
+
+<p>再來，說明一下另一個效果</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;!-- #BeginLibraryItem "/library/my.lbi" --&gt;
+</span><span class='line'>&lt;b&gt;--- Hello World! ---&lt;/b&gt;
+</span><span class='line'>&lt;!-- #EndLibraryItem --&gt;
+</span><span class='line'>&lt;!-- TemplateBeginEditable name="foo" --&gt;
+</span><span class='line'>&lt;b&gt;Kent&lt;/b&gt;
+</span><span class='line'>&lt;!-- TemplateEndEditable --&gt;  </span></code></pre></td></tr></table></div></figure>
+
+
+<p>my.dwt裡第2行&lt;b>Hello
+World!&lt;/b>這個並不會被render，就算去修改它，也沒有用，將第二行改成
+<strong>&lt;b>— Hello World! —&lt;/b></strong>，結果輸出跟之前一樣</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Hello World!Kent</span></code></pre></td></tr></table></div></figure>
+
+
+<p>但如果是去修改lbi檔的內容</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;b&gt; *** Hello World! *** &lt;/b&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>輸出就會改變成跟lbi的內容一樣了</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>*** Hello World! *** Kent</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這說明了<strong>修改BeginLibraryItem /
+#EndLibraryItem間的內容是沒用的</strong>，一定要去修改lbi的檔。
+換句話說，其實可以對dwt檔做以下的簡化</p>
+
+<ol>
+<li>可以移除&lt;!– TemplateBeginEditable name=“xxx” –>&lt;!–
+TemplateEndEditable –> 這一對tag，但tag的內文要保留</li>
+<li>可以移除&lt;!– #BeginLibraryItem ”/library/xxx.lbi” –>&lt;!–
+#EndLibraryItem –> tag的內文，但tag本身要保留</li>
+</ol>
+
+
+<p>所以，簡化後的dwt檔會像這樣</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;!-- #BeginLibraryItem "/library/my.lbi" --&gt;
+</span><span class='line'>&lt;b&gt;Kent&lt;/b&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>有些官方的template本身就是簡化過的(預設的template沒有簡化)，所以可以拿簡化過的template來測試，會比較乾淨</p>
+
+<p>ECShop裡面模版可以透過web畫面進行調整，調整後的layout是紀錄在db，然後把調整的page(ex:index.dwt)內容給置換掉</p>
+
+<h2>dwt 模版</h2>
+
+<p>備註：範本檔共22個(格式：.dwt)。</p>
+
+<p>提醒：</p>
+
+<ol>
+<li>更改範本檔裡面庫檔的內容是無效的，頁面刷新時，程式自動重新載入庫檔內容到範本檔裡(以庫檔內容為准)。</li>
+<li>範本內所有id值為 ECS_ 開頭的都必須保留(和ajax相關)。</li>
+<li>非庫檔內容不可放置到可編輯區域內，否則設置範本時，非庫檔內容將被覆蓋刪除。</li>
+</ol>
+
+
+<p>  名稱                    說明</p>
+
+<hr />
+
+<p>  brand.dwt               商品品牌頁
+  article.dwt             文章內容頁
+  article_cat.dwt        文章列表頁
+  catalog.dwt             所有分類頁
+  category.dwt            商品列表頁
+  compare.dwt             商品比較頁
+  flow.dwt                購物車和購物流程頁
+  gallery.dwt             商品相冊頁
+  goods.dwt               商品詳情頁
+  group_buy_goods.dwt   團購商品詳情頁
+  group_buy_list.dwt    團購商品列表頁
+  index.dwt               首頁
+  message.dwt             資訊提示頁
+  pick_out.dwt           選購中心頁
+  receive.dwt             收貨確認資訊頁
+  respond.dwt             線上支付結果提示資訊頁
+  search.dwt              商品搜尋網頁
+  snatch.dwt              奪寶奇兵頁
+  tag_cloud.dwt          標籤雲頁
+  user_clips.dwt         用戶中心頁 （包含：歡迎頁，我的留言，我的標籤，收藏商品，缺貨登記列表，添加缺貨登記。）
+  user_passport.dwt      用戶安全頁（包含：會員登錄，會員註冊，找回密碼。）
+  user_transaction.dwt   用戶中心頁 （包含：個人資料，我的紅包，添加紅包，我的訂單，訂單詳情，合併訂單，訂單狀態，商品清單，費用總計，收貨人資訊，支付方式，其他資訊，會員餘額。）</p>
+
+<h2>Library</h2>
+
+<p>備註：庫檔共40個 (格式 .lbi)
+提醒：檔案名儘量保存默認，否則在後臺管理將無法管理庫檔或不可預見錯誤。</p>
+
+<p>  name                       description</p>
+
+<hr />
+
+<p>  ad_position.lbi           廣告位
+  bought_goods.lbi          購買過此商品的人購買過哪些商品
+  brand_goods.lbi           品牌的商品
+  brands.lbi                 品牌專區
+  cart.lbi                   購物車
+  cat_articles.lbi          文章列表
+  cat_goods.lbi             分類下的商品
+  category_tree.lbi         商品分類樹
+  comments.lbi               用戶評論列表 （ajax載入comments_list.lbi。）
+  comments_list.lbi         使用者評論內容
+  consignee.lbi              收貨地址表單
+  goods_article.lbi         相關文章
+  goods_attrlinked.lbi      屬性關聯的商品
+  goods_fittings.lbi        相關配件
+  goods_gallery.lbi         商品相冊
+  goods_list.lbi            商品列表
+  goods_related.lbi         相關商品
+  goods_tags.lbi            商品標記
+  group_buy.lbi             首頁團購商品
+  help.lbi                   網店幫助
+  history.lbi                商品流覽歷史
+  invoice_query.lbi         發貨單查詢
+  member.lbi                 會員登錄 (ajax載入member_info.lbi。)
+  member_info.lbi           會員登錄表單和登錄成功以後使用者帳戶資訊
+  new_articles.lbi          最新文章
+  order_total.lbi           訂單費用總計
+  page_footer.lbi           頁面腳部
+  page_header.lbi           頁面頂部
+  pages.lbi                  列表分頁
+  recommend_best.lbi        精品推薦
+  recommend_hot.lbi         熱賣商品
+  recommend_new.lbi         新品推薦
+  recommend_promotion.lbi   促銷商品
+  search_form.lbi           搜索表單
+  snatch.lbi                 奪寶奇兵出價表單 (必須被id=“ECS_SNATCH”包含實現ajax刷新。)
+  snatch_price.lbi          奪寶奇兵最新出價列表 (必須被id=“ECS_PRICE_LIST”包含實現ajax刷新。)
+  top10.lbi                  銷售排行
+  ur_here.lbi               當前位置
+  user_menu.lbi             使用者中心功能表
+  vote.lbi                   線上調查</p>
+
+<h3>brand.dwt (商品品牌頁)</h3>
+
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/template_index_article.dwt.gif" alt="template_index_article.dwt.gif" /></p>
+
+<h3>brand.dw (商品品牌頁)</h3>
+
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/template_index_brand.dwt.gif" alt="template_index_brand.dwt.gif" /></p>
+
+<h3>article.dw (文章內容頁)</h3>
+
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/template_index_article.dwt.gif" alt="template_index_article.dwt.gif" /></p>
+
+<h3>article_cat.dwt (文章列表頁)</h3>
+
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/template_index_article_cat.dwt.gif" alt="template_index_article_cat.dwt.gif" /></p>
+
+<h3>catalog.dw (所有分類頁)</h3>
+
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/template_index_catalog.dwt.gif" alt="template_index_catalog.dwt.gif" /></p>
+
+<h3>category.dwt (商品列表頁)</h3>
+
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/template_index_category.dwt.gif" alt="template_index_category.dwt.gif" /></p>
+
+<h3>compare.dw (商品比較頁)</h3>
+
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/template_index_compare.dwt.gif" alt="template_index_compare.dwt.gif" /></p>
+
+<h3>flow.dwt (購物車和購物流程頁)</h3>
+
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/template_index_flow.dwt.gif" alt="template_index_flow.dwt.gif" /></p>
+
+<h3>gallery.dw (商品相冊頁)</h3>
+
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/template_index_gallery.dwt.gif" alt="template_index_gallery.dwt.gif" /></p>
+
+<h3>goods.dw (商品詳情頁)</h3>
+
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/template_index_goods.dwt.gif" alt="template_index_goods.dwt.gif" /></p>
+
+<h3>group_buy_goods.dwt (團購商品詳情頁)</h3>
+
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/template_index_group_buy_goods.dwt.gif" alt="template_index_group_buy_goods.dwt.gif" /></p>
+
+<h3>group_buy_list.dwt (團購商品列表頁)</h3>
+
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/template_index_group_buy_list.dwt.gif" alt="template_index_group_buy_list.dwt.gif" /></p>
+
+<h3>index.dw (首頁)</h3>
+
+<p>兩張圖的layout沒有完全一致，參考看看就好</p>
+
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/template_index_index.dwt.gif" alt="template_index_index.dwt.gif" /></p>
+
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/template_index_index.png" alt="template_index_index.png" /></p>
+
+<h3>message.dw ( 資訊提示頁)</h3>
+
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/template_index_message.dwt.gif" alt="template_index_message.dwt.gif" /></p>
+
+<h3>pick_out.dwt (選購中心頁)</h3>
+
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/template_index_pick_out.dwt.gif" alt="template_index_pick_out.dwt.gif" /></p>
+
+<h3>receive.dw (收貨確認資訊頁)</h3>
+
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/template_index_receive.dwt.gif" alt="template_index_receive.dwt.gif" /></p>
+
+<h3>respond.dw (線上支付結果提示資訊頁)</h3>
+
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/template_index_respond.dwt.gif" alt="template_index_respond.dwt.gif" /></p>
+
+<h3>search.dwt (商品搜尋網頁)</h3>
+
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/template_index_search.dwt.gif" alt="template_index_search.dwt.gif" /></p>
+
+<h3>snatch.dwt (奪寶奇兵頁)</h3>
+
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/template_index_snatch.dwt.gif" alt="template_index_snatch.dwt.gif" /></p>
+
+<h3>tag_cloud.dwt (標籤雲頁)</h3>
+
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/template_index_tag_cloud.dwt.gif" alt="template_index_tag_cloud.dwt.gif" /></p>
+
+<h3>user_clips.dwt (用戶中心頁)</h3>
+
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/template_index_user_clips.dwt.gif" alt="template_index_user_clips.dwt.gif" /></p>
+
+<h3>user_passport.dwt (用戶安全頁)</h3>
+
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/template_index_user_passport.dwt.gif" alt="template_index_user_passport.dwt.gif" /></p>
+
+<h3>user_transaction.dwt (用戶中心頁)</h3>
+
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/template_index_user_transaction.dwt.gif" alt="template_index_user_transaction.dwt.gif" /></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/template/">Ec的範本機制感覺和smarty的類似，算是一個簡易的smarty把</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/template/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>ec的範本機制感覺和smarty的類似，算是一個簡易的smarty把</p>
+
+<p>每個程式頁面都有如下類似的語句</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$cache_id = sprintf('%X', crc32($_SESSION['user_rank'] . '-' . $_CFG['lang']))   </span></code></pre></td></tr></table></div></figure>
+
+
+<p>緩存id，現在是通過使用者等級和語言緩存不同頁面（通過這裡應該可以做網店多語種的實現）</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+<span class='line-number'>113</span>
+<span class='line-number'>114</span>
+<span class='line-number'>115</span>
+<span class='line-number'>116</span>
+<span class='line-number'>117</span>
+<span class='line-number'>118</span>
+<span class='line-number'>119</span>
+<span class='line-number'>120</span>
+<span class='line-number'>121</span>
+<span class='line-number'>122</span>
+<span class='line-number'>123</span>
+<span class='line-number'>124</span>
+<span class='line-number'>125</span>
+<span class='line-number'>126</span>
+<span class='line-number'>127</span>
+<span class='line-number'>128</span>
+<span class='line-number'>129</span>
+<span class='line-number'>130</span>
+<span class='line-number'>131</span>
+<span class='line-number'>132</span>
+<span class='line-number'>133</span>
+<span class='line-number'>134</span>
+<span class='line-number'>135</span>
+<span class='line-number'>136</span>
+<span class='line-number'>137</span>
+<span class='line-number'>138</span>
+<span class='line-number'>139</span>
+<span class='line-number'>140</span>
+<span class='line-number'>141</span>
+<span class='line-number'>142</span>
+<span class='line-number'>143</span>
+<span class='line-number'>144</span>
+<span class='line-number'>145</span>
+<span class='line-number'>146</span>
+<span class='line-number'>147</span>
+<span class='line-number'>148</span>
+<span class='line-number'>149</span>
+<span class='line-number'>150</span>
+<span class='line-number'>151</span>
+<span class='line-number'>152</span>
+<span class='line-number'>153</span>
+<span class='line-number'>154</span>
+<span class='line-number'>155</span>
+<span class='line-number'>156</span>
+<span class='line-number'>157</span>
+<span class='line-number'>158</span>
+<span class='line-number'>159</span>
+<span class='line-number'>160</span>
+<span class='line-number'>161</span>
+<span class='line-number'>162</span>
+<span class='line-number'>163</span>
+<span class='line-number'>164</span>
+<span class='line-number'>165</span>
+<span class='line-number'>166</span>
+<span class='line-number'>167</span>
+<span class='line-number'>168</span>
+<span class='line-number'>169</span>
+<span class='line-number'>170</span>
+<span class='line-number'>171</span>
+<span class='line-number'>172</span>
+<span class='line-number'>173</span>
+<span class='line-number'>174</span>
+<span class='line-number'>175</span>
+<span class='line-number'>176</span>
+<span class='line-number'>177</span>
+<span class='line-number'>178</span>
+<span class='line-number'>179</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>if (!$smarty-&gt;is_cached('index.dwt', $cache_id))
+</span><span class='line'> 
+</span><span class='line'>{          判斷頁面是否已經緩存，如果沒有則做變數賦值和範本裡面動態內容提取
+</span><span class='line'> 
+</span><span class='line'>           assign_template();  
+</span><span class='line'> 
+</span><span class='line'>           $smarty-&gt;assign(變數名,  變數值);
+</span><span class='line'> 
+</span><span class='line'>            。。。
+</span><span class='line'> 
+</span><span class='line'>}
+</span><span class='line'> 
+</span><span class='line'>$smarty-&gt;display('index.dwt', $cache_id);    顯示生成的頁面
+</span><span class='line'> 
+</span><span class='line'> 
+</span><span class='line'> 
+</span><span class='line'>頁面的範本機制都是通過cls_template.php檔實現，下面通過display函數開始進入分析，裡面只有關鍵地方的解釋，其他的可以自己去看代碼
+</span><span class='line'> 
+</span><span class='line'>    function display($filename, $cache_id = '')
+</span><span class='line'> 
+</span><span class='line'>    {
+</span><span class='line'> 
+</span><span class='line'>        。。。
+</span><span class='line'> 
+</span><span class='line'>        $out = $this-&gt;fetch($filename, $cache_id);    //這裡是處理範本的關鍵函數
+</span><span class='line'> 
+</span><span class='line'>        if (strpos($out, $this-&gt;_echash) !== false)     //頁面動態內容的顯示，如投票，購物車之類的，看了下面的就知道了
+</span><span class='line'> 
+</span><span class='line'>        {
+</span><span class='line'> 
+</span><span class='line'>            $k = explode($this-&gt;_echash, $out);
+</span><span class='line'> 
+</span><span class='line'>            foreach ($k AS $key =&gt; $val)
+</span><span class='line'> 
+</span><span class='line'>            {
+</span><span class='line'> 
+</span><span class='line'>                if (($key % 2) == 1)
+</span><span class='line'> 
+</span><span class='line'>                {
+</span><span class='line'> 
+</span><span class='line'>                    $k[$key] = $this-&gt;insert_mod($val);   //取到動態內容並賦值
+</span><span class='line'> 
+</span><span class='line'>                }
+</span><span class='line'> 
+</span><span class='line'>            }
+</span><span class='line'> 
+</span><span class='line'>            $out = implode('', $k);
+</span><span class='line'> 
+</span><span class='line'>        }
+</span><span class='line'> 
+</span><span class='line'>        。。。
+</span><span class='line'> 
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'> 
+</span><span class='line'> 
+</span><span class='line'> 
+</span><span class='line'> 
+</span><span class='line'>    function fetch($filename, $cache_id = '')
+</span><span class='line'> 
+</span><span class='line'>    {
+</span><span class='line'> 
+</span><span class='line'>       。。。
+</span><span class='line'> 
+</span><span class='line'>        if (strncmp($filename,'str:', 4) == 0)  此處處理字串範本，如郵件範本
+</span><span class='line'> 
+</span><span class='line'>        {
+</span><span class='line'> 
+</span><span class='line'>            。。。
+</span><span class='line'> 
+</span><span class='line'>        }
+</span><span class='line'> 
+</span><span class='line'>        else
+</span><span class='line'> 
+</span><span class='line'>        {
+</span><span class='line'> 
+</span><span class='line'>           。。。
+</span><span class='line'> 
+</span><span class='line'>            if ($this-&gt;direct_output)      
+</span><span class='line'> 
+</span><span class='line'>            {
+</span><span class='line'> 
+</span><span class='line'>               。。。
+</span><span class='line'> 
+</span><span class='line'>            }
+</span><span class='line'> 
+</span><span class='line'>            else
+</span><span class='line'> 
+</span><span class='line'>            {
+</span><span class='line'> 
+</span><span class='line'>                if ($cache_id && $this-&gt;caching)     //如果已經緩存就直接取緩存資料
+</span><span class='line'> 
+</span><span class='line'>                {
+</span><span class='line'> 
+</span><span class='line'>                    $out = $this-&gt;template_out;
+</span><span class='line'> 
+</span><span class='line'>                }
+</span><span class='line'> 
+</span><span class='line'>                else
+</span><span class='line'> 
+</span><span class='line'>                {
+</span><span class='line'> 
+</span><span class='line'>                       $out = $this-&gt;make_compiled($filename);     //編譯範本函數，關鍵函數
+</span><span class='line'> 
+</span><span class='line'>                    if ($cache_id)        //如果緩存id不為空則寫快取檔案
+</span><span class='line'> 
+</span><span class='line'>                    {
+</span><span class='line'> 
+</span><span class='line'>                               。。。一些緩存資料，如緩存有效期之類的
+</span><span class='line'> 
+</span><span class='line'>                    }
+</span><span class='line'> 
+</span><span class='line'>                }
+</span><span class='line'> 
+</span><span class='line'>            }
+</span><span class='line'> 
+</span><span class='line'>        }
+</span><span class='line'> 
+</span><span class='line'>      。。。
+</span><span class='line'> 
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'> 
+</span><span class='line'> 
+</span><span class='line'> 
+</span><span class='line'> 
+</span><span class='line'> 
+</span><span class='line'> 
+</span><span class='line'>    function make_compiled($filename)
+</span><span class='line'> 
+</span><span class='line'>    {
+</span><span class='line'> 
+</span><span class='line'>      。。。。這裡省略一部分都是判斷檔是否有效，是否過期，是否強制編譯之類的
+</span><span class='line'> 
+</span><span class='line'>        if ($this-&gt;force_compile || $filestat['mtime'] &gt; $expires)
+</span><span class='line'> 
+</span><span class='line'>        {
+</span><span class='line'> 
+</span><span class='line'>            $this-&gt;_current_file = $filename;
+</span><span class='line'> 
+</span><span class='line'>            $source = $this-&gt;fetch_str(file_get_contents($filename));             //關鍵地方，讀取範本檔，處理範本字串
+</span><span class='line'> 
+</span><span class='line'>            if (file_put_contents($name, $source, LOCK_EX) === false)      //寫入編譯以後的檔
+</span><span class='line'> 
+</span><span class='line'>            {
+</span><span class='line'> 
+</span><span class='line'>                trigger_error('can\'t write:' . $name);
+</span><span class='line'> 
+</span><span class='line'>            }
+</span><span class='line'> 
+</span><span class='line'>            $source = $this-&gt;_eval($source);
+</span><span class='line'> 
+</span><span class='line'>        }
+</span><span class='line'> 
+</span><span class='line'>        return $source;
+</span><span class='line'> 
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'> 
+</span><span class='line'> 
+</span><span class='line'> 
+</span><span class='line'> 
+</span><span class='line'> 
+</span><span class='line'> 
+</span><span class='line'>    function fetch_str($source)
+</span><span class='line'> 
+</span><span class='line'>    {
+</span><span class='line'> 
+</span><span class='line'>        if (!defined('ECS_ADMIN'))
+</span><span class='line'> 
+</span><span class='line'>        {
+</span><span class='line'> 
+</span><span class='line'>            $source = $this-&gt;smarty_prefilter_preCompile($source);      //預處理函數，此函數代碼檔中有詳細解釋就不囉嗦了
+</span><span class='line'> 
+</span><span class='line'>        }
+</span><span class='line'> 
+</span><span class='line'>        return preg_replace("/{([^\}\{\n]*)}/e", "\$this-&gt;select('\\1');", $source);    //匹配處理{}每個標籤
+</span><span class='line'> 
+</span><span class='line'>    }</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/sync_checking/">Diff Code Between Web Site and SVN Repos</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/sync_checking/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>Dependencies</h1>
+
+<ol>
+<li>diff function
+(<a href="http://www.holomind.de/phpnet/diff.src.php" title="http://www.holomind.de/phpnet/diff.src.php">http://www.holomind.de/phpnet/diff.src.php</a>)</li>
+<li>Subversion Client API
+(<a href="http://us3.php.net/manual/en/book.svn.php" title="http://us3.php.net/manual/en/book.svn.php">http://us3.php.net/manual/en/book.svn.php</a>)</li>
+</ol>
+
+
+<h1>Requirement</h1>
+
+<ul>
+<li>比對所有php，lbi，dwt，html檔</li>
+<li>可以以版本，時間，tag等資訊比對SVN上的code</li>
+<li><p>以ecshop內建的table來顯示有差異檔名</p>
+
+<ul>
+<li>以目錄排序</li>
+<li>以檔名排序</li>
+<li>以修改日期排序</li>
+<li>以異動行數排序</li>
+</ul>
+</li>
+<li><p>在檔名click後可以連結到異動細節</p></li>
+<li>異動細節以顯眼的方式呈現</li>
+</ul>
+
+
+<h1>User Stories</h1>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/syllables_101/">Syllable 101</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/syllables_101/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Syllable的一個單字在發音上的基本單位，這個筆記是在說明在劃分音節上的一些方式以及該注意的地方</p>
+
+<p>this article come from
+<a href="http://www.cla.calpoly.edu/~jrubba/phon/syllables.html#sum" title="http://www.cla.calpoly.edu/~jrubba/phon/syllables.html#sum">here</a>
+mainly. I amended (added, highlighted, removed, commented)some content
+for my study propose.</p>
+
+<h1>Parts</h1>
+
+<p>Syllables have internal structure: they can be divided into parts. The
+parts are onset and rhyme; within the rhyme we find the nucleus and
+coda. Not all syllables have all parts; the smallest possible syllable
+contains a nucleus only. A syllable may or may not have an onset and a
+coda.</p>
+
+<p><strong>Onset</strong>: the beginning sounds of the syllable; the ones preceding the
+nucleus. <strong>These are always consonants</strong> in English. The nucleus is a
+<strong>vowel</strong> in most cases, although the consonants <strong>[ r ], [ l ], [ m ],
+[ n ]</strong>, and the velar nasal (the <strong>&#8216;ng&#8217;</strong> sound) can also be the
+nucleus of a syllable.</p>
+
+<p><strong>Rhyme</strong> (or <strong>rime</strong>): the rest of the syllable, after the onset (the
+underlined portions of the words above). The rhyme can also be divided
+up:</p>
+
+<p><strong>Rhyme = nucleus</strong> + <strong>coda</strong></p>
+
+<p>The nucleus, as the term suggests, is the core or essential part of a
+syllable. A nucleus must be present in order for a syllable to be
+present. Syllable nuclei are most often highly &#8216;sonorant&#8217; or resonant
+sounds, that can be relatively loud and carry a clear pitch level. In
+English and most other languages, most syllable nuclei are vowels. In
+English, in certain cases, the liquids [ l r ] and nasals [ m n ] and
+the velar nasal usually spelled &#8216;ng&#8217; can also be syllable nuclei.\
+  </p>
+
+<p>The syllable structure analysis of the words &#8216;read&#8217;, &#8216;flop&#8217;,  &#8216;strap&#8217;
+and &#8216;window&#8217; are as follows (IPA symbols are used to show the sounds in
+the word/syllable):</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>read = one syllable
+</span><span class='line'>Onset = [ r ]
+</span><span class='line'>Rhyme = [ id ]      (within the rhyme:)
+</span><span class='line'>     Nucleus = [ i ]
+</span><span class='line'>     Coda   = [ d ]
+</span><span class='line'>
+</span><span class='line'>flop = one syllable
+</span><span class='line'>Onset = [ f l ]
+</span><span class='line'>Rhyme  = [ a p ]
+</span><span class='line'>    Nucleus  =  [ a ]
+</span><span class='line'>    Coda  =  [ p ]</span></code></pre></td></tr></table></div></figure>
+
+
+<p>window = 2 syllables</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>First syllable:  [wIn]
+</span><span class='line'>Onset  = [ w ]
+</span><span class='line'>Rhyme  = [ I n ]
+</span><span class='line'>    Nucleus = [ I ]
+</span><span class='line'>    Coda  = [ n ]
+</span><span class='line'>
+</span><span class='line'>Second syllable: [ d o ]
+</span><span class='line'>Onset = [ d ]
+</span><span class='line'>Rhyme = [ o ]
+</span><span class='line'>    Nucleus = [ o ]
+</span><span class='line'>(This syllable has no coda)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>&#8217;[]&#8217;裡的是IPA的音標，不是英文字母，所以拆成components是以發音(音標)為準，不是以字母</p>
+
+<p>  Parts       Description                                                        Optionality</p>
+
+<hr />
+
+<p>  Onset       Initial segment of a syllable                                      Optional
+  Rhyme       Core of a syllable, consisting of a nucleus and coda (see below)   Obligatory
+  – Nucleus   Central segment of a syllable                                      Obligatory
+  – Coda      Closing segment of a syllable                                      Optional</p>
+
+<h4>examples</h4>
+
+<p>In the following words, the onset is in bold; the rhyme is underlined.</p>
+
+<p><strong>r</strong><em>ead</em> \
+ <strong>fl</strong><em>op</em> \
+ <strong>str</strong><em>ap</em> \</p>
+
+<p>If a word contains more than one syllable, each syllable will have the
+usual syllable parts:</p>
+
+<p><strong>w</strong><em>in</em>.<strong>d</strong><em>ow</em> \
+ <strong>t</strong><em>o</em>.<strong>m</strong><em>a</em>.<strong>t</strong><em>o</em> \
+ <strong>pr</strong><em>e</em>.<strong>p</strong><em>os</em>.<strong>t</strong><em>e</em>.<strong>r</strong><em>ous</em> \
+ <strong>f</strong><em>un</em>.<strong>d</strong><em>a</em>.<strong>m</strong><em>en</em>.<strong>t</strong><em>al</em></p>
+
+<p>onset 可能是一至多個<strong>子音</strong>字母組成</p>
+
+<p>&lt;box left 45% round green></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>   S
+</span><span class='line'>/     \
+</span><span class='line'>O      R
+</span><span class='line'>   / \     /  \
+</span><span class='line'>  |   |    N   C
+</span><span class='line'>  |   |    |   |
+</span><span class='line'>[ f   l    a   p ]</span></code></pre></td></tr></table></div></figure>
+
+
+<p>&lt;/box> &lt;box right 45% round green></p>
+
+<ul>
+<li>&#8216;S&#8217; = &#8216;syllable&#8217;</li>
+<li>&#8216;O&#8217; = &#8216;onset&#8217;;</li>
+<li>&#8216;R&#8217; = &#8216;rhyme&#8217;;</li>
+<li>&#8216;N&#8217; = &#8216;nucleus&#8217;;</li>
+<li>&#8216;C&#8217; = &#8216;coda&#8217;.</li>
+</ul>
+
+
+<p>&lt;/box></p>
+
+<h1>r l m n</h1>
+
+<p>The English liquids [ r l ] and the nasals [ m n ] can be the nuclei of
+syllables under certain conditions. <strong>[ r ] can be a nucleus as easily
+as a vowel, in any position</strong>: the words &#8216;bird&#8217;, &#8216;word&#8217;, &#8216;her&#8217;, &#8216;fur&#8217;,
+the first syllable of &#8216;perceive&#8217; and &#8216;surname&#8217; and the final syllables
+of &#8216;mother&#8217;, &#8216;actor&#8217; (in casual pronunciation) all have [ r ] as the
+nucleus; in other words, there is no vowel in the pronunciation of these
+syllables, even though they have one in the spelling.</p>
+
+<p>[ l ] and the nasals [ m n ] become syllable nuclei when they follow an
+<strong>alveolar consonant</strong> in the <strong>last syllable</strong> of a word. This happens
+in the relaxed or casual rather than very formal articulation of the
+word. Compare casual vs. formal pronunciations of &#8216;button&#8217;, &#8216;bottle&#8217;,
+&#8216;bottom&#8217;.</p>
+
+<p>When one of these sounds is a syllable nucleus, this is shown in
+transcription by putting a very short vertical line under the IPA symbol</p>
+
+<p><a href="http://en.wikipedia.org/wiki/alveolar%20consonant" title="http://en.wikipedia.org/wiki/alveolar consonant">alveolar
+consonant</a>:齒槽音?
+看得懂才有鬼</p>
+
+<h2>Counting Syllables</h2>
+
+<p>To find the number of syllables in a word, use the following steps:</p>
+
+<ol>
+<li>Count the vowels in the word.</li>
+<li>Subtract any silent vowels, (like the silent <em>e</em> at the end of a
+word, or the second vowel when two vowels are together in a
+syllabl.e)</li>
+<li>Subtract one vowel from every
+<a href="http://wiki.kent-chiu.com/doku.php?id=english:diphthongs" title="english:diphthongs">diphthong</a>
+(diphthongs only count as one vowel sound.)</li>
+<li>The number of vowels sounds left is the same as the number of
+syllables.</li>
+</ol>
+
+
+<p>The number of syllables that you hear when you pronounce a word is the
+same as the number of vowels sounds heard. For example:</p>
+
+<ul>
+<li>The word <em>came</em> has 2 vowels, but the <em>e</em> is silent, leaving one
+vowel sound andone syllable.</li>
+<li>The word <em>outside</em> has 4 vowels, but the <em>e</em> is silent and the <em>ou</em>
+is a diphthong which counts as only one sound, so this word has only
+two vowel sounds and therefore, two syllables.</li>
+</ul>
+
+
+<h2>Six Kinds of Syllables</h2>
+
+<p>There are six different kinds of syllables in English:</p>
+
+<p>Uinsg the anacronym <strong>C.L.O.V.E.R</strong> for the 6 main rules.</p>
+
+<h4>C–cvc/</h4>
+
+<p>C–cvc/–Closed syllables have a short vowel with 1 to 3 consonants
+following it. “When a vowel is closed by a consonant door, it says its
+short sound.” Examples are: rob/in, cab/in, nap/kin, kit/ten, hun/dred.</p>
+
+<h4>L–/cLE</h4>
+
+<p>L–/cLE–Consonant LE syllables are found at the end of a word and are
+divided before the consonant that comes before the LE. Use a silly
+phrase that helps to remember this rule: ”-le in little BEFORE the
+BEFORE.” Examples are: no/ble, jun/gle, mar/ble</p>
+
+<h4>O–cv/</h4>
+
+<p>O–cv/–Open syllables have a vowel hanging open at the end of a syllable.
+The vowel usually has a long sound. “When a vowel is left open, it says
+its own name.” Examples are: mo/ment, va/ca/tion.</p>
+
+<h4>V–cvvc/ or cv/vc</h4>
+
+<p>V–cvvc/ or cv/vc–Double vowels can be a usual digraph, such as ai, ay,
+ea, ee, oa, ow, oo, oi, oy, ou, ie, and ei, which is not divided and the
+first vowel has a long sound. Double vowels that are not a usual
+combination, <strong>such as ia or eu, can be divided between the two vowels</strong>
+to make a multisyllable word, such as di-al or mu-se-um.</p>
+
+<h4>E–cvce</h4>
+
+<p>E–cvce–Silent e syllables can come in the middle of a word, but are
+usually found at the end of a word. Often the vowel preceding the silent
+e has a long sound, although no English word ends with the letter v, so
+a silent e that follows the “v” may or may not affect the preceding
+vowel. Examples are: in/vite, home/sick, in/ten/sive.</p>
+
+<h4>R–cvr</h4>
+
+<p>R–cvr–R-controlled syllables have a vowel followed by an r and can be
+found in any syllable of a word. While ar and or have distinctive
+sounds, any vowel followed by an r can be pronounced /ur/. Examples are:
+car/pet, fur/ther/more, thir/sty.</p>
+
+<p>I usually take a lesson or two to introduce the concept of syllable
+division and give an overview of the syllable types. Then I teach
+in-depth and have students practice each rule until mastered and
+automatic, both in reading and spelling. I usually use the following
+sequence for the in-depth practice–Compounds; Closed; Introduce or
+review common suffixes, such as -ed, -ing, -tion, -ness, -ment; Silent
+e; Open; Consonant-LE; R-Controlled; and Double Vowels.</p>
+
+<h2>Dividing Words Into Syllables</h2>
+
+<h4>Divide between two middle consonants.</h4>
+
+<p>Split up words that have two middle consonants, unless the doubled
+consonant is part of a syllable that is a base word. Then try the short
+sound for the vowel in the first syllable. This rule does not apply if
+the two consonants form a digraph such as ch, <strong>tch</strong>, ph, sh, or th.
+The digraphs can&#8217;t be separated.</p>
+
+<p>For example:</p>
+
+<p>hap/pen, bas/ket, let/ter, sup/per, din/ner, and Den/nis. The only
+exceptions are the consonant digraphs. Never split up consonant digraphs
+as they really represent only one sound. The exceptions are “th”, “sh”,
+“ph”, “th”, “ch”, and “wh”.</p>
+
+<p>tell-er.</p>
+
+<p>tell is a base word.</p>
+
+<h4>Usually divide before a single middle consonant.</h4>
+
+<p>When there is only one syllable, you usually divide in front of it, as
+in:</p>
+
+<p>“o/pen”, “i/tem”, “e/vil”, and “re/port”. The only exceptions are those
+times when the first syllable has an obvious <a href="http://wiki.kent-chiu.com/doku.php?id=english:short-vowels" title="english:short-vowels">short
+sound</a>,
+as in “cab/in”.</p>
+
+<p>When only one consonant appears between two vowels, divide the word
+before the consonant. The try the long sound of the first vowel. This
+works about 55% of the time. If a recognizable word is not formed using
+the long sound, divide the word after the con-sonant and try the short
+sound for the first syllable. This works about 45% of the time.</p>
+
+<h4>Divide off any compound words, prefixes, suffixes and roots which have vowel sounds.</h4>
+
+<p>Split off the parts of compound words like “sports/car” and
+“house/boat”. Divide off prefixes such at “un/happy”, “pre/paid”, or
+“re/write”. Also divide off suffixes as in the words “farm/er”,
+“teach/er”, “hope/less” and “care/ful”. In the word “stop/ping”, the
+suffix is actually ”-ping” because this word follows the rule that when
+you add ”-ing” to a word with one syllable, you double the last
+consonant and add the ”-ing”.</p>
+
+<p>For example: dis-arm, an-ti-dote, ship-ment, hope-ful-ly, mand-a-ble….</p>
+
+<p>Exceptions: Sometimes, if the suffix starts with a vowel, a letter or
+two from the base word goes with the suffix:fa-mouns, cu-bic, won-drous.</p>
+
+<p>Endings such as ing, er, est, and ed often form separate syllables. The
+remaining portion of the word is a root word. the suffix is ”-er”, ”-ed”
+or “ing”, this only happens if you have doubled the consonant when
+adding the suffix, e.g: hop-ing, miss-ing BUT hop-ping</p>
+
+<h4>Keep the &#8220;r&#8221;-control vowels (ar, er, ir, or, and ur) in the same syllable.</h4>
+
+<h4>Keep the consonant-&#8220;le&#8221; sounds (ble, cle, dle, fle, gle, and ple) in the same syllable.</h4>
+
+<p>These syllables have the schwa sound between the consonant and the “le”.
+The schwa sound sounds like a nasal short u.</p>
+
+<p>For example, cra-dle.</p>
+
+<h4>Never break apart vowel diagraphs or diphthongs such as ai, ay, ea, ee, oa, ow, oo, oi, oy, ou, ie, and ei.</h4>
+
+<p>Unbreaking parts : ai, ay, ea, ee, oa, ow, oo, oi, oy, ou, ie, and ei</p>
+
+<p>But NOT includes : ia,eu</p>
+
+<p>分音節（Divide the syllables）：</p>
+
+<p>要訣：從字尾往字首找，在每個母音之前找一個子音，在此子音前斷開。
+範例：su -per -mar-ket in -ter -na -ti –on –nal na-me</p>
+
+<p>注意：雙母音/複合母音，視為「一個」母音，若兩個獨立母音相逢，視為其中包含一個「空子音」，直接斷開。若有「共用子音」的音節，則子音要寫兩次。</p>
+
+<h1>標重音（Put the stress）</h1>
+
+<p>author :
+<a href="http://blog.nownews.com/richbean/textview.php?file=127500" title="http://blog.nownews.com/richbean/textview.php?file=127500">肥豆老爹說說話</a></p>
+
+<p>Rules：</p>
+
+<ul>
+<li>單音節單字，唯一母音即重音。</li>
+<li>雙音節單字：
+
+<ol>
+<li>若是「動詞/介系詞」或「動詞衍生字」，則重音大多在「第二音節」。</li>
+<li>若是「名詞/形容詞/副詞/連接詞」，則重音大多在「第一音節」。</li>
+<li>例外字則單獨記憶，其數量很少。</li>
+</ol>
+</li>
+</ul>
+
+
+<p>e.g. de&#8217;sert(n)-點心、un&#8217;happy(a)-不快樂的、cor&#8217;rect(a)-正確的。</p>
+
+<ul>
+<li>三音節以上單字：
+
+<ol>
+<li>若是「希臘式拼音」，則<strong>重音大多在「倒數第三音節」；英文大多數是這樣的字。</strong></li>
+<li>若是「羅馬/拉丁式拼音」，則重音大多在「倒數第二音節」；少數「外來語」是這樣的字。</li>
+</ol>
+</li>
+</ul>
+
+
+<p>e.g.</p>
+
+<h4>Greek</h4>
+
+<p>con-ver-&#8216;sa-ti-on \
+ u-ni-&#8216;ver-si-ty \
+ trans-&#8216;la-ti-on \
+ &#8216;te-le-phone \</p>
+
+<h4>Roman</h4>
+
+<p>ba-&#8216;na-na \
+ Mi-&#8216;a-mi \
+ To-&#8216;ran-to \
+ e-lec-&#8216;tro-nic \
+ Mer-&#8216;cu-ry \
+ A-&#8216;pol-lo \</p>
+
+<h4>French</h4>
+
+<p>fi-&#8216;an-cee</p>
+
+<h3>範例</h3>
+
+<h4>單音節</h4>
+
+<p>hat \
+ bed \
+ guess \
+ quick \
+ mop</p>
+
+<h4>雙音節</h4>
+
+<h5>「動詞/介系詞」或「動詞衍生字」</h5>
+
+<p>at-&#8216;tack \
+ at-&#8216;tack-tive \
+ at-&#8216;tac-king \
+ de-&#8216;part-ment</p>
+
+<h5>「名詞/形容詞/副詞/連接詞」</h5>
+
+<p>&#8216;Cha-os \
+ &#8216;hap-py \
+ &#8216;may-be \
+ &#8216;af-ter \
+ &#8216;there-fore</p>
+
+<h5>例外字</h5>
+
+<p>be-&#8216;fore</p>
+
+<h4>多音節</h4>
+
+<p>&#8216;na -ti-on \
+ &#8216;bad-min-ton \
+ Ca-li-&#8216;for-ni-a \
+ phi-&#8216;lo-so-phy</p>
+
+<h1>the words that is not easy apply to rule at first sight</h1>
+
+<p>bach⋅e⋅lor 為什麼常會常到斷音節只斷在e</p>
+
+<blockquote><p>為什麼常會常到斷音節只斷在e</p>
+
+<blockquote><p>因為ch不可分割，而or前面要有子音</p></blockquote></blockquote>
+
+<p>Mex⋅i⋅co</p>
+
+<blockquote><p>為什麼是Mex⋅i⋅co而不是Me⋅xi⋅co</p>
+
+<blockquote><p>因為x通常會被放在音節後，而不是之前，比如說 ex⋅am⋅ple</p></blockquote></blockquote>
+
+<p>gro⋅cer⋅y</p>
+
+<blockquote><p>為什麼是gro⋅cer⋅y而不是gro⋅ce⋅ry\
+ 因為r control的，所以er不可分割</p></blockquote>
+
+<p>ret⋅ro⋅spect</p>
+
+<blockquote><p>ret⋅ro⋅spect → 這樣斷的話，ret的e發短母音/ɛ/ → 正確的發音\
+ re⋅tro⋅spect → 這樣斷的話，ret的e發長母音/i/ → 不正確的發音</p></blockquote>
+
+<h1>寫在後面</h1>
+
+<p>其實在語言學的音節劃分上，有許多學說，所以，劃分的方式也各自不同，而且，有時，音節的畫分，可能與日常的發音有所不同，所以，也有人主張，不要特音的去劃分音節</p>
+
+<p>這裡有一篇在討論劃分音節的文章，相當的不錯
+<a href="http://forums.eslcafe.com/teacher/viewtopic.php?t=4618" title="http://forums.eslcafe.com/teacher/viewtopic.php?t=4618">http://forums.eslcafe.com/teacher/viewtopic.php?t=4618</a></p>
+
+<h4>how syllables are separated and pronounced?</h4>
+
+<p>from keit:</p>
+
+<p>Hello everyone, Well, I am currently learning about the pronunciation of
+english words by looking them up in the dictionary. The thing that still
+confuse me is that how to separate the syllables in a word. For example,
+&#8216;temperature&#8217; do you pronounce it as tem-puh-ruh-chuh or
+tem-puhr-uh-chuh. &#8216;January&#8217; do you pronounce it as Jan-u-eh-re or
+Jan-nu-eh-re. Thanks for your help.</p>
+
+<blockquote><p>from Buddhaheart\
+ Kiet has touched on a very controversial and challenging aspect of
+linguistics called phonology. In contemporary linguistics many
+theories are still being considered, constructed and developed. This
+is definitely not for beginners of English.\
+ \
+ To answer Kiet&#8217;s query, the first question you have to ask youself is
+what a syllable is. There are as many theories (Sonority Principle,
+Chest\
+ Pulse Formation &amp; so on) as questions. It seems there is no one
+definition that all phoneticians or phonologists could agree on.\
+ \
+ The second question is how a multi-syllable word is phonologically
+divided into its components. Although there&#8217;re many general rules we
+teach students how to do that, there&#8217;re just as many exceptions.
+Syllabification seems to be a taunting task.\
+ \
+ We then have to talk about MOP (Maximal Onsets Theory or Principle).
+English phonotactics, phonological rules, epenthesis, ambisyllabicity,
+the concept of the “privilege of occurrence”. silent &#8216;e&#8217; syllable and
+so on.\
+ \
+ Some of the respondents have offered many practical suggestions and
+help. I hereby offer mine from my own perspective.\
+ \
+ We&#8217;ll just look at the word “temperature” only as an example. Just by
+counting the number of vowels or semi-vowels in the word
+“temperature”, we think we have a 5 or less syllabic word. If you
+recognize the fact that the last 4 letters (ture) in the word make it
+a WR-ME (Vowel R-Magic- E) syllable type, you know the ‘e’ is silent.
+We therefore left with 4 syllables.\
+ \
+ Invoking a general phonological rule of splitting syllables between 2
+consecutive consonants, we arrive at the 1st tentative syllable,
+namely “tem”. Relying on the <strong>MOP</strong>, we will pair the 2nd ‘e’ with
+‘p’, the ‘a’ with ‘r’ and hence we arrive at “tem-pe-ra-ture”. Using
+your terminology, we will transcribe the word as “tem-puh-ruh-chuh”.
+This is your 1st version I think. I&#8217;m not sure about the &#8216;u&#8217; sound
+though.\
+ \
+ Invoking the concept of the <strong>“privilege of occurrence”</strong>, ﻿the vowel
+letter &#8216;a&#8217; in the word can stand alone as a syllable. This syllable is
+uttered with a schwa sound as it is not stressed. The 2nd syllable
+becomes &#8216;per&#8217; and this does not violate any phonotactics as the &#8216;er&#8217;
+may be pronounced as a rhotic schwa. We now arrive at the word&#8217;s
+syllabification as “tem-per-a-ture.” This is similar to your 2nd
+version.\
+ \
+ So what is the verdict? I believe both versions are acceptable as
+they do appear in various dictionaries we use here. I personally favor
+the 2nd.\</p></blockquote>
+
+<h1>轉載另一篇ptt的討論文</h1>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>=========================
+</span><span class='line'>
+</span><span class='line'> 作者  pobo (全新的生活)                                      看板  Eng-Class
+</span><span class='line'> 標題  [發音] 音節的用法
+</span><span class='line'> 時間  Thu Nov 30 08:02:23 2006
+</span><span class='line'>───────────────────────────────────────
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>: 請問一下音節的定義是什麼?
+</span><span class='line'>          ^^^^^^^^^如下。
+</span><span class='line'>: 還有音節的發音,例如:dragon是兩個音節drag-on http://kuso.cc/0XDQ
+</span><span class='line'>: 不看發音我會念(死背的),但是要如何根據音節來發音呢?
+</span><span class='line'>                                       ^^^音標
+</span><span class='line'>: dragon發音是"追根",但是我根據音節卻是發"追格盎"為什麼會這樣呢?
+</span><span class='line'>                           ^^^^^^^其實你要說的是「根據音標」
+</span><span class='line'>: 說來慚愧我真的對音節一點概念也沒有,懇請各位板友不吝賜教
+</span><span class='line'>: 謝謝.
+</span><span class='line'>「音節」(syllable)跟「音標(符號)」(phonic symbol/alphabet)是不同的。
+</span><span class='line'>drag-on這是音標的寫法。
+</span><span class='line'>gra-gon這是音節的寫法。
+</span><span class='line'>
+</span><span class='line'>音節是由音素(phoneme)組成。音素是發音的最小單位。
+</span><span class='line'>音素是發音的元素，的文字記法就是「音標」。
+</span><span class='line'>如/p/、/t/、/a/、/o/這些字母單獨的發音就是音素，
+</span><span class='line'>但寫成音標就會有它另外的寫法。
+</span><span class='line'>(看你用的是什麼音標，或是看它在字彙裏怎麼發音)</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1232,7 +2662,7 @@ analysis),然後用比較美觀的方式呈現將各種報表整合在一起。�
 
 <h3>Rules Compliance</h3>
 
-<p><img src="/images/wiki/maven/sonar_101_001.png" alt="sonar_101_001.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/sonar_101_001.png" alt="sonar_101_001.png" /></p>
 
 <p>左邊的圖是程式五項能力指標</p>
 
@@ -1265,7 +2695,7 @@ findbugs,….這些rule檢查後的不通過數量，嚴重性依上而下為</p
 
 <h3>Code coverage</h3>
 
-<p><img src="/images/wiki/maven/sonar_101_002.png" alt="sonar_101_002.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/sonar_101_002.png" alt="sonar_101_002.png" /></p>
 
 <p>程式的單元測試覆蓋率</p>
 
@@ -1308,7 +2738,7 @@ coverage在75%以上，應該不難。</p>
 
 <h3>Complexity</h3>
 
-<p><img src="/images/wiki/maven/sonar_101_003.png" alt="sonar_101_003.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/sonar_101_003.png" alt="sonar_101_003.png" /></p>
 
 <p>程式的複雜度，採用<a href="http://en.wikipedia.org/wiki/Cyclomatic_complexity" title="http://en.wikipedia.org/wiki/Cyclomatic_complexity">McCabe</a>的計算方式</p>
 
@@ -1337,7 +2767,7 @@ coverage在75%以上，應該不難。</p>
 
 <h3>Chidamber &amp; Kemerer</h3>
 
-<p><img src="/images/wiki/maven/sonar_101_004.png" alt="sonar_101_004.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/sonar_101_004.png" alt="sonar_101_004.png" /></p>
 
 <p>左邊的chart圖是LCOM4(Lack of cohesion of methods)，右邊是RFC(Response
 for class)
@@ -1353,7 +2783,7 @@ LCOM4的chart圖x軸是LCOM4的值，y軸是class的數量</p>
 </ul>
 
 
-<p><img src="/images/wiki/maven/sonar_101_008.png" alt="sonar_101_008.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/sonar_101_008.png" alt="sonar_101_008.png" /></p>
 
 <p>上圖中，LCOM4=3，每一個區域表示可以被獨立切割的部份</p>
 
@@ -1370,13 +2800,13 @@ LCOM4的chart圖x軸是LCOM4的值，y軸是class的數量</p>
 
 <h3>Comments &amp; Duplications</h3>
 
-<p><img src="/images/wiki/maven/sonar_101_005.png" alt="sonar_101_005.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/sonar_101_005.png" alt="sonar_101_005.png" /></p>
 
 <p>左邊是程式註解的數量，右邊是程式重覆(copy &amp; paste code)的數量</p>
 
 <h3>Package design</h3>
 
-<p><img src="/images/wiki/maven/sonar_101_006.png" alt="sonar_101_006.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/sonar_101_006.png" alt="sonar_101_006.png" /></p>
 
 <p>左邊的Package tangle index是指package糾纏指標，右邊的Dependencies to
 cut是指有多少個packages需要做依賴性切割</p>
@@ -1391,13 +2821,13 @@ cut是指有多少個packages需要做依賴性切割</p>
 
 <p>Dependencies to cut的值愈小愈好，理想值為0</p>
 
-<p>![sonar_101_009.jpg][]</p>
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/sonar_101_009.jpg" alt="sonar_101_009.jpg" /></p>
 
 <p>只要圖中消除紅底白色的部份，就可以有效降低Package tangle index</p>
 
 <h3>Size metrics</h3>
 
-<p><img src="/images/wiki/maven/sonar_101_007.png" alt="sonar_101_007.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/sonar_101_007.png" alt="sonar_101_007.png" /></p>
 
 <p>左邊的Lines of code(loc)是程式數量的統計，右邊的classes是類別內容的統計</p>
 
@@ -1566,7 +2996,7 @@ cut是指有多少個packages需要做依賴性切割</p>
 
 <h3>Trend</h3>
 
-<p><img src="/images/wiki/linux/trend_linux.png" alt="trend_linux.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/trend_linux.png" alt="trend_linux.png" /></p>
 
 <h2>Solaris (Open Solaris)</h2>
 
@@ -1674,2757 +3104,6 @@ strong recommended to use RHEL as our production server</strong>.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/10/17/smarty_101/">Smarty 101</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
-        
-         | <a href="/blog/2011/10/17/smarty_101/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>the smarty is a template engine of php. there are some features of
-smarty listed blow:</p>
-
-<ul>
-<li>split any UI control in smarty, php only provides the data source</li>
-<li>if ‹ and > can&#8217;t parsed as well, we can use \$left_delimiter and
-\$right_delimiter instend.</li>
-<li>function name is case-<strong>in</strong>sensitive but variable is case-sensitive</li>
-</ul>
-
-
-<h2>Smarty Note</h2>
-
-<h3>Using array veriable in smarty</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?php
-</span><span class='line'>$user = array("firstname" =&gt; "Kent", "lastname" =&gt; "Chiu", "email" =&gt; "kent.chiu@mail.com");
-</span><span class='line'>$tpl-&gt;assign("user", $user);
-</span><span class='line'>?&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{$user.firstname}
-</span><span class='line'>{$user.lastname}
-</span><span class='line'>{$user.email}</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Using object veriable in smarty</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$obj = new UserObject();
-</span><span class='line'>$tpl-&gt;assign("obj", $obj);</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{$obj-&gt;firstname}
-</span><span class='line'>{$obj-&gt;lastname}
-</span><span class='line'>{$obj-&gt;method()}</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Function in Smarty</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{$var|function}
-</span><span class='line'>{$var|function:"argument(option)"}</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>attributes</h3>
-
-<ul>
-<li>static values don&#8217;t have to be enclosed in quotes</li>
-<li>it is recommended for literal strings</li>
-<li>variables should not be in quotes.</li>
-<li>boolean value can be specified as true, on, and yes, or false, off,
-and no</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{include file="header.tpl"}
-</span><span class='line'> 
-</span><span class='line'>{include file=$includeFile}
-</span><span class='line'> 
-</span><span class='line'>{include file=#includeFile#}
-</span><span class='line'> 
-</span><span class='line'>{html_select_date display_days=yes}
-</span><span class='line'> 
-</span><span class='line'>&lt;SELECT name=company&gt;
-</span><span class='line'>{html_options values=$vals selected=$selected output=$output}
-</span><span class='line'>&lt;/SELECT&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>variables</h2>
-
-<p>Smarty has several different types of variables. The type of the
-variable depends on what symbol it is prefixed with (or enclosed
-within).</p>
-
-<h3>variables assigned from php</h3>
-
-<ul>
-<li>using the sign&#8217;\$&#8217;</li>
-<li>Associative arrays by &#8216;.&#8217; (period) symbol</li>
-<li>Array indexes by &#8216;[]&#8217; symbol</li>
-<li>Objects by &#8216;→&#8217;</li>
-</ul>
-
-
-<h4>Associative arrays by &#8216;.&#8217; (period) symbol</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$smarty = new Smarty;
-</span><span class='line'>$smarty-&gt;assign('Contacts',
-</span><span class='line'> array('fax' =&gt; '555-222-9876',
-</span><span class='line'> 'email' =&gt; 'zaphod@slartibartfast.com',
-</span><span class='line'> 'phone' =&gt; array('home' =&gt; '555-444-3333',
-</span><span class='line'> 'cell' =&gt; '555-111-1234')));
-</span><span class='line'>$smarty-&gt;display('index.tpl');</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{$Contacts.fax}&lt;br&gt;
-</span><span class='line'>{$Contacts.email}&lt;br&gt;
-</span><span class='line'>{* you can print arrays of arrays as well *}
-</span><span class='line'>{$Contacts.phone.home}&lt;br&gt;
-</span><span class='line'>{$Contacts.phone.cell}&lt;br&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>Array indexes by &#8216;[]&#8217; symbol</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$smarty = new Smarty;
-</span><span class='line'>$smarty-&gt;assign('Contacts', 
-</span><span class='line'>                 array('555-222-9876',  'zaphod@slartibartfast.com',  
-</span><span class='line'>                       array('555-444-3333', '555-111-1234')));
-</span><span class='line'>$smarty-&gt;display('index.tpl');</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{$Contacts[0]}&lt;br&gt;
-</span><span class='line'>{$Contacts[1]}&lt;br&gt;
-</span><span class='line'>{* you can print arrays of arrays as well *}
-</span><span class='line'>{$Contacts[2][0]}&lt;br&gt;
-</span><span class='line'>{$Contacts[2][1]}&lt;br&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>555-222-9876&lt;br&gt;
-</span><span class='line'>zaphod@slartibartfast.com&lt;br&gt;
-</span><span class='line'>555-444-3333&lt;br&gt;
-</span><span class='line'>555-111-1234&lt;br&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>Objects by &#8216;->&#8217;</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>name: {$person-&gt;name}&lt;br&gt;
-</span><span class='line'>email: {$person-&gt;email}&lt;br&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>variables loaded from config files</h3>
-
-<p>there are two syntaxes for accessing variables assigned from config
-files.</p>
-
-<ol>
-<li>enclosed with double &#8216;#&#8217;(sharp mark) , ex: #config#</li>
-<li>with smarty variable , ex \$smarty.config</li>
-</ol>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>pageTitle = "This is mine"
-</span><span class='line'>bodyBgColor = "#eeeeee"
-</span><span class='line'>tableBorderSize = "3"
-</span><span class='line'>tableBgColor = "#bbbbbb"
-</span><span class='line'>rowBgColor = "#cccccc"</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>enclose by \</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>config_load file="foo.conf"}
-</span><span class='line'>&lt;html&gt;
-</span><span class='line'>&lt;title&gt;{#pageTitle#}&lt;/title&gt;
-</span><span class='line'>&lt;body bgcolor="{#bodyBgColor#}"&gt;
-</span><span class='line'>&lt;table border="{#tableBorderSize#}" bgcolor="{#tableBgColor#}"&gt;
-</span><span class='line'>&lt;tr bgcolor="{#rowBgColor#}"&gt;
-</span><span class='line'>    &lt;td&gt;First&lt;/td&gt;
-</span><span class='line'>    &lt;td&gt;Last&lt;/td&gt;
-</span><span class='line'>    &lt;td&gt;Address&lt;/td&gt;
-</span><span class='line'>&lt;/tr&gt;
-</span><span class='line'>&lt;/table&gt;
-</span><span class='line'>&lt;/body&gt;
-</span><span class='line'>&lt;/html&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>with smarty variable</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{config_load file="foo.conf"}
-</span><span class='line'>&lt;html&gt;
-</span><span class='line'>&lt;title&gt;{$smarty.config.pageTitle}&lt;/title&gt;
-</span><span class='line'>&lt;body bgcolor="{$smarty.config.bodyBgColor}"&gt;
-</span><span class='line'>&lt;table border="{$smarty.config.tableBorderSize}" bgcolor="{$smarty.config.tableBgColor}"&gt;
-</span><span class='line'>&lt;tr bgcolor="{$smarty.config.rowBgColor}"&gt;
-</span><span class='line'>    &lt;td&gt;First&lt;/td&gt;
-</span><span class='line'>    &lt;td&gt;Last&lt;/td&gt;
-</span><span class='line'>    &lt;td&gt;Address&lt;/td&gt;
-</span><span class='line'>&lt;/tr&gt;
-</span><span class='line'>&lt;/table&gt;
-</span><span class='line'>&lt;/body&gt;
-</span><span class='line'>&lt;/html&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>{\$smarty} reserved variable</h2>
-
-<ol>
-<li>Request variables(get,post,server,session, … etc)</li>
-<li>{\$smarty.now}</li>
-<li>{\$smarty.const}</li>
-<li>{\$smarty.capture}</li>
-<li>{\$smarty.config}</li>
-<li>{\$smarty.section}, {\$smarty.foreach}</li>
-<li>{\$smarty.template}</li>
-</ol>
-
-
-<h3>Request variables</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{* display value of page from URL (GET) http://www.domain.com/index.php?page=foo *}
-</span><span class='line'>{$smarty.get.page}
-</span><span class='line'> 
-</span><span class='line'>{* display the variable "page" from a form (POST) *}
-</span><span class='line'>{$smarty.post.page}
-</span><span class='line'> 
-</span><span class='line'>{* display the value of the cookie "username" *}
-</span><span class='line'>{$smarty.cookies.username}
-</span><span class='line'> 
-</span><span class='line'>{* display the server variable "SERVER_NAME" *}
-</span><span class='line'>{$smarty.server.SERVER_NAME}
-</span><span class='line'> 
-</span><span class='line'>{* display the system environment variable "PATH" *}
-</span><span class='line'>{$smarty.env.PATH}
-</span><span class='line'> 
-</span><span class='line'>{* display the php session variable "id" *}
-</span><span class='line'>{$smarty.session.id}
-</span><span class='line'> 
-</span><span class='line'>{* display the variable "username" from merged get/post/cookies/server/env *}
-</span><span class='line'>{$smarty.request.username}</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>{\$smarty.now}</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{* use the date_format modifier to show current date and time *}
-</span><span class='line'>{$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>{\$smarty.const}</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{$smarty.const._MY_CONST_VAL}</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>{\$smarty.capture}</h3>
-
-<p>The output captured via {capture}..{/capture} construct can be accessed
-using {\$smarty} variable reference to the
-<a href="#capture" title="php:smarty:smarty_101 ↵">capture</a> function for more detail.</p>
-
-<h3>{\$smarty.config}</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{$smarty} variable can be used to refer to loaded config variables. </span></code></pre></td></tr></table></div></figure>
-
-
-<p>reference to the <a href="#config_load" title="php:smarty:smarty_101 ↵">config_load</a>
-for more detail.</p>
-
-<h3>{\$smarty.section}, {\$smarty.foreach}</h3>
-
-<p>{\$smarty} variable can be used to refer to &#8216;section&#8217; and &#8216;foreach&#8217; loop
-properties. See docs for
-<a href="#section_sectionelse" title="php:smarty:smarty_101 ↵">section</a> and
-<a href="#foreach_foreachelse" title="php:smarty:smarty_101 ↵">foreach</a>.</p>
-
-<h3>{\$smarty.template}</h3>
-
-<p>current template name</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{$smarty.template};
-</span><span class='line'>{* output myTemplate.tpl *}</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Variable Modifiers</h2>
-
-<ul>
-<li><p>applied to</p>
-
-<ol>
-<li>variables</li>
-<li>custom functions</li>
-<li>strings</li>
-<li>all php-functions (has two little pitfalls)</li>
-</ol>
-</li>
-<li><p>applied a modifier by |(pipe)</p></li>
-<li>additional parameters by :(colon)</li>
-<li>apply to array have to using &#8216;@&#8217; or it will apply to all elements of
-array.</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{* apply modifier to a variable *}
-</span><span class='line'>{$title|upper}
-</span><span class='line'> 
-</span><span class='line'>{* modifier with parameters *}
-</span><span class='line'>{$title|truncate:40:'...'}
-</span><span class='line'> 
-</span><span class='line'>{* apply modifier to a function parameter *}
-</span><span class='line'>{html_table loop=$myvar|upper}
-</span><span class='line'> 
-</span><span class='line'>{* with parameters *}
-</span><span class='line'>{html_table loop=$myvar|truncate:40:'...'}
-</span><span class='line'> 
-</span><span class='line'>{* apply modifier to literal string *}
-</span><span class='line'>{'foobar'|upper}
-</span><span class='line'> 
-</span><span class='line'>{* using date_format to format the current date *}
-</span><span class='line'>{$smarty.now|date_format:"%Y/%m/%d"}
-</span><span class='line'> 
-</span><span class='line'>{* apply modifier to a custom function *}
-</span><span class='line'>{mailto|upper address='smarty@example.com'}
-</span><span class='line'> 
-</span><span class='line'>{* using  php's str_repeat *}
-</span><span class='line'>{'='|str_repeat:80}
-</span><span class='line'> 
-</span><span class='line'>{* php's count *}
-</span><span class='line'>{$myArray|@count}
-</span><span class='line'> 
-</span><span class='line'>{* php's shuffle on servers's ip *}
-</span><span class='line'>{$smarty.server.SERVER_ADDR|shuffle}
-</span><span class='line'> 
-</span><span class='line'>(* this will uppercase and truncate the whole array *}
-</span><span class='line'>&lt;select name="name_id"&gt;
-</span><span class='line'>{html_options output=$myArray|upper|truncate:20}
-</span><span class='line'>&lt;/select&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>date_format</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?php
-</span><span class='line'> 
-</span><span class='line'>$config['date'] = '%I:%M %p';
-</span><span class='line'>$config['time'] = '%H:%M:%S';
-</span><span class='line'>$smarty-&gt;assign('config', $config);
-</span><span class='line'>$smarty-&gt;assign('yesterday', strtotime('-1 day'));
-</span><span class='line'> 
-</span><span class='line'>?&gt; </span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{$smarty.now|date_format}
-</span><span class='line'>{$smarty.now|date_format:"%A, %B %e, %Y"}
-</span><span class='line'>{$smarty.now|date_format:"%H:%M:%S"}
-</span><span class='line'>{$yesterday|date_format}
-</span><span class='line'>{$yesterday|date_format:"%A, %B %e, %Y"}
-</span><span class='line'>{$yesterday|date_format:"%H:%M:%S"}
-</span><span class='line'>&lt;/ocde&gt;
-</span><span class='line'> 
-</span><span class='line'>&lt;code |h output&gt;
-</span><span class='line'>Jan 1, 2022
-</span><span class='line'>01/01/22
-</span><span class='line'>02:33 pm
-</span><span class='line'>Dec 31, 2021
-</span><span class='line'>Monday, December 1, 2021
-</span><span class='line'>14:33:00</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>the formatting control char</h4>
-
-<ul>
-<li>%a - abbreviated weekday name according to the current locale</li>
-<li>%A - full weekday name according to the current locale</li>
-<li>%b - abbreviated month name according to the current locale</li>
-<li>%B - full month name according to the current locale</li>
-<li>%c - preferred date and time representation for the current locale</li>
-<li>%C - century number (the year divided by 100 and truncated to an
-integer, range 00 to 99)</li>
-<li>%d - day of the month as a decimal number (range 01 to 31)</li>
-<li>%D - same as %m/%d/%y</li>
-<li>%e - day of the month as a decimal number, a single digit is
-preceded by a space (range 1 to 31)</li>
-<li>%g - Week-based year within century [00,99]</li>
-<li>%G - Week-based year, including the century [0000,9999]</li>
-<li>%h - same as %b</li>
-<li>%H - hour as a decimal number using a 24-hour clock (range 00 to 23)</li>
-<li>%I - hour as a decimal number using a 12-hour clock (range 01 to 12)</li>
-<li>%j - day of the year as a decimal number (range 001 to 366)</li>
-<li>%k - Hour (24-hour clock) single digits are preceded by a blank.
-(range 0 to 23)</li>
-<li>%l - hour as a decimal number using a 12-hour clock, single digits
-preceeded by a space (range 1 to 12)</li>
-<li>%m - month as a decimal number (range 01 to 12)</li>
-<li>%M - minute as a decimal number</li>
-<li>%n - newline character</li>
-<li>%p - either `am&#8217; or `pm&#8217; according to the given time value, or the
-corresponding strings for the current locale</li>
-<li>%r - time in a.m. and p.m. notation</li>
-<li>%R - time in 24 hour notation</li>
-<li>%S - second as a decimal number</li>
-<li>%t - tab character</li>
-<li>%T - current time, equal to %H:%M:%S</li>
-<li>%u - weekday as a decimal number [1,7], with 1 representing Monday</li>
-<li>%U - week number of the current year as a decimal number, starting
-with the first Sunday as the first day of the first week</li>
-<li>%V - The ISO 8601:1988 week number of the current year as a decimal
-number, range 01 to 53, where week 1 is the first week that has at
-least 4 days in the current year, and with Monday as the first day
-of the week.</li>
-<li>%w - day of the week as a decimal, Sunday being 0</li>
-<li>%W - week number of the current year as a decimal number, starting
-with the first Monday as the first day of the first week</li>
-<li>%x - preferred date representation for the current locale without
-the time</li>
-<li>%X - preferred time representation for the current locale without
-the date</li>
-<li>%y - year as a decimal number without a century (range 00 to 99)</li>
-<li>%Y - year as a decimal number including the century</li>
-<li>%Z - time zone or name or abbreviation</li>
-<li>%% - a literal `%&#8217; character</li>
-</ul>
-
-
-<h2>Built-in Functions</h2>
-
-<ul>
-<li>{capture}</li>
-<li>{config_load}</li>
-<li>{foreach},{foreachelse}</li>
-<li>{if},{elseif},{else}</li>
-<li>{include}</li>
-<li>{include_php}</li>
-<li>{insert}</li>
-<li>{ldelim},{rdelim}</li>
-<li>{literal}</li>
-<li>{php}</li>
-<li>{section},{sectionelse}</li>
-<li>{strip}</li>
-</ul>
-
-
-<h3>{capture}</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{* we don't want to print a div tag unless content is displayed *}
-</span><span class='line'>{capture name=banner}
-</span><span class='line'>  {include file='get_banner.tpl'}
-</span><span class='line'>{/capture}
-</span><span class='line'> 
-</span><span class='line'>{if $smarty.capture.banner ne ''}
-</span><span class='line'>&lt;div id="banner"&gt;{$smarty.capture.banner}&lt;/div&gt;
-</span><span class='line'>{/if}</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{capture name=some_content assign=popText}
-</span><span class='line'>The server is {$smarty.server.SERVER_NAME|upper} at {$smarty.server.SERVER_ADDR}&lt;br&gt;
-</span><span class='line'>Your ip is {$smarty.server.REMOTE_ADDR}.
-</span><span class='line'>{/capture}
-</span><span class='line'>&lt;a href="#" {popup caption='Server Info' text=$popText}&gt;help&lt;/a&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>{config_load}</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#this is config file comment
-</span><span class='line'> 
-</span><span class='line'># global variables
-</span><span class='line'>pageTitle = "Main Menu"
-</span><span class='line'>bodyBgColor = #000000
-</span><span class='line'>tableBgColor = #000000
-</span><span class='line'>rowBgColor = #00ff00
-</span><span class='line'> 
-</span><span class='line'>#customer variables section
-</span><span class='line'>[Customer]
-</span><span class='line'>pageTitle = "Customer Info"</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{config_load file="example.conf"}
-</span><span class='line'> 
-</span><span class='line'>&lt;html&gt;
-</span><span class='line'>&lt;title&gt;{#pageTitle#|default:"No title"}&lt;/title&gt;
-</span><span class='line'>&lt;body bgcolor="{#bodyBgColor#}"&gt;
-</span><span class='line'>&lt;table border="{#tableBorderSize#}" bgcolor="{#tableBgColor#}"&gt;
-</span><span class='line'>   &lt;tr bgcolor="{#rowBgColor#}"&gt;
-</span><span class='line'>      &lt;td&gt;First&lt;/td&gt;
-</span><span class='line'>      &lt;td&gt;Last&lt;/td&gt;
-</span><span class='line'>      &lt;td&gt;Address&lt;/td&gt;
-</span><span class='line'>   &lt;/tr&gt;
-</span><span class='line'>&lt;/table&gt;
-</span><span class='line'>&lt;/body&gt;
-</span><span class='line'>&lt;/html&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{config_load file='example.conf' section='Customer'}
-</span><span class='line'> 
-</span><span class='line'>&lt;html&gt;
-</span><span class='line'>&lt;title&gt;{#pageTitle#}&lt;/title&gt;
-</span><span class='line'>&lt;body bgcolor="{#bodyBgColor#}"&gt;
-</span><span class='line'>&lt;table border="{#tableBorderSize#}" bgcolor="{#tableBgColor#}"&gt;
-</span><span class='line'>   &lt;tr bgcolor="{#rowBgColor#}"&gt;
-</span><span class='line'>      &lt;td&gt;First&lt;/td&gt;
-</span><span class='line'>      &lt;td&gt;Last&lt;/td&gt;
-</span><span class='line'>      &lt;td&gt;Address&lt;/td&gt;
-</span><span class='line'>   &lt;/tr&gt;
-</span><span class='line'>&lt;/table&gt;
-</span><span class='line'>&lt;/body&gt;
-</span><span class='line'>&lt;/html&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>{foreach},{foreachelse}</h3>
-
-<p>{foreach} properties are</p>
-
-<ol>
-<li>index</li>
-<li>iteration</li>
-<li>first</li>
-<li>last</li>
-<li>show</li>
-<li>total</li>
-</ol>
-
-
-<h4>Demonstrates the item attributes</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?php
-</span><span class='line'>$arr = array(1000, 1001, 1002);
-</span><span class='line'>$smarty-&gt;assign('myArray', $arr);
-</span><span class='line'>?&gt; </span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;ul&gt;
-</span><span class='line'>{foreach from=$myArray item=foo}
-</span><span class='line'>    &lt;li&gt;{$foo}&lt;/li&gt;
-</span><span class='line'>{/foreach}
-</span><span class='line'>&lt;/ul&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;ul&gt;
-</span><span class='line'>    &lt;li&gt;1000&lt;/li&gt;
-</span><span class='line'>    &lt;li&gt;1001&lt;/li&gt;
-</span><span class='line'>    &lt;li&gt;1002&lt;/li&gt;
-</span><span class='line'>&lt;/ul&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>Demonstrates the item and key attributes</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?php
-</span><span class='line'>$arr = array(9 =&gt; 'Tennis', 3 =&gt; 'Swimming', 8 =&gt; 'Coding');
-</span><span class='line'>$smarty-&gt;assign('myArray', $arr);
-</span><span class='line'>?&gt; </span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;ul&gt;
-</span><span class='line'>{foreach from=$myArray key=k item=v}
-</span><span class='line'>   &lt;li&gt;{$k}: {$v}&lt;/li&gt;
-</span><span class='line'>{/foreach}
-</span><span class='line'>&lt;/ul&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;ul&gt;
-</span><span class='line'>    &lt;li&gt;9: Tennis&lt;/li&gt;
-</span><span class='line'>    &lt;li&gt;3: Swimming&lt;/li&gt;
-</span><span class='line'>    &lt;li&gt;8: Coding&lt;/li&gt;
-</span><span class='line'>&lt;/ul&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>Database example with {foreachelse}</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?php
-</span><span class='line'>  $search_condition = "where name like '$foo%' ";
-</span><span class='line'>  $sql = 'select contact_id, name, nick from contacts '.$search_condition.' order by name';
-</span><span class='line'>  $smarty-&gt;assign('results', $db-&gt;getAssoc($sql) );
-</span><span class='line'>?&gt; </span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{foreach key=cid item=con from=$results}
-</span><span class='line'>    &lt;a href="contact.php?contact_id={$cid}"&gt;{$con.name} - {$con.nick}&lt;/a&gt;&lt;br /&gt;
-</span><span class='line'>{foreachelse}
-</span><span class='line'>    No items were found in the search
-</span><span class='line'>{/foreach}</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>{if},{elseif},{else}</h3>
-
-<p>  Qualifier          Alternates   Syntax Example           Meaning                        PHP Equivalent</p>
-
-<hr />
-
-<p>  ==                 eq           \$a eq \$b               equals                         ==
-  !=                 ne, neq      \$a neq \$b              not equals                     !=
-  >                 gt           \$a gt \$b               greater than                   >
-  &lt;                 lt           \$a lt \$b               less than                      &lt;
-  >=                gte, ge      \$a ge \$b               greater than or equal          >=
-  ⇐                  lte, le      \$a le \$b               less than or equal             ⇐
-  ===                             \$a === 0                check for identity             ===
-  !                  not          not \$a                  negation (unary)               !
-  %                  mod          \$a mod \$b              modulous                       %
-  is [not] div by                 \$a is not div by 4      divisible by                   \$a % \$b == 0
-  is [not] even                   \$a is not even          [not] an even number (unary)   \$a % 2 == 0
-  is [not] even by                \$a is not even by \$b   grouping level [not] even      (\$a / \$b) % 2 == 0
-  is [not] odd                    \$a is not odd           [not] an odd number (unary)    \$a % 2 != 0
-  is [not] odd by                 \$a is not odd by \$b    [not] an odd grouping          (\$a / \$b) % 2 != 0</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{if $name eq 'Fred'}
-</span><span class='line'>    Welcome Sir.
-</span><span class='line'>{elseif $name eq 'Wilma'}
-</span><span class='line'>    Welcome Ma'am.
-</span><span class='line'>{else}
-</span><span class='line'>    Welcome, whatever you are.
-</span><span class='line'>{/if}</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>{include}</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{include file="header.tpl" title="Main Menu" table_bgcolor="#c0c0c0" links=$link_array}
-</span><span class='line'> 
-</span><span class='line'>{* body of template goes here *}
-</span><span class='line'> 
-</span><span class='line'>{include file="footer.tpl" logo="http://my.domain.com/logo.gif"}</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>{include_php}</h3>
-
-<p>{include_php} is pretty much deprecated from Smarty, you can accomplish
-the same functionality via a custom template function.</p>
-
-<h3>{insert}</h3>
-
-<p>{insert} tags work much like {include} tags, except that {insert} tags
-are NOT cached when template caching is enabled. They will be executed
-on every invocation of the template.</p>
-
-<p>this function is usful for some content we don&#8217;t want to cache, like AD
-banner or something else.</p>
-
-<h3>{ldelim},{rdelim}</h3>
-
-<p>Used to output &#8216;{&#8217; and &#8216;}&#8217;</p>
-
-<h3>{literal}</h3>
-
-<p>any context with in the {literal}{/literal} will not interpreted.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{literal}
-</span><span class='line'>&lt;script language=javascript&gt;
-</span><span class='line'>&lt;!--
-</span><span class='line'>function isblank(field) {
-</span><span class='line'>  if (field.value == '') { 
-</span><span class='line'>    return false; 
-</span><span class='line'>  } else {
-</span><span class='line'>    document.loginform.submit();
-</span><span class='line'>    return true;
-</span><span class='line'>  }
-</span><span class='line'>}
-</span><span class='line'>// --&gt;
-</span><span class='line'>&lt;/script&gt;
-</span><span class='line'>{/literal}</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>{php}</h3>
-
-<p>The {php} tags allow PHP code to be embedded directly into the template.
-They will not be escaped, regardless of the \$php_handling setting.
-This is for advanced users only, not normally needed and <strong>not
-recommended</strong>.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{* this template includes a {php} block that assign's the variable $varX *}
-</span><span class='line'>{php}
-</span><span class='line'>   global $foo, $bar;
-</span><span class='line'>   if($foo == $bar){
-</span><span class='line'>     echo 'This will be sent to browser';
-</span><span class='line'>   }
-</span><span class='line'>  // assign a variable to Smarty
-</span><span class='line'>  $this-&gt;assign('varX','Toffee');
-</span><span class='line'>{/php}
-</span><span class='line'>{* output the variable *}
-</span><span class='line'>&lt;strong&gt;{$varX}&lt;/strong&gt; is my fav ice cream :-)</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>{section},{sectionelse}</h3>
-
-<p>A {section} is for looping over arrays of data, unlike {foreach} which
-is used to loop over a single associative array. Every {section} tag
-must be paired with a closing {/section} tag.</p>
-
-<p>{section} properties are</p>
-
-<ol>
-<li>index</li>
-<li>index_prev</li>
-<li>index_next</li>
-<li>iteration</li>
-<li>first</li>
-<li>last</li>
-<li>rownum</li>
-<li>loop</li>
-<li>show</li>
-<li>total.</li>
-</ol>
-
-
-<h4>Nested {section}</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?php
-</span><span class='line'> 
-</span><span class='line'>$id = array(1001,1002,1003);
-</span><span class='line'>$smarty-&gt;assign('custid',$id);
-</span><span class='line'> 
-</span><span class='line'>$fullnames = array('John Smith','Jack Jones','Jane Munson');
-</span><span class='line'>$smarty-&gt;assign('name',$fullnames);
-</span><span class='line'> 
-</span><span class='line'>$addr = array('253 N 45th', '417 Mulberry ln', '5605 apple st');
-</span><span class='line'>$smarty-&gt;assign('address',$addr);
-</span><span class='line'> 
-</span><span class='line'>$types = array(
-</span><span class='line'>           array( 'home phone', 'cell phone', 'e-mail'),
-</span><span class='line'>           array( 'home phone', 'web'),
-</span><span class='line'>           array( 'cell phone')
-</span><span class='line'>         );
-</span><span class='line'>$smarty-&gt;assign('contact_type', $types);
-</span><span class='line'> 
-</span><span class='line'>$info = array(
-</span><span class='line'>           array('555-555-5555', '666-555-5555', 'john@myexample.com'),
-</span><span class='line'>           array( '123-456-4', 'www.example.com'),
-</span><span class='line'>           array( '0457878')
-</span><span class='line'>        );
-</span><span class='line'>$smarty-&gt;assign('contact_info', $info);
-</span><span class='line'> 
-</span><span class='line'>?&gt; </span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{section name=customer loop=$custid}
-</span><span class='line'>&lt;hr&gt;
-</span><span class='line'>  id: {$custid[customer]}&lt;br /&gt;
-</span><span class='line'>  name: {$name[customer]}&lt;br /&gt;
-</span><span class='line'>  address: {$address[customer]}&lt;br /&gt;
-</span><span class='line'>  {section name=contact loop=$contact_type[customer]}
-</span><span class='line'>    {$contact_type[customer][contact]}: {$contact_info[customer][contact]}&lt;br /&gt;
-</span><span class='line'>  {/section}
-</span><span class='line'>{/section}</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;hr&gt;
-</span><span class='line'>  id: 1000&lt;br /&gt;
-</span><span class='line'>  name: John Smith&lt;br /&gt;
-</span><span class='line'>  address: 253 N 45th&lt;br /&gt;
-</span><span class='line'>    home phone: 555-555-5555&lt;br /&gt;
-</span><span class='line'>    cell phone: 666-555-5555&lt;br /&gt;
-</span><span class='line'>    e-mail: john@myexample.com&lt;br /&gt;
-</span><span class='line'>&lt;hr&gt;
-</span><span class='line'>  id: 1001&lt;br /&gt;
-</span><span class='line'>  name: Jack Jones&lt;br /&gt;
-</span><span class='line'>  address: 417 Mulberry ln&lt;br /&gt;
-</span><span class='line'>    home phone: 123-456-4&lt;br /&gt;
-</span><span class='line'>    web: www.example.com&lt;br /&gt;
-</span><span class='line'>&lt;hr&gt;
-</span><span class='line'>  id: 1002&lt;br /&gt;
-</span><span class='line'>  name: Jane Munson&lt;br /&gt;
-</span><span class='line'>  address: 5605 apple st&lt;br /&gt;
-</span><span class='line'>    cell phone: 0457878&lt;br /&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>Database sample with {sectionelse}</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?php
-</span><span class='line'>$sql = 'select id, name, home, cell, email from contacts '
-</span><span class='line'>      ."where name like '$foo%' ";
-</span><span class='line'>$smarty-&gt;assign('contacts', $db-&gt;getAll($sql));
-</span><span class='line'>?&gt; </span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;table&gt;
-</span><span class='line'>&lt;tr&gt;&lt;th&gt;&nbsp;&lt;/th&gt;&lt;th&gt;Name&gt;&lt;/th&gt;&lt;th&gt;Home&lt;/th&gt;&lt;th&gt;Cell&lt;/th&gt;&lt;th&gt;Email&lt;/th&gt;&lt;/tr&gt;
-</span><span class='line'>{section name=co loop=$contacts}
-</span><span class='line'>  &lt;tr&gt;
-</span><span class='line'>    &lt;td&gt;&lt;a href="view.php?id={$contacts[co].id}"&gt;view&lt;a&gt;&lt;/td&gt;
-</span><span class='line'>    &lt;td&gt;{$contacts[co].name}&lt;/td&gt;
-</span><span class='line'>    &lt;td&gt;{$contacts[co].home}&lt;/td&gt;
-</span><span class='line'>    &lt;td&gt;{$contacts[co].cell}&lt;/td&gt;
-</span><span class='line'>    &lt;td&gt;{$contacts[co].email}&lt;/td&gt;
-</span><span class='line'>  &lt;tr&gt;
-</span><span class='line'>{sectionelse}
-</span><span class='line'>  &lt;tr&gt;&lt;td colspan="5"&gt;No items found&lt;/td&gt;&lt;/tr&gt;
-</span><span class='line'>{/section}
-</span><span class='line'>&lt;/table&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>.index, .index_prev, .index_next</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?php
-</span><span class='line'>$data = array(1001,1002,1003,1004,1005);
-</span><span class='line'>$smarty-&gt;assign('rows',$data);
-</span><span class='line'>?&gt; </span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{* $rows[row.index] and $rows[row] are identical in meaning *}
-</span><span class='line'>&lt;table&gt;
-</span><span class='line'>  &lt;tr&gt;
-</span><span class='line'>    &lt;th&gt;index&lt;/th&gt;&lt;th&gt;id&lt;/th&gt;
-</span><span class='line'>    &lt;th&gt;index_prev&lt;/th&gt;&lt;th&gt;prev_id&lt;/th&gt;
-</span><span class='line'>    &lt;th&gt;index_next&lt;/th&gt;&lt;th&gt;next_id&lt;/th&gt;
-</span><span class='line'>  &lt;/tr&gt;
-</span><span class='line'>{section name=row loop=$rows}
-</span><span class='line'>  &lt;tr&gt;
-</span><span class='line'>    &lt;td&gt;{$smarty.section.row.index}&lt;/td&gt;&lt;td&gt;{$rows[row]}&lt;/td&gt;
-</span><span class='line'>    &lt;td&gt;{$smarty.section.row.index_prev}&lt;/td&gt;&lt;td&gt;{$rows[row.index_prev]}&lt;/td&gt;
-</span><span class='line'>    &lt;td&gt;{$smarty.section.row.index_next}&lt;/td&gt;&lt;td&gt;{$rows[row.index_next]}&lt;/td&gt;
-</span><span class='line'>  &lt;/tr&gt;
-</span><span class='line'>{/section}
-</span><span class='line'>&lt;/table&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>index  id    index_prev prev_id index_next next_id
-</span><span class='line'>0      1001  -1                 1          1002
-</span><span class='line'>1      1002  0          1001    2          1003
-</span><span class='line'>2      1003  1          1002    3          1004
-</span><span class='line'>3      1004  2          1003    4          1005
-</span><span class='line'>4      1005  3          1004    5</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>.show</h4>
-
-<p>show is used as a parameter to section and is a boolean value. If FALSE,
-the section will not be displayed. If there is a {sectionelse} present,
-that will be alternately displayed.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{section name=customer loop=$customers show=$show_customer_info}
-</span><span class='line'>  {$smarty.section.customer.rownum} id: {$customers[customer]}&lt;br /&gt;
-</span><span class='line'>{/section}
-</span><span class='line'> 
-</span><span class='line'>{if $smarty.section.customer.show}
-</span><span class='line'>  the section was shown.
-</span><span class='line'>{else}
-</span><span class='line'>  the section was not shown.
-</span><span class='line'>{/if}</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>1 id: 1000&lt;br /&gt;
-</span><span class='line'>2 id: 1001&lt;br /&gt;
-</span><span class='line'>3 id: 1002&lt;br /&gt;
-</span><span class='line'> 
-</span><span class='line'>the section was shown.</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>{strip}</h3>
-
-<p>Many times web designers run into the issue where white space and
-carriage returns affect the output of the rendered HTML (browser
-“features”), so you must run all your tags together in the template to
-get the desired results. This usually ends up in unreadable or
-unmanageable templates. Anything within {strip}{/strip} tags are
-stripped of the extra spaces or carriage returns at the beginnings and
-ends of the lines before they are displayed. This way you can keep your
-templates readable, and not worry about extra white space causing
-problems.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{* the following will be all run into one line upon output *}
-</span><span class='line'>{strip}
-</span><span class='line'>&lt;table border='0'&gt;
-</span><span class='line'> &lt;tr&gt;
-</span><span class='line'>  &lt;td&gt;
-</span><span class='line'>   &lt;a href="{$url}"&gt;
-</span><span class='line'>    &lt;font color="red"&gt;This is a test&lt;/font&gt;
-</span><span class='line'>   &lt;/a&gt;
-</span><span class='line'>  &lt;/td&gt;
-</span><span class='line'> &lt;/tr&gt;
-</span><span class='line'>&lt;/table&gt;
-</span><span class='line'>{/strip}</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;table border='0'&gt;&lt;tr&gt;&lt;td&gt;&lt;a href="http://. snipped...&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>if any white space or &#8216;CR&#8217; charachter affect web layout, we could use
-{srip} to avoid it</p>
-
-<h2>Custom Functions</h2>
-
-<p>Smarty comes with several custom functions that you can use in the
-templates.</p>
-
-<ul>
-<li>{assign}</li>
-<li>{counter}</li>
-<li>{cycle}</li>
-<li>{debug}</li>
-<li>{eval}</li>
-<li>{fetch}</li>
-<li>{html_checkboxes}</li>
-<li>{html_image}</li>
-<li>{html_options}</li>
-<li>{html_radios}</li>
-<li>{html_select_date}</li>
-<li>{html_select_time}</li>
-<li>{html_table}</li>
-<li>{mailto}</li>
-<li>{math}</li>
-<li>{popup}</li>
-<li>{popup_init}</li>
-<li>{textformat}</li>
-</ul>
-
-
-<h3>{assign}</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{assign var='name' value='Bob'}
-</span><span class='line'>The value of $name is {$name}.</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>The value of $name is Bob.</span></code></pre></td></tr></table></div></figure>
-
-
-<p>examples 2:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{assign var=running_total value=`$running_total+$some_array[row].some_value`}</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>{counter}</h3>
-
-<p>{counter} will remember the count on each iteration.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{* initialize the count *}
-</span><span class='line'>{counter start=0 skip=2}&lt;br /&gt;
-</span><span class='line'>{counter}&lt;br /&gt;
-</span><span class='line'>{counter}&lt;br /&gt;
-</span><span class='line'>{counter}&lt;br /&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>0&lt;br /&gt;
-</span><span class='line'>2&lt;br /&gt;
-</span><span class='line'>4&lt;br /&gt;
-</span><span class='line'>6&lt;br /&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>{cycle}</h3>
-
-<p>{cycle} is used to alternate a set of values. This makes it easy to for
-example, alternate between two or more colors in a table, or cycle
-through an array of values.</p>
-
-<ul>
-<li>the advance attribute is used to repeat a value. When set to FALSE,
-the next call to {cycle} will print the same value.</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{section name=rows loop=$data}
-</span><span class='line'>&lt;tr bgcolor="{cycle values="#eeeeee,#d0d0d0"}"&gt;
-</span><span class='line'>   &lt;td&gt;{$data[rows]}&lt;/td&gt;
-</span><span class='line'>&lt;/tr&gt;
-</span><span class='line'>{/section}</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;tr bgcolor="#eeeeee"&gt;
-</span><span class='line'>   &lt;td&gt;1&lt;/td&gt;
-</span><span class='line'>&lt;/tr&gt;
-</span><span class='line'>&lt;tr bgcolor="#d0d0d0"&gt;
-</span><span class='line'>   &lt;td&gt;2&lt;/td&gt;
-</span><span class='line'>&lt;/tr&gt;
-</span><span class='line'>&lt;tr bgcolor="#eeeeee"&gt;
-</span><span class='line'>   &lt;td&gt;3&lt;/td&gt;
-</span><span class='line'>&lt;/tr&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>{debug}</h3>
-
-<p>{debug} dumps the debug console to the page. This works regardless of
-the debug settings in the php script.</p>
-
-<h3>{eval}</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>emphstart = &lt;strong&gt;
-</span><span class='line'>emphend = &lt;/strong&gt;
-</span><span class='line'>title = Welcome to {$company}'s home page!
-</span><span class='line'>ErrorCity = You must supply a {#emphstart#}city{#emphend#}.
-</span><span class='line'>ErrorState = You must supply a {#emphstart#}state{#emphend#}</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{config_load file='setup.conf'}
-</span><span class='line'> 
-</span><span class='line'>{eval var=$foo}
-</span><span class='line'>{eval var=#title#}
-</span><span class='line'>{eval var=#ErrorCity#}
-</span><span class='line'>{eval var=#ErrorState# assign='state_error'}
-</span><span class='line'>{$state_error}</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>This is the contents of foo.
-</span><span class='line'>Welcome to Foobar Pub & Grill's home page!
-</span><span class='line'>You must supply a &lt;strong&gt;city&lt;/strong&gt;.
-</span><span class='line'>You must supply a &lt;strong&gt;state&lt;/strong&gt;.</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>{fetch}</h3>
-
-<p>{fetch} is used to retrieve files from the local file system, http, or
-ftp and display the contents.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{* include some javascript in your template *}
-</span><span class='line'>{fetch file='/export/httpd/www.example.com/docs/navbar.js'}
-</span><span class='line'> 
-</span><span class='line'>{* embed some weather text in your template from another web site *}
-</span><span class='line'>{fetch file='http://www.myweather.com/68502/'}
-</span><span class='line'> 
-</span><span class='line'>{* fetch a news headline file via ftp *}
-</span><span class='line'>{fetch file='ftp://user:password@ftp.example.com/path/to/currentheadlines.txt'}
-</span><span class='line'>{* as above but with variables *}
-</span><span class='line'>{fetch file="ftp://`$user`:`$password`@`$server`/`$path`"}
-</span><span class='line'> 
-</span><span class='line'>{* assign the fetched contents to a template variable *}
-</span><span class='line'>{fetch file='http://www.myweather.com/68502/' assign='weather'}
-</span><span class='line'>{if $weather ne ''}
-</span><span class='line'>  &lt;div id="weather"&gt;{$weather}&lt;/div&gt;
-</span><span class='line'>{/if}</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>{html_checkboxes}</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?php
-</span><span class='line'> 
-</span><span class='line'>$smarty-&gt;assign('cust_ids', array(1000,1001,1002,1003));
-</span><span class='line'>$smarty-&gt;assign('cust_names', array(
-</span><span class='line'>                                'Joe Schmoe',
-</span><span class='line'>                                'Jack Smith',
-</span><span class='line'>                                'Jane Johnson',
-</span><span class='line'>                                'Charlie Brown')
-</span><span class='line'>                              );
-</span><span class='line'>$smarty-&gt;assign('customer_id', 1001);
-</span><span class='line'> 
-</span><span class='line'>?&gt; </span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{html_checkboxes name='id' values=$cust_ids output=$cust_names 
-</span><span class='line'>   selected=$customer_id  separator='&lt;br /&gt;'}</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;label&gt;&lt;input type="checkbox" name="id[]" value="1000" /&gt;Joe Schmoe&lt;/label&gt;&lt;br /&gt;
-</span><span class='line'>&lt;label&gt;&lt;input type="checkbox" name="id[]" value="1001" checked="checked" /&gt;Jack Smith&lt;/label&gt;
-</span><span class='line'>&lt;br /&gt;
-</span><span class='line'>&lt;label&gt;&lt;input type="checkbox" name="id[]" value="1002" /&gt;Jane Johnson&lt;/label&gt;&lt;br /&gt;
-</span><span class='line'>&lt;label&gt;&lt;input type="checkbox" name="id[]" value="1003" /&gt;Charlie Brown&lt;/label&gt;&lt;br /&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>{html_image}</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{html_image file='pumpkin.jpg'}
-</span><span class='line'>{html_image file='/path/from/docroot/pumpkin.jpg'}
-</span><span class='line'>{html_image file='../path/relative/to/currdir/pumpkin.jpg'}</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;img src="pumpkin.jpg" alt="" width="44" height="68" /&gt;
-</span><span class='line'>&lt;img src="/path/from/docroot/pumpkin.jpg" alt="" width="44" height="68" /&gt;
-</span><span class='line'>&lt;img src="../path/relative/to/currdir/pumpkin.jpg" alt="" width="44" height="68" /&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Technical Note: {html_image} requires a hit to the disk to read the
-image and calculate the height and width. If you don&#8217;t use template
-caching, it is generally better to avoid {html_image} and leave image
-tags static for optimal performance.</p>
-
-<h3>{html_options}</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?php
-</span><span class='line'>$smarty-&gt;assign('myOptions', array(
-</span><span class='line'>                                1800 =&gt; 'Joe Schmoe',
-</span><span class='line'>                                9904 =&gt; 'Jack Smith',
-</span><span class='line'>                                2003 =&gt; 'Charlie Brown')
-</span><span class='line'>                                );
-</span><span class='line'>$smarty-&gt;assign('mySelect', 9904);
-</span><span class='line'>?&gt; </span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{html_options name=foo options=$myOptions selected=$mySelect}</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;select name="foo"&gt;
-</span><span class='line'>&lt;option label="Joe Schmoe" value="1800"&gt;Joe Schmoe&lt;/option&gt;
-</span><span class='line'>&lt;option label="Jack Smith" value="9904" selected="selected"&gt;Jack Smith&lt;/option&gt;
-</span><span class='line'>&lt;option label="Charlie Brown" value="2003"&gt;Charlie Brown&lt;/option&gt;
-</span><span class='line'>&lt;/select&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>{html_radios}</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?php
-</span><span class='line'> 
-</span><span class='line'>$smarty-&gt;assign('cust_ids', array(1000,1001,1002,1003));
-</span><span class='line'>$smarty-&gt;assign('cust_names', array(
-</span><span class='line'>                              'Joe Schmoe',
-</span><span class='line'>                              'Jack Smith',
-</span><span class='line'>                              'Jane Johnson',
-</span><span class='line'>                              'Charlie Brown')
-</span><span class='line'>                              );
-</span><span class='line'>$smarty-&gt;assign('customer_id', 1001);
-</span><span class='line'> 
-</span><span class='line'>?&gt; </span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{html_radios name='id' values=$cust_ids output=$cust_names
-</span><span class='line'>       selected=$customer_id separator='&lt;br /&gt;'}</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;label for="id_1000"&gt;
-</span><span class='line'>&lt;input type="radio" name="id" value="1000" id="id_1000" /&gt;Joe Schmoe&lt;/label&gt;&lt;br /&gt;
-</span><span class='line'>&lt;label for="id_1001"&gt;&lt;input type="radio" name="id" value="1001" id="id_1001" checked="checked" /&gt;Jack Smith&lt;/label&gt;&lt;br /&gt;
-</span><span class='line'>&lt;label for="id_1002"&gt;&lt;input type="radio" name="id" value="1002" id="id_1002" /&gt;Jane Johnson&lt;/label&gt;&lt;br /&gt;
-</span><span class='line'>&lt;label for="id_1003"&gt;&lt;input type="radio" name="id" value="1003" id="id_1003" /&gt;Charlie Brown&lt;/label&gt;&lt;br /&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>{html_select_date}</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{html_select_date}</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;select name="Date_Month"&gt;
-</span><span class='line'>&lt;option value="1"&gt;January&lt;/option&gt;
-</span><span class='line'>&lt;option value="2"&gt;February&lt;/option&gt;
-</span><span class='line'>&lt;option value="3"&gt;March&lt;/option&gt;
-</span><span class='line'>  ..... snipped .....
-</span><span class='line'>&lt;option value="10"&gt;October&lt;/option&gt;
-</span><span class='line'>&lt;option value="11"&gt;November&lt;/option&gt;
-</span><span class='line'>&lt;option value="12" selected="selected"&gt;December&lt;/option&gt;
-</span><span class='line'>&lt;/select&gt;
-</span><span class='line'>&lt;select name="Date_Day"&gt;
-</span><span class='line'>&lt;option value="1"&gt;01&lt;/option&gt;
-</span><span class='line'>&lt;option value="2"&gt;02&lt;/option&gt;
-</span><span class='line'>&lt;option value="3"&gt;03&lt;/option&gt;
-</span><span class='line'>  ..... snipped .....
-</span><span class='line'>&lt;option value="11"&gt;11&lt;/option&gt;
-</span><span class='line'>&lt;option value="12"&gt;12&lt;/option&gt;
-</span><span class='line'>&lt;option value="13" selected="selected"&gt;13&lt;/option&gt;
-</span><span class='line'>&lt;option value="14"&gt;14&lt;/option&gt;
-</span><span class='line'>&lt;option value="15"&gt;15&lt;/option&gt;
-</span><span class='line'>  ..... snipped .....
-</span><span class='line'>&lt;option value="29"&gt;29&lt;/option&gt;
-</span><span class='line'>&lt;option value="30"&gt;30&lt;/option&gt;
-</span><span class='line'>&lt;option value="31"&gt;31&lt;/option&gt;
-</span><span class='line'>&lt;/select&gt;
-</span><span class='line'>&lt;select name="Date_Year"&gt;
-</span><span class='line'>&lt;option value="2006" selected="selected"&gt;2006&lt;/option&gt;
-</span><span class='line'>&lt;/select&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>{html_select_time}</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{html_select_time use_24_hours=true}</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;select name="Time_Hour"&gt;
-</span><span class='line'>&lt;option value="00"&gt;00&lt;/option&gt;
-</span><span class='line'>&lt;option value="01"&gt;01&lt;/option&gt;
-</span><span class='line'>... snipped ....
-</span><span class='line'>&lt;option value="08"&gt;08&lt;/option&gt;
-</span><span class='line'>&lt;option value="09" selected&gt;09&lt;/option&gt;
-</span><span class='line'>&lt;option value="10"&gt;10&lt;/option&gt;
-</span><span class='line'>... snipped ....
-</span><span class='line'>&lt;option value="22"&gt;22&lt;/option&gt;
-</span><span class='line'>&lt;option value="23"&gt;23&lt;/option&gt;
-</span><span class='line'>&lt;/select&gt;
-</span><span class='line'>&lt;select name="Time_Minute"&gt;
-</span><span class='line'>&lt;option value="00"&gt;00&lt;/option&gt;
-</span><span class='line'>&lt;option value="01"&gt;01&lt;/option&gt;
-</span><span class='line'>... snipped ....
-</span><span class='line'>&lt;option value="19"&gt;19&lt;/option&gt;
-</span><span class='line'>&lt;option value="20" selected&gt;20&lt;/option&gt;
-</span><span class='line'>&lt;option value="21"&gt;21&lt;/option&gt;
-</span><span class='line'>... snipped ....
-</span><span class='line'>&lt;option value="58"&gt;58&lt;/option&gt;
-</span><span class='line'>&lt;option value="59"&gt;59&lt;/option&gt;
-</span><span class='line'>&lt;/select&gt;
-</span><span class='line'>&lt;select name="Time_Second"&gt;
-</span><span class='line'>&lt;option value="00"&gt;00&lt;/option&gt;
-</span><span class='line'>&lt;option value="01"&gt;01&lt;/option&gt;
-</span><span class='line'>... snipped ....
-</span><span class='line'>&lt;option value="22"&gt;22&lt;/option&gt;
-</span><span class='line'>&lt;option value="23" selected&gt;23&lt;/option&gt;
-</span><span class='line'>&lt;option value="24"&gt;24&lt;/option&gt;
-</span><span class='line'>... snipped ....
-</span><span class='line'>&lt;option value="58"&gt;58&lt;/option&gt;
-</span><span class='line'>&lt;option value="59"&gt;59&lt;/option&gt;
-</span><span class='line'>&lt;/select&gt;
-</span><span class='line'>&lt;select name="Time_Meridian"&gt;
-</span><span class='line'>&lt;option value="am" selected&gt;AM&lt;/option&gt;
-</span><span class='line'>&lt;option value="pm"&gt;PM&lt;/option&gt;
-</span><span class='line'>&lt;/select&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>{html_table}</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?php
-</span><span class='line'>$smarty-&gt;assign( 'data', array(1,2,3,4,5,6,7,8,9) );
-</span><span class='line'>$smarty-&gt;assign( 'tr', array('bgcolor="#eeeeee"','bgcolor="#dddddd"') );
-</span><span class='line'>$smarty-&gt;display('index.tpl');
-</span><span class='line'>?&gt; </span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{**** Example One ****}
-</span><span class='line'>{html_table loop=$data}
-</span><span class='line'> 
-</span><span class='line'>{**** Example Two ****}
-</span><span class='line'>{html_table loop=$data cols=4 table_attr='border="0"'}
-</span><span class='line'> 
-</span><span class='line'>{**** Example Three ****}
-</span><span class='line'>{html_table loop=$data cols="first,second,third,fourth" tr_attr=$tr}</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;!-- example One output --&gt;
-</span><span class='line'>&lt;table border="1"&gt;
-</span><span class='line'>&lt;tbody&gt;
-</span><span class='line'>&lt;tr&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;2&lt;/td&gt;&lt;td&gt;3&lt;/td&gt;&lt;/tr&gt;
-</span><span class='line'>&lt;tr&gt;&lt;td&gt;4&lt;/td&gt;&lt;td&gt;5&lt;/td&gt;&lt;td&gt;6&lt;/td&gt;&lt;/tr&gt;
-</span><span class='line'>&lt;tr&gt;&lt;td&gt;7&lt;/td&gt;&lt;td&gt;8&lt;/td&gt;&lt;td&gt;9&lt;/td&gt;&lt;/tr&gt;
-</span><span class='line'>&lt;/tbody&gt;
-</span><span class='line'>&lt;/table&gt;
-</span><span class='line'> 
-</span><span class='line'> 
-</span><span class='line'> 
-</span><span class='line'>&lt;!-- example Two output --&gt;
-</span><span class='line'>&lt;table border="0"&gt;
-</span><span class='line'>&lt;tbody&gt;
-</span><span class='line'>&lt;tr&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;2&lt;/td&gt;&lt;td&gt;3&lt;/td&gt;&lt;td&gt;4&lt;/td&gt;&lt;/tr&gt;
-</span><span class='line'>&lt;tr&gt;&lt;td&gt;5&lt;/td&gt;&lt;td&gt;6&lt;/td&gt;&lt;td&gt;7&lt;/td&gt;&lt;td&gt;8&lt;/td&gt;&lt;/tr&gt;
-</span><span class='line'>&lt;tr&gt;&lt;td&gt;9&lt;/td&gt;&lt;td&gt;&nbsp;&lt;/td&gt;&lt;td&gt;&nbsp;&lt;/td&gt;&lt;td&gt;&nbsp;&lt;/td&gt;&lt;/tr&gt;
-</span><span class='line'>&lt;/tbody&gt;
-</span><span class='line'>&lt;/table&gt;
-</span><span class='line'> 
-</span><span class='line'>&lt;!-- example Three output --&gt;
-</span><span class='line'>&lt;table border="1"&gt;
-</span><span class='line'>&lt;thead&gt;
-</span><span class='line'>&lt;tr&gt;
-</span><span class='line'>&lt;th&gt;first&lt;/th&gt;&lt;th&gt;second&lt;/th&gt;&lt;th&gt;third&lt;/th&gt;&lt;th&gt;fourth&lt;/th&gt;
-</span><span class='line'>&lt;/tr&gt;
-</span><span class='line'>&lt;/thead&gt;
-</span><span class='line'>&lt;tbody&gt;
-</span><span class='line'>&lt;tr bgcolor="#eeeeee"&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;2&lt;/td&gt;&lt;td&gt;3&lt;/td&gt;&lt;td&gt;4&lt;/td&gt;&lt;/tr&gt;
-</span><span class='line'>&lt;tr bgcolor="#dddddd"&gt;&lt;td&gt;5&lt;/td&gt;&lt;td&gt;6&lt;/td&gt;&lt;td&gt;7&lt;/td&gt;&lt;td&gt;8&lt;/td&gt;&lt;/tr&gt;
-</span><span class='line'>&lt;tr bgcolor="#eeeeee"&gt;&lt;td&gt;9&lt;/td&gt;&lt;td&gt;&nbsp;&lt;/td&gt;&lt;td&gt;&nbsp;&lt;/td&gt;&lt;td&gt;&nbsp;&lt;/td&gt;&lt;/tr&gt;
-</span><span class='line'>&lt;/tbody&gt;
-</span><span class='line'>&lt;/table&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>{mailto}</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{mailto address="me@example.com"}
-</span><span class='line'>&lt;a href="mailto:me@example.com" &gt;me@example.com&lt;/a&gt;
-</span><span class='line'> 
-</span><span class='line'>{mailto address="me@example.com" text="send me some mail"}
-</span><span class='line'>&lt;a href="mailto:me@example.com" &gt;send me some mail&lt;/a&gt;
-</span><span class='line'> 
-</span><span class='line'>{mailto address="me@example.com" encode="javascript"}
-</span><span class='line'>&lt;script type="text/javascript" language="javascript"&gt;
-</span><span class='line'>   eval(unescape('%64%6f% ... snipped ...%61%3e%27%29%3b'))
-</span><span class='line'>&lt;/script&gt;
-</span><span class='line'> 
-</span><span class='line'>{mailto address="me@example.com" encode="hex"}
-</span><span class='line'>&lt;a href="mailto:%6d%65.. snipped..3%6f%6d"&gt;&#x6d;&..snipped...#x6f;&#x6d;&lt;/a&gt;
-</span><span class='line'> 
-</span><span class='line'>{mailto address="me@example.com" subject="Hello to you!"}
-</span><span class='line'>&lt;a href="mailto:me@example.com?subject=Hello%20to%20you%21" &gt;me@example.com&lt;/a&gt;
-</span><span class='line'> 
-</span><span class='line'>{mailto address="me@example.com" cc="you@example.com,they@example.com"}
-</span><span class='line'>&lt;a href="mailto:me@example.com?cc=you@example.com%2Cthey@example.com" &gt;me@example.com&lt;/a&gt;
-</span><span class='line'> 
-</span><span class='line'>{mailto address="me@example.com" extra='class="email"'}
-</span><span class='line'>&lt;a href="mailto:me@example.com" class="email"&gt;me@example.com&lt;/a&gt;
-</span><span class='line'> 
-</span><span class='line'>{mailto address="me@example.com" encode="javascript_charcode"}
-</span><span class='line'>&lt;script type="text/javascript" language="javascript"&gt;
-</span><span class='line'>    &lt;!--
-</span><span class='line'>    {document.write(String.fromCharCode(60,97, ... snipped ....60,47,97,62))}
-</span><span class='line'>    //--&gt;
-</span><span class='line'>&lt;/script&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>{math}</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{* ====== example a =====   *}
-</span><span class='line'>{* $height=4, $width=5 *}
-</span><span class='line'>{math equation="x + y" x=$height y=$width}
-</span><span class='line'> 
-</span><span class='line'>{* output is 9 *}
-</span><span class='line'> 
-</span><span class='line'>{* ====== example b =====   *}
-</span><span class='line'>{* $row_height = 10, $row_width = 20, #col_div# = 2, assigned in template *}
-</span><span class='line'> 
-</span><span class='line'>{math equation="height * width / division"
-</span><span class='line'>  height=$row_height
-</span><span class='line'>  width=$row_width
-</span><span class='line'>  division=#col_div#}
-</span><span class='line'> 
-</span><span class='line'>{* output is 100 *}
-</span><span class='line'> 
-</span><span class='line'>{* ====== example c =====   *}
-</span><span class='line'>{* you can use parenthesis *}
-</span><span class='line'>{math equation="(( x + y ) / z )" x=2 y=10 z=2}
-</span><span class='line'> 
-</span><span class='line'>{* output is 6 *}
-</span><span class='line'> 
-</span><span class='line'>{* ====== example d =====   *}
-</span><span class='line'>{* you can supply a format parameter in sprintf format *}
-</span><span class='line'> 
-</span><span class='line'>{math equation="x + y" x=4.4444 y=5.0000 format="%.2f"}
-</span><span class='line'>{* output is 9.44 *}</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>{popup}</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{* popup_init must be called once at the top of the page *}
-</span><span class='line'>{popup_init src='/javascripts/overlib.js'}
-</span><span class='line'> 
-</span><span class='line'>{* create a link with a popup window when you move your mouse over *}
-</span><span class='line'>&lt;a href="mypage.html" {popup text='This link takes you to my page!'}&gt;mypage&lt;/a&gt;
-</span><span class='line'> 
-</span><span class='line'>{* you can use html, links, etc in your popup text *}
-</span><span class='line'>&lt;a href="mypage.html" {popup sticky=true caption='mypage contents'
-</span><span class='line'>text="&lt;ul&gt;&lt;li&gt;links&lt;/li&gt;&lt;li&gt;pages&lt;/li&gt;&lt;li&gt;images&lt;/li&gt;&lt;/ul&gt;"
-</span><span class='line'>snapx=10 snapy=10 trigger='onClick'}&gt;mypage&lt;/a&gt;
-</span><span class='line'> 
-</span><span class='line'>{* a popup  over a table cell *}
-</span><span class='line'>&lt;tr&gt;&lt;td {popup caption='Part details' text=$part_long_description}&gt;{$part_number}&lt;/td&gt;&lt;/tr&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>{popup_init}</h3>
-
-<p>{popup} is an integration of overLib, a library used for popup windows.
-These are used for context sensitive information, such as help windows
-or tooltips.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;head&gt;
-</span><span class='line'>{* popup_init must be called once at the top of the page *}
-</span><span class='line'>{popup_init src='javascripts/overlib/overlib.js'}
-</span><span class='line'> 
-</span><span class='line'>{* fully qualified url example *}
-</span><span class='line'>{popup_init src='http://myserver.org/my_js_libs/overlib/overlib.js'}
-</span><span class='line'>&lt;/head&gt;
-</span><span class='line'> 
-</span><span class='line'>// the first example will output
-</span><span class='line'>&lt;head&gt;
-</span><span class='line'>&lt;div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;"&gt;&lt;/div&gt;
-</span><span class='line'>&lt;script type="text/javascript" language="JavaScript" src="javascripts/overlib/overlib.js"&gt;&lt;/script&gt;
-</span><span class='line'>&lt;/head&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>{textformat}</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{textformat wrap=40 indent=4}
-</span><span class='line'> 
-</span><span class='line'>   This is foo.
-</span><span class='line'>   This is foo.
-</span><span class='line'>   This is foo.
-</span><span class='line'>   This is foo.
-</span><span class='line'>   This is foo.
-</span><span class='line'>   This is foo.
-</span><span class='line'> 
-</span><span class='line'>   This is bar.
-</span><span class='line'> 
-</span><span class='line'>   bar foo bar foo     foo.
-</span><span class='line'>   bar foo bar foo     foo.
-</span><span class='line'>   bar foo bar foo     foo.
-</span><span class='line'>   bar foo bar foo     foo.
-</span><span class='line'>   bar foo bar foo     foo.
-</span><span class='line'>   bar foo bar foo     foo.
-</span><span class='line'>   bar foo bar foo     foo.
-</span><span class='line'> 
-</span><span class='line'>{/textformat}</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>This is foo. This is foo. This
-</span><span class='line'>   is foo. This is foo. This is foo.
-</span><span class='line'>   This is foo.
-</span><span class='line'> 
-</span><span class='line'>   This is bar.
-</span><span class='line'> 
-</span><span class='line'>   bar foo bar foo foo. bar foo bar
-</span><span class='line'>   foo foo. bar foo bar foo foo. bar
-</span><span class='line'>   foo bar foo foo. bar foo bar foo
-</span><span class='line'>   foo. bar foo bar foo foo. bar foo
-</span><span class='line'>   bar foo foo.</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>debug in smarty</h2>
-
-<p>Expect to use <a href="#debug" title="php:smarty:smarty_101 ↵">{debug}</a>, an other way
-is enabled smarty debugger will pop a windows and display all useful
-information within it (a.k.a <a href="http://www.smarty.net/manual/en/chapter.debugging.console.php" title="http://www.smarty.net/manual/en/chapter.debugging.console.php">debuging
-console</a>).</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$smarty-&gt;debugging = true;
-</span><span class='line'>$smarty-&gt;debug_tpl = SMARTY_DIR . "debug.tpl";</span></code></pre></td></tr></table></div></figure>
-
-
-<p>you can also combine the
-<a href="http://www.php-debug.com/www/index.php" title="http://www.php-debug.com/www/index.php">PHP_Debug</a>
-with smarty debugger page, check
-<a href="http://www.phpinsider.com/smarty-forum/viewtopic.php?t=11125" title="http://www.phpinsider.com/smarty-forum/viewtopic.php?t=11125">here</a>
-to get more details.</p>
-
-<h2>Constants</h2>
-
-<ul>
-<li>SMARTY_DIR - full system path</li>
-<li>SMARTY_CORE_DIR - full system path to the location of the Smarty
-core files</li>
-</ul>
-
-
-<h2>Smarty Class Variables</h2>
-
-<ul>
-<li>\$template_dir</li>
-<li>\$compile_dir</li>
-<li>\$config_dir</li>
-<li>\$plugins_dir</li>
-<li>\$debugging</li>
-<li>\$debug_tpl</li>
-<li>\$debugging_ctrl</li>
-<li>\$autoload_filters</li>
-<li>\$compile_check</li>
-<li>\$force_compile</li>
-<li>\$caching</li>
-<li>\$cache_dir</li>
-<li>\$cache_lifetime</li>
-<li>\$cache_handler_func</li>
-<li>\$cache_modified_check</li>
-<li>\$config_overwrite</li>
-<li>\$config_booleanize</li>
-<li>\$config_read_hidden</li>
-<li>\$config_fix_newlines</li>
-<li>\$default_template_handler_func</li>
-<li>\$php_handling</li>
-<li>\$security</li>
-<li>\$secure_dir</li>
-<li>\$security_settings</li>
-<li>\$trusted_dir-</li>
-<li>\$left_delimiter</li>
-<li>\$right_delimiter</li>
-<li>\$compiler_class</li>
-<li>\$request_vars_order</li>
-<li>\$request_use_auto_globals</li>
-<li>\$error_reporting</li>
-<li>\$compile_id</li>
-<li>\$use_sub_dirs</li>
-<li>\$default_modifiers</li>
-<li>\$default_resource_type</li>
-</ul>
-
-
-<h2>Smarty Class Methods</h2>
-
-<ul>
-<li>append() – append an element to an assigned array</li>
-<li>append_by_ref() – append values by reference</li>
-<li>assign() – assign values to the templates</li>
-<li>assign_by_ref() – assign values by reference</li>
-<li>clear_all_assign() – clears the values of all assigned variables</li>
-<li>clear_all_cache() – clears the entire template cache</li>
-<li>clear_assign() – clears the value of an assigned variable</li>
-<li>clear_cache() – clears the cache for a specific template</li>
-<li>clear_compiled_tpl() – clears the compiled version of the
-specified template resource</li>
-<li>clear_config() – clears assigned config variables</li>
-<li>config_load() – loads config file data and assigns it to the
-template</li>
-<li>display() – displays the template</li>
-<li>fetch() – returns the template output</li>
-<li>get_config_vars() – returns the given loaded config variable value</li>
-<li>get_registered_object() – returns a reference to a registered
-object</li>
-<li>get_template_vars() – returns assigned variable value(s)</li>
-<li>is_cached() – returns true if there is a valid cache for this
-template</li>
-<li>load_filter() – load a filter plugin</li>
-<li>register_block() – dynamically register block functions plugins</li>
-<li>register_compiler_function() – dynamically register a compiler
-function plugin</li>
-<li>register_function() – dynamically register template function
-plugins</li>
-<li>register_modifier() – dynamically register modifier plugin</li>
-<li>register_object() – register an object for use in the templates</li>
-<li>register_outputfilter() – dynamically register outputfilters</li>
-<li>register_postfilter() – dynamically register postfilters</li>
-<li>register_prefilter() – dynamically register prefilters</li>
-<li>register_resource() – dynamically register resources</li>
-<li>trigger_error() – output an error message</li>
-<li>template_exists() – checks whether the specified template exists</li>
-<li>unregister_block() – dynamically unregister block function plugins</li>
-<li>unregister_compiler_function() – dynamically unregister a compiler
-function</li>
-<li>unregister_function – dynamically unregister template function
-plugin</li>
-<li>unregister_modifier() – dynamically unregister modifier plugin</li>
-<li>unregister_object() – dynamically unregister an object</li>
-<li>unregister_outputfilter() – dynamically unregister an output filter</li>
-<li>unregister_postfilter() – dynamically unregister a postfilter</li>
-<li>unregister_prefilter() – dynamically unregister a prefilter</li>
-<li>unregister_resource() – dynamically unregister a resource plugin</li>
-</ul>
-
-
-<h2>Caching</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?php
-</span><span class='line'>require('Smarty.class.php');
-</span><span class='line'>$smarty = new Smarty;
-</span><span class='line'> 
-</span><span class='line'>$smarty-&gt;caching = 1;
-</span><span class='line'> 
-</span><span class='line'>$smarty-&gt;display('index.tpl');
-</span><span class='line'>?&gt; </span></code></pre></td></tr></table></div></figure>
-
-
-<h3>is_cached()</h3>
-
-<p>The is_cached() function can be used to test if a template has a valid
-cache or not. If you have a cached template that requires something like
-a database fetch, you can use this to skip that process.</p>
-
-<p>WYou can keep parts of a page dynamic with the {insert} template
-function. Let&#8217;s say the whole page can be cached except for a banner
-that is displayed down the side of the page. By using the {insert}
-function for the banner, you can keep this element dynamic within the
-cached content.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?php
-</span><span class='line'>require('Smarty.class.php');
-</span><span class='line'>$smarty = new Smarty;
-</span><span class='line'> 
-</span><span class='line'>$smarty-&gt;caching = 1;
-</span><span class='line'> 
-</span><span class='line'>if(!$smarty-&gt;is_cached('index.tpl')) {
-</span><span class='line'>    // No cache available, do variable assignments here.
-</span><span class='line'>    $contents = get_database_contents();
-</span><span class='line'>    $smarty-&gt;assign($contents);
-</span><span class='line'>}
-</span><span class='line'> 
-</span><span class='line'>$smarty-&gt;display('index.tpl');
-</span><span class='line'>?&gt; </span></code></pre></td></tr></table></div></figure>
-
-
-<h2>push objects to page</h2>
-
-<ol>
-<li>register objects to the template. (<strong>RECOMMANDED</strong>)</li>
-<li>assign() or assign_by_ref() function.</li>
-</ol>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?php
-</span><span class='line'>// the object
-</span><span class='line'> 
-</span><span class='line'>class My_Object {
-</span><span class='line'>    function meth1($params, &$smarty_obj) {
-</span><span class='line'>        return 'this is my meth1';
-</span><span class='line'>    }
-</span><span class='line'>}
-</span><span class='line'> 
-</span><span class='line'>$myobj = new My_Object;
-</span><span class='line'> 
-</span><span class='line'>// registering the object (will be by reference)
-</span><span class='line'>$smarty-&gt;register_object('foobar',$myobj);
-</span><span class='line'> 
-</span><span class='line'>// if we want to restrict access to certain methods or properties, list them
-</span><span class='line'>$smarty-&gt;register_object('foobar',$myobj,array('meth1','meth2','prop1'));
-</span><span class='line'> 
-</span><span class='line'>// if you want to use the traditional object parameter format, pass a boolean of false
-</span><span class='line'>$smarty-&gt;register_object('foobar',$myobj,null,false);
-</span><span class='line'> 
-</span><span class='line'>// We can also assign objects. assign_by_ref when possible.
-</span><span class='line'>$smarty-&gt;assign_by_ref('myobj', $myobj);
-</span><span class='line'> 
-</span><span class='line'>$smarty-&gt;display('index.tpl');
-</span><span class='line'>?&gt; </span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{* access our registered object *}
-</span><span class='line'>{foobar-&gt;meth1 p1='foo' p2=$bar}
-</span><span class='line'> 
-</span><span class='line'>{* you can also assign the output *}
-</span><span class='line'>{foobar-&gt;meth1 p1='foo' p2=$bar assign='output'}
-</span><span class='line'>the output was {$output}
-</span><span class='line'> 
-</span><span class='line'>{* access our assigned object *}
-</span><span class='line'>{$myobj-&gt;meth1('foo',$bar)}</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Filters</h2>
-
-<ol>
-<li>prefilters - activated before templates complied</li>
-<li>postfilters - activated after templates complied</li>
-<li>output filters - invoked by display() or fetch()</li>
-</ol>
-
-
-<h3>prefilters</h3>
-
-<p>Can be used for filter out some information that should not output to
-browser, ex: comment</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?php
-</span><span class='line'>// put this in your application
-</span><span class='line'>function remove_dw_comments($tpl_source, &$smarty)
-</span><span class='line'>{
-</span><span class='line'>    return preg_replace("/&lt;!--#.*--&gt;/U",'',$tpl_source);
-</span><span class='line'>}
-</span><span class='line'> 
-</span><span class='line'>// register the prefilter
-</span><span class='line'>$smarty-&gt;register_prefilter('remove_dw_comments');
-</span><span class='line'>$smarty-&gt;display('index.tpl');
-</span><span class='line'>?&gt; </span></code></pre></td></tr></table></div></figure>
-
-
-<h3>postfilters</h3>
-
-<p>it is useful if want to add some content to all templates.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?php
-</span><span class='line'>// put this in your application
-</span><span class='line'>function add_header_comment($tpl_source, &$smarty)
-</span><span class='line'>{
-</span><span class='line'>    return "&lt;?php echo \"&lt;!-- Created by Smarty! --&gt;\n\"; ?&gt;\n".$tpl_source;
-</span><span class='line'>}
-</span><span class='line'> 
-</span><span class='line'>// register the postfilter
-</span><span class='line'>$smarty-&gt;register_postfilter('add_header_comment');
-</span><span class='line'>$smarty-&gt;display('index.tpl');
-</span><span class='line'>?&gt; </span></code></pre></td></tr></table></div></figure>
-
-
-<p>the postfilter above will make the compiled Smarty template index.tpl
-look like:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;!-- Created by Smarty! --&gt;
-</span><span class='line'>{* rest of template content... *}</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>output filters</h3>
-
-<p><strong>TBD</strong></p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/10/17/smalltalk_best_practice_patterns_study_note/">Smalltalk Best Practice Patterns閱讀筆記</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
-        
-         | <a href="/blog/2011/10/17/smalltalk_best_practice_patterns_study_note/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Smalltalk Best Practice Patterns是Kent
-Beck的經典之著，書名看起來是Smalltalk語言的最佳實踐，但一樣適合在其他語言。本書承習著K.B的寫書的特色，輕薄短小，字字珠磯。以下是我一邊閱讀時一邊紀錄下的筆記，我這本書沒有很細仔去看，但是大約的掠過，所以可能對內容上會有誤解。</p>
-
-<h2>程式風格 (Style)</h2>
-
-<p>這邊的風格不是只是狹義的程式風格慣例(convention)，而是一些程式撰寫時的Style。程式好的風格如下：</p>
-
-<ul>
-<li>Once and only once - 不要有重覆的程式碼</li>
-<li>Lots of little pieces - 短一點的method</li>
-<li>Replacing objects - a.k.a code for interface</li>
-<li>Moving objects - Another property of systems with good style is that
-their objects can be easily moved to new contexts</li>
-<li>Rates of change - don’t put two rates of change together</li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/10/17/simplexml/">SimpleXML</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
-        
-         | <a href="/blog/2011/10/17/simplexml/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><ul>
-<li>access single element by name</li>
-<li>access multi elements by array with name</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;members&gt;
-</span><span class='line'>    &lt;user id="kent"&gt;Kent Chiu&lt;/user&gt;
-</span><span class='line'>    &lt;user id="leon"&gt;Leon Wong&lt;/user&gt;
-</span><span class='line'>&lt;/members&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>  $members = simplexml_load_file('member.xml'); // root
-</span><span class='line'>    $root-&gt;user[0]; // Kent Chiu
-</span><span class='line'>    $root-&gt;user[1]; // Leon Wong
-</span><span class='line'>        $root-&gt;user[0][id]; // kent
-</span><span class='line'>    $root-&gt;user[0] = 'DraculaCwg'; // now Kent Chiu is replaced to DraculaCwg
-</span><span class='line'>    $root-&gt;user[2] = "New User"; // appends a node 
-</span><span class='line'>    $root-&gt;user[2][id] = "new";</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Resources</h2>
-
-<ul>
-<li><a href="http://tw2.php.net/manual/en/book.simplexml.php" title="http://tw2.php.net/manual/en/book.simplexml.php">SimpleXML at
-PHP.net</a></li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/10/17/show_log_in_eclipse_console/">Show Log in Eclipse Console</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
-        
-         | <a href="/blog/2011/10/17/show_log_in_eclipse_console/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Using eclipse <strong>External Tools configuration</strong> to run a tail program to
-keep monitor log files.</p>
-
-<p><img src="/images/wiki/php/show_log_in_eclipse_console_01.png" alt="show_log_in_eclipse_console_01.png" /></p>
-
-<p>Please ensure you have should tail program</p>
-
-<ul>
-<li>Location: point to your tail program</li>
-<li>Working Directory: Using <strong>Browse Workspace</strong> to select your project
-node.</li>
-<li>Arguments: -f &lt;log file name></li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/11/">&larr; Older</a>
@@ -4442,23 +3121,23 @@ node.</li>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/07/07/python-101/">Python 101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/25/url-encoding/">URL Encoding</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/04/restful-api-design/">RESTful API Design</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/05/17/my-intellij-idea-shortcut/">My IntelliJ IDEA Shortcut</a>
       </li>
     
       <li class="post">
         <a href="/blog/2013/05/12/jesper-report-font-issue/">Jesper Report, IReport 匯出成中文PDF</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/05/12/jasperreport-101/">JasperReport 101</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/05/06/mac-tips/">Mac Tips</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/04/22/clean-code/">Clean Code閱讀筆記</a>
       </li>
     
   </ul>

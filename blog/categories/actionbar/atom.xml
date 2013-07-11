@@ -4,7 +4,7 @@
   <title><![CDATA[Category: actionbar | Kent's Blog]]></title>
   <link href="http://blog.kent-chiu.com/blog/categories/actionbar/atom.xml" rel="self"/>
   <link href="http://blog.kent-chiu.com/"/>
-  <updated>2013-07-11T21:27:53+08:00</updated>
+  <updated>2013-07-11T21:59:18+08:00</updated>
   <id>http://blog.kent-chiu.com/</id>
   <author>
     <name><![CDATA[Kent]]></name>
@@ -32,7 +32,7 @@ item 的實作呈現</li>
 <p>基本的 actionbar
 應用，可以參數<a href="http://developer.android.com/design/patterns/actionbar.html" title="http://developer.android.com/design/patterns/actionbar.html">這裡</a></p>
 
-<p><img src="/images/wiki/android/actionbar_001.png" alt="actionbar_001.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2012-04-20/actionbar_001.png" alt="actionbar_001.png" /></p>
 
 <h5>移除 ActionBar</h5>
 
@@ -42,7 +42,7 @@ item 的實作呈現</li>
 
 <p>移除後，在程式裡面呼叫 <code>getActionBar()</code> 會得到 null</p>
 
-<p><img src="/images/wiki/android/actionbar_002.png" alt="actionbar_002.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2012-04-20/actionbar_002.png" alt="actionbar_002.png" /></p>
 
 <h5>隱藏 ActionBar</h5>
 

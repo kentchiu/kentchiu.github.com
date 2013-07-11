@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ireport | Kent's Blog]]></title>
   <link href="http://blog.kent-chiu.com/blog/categories/ireport/atom.xml" rel="self"/>
   <link href="http://blog.kent-chiu.com/"/>
-  <updated>2013-07-11T21:27:53+08:00</updated>
+  <updated>2013-07-11T21:59:18+08:00</updated>
   <id>http://blog.kent-chiu.com/</id>
   <author>
     <name><![CDATA[Kent]]></name>
@@ -25,22 +25,22 @@
 
 <h4>工具 ﹣> 選項</h4>
 
-<p><img src="http://blog.kent-chiu.com/images/blog/2013-05-12-jesper-report-font-issue-000.png" alt="2013-05-12-jesper-report-font-issue-000.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2013-05-12/2013-05-12-jesper-report-font-issue-000.png" alt="2013-05-12-jesper-report-font-issue-000.png" /></p>
 
 <h4>安裝字型</h4>
 
-<p><img src="http://blog.kent-chiu.com/images/blog/2013-05-12-jesper-report-font-issue-001.png" alt="2013-05-12-jesper-report-font-issue-001.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2013-05-12/2013-05-12-jesper-report-font-issue-001.png" alt="2013-05-12-jesper-report-font-issue-001.png" /></p>
 
 <p>字形檔為 true type (.ttf)格式，本範例是繁體中文的標楷體 (kaiu.ttf)</p>
 
-<p><img src="http://blog.kent-chiu.com/images/blog/2013-05-12-jesper-report-font-issue-002.png" alt="2013-05-12-jesper-report-font-issue-002.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2013-05-12/2013-05-12-jesper-report-font-issue-002.png" alt="2013-05-12-jesper-report-font-issue-002.png" /></p>
 
 <blockquote><p>可以在windows的字型檔目錄下取得字型檔，但我在測試時無法直接在windows/font的目錄選得字型檔，
 須把字型檔copy到其他目錄時，iReport 的 <em>Select True Type Font</em> dialog 才看得到字型檔。</p></blockquote>
 
 <h4>設定字型檔的細節</h4>
 
-<p><img src="http://blog.kent-chiu.com/images/blog/2013-05-12-jesper-report-font-issue-005.png" alt="2013-05-12-jesper-report-font-issue-005.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2013-05-12/2013-05-12-jesper-report-font-issue-005.png" alt="2013-05-12-jesper-report-font-issue-005.png" /></p>
 
 <p>選進來後的Family Name(字型檔名) 預設是 "標楷體"，我把它改名成 <em>kaiu</em> (這麼做的原因只是不想讓設定檔出現一堆中文字型名稱，當然，
 你也可以保持預設的名稱 "標楷體")，PDF details的設定要特別注意，
@@ -52,7 +52,7 @@ PDF ENcodeing要設成 <em>Identity-H (Unicode with horizontal writer)</em>, 然
 
 <p>文字內容的<code>font name</code>要設定為剛剛新安裝的字型檔名稱</p>
 
-<p><img src="http://blog.kent-chiu.com/images/blog/2013-05-12-jesper-report-font-issue-007.png" alt="2013-05-12-jesper-report-font-issue-007.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2013-05-12/2013-05-12-jesper-report-font-issue-007.png" alt="2013-05-12-jesper-report-font-issue-007.png" /></p>
 
 <p>做preivew後就會產出 pdf 檔，裡面的中文就會正常顯示了</p>
 
@@ -65,7 +65,7 @@ PDF ENcodeing要設成 <em>Identity-H (Unicode with horizontal writer)</em>, 然
 
 <p>匯出後，將該 jar 檔丟到 class path下即可；如果執行匯出時，發生字型檔找不到的異常，應該是字型檔的 jar 檔沒正確的放在 class path 下</p>
 
-<p><img src="http://blog.kent-chiu.com/images/blog/2013-05-12-jesper-report-font-issue-006.png" alt="2013-05-12-jesper-report-font-issue-006.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2013-05-12/2013-05-12-jesper-report-font-issue-006.png" alt="2013-05-12-jesper-report-font-issue-006.png" /></p>
 
 <h6>jrxml 範本定義檔 hello.jrxml</h6>
 
@@ -140,15 +140,15 @@ public void exportToPDF_statics_text_only() throws Exception {
 
 <p>每一區的位置如下圖所示</p>
 
-<p><img src="http://blog.kent-chiu.com/images/blog/2013-05-12-jasperreport-101-001.png" alt="2013-05-12-jasperreport-101-001.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2013-05-12/2013-05-12-jasperreport-101-001.png" alt="2013-05-12-jasperreport-101-001.png" /></p>
 
 <p>比較完整的主結構是像這樣</p>
 
-<p><img src="http://blog.kent-chiu.com/images/blog/2013-05-12-jasperreport-101-002.png" alt="2013-05-12-jasperreport-101-002.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2013-05-12/2013-05-12-jasperreport-101-002.png" alt="2013-05-12-jasperreport-101-002.png" /></p>
 
 <p>上面有提到，每一區必須要定義一個唯一的 <code>&lt;band&gt;</code> 後，才能放入其他的報表元件 (Report Element), 報表元件有這些 :</p>
 
-<p><img src="http://blog.kent-chiu.com/images/blog/2013-05-12-jasperreport-101-003.png" alt="2013-05-12-jasperreport-101-003.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2013-05-12/2013-05-12-jasperreport-101-003.png" alt="2013-05-12-jasperreport-101-003.png" /></p>
 
 <h4>Jasper Report 版的 HELLO WORLD</h4>
 
@@ -230,7 +230,7 @@ public JasperPrint fill(
 
 <p>JRDataSource 的 subclass 如下圖，我們這個範例，因為只是單純的顯示靜態文字，不需要任何的資料，所以使用 <code>JREmptyDataSource</code> 即可</p>
 
-<p><img src="http://blog.kent-chiu.com/images/blog/2013-05-12-jasperreport-101-004.png" alt="2013-05-12-jasperreport-101-004.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2013-05-12/2013-05-12-jasperreport-101-004.png" alt="2013-05-12-jasperreport-101-004.png" /></p>
 
 <h4>JRMapCollectionDataSource</h4>
 
@@ -303,7 +303,7 @@ public void exportToPDF_data_from_collection() throws Exception {
 
 <p>輸出的PDF結果如下</p>
 
-<p><img src="http://blog.kent-chiu.com/images/blog/2013-05-12-jasperreport-101-005.png" alt="2013-05-12-jasperreport-101-005.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2013-05-12/2013-05-12-jasperreport-101-005.png" alt="2013-05-12-jasperreport-101-005.png" /></p>
 ]]></content>
   </entry>
   

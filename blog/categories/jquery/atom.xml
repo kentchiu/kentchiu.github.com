@@ -4,7 +4,7 @@
   <title><![CDATA[Category: jquery | Kent's Blog]]></title>
   <link href="http://blog.kent-chiu.com/blog/categories/jquery/atom.xml" rel="self"/>
   <link href="http://blog.kent-chiu.com/"/>
-  <updated>2013-07-11T21:27:53+08:00</updated>
+  <updated>2013-07-11T21:59:18+08:00</updated>
   <id>http://blog.kent-chiu.com/</id>
   <author>
     <name><![CDATA[Kent]]></name>
@@ -112,7 +112,7 @@ the jQuery object. Both approaches can be combined.</p>
 
 <p><strong>Following Example comes from JQuery in Action</strong></p>
 
-<p><img src="/images/wiki/jquery/jquery_101_01.png" alt="jquery_101_01.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/jquery_101_01.png" alt="jquery_101_01.png" /></p>
 
 <p>in above figure, if we want to select this link</p>
 
@@ -128,7 +128,7 @@ ul.myList  li  a
 
 <p>but it will selects all links inside <code>&lt;ul class=“myList”&gt;</code></p>
 
-<p><img src="/images/wiki/jquery/jquery_101_02.png" alt="jquery_101_02.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/jquery_101_02.png" alt="jquery_101_02.png" /></p>
 
 <p>is this situation, we need to use child selector, it will only selects
 only child of li</p>
@@ -137,7 +137,7 @@ only child of li</p>
 ul.myList &gt; li &gt; a
 </code></p>
 
-<p><img src="/images/wiki/jquery/jquery_101_03.png" alt="jquery_101_03.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/jquery_101_03.png" alt="jquery_101_03.png" /></p>
 
 <h4>:nth-child(Xn+Y)</h4>
 

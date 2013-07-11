@@ -4,7 +4,7 @@
   <title><![CDATA[Category: smarty | Kent's Blog]]></title>
   <link href="http://blog.kent-chiu.com/blog/categories/smarty/atom.xml" rel="self"/>
   <link href="http://blog.kent-chiu.com/"/>
-  <updated>2013-07-11T21:27:53+08:00</updated>
+  <updated>2013-07-11T21:59:18+08:00</updated>
   <id>http://blog.kent-chiu.com/</id>
   <author>
     <name><![CDATA[Kent]]></name>
@@ -246,101 +246,99 @@ TemplateEndEditable –> 這一對tag，但tag的內文要保留</li>
 
 <h3>brand.dwt (商品品牌頁)</h3>
 
-<p>![template_index_article.dwt.gif][]</p>
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/template_index_article.dwt.gif" alt="template_index_article.dwt.gif" /></p>
 
 <h3>brand.dw (商品品牌頁)</h3>
 
-<p>![template_index_brand.dwt.gif][]</p>
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/template_index_brand.dwt.gif" alt="template_index_brand.dwt.gif" /></p>
 
 <h3>article.dw (文章內容頁)</h3>
 
-<p>![template_index_article.dwt.gif][]</p>
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/template_index_article.dwt.gif" alt="template_index_article.dwt.gif" /></p>
 
 <h3>article_cat.dwt (文章列表頁)</h3>
 
-<p>![template_index_article_cat.dwt.gif][]</p>
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/template_index_article_cat.dwt.gif" alt="template_index_article_cat.dwt.gif" /></p>
 
 <h3>catalog.dw (所有分類頁)</h3>
 
-<p>![template_index_catalog.dwt.gif][]</p>
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/template_index_catalog.dwt.gif" alt="template_index_catalog.dwt.gif" /></p>
 
 <h3>category.dwt (商品列表頁)</h3>
 
-<p>![template_index_category.dwt.gif][]</p>
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/template_index_category.dwt.gif" alt="template_index_category.dwt.gif" /></p>
 
 <h3>compare.dw (商品比較頁)</h3>
 
-<p>![template_index_compare.dwt.gif][]</p>
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/template_index_compare.dwt.gif" alt="template_index_compare.dwt.gif" /></p>
 
 <h3>flow.dwt (購物車和購物流程頁)</h3>
 
-<p>![template_index_flow.dwt.gif][]</p>
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/template_index_flow.dwt.gif" alt="template_index_flow.dwt.gif" /></p>
 
 <h3>gallery.dw (商品相冊頁)</h3>
 
-<p>![template_index_gallery.dwt.gif][]</p>
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/template_index_gallery.dwt.gif" alt="template_index_gallery.dwt.gif" /></p>
 
 <h3>goods.dw (商品詳情頁)</h3>
 
-<p>![template_index_goods.dwt.gif][]</p>
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/template_index_goods.dwt.gif" alt="template_index_goods.dwt.gif" /></p>
 
 <h3>group_buy_goods.dwt (團購商品詳情頁)</h3>
 
-<p>![template_index_group_buy_goods.dwt.gif][]</p>
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/template_index_group_buy_goods.dwt.gif" alt="template_index_group_buy_goods.dwt.gif" /></p>
 
 <h3>group_buy_list.dwt (團購商品列表頁)</h3>
 
-<p>![template_index_group_buy_list.dwt.gif][]</p>
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/template_index_group_buy_list.dwt.gif" alt="template_index_group_buy_list.dwt.gif" /></p>
 
 <h3>index.dw (首頁)</h3>
 
 <p>兩張圖的layout沒有完全一致，參考看看就好</p>
 
-<p>![template_index_index.dwt.gif][]</p>
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/template_index_index.dwt.gif" alt="template_index_index.dwt.gif" /></p>
 
-<p><img src="/images/wiki/ecshop/template_index_index.png" alt="template_index_index.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/template_index_index.png" alt="template_index_index.png" /></p>
 
 <h3>message.dw ( 資訊提示頁)</h3>
 
-<p>![template_index_message.dwt.gif][]</p>
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/template_index_message.dwt.gif" alt="template_index_message.dwt.gif" /></p>
 
 <h3>pick_out.dwt (選購中心頁)</h3>
 
-<p>![template_index_pick_out.dwt.gif][]</p>
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/template_index_pick_out.dwt.gif" alt="template_index_pick_out.dwt.gif" /></p>
 
 <h3>receive.dw (收貨確認資訊頁)</h3>
 
-<p>![template_index_receive.dwt.gif][]</p>
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/template_index_receive.dwt.gif" alt="template_index_receive.dwt.gif" /></p>
 
 <h3>respond.dw (線上支付結果提示資訊頁)</h3>
 
-<p>![template_index_respond.dwt.gif][]</p>
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/template_index_respond.dwt.gif" alt="template_index_respond.dwt.gif" /></p>
 
 <h3>search.dwt (商品搜尋網頁)</h3>
 
-<p>![template_index_search.dwt.gif][]</p>
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/template_index_search.dwt.gif" alt="template_index_search.dwt.gif" /></p>
 
 <h3>snatch.dwt (奪寶奇兵頁)</h3>
 
-<p>![template_index_snatch.dwt.gif][]</p>
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/template_index_snatch.dwt.gif" alt="template_index_snatch.dwt.gif" /></p>
 
 <h3>tag_cloud.dwt (標籤雲頁)</h3>
 
-<p>![template_index_tag_cloud.dwt.gif][]</p>
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/template_index_tag_cloud.dwt.gif" alt="template_index_tag_cloud.dwt.gif" /></p>
 
 <h3>user_clips.dwt (用戶中心頁)</h3>
 
-<p>![template_index_user_clips.dwt.gif][]</p>
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/template_index_user_clips.dwt.gif" alt="template_index_user_clips.dwt.gif" /></p>
 
 <h3>user_passport.dwt (用戶安全頁)</h3>
 
-<p>![template_index_user_passport.dwt.gif][]</p>
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/template_index_user_passport.dwt.gif" alt="template_index_user_passport.dwt.gif" /></p>
 
 <h3>user_transaction.dwt (用戶中心頁)</h3>
 
-<p>![template_index_user_transaction.dwt.gif][]</p>
-
-<p>^<a href="#fnt__1">1)</a>^ 去查dreamweaver的document應該可以查得到</p>
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/template_index_user_transaction.dwt.gif" alt="template_index_user_transaction.dwt.gif" /></p>
 ]]></content>
   </entry>
   

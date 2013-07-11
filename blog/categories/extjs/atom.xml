@@ -4,7 +4,7 @@
   <title><![CDATA[Category: extjs | Kent's Blog]]></title>
   <link href="http://blog.kent-chiu.com/blog/categories/extjs/atom.xml" rel="self"/>
   <link href="http://blog.kent-chiu.com/"/>
-  <updated>2013-07-11T21:27:53+08:00</updated>
+  <updated>2013-07-11T21:59:18+08:00</updated>
   <id>http://blog.kent-chiu.com/</id>
   <author>
     <name><![CDATA[Kent]]></name>
@@ -12,6 +12,16 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[如何透過firefox console來加速開發extjs]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2013/03/12/how-to-developing-extjs-app-in-firefox-console/"/>
+    <updated>2013-03-12T12:34:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2013/03/12/how-to-developing-extjs-app-in-firefox-console</id>
+    <content type="html"><![CDATA[<p>test published options
+xxxxx</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[EXT JS 101]]></title>
@@ -34,7 +44,7 @@ core)下手，等內功任督二脈打通了後，外功(UI元件)再個個擊�
 
 <p>整個Data Package的主要觀念如下圖:</p>
 
-<p><img src="/images/wiki/extjs/extjs_101_001.png" alt="extjs_101_001.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2012-11-15/extjs_101_001.png" alt="extjs_101_001.png" /></p>
 
 <h3>Model</h3>
 
@@ -209,7 +219,7 @@ plugin</a>來觀查extjs元件內容並說明如何搭配API文件來將程式�
 <p>FireBug必須利用script
 debugger的功能，設定中斷點後，執行script會停在中斷點上，便可在執行時可以得知物件型別，對照API一起看，就會很清楚了</p>
 
-<p><img src="/images/wiki/extjs/extjs_101_002.png" alt="extjs_101_002.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2012-11-15/extjs_101_002.png" alt="extjs_101_002.png" /></p>
 
 <h3>Ext.Template</h3>
 
@@ -345,7 +355,7 @@ lib，提供豐富的網頁元件，可以方便的建構出網頁應用程式</
 <li>firebug上extjs的plugin</li>
 </ul>
 </li>
-<li><img src="/images/wiki/extjs/extjs_101_003.png" alt="extjs_101_003.png" />
+<li><img src="http://blog.kent-chiu.com/images/2011-10-17/extjs_101_003.png" alt="extjs_101_003.png" />
 
 <ul>
 <li>ExtJs 3.0類別圖 (class diagram) author: rhio.kim@gmail.com</li>

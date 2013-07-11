@@ -4,7 +4,7 @@
   <title><![CDATA[Category: vim | Kent's Blog]]></title>
   <link href="http://blog.kent-chiu.com/blog/categories/vim/atom.xml" rel="self"/>
   <link href="http://blog.kent-chiu.com/"/>
-  <updated>2013-07-11T21:27:53+08:00</updated>
+  <updated>2013-07-11T21:59:18+08:00</updated>
   <id>http://blog.kent-chiu.com/</id>
   <author>
     <name><![CDATA[Kent]]></name>
@@ -25,7 +25,7 @@
 <li>vim Recipes
 <a href="http://wiki.kent-chiu.com/lib/exe/fetch.php?media=vim:vim-recipes.pdf" title="vim:vim-recipes.pdf">pdf</a>
 <a href="http://vim.runpaint.org/" title="http://vim.runpaint.org/">網站(有search功能)</a></li>
-<li><img src="/images/wiki/vim/vim-cheat-sheet-full.png" alt="vim-cheat-sheet-full.png" />
+<li><img src="http://blog.kent-chiu.com/images/2012-04-26/vim-cheat-sheet-full.png" alt="vim-cheat-sheet-full.png" />
 <a href="http://blog.vgod.tw/2009/12/08/vim-cheat-sheet-for-programmers/" title="http://blog.vgod.tw/2009/12/08/vim-cheat-sheet-for-programmers/">vim cheat sheet from
 vgod</a></li>
 <li><a href="http://coolshell.cn/articles/5426.html" title="http://coolshell.cn/articles/5426.html">简明 Vim

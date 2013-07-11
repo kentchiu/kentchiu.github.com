@@ -4,7 +4,7 @@
   <title><![CDATA[Category: jvm | Kent's Blog]]></title>
   <link href="http://blog.kent-chiu.com/blog/categories/jvm/atom.xml" rel="self"/>
   <link href="http://blog.kent-chiu.com/"/>
-  <updated>2013-07-11T21:27:53+08:00</updated>
+  <updated>2013-07-11T21:59:18+08:00</updated>
   <id>http://blog.kent-chiu.com/</id>
   <author>
     <name><![CDATA[Kent]]></name>
@@ -34,7 +34,7 @@
 </ul>
 
 
-<p>![jvm_profile_01.jpg][jvm_profile_01.jpg]</p>
+<p><img src="http://blog.kent-chiu.com/images/2012-05-05/jvm_profile_01.jpg" alt="jvm_profile_01.jpg" /></p>
 
 <p>圖片來源 :<a href="http://redstack.wordpress.com/">Red Stack's Blog</a></p>
 
@@ -67,7 +67,7 @@ Object)誕生的地方,每new一個Object時會佔用這個區域，eden滿了�
 
 <p>可以透過JDK內附的virtualVm來觀察jvm memory的使用情形</p>
 
-<p><img src="/images/wiki/java/jvm_profile_02.png" alt="jvm_profile_02.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2012-05-05/jvm_profile_02.png" alt="jvm_profile_02.png" /></p>
 
 <h3>常用工具</h3>
 

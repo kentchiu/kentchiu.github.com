@@ -4,7 +4,7 @@
   <title><![CDATA[Category: tips | Kent's Blog]]></title>
   <link href="http://blog.kent-chiu.com/blog/categories/tips/atom.xml" rel="self"/>
   <link href="http://blog.kent-chiu.com/"/>
-  <updated>2013-07-11T21:27:53+08:00</updated>
+  <updated>2013-07-11T21:59:18+08:00</updated>
   <id>http://blog.kent-chiu.com/</id>
   <author>
     <name><![CDATA[Kent]]></name>
@@ -46,7 +46,7 @@ DELETE FROM table_a WHERE col_a IN (SELECT col_a FROM (SELECT col_a FROM table_a
 
 <p>解決的方式是先將數個小圖檔給組合成一個單一的圖檔，然後用css定位跟指定大小的方式來顯示需要的icon。</p>
 
-<p><img src="/images/wiki/web/icons_combined.png" alt="icons_combined.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/icons_combined.png" alt="icons_combined.png" /></p>
 
 <p>以上面的圖檔來說，我們若只需要x這個icons，所以我們可以用以下的css語法來顯示這個icon</p>
 

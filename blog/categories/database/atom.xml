@@ -4,7 +4,7 @@
   <title><![CDATA[Category: database | Kent's Blog]]></title>
   <link href="http://blog.kent-chiu.com/blog/categories/database/atom.xml" rel="self"/>
   <link href="http://blog.kent-chiu.com/"/>
-  <updated>2013-07-11T21:27:53+08:00</updated>
+  <updated>2013-07-11T21:59:18+08:00</updated>
   <id>http://blog.kent-chiu.com/</id>
   <author>
     <name><![CDATA[Kent]]></name>
@@ -282,7 +282,7 @@ index的方方面面，該書作者認為對一個開發人員來說，對於dat
 
 <h3>The Leaf Nodes</h3>
 
-<p><img src="/images/wiki/database/the_use_the_index_luke_study_note_001.png" alt="the_use_the_index_luke_study_note_001.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/the_use_the_index_luke_study_note_001.png" alt="the_use_the_index_luke_study_note_001.png" /></p>
 
 <ul>
 <li>大部分的database的index設計多以B-Tree結構實作</li>
@@ -298,7 +298,7 @@ search tree (B-Tree)的排序結構</li>
 
 <h3>The Tree</h3>
 
-<p><img src="/images/wiki/database/the_use_the_index_luke_study_note_002.png" alt="the_use_the_index_luke_study_note_002.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/the_use_the_index_luke_study_note_002.png" alt="the_use_the_index_luke_study_note_002.png" /></p>
 
 <ul>
 <li>B-Tree的每一個node有兩個以上的值，會由小到大排列</li>
@@ -308,7 +308,7 @@ search tree (B-Tree)的排序結構</li>
 </ul>
 
 
-<p><img src="/images/wiki/database/the_use_the_index_luke_study_note_003.png" alt="the_use_the_index_luke_study_note_003.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/the_use_the_index_luke_study_note_003.png" alt="the_use_the_index_luke_study_note_003.png" /></p>
 
 <ul>
 <li>以據B-Tree，可以很快的找任一個節點</li>
@@ -457,7 +457,7 @@ SELECT first_name, last_name
 
 <p>因為查詢時，是查詢以下的結構</p>
 
-<p><img src="/images/wiki/database/the_use_the_index_luke_study_note_004.png" alt="the_use_the_index_luke_study_note_004.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/the_use_the_index_luke_study_note_004.png" alt="the_use_the_index_luke_study_note_004.png" /></p>
 
 <p>如果要讓查詢更有效率，可SUBSIDIARY_ID再為加上的一個的index，就會由FULL
 TABLE SCAN變成INDEX RANGE SCAN</p>
@@ -568,8 +568,7 @@ EXPLAIN EXECUTE stmt(1);
 <li>cost
 cost有兩個值，第一個是啟動所需的cost，第二個是執行後，取回全部資料所需的cost，cost是相對的值，沒有一定的單位，各種資料庫的cost有自已計算的方式</li>
 <li>rows 估計的row count</li>
-<li>width 預期的row width
-:<img src="http://wiki.kent-chiu.com/lib/images/smileys/fixme.gif" alt="FIXME" /></li>
+<li>width 預期的row width</li>
 </ul>
 
 

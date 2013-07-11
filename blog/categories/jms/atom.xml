@@ -4,7 +4,7 @@
   <title><![CDATA[Category: jms | Kent's Blog]]></title>
   <link href="http://blog.kent-chiu.com/blog/categories/jms/atom.xml" rel="self"/>
   <link href="http://blog.kent-chiu.com/"/>
-  <updated>2013-07-11T21:27:53+08:00</updated>
+  <updated>2013-07-11T21:59:18+08:00</updated>
   <id>http://blog.kent-chiu.com/</id>
   <author>
     <name><![CDATA[Kent]]></name>
@@ -57,7 +57,7 @@
 </ul>
 
 
-<p>![jms_101_001.gif][]</p>
+<p><img src="http://blog.kent-chiu.com/images/2012-07-13/jms_101_001.gif" alt="jms_101_001.gif" /></p>
 
 <h5>Publish/Subscribe Messaging Domain (pub/sub)</h5>
 
@@ -91,7 +91,7 @@
 </ul>
 
 
-<p>![jms_101_002.gif][]</p>
+<p><img src="http://blog.kent-chiu.com/images/2012-07-13/jms_101_002.gif" alt="jms_101_002.gif" /></p>
 
 <h3>JMS API</h3>
 
@@ -115,7 +115,7 @@ API主要的類似如下：</p>
 <p>不論是PTP或是pub/sub模組，要跟MessageQuery
 Server溝通的流程是差不多的，流程如下</p>
 
-<p>![jms_101_003.gif][]</p>
+<p><img src="http://blog.kent-chiu.com/images/2012-07-13/jms_101_003.gif" alt="jms_101_003.gif" /></p>
 
 <ol>
 <li>建立ConnectionFactory</li>
@@ -211,7 +211,7 @@ public void sendMessagePTP() throws JMSException {
 
 <p>執行後可以在ActiveMQ的”Queue”看到”queue1”的message</p>
 
-<p><img src="/images/wiki/java/jms_101_005.png" alt="jms_101_005.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2012-07-13/jms_101_005.png" alt="jms_101_005.png" /></p>
 
 <ul>
 <li>Number Of Pending Messages: 在queue等待處理的訊息的數量</li>
@@ -261,7 +261,7 @@ public void createTopic() throws Exception {
 
 <p>執行後可以在ActiveMQ的”Topic”看到”MyTopic”</p>
 
-<p><img src="/images/wiki/java/jms_101_006.png" alt="jms_101_006.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2012-07-13/jms_101_006.png" alt="jms_101_006.png" /></p>
 
 <h3>建立Topic並發佈訊息 (Pub/Sub)</h3>
 
@@ -284,7 +284,7 @@ public void createTopicAndPublishMessage() throws Exception {
 
 <p>執行後可以在ActiveMQ的”Topic”看到”MyTopic2”，”Messages Enqueued”會加1</p>
 
-<p><img src="/images/wiki/java/jms_101_006.png" alt="jms_101_006.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2012-07-13/jms_101_006.png" alt="jms_101_006.png" /></p>
 
 <h3>訂閱Topic</h3>
 
@@ -329,12 +329,12 @@ while (true) {</p>
 
 <p>執行後可以在ActiveMQ的”Topic”看到”MyTopic2”，”Number Of Consumers”會加1</p>
 
-<p><img src="/images/wiki/java/jms_101_007.png" alt="jms_101_007.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2012-07-13/jms_101_007.png" alt="jms_101_007.png" /></p>
 
 <p>程式會一直hold住(如果沒設timeout的話)，此時，可以透過”Send
 To”的hyperlink，讓”MyTopic2”發佈一個訊息，這樣”subscriber.receive()“就會取得”MyTopic2”發佈的訊息了.</p>
 
-<p><img src="/images/wiki/java/jms_101_008.png" alt="jms_101_008.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2012-07-13/jms_101_008.png" alt="jms_101_008.png" /></p>
 
 <h1>JMS API使用說明</h1>
 
@@ -342,7 +342,7 @@ To”的hyperlink，讓”MyTopic2”發佈一個訊息，這樣”subscriber.re
 
 <p>Destination的結構如下</p>
 
-<p><img src="/images/wiki/java/jms_101_004.png" alt="jms_101_004.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2012-07-13/jms_101_004.png" alt="jms_101_004.png" /></p>
 
 <p>Destination本身是一個空的Interface，它主要是要標明，Destination的概念，底下有Queue(用在PTP)跟Topic(用在Pub/Sub)兩個介面繼承自Destination</p>
 
@@ -701,7 +701,7 @@ service:jmx:rmi:///jndi/rmi://localhost:1099/jmxrmi
 <p>填入後，按連線即可(本例中，mq跟jconsole在同一台，所以用localhost，如果不同一台，需先確認1099的port沒被防火牆擋住)，
 連線成功後，即可取得MQ的相關資訊，需要的內容會在MBeans的tab頁上</p>
 
-<p><img src="/images/wiki/java/jms_101_009.png" alt="jms_101_009.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2012-07-13/jms_101_009.png" alt="jms_101_009.png" /></p>
 
 <p>確定可以用jconsole連線後，便可以使用程式取得連線資訊</p>
 

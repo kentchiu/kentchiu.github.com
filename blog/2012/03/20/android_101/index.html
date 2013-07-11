@@ -57,7 +57,7 @@ Broadcast receivers
   <header role="banner"><hgroup>
   <h1><a href="/">Kent's Blog</a></h1>
   
-    <h2>Kent的學習筆記(剛從dokuwiki搬過來，內容還在整修中)</h2>
+    <h2>Kent的學習筆記</h2>
   
 </hgroup>
 
@@ -151,7 +151,7 @@ Broadcast receivers
 </ol>
 
 
-<p>![activity_lifecycle.png][]</p>
+<p><img src="http://blog.kent-chiu.com/images/2012-03-20/activity_lifecycle.png" alt="activity_lifecycle.png" /></p>
 
 <p>上圖中的<strong>on</strong>Xxx() methods是callback
 method，也就是說，當從某個狀態轉換到某個狀態時，會回呼相對的<strong>on</strong>Xxx()
@@ -163,7 +163,7 @@ methods</p>
 
 <h5>類別結構圖</h5>
 
-<p><img src="/images/wiki/android/view_hierachy.png" alt="view_hierachy.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2012-03-20/view_hierachy.png" alt="view_hierachy.png" /></p>
 
 <p><code>View</code>是所有可視元件(component)的基本，除了基本的UI元件(TextEdit,
 Button)外,也是<a href="#view_group" title="android:android_101 ↵">View
@@ -171,7 +171,7 @@ Group</a>的父類別。</p>
 
 <h4>View Group</h4>
 
-<p><img src="/images/wiki/android/view_group_hierachy.png" alt="view_group_hierachy.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2012-03-20/view_group_hierachy.png" alt="view_group_hierachy.png" /></p>
 
 <p>多個view可以組成<a href="#view_group" title="android:android_101 ↵">View
 Group</a>，而布局控制(Layout)也是View
@@ -191,7 +191,7 @@ View可以把他轉換成Android的Buttons</p>
 <p><a href="http://developer.android.com/reference/android/app/Service.html" title="http://developer.android.com/reference/android/app/Service.html">Services</a>是在背景執行的服務程式(執行在main
 thread)，像是播放音樂，從網路汲取資料等類似的服務。</p>
 
-<p><img src="/images/wiki/android/android_101_001.png" alt="android_101_001.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2012-03-20/android_101_001.png" alt="android_101_001.png" /></p>
 
 <h3>Broadcast receivers</h3>
 
@@ -248,7 +248,7 @@ Process裡的processes可能會被消滅(destroy)，但當該Application被再�
 
 <h2>Resource Management</h2>
 
-<p><img src="/images/wiki/android/2010-7-24_13-59-15.png" alt="2010-7-24_13-59-15.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2012-03-20/2010-7-24_13-59-15.png" alt="2010-7-24_13-59-15.png" /></p>
 
 <p>所有在<code>PROJECT_HOME\res</code>目錄底下的所有xml檔，會被編譯成<code>R.java</code>，xml檔案名稱會被編譯成field
 name，在程式中，便可透過標準的java語法來存取Resource</p>
@@ -507,23 +507,23 @@ OnXXXListener很容易造成Activity的太多methods，尤其是有些listener�
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/07/07/python-101/">Python 101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/25/url-encoding/">URL Encoding</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/04/restful-api-design/">RESTful API Design</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/05/17/my-intellij-idea-shortcut/">My IntelliJ IDEA Shortcut</a>
       </li>
     
       <li class="post">
         <a href="/blog/2013/05/12/jesper-report-font-issue/">Jesper Report, IReport 匯出成中文PDF</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/05/12/jasperreport-101/">JasperReport 101</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/05/06/mac-tips/">Mac Tips</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/04/22/clean-code/">Clean Code閱讀筆記</a>
       </li>
     
   </ul>

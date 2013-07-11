@@ -9,12 +9,13 @@
   <meta name="author" content="Kent">
 
   
-  <meta name="description" content="there are about 76 tables (ecshop version2.6.2)
-no view
-no store procedure
-no trigger
-no table constrains, only PK
-using auto key in most tables &hellip;">
+  <meta name="description" content="
+要有免負聲明，還有價格誤植的聲明 -
+得無責地對其出具之行銷印刷物、報價單、價目表、出價接受函、發票或其他文件或資料的印刷錯誤、筆誤或其他錯誤或遺漏進行更正。
+(大量)訂單湧入的通知機制 - 防止發生異常訂單,採用庫存總量管制
+防偷圖片
+價格被竄改
+防頁面被竄改(svn自動比對) ">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -55,7 +56,7 @@ using auto key in most tables &hellip;">
   <header role="banner"><hgroup>
   <h1><a href="/">Kent's Blog</a></h1>
   
-    <h2>Kent的學習筆記(剛從dokuwiki搬過來，內容還在整修中)</h2>
+    <h2>Kent的學習筆記</h2>
   
 </hgroup>
 
@@ -82,6 +83,2687 @@ using auto key in most tables &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/ec101/">EC 筆記</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/ec101/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><ul>
+<li>要有免負聲明，還有價格誤植的聲明 -
+得無責地對其出具之行銷印刷物、報價單、價目表、出價接受函、發票或其他文件或資料的印刷錯誤、筆誤或其他錯誤或遺漏進行更正。</li>
+<li>(大量)訂單湧入的通知機制 - 防止發生異常訂單,採用庫存總量管制</li>
+<li>防偷圖片</li>
+<li>價格被竄改</li>
+<li>防頁面被竄改(svn自動比對)</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/disabled_x-window_in_ubuntu/">Disable X-Window in Ubuntu</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/disabled_x-window_in_ubuntu/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Ubuntu uses X Display Manager(xdm、gdm、kdm or wdm) to startup X-Window,
+if we want to disabled X-window, we need to disable X Display Manager.</p>
+
+<h2>Operations</h2>
+
+<h3>check run level</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$runlevel
+</span><span class='line'># output N 2</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>rename X Display Manager</h3>
+
+<p>base on runlevel (2), we can found the file name like <strong><code>S30gdm</code></strong> under
+<code>/ect/rc2.d</code>, this is X Display Manager. we rename it to _s30gdm, and
+reboot.</p>
+
+<h4>file name pattern</h4>
+
+<p>S30gdm</p>
+
+<ul>
+<li>S for start up, K or shut down</li>
+<li>30 : priority, maybe difference with yours</li>
+<li>gdm : a kind of X Display Manager.</li>
+</ul>
+
+
+<h2>resources</h2>
+
+<ul>
+<li><a href="http://andrewtw.wordpress.com/2007/03/20/ubuntu-%E6%9B%B4%E6%94%B9%E9%96%8B%E6%A9%9F%E9%A0%90%E8%A8%AD-runlevel%EF%BC%8C%E4%B8%8D%E9%96%8B%E5%95%9Fx-window/" title="http://andrewtw.wordpress.com/2007/03/20/ubuntu-%E6%9B%B4%E6%94%B9%E9%96%8B%E6%A9%9F%E9%A0%90%E8%A8%AD-runlevel%EF%BC%8C%E4%B8%8D%E9%96%8B%E5%95%9Fx-window/">ubuntu 修改runlevel,
+不進入X-Window</a></li>
+<li><a href="http://wiki.linux.org.hk/w/Switch_between_entering_X_Window_mode_and_text_mode_after_boot" title="http://wiki.linux.org.hk/w/Switch_between_entering_X_Window_mode_and_text_mode_after_boot">切換開機自動進入 X Window
+還是文字模式</a></li>
+<li><a href="http://tw.myblog.yahoo.com/kk-note/article?mid=5&amp;sc=1" title="http://tw.myblog.yahoo.com/kk-note/article?mid=5&amp;sc=1">ubuntu下用inittab</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/deploy_to_nexus/">Deploy Maven Artifacts to Nexus Server</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/deploy_to_nexus/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>maven的deploy指令可以直接將artifact deploy到nexus server</p>
+
+<h3>pom.xml的設定</h3>
+
+<p><a href="http://host:8080/nexus">http://host:8080/nexus</a>是可以連到nexus server的url
+<code>&lt;id&gt;nexus&lt;/id&gt;</code>是辨識用的repository id,必須跟下面的settings.xml一致</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;distributionManagement&gt;
+</span><span class='line'>    &lt;!-- use the following if you're not using a snapshot version. --&gt;
+</span><span class='line'>    &lt;repository&gt;
+</span><span class='line'>        &lt;id&gt;nexus&lt;/id&gt;
+</span><span class='line'>        &lt;name&gt;Internal Releases&lt;/name&gt;
+</span><span class='line'>        &lt;url&gt;http://host:8080/nexus/content/repositories/releases&lt;/url&gt;
+</span><span class='line'>    &lt;/repository&gt;
+</span><span class='line'>    &lt;!-- use the following if you ARE using a snapshot version. --&gt;
+</span><span class='line'>    &lt;snapshotRepository&gt;
+</span><span class='line'>        &lt;id&gt;nexus&lt;/id&gt;
+</span><span class='line'>        &lt;name&gt;Internal Releases&lt;/name&gt;
+</span><span class='line'>        &lt;url&gt;http://host:8080/nexus/content/repositories/snapshots&lt;/url&gt;
+</span><span class='line'>    &lt;/snapshotRepository&gt;
+</span><span class='line'>&lt;/distributionManagement&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>user_home/.m2/settings.xml設定</h3>
+
+<p><code>&lt;id&gt;nexus&lt;/id&gt;</code>是辨識用的repository id,必須跟上面的pom.xml中的一致</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;servers&gt;
+</span><span class='line'>    &lt;server&gt;
+</span><span class='line'>        &lt;id&gt;nexus&lt;/id&gt;
+</span><span class='line'>        &lt;username&gt;username&lt;/username&gt;
+</span><span class='line'>        &lt;password&gt;password&lt;/password&gt;
+</span><span class='line'>    &lt;/server&gt;
+</span><span class='line'>    &lt;server&gt;
+</span><span class='line'>        &lt;id&gt;thirdparty&lt;/id&gt;
+</span><span class='line'>        &lt;username&gt;username&lt;/username&gt;
+</span><span class='line'>        &lt;password&gt;password&lt;/password&gt;
+</span><span class='line'>    &lt;/server&gt;
+</span><span class='line'>&lt;/servers&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>deploy</h3>
+
+<p>執行以下的指令即可進行deploy</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mvn deploy</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果執行時遇到 401 的error code，表示帳號或密碼有誤</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/defining_vocabulary/">Longman Dictionary Defining Vocabulary</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/defining_vocabulary/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>A</h2>
+
+<ol>
+<li>a</li>
+<li>ability</li>
+<li>about</li>
+<li>above</li>
+<li>abroad</li>
+<li>absence</li>
+<li>absent</li>
+<li>accept</li>
+<li>acceptable</li>
+<li>accident</li>
+<li>accordance</li>
+<li>according</li>
+<li>according</li>
+<li>account</li>
+<li>ache</li>
+<li>acid</li>
+<li>across</li>
+<li>act</li>
+<li>action</li>
+<li>active</li>
+<li>activity</li>
+<li>actor</li>
+<li>actress</li>
+<li>actual</li>
+<li>add</li>
+<li>addition</li>
+<li>address</li>
+<li>adjective</li>
+<li>admiration</li>
+<li>admire</li>
+<li>admit</li>
+<li>admittance</li>
+<li>adult</li>
+<li>advance</li>
+<li>advantage</li>
+<li>adventure</li>
+<li>adverb</li>
+<li>advertise</li>
+<li>advertisement</li>
+<li>advice</li>
+<li>advise</li>
+<li>affair</li>
+<li>afford</li>
+<li>afraid</li>
+<li>after</li>
+<li>afternoon</li>
+<li>afterwards</li>
+<li>again</li>
+<li>against</li>
+<li>age</li>
+<li>ago</li>
+<li>agree</li>
+<li>agreement</li>
+<li>ahead</li>
+<li>aim</li>
+<li>air</li>
+<li>aircraft</li>
+<li>airforce</li>
+<li>airport</li>
+<li>alcohol</li>
+<li>alike</li>
+<li>alive</li>
+<li>all</li>
+<li>allow</li>
+<li>almost</li>
+<li>alone</li>
+<li>along</li>
+<li>aloud</li>
+<li>alphabet</li>
+<li>already</li>
+<li>also</li>
+<li>although</li>
+<li>altogether</li>
+<li>always</li>
+<li>among</li>
+<li>amount</li>
+<li>amuse</li>
+<li>amusement</li>
+<li>amusing</li>
+<li>an</li>
+<li>ancient</li>
+<li>and</li>
+<li>anger</li>
+<li>angle</li>
+<li>angry</li>
+<li>animal</li>
+<li>ankle</li>
+<li>annoy</li>
+<li>annoyance</li>
+<li>another</li>
+<li>answer</li>
+<li>ant</li>
+<li>anxiety</li>
+<li>anxious</li>
+<li>any</li>
+<li>anyhow</li>
+<li>anyone</li>
+<li>anything</li>
+<li>anywhere</li>
+<li> apart</li>
+<li> apparatus</li>
+<li> appear</li>
+<li> appearance</li>
+<li> apple</li>
+<li> appoint</li>
+<li> approval</li>
+<li> approve</li>
+<li> arch</li>
+<li> area</li>
+<li> argue</li>
+<li> argument</li>
+<li> arm</li>
+<li> armor</li>
+<li> arms</li>
+<li> army</li>
+<li> around</li>
+<li> arrange</li>
+<li> arrangement</li>
+<li> arrival</li>
+<li> arrive</li>
+<li> art</li>
+<li> article</li>
+<li> artificial</li>
+<li> as</li>
+<li> ash</li>
+<li> ashamed</li>
+<li> aside</li>
+<li> ask</li>
+<li> asleep</li>
+<li> association</li>
+<li> at</li>
+<li> atom</li>
+<li> attack</li>
+<li> attempt</li>
+<li> attend</li>
+<li> attendance</li>
+<li> attention</li>
+<li> attract</li>
+<li> attractive</li>
+<li> aunt</li>
+<li> autumn</li>
+<li> average</li>
+<li> avoid</li>
+<li> awake</li>
+<li> away</li>
+<li> awkward</li>
+</ol>
+
+
+<h2>B</h2>
+
+<ol>
+<li>baby</li>
+<li>back</li>
+<li>background</li>
+<li>backward</li>
+<li>backwards</li>
+<li>bacteria</li>
+<li>bad</li>
+<li>bag</li>
+<li>bake</li>
+<li>balance</li>
+<li>ball</li>
+<li>banana</li>
+<li>band</li>
+<li>bank</li>
+<li>bar</li>
+<li>bare</li>
+<li>barrel</li>
+<li>base</li>
+<li>basket</li>
+<li>bath</li>
+<li>bathe</li>
+<li>battle</li>
+<li>be</li>
+<li>beak</li>
+<li>beam</li>
+<li>bean</li>
+<li>bear</li>
+<li>beard</li>
+<li>beat</li>
+<li>beautiful</li>
+<li>beauty</li>
+<li>because</li>
+<li>become</li>
+<li>bed</li>
+<li>bee</li>
+<li>beer</li>
+<li>before</li>
+<li>beg</li>
+<li>begin</li>
+<li>beginning</li>
+<li>behave</li>
+<li>behavior</li>
+<li>behind</li>
+<li>belief</li>
+<li>believe</li>
+<li>bell</li>
+<li>belong</li>
+<li>below</li>
+<li>belt</li>
+<li>bend</li>
+<li>beneath</li>
+<li>berry</li>
+<li>beside</li>
+<li>besides</li>
+<li>best</li>
+<li>better</li>
+<li>between</li>
+<li>beyond</li>
+<li>bicycle</li>
+<li>big</li>
+<li>bill</li>
+<li>bind</li>
+<li>bird</li>
+<li>birth</li>
+<li>birthday</li>
+<li>bit</li>
+<li>bite</li>
+<li>bitter</li>
+<li>black</li>
+<li>blade</li>
+<li>blame</li>
+<li>bleed</li>
+<li>bless</li>
+<li>blind</li>
+<li>block</li>
+<li>blood</li>
+<li>blow</li>
+<li>blue</li>
+<li>board</li>
+<li>boat</li>
+<li>body</li>
+<li>boil</li>
+<li>bomb</li>
+<li>bone</li>
+<li>book</li>
+<li>boot</li>
+<li>border</li>
+<li>born</li>
+<li>borrow</li>
+<li>both</li>
+<li>bottle</li>
+<li>bottom</li>
+<li>bowels</li>
+<li>bowl</li>
+<li>box</li>
+<li>boy</li>
+<li>brain</li>
+<li>branch</li>
+<li>brass</li>
+<li> brave</li>
+<li> bread</li>
+<li> breadth</li>
+<li> break</li>
+<li> breakfast</li>
+<li> breast</li>
+<li> breath</li>
+<li> breathe</li>
+<li> breed</li>
+<li> brick</li>
+<li> bridge</li>
+<li> bright</li>
+<li> bring</li>
+<li> broad</li>
+<li> broadcast</li>
+<li> brother</li>
+<li> brown</li>
+<li> brush</li>
+<li> bucket</li>
+<li> build</li>
+<li> building</li>
+<li> bullet</li>
+<li> bunch</li>
+<li> burial</li>
+<li> burn</li>
+<li> burst</li>
+<li> bury</li>
+<li> bus</li>
+<li> bush</li>
+<li> business</li>
+<li> busy</li>
+<li> but</li>
+<li> butter</li>
+<li> button</li>
+<li> buy</li>
+<li> by</li>
+</ol>
+
+
+<h2>C</h2>
+
+<ol>
+<li>cage</li>
+<li>cake</li>
+<li>calculate</li>
+<li>calculator</li>
+<li>call</li>
+<li>calm</li>
+<li>camera</li>
+<li>camp</li>
+<li>can</li>
+<li>candle</li>
+<li>cap</li>
+<li>capital</li>
+<li>captain</li>
+<li>car</li>
+<li>card</li>
+<li>cardboard</li>
+<li>care</li>
+<li>careful</li>
+<li>careless</li>
+<li>carriage</li>
+<li>carry</li>
+<li>cart</li>
+<li>case</li>
+<li>castle</li>
+<li>cat</li>
+<li>catch</li>
+<li>cattle</li>
+<li>cause</li>
+<li>cell</li>
+<li>cement</li>
+<li>cent</li>
+<li>center</li>
+<li>centimeter</li>
+<li>central</li>
+<li>century</li>
+<li>ceremony</li>
+<li>certain</li>
+<li>chain</li>
+<li>chair</li>
+<li>chairperson</li>
+<li>chalk</li>
+<li>chance</li>
+<li>change</li>
+<li>character</li>
+<li>charge</li>
+<li>charm</li>
+<li>chase</li>
+<li>cheap</li>
+<li>cheat</li>
+<li>check [cheque]</li>
+<li>cheek</li>
+<li>cheer</li>
+<li>cheerful</li>
+<li>cheese</li>
+<li>chemical</li>
+<li>chemistry</li>
+<li>chest</li>
+<li>chicken</li>
+<li>chief</li>
+<li>child</li>
+<li>childhood</li>
+<li>children</li>
+<li>chimney</li>
+<li>chin</li>
+<li>chocolate</li>
+<li>choice</li>
+<li>choose</li>
+<li>church</li>
+<li>cigarette</li>
+<li>cinema</li>
+<li>circle</li>
+<li>circular</li>
+<li>citizen</li>
+<li>city</li>
+<li>civilization</li>
+<li>claim</li>
+<li>class</li>
+<li>clay</li>
+<li>clean</li>
+<li>clear</li>
+<li>clerk</li>
+<li>clever</li>
+<li>cliff</li>
+<li>climb</li>
+<li>clock</li>
+<li>clockwork</li>
+<li>close</li>
+<li>cloth</li>
+<li>clothes</li>
+<li>clothing</li>
+<li>cloud</li>
+<li>club</li>
+<li>coal</li>
+<li>coast</li>
+<li>coat</li>
+<li>coffee</li>
+<li>coin</li>
+<li>cold</li>
+<li>collar</li>
+<li> collect</li>
+<li> college</li>
+<li> color</li>
+<li> comb</li>
+<li> combination</li>
+<li> combine</li>
+<li> come</li>
+<li> comfort</li>
+<li> comfortable</li>
+<li> command</li>
+<li> committee</li>
+<li> common</li>
+<li> companion</li>
+<li> company</li>
+<li> compare</li>
+<li> comparison</li>
+<li> compete</li>
+<li> competition</li>
+<li> competitor</li>
+<li> complain</li>
+<li> complaint</li>
+<li> complete</li>
+<li> compound</li>
+<li> computer</li>
+<li> concern</li>
+<li> concerning</li>
+<li> concert</li>
+<li> condition</li>
+<li> confidence</li>
+<li> confident</li>
+<li> confuse</li>
+<li> connect</li>
+<li> conscience</li>
+<li> conscious</li>
+<li> consider</li>
+<li> consist</li>
+<li> consonant</li>
+<li> contain</li>
+<li> contents</li>
+<li> continue</li>
+<li> continuous</li>
+<li> contract</li>
+<li> control</li>
+<li> convenient</li>
+<li> conversation</li>
+<li> cook</li>
+<li> cool</li>
+<li> copper</li>
+<li> copy</li>
+<li> cord</li>
+<li> corn</li>
+<li> corner</li>
+<li> correct</li>
+<li> cost</li>
+<li> cotton</li>
+<li> cough</li>
+<li> could</li>
+<li> council</li>
+<li> count</li>
+<li> country</li>
+<li> courage</li>
+<li> course</li>
+<li> court</li>
+<li> cover</li>
+<li> cow</li>
+<li> coward</li>
+<li> cowardly</li>
+<li> crack</li>
+<li> crash</li>
+<li> cream</li>
+<li> creature</li>
+<li> creep</li>
+<li> cricket</li>
+<li> crime</li>
+<li> criminal</li>
+<li> crop</li>
+<li> cross</li>
+<li> crowd</li>
+<li> cruel</li>
+<li> cruelty</li>
+<li> crush</li>
+<li> cry</li>
+<li> cultivate</li>
+<li> cup</li>
+<li> cupboard</li>
+<li> cure</li>
+<li> curl</li>
+<li> current</li>
+<li> curse</li>
+<li> curtain</li>
+<li> curve</li>
+<li> custom</li>
+<li> customer</li>
+<li> cut</li>
+<li> cycle</li>
+</ol>
+
+
+<h2>D</h2>
+
+<ol>
+<li>daily</li>
+<li>damage</li>
+<li>dance</li>
+<li>danger</li>
+<li>dangerous</li>
+<li>dare</li>
+<li>daring</li>
+<li>dark</li>
+<li>date</li>
+<li>daughter</li>
+<li>day</li>
+<li>dead</li>
+<li>deal</li>
+<li>dear</li>
+<li>death</li>
+<li>debt</li>
+<li>decay</li>
+<li>deceit</li>
+<li>deceive</li>
+<li>decide</li>
+<li>decimal</li>
+<li>decision</li>
+<li>declaration</li>
+<li>declare</li>
+<li>decorate</li>
+<li>decoration</li>
+<li>decrease</li>
+<li>deep</li>
+<li>deer</li>
+<li>defeat</li>
+<li>defend</li>
+<li>defense</li>
+<li>degree</li>
+<li>delay</li>
+<li>delicate</li>
+<li>delight</li>
+<li>deliver</li>
+<li>demand</li>
+<li>department</li>
+<li>depend</li>
+<li>dependent</li>
+<li>depth</li>
+<li>descend</li>
+<li>describe</li>
+<li>description</li>
+<li>descriptive</li>
+<li>desert</li>
+<li>deserve</li>
+<li>desirable</li>
+<li>desire</li>
+<li>desk</li>
+<li>destroy</li>
+<li>destruction</li>
+<li>detail</li>
+<li>determination</li>
+<li>determined</li>
+<li>develop</li>
+<li>devil</li>
+<li>diamond</li>
+<li>dictionary</li>
+<li>die</li>
+<li>difference</li>
+<li>different</li>
+<li>difficult</li>
+<li>difficulty</li>
+<li>dig</li>
+<li>dinner</li>
+<li>dip</li>
+<li>direct</li>
+<li>direction</li>
+<li>dirt</li>
+<li>dirty</li>
+<li>disappoint</li>
+<li>discourage</li>
+<li>discouragement</li>
+<li>discover</li>
+<li>discovery</li>
+<li>dish</li>
+<li>dismiss</li>
+<li>distance</li>
+<li>distant</li>
+<li>ditch</li>
+<li>divide</li>
+<li>division</li>
+<li>do</li>
+<li>doctor</li>
+<li>dog</li>
+<li>dollar</li>
+<li>door</li>
+<li>doorway</li>
+<li>dot</li>
+<li>double</li>
+<li>doubt</li>
+<li>down</li>
+<li>drag</li>
+<li>draw</li>
+<li>drawer</li>
+<li>dream</li>
+<li>dress</li>
+<li> drink</li>
+<li> drive</li>
+<li> drop</li>
+<li> drown</li>
+<li> drug</li>
+<li> drum</li>
+<li> drunk</li>
+<li> dry</li>
+<li> duck</li>
+<li> dull</li>
+<li> during</li>
+<li> dust</li>
+<li> duty</li>
+</ol>
+
+
+<h2>E</h2>
+
+<ol>
+<li>each</li>
+<li>eager</li>
+<li>ear</li>
+<li>early</li>
+<li>earn</li>
+<li>earth</li>
+<li>east</li>
+<li>eastern</li>
+<li>easy</li>
+<li>eat</li>
+<li>edge</li>
+<li>educate</li>
+<li>education</li>
+<li>effect</li>
+<li>effective</li>
+<li>effort</li>
+<li>egg</li>
+<li>eight</li>
+<li>eighth</li>
+<li>either</li>
+<li>elastic</li>
+<li>elbow</li>
+<li>elect</li>
+<li>election</li>
+<li>electric</li>
+<li>electricity</li>
+<li>elephant</li>
+<li>else</li>
+<li>employ</li>
+<li>employer</li>
+<li>employment</li>
+<li>empty</li>
+<li>enclose</li>
+<li>enclosure</li>
+<li>encourage</li>
+<li>encouragement</li>
+<li>end</li>
+<li>enemy</li>
+<li>engine</li>
+<li>engineer</li>
+<li>English</li>
+<li>enjoy</li>
+<li>enjoyment</li>
+<li>enough</li>
+<li>enter</li>
+<li>entertain</li>
+<li>entertainment</li>
+<li>entrance</li>
+<li>envelope</li>
+<li>equal</li>
+<li>equality</li>
+<li>escape</li>
+<li>especially</li>
+<li>establish</li>
+<li>establishment</li>
+<li>even</li>
+<li>evening</li>
+<li>event</li>
+<li>ever</li>
+<li>every</li>
+<li>everyone</li>
+<li>everything</li>
+<li>everywhere</li>
+<li>evil</li>
+<li>exact</li>
+<li>examination</li>
+<li>examine</li>
+<li>example</li>
+<li>excellent</li>
+<li>except</li>
+<li>exchange</li>
+<li>excite</li>
+<li>excited</li>
+<li>exciting</li>
+<li>excuse</li>
+<li>exercise</li>
+<li>exist</li>
+<li>existence</li>
+<li>expect</li>
+<li>expensive</li>
+<li>experience</li>
+<li>explain</li>
+<li>explanation</li>
+<li>explode</li>
+<li>explosion</li>
+<li>explosive</li>
+<li>express</li>
+<li>expression</li>
+<li>extreme</li>
+<li>eye</li>
+<li>eyelid</li>
+</ol>
+
+
+<h2>F</h2>
+
+<ol>
+<li>face</li>
+<li>fact</li>
+<li>factory</li>
+<li>fail</li>
+<li>failure</li>
+<li>faint</li>
+<li>fair</li>
+<li>fairy</li>
+<li>faith</li>
+<li>faithful</li>
+<li>fall</li>
+<li>false</li>
+<li>fame</li>
+<li>familiar</li>
+<li>family</li>
+<li>famous</li>
+<li>fancy</li>
+<li>far</li>
+<li>farm</li>
+<li>farmer</li>
+<li>farmyard</li>
+<li>fashion</li>
+<li>fashionable</li>
+<li>fast</li>
+<li>fasten</li>
+<li>fat</li>
+<li>fate</li>
+<li>father</li>
+<li>fault</li>
+<li>favor</li>
+<li>favorable</li>
+<li>favorite</li>
+<li>fear</li>
+<li>feather</li>
+<li>feed</li>
+<li>feel</li>
+<li>feeling</li>
+<li>feelings</li>
+<li>fellow</li>
+<li>female</li>
+<li>fence</li>
+<li>fever</li>
+<li>few</li>
+<li>field</li>
+<li>fierce</li>
+<li>fifth</li>
+<li>fight</li>
+<li>figure</li>
+<li>fill</li>
+<li>film</li>
+<li>find</li>
+<li>fine</li>
+<li>finger</li>
+<li>finish</li>
+<li>fire</li>
+<li>fireplace</li>
+<li>firm</li>
+<li>first</li>
+<li>fish</li>
+<li>fisherman</li>
+<li>fit</li>
+<li>five</li>
+<li>fix</li>
+<li>flag</li>
+<li>flame</li>
+<li>flash</li>
+<li>flat</li>
+<li>flesh</li>
+<li>flight</li>
+<li>float</li>
+<li>flood</li>
+<li>floor</li>
+<li>flour</li>
+<li>flow</li>
+<li>flower</li>
+<li>fly</li>
+<li>fold</li>
+<li>follow</li>
+<li>fond</li>
+<li>food</li>
+<li>fool</li>
+<li>foolish</li>
+<li>foot</li>
+<li>football</li>
+<li>footpath</li>
+<li>footstep</li>
+<li>for</li>
+<li>forbid</li>
+<li>force</li>
+<li>forehead</li>
+<li>foreign</li>
+<li>foreigner</li>
+<li>forest</li>
+<li>forget</li>
+<li>forgive</li>
+<li>fork</li>
+<li>form</li>
+<li>formal</li>
+<li>former</li>
+<li> formerly</li>
+<li> fort</li>
+<li> fortunate</li>
+<li> fortune</li>
+<li> forward</li>
+<li> forwards</li>
+<li> four</li>
+<li> fourth</li>
+<li> fox</li>
+<li> frame</li>
+<li> free</li>
+<li> freedom</li>
+<li> freeze</li>
+<li> frequent</li>
+<li> fresh</li>
+<li> friend</li>
+<li> friendly</li>
+<li> frighten</li>
+<li> frightening</li>
+<li> from</li>
+<li> front</li>
+<li> fruit</li>
+<li> fulfill</li>
+<li> full</li>
+<li> fun</li>
+<li> funeral</li>
+<li> funny</li>
+<li> fur</li>
+<li> furnish</li>
+<li> furniture</li>
+<li> further</li>
+<li> future</li>
+</ol>
+
+
+<h2>G</h2>
+
+<ol>
+<li>gain</li>
+<li>game</li>
+<li>garage</li>
+<li>garden</li>
+<li>garment</li>
+<li>gas</li>
+<li>gasoline [petrol]</li>
+<li>gate</li>
+<li>gather</li>
+<li>general</li>
+<li>generous</li>
+<li>gentle</li>
+<li>gentleman</li>
+<li>get</li>
+<li>gift</li>
+<li>girl</li>
+<li>give</li>
+<li>glad</li>
+<li>glass</li>
+<li>glory</li>
+<li>glue</li>
+<li>go</li>
+<li>goat</li>
+<li>god</li>
+<li>God</li>
+<li>gold</li>
+<li>golden</li>
+<li>good</li>
+<li>good-bye</li>
+<li>goods</li>
+<li>govern</li>
+<li>government</li>
+<li>grace</li>
+<li>graceful</li>
+<li>gradual</li>
+<li>grain</li>
+<li>gram</li>
+<li>grammar</li>
+<li>grand</li>
+<li>grandfather</li>
+<li>grandmother</li>
+<li>grass</li>
+<li>grateful</li>
+<li>grave</li>
+<li>gray</li>
+<li>great</li>
+<li>green</li>
+<li>greet</li>
+<li>greeting</li>
+<li>grief</li>
+<li>grieve</li>
+<li>ground</li>
+<li>group</li>
+<li>grow</li>
+<li>growth</li>
+<li>guard</li>
+<li>guess</li>
+<li>guest</li>
+<li>guidance</li>
+<li>guide</li>
+<li>guilt</li>
+<li>gun</li>
+</ol>
+
+
+<h2>H</h2>
+
+<ol>
+<li>habit</li>
+<li>habitual</li>
+<li>hair</li>
+<li>hairy</li>
+<li>half</li>
+<li>hall</li>
+<li>hammer</li>
+<li>hand</li>
+<li>handkerchief</li>
+<li>handle</li>
+<li>hang</li>
+<li>happen</li>
+<li>happy</li>
+<li>hard</li>
+<li>harden</li>
+<li>hardly</li>
+<li>hardship</li>
+<li>harm</li>
+<li>harmful</li>
+<li>harmless</li>
+<li>hasty</li>
+<li>hat</li>
+<li>hate</li>
+<li>hatred</li>
+<li>have</li>
+<li>he</li>
+<li>head</li>
+<li>health</li>
+<li>healthy</li>
+<li>hear</li>
+<li>heart</li>
+<li>heat</li>
+<li>heaven</li>
+<li>heavy</li>
+<li>heel</li>
+<li>height</li>
+<li>help</li>
+<li>helpful</li>
+<li>hen</li>
+<li>her</li>
+<li>here</li>
+<li>hers</li>
+<li>herself</li>
+<li>hide</li>
+<li>high</li>
+<li>hill</li>
+<li>him</li>
+<li>himself</li>
+<li>hire</li>
+<li>his</li>
+<li>historical</li>
+<li>history</li>
+<li>hit</li>
+<li>hold</li>
+<li>holiday</li>
+<li>hollow</li>
+<li>holy</li>
+<li>home</li>
+<li>honest</li>
+<li>honesty</li>
+<li>honor</li>
+<li>honorable</li>
+<li>hook</li>
+<li>hope</li>
+<li>hopeful</li>
+<li>hopeless</li>
+<li>horizon</li>
+<li>horn</li>
+<li>horse</li>
+<li>hospital</li>
+<li>host</li>
+<li>hot</li>
+<li>hotel</li>
+<li>hour</li>
+<li>hourly</li>
+<li>house</li>
+<li>how</li>
+<li>human</li>
+<li>humor</li>
+<li>humorous</li>
+<li>hundred</li>
+<li>hundredth</li>
+<li>hunger</li>
+<li>hungry</li>
+<li>hunt</li>
+<li>hurry</li>
+<li>hurt</li>
+<li>husband</li>
+<li>hut</li>
+</ol>
+
+
+<h2>I</h2>
+
+<ol>
+<li>I</li>
+<li>ice</li>
+<li>icy</li>
+<li>idea</li>
+<li>if</li>
+<li>ill</li>
+<li>image</li>
+<li>imaginary</li>
+<li>imagination</li>
+<li>imagine</li>
+<li>importance</li>
+<li>important</li>
+<li>improve</li>
+<li>improvement</li>
+<li>in</li>
+<li>include</li>
+<li>including</li>
+<li>income</li>
+<li>increase</li>
+<li>indoor</li>
+<li>indoors</li>
+<li>industrial</li>
+<li>industry</li>
+<li>infect</li>
+<li>infection</li>
+<li>infectious</li>
+<li>influence</li>
+<li>influential</li>
+<li>inform</li>
+<li>information</li>
+<li>ink</li>
+<li>inner</li>
+<li>inquire</li>
+<li>inquiry</li>
+<li>insect</li>
+<li>inside</li>
+<li>instead</li>
+<li>instruct</li>
+<li>instruction</li>
+<li>instrument</li>
+<li>insurance</li>
+<li>insure</li>
+<li>intend</li>
+<li>intention</li>
+<li>interest</li>
+<li>interesting</li>
+<li>international</li>
+<li>interrupt</li>
+<li>interruption</li>
+<li>into</li>
+<li>introduce</li>
+<li>introduction</li>
+<li>invent</li>
+<li>invention</li>
+<li>invitation</li>
+<li>invite</li>
+<li>inwards</li>
+<li>iron</li>
+<li>island</li>
+<li>it</li>
+<li>its</li>
+<li>itself</li>
+</ol>
+
+
+<h2>J</h2>
+
+<ol>
+<li>jaw</li>
+<li>jealous</li>
+<li>jealousy</li>
+<li>jelly</li>
+<li>jewel</li>
+<li>jewelry</li>
+<li>job</li>
+<li>join</li>
+<li>joint</li>
+<li>joke</li>
+<li>journey</li>
+<li>joy</li>
+<li>judge</li>
+<li>judgment</li>
+<li>juice</li>
+<li>jump</li>
+<li>just</li>
+<li>justice</li>
+</ol>
+
+
+<h2>K</h2>
+
+<ol>
+<li>keen</li>
+<li>keep</li>
+<li>key</li>
+<li>kick</li>
+<li>kill</li>
+<li>kilo</li>
+<li>kilogram</li>
+<li>kilometer</li>
+<li>kind</li>
+<li>king</li>
+<li>kingdom</li>
+<li>kiss</li>
+<li>kitchen</li>
+<li>knee</li>
+<li>kneel</li>
+<li>knife</li>
+<li>knock</li>
+<li>knot</li>
+<li>know</li>
+<li>knowledge</li>
+</ol>
+
+
+<h2>L</h2>
+
+<ol>
+<li>labor</li>
+<li>lack</li>
+<li>ladder</li>
+<li>lady</li>
+<li>lake</li>
+<li>lamb</li>
+<li>lamp</li>
+<li>land</li>
+<li>language</li>
+<li>large</li>
+<li>last</li>
+<li>late</li>
+<li>lately</li>
+<li>laugh</li>
+<li>laughter</li>
+<li>law</li>
+<li>lawyer</li>
+<li>lay</li>
+<li>lazy</li>
+<li>lead</li>
+<li>lead</li>
+<li>leaf</li>
+<li>lean</li>
+<li>learn</li>
+<li>least</li>
+<li>leather</li>
+<li>leave</li>
+<li>left</li>
+<li>leg</li>
+<li>legal</li>
+<li>lend</li>
+<li>length</li>
+<li>less</li>
+<li>lesson</li>
+<li>let</li>
+<li>letter</li>
+<li>level</li>
+<li>library</li>
+<li>lid</li>
+<li>lie</li>
+<li>life</li>
+<li>lift</li>
+<li>light</li>
+<li>lightning</li>
+<li>like</li>
+<li>likely</li>
+<li>limb</li>
+<li>limit</li>
+<li>line</li>
+<li>lion</li>
+<li>lip</li>
+<li>liquid</li>
+<li>list</li>
+<li>listen</li>
+<li>liter</li>
+<li>literature</li>
+<li>little</li>
+<li>live</li>
+<li>load</li>
+<li>loaf</li>
+<li>local</li>
+<li>lock</li>
+<li>lodging</li>
+<li>lodgings</li>
+<li>log</li>
+<li>lonely</li>
+<li>long</li>
+<li>look</li>
+<li>loose</li>
+<li>lord</li>
+<li>lose</li>
+<li>loss</li>
+<li>lot</li>
+<li>loud</li>
+<li>love</li>
+<li>low</li>
+<li>lower</li>
+<li>loyal</li>
+<li>loyalty</li>
+<li>luck</li>
+<li>lump</li>
+<li>lung</li>
+</ol>
+
+
+<h2>M</h2>
+
+<ol>
+<li>machine</li>
+<li>machinery</li>
+<li>mad</li>
+<li>magazine</li>
+<li>magic</li>
+<li>magician</li>
+<li>mail</li>
+<li>main</li>
+<li>make</li>
+<li>male</li>
+<li>man</li>
+<li>manage</li>
+<li>manager</li>
+<li>manner</li>
+<li>many</li>
+<li>map</li>
+<li>march</li>
+<li>mark</li>
+<li>market</li>
+<li>marriage</li>
+<li>marry</li>
+<li>mass</li>
+<li>master</li>
+<li>mat</li>
+<li>match</li>
+<li>material</li>
+<li>matter</li>
+<li>may</li>
+<li>me</li>
+<li>meal</li>
+<li>mean</li>
+<li>meaning</li>
+<li>means</li>
+<li>measure</li>
+<li>meat</li>
+<li>medical</li>
+<li>medicine</li>
+<li>meet</li>
+<li>meeting</li>
+<li>melt</li>
+<li>member</li>
+<li>memory</li>
+<li>mend</li>
+<li>mention</li>
+<li>merry</li>
+<li>message</li>
+<li>messenger</li>
+<li>metal</li>
+<li>meter</li>
+<li>method</li>
+<li>metric</li>
+<li>microscope</li>
+<li>middle</li>
+<li>might</li>
+<li>mile</li>
+<li>military</li>
+<li>milk</li>
+<li>million</li>
+<li>millionth</li>
+<li>mind</li>
+<li>mine</li>
+<li>mineral</li>
+<li>minister</li>
+<li>minute</li>
+<li>mirror</li>
+<li>miss</li>
+<li>mist</li>
+<li>mistake</li>
+<li>mix</li>
+<li>mixture</li>
+<li>model</li>
+<li>modern</li>
+<li>moment</li>
+<li>money</li>
+<li>monkey</li>
+<li>month</li>
+<li>monthly</li>
+<li>moon</li>
+<li>moral</li>
+<li>morals</li>
+<li>more</li>
+<li>morning</li>
+<li>most</li>
+<li>mother</li>
+<li>motor</li>
+<li>mountain</li>
+<li>mouse</li>
+<li>mouth</li>
+<li>move</li>
+<li>much</li>
+<li>mud</li>
+<li>multiply</li>
+<li>murder</li>
+<li>muscle</li>
+<li>music</li>
+<li>musician</li>
+<li>must</li>
+<li>my</li>
+<li>myself</li>
+<li> mysterious</li>
+<li> mystery</li>
+</ol>
+
+
+<h2>N</h2>
+
+<ol>
+<li>nail</li>
+<li>name</li>
+<li>narrow</li>
+<li>nasty</li>
+<li>nation</li>
+<li>national</li>
+<li>nature</li>
+<li>naval</li>
+<li>navy</li>
+<li>near</li>
+<li>nearly</li>
+<li>neat</li>
+<li>necessary</li>
+<li>neck</li>
+<li>need</li>
+<li>needle</li>
+<li>neighbor</li>
+<li>neighborhood</li>
+<li>neither</li>
+<li>nerve</li>
+<li>nervous</li>
+<li>nest</li>
+<li>net</li>
+<li>network</li>
+<li>never</li>
+<li>new</li>
+<li>news</li>
+<li>newspaper</li>
+<li>next</li>
+<li>nice</li>
+<li>night</li>
+<li>nine</li>
+<li>ninth</li>
+<li>no</li>
+<li>no</li>
+<li>noble</li>
+<li>nobleman</li>
+<li>noise</li>
+<li>none</li>
+<li>nonsense</li>
+<li>nor</li>
+<li>north</li>
+<li>northern</li>
+<li>nose</li>
+<li>not</li>
+<li>nothing</li>
+<li>notice</li>
+<li>noun</li>
+<li>now</li>
+<li>nowhere</li>
+<li>number</li>
+<li>nurse</li>
+<li>nut</li>
+<li>nylon</li>
+</ol>
+
+
+<h2>O</h2>
+
+<ol>
+<li>o&#8217;clock</li>
+<li>obedience</li>
+<li>obedient</li>
+<li>obey</li>
+<li>object</li>
+<li>obtain</li>
+<li>occasion</li>
+<li>ocean</li>
+<li>odd</li>
+<li>of</li>
+<li>off</li>
+<li>offend</li>
+<li>offense</li>
+<li>offensive</li>
+<li>offer</li>
+<li>office</li>
+<li>officer</li>
+<li>official</li>
+<li>often</li>
+<li>oil</li>
+<li>old</li>
+<li>old-fashioned</li>
+<li>on</li>
+<li>once</li>
+<li>one</li>
+<li>oneself</li>
+<li>onion</li>
+<li>only</li>
+<li>open</li>
+<li>operate</li>
+<li>operation</li>
+<li>opinion</li>
+<li>opponent</li>
+<li>oppose</li>
+<li>opposite</li>
+<li>opposition</li>
+<li>or</li>
+<li>orange</li>
+<li>order</li>
+<li>ordinary</li>
+<li>organ</li>
+<li>organization</li>
+<li>origin</li>
+<li>other</li>
+<li>otherwise</li>
+<li>ought</li>
+<li>our</li>
+<li>ours</li>
+<li>ourselves</li>
+<li>out</li>
+<li>outdoor</li>
+<li>outdoors</li>
+<li>outer</li>
+<li>outside</li>
+<li>over</li>
+<li>owe</li>
+<li>owing</li>
+<li>own</li>
+<li>oxygen</li>
+</ol>
+
+
+<h2>P</h2>
+
+<ol>
+<li>pack</li>
+<li>packet</li>
+<li>page</li>
+<li>pain</li>
+<li>painful</li>
+<li>paint</li>
+<li>painting</li>
+<li>pair</li>
+<li>palace</li>
+<li>pale</li>
+<li>pan</li>
+<li>paper</li>
+<li>parallel</li>
+<li>parcel</li>
+<li>parent</li>
+<li>park</li>
+<li>parliament</li>
+<li>part</li>
+<li>participle</li>
+<li>particular</li>
+<li>partner</li>
+<li>party</li>
+<li>pass</li>
+<li>passage</li>
+<li>passenger</li>
+<li>past</li>
+<li>pastry</li>
+<li>path</li>
+<li>patience</li>
+<li>patient</li>
+<li>pattern</li>
+<li>pause</li>
+<li>pay</li>
+<li>payment</li>
+<li>peace</li>
+<li>peaceful</li>
+<li>pen</li>
+<li>pence</li>
+<li>pencil</li>
+<li>people</li>
+<li>pepper</li>
+<li>per</li>
+<li>perfect</li>
+<li>perform</li>
+<li>perhaps</li>
+<li>period</li>
+<li>permission</li>
+<li>permit</li>
+<li>person</li>
+<li>personal</li>
+<li>persuade</li>
+<li>pet</li>
+<li>photograph</li>
+<li>photography</li>
+<li>phrase</li>
+<li>physical</li>
+<li>piano</li>
+<li>pick</li>
+<li>picture</li>
+<li>piece</li>
+<li>pig</li>
+<li>pile</li>
+<li>pilot</li>
+<li>pin</li>
+<li>pink</li>
+<li>pipe</li>
+<li>pity</li>
+<li>place</li>
+<li>plain</li>
+<li>plan</li>
+<li>plane</li>
+<li>plant</li>
+<li>plastic</li>
+<li>plate</li>
+<li>play</li>
+<li>pleasant</li>
+<li>please</li>
+<li>pleased</li>
+<li>pleasure</li>
+<li>plenty</li>
+<li>plural</li>
+<li>pocket</li>
+<li>poem</li>
+<li>poet</li>
+<li>poetry</li>
+<li>point</li>
+<li>pointed</li>
+<li>poison</li>
+<li>poisonous</li>
+<li>pole</li>
+<li>police</li>
+<li>polish</li>
+<li>polite</li>
+<li>political</li>
+<li>politician</li>
+<li>politics</li>
+<li>pool</li>
+<li>poor</li>
+<li>popular</li>
+<li> popularity</li>
+<li> population</li>
+<li> port</li>
+<li> position</li>
+<li> possess</li>
+<li> possession</li>
+<li> possibility</li>
+<li> possible</li>
+<li> possibly</li>
+<li> post</li>
+<li> pot</li>
+<li> potato</li>
+<li> pound</li>
+<li> pour</li>
+<li> powder</li>
+<li> power</li>
+<li> powerful</li>
+<li> practical</li>
+<li> practice</li>
+<li> praise</li>
+<li> pray</li>
+<li> prayer</li>
+<li> precious</li>
+<li> preparation</li>
+<li> prepare</li>
+<li> presence</li>
+<li> present</li>
+<li> preserve</li>
+<li> president</li>
+<li> press</li>
+<li> pressure</li>
+<li> pretend</li>
+<li> pretty</li>
+<li> prevent</li>
+<li> price</li>
+<li> prickly</li>
+<li> pride</li>
+<li> priest</li>
+<li> prince</li>
+<li> principle</li>
+<li> print</li>
+<li> prison</li>
+<li> prisoner</li>
+<li> private</li>
+<li> prize</li>
+<li> probability</li>
+<li> probable</li>
+<li> problem</li>
+<li> process</li>
+<li> procession</li>
+<li> produce</li>
+<li> product</li>
+<li> production</li>
+<li> profession</li>
+<li> profit</li>
+<li> promise</li>
+<li> pronounce</li>
+<li> pronunciation</li>
+<li> proof</li>
+<li> proper</li>
+<li> property</li>
+<li> protect</li>
+<li> protection</li>
+<li> protective</li>
+<li> proud</li>
+<li> prove</li>
+<li> provide</li>
+<li> provision</li>
+<li> provisions</li>
+<li> public</li>
+<li> pull</li>
+<li> pump</li>
+<li> punish</li>
+<li> punishment</li>
+<li> pupil</li>
+<li> pure</li>
+<li> purple</li>
+<li> purpose</li>
+<li> push</li>
+<li> put</li>
+</ol>
+
+
+<h2>Q</h2>
+
+<ol>
+<li>quality</li>
+<li>quantity</li>
+<li>quarrel</li>
+<li>quarter</li>
+<li>queen</li>
+<li>question</li>
+<li>quick</li>
+<li>quiet</li>
+<li>quite</li>
+</ol>
+
+
+<h2>R</h2>
+
+<ol>
+<li>rabbit</li>
+<li>race</li>
+<li>radio</li>
+<li>railway</li>
+<li>rain</li>
+<li>raise</li>
+<li>range</li>
+<li>rank</li>
+<li>rapid</li>
+<li>rare</li>
+<li>rat</li>
+<li>rate</li>
+<li>rather</li>
+<li>raw</li>
+<li>reach</li>
+<li>read</li>
+<li>ready</li>
+<li>real</li>
+<li>really</li>
+<li>reason</li>
+<li>reasonable</li>
+<li>receive</li>
+<li>recent</li>
+<li>recently</li>
+<li>recognition</li>
+<li>recognize</li>
+<li>record</li>
+<li>red</li>
+<li>reduce</li>
+<li>reduction</li>
+<li>refusal</li>
+<li>refuse</li>
+<li>regard</li>
+<li>regular</li>
+<li>related</li>
+<li>relation</li>
+<li>relative</li>
+<li>religion</li>
+<li>religious</li>
+<li>remain</li>
+<li>remark</li>
+<li>remember</li>
+<li>remind</li>
+<li>remove</li>
+<li>rent</li>
+<li>repair</li>
+<li>repeat</li>
+<li>reply</li>
+<li>report</li>
+<li>represent</li>
+<li>representative</li>
+<li>republic</li>
+<li>request</li>
+<li>respect</li>
+<li>respectful</li>
+<li>responsible</li>
+<li>rest</li>
+<li>restaurant</li>
+<li>result</li>
+<li>return</li>
+<li>reward</li>
+<li>rice</li>
+<li>rich</li>
+<li>rid</li>
+<li>ride</li>
+<li>right</li>
+<li>ring</li>
+<li>ripe</li>
+<li>rise</li>
+<li>risk</li>
+<li>river</li>
+<li>road</li>
+<li>rob</li>
+<li>rock</li>
+<li>rod</li>
+<li>roll</li>
+<li>roof</li>
+<li>room</li>
+<li>root</li>
+<li>rope</li>
+<li>rose</li>
+<li>rough</li>
+<li>round</li>
+<li>row</li>
+<li>royal</li>
+<li>rub</li>
+<li>rubber</li>
+<li>rude</li>
+<li>ruin</li>
+<li>rule</li>
+<li>ruler</li>
+<li>run</li>
+<li>rush</li>
+</ol>
+
+
+<h2>S</h2>
+
+<ol>
+<li>sad</li>
+<li>safe</li>
+<li>safety</li>
+<li>sail</li>
+<li>sale</li>
+<li>salt</li>
+<li>same</li>
+<li>sand</li>
+<li>satisfaction</li>
+<li>satisfactory</li>
+<li>satisfy</li>
+<li>save</li>
+<li>say</li>
+<li>scale</li>
+<li>scatter</li>
+<li>scene</li>
+<li>scenery</li>
+<li>school</li>
+<li>science</li>
+<li>scientific</li>
+<li>scientist</li>
+<li>scissors</li>
+<li>screw</li>
+<li>sea</li>
+<li>search</li>
+<li>season</li>
+<li>seat</li>
+<li>second</li>
+<li>secrecy</li>
+<li>secret</li>
+<li>secretary</li>
+<li>see</li>
+<li>seed</li>
+<li>seem</li>
+<li>seize</li>
+<li>sell</li>
+<li>send</li>
+<li>sensation</li>
+<li>sense</li>
+<li>senseless</li>
+<li>sensible</li>
+<li>sensitive</li>
+<li>sentence</li>
+<li>separate</li>
+<li>serious</li>
+<li>servant</li>
+<li>serve</li>
+<li>service</li>
+<li>set</li>
+<li>settle</li>
+<li>seven</li>
+<li>seventh</li>
+<li>several</li>
+<li>severe</li>
+<li>sew</li>
+<li>sex</li>
+<li>sexual</li>
+<li>shade</li>
+<li>shadow</li>
+<li>shake</li>
+<li>shall</li>
+<li>shame</li>
+<li>shape</li>
+<li>share</li>
+<li>sharp</li>
+<li>she</li>
+<li>sheep</li>
+<li>sheet</li>
+<li>shelf</li>
+<li>shell</li>
+<li>shelter</li>
+<li>shield</li>
+<li>shine</li>
+<li>ship</li>
+<li>shirt</li>
+<li>shock</li>
+<li>shoe</li>
+<li>shoot</li>
+<li>shop</li>
+<li>shopkeeper</li>
+<li>shore</li>
+<li>short</li>
+<li>shot</li>
+<li>should</li>
+<li>shoulder</li>
+<li>shout</li>
+<li>show</li>
+<li>shut</li>
+<li>sick</li>
+<li>side</li>
+<li>sideways</li>
+<li>sight</li>
+<li>sign</li>
+<li>signal</li>
+<li>signature</li>
+<li>silence</li>
+<li>silent</li>
+<li>silk</li>
+<li>silly</li>
+<li> silver</li>
+<li> similar</li>
+<li> similarity</li>
+<li> simple</li>
+<li> since</li>
+<li> sincere</li>
+<li> sing</li>
+<li> single</li>
+<li> singular</li>
+<li> sink</li>
+<li> sister</li>
+<li> sit</li>
+<li> situation</li>
+<li> six</li>
+<li> sixth</li>
+<li> size</li>
+<li> skill</li>
+<li> skillful</li>
+<li> skin</li>
+<li> skirt</li>
+<li> sky</li>
+<li> slave</li>
+<li> sleep</li>
+<li> slide</li>
+<li> slight</li>
+<li> slip</li>
+<li> slippery</li>
+<li> slope</li>
+<li> slow</li>
+<li> small</li>
+<li> smell</li>
+<li> smile</li>
+<li> smoke</li>
+<li> smooth</li>
+<li> snake</li>
+<li> snow</li>
+<li> so</li>
+<li> soap</li>
+<li> social</li>
+<li> society</li>
+<li> sock</li>
+<li> soft</li>
+<li> soil</li>
+<li> soldier</li>
+<li> solemn</li>
+<li> solid</li>
+<li> some</li>
+<li> somehow</li>
+<li> someone</li>
+<li> something</li>
+<li> sometimes</li>
+<li> somewhere</li>
+<li> son</li>
+<li> song</li>
+<li> soon</li>
+<li> sore</li>
+<li> sorrow</li>
+<li> sorry</li>
+<li> sort</li>
+<li> soul</li>
+<li> sound</li>
+<li> soup</li>
+<li> sour</li>
+<li> south</li>
+<li> southern</li>
+<li> space</li>
+<li> spacecraft</li>
+<li> spade</li>
+<li> speak</li>
+<li> spear</li>
+<li> special</li>
+<li> specialist</li>
+<li> speech</li>
+<li> speed</li>
+<li> spell</li>
+<li> spend</li>
+<li> spin</li>
+<li> spirit</li>
+<li> spite</li>
+<li> splendid</li>
+<li> split</li>
+<li> spoil</li>
+<li> spoon</li>
+<li> sport</li>
+<li> spot</li>
+<li> spread</li>
+<li> spring</li>
+<li> square</li>
+<li> stage</li>
+<li> stair</li>
+<li> stamp</li>
+<li> stand</li>
+<li> standard</li>
+<li> star</li>
+<li> start</li>
+<li> state</li>
+<li> station</li>
+<li> stay</li>
+<li> steady</li>
+<li> steal</li>
+<li> steam</li>
+<li> steel</li>
+<li> steep</li>
+<li> stem</li>
+<li> step</li>
+<li> stick</li>
+<li> sticky</li>
+<li> stiff</li>
+<li> still</li>
+<li> sting</li>
+<li> stitch</li>
+<li> stomach</li>
+<li> stone</li>
+<li> stop</li>
+<li> store</li>
+<li> storm</li>
+<li> story</li>
+<li> straight</li>
+<li> strange</li>
+<li> stranger</li>
+<li> stream</li>
+<li> street</li>
+<li> strength</li>
+<li> stretch</li>
+<li> strike</li>
+<li> string</li>
+<li> stroke</li>
+<li> strong</li>
+<li> structure</li>
+<li> struggle</li>
+<li> student</li>
+<li> study</li>
+<li> stupid</li>
+<li> style</li>
+<li> subject</li>
+<li> substance</li>
+<li> subtract</li>
+<li> succeed</li>
+<li> success</li>
+<li> successful</li>
+<li> such</li>
+<li> suck</li>
+<li> sudden</li>
+<li> suffer</li>
+<li> sugar</li>
+<li> suggest</li>
+<li> suit</li>
+<li> suitable</li>
+<li> sum</li>
+<li> summer</li>
+<li> sun</li>
+<li> supper</li>
+<li> supply</li>
+<li> support</li>
+<li> suppose</li>
+<li> sure</li>
+<li> surface</li>
+<li> surprise</li>
+<li> surround</li>
+<li> swallow</li>
+<li> swear</li>
+<li> sweep</li>
+<li> sweet</li>
+<li> swell</li>
+<li> swim</li>
+<li> swing</li>
+<li> sword</li>
+<li> sympathetic</li>
+<li> sympathy</li>
+<li> system</li>
+</ol>
+
+
+<h2>T</h2>
+
+<ol>
+<li>table</li>
+<li>tail</li>
+<li>take</li>
+<li>talk</li>
+<li>tall</li>
+<li>taste</li>
+<li>tax</li>
+<li>taxi</li>
+<li>tea</li>
+<li>teach</li>
+<li>team</li>
+<li>tear</li>
+<li>tear</li>
+<li>telephone</li>
+<li>television</li>
+<li>tell</li>
+<li>temper</li>
+<li>temperature</li>
+<li>temple</li>
+<li>tend</li>
+<li>tendency</li>
+<li>tender</li>
+<li>tennis</li>
+<li>tense</li>
+<li>tent</li>
+<li>terrible</li>
+<li>terror</li>
+<li>test</li>
+<li>than</li>
+<li>thank</li>
+<li>that</li>
+<li>the</li>
+<li>theater</li>
+<li>their</li>
+<li>theirs</li>
+<li>them</li>
+<li>themselves</li>
+<li>then</li>
+<li>there</li>
+<li>therefore</li>
+<li>these</li>
+<li>they</li>
+<li>thick</li>
+<li>thief</li>
+<li>thin</li>
+<li>thing</li>
+<li>think</li>
+<li>third</li>
+<li>thirst</li>
+<li>thirsty</li>
+<li>this</li>
+<li>thorough</li>
+<li>those</li>
+<li>though</li>
+<li>thought</li>
+<li>thousand</li>
+<li>thousandth</li>
+<li>thread</li>
+<li>threat</li>
+<li>threaten</li>
+<li>three</li>
+<li>throat</li>
+<li>through</li>
+<li>throw</li>
+<li>thumb</li>
+<li>thunder</li>
+<li>thus</li>
+<li>ticket</li>
+<li>tidy</li>
+<li>tie</li>
+<li>tiger</li>
+<li>tight</li>
+<li>time</li>
+<li>timetable</li>
+<li>tin</li>
+<li>tire</li>
+<li>[tyre] N</li>
+<li>tire</li>
+<li>title</li>
+<li>to</li>
+<li>tobacco</li>
+<li>today</li>
+<li>toe</li>
+<li>together</li>
+<li>tomorrow</li>
+<li>tongue</li>
+<li>tonight</li>
+<li>too</li>
+<li>tool</li>
+<li>tooth</li>
+<li>top</li>
+<li>total</li>
+<li>touch</li>
+<li>tour</li>
+<li>tourist</li>
+<li>towards</li>
+<li>tower</li>
+<li>town</li>
+<li>toy</li>
+<li> track</li>
+<li> trade</li>
+<li> traffic</li>
+<li> train</li>
+<li> translate</li>
+<li> transparent</li>
+<li> trap</li>
+<li> travel</li>
+<li> treat</li>
+<li> treatment</li>
+<li> tree</li>
+<li> tremble</li>
+<li> tribe</li>
+<li> trick</li>
+<li> trip</li>
+<li> tropical</li>
+<li> trouble</li>
+<li> trousers</li>
+<li> true</li>
+<li> trunk</li>
+<li> trust</li>
+<li> truth</li>
+<li> try</li>
+<li> tube</li>
+<li> tune</li>
+<li> turn</li>
+<li> twice</li>
+<li> twist</li>
+<li> type</li>
+<li> typical</li>
+</ol>
+
+
+<h2>U</h2>
+
+<ol>
+<li>ugly</li>
+<li>uncle</li>
+<li>under</li>
+<li>understand</li>
+<li>undo</li>
+<li>uniform</li>
+<li>union</li>
+<li>unit</li>
+<li>unite</li>
+<li>universal</li>
+<li>universe</li>
+<li>university</li>
+<li>until</li>
+<li>up</li>
+<li>upper</li>
+<li>upright</li>
+<li>upset</li>
+<li>upside</li>
+<li>upstairs</li>
+<li>urge</li>
+<li>urgent</li>
+<li>us</li>
+<li>use</li>
+<li>useful</li>
+<li>useless</li>
+<li>usual</li>
+</ol>
+
+
+<h2>V</h2>
+
+<ol>
+<li>valley</li>
+<li>valuable</li>
+<li>value</li>
+<li>variety</li>
+<li>various</li>
+<li>vary</li>
+<li>vegetable</li>
+<li>vehicle</li>
+<li>verb</li>
+<li>very</li>
+<li>victory</li>
+<li>view</li>
+<li>village</li>
+<li>violence</li>
+<li>violent</li>
+<li>visit</li>
+<li>voice</li>
+<li>vote</li>
+<li>vowel</li>
+<li>voyage</li>
+</ol>
+
+
+<h2>W</h2>
+
+<ol>
+<li>wages</li>
+<li>waist</li>
+<li>wait</li>
+<li>waiter</li>
+<li>wake</li>
+<li>walk</li>
+<li>wall</li>
+<li>wander</li>
+<li>want</li>
+<li>war</li>
+<li>warm</li>
+<li>warmth</li>
+<li>warn</li>
+<li>wash</li>
+<li>waste</li>
+<li>watch</li>
+<li>water</li>
+<li>wave</li>
+<li>way</li>
+<li>we</li>
+<li>weak</li>
+<li>wealth</li>
+<li>weapon</li>
+<li>wear</li>
+<li>weather</li>
+<li>weave</li>
+<li>wedding</li>
+<li>week</li>
+<li>weekly</li>
+<li>weigh</li>
+<li>weight</li>
+<li>welcome</li>
+<li>well</li>
+<li>west</li>
+<li>western</li>
+<li>wet</li>
+<li>what</li>
+<li>whatever</li>
+<li>wheat</li>
+<li>wheel</li>
+<li>when</li>
+<li>whenever</li>
+<li>where</li>
+<li>whether</li>
+<li>which</li>
+<li>whichever</li>
+<li>while</li>
+<li>whip</li>
+<li>whisper</li>
+<li>whistle</li>
+<li>white</li>
+<li>who</li>
+<li>whoever</li>
+<li>whole</li>
+<li>why</li>
+<li>wicked</li>
+<li>wide</li>
+<li>widespread</li>
+<li>width</li>
+<li>wife</li>
+<li>wild</li>
+<li>will</li>
+<li>willing</li>
+<li>win</li>
+<li>wind</li>
+<li>wind</li>
+<li>window</li>
+<li>wine</li>
+<li>wing</li>
+<li>winter</li>
+<li>wire</li>
+<li>wisdom</li>
+<li>wise</li>
+<li>wish</li>
+<li>with</li>
+<li>within</li>
+<li>without</li>
+<li>witness</li>
+<li>woman</li>
+<li>wonder</li>
+<li>wood</li>
+<li>wooden</li>
+<li>wool</li>
+<li>woolen</li>
+<li>word</li>
+<li>work</li>
+<li>world</li>
+<li>worm</li>
+<li>worry</li>
+<li>worse</li>
+<li>worship</li>
+<li>worst</li>
+<li>worth</li>
+<li>worthy</li>
+<li>worthy</li>
+<li>would</li>
+<li>wound</li>
+<li>wrap</li>
+<li>wreck</li>
+<li> wrist</li>
+<li> write</li>
+<li> wrong</li>
+<li> wrongdoing</li>
+</ol>
+
+
+<h2>Y</h2>
+
+<ol>
+<li>yard</li>
+<li>year</li>
+<li>yearly</li>
+<li>yellow</li>
+<li>yes</li>
+<li>yesterday</li>
+<li>yet</li>
+<li>you</li>
+<li>young</li>
+<li>your</li>
+<li>yours</li>
+<li>yourself</li>
+<li>youth</li>
+</ol>
+
+
+<h2>Z</h2>
+
+<ol>
+<li>zero</li>
+</ol>
+
+
+<h4>Prefixes</h4>
+
+<ol>
+<li>dis-</li>
+<li>im-</li>
+<li>in-</li>
+<li>ir-</li>
+<li>mid-</li>
+<li>mis-</li>
+<li>non-</li>
+<li>re-</li>
+<li>self-</li>
+<li>un-</li>
+</ol>
+
+
+<h4>Suffixes</h4>
+
+<ol>
+<li>-able</li>
+<li>-al</li>
+<li>-an</li>
+<li>-ance</li>
+<li>-ar</li>
+<li>-ate</li>
+<li>-ation</li>
+<li>-ed</li>
+<li>-en</li>
+<li>-ence</li>
+<li>-er</li>
+<li>-ery</li>
+<li>-ess</li>
+<li>-ful</li>
+<li>-ible</li>
+<li>-ic</li>
+<li>-ical</li>
+<li>-ing</li>
+<li>-ion</li>
+<li>-ish</li>
+<li>-ist</li>
+<li>-ity</li>
+<li>-ive</li>
+<li>-ization</li>
+<li>-ize</li>
+<li>-less</li>
+<li>-like</li>
+<li>-ly</li>
+<li>-ment</li>
+<li>-ness</li>
+<li>-or</li>
+<li>-ous</li>
+<li>-ry</li>
+<li>-ship</li>
+<li>-th</li>
+<li>-ward</li>
+<li>-wards</li>
+<li>-work</li>
+<li>-y</li>
+</ol>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -276,9 +2958,9 @@ session資料表（超過255位元組的session內容會保存在該表）</li>
 
 <h2>ER diagram</h2>
 
-<p>![ecshop_erd_all2.jpg][]</p>
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/ecshop_erd_all2.jpg" alt="ecshop_erd_all2.jpg" /></p>
 
-<p>![ecshop_erd_all.jpg][]</p>
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/ecshop_erd_all.jpg" alt="ecshop_erd_all.jpg" /></p>
 
 <h2>tables group by functionality</h2>
 
@@ -309,7 +2991,7 @@ tables would show in difference group more then one time.</p>
 </ol>
 
 
-<p>![ecshop_erd_user.jpg][]</p>
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/ecshop_erd_user.jpg" alt="ecshop_erd_user.jpg" /></p>
 
 <h3>admin</h3>
 
@@ -326,7 +3008,7 @@ tables would show in difference group more then one time.</p>
 </ol>
 
 
-<p>![ecshop_erd_admin.jpg][]</p>
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/ecshop_erd_admin.jpg" alt="ecshop_erd_admin.jpg" /></p>
 
 <h3>article</h3>
 
@@ -343,7 +3025,7 @@ tables would show in difference group more then one time.</p>
 </ol>
 
 
-<p>![ecshop_erd_article.jpg][]</p>
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/ecshop_erd_article.jpg" alt="ecshop_erd_article.jpg" /></p>
 
 <h3>adsense</h3>
 
@@ -357,7 +3039,7 @@ tables would show in difference group more then one time.</p>
 </ol>
 
 
-<p>![ecshop_erd_adsence.jpg][]</p>
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/ecshop_erd_adsence.jpg" alt="ecshop_erd_adsence.jpg" /></p>
 
 <h3>affiliate</h3>
 
@@ -371,7 +3053,7 @@ tables would show in difference group more then one time.</p>
 </ol>
 
 
-<p>![ecshop_erd_affiliate.jpg][]</p>
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/ecshop_erd_affiliate.jpg" alt="ecshop_erd_affiliate.jpg" /></p>
 
 <h3>auction</h3>
 
@@ -388,7 +3070,7 @@ tables would show in difference group more then one time.</p>
 </ol>
 
 
-<p>![ecshop_erd_auction.jpg][]</p>
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/ecshop_erd_auction.jpg" alt="ecshop_erd_auction.jpg" /></p>
 
 <h3>shapping car</h3>
 
@@ -406,7 +3088,7 @@ tables would show in difference group more then one time.</p>
 </ol>
 
 
-<p>![ecshop_erd_cart.jpg][]</p>
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/ecshop_erd_cart.jpg" alt="ecshop_erd_cart.jpg" /></p>
 
 <h3>goods category</h3>
 
@@ -421,7 +3103,7 @@ tables would show in difference group more then one time.</p>
 </ol>
 
 
-<p>![ecshop_erd_category.jpg][]</p>
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/ecshop_erd_category.jpg" alt="ecshop_erd_category.jpg" /></p>
 
 <h3>goods</h3>
 
@@ -462,7 +3144,7 @@ tables would show in difference group more then one time.</p>
 </ol>
 
 
-<p>![ecshop_erd_goods.jpg][]</p>
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/ecshop_erd_goods.jpg" alt="ecshop_erd_goods.jpg" /></p>
 
 <h3>mail</h3>
 
@@ -476,7 +3158,7 @@ tables would show in difference group more then one time.</p>
 </ol>
 
 
-<p>![ecshop_erd_mail.jpg][]</p>
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/ecshop_erd_mail.jpg" alt="ecshop_erd_mail.jpg" /></p>
 
 <h3>order</h3>
 
@@ -507,7 +3189,7 @@ tables would show in difference group more then one time.</p>
 </ol>
 
 
-<p>![ecshop_erd_order.jpg][]</p>
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/ecshop_erd_order.jpg" alt="ecshop_erd_order.jpg" /></p>
 
 <h3>region</h3>
 
@@ -523,7 +3205,7 @@ tables would show in difference group more then one time.</p>
 </ol>
 
 
-<p>![ecshop_erd_region.jpg][]</p>
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/ecshop_erd_region.jpg" alt="ecshop_erd_region.jpg" /></p>
 
 <h3>vote</h3>
 
@@ -536,7 +3218,7 @@ tables would show in difference group more then one time.</p>
 </ol>
 
 
-<p>![ecshop_erd_vote.jpg][]</p>
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/ecshop_erd_vote.jpg" alt="ecshop_erd_vote.jpg" /></p>
 
 <h3>uncategorized</h3>
 
@@ -3758,363 +6440,6 @@ for more information.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/10/17/centos/">CentOS</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
-        
-         | <a href="/blog/2011/10/17/centos/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><ul>
-<li><a href="http://smartraining.cn/centos" title="http://smartraining.cn/centos">CentOS 5
-系列??</a>
-
-<ul>
-<li>SmarTraining 工作室</li>
-</ul>
-</li>
-<li><a href="http://wiki.kent-chiu.com/doku.php?id=centos:lamp_install" title="centos:lamp_install">LAMP install on
-CentOS5</a></li>
-<li><a href="http://wiki.kent-chiu.com/doku.php?id=centos:subversion_installation" title="centos:subversion_installation">Subversion
-Installation</a></li>
-<li><a href="http://wiki.kent-chiu.com/doku.php?id=centos:upgrade_php_to_5.3.x" title="centos:upgrade_php_to_5.3.x">upgrade php to
-5.3.x</a></li>
-<li><a href="http://www.wardking.com/blog/read.php/361.htm" title="http://www.wardking.com/blog/read.php/361.htm">install open jdk and tomcat in
-linux</a></li>
-</ul>
-
-
-<h3>Install From Network</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Web site name: mirror.centos.org
-</span><span class='line'>CentOS directory for i386: /centos/5.5/os/i386
-</span><span class='line'>CentOS directory for x86_64: /centos/5.5/os/x86_64</span></code></pre></td></tr></table></div></figure>
-
-
-<p><a href="http://www.if-not-true-then-false.com/2010/centos-netinstall-network-installation/" title="http://www.if-not-true-then-false.com/2010/centos-netinstall-network-installation/">reference</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/10/17/balsamiq/">Balsamiq Mockups - a Useful Prototype Design Tools</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
-        
-         | <a href="/blog/2011/10/17/balsamiq/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>自從沒有了<a href="http://www.dsc.com.tw/pdf/softscore.pdf" title="http://www.dsc.com.tw/pdf/softscore.pdf">軟體分鏡</a>可以用後，一直在尋找著適合做prototype的軟體，經過survey後，發現許多人推薦<a href="http://www.balsamiq.com/" title="http://www.balsamiq.com/">Balsamis
-Mockups</a>這套軟體。親自試用後，發現自我感覺相當良好。
-操作性佳，look &amp;
-feel是手繪風格，這個很吸引人的眼球，而且，使用上也滿直覺的，還有許多順手的工具。</p>
-
-<p>一開始使用，記得先將 Main Menu > View > Use System
-Font給checked，這樣才能輸入中文字
-<img src="/images/wiki/misc/mockups_01.png" alt="mockups_01.png" /></p>
-
-<p>每一個元件的繪製方式，都相當的簡單直覺，只用方式跟 ms power
-point差不多，但便利性更上一級，</p>
-
-<p>基本的，對齊，等距，郡組，解除郡組等等…該有的都有了</p>
-
-<p><img src="/images/wiki/misc/mockups_04.png" alt="mockups_04.png" /></p>
-
-<p>以Button Bar/Tab Bar來說，當點選該元件(component)時，會有一個popup
-context menu，裡面會有Button Bar/Tab Bar元件的專屬屬性
-ex:本例中的被選中的active(selected)
-tab會出現跟其他未選中的tab有不一樣的背景色。</p>
-
-<p><img src="/images/wiki/misc/mockups_06.png" alt="mockups_06.png" /></p>
-
-<p>而且，每一個tab都提供相對的link，當你在demo時，可以click該link，會連到相對應的頁面(當然，前提是能存檔，而存檔的前提要是註冊)</p>
-
-<p><img src="/images/wiki/misc/mockups_02.png" alt="mockups_02.png" /></p>
-
-<p>你也可以透過wiki like的語法，讓文字更rich full.</p>
-
-<p><img src="/images/wiki/misc/mockups_05.png" alt="mockups_05.png" /></p>
-
-<p>更多的細節，可以到<a href="http://www.balsamiq.com/products/mockups/help" title="http://www.balsamiq.com/products/mockups/help">線上說明</a>去看看。</p>
-
-<p>Balsamiq Mockups除了本身提供了許多元件外</p>
-
-<p>![mockups_00.jpg]</p>
-
-<p>你也可以到<a href="http://mockupstogo.net/" title="http://mockupstogo.net/">Mockups To
-Go</a>去看看別人做好的元件或samples，有沒有適合的。</p>
-
-<p>這個軟體有提供試用版，基本少就是拿掉存檔跟匯出的一些功能，不過，你還是可以透過export的功能，將你的檔案匯出成xml
-file，要使用時再import，不過，很麻煩就是了。</p>
-
-<p><img src="/images/wiki/misc/mockups_03.png" alt="mockups_03.png" /></p>
-
-<h1>不足之處</h1>
-
-<ul>
-<li>Combox沒辦法在動態的原地展開，也沒有辦法在顯示combox裡的其它選項</li>
-<li>互動性有待加強</li>
-<li>沒有地方可以寫註解，若用comment那個元件寫，又太礙眼了</li>
-<li>沒辦法針對特定元件做註解(比如說，元件長度字元限制之類的)</li>
-</ul>
-
-
-<p>不過，整體來說，已經相當好用了，基面上，拉一個畫面會比用html硬刻快個10倍以上吧。所以，還是滿值得一試的。</p>
-
-<h1>Resources</h1>
-
-<ul>
-<li><a href="http://www.balsamiq.com/products/mockups" title="http://www.balsamiq.com/products/mockups">http://www.balsamiq.com/products/mockups</a>
-Balsamiq Mockups官方頁面</li>
-<li><a href="http://www.balsamiq.com/products/mockups/help" title="http://www.balsamiq.com/products/mockups/help">http://www.balsamiq.com/products/mockups/help</a>
-線上說明文件</li>
-<li><a href="http://mockupstogo.net/" title="http://mockupstogo.net/">http://mockupstogo.net/</a>
-Mockups To
-Go是一個提供其它人上傳文件的網站，上面可以找到不少好用的元件</li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/10/17/backoffice_mindmap/">ECShop Back Office MindMap</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
-        
-         | <a href="/blog/2011/10/17/backoffice_mindmap/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><img src="/images/wiki/ecshop/ecshop_backoffice.png" alt="ecshop_backoffice.png" /></p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/10/17/ascii_class_diagram/">ASCII UML Class Diagram</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
-        
-         | <a href="/blog/2011/10/17/ascii_class_diagram/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'> Association:   ^   Aggregation:    O   Composition:    @   Inheritance:    #
-</span><span class='line'>                |                   |                   |                   |
-</span><span class='line'>              &lt;-+-&gt;               O-+-O               @-+-@               #-+-#
-</span><span class='line'>                |                   |                   |                   |
-</span><span class='line'>                V                   O                   @                   #</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'> +--------+       +---------------------+ *
-</span><span class='line'> | Client |------&gt;| Component           |&lt;-----------------------------+
-</span><span class='line'> +--------+       +---------------------+                              |
-</span><span class='line'>                  | Operation()         |                              |
-</span><span class='line'>                  | Add(Component)      |                              |
-</span><span class='line'>                  | Remove(Component)   |                              |
-</span><span class='line'>                  | GetChild(int)       |                              |
-</span><span class='line'>                  +---------------------+                              |
-</span><span class='line'>                            #                                          |
-</span><span class='line'>                            |                                          |
-</span><span class='line'>                 +----------+--------------+                           |
-</span><span class='line'>                 |                         |                           |
-</span><span class='line'>          +------+------+       +----------+----------+  children      |
-</span><span class='line'>          | Leaf        |       | Composite           |O---------------+
-</span><span class='line'>          +-------------+       +---------------------+
-</span><span class='line'>          | Operation() |       | Operation()         |
-</span><span class='line'>          +-------------+       | Add(Component)      |
-</span><span class='line'>                                | Remove(Component)   |
-</span><span class='line'>                                | GetChild(int)       |
-</span><span class='line'>                                +---------------------+</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>  +-------+         +-----------+
-</span><span class='line'>  | Base  |         | Interface |
-</span><span class='line'>  +---^---+         +-----^-----+
-</span><span class='line'>     /_\                 /_\     _
-</span><span class='line'>      |                   :     (_) OtherInterface
-</span><span class='line'>      |                   :      |
-</span><span class='line'>      |                   :      |
-</span><span class='line'> +---------+      +----------------+
-</span><span class='line'> | Derived |      | Implementation |
-</span><span class='line'> +---------+      +----------------+</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>+------------------------------------------------------+
-</span><span class='line'>|                                                      |  
-</span><span class='line'>+------------------------------------------------------+
-</span><span class='line'>|                                                      |
-</span><span class='line'>|                                                      |
-</span><span class='line'>|                                                      |
-</span><span class='line'>|                                                      |
-</span><span class='line'>+------------------------------------------------------+
-</span><span class='line'>|                                                      |
-</span><span class='line'>|                                                      |
-</span><span class='line'>|                                                      |
-</span><span class='line'>+------------------------------------------------------+</span></code></pre></td></tr></table></div></figure>
-
-
-<h1>Resources</h1>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/18/">&larr; Older</a>
@@ -4132,23 +6457,23 @@ Go是一個提供其它人上傳文件的網站，上面可以找到不少好用
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/07/07/python-101/">Python 101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/25/url-encoding/">URL Encoding</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/04/restful-api-design/">RESTful API Design</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/05/17/my-intellij-idea-shortcut/">My IntelliJ IDEA Shortcut</a>
       </li>
     
       <li class="post">
         <a href="/blog/2013/05/12/jesper-report-font-issue/">Jesper Report, IReport 匯出成中文PDF</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/05/12/jasperreport-101/">JasperReport 101</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/05/06/mac-tips/">Mac Tips</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/04/22/clean-code/">Clean Code閱讀筆記</a>
       </li>
     
   </ul>

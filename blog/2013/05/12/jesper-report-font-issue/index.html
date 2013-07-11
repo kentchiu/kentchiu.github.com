@@ -51,7 +51,7 @@
   <header role="banner"><hgroup>
   <h1><a href="/">Kent's Blog</a></h1>
   
-    <h2>Kent的學習筆記(剛從dokuwiki搬過來，內容還在整修中)</h2>
+    <h2>Kent的學習筆記</h2>
   
 </hgroup>
 
@@ -113,22 +113,22 @@
 
 <h4>工具 ﹣> 選項</h4>
 
-<p><img src="http://blog.kent-chiu.com/images/blog/2013-05-12-jesper-report-font-issue-000.png" alt="2013-05-12-jesper-report-font-issue-000.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2013-05-12/2013-05-12-jesper-report-font-issue-000.png" alt="2013-05-12-jesper-report-font-issue-000.png" /></p>
 
 <h4>安裝字型</h4>
 
-<p><img src="http://blog.kent-chiu.com/images/blog/2013-05-12-jesper-report-font-issue-001.png" alt="2013-05-12-jesper-report-font-issue-001.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2013-05-12/2013-05-12-jesper-report-font-issue-001.png" alt="2013-05-12-jesper-report-font-issue-001.png" /></p>
 
 <p>字形檔為 true type (.ttf)格式，本範例是繁體中文的標楷體 (kaiu.ttf)</p>
 
-<p><img src="http://blog.kent-chiu.com/images/blog/2013-05-12-jesper-report-font-issue-002.png" alt="2013-05-12-jesper-report-font-issue-002.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2013-05-12/2013-05-12-jesper-report-font-issue-002.png" alt="2013-05-12-jesper-report-font-issue-002.png" /></p>
 
 <blockquote><p>可以在windows的字型檔目錄下取得字型檔，但我在測試時無法直接在windows/font的目錄選得字型檔，
 須把字型檔copy到其他目錄時，iReport 的 <em>Select True Type Font</em> dialog 才看得到字型檔。</p></blockquote>
 
 <h4>設定字型檔的細節</h4>
 
-<p><img src="http://blog.kent-chiu.com/images/blog/2013-05-12-jesper-report-font-issue-005.png" alt="2013-05-12-jesper-report-font-issue-005.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2013-05-12/2013-05-12-jesper-report-font-issue-005.png" alt="2013-05-12-jesper-report-font-issue-005.png" /></p>
 
 <p>選進來後的Family Name(字型檔名) 預設是 &#8220;標楷體&#8221;，我把它改名成 <em>kaiu</em> (這麼做的原因只是不想讓設定檔出現一堆中文字型名稱，當然，
 你也可以保持預設的名稱 &#8220;標楷體&#8221;)，PDF details的設定要特別注意，
@@ -140,7 +140,7 @@ PDF ENcodeing要設成 <em>Identity-H (Unicode with horizontal writer)</em>, 然
 
 <p>文字內容的<code>font name</code>要設定為剛剛新安裝的字型檔名稱</p>
 
-<p><img src="http://blog.kent-chiu.com/images/blog/2013-05-12-jesper-report-font-issue-007.png" alt="2013-05-12-jesper-report-font-issue-007.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2013-05-12/2013-05-12-jesper-report-font-issue-007.png" alt="2013-05-12-jesper-report-font-issue-007.png" /></p>
 
 <p>做preivew後就會產出 pdf 檔，裡面的中文就會正常顯示了</p>
 
@@ -153,7 +153,7 @@ PDF ENcodeing要設成 <em>Identity-H (Unicode with horizontal writer)</em>, 然
 
 <p>匯出後，將該 jar 檔丟到 class path下即可；如果執行匯出時，發生字型檔找不到的異常，應該是字型檔的 jar 檔沒正確的放在 class path 下</p>
 
-<p><img src="http://blog.kent-chiu.com/images/blog/2013-05-12-jesper-report-font-issue-006.png" alt="2013-05-12-jesper-report-font-issue-006.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2013-05-12/2013-05-12-jesper-report-font-issue-006.png" alt="2013-05-12-jesper-report-font-issue-006.png" /></p>
 
 <h6>jrxml 範本定義檔 hello.jrxml</h6>
 
@@ -270,23 +270,23 @@ public void exportToPDF_statics_text_only() throws Exception {
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/07/07/python-101/">Python 101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/25/url-encoding/">URL Encoding</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/04/restful-api-design/">RESTful API Design</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/05/17/my-intellij-idea-shortcut/">My IntelliJ IDEA Shortcut</a>
       </li>
     
       <li class="post">
         <a href="/blog/2013/05/12/jesper-report-font-issue/">Jesper Report, IReport 匯出成中文PDF</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/05/12/jasperreport-101/">JasperReport 101</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/05/06/mac-tips/">Mac Tips</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/04/22/clean-code/">Clean Code閱讀筆記</a>
       </li>
     
   </ul>

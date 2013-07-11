@@ -51,7 +51,7 @@ Handler 後兩者可以做的事情差不多，Handler使用上比較簡單，�
   <header role="banner"><hgroup>
   <h1><a href="/">Kent's Blog</a></h1>
   
-    <h2>Kent的學習筆記(剛從dokuwiki搬過來，內容還在整修中)</h2>
+    <h2>Kent的學習筆記</h2>
   
 </hgroup>
 
@@ -165,7 +165,7 @@ queue送訊息，也可以從message queue收訊息。 收訊息是由message
 queue主動呼叫handle的callback message
 <a href="http://developer.android.com/reference/android/os/Handler.html#hasMessages(int">Handler.handleMessage()</a> &#8220;http://developer.android.com/reference/android/os/Handler.html#hasMessages(int)&#8221;)</p>
 
-<p><img src="/images/wiki/android/background_processing_002.png" alt="background_processing_002.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2012-03-19/background_processing_002.png" alt="background_processing_002.png" /></p>
 
 <p>Thread類別中，並沒有thread執行完成的通知機制，如果想讓thread做完事情後進行通知的動作，那就必須透過handler的訊息發送機制，在thread做完事後，送訊息至訊息佇列。
 這樣，想知道這個thread完成的事件的，就可以去訊息佇列接收完成的通知訊息。</p>
@@ -487,7 +487,7 @@ Thread中執行的，所以<strong>可以安全的在<code>onPostExecute()</code
 </span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
 
 
-<p><img src="/images/wiki/android/background_processing_001.png" alt="background_processing_001.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2012-03-19/background_processing_001.png" alt="background_processing_001.png" /></p>
 
 <p>執行一個AsyncTask的方式如下，每一個instance只能被執行一次，如果被執行超過一次，會出exception</p>
 
@@ -863,23 +863,23 @@ API</a></li>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/07/07/python-101/">Python 101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/25/url-encoding/">URL Encoding</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/04/restful-api-design/">RESTful API Design</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/05/17/my-intellij-idea-shortcut/">My IntelliJ IDEA Shortcut</a>
       </li>
     
       <li class="post">
         <a href="/blog/2013/05/12/jesper-report-font-issue/">Jesper Report, IReport 匯出成中文PDF</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/05/12/jasperreport-101/">JasperReport 101</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/05/06/mac-tips/">Mac Tips</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/04/22/clean-code/">Clean Code閱讀筆記</a>
       </li>
     
   </ul>

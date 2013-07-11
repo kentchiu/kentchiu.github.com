@@ -4,7 +4,7 @@
   <title><![CDATA[Category: pdt | Kent's Blog]]></title>
   <link href="http://blog.kent-chiu.com/blog/categories/pdt/atom.xml" rel="self"/>
   <link href="http://blog.kent-chiu.com/"/>
-  <updated>2013-07-11T21:27:53+08:00</updated>
+  <updated>2013-07-11T21:59:18+08:00</updated>
   <id>http://blog.kent-chiu.com/</id>
   <author>
     <name><![CDATA[Kent]]></name>
@@ -21,7 +21,7 @@
     <content type="html"><![CDATA[<p>Using eclipse <strong>External Tools configuration</strong> to run a tail program to
 keep monitor log files.</p>
 
-<p><img src="/images/wiki/php/show_log_in_eclipse_console_01.png" alt="show_log_in_eclipse_console_01.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/show_log_in_eclipse_console_01.png" alt="show_log_in_eclipse_console_01.png" /></p>
 
 <p>Please ensure you have should tail program</p>
 
@@ -204,7 +204,7 @@ xdebug.profiler_output_dir="C:\xampp\tmp"
 </ol>
 
 
-<p><img src="/images/wiki/php/setup_elcipse_pdt_01.png" alt="setup_elcipse_pdt_01.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/setup_elcipse_pdt_01.png" alt="setup_elcipse_pdt_01.png" /></p>
 
 <h3>Web Page Editor</h3>
 
@@ -216,8 +216,8 @@ xdebug.profiler_output_dir="C:\xampp\tmp"
 <li>select <strong>Add…</strong> Button to pop-up <strong>Add File Type</strong> window</li>
 <li>Typing which file type you want to add (should start with *.)</li>
 <li>select <strong>Add…</strong> Button to pop-up
-**<img src="/images/wiki/php/setup_elcipse_pdt_02.png" alt="setup_elcipse_pdt_02.png" />
-<img src="/images/wiki/php/setup_elcipse_pdt_03.png" alt="setup_elcipse_pdt_03.png" />
+**<img src="http://blog.kent-chiu.com/images/2011-10-17/setup_elcipse_pdt_02.png" alt="setup_elcipse_pdt_02.png" />
+<img src="http://blog.kent-chiu.com/images/2011-10-17/setup_elcipse_pdt_03.png" alt="setup_elcipse_pdt_03.png" />
 
 <ul>
 <li>select the file type you want to associated to editor. -
@@ -229,7 +229,7 @@ Association** List.</li>
 </ol>
 
 
-<p><img src="/images/wiki/php/setup_elcipse_pdt_04.png" alt="setup_elcipse_pdt_04.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/setup_elcipse_pdt_04.png" alt="setup_elcipse_pdt_04.png" /></p>
 
 <p>Web Page Editor introduced in WTP 2.0, it provides design time preview
 functionally.</p>
@@ -319,7 +319,7 @@ case</a></li>
 </ol>
 
 
-<p><img src="/images/wiki/php/running_phpunit_in_eclipse_01.png" alt="running_phpunit_in_eclipse_01.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/running_phpunit_in_eclipse_01.png" alt="running_phpunit_in_eclipse_01.png" /></p>
 
 <h3>write a simple test</h3>
 
@@ -386,9 +386,9 @@ Configurations</strong> window</li>
 </ol>
 
 
-<p><img src="/images/wiki/php/running_phpunit_in_eclipse_04.png" alt="running_phpunit_in_eclipse_04.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/running_phpunit_in_eclipse_04.png" alt="running_phpunit_in_eclipse_04.png" /></p>
 
-<p><img src="/images/wiki/php/running_phpunit_in_eclipse_05.png" alt="running_phpunit_in_eclipse_05.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/running_phpunit_in_eclipse_05.png" alt="running_phpunit_in_eclipse_05.png" /></p>
 
 <p>debug:</p>
 
@@ -401,7 +401,7 @@ invoke PHP script Debug.</li>
 </ol>
 
 
-<p><img src="/images/wiki/php/running_phpunit_in_eclipse_06.png" alt="running_phpunit_in_eclipse_06.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/running_phpunit_in_eclipse_06.png" alt="running_phpunit_in_eclipse_06.png" /></p>
 
 <p>please make sure you selected the test case file before invoke
 phpunit_runner</p>
@@ -420,13 +420,13 @@ field</li>
 </ol>
 
 
-<p><img src="/images/wiki/php/running_phpunit_in_eclipse_02.png" alt="running_phpunit_in_eclipse_02.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/running_phpunit_in_eclipse_02.png" alt="running_phpunit_in_eclipse_02.png" /></p>
 
 <h3>check resuls</h3>
 
 <p>the test results should be showed in <strong>Console</strong> view.</p>
 
-<p><img src="/images/wiki/php/running_phpunit_in_eclipse_03.png" alt="running_phpunit_in_eclipse_03.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/running_phpunit_in_eclipse_03.png" alt="running_phpunit_in_eclipse_03.png" /></p>
 
 <p>^<a href="#fnt__1">1)</a>^ any php file</p>
 

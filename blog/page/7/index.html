@@ -9,8 +9,9 @@
   <meta name="author" content="Kent">
 
   
-  <meta name="description" content="基本觀念 永遠不要自行創建ContentProvider的實例(instance)，系統會自動建立所需的instances
-透過ContentResolver來操作ContentProvider，ContentProvider可透過android.content.Context. &hellip;">
+  <meta name="description" content="Android
+Gesture是用來偵測、處理手勢的相關動作，像是手指頭在螢幕畫出圖案，大部份的應用是拿來偵測上下或左右滑過螢幕(swipe)，
+如果不需要處理特別的手勢，那通常用GestureDetector相關的類別即可。 幾個主要的類別是： android.view. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -51,7 +52,7 @@
   <header role="banner"><hgroup>
   <h1><a href="/">Kent's Blog</a></h1>
   
-    <h2>Kent的學習筆記(剛從dokuwiki搬過來，內容還在整修中)</h2>
+    <h2>Kent的學習筆記</h2>
   
 </hgroup>
 
@@ -78,6 +79,787 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/03/20/gesture/">Android Gesture</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-20T00:00:00+08:00" pubdate data-updated="true">Mar 20<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/03/20/gesture/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Android
+Gesture是用來偵測、處理手勢的相關動作，像是手指頭在螢幕畫出圖案，大部份的應用是拿來偵測上下或左右滑過螢幕(swipe)，
+如果不需要處理特別的手勢，那通常用<a href="http://wiki.kent-chiu.com/doku.php?id=android:gesture" title="android:gesture">GestureDetector</a>相關的類別即可。</p>
+
+<p>幾個主要的類別是：</p>
+
+<ol>
+<li>android.view.GestureDetector 偵測手勢</li>
+<li>android.view.GestureDetector.OnGestureListener 處理Gesture事件</li>
+<li>android.view.GestureDetector.OnDoubleTapListener
+處理double-tap(雙擊)事件</li>
+<li>android.view.GestureDetector.SimpleOnGestureListener
+一個基本的Gesture
+Listener實作，直接extneds這個類別可以不用實作一堆OnGestureListener,OnDoubleTapListener用不著的methods</li>
+<li>android.view.View.OnTouchListener
+用來把View上所發生的事件傳給GestureDetector</li>
+</ol>
+
+
+<p>處理多點觸控的相關類別是：</p>
+
+<ol>
+<li>android.view.ScaleGestureDetector</li>
+<li>android.view.OnScaleGestureListener</li>
+<li>android.view.SimpleOnScaleGestureListener</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public class MyActivity extends Activity {
+</span><span class='line'> 
+</span><span class='line'>    private GestureDetector    detector;
+</span><span class='line'>    private WebView myWebView;
+</span><span class='line'> 
+</span><span class='line'>    @Override
+</span><span class='line'>    public void onCreate(Bundle savedInstanceState) {
+</span><span class='line'>        detector = new GestureDetector(new MyOnGestureListener());
+</span><span class='line'>        myWebView.setOnTouchListener(new MyOnTouchListener());
+</span><span class='line'>    }    
+</span><span class='line'> 
+</span><span class='line'> 
+</span><span class='line'>    class MyOnGestureListener implements OnGestureListener {
+</span><span class='line'> 
+</span><span class='line'>        @Override
+</span><span class='line'>        public boolean onDown(MotionEvent e) {
+</span><span class='line'>            return false;
+</span><span class='line'>        }
+</span><span class='line'> 
+</span><span class='line'>        @Override
+</span><span class='line'>        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+</span><span class='line'>            if (e1.getX() - e2.getX() &gt; 200) { //swipe left，如果向左滑動的距離超過200才執行
+</span><span class='line'>            } else if (e2.getX() - e1.getX() &gt; 200) { // 如果向向滑動的距離超過200才執行
+</span><span class='line'>            }
+</span><span class='line'>            return true;
+</span><span class='line'>        }
+</span><span class='line'> 
+</span><span class='line'>        @Override
+</span><span class='line'>        public void onLongPress(MotionEvent e) {
+</span><span class='line'>        }
+</span><span class='line'> 
+</span><span class='line'>        @Override
+</span><span class='line'>        public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+</span><span class='line'>            return false;
+</span><span class='line'>        }
+</span><span class='line'> 
+</span><span class='line'>        @Override
+</span><span class='line'>        public void onShowPress(MotionEvent e) {
+</span><span class='line'> 
+</span><span class='line'>        }
+</span><span class='line'> 
+</span><span class='line'>        @Override
+</span><span class='line'>        public boolean onSingleTapUp(MotionEvent e) {
+</span><span class='line'>            return false;
+</span><span class='line'>        }
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'> 
+</span><span class='line'>    class MyOnTouchListener implements OnTouchListener {
+</span><span class='line'>        @Override
+</span><span class='line'>        public boolean onTouch(View v, MotionEvent event) {
+</span><span class='line'>            return detector.onTouchEvent(event);
+</span><span class='line'>        }
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>使用上比較需要注意的是OnTouchListener，這個要設定到你操作的元件上，本例中，Activity上面是整個被WebView(myWebView)佔住了
+，所以所有的手勢操作是發生在WebView上而不是Activity，所以必須把WebView的TouchEvent傳給detector</p>
+
+<p>上面的MyOnGestureListener可以用下面的這個MySimpleOnGestureListener取代，可以不用實作一堆空methods</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class MySimpleOnGestureListener extends SimpleOnGestureListener {
+</span><span class='line'> 
+</span><span class='line'> 
+</span><span class='line'>    @Override
+</span><span class='line'>    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+</span><span class='line'>        if (e1.getX() - e2.getX() &gt; 200) { //swipe left，如果向左滑動的距離超過200才執行
+</span><span class='line'>        } else if (e2.getX() - e1.getX() &gt; 200) { // 如果向向滑動的距離超過200才執行
+</span><span class='line'>        }
+</span><span class='line'>        return true;
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/03/20/enum/">Enum 進階應用</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-20T00:00:00+08:00" pubdate data-updated="true">Mar 20<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/03/20/enum/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>用多型取代if-else</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public enum VoltageRange {
+</span><span class='line'>    V100_120, V200_240, V100_240;
+</span><span class='line'>
+</span><span class='line'>    public boolean isVoltageInRange(int voltage) {
+</span><span class='line'>        if (StringUtils.equals("V100_120", name())) {
+</span><span class='line'>            IntRange v100to120 = new IntRange(100, 120);
+</span><span class='line'>            return v100to120.containsInteger(voltage);
+</span><span class='line'>        } else if (StringUtils.equals("V200_240", name())) {
+</span><span class='line'>            IntRange v200to240 = new IntRange(200, 240);
+</span><span class='line'>            return v200to240.containsInteger(voltage);
+</span><span class='line'>        } else if (StringUtils.equals("V100_240", name())) {
+</span><span class='line'>            IntRange v100to120 = new IntRange(100, 120);
+</span><span class='line'>            IntRange v200to240 = new IntRange(200, 240);
+</span><span class='line'>            return v100to120.containsInteger(voltage) || v200to240.containsInteger(voltage);
+</span><span class='line'>        }
+</span><span class='line'>        return false;
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>package com.bellwin.idcview.device.model;
+</span><span class='line'>
+</span><span class='line'>import org.apache.commons.lang.math.IntRange;
+</span><span class='line'>
+</span><span class='line'>public enum VoltageRange {
+</span><span class='line'>    V100_120 {
+</span><span class='line'>        @Override
+</span><span class='line'>        public boolean isVoltageInRange(int voltage) {
+</span><span class='line'>            IntRange v100to120 = new IntRange(100, 120);
+</span><span class='line'>            return v100to120.containsInteger(voltage);
+</span><span class='line'>        }
+</span><span class='line'>
+</span><span class='line'>    },
+</span><span class='line'>    V200_240 {
+</span><span class='line'>        @Override
+</span><span class='line'>        public boolean isVoltageInRange(int voltage) {
+</span><span class='line'>            IntRange v200to240 = new IntRange(200, 240);
+</span><span class='line'>            return v200to240.containsInteger(voltage);
+</span><span class='line'>        }
+</span><span class='line'>
+</span><span class='line'>    },
+</span><span class='line'>    V100_240 {
+</span><span class='line'>        @Override
+</span><span class='line'>        public boolean isVoltageInRange(int voltage) {
+</span><span class='line'>            IntRange v100to120 = new IntRange(100, 120);
+</span><span class='line'>            IntRange v200to240 = new IntRange(200, 240);
+</span><span class='line'>            return v100to120.containsInteger(voltage) || v200to240.containsInteger(voltage);
+</span><span class='line'>        }
+</span><span class='line'>
+</span><span class='line'>    };
+</span><span class='line'>    
+</span><span class='line'>    // 因為 V100_120, V200_240, V100_240 實際上是VoltageRange的instnace，所以必須要宣告一個method(是不是需要為abstract method視需求而定)
+</span><span class='line'>    public abstract boolean isVoltageInRange(int voltage);
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>改變ordinal的預設行為</h3>
+
+<p>JPA如果選擇以<code>@Enumerated(EnumType.ORDINAL)</code>，他的值一定是一個順序值, 0,
+1, 2, 3, 4, …
+，沒辦法跳號，而且存入資料庫的值也會是這樣的順序號，無法跳號，
+但有時如果我們的物件模型不見得是順序號的時侯，這時就會比較麻煩。</p>
+
+<p>比如說，以家用電源來說，有單相(SINGLE_PHASE)跟三相(THREE_PHASE)，但沒有雙相電，雖然我們宣告一個電力相的物件模型為這樣的列舉值</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public enum PhaseType {
+</span><span class='line'>    SINGLE_PHASE(1), THREE_PHASE(3);
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>但JPA若選擇以<code>@Enumerated(EnumType.ORDINAL)</code>方式存入資料庫，那麼存入db的值是會取決於ordinal()這個method，所以會是單相電會存入&#8217;0&#8217;，三相電會存入&#8217;1&#8217;到db。我們可以選擇用<code>@Enumerated(EnumType.STRING)</code>來處理，但這樣存入db的型態會是字串，另一種較好的方式，改寫列舉型別PhaseType，並要求使用他的對象類別(此例中的AirCon)配合修改</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public enum PhaseType {
+</span><span class='line'> 
+</span><span class='line'>    SINGLE_PHASE(1), THREE_PHASE(3);
+</span><span class='line'> 
+</span><span class='line'>    // 用parse來決定value真正的值
+</span><span class='line'>    public static PhaseType parse(int id) {
+</span><span class='line'>        PhaseType type = null; // Default
+</span><span class='line'>        for (PhaseType item : PhaseType.values()) {
+</span><span class='line'>            if (item.getValue() == id) {
+</span><span class='line'>                type = item;
+</span><span class='line'>                break;
+</span><span class='line'>            }
+</span><span class='line'>        }
+</span><span class='line'>        return type;
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>    private final int    value;
+</span><span class='line'> 
+</span><span class='line'>    PhaseType(int value) {
+</span><span class='line'>        this.value = value;
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>    public int getValue() {
+</span><span class='line'>        return value;
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>光是這樣是不夠的，使用列舉型別PhaseType的對象，也需要配合修改</p>
+
+<ol>
+<li>將原本定義為@Enumerated改成數值型態</li>
+<li>getter跟setter要呼叫PhaseType裡的getValue()跟parse()將PhaseType轉成數值型態</li>
+</ol>
+
+
+<p>這樣修改後，對於使用AirCon(冷氣機)物件來說，還是使用列舉型別PhaseType，但存入db的由原來的0(單相)、1(三相)變成更直覺的1(單相)、3(三相)</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@Entity
+</span><span class='line'>public AirCon {
+</span><span class='line'>    /**
+</span><span class='line'>     * 原本是宣告成PhaseType列舉型別
+</span><span class='line'>     */
+</span><span class='line'>    //@Enumerated(EnumType.ORDINAL)
+</span><span class='line'>    //private PhaseType   voltageRange;
+</span><span class='line'>    // 改成宣告為數值
+</span><span class='line'>    private Integer           phaseType;
+</span><span class='line'> 
+</span><span class='line'>    // getter跟setter要配合修改，將PhaseType轉成int，這樣對使用AirCon來說，還是使用比較直覺的列舉型別PhaseType
+</span><span class='line'>    @Override
+</span><span class='line'>    public PhaseType getPhaseType() {
+</span><span class='line'>        return PhaseType.parse(phaseType);
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>    public void setPhaseType(PhaseType phaseType) {
+</span><span class='line'>        this.phaseType = phaseType.getValue();
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/03/20/developing_restful_android_applications/">開發RESTful應用程式</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-20T00:00:00+08:00" pubdate data-updated="true">Mar 20<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/03/20/developing_restful_android_applications/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>andoird程式中，常常會有以下類型的動作方式：</p>
+
+<ol>
+<li>到網路抓取資料</li>
+<li>儲存到手機</li>
+<li>檢查並更新手機上的資料</li>
+</ol>
+
+
+<p>像Rss Reader就是很典型的範例，使用者需要在網路有效時對遠端的rss
+server同部rss資料，並可以在沒有網路時在local進行離線閱讀。
+這類型的程式有幾個困難需要處理</p>
+
+<ol>
+<li>不能在activity進行網路抓資料的動作，因為極可能會block住ui，user無法進行其他操作</li>
+<li>抓取資料後，需要在local進行cache(通常是存在SQLite資料庫)</li>
+<li>需對資料庫跟遠端的rss進行同步，如果有新的rss，應該進行通知</li>
+<li>又不能太過頻繁的進行同步</li>
+<li>同步後，使用者在畫面上可以馬上讀取到</li>
+</ol>
+
+
+<p>解決這些問題，不是在一個activity中全部做完即可，而是需要許多個組件相互配合，才不會讓user有不好的使用經驗，為了解決這些問題，google建議了三個處理這個問題的patterns。詳情請參閱參考資源。</p>
+
+<p><img src="http://blog.kent-chiu.com/images/2012-03-20/developing_restful_android_applications_001.png" alt="developing_restful_android_applications_001.png" /></p>
+
+<p><img src="http://blog.kent-chiu.com/images/2012-03-20/developing_restful_android_applications_002.png" alt="developing_restful_android_applications_002.png" /></p>
+
+<h5>處理檔案跟資料庫間的關聯</h5>
+
+<p>在應用上，db的資料，常常會跟某些特定的某些檔案做關聯，傳統的做法，可能是把檔案位置記在table的某個欄位，或用特殊的命名規則來讓table的record跟檔案名稱可以對應的起來。
+Google的提供了另一種方式，主要做法如下：</p>
+
+<ul>
+<li>為檔案建立一個專屬的table，裡面包含 “_id”,”_data”兩個欄位</li>
+<li>建立存取檔案專用的content
+uri，該uri可以指定該table的”_id”，便可取得檔案的相關資訊”_data”</li>
+<li>利用ContentResolver.openInputStream直接開啟檔案</li>
+</ul>
+
+
+<p>這樣做的好處是，ContentProvider的client端(使用ContentProvider
+API的程式)不用管實體檔案存那，就算檔案從手機移到SD
+card或網路上，都不會影響到client的用法。ContentProvider的client面對的都是相同的Content
+URI.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>User Table                                                  User Picture Table
+</span><span class='line'>*-----*------*----------*-------------------------------*  *-----*------------------------------------------*
+</span><span class='line'>| _id | name | password | picture                       |  | _id | _data                                    |
+</span><span class='line'>*-----*------*----------*-------------------------------*  *-----*------------------------------------------*
+</span><span class='line'>|   1 | Kent | xxx      | content://foo.bar.Picture/101 |  | 101 | app_data/data/kent_picture.png           | (user的大頭照在手機記憶體)
+</span><span class='line'>|   2 | John | ooo      | content://foo.bar.Picture/102 |  | 102 | http://www.domain.com/john.png           | (user的大頭照在網路上)
+</span><span class='line'>|   3 | Bob  | ***      | content://foo.bar.Picture/103 |  | 103 | sd_card/data/profile_picture_of_bob.jpg  | (user的大頭照在sd card上)
+</span><span class='line'>*-----*------*----------*-------------------------------*  *-----*------------------------------------------*</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>說明</h4>
+
+<p>左邊User Table記錄的是user的基本資料，右邊的User Picture
+Table是記錄user的大頭照存放位置。user
+table裡並不直接存放大頭照檔案的位置，取而代之的是把大頭的位置放在User
+Picture Table，然後透過user table裡的picture欄位存的content uri,
+來取得User Picture
+Table中的相對row(_id=101),真正存放檔案的欄位一定要叫<strong>_data</strong>，當android收到<code>ContentResolver.openInputStream</code>的需求時，android會將<strong>_data</strong>欄位以streaming的方式開啟。</p>
+
+<p>如果直接將檔案實際路徑(ex:app_data/data/kent_picture.png)放到user的picture的欄位中，而不是放content
+uri，這樣，其他程式則會因沒有權限而無法開啟</p>
+
+<h2>Resource</h2>
+
+<ul>
+<li><a href="http://www.google.com/events/io/2010/sessions/developing-RESTful-android-apps.html" title="http://www.google.com/events/io/2010/sessions/developing-RESTful-android-apps.html">google I/O 2010大會上介紹的處理RESTful Android
+Applications</a>
+<a href="http://www.youtube.com/watch?v=xHXn3Kg2IQE&amp;feature=player_embedded" title="http://www.youtube.com/watch?v=xHXn3Kg2IQE&amp;feature=player_embedded">說明影片</a>
+<a href="http://dl.google.com/googleio/2010/android-developing-RESTful-android-apps.pdf" title="http://dl.google.com/googleio/2010/android-developing-RESTful-android-apps.pdf">投影片</a></li>
+<li><a href="http://programming-android.labs.oreilly.com/ch13.html" title="http://programming-android.labs.oreilly.com/ch13.html">Programming
+Android</a>
+
+<ul>
+<li>oreilly線上書籍Programming Android關於android開發RESTful
+client的注意事項</li>
+</ul>
+</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/03/20/cursor/">Android Cursor</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-20T00:00:00+08:00" pubdate data-updated="true">Mar 20<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/03/20/cursor/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://developer.android.com/reference/android/database/Cursor.html" title="http://developer.android.com/reference/android/database/Cursor.html">Cursor</a>(游標)是Android資料模組裡很重要的一個結構，他不僅會跟Database有關，
+也跟其他需要處理多筆資料的類別有很緊密的關係，像是在Media, Video,
+ContentProvider, Listview都可以見到Cursor的蹤影。</p>
+
+<h3>Cursor的階層體系</h3>
+
+<p><img src="http://blog.kent-chiu.com/images/2012-03-20/cursor_001.png" alt="cursor_001.png" /></p>
+
+<h5>跟Bundle相關的method</h5>
+
+<ul>
+<li>getExtras()</li>
+<li>respond(Bundle)</li>
+</ul>
+
+
+<h5>Metadata相關的method</h5>
+
+<ul>
+<li>getColumnCount()</li>
+<li>getColumnIndex(String)</li>
+<li>getColumnIndexOrThrow(String)</li>
+<li>getColumnName(int)</li>
+<li>getColumnNames()</li>
+</ul>
+
+
+<h5>位置相關的method</h5>
+
+<ul>
+<li>isAfterLast()</li>
+<li>isBeforeFirst()</li>
+<li>isClosed()</li>
+<li>isFirst()</li>
+<li>isLast()</li>
+<li>isNull(int)</li>
+<li>move(int)</li>
+<li>moveToFirst()</li>
+<li>moveToLast()</li>
+<li>moveToNext()</li>
+<li>moveToPosition(int)</li>
+<li>moveToPrevious()</li>
+</ul>
+
+
+<h5>讀取資料相關的method</h5>
+
+<ul>
+<li>getCount()</li>
+<li>getDouble(int)</li>
+<li>getFloat(int)</li>
+<li>getInt(int)</li>
+<li>getLong(int)</li>
+<li>getPosition()</li>
+<li>getShort(int)</li>
+<li>getString(int)</li>
+<li>getBlob(int)</li>
+</ul>
+
+
+<h5>資料異動通知相關的method</h5>
+
+<ul>
+<li>registerContentObserver(ContentObserver)</li>
+<li>registerDataSetObserver(DataSetObserver)</li>
+<li>setNotificationUri(ContentResolver, Uri)</li>
+<li>unregisterContentObserver(ContentObserver)</li>
+<li>unregisterDataSetObserver(DataSetObserver)</li>
+</ul>
+
+
+<p>registerContentObserver是接收(觀察)ContentResolver.notifyChange(uri,
+null)的事件，當notifyChange()被呼叫時，ContentObserver會被通知。
+notifyChange()是一個程式慣例，要由寫程式的人自已進行呼叫。</p>
+
+<p>setNotificationUri通常用在ContentProvider.query()，裡，在下面的例子中
+<code>c.setNotificationUri(getContext().getContentResolver(), uri);</code>
+是用在cursor被建立後，如果資料內容被其它程式異動時，cursor會自已知道已經不是最新狀態而自行requery.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// SQLiteQueryBuilder is a helper class that creates the
+</span><span class='line'>        // proper SQL syntax for us.
+</span><span class='line'>        SQLiteQueryBuilder qBuilder = new SQLiteQueryBuilder();
+</span><span class='line'> 
+</span><span class='line'>        // Set the table we're querying.
+</span><span class='line'>        qBuilder.setTables(DATABASE_TABLE_NAME);
+</span><span class='line'> 
+</span><span class='line'>        // If the query ends in a specific record number, we're
+</span><span class='line'>        // being asked for a specific record, so set the
+</span><span class='line'>        // WHERE clause in our query.
+</span><span class='line'>        if((URI_MATCHER.match(uri)) == SPECIFIC_MESSAGE){
+</span><span class='line'>            qBuilder.appendWhere("_id=" + uri.getPathLeafId());
+</span><span class='line'>        }
+</span><span class='line'> 
+</span><span class='line'>        // Make the query.
+</span><span class='line'>        Cursor c = qBuilder.query(mDb,
+</span><span class='line'>                projection,
+</span><span class='line'>                selection,
+</span><span class='line'>                selectionArgs,
+</span><span class='line'>                groupBy,
+</span><span class='line'>                having,
+</span><span class='line'>                sortOrder);
+</span><span class='line'>        c.setNotificationUri(getContext().getContentResolver(), uri);
+</span><span class='line'>        return c</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -141,7 +923,7 @@ Object在實作上，有一些潛規格必需遵守，這樣才會讓我們實�
 
 <h2>Content Uri格式</h2>
 
-<p><img src="/images/wiki/android/content_provider_101_001.png" alt="content_provider_101_001.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2012-03-20/content_provider_101_001.png" alt="content_provider_101_001.png" /></p>
 
 <p>Content為android辨識資源的方式，它有一定的格式，上圖說明一個完整的Content
 Uri，主要可以分為四個部分：</p>
@@ -308,7 +1090,7 @@ CPU time)由作業系統直接分配。</p>
 
 <p>Executor只有定義出實作的類別要可以執行Runnable的method，如果需要知道Executor的生命周期資訊，可以用java.util.concurrent.ExecutorService</p>
 
-<p><img src="/images/wiki/java/concurrency_101_001.png" alt="concurrency_101_001.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2012-03-20/concurrency_101_001.png" alt="concurrency_101_001.png" /></p>
 
 <p>Executor的會依execution
 policy(執行政策)的不同會許多的實作，java.util.concurrent內建的execution
@@ -316,7 +1098,7 @@ policy可參閱上圖。 java.util.concurrent
 package裡有一個java.util.concurrent.Executors提供許多factory
 methods來建立executor.</p>
 
-<p><img src="/images/wiki/java/concurrency_101_002.png" alt="concurrency_101_002.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2012-03-20/concurrency_101_002.png" alt="concurrency_101_002.png" /></p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -841,7 +1623,7 @@ Type)進行驗証時，可以透過<code>@Valid</code>.也可以對collection類
 </ol>
 
 
-<p>![activity_lifecycle.png][]</p>
+<p><img src="http://blog.kent-chiu.com/images/2012-03-20/activity_lifecycle.png" alt="activity_lifecycle.png" /></p>
 
 <p>上圖中的<strong>on</strong>Xxx() methods是callback
 method，也就是說，當從某個狀態轉換到某個狀態時，會回呼相對的<strong>on</strong>Xxx()
@@ -853,7 +1635,7 @@ methods</p>
 
 <h5>類別結構圖</h5>
 
-<p><img src="/images/wiki/android/view_hierachy.png" alt="view_hierachy.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2012-03-20/view_hierachy.png" alt="view_hierachy.png" /></p>
 
 <p><code>View</code>是所有可視元件(component)的基本，除了基本的UI元件(TextEdit,
 Button)外,也是<a href="#view_group" title="android:android_101 ↵">View
@@ -861,7 +1643,7 @@ Group</a>的父類別。</p>
 
 <h4>View Group</h4>
 
-<p><img src="/images/wiki/android/view_group_hierachy.png" alt="view_group_hierachy.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2012-03-20/view_group_hierachy.png" alt="view_group_hierachy.png" /></p>
 
 <p>多個view可以組成<a href="#view_group" title="android:android_101 ↵">View
 Group</a>，而布局控制(Layout)也是View
@@ -881,7 +1663,7 @@ View可以把他轉換成Android的Buttons</p>
 <p><a href="http://developer.android.com/reference/android/app/Service.html" title="http://developer.android.com/reference/android/app/Service.html">Services</a>是在背景執行的服務程式(執行在main
 thread)，像是播放音樂，從網路汲取資料等類似的服務。</p>
 
-<p><img src="/images/wiki/android/android_101_001.png" alt="android_101_001.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2012-03-20/android_101_001.png" alt="android_101_001.png" /></p>
 
 <h3>Broadcast receivers</h3>
 
@@ -938,7 +1720,7 @@ Process裡的processes可能會被消滅(destroy)，但當該Application被再�
 
 <h2>Resource Management</h2>
 
-<p><img src="/images/wiki/android/2010-7-24_13-59-15.png" alt="2010-7-24_13-59-15.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2012-03-20/2010-7-24_13-59-15.png" alt="2010-7-24_13-59-15.png" /></p>
 
 <p>所有在<code>PROJECT_HOME\res</code>目錄底下的所有xml檔，會被編譯成<code>R.java</code>，xml檔案名稱會被編譯成field
 name，在程式中，便可透過標準的java語法來存取Resource</p>
@@ -1131,907 +1913,6 @@ OnXXXListener很容易造成Activity的太多methods，尤其是有些listener�
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/03/19/background_processing/">Android 背景作業處理</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-03-19T00:00:00+08:00" pubdate data-updated="true">Mar 19<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/03/19/background_processing/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Android的背景作業主要有三種</p>
-
-<ol>
-<li><p>Thread</p>
-
-<ul>
-<li>HandlerThread</li>
-</ul>
-</li>
-<li><p>AsyncTask</p></li>
-<li>Handler</li>
-</ol>
-
-
-<p>後兩者可以做的事情差不多，Handler使用上比較簡單，但code的可讀性比較差，AsyncTask需另外subclass一個新的類別，但可讀性比較好。</p>
-
-<p>Android的操作，只要超過5秒沒回應(或OnCreate()超過10秒)，程式就會被當作無回應，而系統會丟出ANR(Application
-No Response
-Exception)。所以，比較耗時費工的動作，都應該考慮用背景作業的方式來完成。常見耗時的工作有。</p>
-
-<ol>
-<li>網路相關的動作</li>
-<li>資料庫的動作</li>
-<li>檔案操作</li>
-<li>複雜的計算</li>
-</ol>
-
-
-<p>在設計時，應該考慮較糟的情況，而不是開發者當時的環境</p>
-
-<h2>Thread</h2>
-
-<p>Thread跟典型的java
-thread一樣，最簡單的背景服務執行方式，只要跟UI無關，用這個最方便。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>new Thread(new Runnable(){
-</span><span class='line'>    @Override
-</span><span class='line'>    public void run() {
-</span><span class='line'>        // long run job
-</span><span class='line'>    }
-</span><span class='line'> 
-</span><span class='line'>}).start();</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Handler</h3>
-
-<p>Handler是一種跨thread的溝通機制，可以在一個thread內把訊息丟到Message
-Queue，另外一個thread接收訊息，它會跟特定的thread關聯，可以在thread裡可以透過handler向meassage
-queue送訊息，也可以從message queue收訊息。 收訊息是由message
-queue主動呼叫handle的callback message
-<a href="http://developer.android.com/reference/android/os/Handler.html#hasMessages(int">Handler.handleMessage()</a> &#8220;http://developer.android.com/reference/android/os/Handler.html#hasMessages(int)&#8221;)</p>
-
-<p><img src="/images/wiki/android/background_processing_002.png" alt="background_processing_002.png" /></p>
-
-<p>Thread類別中，並沒有thread執行完成的通知機制，如果想讓thread做完事情後進行通知的動作，那就必須透過handler的訊息發送機制，在thread做完事後，送訊息至訊息佇列。
-這樣，想知道這個thread完成的事件的，就可以去訊息佇列接收完成的通知訊息。</p>
-
-<p>thread在start()後，會在建立一個thread來執行run() method，可以在run
-method裡的主要工作做完後，用
-handler的sendEmptyMessage()，傳送一個任務完成的訊息到訊息佇列。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>new Thread() {
-</span><span class='line'>    public void run() {
-</span><span class='line'>        // Download image then continue
-</span><span class='line'>        // For Example: downloadImg("file");
-</span><span class='line'>        handler.sendEmptyMessage(MSG_DOWNLOADED); // public static final int MSG_DOWNLOADED = 0
-</span><span class='line'>    }
-</span><span class='line'>}.start();</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>private Handler handler = new Handler() {
-</span><span class='line'> 
-</span><span class='line'>    @Override
-</span><span class='line'>    public void handleMessage(Message msg) {
-</span><span class='line'>        switch (msg.what) {
-</span><span class='line'>            case MSG_DOWNLOADED:
-</span><span class='line'>                pd.dismiss();
-</span><span class='line'>                // What to do when ready, example:
-</span><span class='line'>                openFile();
-</span><span class='line'>                break;
-</span><span class='line'>            }
-</span><span class='line'>        }
-</span><span class='line'>    };</span></code></pre></td></tr></table></div></figure>
-
-
-<p>如果想知道thread是否完成，只需要透過handler的handleMessage這個call back
-method來接收任務完成的訊息即可。</p>
-
-<p>Handler是透過<a href="http://developer.android.com/reference/android/os/Handler.html#sendMessage(android.os.Message">sendMessage()</a> &#8220;http://developer.android.com/reference/android/os/Handler.html#sendMessage(android.os.Message)&#8221;)傳送訊息給message
-queue，
-傳送的訊息可以是<a href="http://developer.android.com/reference/android/os/Message.html" title="http://developer.android.com/reference/android/os/Message.html">Message</a>的物件，但Handler跟Message關係是雙向的，也就是Handler可以傳送Message,
-Message中也包含傳送者
-Handler，所以，要產生Message時，應該透過<a href="http://developer.android.com/reference/android/os/Handler.html#obtainMessage(">Handler.obtainMessage()</a> &#8220;http://developer.android.com/reference/android/os/Handler.html#obtainMessage()&#8221;)，這樣可以確保
-Handler系Message間的關聯的正確性。</p>
-
-<h3>UI Thread V.S Worker Threads</h3>
-
-<h5>UI Thread(Main Thread)</h5>
-
-<p>和UI有關的任何更新及操作，都需要在UI thread完成，一般就是 Main
-thread。如果UI
-thread太久沒回應，就會出現ANR，所以要避免ANR就需要在其他的Thread處理比較耗時的動作。</p>
-
-<p>系統啟動一個應該程式時，預設的情況下，所有元件的所有的動作都是在main
-thread(UI
-Thread)完成的，而當元件引發系統的callback(像是onKeyDown())時，也都會在UI
-Thread中。</p>
-
-<p>關於UI Thread有兩個主要的規則要遵守</p>
-
-<ol>
-<li>不要把UI thread給block住</li>
-<li>不要在UI toolkit之外存取UI Thread</li>
-</ol>
-
-
-<h5>Worker Threads(Backgroud Threads)</h5>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>public void onClick(View v) {
-</span><span class='line'>    new Thread(new Runnable() {
-</span><span class='line'>        public void run() {
-</span><span class='line'>            Bitmap b = loadImageFromNetwork("http://example.com/image.png");
-</span><span class='line'>            mImageView.setImageBitmap(b);
-</span><span class='line'>        }
-</span><span class='line'>    }).start();
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>上面是一個Worker
-Thread的簡單例子，<code>loadImageFromNetwork()</code>的部份沒有問題，但是<code>mImageView.setImageBitmap(b)</code>違反了UI
-Thread的第二個規則 : <strong>不要在UI toolkit之外存取UI Thread</strong></p>
-
-<p>但是，有時，我們又希望在新開出來的Thread也可以把更新ui上的資訊，比如說，我們播放歌曲是在一個新的thread，但又希望歌曲播放的同時，能夠將播放的進度同步在進度條(Progress
-Bar).根據最基本的大原則:<strong>和UI有關的任何更新及操作，都需要在UI
-thread完成</strong>，在播放歌曲的thread是不能操作ui的動作的。</p>
-
-<h3>UI Thread與Worker Threads間的通訊</h3>
-
-<p>Android處理上面的問題的機制是Handler來處理，故有三種方式可以使用</p>
-
-<ol>
-<li>Activity.runOnUiThread(Runnable)</li>
-<li>View.post(Runnable)</li>
-<li>View.postDelayed(Runnable, long)</li>
-</ol>
-
-
-<p>上面三種方式，<strong>底層都還是透過Handle的post()實作</strong></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>    private final Handler mHandler = new Handler();
-</span><span class='line'> 
-</span><span class='line'>    public final void runOnUiThread(Runnable action) {
-</span><span class='line'>        if (Thread.currentThread() != mUiThread) {
-</span><span class='line'>            mHandler.post(action);
-</span><span class='line'>        } else {
-</span><span class='line'>            action.run();
-</span><span class='line'>        }
-</span><span class='line'>    }</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>    public boolean post(Runnable action) {
-</span><span class='line'>        Handler handler;
-</span><span class='line'>        if (mAttachInfo != null) {
-</span><span class='line'>            handler = mAttachInfo.mHandler;
-</span><span class='line'>        } else {
-</span><span class='line'>            // Assume that post will succeed later
-</span><span class='line'>            ViewRoot.getRunQueue().post(action);
-</span><span class='line'>            return true;
-</span><span class='line'>        }
-</span><span class='line'> 
-</span><span class='line'>        return handler.post(action);
-</span><span class='line'>    }</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>    public boolean postDelayed(Runnable action, long delayMillis) {
-</span><span class='line'>        Handler handler;
-</span><span class='line'>        if (mAttachInfo != null) {
-</span><span class='line'>            handler = mAttachInfo.mHandler;
-</span><span class='line'>        } else {
-</span><span class='line'>            // Assume that post will succeed later
-</span><span class='line'>            ViewRoot.getRunQueue().postDelayed(action, delayMillis);
-</span><span class='line'>            return true;
-</span><span class='line'>        }
-</span><span class='line'> 
-</span><span class='line'>        return handler.postDelayed(action, delayMillis);
-</span><span class='line'>    }</span></code></pre></td></tr></table></div></figure>
-
-
-<p>我們將原來有問題的code改用View.post(Runnable)的方式來實作</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>public void onClick(View v) {
-</span><span class='line'>    new Thread(new Runnable() {  // download是耗時的動作，在另外建立一個thread來執行，所以，下一行的run()，這在個thread.start()後，會在另一個thread(worker thread)執行
-</span><span class='line'>        public void run() {
-</span><span class='line'>            final Bitmap bitmap = loadImageFromNetwork("http://example.com/image.png");
-</span><span class='line'>            mImageView.post(new Runnable() {  // -&gt; 利用ui元件進行post，下面那行的run會執行在ui元件所使用的thread上(Main Thread)
-</span><span class='line'>                public void run() {
-</span><span class='line'>                    mImageView.setImageBitmap(bitmap);
-</span><span class='line'>                }
-</span><span class='line'>            });
-</span><span class='line'>        }
-</span><span class='line'>    }).start();
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>這樣做後，上面的操作就是thread-safe的。</p>
-
-<p>注意，上面的code為什麼會有兩個run()，因為，handler的post()<strong>並不會</strong>建立新的thread，而是在呼叫post的thread上thread上執行，所以，我們可以透過view元件的handler來進行post，以確保post裡面的run()
-code是在view元件的thread(Main Thread)上做ui操作,
-但是耗時的功能，還是要另外開一個thread (worker
-thread)來進行，不然，會影效到main thread的效能</p>
-
-<p>上面三個簡便的methods，最好只用在單純的情況下，如果情況比較複雜時，建議還是用獨立的<a href="#handler" title="android:background_processing ↵">Handler</a>來處理，更複雜的情況下，採用<a href="#asynctask" title="android:background_processing ↵">AsyncTask</a>或許是更適合的solution.</p>
-
-<h3>HandlerThread</h3>
-
-<p>Android有另外提供一個繼承自Thread類別的<a href="http://developer.android.com/reference/android/os/HandlerThread.html" title="http://developer.android.com/reference/android/os/HandlerThread.html">android.os.HandlerThread</a>類別，這個類別本身就具有Handler功能，可以透過這個類別的提供Handler與該thread進行交互(ex:送訊息，及thread執行完畢的callback)</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>HandlerThread thread = new HandlerThread("myThread");  
-</span><span class='line'>thread.start(); // thread 要start後，才能取得looper
-</span><span class='line'>Handler handler = new Handler(thread.getLooper()) {
-</span><span class='line'>    @Override
-</span><span class='line'>    public void handleMessage(Message msg) {
-</span><span class='line'>        // 耗時的工作可以在這裡做
-</span><span class='line'>    }
-</span><span class='line'>};
-</span><span class='line'>handler.sendEmptyMessage(0); // handler發送的訊息，會觸發handler.handleMessage()。</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>AsyncTask</h2>
-
-<p>AsyncTask用來在UI上執行非同步的工作，它會在worker
-thread執行耗時的工作後，自動將結果丟回給UI Thread。</p>
-
-<p>採用AsyncTask的方式是繼承AsyncTask類別，將耗時的動作放在<code>doInBackground()</code>，
-如果要update ui，將要update ui的動作放在<code>onPostExecute()</code>,
-<code>onPostExecute()</code>是在UI
-Thread中執行的，所以<strong>可以安全的在<code>onPostExecute()</code>執行UI的操作</strong>。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>protected abstract Result doInBackground(Params... params);
-</span><span class='line'> 
-</span><span class='line'>protected void onPostExecute(Result result);</span></code></pre></td></tr></table></div></figure>
-
-
-<p><code>onPostExecute(Result result)</code>裡的reslut，是<code>Result doInBackground(Params… params)</code>執行後的return值，也就是說，在<code>doInBackground()</code>做完的結果，可以在<code>onPostExecute()</code>中被使用</p>
-
-<p>實作好換AsyncTask，可以透過<code>execute(Param… params)</code>執行，下面是一個簡單的範例(取自官網)</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>public void onClick(View v) {
-</span><span class='line'>    new DownloadImageTask().execute("http://example.com/image.png");
-</span><span class='line'>}
-</span><span class='line'> 
-</span><span class='line'>private class DownloadImageTask extends AsyncTask&lt;String, Void, Bitmap&gt; {
-</span><span class='line'>    /** The system calls this to perform work in a worker thread and
-</span><span class='line'>      * delivers it the parameters given to AsyncTask.execute() */
-</span><span class='line'>    protected Bitmap doInBackground(String... urls) {
-</span><span class='line'>        return loadImageFromNetwork(urls[0]);
-</span><span class='line'>    }
-</span><span class='line'> 
-</span><span class='line'>    /** The system calls this to perform work in the UI thread and delivers
-</span><span class='line'>      * the result from doInBackground() */
-</span><span class='line'>    protected void onPostExecute(Bitmap result) {
-</span><span class='line'>        mImageView.setImageBitmap(result);
-</span><span class='line'>    }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p><img src="/images/wiki/android/background_processing_001.png" alt="background_processing_001.png" /></p>
-
-<p>執行一個AsyncTask的方式如下，每一個instance只能被執行一次，如果被執行超過一次，會出exception</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>new MyAsyncTask().execute("inputString1", "inputString2");</span></code></pre></td></tr></table></div></figure>
-
-
-<h5>Status</h5>
-
-<p>另外，可透過<code>getStatus()</code>取得狀態，如果想等待AsyncTask直到結束，可透過AsyncTask.get()，呼叫後會一直等到執行結束或timeout</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>public enum Status {
-</span><span class='line'>    /**
-</span><span class='line'>     * Indicates that the task has not been executed yet.
-</span><span class='line'>     */
-</span><span class='line'>    PENDING,
-</span><span class='line'>    /**
-</span><span class='line'>     * Indicates that the task is running.
-</span><span class='line'>     */
-</span><span class='line'>    RUNNING,
-</span><span class='line'>    /**
-</span><span class='line'>     * Indicates that {@link AsyncTask#onPostExecute} has finished.
-</span><span class='line'>     */
-</span><span class='line'>    FINISHED,
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>大型檔案下載</h3>
-
-<p>上面的HttpClinet可用來處理比較小的檔案，但如果要下載大檔案(MB等級),Android
-2.3有提供<a href="http://developer.android.com/reference/android/app/DownloadManager.html" title="http://developer.android.com/reference/android/app/DownloadManager.html">DownloadManager</a></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'> DownloadManager.Request dmReq = new DownloadManager.Request( 
-</span><span class='line'>    Uri.parse("http://dl-ssl.google.com/android/repository/platform-tools_r01-linux.zip")); 
-</span><span class='line'>    dmReq.setTitle("Platform Tools"); 
-</span><span class='line'>    dmReq.setDescription("Download for Linux"); 
-</span><span class='line'>    dmReq.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI); //  
-</span><span class='line'> 
-</span><span class='line'>    // 
-</span><span class='line'>    IntentFilter filter = new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE); 
-</span><span class='line'>    registerReceiver(mReceiver, filter); 
-</span><span class='line'> 
-</span><span class='line'>    downloadId = dMgr.enqueue(dmReq); </span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>  public BroadcastReceiver mReceiver = new BroadcastReceiver() { 
-</span><span class='line'>        public void onReceive(Context context, Intent intent) { 
-</span><span class='line'>            Bundle extras = intent.getExtras(); 
-</span><span class='line'>            long doneDownloadId = 
-</span><span class='line'>                extras.getLong(DownloadManager.EXTRA_DOWNLOAD_ID); 
-</span><span class='line'>            tv.setText(tv.getText() + "\nDownload finished (" + 
-</span><span class='line'>                doneDownloadId + ")"); 
-</span><span class='line'>            if(downloadId == doneDownloadId) 
-</span><span class='line'>                Log.v(TAG, "Our download has completed."); 
-</span><span class='line'>        } 
-</span><span class='line'>    };</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Process lifecycle</h2>
-
-<ol>
-<li>Foreground process : 有可視化元件，正與使用者互動的process</li>
-<li>Visible process : 不在Foreground
-process，但是會影響使用者在畫面上所見的內容(像popup一個dialog時，後面的activity就是屬於visible
-process)</li>
-<li>Service process : 秀過startService()啟動的process</li>
-<li>Background process : process的activity目前在stop狀態</li>
-<li>Empty process : 用在caching，主要是讓activity啟動加快</li>
-</ol>
-
-
-<p>GC時會由下(Empty process)往上(Foreground process)做GC。</p>
-
-<p>比較耗時的工作，有時不是簡個的開一個thread放進去running就好了，有時啟動另一個service是更佳的解法，尤其是當該操作會拖垮activity時</p>
-
-<h2>陷阱</h2>
-
-<p><a href="#asynctask" title="android:background_processing ↵">AsyncTask</a>被android
-frameword限制住最大可同時執行數量了，如果需要比較多個背景作業同時執行時，可以直接使用<a href="#thread" title="android:background_processing ↵">Thread</a>，但是過多的thread反而可能會使效能更差，而且多個thread時，可能就得必需進行
-任務管理，關於multithreading的併行處理，可以參閱<a href="http://wiki.kent-chiu.com/doku.php?id=java:concurrency_101" title="java:concurrency_101">Concurrency
-101</a></p>
-
-<p>如果是把thread相關的內容宣告成activity的內部類別，那<strong>一定要宣告成static
-inner class</strong>, 因為inner class如果不是static的，inner
-class會參考到建立它的outter class(activity),而該activity因為thread
-refenence著它，而不能順利的被釋放，進而造成memory leaking。</p>
-
-<h2>Http Service</h2>
-
-<p>通常，在程式裡面，需要用到背景服務的情況，都是為了非同步的從網路取資料(射後不理)，如果要透過http存取資源，請使用HttpClient
-這樣會減少很多不必要的麻煩。請下列出幾點HttpClient使用時的注意事項。</p>
-
-<ol>
-<li>避免在Activity裡直接使用HttpClient因為Activity關閉後，HttpClient會隨著關閉</li>
-<li>整個應用程式，應該只需建立一份HttpClient而重覆使用(Singleton Patten)</li>
-<li>HttpClient用透過MultiThreading的方式執行，不需要特別另外建立thread給它
-(TBD 測一下)</li>
-<li><p>使用HttpClient需注意兩種timeout exceptions，其他的HttpClient會處理掉</p>
-
-<ol>
-<li>Connection Timeout Exception</li>
-<li>Scoket Timeout Exception</li>
-</ol>
-</li>
-<li><p>HttpClient使用教學可以參閱<a href="http://hc.apache.org/httpcomponents-client-ga/tutorial/html/" title="http://hc.apache.org/httpcomponents-client-ga/tutorial/html/">這裡</a></p></li>
-</ol>
-
-
-<p>另外Android也可以使用<a href="http://wiki.kent-chiu.com/doku.php?id=android:background_processing" title="android:background_processing">HttpURLConnection</a>跟<a href="http://wiki.kent-chiu.com/doku.php?id=android:background_processing" title="android:background_processing">AndroidHttpClient</a>，但就必須自已處理thread的部份了</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>import org.apache.http.HttpVersion; 
-</span><span class='line'>import org.apache.http.client.HttpClient; 
-</span><span class='line'>import org.apache.http.conn.ClientConnectionManager; 
-</span><span class='line'>import org.apache.http.conn.params.ConnManagerParams; 
-</span><span class='line'>import org.apache.http.conn.scheme.PlainSocketFactory; 
-</span><span class='line'>import org.apache.http.conn.scheme.Scheme; 
-</span><span class='line'>import org.apache.http.conn.scheme.SchemeRegistry; 
-</span><span class='line'>import org.apache.http.conn.ssl.SSLSocketFactory; 
-</span><span class='line'>import org.apache.http.impl.client.DefaultHttpClient; 
-</span><span class='line'>import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager; 
-</span><span class='line'>import org.apache.http.params.BasicHttpParams; 
-</span><span class='line'>import org.apache.http.params.HttpConnectionParams; 
-</span><span class='line'>import org.apache.http.params.HttpParams; 
-</span><span class='line'>import org.apache.http.params.HttpProtocolParams; 
-</span><span class='line'>import org.apache.http.protocol.HTTP; 
-</span><span class='line'> 
-</span><span class='line'>public class CustomHttpClient { 
-</span><span class='line'>    private static HttpClient customHttpClient; 
-</span><span class='line'> 
-</span><span class='line'>    /** A private Constructor prevents instantiation */ 
-</span><span class='line'>    private CustomHttpClient() { 
-</span><span class='line'>    } 
-</span><span class='line'> 
-</span><span class='line'>    public static synchronized HttpClient getHttpClient() { 
-</span><span class='line'>        if (customHttpClient == null) { 
-</span><span class='line'>            HttpParams params = new BasicHttpParams(); 
-</span><span class='line'>            HttpProtocolParams.setVersion(params, HttpVersion.HTTP_1_1); 
-</span><span class='line'>            HttpProtocolParams.setContentCharset(params, HTTP.DEFAULT_CONTENT_CHARSET); 
-</span><span class='line'>            HttpProtocolParams.setUseExpectContinue(params, true); 
-</span><span class='line'>            HttpProtocolParams.setUserAgent(params,  "Mozilla/5.0 (Linux; U; Android 2.2.1; en-us; Nexus One Build/FRG83) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1" ); 
-</span><span class='line'>            params.setParameter("charset", "UTF-8"); // 要設成utf-8，否則中文的utf-8網頁會出錯 
-</span><span class='line'>            ConnManagerParams.setTimeout(params, 1000); 
-</span><span class='line'> 
-</span><span class='line'>            HttpConnectionParams.setConnectionTimeout(params, 5000); 
-</span><span class='line'>            HttpConnectionParams.setSoTimeout(params, 10000); 
-</span><span class='line'> 
-</span><span class='line'>            SchemeRegistry schReg = new SchemeRegistry(); 
-</span><span class='line'>            schReg.register(new Scheme("http",  PlainSocketFactory.getSocketFactory(), 80)); 
-</span><span class='line'>            schReg.register(new Scheme("https", SSLSocketFactory.getSocketFactory(), 443)); 
-</span><span class='line'>            ClientConnectionManager conMgr = new ThreadSafeClientConnManager(params,schReg); 
-</span><span class='line'>            customHttpClient = new DefaultHttpClient(conMgr, params); 
-</span><span class='line'>        } 
-</span><span class='line'>        return customHttpClient; 
-</span><span class='line'>    } 
-</span><span class='line'>} </span></code></pre></td></tr></table></div></figure>
-
-
-<p>使用方式</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>httpClient = CustomHttpClient.getHttpClient()
-</span><span class='line'>try { 
-</span><span class='line'>    HttpGet request = new HttpGet("http://www.google.com/"); 
-</span><span class='line'>    String page = httpClient.execute(request, new BasicResponseHandler()); 
-</span><span class='line'>    System.out.println(page); 
-</span><span class='line'>} catch (IOException e) { 
-</span><span class='line'>    // covers: 
-</span><span class='line'>    //      ClientProtocolException 
-</span><span class='line'>    //      ConnectTimeoutException 
-</span><span class='line'>    //      ConnectionPoolTimeoutException 
-</span><span class='line'>    //      SocketTimeoutException 
-</span><span class='line'>    e.printStackTrace(); 
-</span><span class='line'>    // 如果發生SocketTimeout時，可以這樣進行retry
-</span><span class='line'>    if (count &lt; retry) {
-</span><span class='line'>        // do again
-</span><span class='line'>    } else {
-</span><span class='line'>        // 
-</span><span class='line'>    }
-</span><span class='line'>} </span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Resource</h2>
-
-<ul>
-<li><p>官網上跟thread相關的教學文件</p>
-
-<ol>
-<li><a href="http://developer.android.com/resources/articles/painless-threading.html" title="http://developer.android.com/resources/articles/painless-threading.html">Painless
-Threading</a></li>
-<li><a href="http://developer.android.com/resources/articles/timed-ui-updates.html" title="http://developer.android.com/resources/articles/timed-ui-updates.html">Updating the UI from a
-Timer</a></li>
-</ol>
-</li>
-<li><p><a href="http://developer.android.com/reference/android/os/AsyncTask.html" title="http://developer.android.com/reference/android/os/AsyncTask.html">AsyncTask
-API</a></p></li>
-<li><a href="http://developer.android.com/reference/android/os/Handler.html" title="http://developer.android.com/reference/android/os/Handler.html">Handler
-API</a></li>
-<li><a href="http://www.vogella.de/articles/AndroidPerformance/article.html" title="http://www.vogella.de/articles/AndroidPerformance/article.html">http://www.vogella.de/articles/AndroidPerformance/article.html</a></li>
-<li><a href="http://milochen.wordpress.com/2011/03/25/understanding-android-os-src-looperhandler-message-messagequeue/" title="http://milochen.wordpress.com/2011/03/25/understanding-android-os-src-looperhandler-message-messagequeue/">http://milochen.wordpress.com/2011/03/25/understanding-android-os-src-looperhandler-message-messagequeue/</a></li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/01/28/grep_command/">Grep Command</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-01-28T00:00:00+08:00" pubdate data-updated="true">Jan 28<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/01/28/grep_command/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Syntax: grep [options] pattern [files]</p>
-
-<h5>找某個檔案中是否有存在特定文字</h5>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># grep foobar ~/myfile.txt</span></code></pre></td></tr></table></div></figure>
-
-
-<h5>計算特定文字出現的次數</h5>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># grep -c foobar ~/myfile.txt</span></code></pre></td></tr></table></div></figure>
-
-
-<h5>找有的目錄下的當案是否有存在特定文字</h5>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># grep -ri foobar ~/</span></code></pre></td></tr></table></div></figure>
-
-
-<h5>使用Regular Expression</h5>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># grep "^foobar" ~/myfile.txt</span></code></pre></td></tr></table></div></figure>
-
-
-<p>可以用”^\$”來找出空白行</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/01/21/collocation/">搭配詞 (Collocation)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-01-21T00:00:00+08:00" pubdate data-updated="true">Jan 21<span>st</span>, 2012</time>
-        
-         | <a href="/blog/2012/01/21/collocation/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h1>搭配詞 (collocation)</h1>
-
-<h1>Resource</h1>
-
-<ul>
-<li><a href="http://www.books.com.tw/exep/prod/booksfile.php?item=0010352146" title="http://www.books.com.tw/exep/prod/booksfile.php?item=0010352146">英文搭配詞的說明</a></li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/01/17/database/">Database</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-01-17T00:00:00+08:00" pubdate data-updated="true">Jan 17<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/01/17/database/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><ul>
-<li><a href="http://www.ibm.com/developerworks/cn/data/library/techarticles/dm-1002limh/index.html?ca=drs-tp4608" title="http://www.ibm.com/developerworks/cn/data/library/techarticles/dm-1002limh/index.html?ca=drs-tp4608">sql
-調校技巧(ibm)</a></li>
-<li><a href="http://www.microsoft.com/china/MSDN/library/data/sqlserver/FiveWaystoRevupYourSQLPerformanCE.mspx?mfr=true" title="http://www.microsoft.com/china/MSDN/library/data/sqlserver/FiveWaystoRevupYourSQLPerformanCE.mspx?mfr=true">調校技巧(含分析方式)</a></li>
-<li><a href="http://www.catswhocode.com/blog/10-sql-tips-to-speed-up-your-database" title="http://www.catswhocode.com/blog/10-sql-tips-to-speed-up-your-database">http://www.catswhocode.com/blog/10-sql-tips-to-speed-up-your-database</a>
-
-<ul>
-<li>10 sql tips to speed up your database</li>
-</ul>
-</li>
-<li>Practical database design from IBM DW <a href="http://www.ibm.com/developerworks/web/library/wa-dbdsgn1.html" title="http://www.ibm.com/developerworks/web/library/wa-dbdsgn1.html">(part
-1)</a>
-<a href="http://www.ibm.com/developerworks/web/library/wa-dbdsgn2.html" title="http://www.ibm.com/developerworks/web/library/wa-dbdsgn2.html">(part
-2)</a></li>
-<li><a href="http://wiki.kent-chiu.com/lib/exe/fetch.php?media=database:db2bp_physical_design_0508i.pdf" title="database:db2bp_physical_design_0508i.pdf">db2bp_physical_design_0508i.pdf</a>
-
-<ul>
-<li>physical database design from IBM</li>
-</ul>
-</li>
-<li><a href="http://wiki.kent-chiu.com/doku.php?id=database:postgresql_101" title="database:postgresql_101">PostgreSQL
-101</a></li>
-<li><a href="http://wiki.kent-chiu.com/doku.php?id=database:oracle_101" title="database:oracle_101">Oracle
-101</a></li>
-<li><a href="http://wiki.kent-chiu.com/doku.php?id=database:the_use_the_index_luke_study_note" title="database:the_use_the_index_luke_study_note">The Use thd index,Luke
-學習筆記</a></li>
-<li><a href="http://www.jpab.org/" title="http://www.jpab.org/">JPA Performance Benchmark
-(JPAB)</a> -
-各種資料庫在JPA下效能的比較</li>
-<li><h2><a href="http://coolshell.cn/articles/6470.html" title="http://coolshell.cn/articles/6470.html">中國鐵路訂票效能處理問題</a></h2>
-
-<p>中國在長假期時，需應付相當大量的訂單瞬間湧入，網站一下就負荷不了了，這裡有篇滿到位的原因分析。</p></li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/8/">&larr; Older</a>
@@ -2049,23 +1930,23 @@ API</a></li>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/07/07/python-101/">Python 101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/25/url-encoding/">URL Encoding</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/04/restful-api-design/">RESTful API Design</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/05/17/my-intellij-idea-shortcut/">My IntelliJ IDEA Shortcut</a>
       </li>
     
       <li class="post">
         <a href="/blog/2013/05/12/jesper-report-font-issue/">Jesper Report, IReport 匯出成中文PDF</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/05/12/jasperreport-101/">JasperReport 101</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/05/06/mac-tips/">Mac Tips</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/04/22/clean-code/">Clean Code閱讀筆記</a>
       </li>
     
   </ul>

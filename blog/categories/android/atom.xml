@@ -4,7 +4,7 @@
   <title><![CDATA[Category: android | Kent's Blog]]></title>
   <link href="http://blog.kent-chiu.com/blog/categories/android/atom.xml" rel="self"/>
   <link href="http://blog.kent-chiu.com/"/>
-  <updated>2013-07-11T21:27:53+08:00</updated>
+  <updated>2013-07-11T21:59:18+08:00</updated>
   <id>http://blog.kent-chiu.com/</id>
   <author>
     <name><![CDATA[Kent]]></name>
@@ -31,7 +31,7 @@ Code的功能。
 
 <h4>透過Eclipse ADT啟動</h4>
 
-<p><img src="/images/wiki/android/android_emulator_101_01.png" alt="android_emulator_101_01.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2012-12-28/android_emulator_101_01.png" alt="android_emulator_101_01.png" /></p>
 
 <p>你可以加入許多<a href="http://developer.android.com/guide/developing/tools/emulator.html#startup-options" title="http://developer.android.com/guide/developing/tools/emulator.html#startup-options">啟動參數</a>來設定啟動後的環境，
 比如說是否啟用debug mode，是否套用特定的skin等。</p>
@@ -39,7 +39,7 @@ Code的功能。
 <p>在Eclipse ADT中加入啟動參數的方法是在menu > Run Configuration > Target
 tab</p>
 
-<p><img src="/images/wiki/android/android_emulator_101_03.png" alt="android_emulator_101_03.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2012-12-28/android_emulator_101_03.png" alt="android_emulator_101_03.png" /></p>
 
 <h4>從Command Line啟動</h4>
 
@@ -56,7 +56,7 @@ emulator -avd AVD2
 
 <p>啟動時需要幾秒到幾分鐘的時間(一個完整的OS在VM中啟動，當然要花些時間)，啟動後，你可以一直讓模擬器維持開啟狀況，不必隨著你的程式的關閉而關閉。</p>
 
-<p><img src="/images/wiki/android/android_emulator_101_02.png" alt="android_emulator_101_02.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2012-12-28/android_emulator_101_02.png" alt="android_emulator_101_02.png" /></p>
 
 <h1>解析度</h1>
 
@@ -78,7 +78,7 @@ emulator -avd AVD2
 size勾選，可以讓模擬器瑩幕的大小跟實際在手機上看到比較接近。
 這樣可以確定實際按鍵的大小，比較容易評量會不會因為按鍵太小而不容易操作。</p>
 
-<p><img src="/images/wiki/android/android_emulator_101_004.png" alt="android_emulator_101_004.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2012-12-28/android_emulator_101_004.png" alt="android_emulator_101_004.png" /></p>
 
 <h1>Resources</h1>
 
@@ -218,7 +218,7 @@ leaking</p>
 
 <p>在許多listview的應用裡可以見到這樣的應用</p>
 
-<p><img src="https://raw.github.com/johannilsson/android-pulltorefresh/master/android-pull-to-refresh.png" alt="android-pull-to-refresh.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2012-05-14/android-pull-to-refresh.png" alt="android-pull-to-refresh.png" /></p>
 
 <p>這個效果的做法的基本原理，是在listview的header放一個layout，在偵測到listview的scroll事件後，讓layout進行動畫播放，再callback一個AsyncTask去取得資料再更新listview。</p>
 
@@ -275,7 +275,7 @@ item 的實作呈現</li>
 <p>基本的 actionbar
 應用，可以參數<a href="http://developer.android.com/design/patterns/actionbar.html" title="http://developer.android.com/design/patterns/actionbar.html">這裡</a></p>
 
-<p><img src="/images/wiki/android/actionbar_001.png" alt="actionbar_001.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2012-04-20/actionbar_001.png" alt="actionbar_001.png" /></p>
 
 <h5>移除 ActionBar</h5>
 
@@ -285,7 +285,7 @@ item 的實作呈現</li>
 
 <p>移除後，在程式裡面呼叫 <code>getActionBar()</code> 會得到 null</p>
 
-<p><img src="/images/wiki/android/actionbar_002.png" alt="actionbar_002.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2012-04-20/actionbar_002.png" alt="actionbar_002.png" /></p>
 
 <h5>隱藏 ActionBar</h5>
 
@@ -386,7 +386,7 @@ public class MyActionView extends LinearLayout {
 
 <p>在android中，要設計出美觀的ui，通常都跟<code>Drawable</code>相關的物件脫離不了關係，<code>Drawable</code>翻成中文為”可繪的”，</p>
 
-<p><img src="/images/wiki/android/drawable_101_001.png" alt="drawable_101_001.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2012-04-17/drawable_101_001.png" alt="drawable_101_001.png" /></p>
 
 <p>由上面的類別結構圖可以得知，圖檔、顏色、動畫、圖形，漸層這些都是屬於<code>Drawable</code>的子類別。
 回過頭來看所有gui元件的祖先<code>View</code>
@@ -442,14 +442,14 @@ Drawable，就可以玩出很多效果了，先從簡單的來好了:</p>
 
 <p>要改變元件的外觀，最快的方式就是把元件加上背景圖片，下圖效果都是單純的把元件的背景圖片換掉而已</p>
 
-<p><img src="/images/wiki/android/drawable_101_002.png" alt="drawable_101_002.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2012-04-17/drawable_101_002.png" alt="drawable_101_002.png" /></p>
 
 <p>上圖三個view，分別是用這三個圖片當底圖 (圖片來源 :
 <a href="http://www.dibbus.com/2011/03/9patch-images-in-android/" title="http://www.dibbus.com/2011/03/9patch-images-in-android/">http://www.dibbus.com/2011/03/9patch-images-in-android/</a>)</p>
 
-<p>![drawable_101_003.png][]
-![drawable_101_004.png][]
-![drawable_101_005.png][]</p>
+<p><img src="http://blog.kent-chiu.com/images/2012-04-17/drawable_101_003.png" alt="drawable_101_003.png" />
+<img src="http://blog.kent-chiu.com/images/2012-04-17/drawable_101_004.png" alt="drawable_101_004.png" />
+<img src="http://blog.kent-chiu.com/images/2012-04-17/drawable_101_005.png" alt="drawable_101_005.png" /></p>
 
 <p>透過把android:background設定成圖片的resource就可以達到上面的效果</p>
 
@@ -528,7 +528,7 @@ Drawable可以運用的tag如下</p>
 </ol>
 
 
-<p><img src="/images/wiki/android/drawable_101_006.png" alt="drawable_101_006.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2012-04-17/drawable_101_006.png" alt="drawable_101_006.png" /></p>
 
 <p>```</p>
 
@@ -673,7 +673,7 @@ Drawable可以運用的tag如下</p>
 <p>像下圖的半透明效果(Smoked
 Glass)，可以直接透過設定backgroud的顏色的透明度來達到，</p>
 
-<p><img src="/images/wiki/android/drawable_101_007.png" alt="drawable_101_007.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2012-04-17/drawable_101_007.png" alt="drawable_101_007.png" /></p>
 
 <p>上圖的效果，主要就是在下面的這張圖上，放了一個半透明的text
 view，要讓view半透明就是設定View的backgroud屬性，<code>android:background=”#77000000”</code>
@@ -736,7 +736,7 @@ Project而不是像一般的java(maven base)目錄結構一樣
 wizard建立，建立後記得先把production project裡用到的lib export出來給test
 project使用</p>
 
-<p><img src="/images/wiki/android/unit_testing_in_android_003.png" alt="unit_testing_in_android_003.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2012-04-13/unit_testing_in_android_003.png" alt="unit_testing_in_android_003.png" /></p>
 
 <p>而測試專案只需要放只有測試時會用到的lib，因為Tesing
 Project有reference到Production Project，所以會一併引用Production Project
@@ -762,7 +762,7 @@ OS，所以是屬於整合測試，而不是單元測試(像是eclipse的plugin�
 Runner執行在同一個Process, 所以，在執行測試時，需透過Instrumentation
 Test Runner。</p>
 
-<p><img src="/images/wiki/android/unit_testing_in_android_001.png" alt="unit_testing_in_android_001.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2012-04-13/unit_testing_in_android_001.png" alt="unit_testing_in_android_001.png" /></p>
 
 <p>測試分為兩大類</p>
 
@@ -972,7 +972,7 @@ protected void setUp() throws Exception {
 
 <p>ServiceTestCase可以用來測試Android Service,ServiceTestCase</p>
 
-<p><img src="/images/wiki/android/unit_testing_in_android_002.png" alt="unit_testing_in_android_002.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2012-04-13/unit_testing_in_android_002.png" alt="unit_testing_in_android_002.png" /></p>
 
 <p>基本的使用方式如下：</p>
 
@@ -1029,7 +1029,7 @@ public class MyServiceTest extends ServiceTestCase<MyService> {</p>
 <p>}
 ```</p>
 
-<p><img src="/images/wiki/android/unit_testing_in_android_002.png" alt="unit_testing_in_android_002.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2012-04-13/unit_testing_in_android_002.png" alt="unit_testing_in_android_002.png" /></p>
 
 <p>ServiceTestCase提供<code>getService()</code>可以取得要被測試的service，<code>getSystemContext()</code>可以取得test
 project context</p>
@@ -1266,7 +1266,7 @@ compatible的mockito可以用了 :) ，詳情 :
 
 <p>Context的type hierarchy</p>
 
-<p><img src="/images/wiki/android/unit_testing_in_android_002.png" alt="unit_testing_in_android_002.png" /></p>
+<p><img src="http://blog.kent-chiu.com/images/2012-04-13/unit_testing_in_android_002.png" alt="unit_testing_in_android_002.png" /></p>
 
 <p>跟測試比較相關的有</p>
 
