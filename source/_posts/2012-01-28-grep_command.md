@@ -19,27 +19,25 @@ Syntax: grep [options] pattern [files]
 
 ##### 找某個檔案中是否有存在特定文字
 
-```
-# grep foobar ~/myfile.txt
-```
+
+	# grep foobar ~/myfile.txt
 
 ##### 計算特定文字出現的次數
 
-```
-# grep -c foobar ~/myfile.txt
-```
+	# grep -c foobar ~/myfile.txt
+
 
 ##### 找有的目錄下的當案是否有存在特定文字
 
-```
-# grep -ri foobar ~/
-```
+	# grep -r foobar ~/
+	# grep -r foobar *
+
+
+
 
 ##### 使用Regular Expression
 
-```
-# grep "^foobar" ~/myfile.txt
-```
+	# grep "^foobar" ~/myfile.txt
 
 可以用”\^\$”來找出空白行
 
