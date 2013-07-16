@@ -9,25 +9,10 @@
   <meta name="author" content="Kent">
 
   
-  <meta name="description" content="File upload 1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-@RequestMapping(value = "/foobar/upload", method = RequestMethod.POST)
-public @ResponseBody &hellip;">
+  <meta name="description" content="maven的command是有次序性的 ex:
+mvn clean install source:jar javadoc:jar
+只會產生source.jar跟javadoc.jar在target目錄下，但是
+mvn clean source:jar javadoc:jar install &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -95,285 +80,6 @@ public @ResponseBody &hellip;">
     <div id="content">
       <div class="blog-index">
   
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/03/10/file-upload-and-download-in-spring-rest-mvc/">Spring Rest檔案上傳及下載</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-03-10T14:27:00+08:00" pubdate data-updated="true">Mar 10<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/03/10/file-upload-and-download-in-spring-rest-mvc/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>File upload</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>@RequestMapping(value = "/foobar/upload", method = RequestMethod.POST)
-</span><span class='line'>public @ResponseBody
-</span><span class='line'>String upload(@RequestParam("file") MultipartFile file, @RequestParam("fileId") String fileId) {
-</span><span class='line'>  logger.info("save import file {} to {}", file.getOriginalFilename(), fileId);
-</span><span class='line'>
-</span><span class='line'>  File resultHome = getWorkingDir();
-</span><span class='line'>  File temp = new File(resultHome, fileId);
-</span><span class='line'>  try {
-</span><span class='line'>      IOUtils.copy(file.getInputStream(), new FileOutputStream(temp));
-</span><span class='line'>      return "{success: true}";
-</span><span class='line'>  } catch (FileNotFoundException e) {
-</span><span class='line'>      logger.error("upload file fail", e);
-</span><span class='line'>  } catch (IOException e) {
-</span><span class='line'>      logger.error("upload file fail", e);
-</span><span class='line'>  }
-</span><span class='line'>  return "{success: false}";
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>File Download</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>@RequestMapping(value = "/forbar/export", method = RequestMethod.GET)
-</span><span class='line'>public HttpEntity&lt;byte[]&gt; excelExcel() throws IOException {
-</span><span class='line'>  File file = new File("myexcel.xls");
-</span><span class='line'>  byte[] body = FileUtils.readFileToByteArray(file);
-</span><span class='line'>  HttpHeaders header = new HttpHeaders();
-</span><span class='line'>  header.setContentType(new MediaType("application", "xls"));
-</span><span class='line'>  header.set("Content-Disposition", "attachment; filename=" + "foobar.xls");
-</span><span class='line'>  header.setContentLength(body.length);
-</span><span class='line'>  return new HttpEntity&lt;byte[]&gt;(body, header);
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/03/04/octopress-configuration/">Octopress配置</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-03-04T00:31:00+08:00" pubdate data-updated="true">Mar 4<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/03/04/octopress-configuration/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>配置檔說明在 : https://github.com/mojombo/jekyll/wiki/Configuration</p>
-
-<p>plugins : https://github.com/imathis/octopress/wiki/3rd-party-plugins</p>
-
-<p>小抄: http://dreamrunner.org/wiki/public_html/docs/Web/octopress.html</p>
-
-<hr />
-
-<h4>加快generate的速度</h4>
-
-<p>文章數不到200篇，但在i7的cpu上generate已經要需近一分鐘的時間，還好octopress提供了一個快速generate的指令<code>rake isolate</code>
-，動作原理就是開一個暫存的目錄<code>_stash</code>要generate前會把<code>_post</code>裡的所有檔案copy到暫存的目錄<code>_stash</code>下，等要
-deploy時，再透過指令<code>rake integrate</code>將檔案copy回<code>_post</code></p>
-
-<p>使用範例如下</p>
-
-<p><code>source/_post</code>有10篇文章，其中有一篇檔名為<code>2013-03-04-foo-bar.md</code>是這次要編輯的</p>
-
-<p>透過<code>rake isolate</code>來隔離<code>2013-03-04-foo-bar.md</code>之外的文章</p>
-
-<pre><code> rake isolate[foo-bar]
-</code></pre>
-
-<p>檔名要去掉日期的部份及副檔名, 下完指令後<code>_post</code>目錄下只剩<code>2013-03-04-foo-bar.md</code>這個檔案</p>
-
-<pre><code>rake generate
-</code></pre>
-
-<p>只剩一個檔案，generate速度當然飛快</p>
-
-<p>文章編輯完成，準備發佈前記得透過<code>rake integrate</code>把其他檔案從<code>_stage</code>目錄copy回來</p>
-
-<pre><code>rake integrate
-</code></pre>
-
-<p>此時，所有的檔案已經都回到<code>_post</code>目錄，這時必須再對所有內容<code>generate</code>一次，就可以進行發佈<code>rake deploy</code>了</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/12/28/android_emulator_101/">Android 模擬器 101</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-12-28T00:00:00+08:00" pubdate data-updated="true">Dec 28<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/12/28/android_emulator_101/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Android Emulator是
-QEMU-based的應用程式，主要功能是在PC上建立一個虛擬的Android平台環境，並提供一個GUI的仿手機介面以供操作。
-Android
-Emulator可以模擬任何Android平台的任何功能，可以模擬手機應用程式執行情形，也可以模擬Native
-Code的功能。
-模擬器有可客制化功能，可以在runtime時選定要用那一種角析度的LCD，要支援什麼樣的硬體設備(攝影機、錄音功能、簡訊、GPS…)</p>
-
-<h3>啟動</h3>
-
-<p>可以透過EclipseADT啟動，也可以直接從Command Line啟動</p>
-
-<h4>透過Eclipse ADT啟動</h4>
-
-<p><img src="http://blog.kent-chiu.com/images/2012-12-28/android_emulator_101_01.png" alt="android_emulator_101_01.png" /></p>
-
-<p>你可以加入許多<a href="http://developer.android.com/guide/developing/tools/emulator.html#startup-options" title="http://developer.android.com/guide/developing/tools/emulator.html#startup-options">啟動參數</a>來設定啟動後的環境，
-比如說是否啟用debug mode，是否套用特定的skin等。</p>
-
-<p>在Eclipse ADT中加入啟動參數的方法是在menu > Run Configuration > Target
-tab</p>
-
-<p><img src="http://blog.kent-chiu.com/images/2012-12-28/android_emulator_101_03.png" alt="android_emulator_101_03.png" /></p>
-
-<h4>從Command Line啟動</h4>
-
-<p>透過command line啟動的方式如下：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>emulator -avd AVD2</span></code></pre></td></tr></table></div></figure>
-
-
-<p>AVD2是上圖的ADV Name，那個是建立<strong>A</strong>ndroid <strong>V</strong>irtual
-<strong>D</strong>evice建，其中一個步驟要求輸入的內容</p>
-
-<h5>啟動後的畫面</h5>
-
-<p>啟動時需要幾秒到幾分鐘的時間(一個完整的OS在VM中啟動，當然要花些時間)，啟動後，你可以一直讓模擬器維持開啟狀況，不必隨著你的程式的關閉而關閉。</p>
-
-<p><img src="http://blog.kent-chiu.com/images/2012-12-28/android_emulator_101_02.png" alt="android_emulator_101_02.png" /></p>
-
-<h1>解析度</h1>
-
-<ul>
-<li>QVGA 320×240, 120dpi, 3.3</li>
-<li>WQVGA432 432×240, 120dpi, 3.9</li>
-<li>HVGA 480×320, 160dpi, 3.6</li>
-<li>WVGA800 800×480, 240dpi, 3.9</li>
-<li>WVGA854 854×480, 240dpi, 4.1</li>
-</ul>
-
-
-<p><img src="http://cdn3.techbang.com.tw/system/images/23074/original/ex_1_wv1.jpg" alt="" /></p>
-
-<p>圖片來源
-<a href="http://www.techbang.com.tw/posts/3053-search-text-to-explain-words-wvga-high-resolution-handheld-devices-necessary?utm_source=feedburner&amp;utm_medium=feed&amp;utm_campaign=Feed%3A+techbang+%28T%E5%AE%A2%E9%82%A6+%E6%9C%80%E6%96%B0%E6%96%87%E7%AB%A0%29&amp;utm_content=Google+Reader" title="http://www.techbang.com.tw/posts/3053-search-text-to-explain-words-wvga-high-resolution-handheld-devices-necessary?utm_source=feedburner&amp;utm_medium=feed&amp;utm_campaign=Feed%3A+techbang+%28T%E5%AE%A2%E9%82%A6+%E6%9C%80%E6%96%B0%E6%96%87%E7%AB%A0%29&amp;utm_content=Google+Reader">T客邦</a></p>
-
-<p>在啟動模擬器前，還有一個啟動選項(Launch Options)畫面，將scale to real
-size勾選，可以讓模擬器瑩幕的大小跟實際在手機上看到比較接近。
-這樣可以確定實際按鍵的大小，比較容易評量會不會因為按鍵太小而不容易操作。</p>
-
-<p><img src="http://blog.kent-chiu.com/images/2012-12-28/android_emulator_101_004.png" alt="android_emulator_101_004.png" /></p>
-
-<h1>Resources</h1>
-
-<ul>
-<li><a href="http://developer.android.com/guide/developing/tools/emulator.html" title="http://developer.android.com/guide/developing/tools/emulator.html">Android Emulator</a></li>
-<li><a href="http://developer.android.com/guide/developing/tools/avd.html" title="http://developer.android.com/guide/developing/tools/avd.html">Android Virtual Devices</a></li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
   
   
     <article>
@@ -798,6 +504,13 @@ debugger的功能，設定中斷點後，執行script會停在中斷點上，便
 <li>Ext.Function.pass
 建立一個新的function，用來取代舊function但改變scope</li>
 <li>Ext.Function.defer 延遲一段時間後，進行function call</li>
+</ul>
+
+
+<h2>Resource</h2>
+
+<ul>
+<li>十個應避免的extjs設計 - <a href="http://www.sencha.com/blog/top-10-ext-js-development-practices-to-avoid/">http://www.sencha.com/blog/top-10-ext-js-development-practices-to-avoid/</a></li>
 </ul>
 
 </div>
@@ -2770,6 +2483,1665 @@ action(中文)</a></li>
 
     </article>
   
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/07/12/jpa_101/">JPA 101</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-07-12T00:00:00+08:00" pubdate data-updated="true">Jul 12<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/07/12/jpa_101/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Java Persistence API(JPA)</p>
+
+<h1>Where to put the persistence.xml</h1>
+
+<ul>
+<li>for web application → WEB-INF/classes/META-INF/persistence.xml</li>
+<li>for jar →</li>
+<li>for maven main folder → src/main/resource/META-INF/persistence.xml</li>
+<li>for maven test folder → src/test/resource/META-INF/persistence.xml</li>
+</ul>
+
+
+<p>If uses maven structure in Eclipse IDE, main resource and test resource
+would complied to same directory(the build directory), we should avoid
+using the same <strong>persistence-unit</strong> name in test and main resources</p>
+
+<h1>presitence.xml</h1>
+
+<h3>Hibernate</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+</span><span class='line'>&lt;persistence version="1.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"&gt;
+</span><span class='line'>    &lt;persistence-unit name="entity" transaction-type="RESOURCE_LOCAL"&gt;
+</span><span class='line'>        &lt;provider&gt;org.hibernate.ejb.HibernatePersistence&lt;/provider&gt;
+</span><span class='line'>        &lt;class&gt;com.kent.MyClass&lt;/class&gt;
+</span><span class='line'>        &lt;properties&gt;
+</span><span class='line'>            &lt;property name="hibernate.hbm2ddl.auto" value="update" /&gt;
+</span><span class='line'>            &lt;property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" /&gt;
+</span><span class='line'>            &lt;property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver" /&gt;
+</span><span class='line'>            &lt;property name="hibernate.connection.url" value="jdbc:mysql://localhost/database_name" /&gt;
+</span><span class='line'>            &lt;property name="hibernate.connection.username" value="root" /&gt;
+</span><span class='line'>            &lt;property name="hibernate.connection.password" value="" /&gt;
+</span><span class='line'>                        &lt;property name="hibernate.show_sql" value="true" /&gt;
+</span><span class='line'>        &lt;/properties&gt;
+</span><span class='line'>    &lt;/persistence-unit&gt;
+</span><span class='line'>&lt;/persistence&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>set property bernate.show_sql to true to output HSQL → SQL in console.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" /&gt;
+</span><span class='line'>&lt;property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver" /&gt;
+</span><span class='line'>&lt;property name="hibernate.connection.url" value="jdbc:mysql://localhost/database_name" /&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;property name="hibernate.connection.url" value="jdbc:hsqldb:mem:database_name"/&gt;
+</span><span class='line'>&lt;property name="hibernate.connection.driver_class" value="org.hsqldb.jdbcDriver"/&gt;
+</span><span class='line'>&lt;property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect"/&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;property name="hibernate.connection.url" value="jdbc:derby:memory:database_name"/&gt;
+</span><span class='line'>&lt;property name="hibernate.connection.driver_class" value="org.apache.derby.jdbc.EmbeddedDriver"/&gt;
+</span><span class='line'>&lt;property name="hibernate.dialect" value="org.hibernate.dialect.DerbyDialect"/&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5432/databaseName"/&gt;
+</span><span class='line'>&lt;property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/&gt;
+</span><span class='line'>&lt;property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>MySQL encoding issue. If you encountered encoding issue when result set
+contains CJK code, you can add this property to url connection string.
+<code>?useUnicode=true&amp;amp;characterEncoding=UTF-8</code> ex:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  jdbc:mysql://localhost/database_name?useUnicode=true&amp;characterEncoding=UTF-8</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>EclipseLink - MySQL</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+</span><span class='line'>&lt;persistence version="1.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"&gt;
+</span><span class='line'>    &lt;persistence-unit name="entity" transaction-type="RESOURCE_LOCAL"&gt;
+</span><span class='line'>    &lt;provider&gt;org.eclipse.persistence.jpa.PersistenceProvider&lt;/provider&gt;
+</span><span class='line'>        &lt;class&gt;com.kent.MyClass&lt;/class&gt;
+</span><span class='line'>        &lt;properties&gt;
+</span><span class='line'>            &lt;property name="eclipselink.target-database" value="MYSQL"/&gt;
+</span><span class='line'>            &lt;property name="eclipselink.jdbc.url" value="jdbc:mysql://localhost/database_name"/&gt;
+</span><span class='line'>            &lt;property name="eclipselink.jdbc.driver" value="com.mysql.jdbc.Driver"/&gt;
+</span><span class='line'>            &lt;property name="eclipselink.jdbc.user" value="root"/&gt;
+</span><span class='line'>            &lt;property name="eclipselink.jdbc.password" value=""/&gt;
+</span><span class='line'>            &lt;property name="eclipselink.ddl-generation" value="update-tables"/&gt;
+</span><span class='line'>            &lt;property name="eclipselink.logging.level" value="SEVERE"/&gt;
+</span><span class='line'>        &lt;/properties&gt;
+</span><span class='line'>    &lt;/persistence-unit&gt;
+</span><span class='line'>&lt;/persistence&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>EclipseLink - HSQL</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+</span><span class='line'>&lt;persistence version="1.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"&gt;
+</span><span class='line'>    &lt;persistence-unit name="entity" transaction-type="RESOURCE_LOCAL"&gt;
+</span><span class='line'>    &lt;provider&gt;org.eclipse.persistence.jpa.PersistenceProvider&lt;/provider&gt;
+</span><span class='line'>        &lt;class&gt;com.kent.MyClass&lt;/class&gt;
+</span><span class='line'>        &lt;properties&gt;
+</span><span class='line'>            &lt;property name="eclipselink.target-database" value="HSQL"/&gt;
+</span><span class='line'>            &lt;property name="eclipselink.jdbc.url" value="jdbc:hsqldb:mem:database_name"/&gt;
+</span><span class='line'>            &lt;property name="eclipselink.jdbc.driver" value="org.hsqldb.jdbcDriver"/&gt;
+</span><span class='line'>            &lt;property name="eclipselink.jdbc.user" value="sa"/&gt;
+</span><span class='line'>            &lt;property name="eclipselink.jdbc.password" value=""/&gt;
+</span><span class='line'>            &lt;property name="eclipselink.ddl-generation" value="create-tables"/&gt;
+</span><span class='line'>            &lt;property name="eclipselink.logging.level" value="SEVERE"/&gt;
+</span><span class='line'>        &lt;/properties&gt;
+</span><span class='line'>    &lt;/persistence-unit&gt;
+</span><span class='line'>&lt;/persistence&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>Properties</h1>
+
+<p>EclipseLink does NOT support the property <code>show sql</code> like hibernate, but
+we can turn the logging system to <code>FINE</code> level
+(<code>&lt;property name=“eclipselink.logging.level” value=“FINE”/&gt;</code>), the
+interpret SQL would be dumped.</p>
+
+<h1>CRUD</h1>
+
+<p><strong>C</strong>reate, <strong>R</strong>ead, <strong>U</strong>pdate, <strong>D</strong>elete operations in JPA</p>
+
+<p>Read類型的methods像find(), getReference(), refresh(), detach() and read
+queries，可以在transaction外執行(沒有tx.begin()/tx.commit()的包覆).</p>
+
+<h4>Create</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>entityManager.getTransaction().begin();
+</span><span class='line'>Employee newEmployee = new Employee(5);
+</span><span class='line'>entityManager.persist(newEmployee);
+</span><span class='line'>entityManager.getTransaction().commit();</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Read</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>entityManager.find(Employee.class, 1);
+</span><span class='line'>// lazy load (as same as hibernate load() method)
+</span><span class='line'>entityManager.getReference(Employee.class, 1);
+</span><span class='line'>entityManager.createQuery("select employee from Employee employee");</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>for single result uses <code>query.getSingleResult()</code>;</li>
+<li>for multiple results (result set) uses <code>query.getResultList()</code>;</li>
+</ul>
+
+
+<h4>Update</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>entityManager.getTransaction().begin();
+</span><span class='line'>Employee existingEmployee = entityManager.find(Employee.class, 5);
+</span><span class='line'>existingEmployee.setLastName("NewLastName");
+</span><span class='line'>entityManager.getTransaction().commit();</span></code></pre></td></tr></table></div></figure>
+
+
+<p>or</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Employee existingEmployee = entityManager.find(Employee.class, 5);
+</span><span class='line'>existingEmployee.setLastName("NewLastName");
+</span><span class='line'> 
+</span><span class='line'>entityManager.getTransaction().begin();
+</span><span class='line'>entityManager.getTransaction().commit();</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Delete</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>entityManager.getTransaction().begin();
+</span><span class='line'>Employee existingEmployee = entityManager.find(Employee.class, 5);
+</span><span class='line'>entityManager.remove(existingEmployee);
+</span><span class='line'>entityManager.getTransaction().commit();</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Bulk Update / Delete</h3>
+
+<h4>Bulk Update</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>EntityManager entityManager = entityManagerFactory.createEntityManager();
+</span><span class='line'>entityManager.getTransaction().begin();
+</span><span class='line'>String jpqlUpdate = "update Customer set name = :newName where name = :oldName"
+</span><span class='line'>int updatedEntities = entityManager.createQuery( jpqlUpdate )
+</span><span class='line'>                            .setParameter( "newName", newName )
+</span><span class='line'>                            .setParameter( "oldName", oldName )
+</span><span class='line'>                            .executeUpdate();
+</span><span class='line'>entityManager.getTransaction().commit();
+</span><span class='line'>entityManager.close();</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Bulk Delete</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>EntityManager entityManager = entityManagerFactory.createEntityManager();
+</span><span class='line'>entityManager.getTransaction().begin();
+</span><span class='line'>String hqlDelete = "delete Customer where name = :oldName";
+</span><span class='line'>int deletedEntities = entityManager.createQuery( hqlDelete )
+</span><span class='line'>                            .setParameter( "oldName", oldName )
+</span><span class='line'>                            .executeUpdate();
+</span><span class='line'>entityManager.getTransaction().commit();
+</span><span class='line'>entityManager.close();</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>Tips</h1>
+
+<ul>
+<li>Using wrapper type rather than primitive type to avoid <a href="http://stackoverflow.com/questions/2565352/whats-difference-between-primitive-and-wrapper-class-in-jpa-hibernate-column-m" title="http://stackoverflow.com/questions/2565352/whats-difference-between-primitive-and-wrapper-class-in-jpa-hibernate-column-m">null
+assinged
+issue</a>.</li>
+</ul>
+
+
+<h1>FK constraint violation</h1>
+
+<p>Sometime the forgine key constraint that export by DDL tools would be a
+problem when doing unit testing. But there is no way to disable
+hibernate FK constraints exports. In the situation we can rewrite the
+Dialect to prevent FK constraints exported.</p>
+
+<p>In this case, we created our own H2Dialet (for <a href="http://www.h2database.com/html/main.html" title="http://www.h2database.com/html/main.html">H2
+database</a>)
+and let <code>getAddForeignKeyConstraintString()</code> method empty. Which will
+disable the original <code>org.hibernate.dialect.H2Dialect</code> constraint
+generating statement.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>package com.kent.hibernate.dialect;
+</span><span class='line'>
+</span><span class='line'>public class H2Dialect extends org.hibernate.dialect.H2Dialect {
+</span><span class='line'>    @Override
+</span><span class='line'>    public String getAddForeignKeyConstraintString(String constraintName, String[] foreignKey, String referencedTable, String[] primaryKey, boolean referencesPrimaryKey) {
+</span><span class='line'>        return "";
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Once we have the Dialect, we need apply it our persistence.xml, after
+done, when the schema be generated, the schema will not include any FK
+constraint.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+</span><span class='line'>&lt;persistence version="1.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"&gt;
+</span><span class='line'>    &lt;persistence-unit name="entity-test" transaction-type="RESOURCE_LOCAL"&gt;
+</span><span class='line'>        &lt;provider&gt;org.hibernate.ejb.HibernatePersistence&lt;/provider&gt;
+</span><span class='line'>                 ...
+</span><span class='line'>        &lt;properties&gt;
+</span><span class='line'>            ...
+</span><span class='line'>            &lt;property name="hibernate.hbm2ddl.auto" value="create-drop" /&gt;
+</span><span class='line'>                        &lt;property name="hibernate.dialect" value="com.kent.hibernate.dialect.H2Dialect"/&gt;
+</span><span class='line'>            ...
+</span><span class='line'>        &lt;/properties&gt;
+</span><span class='line'>    &lt;/persistence-unit&gt;
+</span><span class='line'>&lt;/persistence&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>JPA Query</h1>
+
+<p>JPA Query supports</p>
+
+<ol>
+<li>query</li>
+<li><strong>update</strong></li>
+<li><strong>delete</strong></li>
+</ol>
+
+
+<p>function to retrieves, modify, remove data from database.</p>
+
+<h5>IS [NOT] EMPTY</h5>
+
+<p>JPA provides a <strong>empty</strong> to test a collection empty or not:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>select book from Book book where book.chapters is not empty</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>Join Fetch</h5>
+
+<p>JPA tries to fetch any entity as LAZY as possible whatever uses JPA QL
+or get by API.</p>
+
+<p>Fetch lazy or eager is by JPA vendor implementation, not all field type
+can fetch as LAZY</p>
+
+<h3>Local Manager Transaction</h3>
+
+<p>In a non-managed environment, an EntityManagerFactory is usually
+responsible for its own database connection pool. The application
+developer has to manually set transaction boundaries, in other words,
+begin, commit, or rollback database transactions itself</p>
+
+<p>If using local manager transaction, better to apply this template in
+code.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Non-managed environment idiom
+</span><span class='line'>EntityManager em = emf.createEntityManager();
+</span><span class='line'>EntityTransaction tx = null;
+</span><span class='line'>try {
+</span><span class='line'>    tx = em.getTransaction();
+</span><span class='line'>    tx.begin();
+</span><span class='line'>    // do some work
+</span><span class='line'>    ...
+</span><span class='line'>    tx.commit();
+</span><span class='line'>} catch (RuntimeException e) {
+</span><span class='line'>    if ( tx != null && tx.isActive() ) tx.rollback();
+</span><span class='line'>    throw e; // or display error message
+</span><span class='line'>} finally {
+</span><span class='line'>    em.close(); // make sure you always close and never outside of guaranteed finally block
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Joins and Fetches</h3>
+
+<ol>
+<li>inner join = join</li>
+<li>left out join = left join</li>
+<li>fetch = 用一個select把屬性或集合一次取回</li>
+<li>fetch all = 如果有lazy properties，可用fetch all去init all lazy</li>
+</ol>
+
+
+<h1>Expressions</h1>
+
+<ul>
+<li>is empty, is not empty</li>
+<li>member of, not member of 僅適用於embedded object</li>
+<li>elements 測試某個element是否在elements中</li>
+<li>minimum, maximum, minindex, maxindex 可用於 array, list, map</li>
+<li>KEY() and VALUE() 可用於map</li>
+<li>any, some, all, exists, in 這幾個可以和elements,minimum, maximum,
+minindex, maxinde 搭配使用</li>
+<li>current_date(), current_time(), current_timestamp()</li>
+<li>second(…), minute(…), hour(…), day(…), month(…), year(…), (specific
+to HQL)</li>
+<li>coalesce() and nullif() coalesce（） 取回第一個非NULL的值</li>
+<li>TYPE … in …</li>
+<li>cast(… as …)</li>
+<li>Java public static final constants eg.Color.TABBY</li>
+</ul>
+
+
+<h5>member of</h5>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>'867-5309' MEMBER OF p.phoneNumbers</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>coalesce</h5>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>SELECT COALESCE( NULL, 34, 13, 0 )
+</span><span class='line'>// return 34</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>any, some, all, exists, in</h5>
+
+<p><a href="http://twpug.net/docs/postgresql-doc-8.0-zh_TW/functions-subquery.html" title="http://twpug.net/docs/postgresql-doc-8.0-zh_TW/functions-subquery.html">any, some, all, exists,
+in</a>在SQL-92中的定義</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>select mother from Cat as mother, Cat as kit
+</span><span class='line'>where kit in elements(foo.kittens)</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>select p from NameList list, Person p where p.name = some elements(list.names)</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>select cat from Cat cat where exists elements(cat.kittens)</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>select cat from Player p where 3 &gt; all elements(p.scores)</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>select cat from Show show where 'fizard' in indices(show.acts)</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>index</h5>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>select order from Order order where order.items[0].id = 1234</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>KEY(),VALUE()</h5>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>select i.name, VALUE(p) FROM Item i JOIN i.photos p WHERE KEY(p) LIKE ‘%egret’</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Data in collection</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public List&lt;Role&gt; listRolesByPermissions(Set&lt;String&gt; permissions) {
+</span><span class='line'>  String ql = "select role from Role role left join role.permissions p where p in (:perms)";
+</span><span class='line'>  Query q = entityManager.createQuery(ql).setParameter("perms", permissions);
+</span><span class='line'>  return q.getResultList();
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面的例子採用naming parameter可以正常動作，但下面採用position
+parameter的方式卻不行？</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public List&lt;Role&gt; listRolesByPermissions(Set&lt;String&gt; permissions) {
+</span><span class='line'>  String ql = "select role from Role role left join role.permissions p where p in (?)";
+</span><span class='line'>  Query q = entityManager.createQuery(ql).setParameter(1, permissions);
+</span><span class='line'>  return q.getResultList();
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>Implementation Restrictions</h1>
+
+<p>To avoid conflicts with the original database operation that fires the
+entity lifecycle event (which is still in progress) callback methods
+should not call <code>EntityManager</code> or <code>Query</code> methods and should not access
+other entity objects.</p>
+
+<p>If a callback method throws an exception within an active transaction,
+the transaction is marked for rollback and no more callback methods are
+invoked for that operation.</p>
+
+<h1>Architecture</h1>
+
+<h4>EntityManagerFactory</h4>
+
+<p>建立時會比較耗時耗資源，所以應隨server啟動而啟動，關閉而關閉.</p>
+
+<h4>EntityManager</h4>
+
+<p>The EntityManager API is used to access a database in a particular unit
+of work. 正常來說，EntityManager的life cycle應該是一個database
+transaction(也就是說，應隨著transaction committed而close),
+但也可以跨多個database
+transactions(跟hibernate的session一樣，可以跟多個transaction).
+如果發生任何例外的話，應該要立即呼叫<code>EntityManager.close()</code>，並且棄用EntityManager
+instance.</p>
+
+<h1>Annotations</h1>
+
+<p>如果需要讓boolean有預設值，可透過<code>@Column</code>的<code>columnDefinition</code>屬性</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@Column(columnDefinition = "bool default false")
+</span><span class='line'>private boolean   boolField;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果要讓欄位接受null，要宣告成物件型別(Object
+type)而非原生型別(primitive type)</p>
+
+<h1>Resources</h1>
+
+<ul>
+<li><a href="http://wiki.eclipse.org/Using_EclipseLink_JPA_Extensions_%28ELUG%29" title="http://wiki.eclipse.org/Using_EclipseLink_JPA_Extensions_%28ELUG%29">EclipseLink
+properties</a></li>
+<li><a href="http://docs.jboss.org/hibernate/stable/annotations/reference/en/html_single/" title="http://docs.jboss.org/hibernate/stable/annotations/reference/en/html_single/">hibernate annotations reference
+manual</a></li>
+<li><a href="http://docs.jboss.org/hibernate/stable/entitymanager/reference/en/html/index.html" title="http://docs.jboss.org/hibernate/stable/entitymanager/reference/en/html/index.html">hibernate Entity Manager reference
+manual</a></li>
+<li><a href="http://en.wikibooks.org/wiki/Java_Persistence" title="http://en.wikibooks.org/wiki/Java_Persistence">JPA 2 on
+wikibook</a></li>
+<li><a href="http://wiki.kent-chiu.com/lib/exe/fetch.php?media=java:jpa_mapping.pdf" title="java:jpa_mapping.pdf">A JavaTM Persistence API Mapping Magical Mystery
+Tour</a>
+
+<ul>
+<li>相當清晰的MAPPING介紹</li>
+</ul>
+</li>
+<li><a href="http://uaihebert.com/?p=1274" title="http://uaihebert.com/?p=1274">JPA Queries and
+Tips</a> -
+JPA的使用實例，有不到best practices的使用</li>
+</ul>
+
+
+<p>[java</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/07/02/scala_101/">Scala 101</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-07-02T00:00:00+08:00" pubdate data-updated="true">Jul 2<span>nd</span>, 2012</time>
+        
+         | <a href="/blog/2012/07/02/scala_101/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Scala IDE</p>
+
+<ol>
+<li>eclipse 3.7 (indigo)</li>
+<li>scala IDE plugin 2.9</li>
+<li>jdk 1.7.03</li>
+</ol>
+
+
+<p>一切換到scala的環境，IDE就凍住了，用<a href="http://wiki.kent-chiu.com/doku.php?id=java:jvm_profile" title="java:jvm_profile">VirtualVM</a>觀查的結果是執行scala的vm(不是ide本身的vm)的Permanent
+Generation
+Memory爆了，把它開到256M(-XX:MaxPermSize=256m)就不會一切到scala
+perspective，IDE就掛掉。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#utf8 (do not remove)
+</span><span class='line'>-startup
+</span><span class='line'>../../Common/plugins/org.eclipse.equinox.launcher_1.2.0.v20110502.jar
+</span><span class='line'>--launcher.library
+</span><span class='line'>../../Common/plugins/org.eclipse.equinox.launcher.i18n.win32.win32.x86_64_4.2.0.v201201111650
+</span><span class='line'>-showsplash
+</span><span class='line'>C:\Genuitec\Common\plugins\org.eclipse.platform_3.7.2.v201202080800\splash.bmp
+</span><span class='line'>--launcher.XXMaxPermSize
+</span><span class='line'>256m
+</span><span class='line'>--launcher.defaultAction
+</span><span class='line'>openFile
+</span><span class='line'>-install
+</span><span class='line'>C:\Genuitec\Profiles\scala
+</span><span class='line'>-configuration
+</span><span class='line'>C:\Genuitec\Profiles\scala\configuration
+</span><span class='line'>-vmargs
+</span><span class='line'>-Xms256m
+</span><span class='line'>-Xmx1024m
+</span><span class='line'>-XX:MaxPermSize=256m</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>scala是可自我成長的語言</li>
+<li>scala混合了oo跟function lang</li>
+<li>java中的static method可以考慮用function的方式實現，statistic
+method可視為一種退化的function lang?</li>
+<li>scala是純oo
+lang，所有的東西都是物件，所有的操作(含運算子)都是method，所以，可以做運算子的override</li>
+<li><p>scala可以與java無縫的整合，事實上，scala很多型號都是來自java。scala
+call java lib會很容易，但java call
+scala會有比較多的限制，因為scala的物件模型及語意比java豐富，java沒辦法一一對應。</p></li>
+<li><p>scala有兩種變數</p></li>
+<li><p>expression後面的分號(;)可有可無</p></li>
+<li>val : 像java的final變數，一旦宣告後，就不能改變
+(如果重新指派，會出reassignment的error)</li>
+<li><p>var : 像java的non final變數，可以重新指派值</p></li>
+<li><p>scala的array跟java一樣是0-base但是，是透過()存取，而不是[]</p></li>
+</ul>
+
+
+<h5>method</h5>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>def mymethod(x: Int, y: Int) : Int = {
+</span><span class='line'>  x + y
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>def mymethod(x: Int, y: Int) = x + y</span></code></pre></td></tr></table></div></figure>
+
+
+<p>所有的運算子在scala都是method，所以<code>1 + 2</code>是這樣的method call</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>(1).+(2)</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>1</code>是物件,<code>+</code>是method name，<code>1</code>物件透過<code>.</code>來呼叫<code>+</code>method並傳入參數值<code>2</code></p>
+
+<p>以這樣的角度來看Array，Array就很直覺了，Array在Scala也只是一般的物件，而不是像java一樣，而不是像java一樣，是屬於語法等級的物件</p>
+
+<h5>foreach</h5>
+
+<p>for (arg ← args) println(arg)</p>
+
+<h3>function</h3>
+
+<h4>function literal</h4>
+
+<p>單行</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>(x: Int, y: Int) =&gt; x + y </span></code></pre></td></tr></table></div></figure>
+
+
+<p>多行時可以用大括號將 functio body括起來</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>(x: Int, y: Int) =&gt; {
+</span><span class='line'>    val z = x + 1
+</span><span class='line'>    z + y
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這邊用function literal來達到foreach的功能，function literal有三種用法</p>
+
+<p>第一種是最囉嗦,array的item要給型別而且給了型別，外面還要配一對括號</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>myarray.foreach((item: String) =&gt; println(item))</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這個是比較正常的用法</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>myarray.foreach(item =&gt; println(item))</span></code></pre></td></tr></table></div></figure>
+
+
+<p>超精簡的用法，但只適用於只有一個參數的狀況</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>myarray.foreach(println)</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>function return type</h5>
+
+<p>為什麼sum function可以不用指定return type，而factorial必須指定return
+type為Int?</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  def sum(a:Int,b:Int) = a+b
+</span><span class='line'>  def factorial(n:Int):Int = if (n==0) 1 else n * factorial(n-1)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>因為在sum function中complier可以推斷(infer)出a +
+b的回傳值是Int型別，但在factorial中，回傳值可能是 1
+或者是<code>n * factorial(n-1)</code>，
+而<code>n * factorial(n-1)</code>是未知型別，所以，我們必須指定return
+type，給complier一個提示。</p>
+
+<p>有些語言的compiler可以由factorial function的第一個回傳值為1來推斷return
+type為Int，但scala的complier不行</p>
+
+<h5>operator notation</h5>
+
+<ol>
+<li>infix 1 + 2</li>
+<li>prefix +1,-1, !foo, \~bar (只有+,-,!,\~可以為prefix
+operator,定為方式為<code>unary_+</code>,<code>unary_-</code>,<code>unary_!</code>,<code>unary_~</code>,)</li>
+<li>postfix 1.toLong</li>
+</ol>
+
+
+<h4>functionN</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>package scala
+</span><span class='line'> 
+</span><span class='line'> 
+</span><span class='line'>trait Function2[@specialized(scala.Int, scala.Long, scala.Double) -T1, @specialized(scala.Int, scala.Long, scala.Double) -T2, @specialized(scala.Unit, scala.Boolean, scala.Int, scala.Float, scala.Long, scala.Double) +R] extends AnyRef { self =&gt;
+</span><span class='line'>  /** Apply the body of this function to the arguments.
+</span><span class='line'>   *  @return   the result of function application.
+</span><span class='line'>   */
+</span><span class='line'>  def apply(v1: T1, v2: T2): R
+</span><span class='line'> 
+</span><span class='line'>  /** Creates a curried version of this function.
+</span><span class='line'>   *
+</span><span class='line'>   *  @return   a function `f` such that `f(x1)(x2) == apply(x1, x2)`
+</span><span class='line'>   */
+</span><span class='line'>  def curried: T1 =&gt; T2 =&gt; R = {
+</span><span class='line'>    (x1: T1) =&gt; (x2: T2) =&gt; apply(x1, x2)
+</span><span class='line'>  }
+</span><span class='line'>  @deprecated("Use 'curried' instead", "2.8.0")
+</span><span class='line'>  def curry = curried
+</span><span class='line'> 
+</span><span class='line'>  /** Creates a tupled version of this function: instead of 2 arguments,
+</span><span class='line'>   *  it accepts a single [[scala.Tuple2]] argument.
+</span><span class='line'>   *
+</span><span class='line'>   *  @return   a function `f` such that `f((x1, x2)) == f(Tuple2(x1, x2)) == apply(x1, x2)`
+</span><span class='line'>   */
+</span><span class='line'>  def tupled: Tuple2[T1, T2] =&gt; R = {
+</span><span class='line'>    case Tuple2(x1, x2) =&gt; apply(x1, x2)
+</span><span class='line'>  }
+</span><span class='line'>  override def toString() = "&lt;function2&gt;"
+</span><span class='line'>}
+</span><span class='line'> 
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>scala中的每個function，都是實作像上面的functionN(N從0\~22)的trait，以<code>(x: Int, y: Int) ⇒ x + y</code>來說，就是上例中的Function2[-T1,
+-T2, +R]， 因為 (x: Int, y: Int) ⇒ x + y 就
+傳入兩個int的參數並傳回一個int的結果，這樣與Function2的<code>def apply(v1: T1, v2: T2): R</code>是相等的。</p>
+
+<h4>closure</h4>
+
+<p>closure跟function literal語法很相似，但closure多了<a href="#free_variables" title="scala:scala_101 ↵">free
+variables</a>，所以，free
+variables可被當做區分closure跟function literal的依據</p>
+
+<h5>free variables</h5>
+
+<p>TBC</p>
+
+<h4>Constructor</h4>
+
+<h5>primary constructor</h5>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class MyClass(x: Int, y: Int)</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>auxiliary constructor</h5>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class MyClass(x: Int) {
+</span><span class='line'>    def this(x:Int) = this(x, 1) 
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在scala，只有primary constructor可以呼叫super class的Constructor</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'> </span></code></pre></td></tr></table></div></figure>
+
+
+<h4>function parameters</h4>
+
+<h5>repeated parameters</h5>
+
+<p>repeated parameters像java的 myfunc(String…
+args)，後面能用0到多個相同型別的參數</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>def myfunc(args: String*)</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>naming parameters</h5>
+
+<p>naming
+parameters主要是在使用functions時可以指定參數的名稱，也因為可以指定參數的名稱，
+所以傳入的參數順序可以跟原來宣告時的不一樣</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>def myfunc(foo: Int, bar: String)
+</span><span class='line'> 
+</span><span class='line'>// call myfunc with naming parameter
+</span><span class='line'>val x = myfunc(bar="test", foo=1)</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>default value</h5>
+
+<p>參數的預設值，如果沒有特別指定時，參數會以預設值為準</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>def myfunc(foo: Int = 5)</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>loop</h5>
+
+<p>如while 或者是 do-while loop 都是會帶有副作用(side
+effect)，請儘量改用其他的方式實作</p>
+
+<h5>for</h5>
+
+<p>for loop有filter的功能</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>val filesHere = (new java.io.File(".")).listFiles
+</span><span class='line'>for (file &lt;- filesHere if file.getName.endsWith(".scala"))
+</span><span class='line'>  println(file)
+</span><span class='line'> 
+</span><span class='line'>// 上面那邊，的效果等同於  
+</span><span class='line'>for (file &lt;- filesHere)
+</span><span class='line'>  if (file.getName.endsWith(".scala"))
+</span><span class='line'>    println(file)  </span></code></pre></td></tr></table></div></figure>
+
+
+<p>filter也可以累加，像這樣</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>for (
+</span><span class='line'>  file &lt;- filesHere
+</span><span class='line'>  if file.isFile
+</span><span class='line'>  if file.getName.endsWith(".scala")
+</span><span class='line'>) println(file)</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>apply() and update()</h5>
+
+<p><code>()</code>跟<code>()=</code>是語法糖(complier sugar)，分別等效於<code>apply()</code>跟<code>update()</code> ()
+: apply() ()= : update()</p>
+
+<h3>Import and Package</h3>
+
+<h5>pacakge</h5>
+
+<ol>
+<li>可以是 java style ，把 package name 放在最上面</li>
+<li>可以是 c# like，用 com.kentchiu { <em>package content } 或 com{
+kentchiu {</em> package content} }</li>
+<li>_root_ package</li>
+</ol>
+
+
+<h5>import</h5>
+
+<p>與 java 的不同</p>
+
+<ol>
+<li>可以直接 import class member</li>
+<li>可以 rename 或隱藏部份被 import 的 members</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>import com.kentchiu.{Foo, Bar}        // 只 import Foo 跟 Bar
+</span><span class='line'>import com.kentchiu.{Foo, Bar =&gt; Baz} // 只 import Foo 跟 Bar， Bar 改名為 Baz
+</span><span class='line'>import com.kentchiu.{Bar =&gt; _, _}     // Bar rename 成 _ ，會變成 import com.kentchiu 但把 Bar 排外</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>trait</h3>
+
+<p>Trait像是java的interface，不過，更像是ruby的mixin</p>
+
+<h5>Ordered Trait</h5>
+
+<p>Ordered Trait是用來說明trait一個很好的例子，Rubyer應該對這個例子很眼熟</p>
+
+<h3>case class</h3>
+
+<h5>function programming</h5>
+
+<p>Functional programming is a programming paradigm that describes
+computation as the evaluation of mathematical functions avoiding state,
+mutual data and therefore side effects</p>
+
+<p>Function programming based on applying functions to arguments in order
+to receive some desired values</p>
+
+<p>The core idea for computation has shifted from a series of instructions
+(which specify precisely how the computation should proceed) to Notation
+of expressions, based on functions and values. You no longer have to
+follow a plan of instructions in order to understand a computation but
+decompose such an expression into its single elements.</p>
+
+<h3>Sequence Comprehensions</h3>
+
+<h3>Tuple</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>scala&gt; val t = (1,2)
+</span><span class='line'>t: (Int, Int) = (1,2)
+</span><span class='line'> 
+</span><span class='line'>scala&gt; val t = new Tuple2(1,2)
+</span><span class='line'>t: (Int, Int) = (1,2)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>tuple是透過特殊index語法存取</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>scala&gt; t._1
+</span><span class='line'>res3: Int = 1
+</span><span class='line'> 
+</span><span class='line'>scala&gt; t._2
+</span><span class='line'>res4: Int = 2</span></code></pre></td></tr></table></div></figure>
+
+
+<p>另外一種建立tuple的語法</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>scala&gt; 1-&gt;2
+</span><span class='line'>res0: (Int, Int) = (1,2)</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Extractors</h3>
+
+<p>利用 <code>unApply()</code> method搭配pattern match將資訊從class中萃取出來</p>
+
+<h3>Parser Combinators</h3>
+
+<ul>
+<li>Christoph Henkelmann’s Blog - An Introduction To Scala Parser
+Combinators
+
+<ol>
+<li><a href="http://henkelmann.eu/2011/01/13/an_introduction_to_scala_parser_combinators" title="http://henkelmann.eu/2011/01/13/an_introduction_to_scala_parser_combinators">Part 1: Parser
+Basics</a></li>
+<li><a href="http://henkelmann.eu/2011/01/28/an_introduction_to_scala_parser_combinators-part_2_literal_expressions" title="http://henkelmann.eu/2011/01/28/an_introduction_to_scala_parser_combinators-part_2_literal_expressions">Part 2: Parsing Literal
+Expressions</a></li>
+<li><a href="http://henkelmann.eu/2011/01/29/an_introduction_to_scala_parser_combinators-part_3_unit_tests" title="http://henkelmann.eu/2011/01/29/an_introduction_to_scala_parser_combinators-part_3_unit_tests">An Introduction To Scala Parser Combinators - Part 3: Writing
+unit tests for
+parsers</a></li>
+</ol>
+</li>
+</ul>
+
+
+<h3>Symbol Literals</h3>
+
+<p>Symbol Literals是在字串前加一個單引號&#8217;，像這樣&#8217;foo</p>
+
+<p>Symbol
+Literal主要作用是用來當作識別用，可以視為一個字串，但它不同於字串的地方有</p>
+
+<ol>
+<li>不可以有任何空白</li>
+<li>一致性</li>
+<li>對重構比較友善</li>
+</ol>
+
+
+<p>像典型的map可以寫成這樣</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>"key" -&gt; "value"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>key的部份可以換成Symbol Literal取代</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>'key -&gt; "value"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這樣的好處是，&#8217;key更能代表唯一性，而且，如果要進行重構，&#8217;key對於重構的支援會比”key”來的好，如果任何地方需要用字串當作識別的時侯，或者可以考慮換成用Symbol
+Literal取代</p>
+
+<h1>TBD</h1>
+
+<ul>
+<li>The Divide and Conquer principle</li>
+<li>Implicit Conversions and Parameters</li>
+</ul>
+
+
+<h1>Resource</h1>
+
+<ul>
+<li><a href="http://www.scala-lang.org/" title="http://www.scala-lang.org/">http://www.scala-lang.org/</a>
+官網</li>
+<li><a href="http://docs.scala-lang.org/index.html" title="http://docs.scala-lang.org/index.html">http://docs.scala-lang.org/index.html</a>
+官網文件</li>
+<li>Functional scala serial
+這一系列教學，很適合java背景，而且沒有function programming的人
+
+<ol>
+<li><a href="http://gleichmann.wordpress.com/2010/10/28/functional-scala-introduction/" title="http://gleichmann.wordpress.com/2010/10/28/functional-scala-introduction/">episode 1:
+Introduction</a></li>
+<li><a href="http://gleichmann.wordpress.com/2010/10/31/functional-scala-functions/" title="http://gleichmann.wordpress.com/2010/10/31/functional-scala-functions/">episode 2:
+Functions</a></li>
+<li><a href="http://gleichmann.wordpress.com/2010/11/08/functional-scala-functions-as-objects-as-functions/" title="http://gleichmann.wordpress.com/2010/11/08/functional-scala-functions-as-objects-as-functions/">episode 3: Functions as Objects as
+Functions</a></li>
+<li><a href="http://gleichmann.wordpress.com/2010/11/15/functional-scala-closures/" title="http://gleichmann.wordpress.com/2010/11/15/functional-scala-closures/">episode 4:
+Closures</a></li>
+<li><a href="http://gleichmann.wordpress.com/2010/11/21/functional-scala-comprehending-comprehensions/" title="http://gleichmann.wordpress.com/2010/11/21/functional-scala-comprehending-comprehensions/">episode 5: Comprehending
+Comprehensions</a></li>
+<li><a href="http://gleichmann.wordpress.com/2010/11/28/high-higher-higher-order-functions/" title="http://gleichmann.wordpress.com/2010/11/28/high-higher-higher-order-functions/">episode 6: High, Higher, Higher Order
+Functions</a></li>
+<li><a href="http://gleichmann.wordpress.com/2010/12/05/functional-scala-lambdas-and-other-shortcuts/" title="http://gleichmann.wordpress.com/2010/12/05/functional-scala-lambdas-and-other-shortcuts/">episode 7: Lambdas and other
+shortcuts</a></li>
+</ol>
+</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/07/02/play_framework_101/">Play Framework 101</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-07-02T00:00:00+08:00" pubdate data-updated="true">Jul 2<span>nd</span>, 2012</time>
+        
+         | <a href="/blog/2012/07/02/play_framework_101/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>在eclipse直接執行play console</h3>
+
+<h3>Http Request處理流程</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>browser : http://localhost/foo?bar=baz
+</span><span class='line'>
+</span><span class='line'># project_home/conf/routes
+</span><span class='line'>GET    /foo                        controllers.Application.foo(bar: String)
+</span><span class='line'>
+</span><span class='line'># project_home/app/controllers/Application.scala
+</span><span class='line'>object Application extends Controller {
+</span><span class='line'>
+</span><span class='line'>    def foo(bar: String) = Action {
+</span><span class='line'>        Ok("bar param value is: " +  bar) // 網頁顯示 bar param value is: baz
+</span><span class='line'>    }
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>由網頁發起url: http://localhost/foo?bar=baz</li>
+<li>play收到url後，會由routes這個設定檔來決定負責處理的controller是誰</li>
+<li>controller中會有一個跟url
+path相符的method進行處理，然後回應一個Action</li>
+</ol>
+
+
+<p>主要的流程就這樣，相當的單純</p>
+
+<h3>Controller</h3>
+
+<p>Controller是一個Singlton
+Object，用來產生Action</p>
+
+<h3>Action</h3>
+
+<p>在play.api.mvc裡有兩個Action，一個是Singlton Object,另一個是trait，
+trait的這個Action是一個 <code>play.api.mvc.Request ⇒ play.api.mvc.Result</code>
+function負責處理並回應http request， 而Singtlton
+Object這個Action是companion object，提供建立Action的一些helper
+methods</p>
+
+<p>Ok()這個method會回http status code 200給browser，http status code
+200，就是沒有任何錯誤</p>
+
+<p><img src="http://blog.kent-chiu.com/images/2012-07-02/play_framework_101-001.png" alt="play_framework_101-001.png" /></p>
+
+<p>上面有提到Action是<code>play.api.mvc.Request ⇒ play.api.mvc.Result</code>
+function，而AsyncResult, ChunkedResult, PlainResult, SimpleResult,
+Status都是extends自trait Result，所以可以當作Action的傳回值</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>package controllers
+</span><span class='line'> 
+</span><span class='line'>import play.api._
+</span><span class='line'>import play.api.mvc._
+</span><span class='line'> 
+</span><span class='line'>object Application extends Controller {
+</span><span class='line'> 
+</span><span class='line'>  def index = Action {
+</span><span class='line'>    Ok(views.html.index("Your new application is ready."))
+</span><span class='line'>  }
+</span><span class='line'> 
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Ok(context) 表示回應http 200(正常)給網頁，content是要顯示的內容</p>
+
+<p>ex:</p>
+
+<p><code>Ok("Hello World")</code></p>
+
+<p>網頁就會顯示 Hello World</p>
+
+<p><code>views.html.index("Your new application is ready.")</code></p>
+
+<p>則是套用play的template來顯示內容</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>def index(param: String) = Action { implicit request =&gt;
+</span><span class='line'>  Ok("Got request [" + request + "] with param [" + param +"]")
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Request and Session</h3>
+
+<p>Play的Session可以透過request.session取得，它是用cookie實作的，而且沒有所謂的session
+timeout，如果需要session timeout的功能，要自已實作。</p>
+
+<p>Play的Request不像java那樣，可以直接當作資料的載體，需透過Flash
+Scope(也就是java servlet的request scope)</p>
+
+<h2>Scala Template Engine</h2>
+
+<h4>Handling the form submission</h4>
+
+<p>在todolist這個教學中，有一段code是在建立 new
+task的，這一些，對非scala的熟手來說不是那麼的易懂</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Application
+</span><span class='line'>def newTask = Action { implicit request =&gt;
+</span><span class='line'>  taskForm.bindFromRequest.fold(
+</span><span class='line'>    errors =&gt; BadRequest(views.html.index(Task.all(), errors)),
+</span><span class='line'>    label =&gt; {
+</span><span class='line'>      Task.create(label)
+</span><span class='line'>      Redirect(routes.Application.tasks)
+</span><span class='line'>    }
+</span><span class='line'>  )
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>newTask這個method的傳回值是Action型別,
+taskForm一是個<code>play.api.data.Form</code>型別，而<code>bindFromRequest</code>跟<code>fold</code>的API如下:
+taskForm.bindFromRequest的回傳值是Form[String]，而newTask的型別是Action，所以taskForm.bindFromRequest的結果不能直接當newAction的結果。
+fold的回傳值是R，我們只要讓R為Action型別即可當newTask的回傳值。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/**
+</span><span class='line'> * Binds request data to this form, i.e. handles form submission.
+</span><span class='line'> *
+</span><span class='line'> * @return a copy of this form filled with the new data
+</span><span class='line'> */
+</span><span class='line'>def bindFromRequest()(implicit request: play.api.mvc.Request[_]): Form[T] = {
+</span><span class='line'>  val data = (request.body match {
+</span><span class='line'>    case body: play.api.mvc.AnyContent if body.asFormUrlEncoded.isDefined =&gt; body.asFormUrlEncoded.get
+</span><span class='line'>    case body: play.api.mvc.AnyContent if body.asMultipartFormData.isDefined =&gt; body.asMultipartFormData.get.asFormUrlEncoded
+</span><span class='line'>    case body: play.api.mvc.AnyContent if body.asJson.isDefined =&gt; FormUtils.fromJson(js = body.asJson.get).mapValues(Seq(_))
+</span><span class='line'>    case body: Map[_, _] =&gt; body.asInstanceOf[Map[String, Seq[String]]]
+</span><span class='line'>    case body: play.api.mvc.MultipartFormData[_] =&gt; body.asFormUrlEncoded
+</span><span class='line'>    case body: play.api.libs.json.JsValue =&gt; FormUtils.fromJson(js = body).mapValues(Seq(_))
+</span><span class='line'>    case _ =&gt; Map.empty[String, Seq[String]]
+</span><span class='line'>  }) ++ request.queryString
+</span><span class='line'>  bind(data.mapValues(_.headOption.getOrElse("")))
+</span><span class='line'>}
+</span><span class='line'>   
+</span><span class='line'>   
+</span><span class='line'>def fold[R](hasErrors: Form[T] =&gt; R, success: T =&gt; R): R = value.map(success(_)).getOrElse(hasErrors(this))</span></code></pre></td></tr></table></div></figure>
+
+
+<p>fold的第一個hasErrors的參數是，在這邊是個像這樣的function literal
+Form[String] ⇒ R(也就是你需要傳入適合的function value進去)
+因為我們希望fold的結果可以直接當newTask
+method的回傳值，所以R的型別為Action，也就是</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>def fold[R](hasErrors: Form[T] =&gt; R, success: T =&gt; R): R = value.map(success(_)).getOrElse(hasErrors(this))</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在這個例子的實際的型別是</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>def fold[Action](hasErrors: Form[String] =&gt; Action, success: String =&gt; Action): Action = value.map(success(_)).getOrElse(hasErrors(this))</span></code></pre></td></tr></table></div></figure>
+
+
+<p>fold的使用範例是這樣</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>    anyForm.bindFromRequest().fold(
+</span><span class='line'>       f =&gt; redisplayForm(f),                   // hasErrors: Form[String] =&gt; Action
+</span><span class='line'>       t =&gt; handleValidFormSubmission(t)        // success: String =&gt; Action 
+</span><span class='line'>    )
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>裡面的redisplayForm跟handleValidFormSubmission並不是play
+API的一部份，他只是一個pseudo
+code，用來表示通常hasErrors的處理方式是redisplayForm，而success的處理方式是handleValidFormSubmission</p>
+
+<p>再回來看成來的例子</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Application
+</span><span class='line'>def newTask = Action { implicit request =&gt;
+</span><span class='line'>  taskForm.bindFromRequest.fold(
+</span><span class='line'>    errors =&gt; BadRequest(views.html.index(Task.all(), errors)),  // hasErrors: Form[String] =&gt; Action
+</span><span class='line'>    label =&gt; {                                                   // success: String =&gt; Action 
+</span><span class='line'>      Task.create(label)
+</span><span class='line'>      Redirect(routes.Application.tasks)
+</span><span class='line'>    }
+</span><span class='line'>  )
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>hasErrors參數的部份</h5>
+
+<p>errors是Form[String]，而BadRequest是Action型別</p>
+
+<p>hasErrors時會redisaply form，也就是用BadRequest(status 400)取代Ok(status
+200)呼叫views.html.index，並把form的內容傳入</p>
+
+<h5>success參數的部份</h5>
+
+<p>label是String型別,
+而傳回值Redirect(routes.Application.tasks)是Action型別 success時會handle
+valid form submission，也就是建立task後，然後再轉到task list的頁面</p>
+
+<h1>MISC</h1>
+
+<h3>mapping method in Form</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>import play.api.data._
+</span><span class='line'>import play.api.data.Forms._
+</span><span class='line'> 
+</span><span class='line'>case class User(name: String, age: Int)
+</span><span class='line'> 
+</span><span class='line'>val userForm = Form(
+</span><span class='line'>  mapping(
+</span><span class='line'>    "name" -&gt; text,
+</span><span class='line'>    "age" -&gt; number
+</span><span class='line'>  )(User.apply)(User.unapply)
+</span><span class='line'>)
+</span><span class='line'> 
+</span><span class='line'>val anyData = Map("name" -&gt; "bob", "age" -&gt; "18")
+</span><span class='line'>val user: User = userForm.bind(anyData).get</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Form裡面的mapping，對於play的新手，很容易誤為是Form.mapping()，但怎麼看，都對不起來，完全不知道為什麼可以用apply()跟unapply()，其實它是Forms.mapping()</p>
+
+<p>Forms.mapping是長這樣</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/**
+</span><span class='line'> * Creates a Mapping of type `T`.
+</span><span class='line'> *
+</span><span class='line'> * For example:
+</span><span class='line'> *
+</span><span class='line'> * @tparam T the mapped type
+</span><span class='line'> * @param apply A function able to create a value of T from a value of A1 (If T is case class you can use its own apply function)
+</span><span class='line'> * @param unapply A function able to create A1 from a value of T (If T is a case class you can use its own unapply function)
+</span><span class='line'> * @return a mapping for type `T`
+</span><span class='line'> */
+</span><span class='line'>def mapping[R, A1](a1: (String, Mapping[A1]))(apply: Function1[A1, R])(unapply: Function1[R, Option[(A1)]]): Mapping[R] = {
+</span><span class='line'>  ObjectMapping1(apply, unapply, a1)
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>對於本來就看不太懂API的新手，還找錯API，只會讓新手更覺得太多無法理解的migic</p>
+
+<h4>細節說明</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mapping[R, A1](a1: (String, Mapping[A1]))(apply: Function1[A1, R])(unapply: Function1[R, Option[(A1)]]): Mapping[R]</span></code></pre></td></tr></table></div></figure>
+
+
+<p>mapping(…)(…)(…)把參數分成多個”群組”，表示這個function是<em>curried(柯里化)</em></p>
+
+<p>先做大部拆解，這個method可以分為五個部份</p>
+
+<ol>
+<li>mapping[R, A1] 名稱，對應到上例中的mapping</li>
+<li>(a1: (String, Mapping[A1])) 參數第一組，對應到上例中的 “email” →
+of[String]</li>
+<li>(apply: Function1[A1, R]) 參數第二組，對應到上例中的 User.apply</li>
+<li>(unapply: Function1[R, Option[(A1)]]) 參數第三組，對應到上例中的
+User.unapply</li>
+<li>Mapping[R] 回傳值</li>
+</ol>
+
+
+<p>apply,unapply是來自case class</p>
+
+<h5>mapping[R, A1]</h5>
+
+<p>這部份可以知道裡面會有兩個泛型，一個是R,一個是A1</p>
+
+<h5>(a1: (String, Mapping[A1]))</h5>
+
+<p><code>(String, Mapping[A1])</code>是一個tuple，本例中為<code>“email” → of[String]</code></p>
+
+<p>Mapping[A1]中的Mapping是trait型別，主要的功能是做格式間的轉換，本例是將request
+string透過轉成String,Int,…格式</p>
+
+<h5>(apply: Function1[A1, R])</h5>
+
+<p><code>(apply: Function1[A1, R])</code>是一個function literal,在本例中為<code>User.apply</code>，</p>
+
+<p>作用是將mapping的結果轉成User物件</p>
+
+<p>由API可以知道Mapping是泛型<code>Mapping[R]</code>，所以R在例中，是<code>User</code></p>
+
+<h5>(unapply: Function1[R, Option[(A1)]])</h5>
+
+<p><code>(unapply: Function1[R, Option[(A1)]])</code>是一個function
+literal,本例中為<code>User.unapply</code></p>
+
+<p>作用是將User物件解構，把User的值再指派到<code>“email” → of[String]</code></p>
+</div>
+  
+  
+
+
+    </article>
+  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -2787,15 +4159,7 @@ action(中文)</a></li>
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2013/07/07/python-101/">Python 101</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/06/25/url-encoding/">URL Encoding</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/06/04/restful-api-design/">RESTful API Design</a>
+        <a href="/blog/2013/07/15/mac-os-x-keyboard-shortcuts-for-terminal/">Mac OS X Keyboard Shortcuts for Terminal</a>
       </li>
     
       <li class="post">
@@ -2804,6 +4168,14 @@ action(中文)</a></li>
     
       <li class="post">
         <a href="/blog/2013/05/12/jesper-report-font-issue/">Jesper Report, IReport 匯出成中文PDF</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/12/jasperreport-101/">JasperReport 101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/06/mac-tips/">Mac Tips</a>
       </li>
     
   </ul>

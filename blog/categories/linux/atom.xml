@@ -4,7 +4,7 @@
   <title><![CDATA[Category: linux | Kent's Blog]]></title>
   <link href="http://blog.kent-chiu.com/blog/categories/linux/atom.xml" rel="self"/>
   <link href="http://blog.kent-chiu.com/"/>
-  <updated>2013-07-11T22:01:55+08:00</updated>
+  <updated>2013-07-16T15:15:50+08:00</updated>
   <id>http://blog.kent-chiu.com/</id>
   <author>
     <name><![CDATA[Kent]]></name>
@@ -12,6 +12,32 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Mac OS X keyboard shortcuts for terminal]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2013/07/15/mac-os-x-keyboard-shortcuts-for-terminal/"/>
+    <updated>2013-07-15T16:53:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2013/07/15/mac-os-x-keyboard-shortcuts-for-terminal</id>
+    <content type="html"><![CDATA[<p>Mac OS X 的 terminal 是 BASH, 以下是 BASH 的快捷鍵:</p>
+
+<p>Ctrl + A    回行首
+Ctrl + E    去行尾
+Ctrl + L    清劃面
+Ctrl + U    清掉游標前的文字
+Ctrl + H    刪一個字元
+Ctrl + R    找執行過的指令 (好用)
+Ctrl + C    中斷執行
+Ctrl + D    跳出目前的shell
+Ctrl + Z    把目前執行的指令設到背影.要回到前景可透過 fg 指令
+Ctrl + W    刪除游標之前的字
+Ctrl + K    清除游標之後所有內容
+Ctrl + T    交換字元
+Esc + T     交換"字"
+Alt + F     往前移一個字
+Alt + B     往後移一個字
+Tab         自動完成</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Linux Commands]]></title>
@@ -540,35 +566,24 @@ dos2unix 命令一樣。</li>
 
 <h5>找某個檔案中是否有存在特定文字</h5>
 
-<p>```</p>
-
-<h1>grep foobar ~/myfile.txt</h1>
-
-<p>```</p>
+<pre><code># grep foobar ~/myfile.txt
+</code></pre>
 
 <h5>計算特定文字出現的次數</h5>
 
-<p>```</p>
-
-<h1>grep -c foobar ~/myfile.txt</h1>
-
-<p>```</p>
+<pre><code># grep -c foobar ~/myfile.txt
+</code></pre>
 
 <h5>找有的目錄下的當案是否有存在特定文字</h5>
 
-<p>```</p>
-
-<h1>grep -ri foobar ~/</h1>
-
-<p>```</p>
+<pre><code># grep -r foobar ~/
+# grep -r foobar *
+</code></pre>
 
 <h5>使用Regular Expression</h5>
 
-<p>```</p>
-
-<h1>grep "^foobar" ~/myfile.txt</h1>
-
-<p>```</p>
+<pre><code># grep "^foobar" ~/myfile.txt
+</code></pre>
 
 <p>可以用”^\$”來找出空白行</p>
 ]]></content>
@@ -826,212 +841,6 @@ sudo cp
 <p>取得 <a href="http://github.com/vicamo/ibus-table-boshiamy/downloads" title="http://github.com/vicamo/ibus-table-boshiamy/downloads">無蝦米 deb
 package</a>
 Double Click</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[LAMP install on CentOS5]]></title>
-    <link href="http://blog.kent-chiu.com/blog/2011/10/17/lamp_install/"/>
-    <updated>2011-10-17T00:00:00+08:00</updated>
-    <id>http://blog.kent-chiu.com/blog/2011/10/17/lamp_install</id>
-    <content type="html"><![CDATA[<h2>OS installation</h2>
-
-<h3>VMWare</h3>
-
-<ul>
-<li>掛載iso檔</li>
-<li>網路卡設成NAT</li>
-<li>記憶體可調小一點300M應該就夠了</li>
-<li>不用特別去裝VMTools</li>
-</ul>
-
-
-<h3>CentOS 5</h3>
-
-<ul>
-<li>安裝成text mode的server就可(不用gui)</li>
-<li>照<a href="http://smartraining.cn/centos/server_installation" title="http://smartraining.cn/centos/server_installation">這篇</a>的方式去裝就好了</li>
-<li>網路設定如以改用dhcp</li>
-<li>Firewall disabled</li>
-</ul>
-
-
-<h4>新建一個一般usre</h4>
-
-<p><code>
-adduser username
-passwd username
-</code></p>
-
-<h4>網路設定</h4>
-
-<ul>
-<li>裝完後，如果網路沒有active，可以到/etc/sysconfig/network-scripts/ifcfg-eth0
-修改網路設定</li>
-</ul>
-
-
-<p>指定IP</p>
-
-<p>```</p>
-
-<pre><code>DEVICE=eth0                          #網路卡名稱
-BOOTPROTO=static                     #BOOTP協定
-BROADCAST=192.168.202.255            #廣播 IP Address
-HWADDR=00:15:C5:E5:99:B1             #MAC Address
-IPADDR=192.168.202.100               #IP Address
-NETMASK=255.255.254.0                #Netmask (遮罩)
-NETWORK=192.168.202.0                #網段
-ONBOOT=yes                           #開機自動啟動 
-</code></pre>
-
-<p>```</p>
-
-<p>DHCP</p>
-
-<p>```</p>
-
-<pre><code>DEVICE=eth0
-BOOTPROTO=dhcp
-ONBOOT=yes
-</code></pre>
-
-<p>```</p>
-
-<p>設定完重新啟動網卡</p>
-
-<p>```</p>
-
-<h1>/etc/rc.d/init.d/network restart</h1>
-
-<p>```</p>
-
-<h4>安裝packages</h4>
-
-<ul>
-<li>記得透過<a href="http://smartraining.cn/centos/yum" title="http://smartraining.cn/centos/yum">yum</a>裝以一下以下幾個packages，滿有用的</li>
-</ul>
-
-
-<p><code>
-yum -y  install wget bzip2 unzip zip nmap tree lynx
-</code></p>
-
-<h2>Server installation</h2>
-
-<p>預設的php是5.1.x的，有點太舊了，可以透過<a href="http://www.52crack.com/blog/?action=show&amp;id=368" title="http://www.52crack.com/blog/?action=show&amp;id=368">這個連結</a>的說明更新到5.2.x</p>
-
-<h3>MySQL 5</h3>
-
-<p>MySQL install</p>
-
-<p><code>
-yum -y install mysql-server
-</code></p>
-
-<p>set MySQL as daemon</p>
-
-<p><code>
-chkconfig mysqld on
-</code></p>
-
-<p>check config</p>
-
-<p>```
-chkconfig --list mysqld</p>
-
-<h1>2 - 5 should be on</h1>
-
-<p>mysqld 0:off 1:off 2:on 3:on 4:on 5:on 6:off
-```</p>
-
-<p>startup MySQL server</p>
-
-<p><code>
-/etc/rc.d/init.d/mysqld start
-</code></p>
-
-<p>change password</p>
-
-<p><code>
-mysqladmin -u root password 'Your Password'
-</code></p>
-
-<h3>Apache 2</h3>
-
-<p>install Apache server</p>
-
-<p><code>
-yum -y install httpd
-</code></p>
-
-<h3>PHP 5</h3>
-
-<p>install PHP</p>
-
-<p><code>
-yum -y install php php-mbstring php-mysql php-gd php-pear
-</code></p>
-
-<p>setup php.ini</p>
-
-<p><code>
-date.timezone = "Asia/Taipei"
-</code></p>
-
-<h3>Apache Config</h3>
-
-<p>set Apache as daemon</p>
-
-<p><code>
-chkconfig httpd on
-</code></p>
-
-<p>check config</p>
-
-<p>```
-chkconfig --list httpd</p>
-
-<h1>2 - 5 should be on</h1>
-
-<p>httpd  0:off 1:off 2:on 3:on 4:on 5:on 6:off
-```</p>
-
-<p>startup httpd server</p>
-
-<p><code>
-/etc/rc.d/init.d/httpd start
-</code></p>
-
-<h2>verify installed</h2>
-
-<p>create new php file in document root</p>
-
-<p><code>
-vi /var/www/html/index.php
-</code></p>
-
-<p>```</p>
-
-<pre><code>&lt;?php 
-phpinfo();
-?&gt;
-</code></pre>
-
-<p>```</p>
-
-<p>open by lynx borwser</p>
-
-<p><code>
-lynx http://localhost
-</code></p>
-
-<p>you should check
-<a href="http://wiki.kent-chiu.com/doku.php?id=ubuntu:lamp" title="ubuntu:lamp">this</a>
-article to config LAMP server</p>
-
-<p>如果無法從linux外存取web，可能會firewall的關係，在command
-line下執行<code>setup</code>可以關掉firewall</p>
 ]]></content>
   </entry>
   

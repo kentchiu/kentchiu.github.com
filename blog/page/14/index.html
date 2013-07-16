@@ -9,14 +9,13 @@
   <meta name="author" content="Kent">
 
   
-  <meta name="description" content="1
-2
-3
-4
-require_once 'Log.php';
- 
-$logger = &Log::singleton('file', 'debug.log', 'TEST');
-$logger-&gt;log('debug message', PEAR_LOG_DEBUG); 不同檔案內， &hellip;">
+  <meta name="description" content="OS installation VMWare 掛載iso檔
+網路卡設成NAT
+記憶體可調小一點300M應該就夠了
+不用特別去裝VMTools CentOS 5 安裝成text mode的server就可(不用gui)
+照這篇的方式去裝就好了
+網路設定如以改用dhcp
+Firewall &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -84,211 +83,6 @@ $logger-&gt;log('debug message', PEAR_LOG_DEBUG); 不同檔案內， &hellip;">
     <div id="content">
       <div class="blog-index">
   
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/10/17/log_101/">Pear Log 101</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
-        
-         | <a href="/blog/2011/10/17/log_101/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>require_once 'Log.php';
-</span><span class='line'> 
-</span><span class='line'>$logger = &Log::singleton('file', 'debug.log', 'TEST');
-</span><span class='line'>$logger-&gt;log('debug message', PEAR_LOG_DEBUG);</span></code></pre></td></tr></table></div></figure>
-
-
-<p>不同檔案內，需設定不同logger
-file位置的問題，這以下這樣，每個檔案都要重新設定debug.log的位置
-另一種較好的解法是將\$logger定義成global variables</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$logger = &Log::singleton('file', '..\logs\debug.log', 'TEST');</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Resource</h2>
-
-<ul>
-<li><a href="http://wiki.kent-chiu.com/lib/exe/fetch.php?media=php:lang:tail.rar" title="php:lang:tail.rar">tail</a>
-
-<ul>
-<li>you can using tail to monitoring logfile (you can using tail as
-external tools in Eclipse, it will keep outputting out eclipse
-console)</li>
-</ul>
-</li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/10/17/linux/">Linux</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
-        
-         | <a href="/blog/2011/10/17/linux/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><ul>
-<li><a href="http://wiki.kent-chiu.com/doku.php?id=linux:commands" title="linux:commands">Linux
-Commands</a></li>
-<li><a href="http://wiki.kent-chiu.com/doku.php?id=linux:find_command" title="linux:find_command">find
-Command</a></li>
-<li><a href="http://wiki.kent-chiu.com/doku.php?id=linux:grep_command" title="linux:grep_command">grep
-command</a></li>
-<li><a href="http://wiki.kent-chiu.com/doku.php?id=linux:solaris_rhel_ubuntu_-_pros_and_cons" title="linux:solaris_rhel_ubuntu_-_pros_and_cons">Solaris ,RHEL ,Ubuntu - Pros and
-Cons</a></li>
-<li><a href="http://plog.longwin.com.tw/my_note-app-setting/2006/07/02/color_grep_man_2006" title="http://plog.longwin.com.tw/my_note-app-setting/2006/07/02/color_grep_man_2006">grep、man
-顏色設定</a></li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/10/17/linguistic/">一些基本的語言學觀念</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
-        
-         | <a href="/blog/2011/10/17/linguistic/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><em>本文轉自ptt的精華區</em></p>
-
-<p>母音(又稱元音)指的是a.i.u.e.o…..等等的音</p>
-
-<p>一般來說,世界上的語言一定有a.i.u</p>
-
-<p>再來才會有 e.o和雙母音等(雙母音指的是如au,ou,ai…由兩個母音組成的元音)</p>
-
-<p>這些音在發音時 發音器官沒有受到阻礙</p>
-
-<p>(合唱團發音練習時嗚嗚叫的就是母音 )</p>
-
-<p>子音(又稱輔音)則是在母音前面的元素</p>
-
-<p>這些音跟母音不同的地方在於</p>
-
-<p>它會在發音部位形成阻礙</p>
-
-<p>若是完全的阻礙 就是塞音(stop) 如 b p m n d t g k</p>
-
-<p>先成阻之後再磨擦 就叫塞擦音(affricate) 如 注音符號的 ㄗ ㄘ ㄙ …</p>
-
-<p>還有擦音( fricative) 如 f.v..</p>
-
-<p>另外還有捲舌音 流音 顫音……(就省略啦)</p>
-
-<p>發音部位指的是如 雙唇 脣齒 齒齦 硬顎 軟顎…地方</p>
-
-<p>如果是 b.p.m 等子音 就是在雙唇部分形成完全的阻塞</p>
-
-<p>g,k,h等等 就是再舌根(軟顎)處形成阻礙</p>
-
-<p>總之 子音是不能單獨被念出來的</p>
-
-<p>他只是輔助母音的元素 使語言更有變化</p>
-
-<p>我們在唸注音符號時 都以為我們在唸中文的子音</p>
-
-<p>事實上</p>
-
-<p>我們已經在後面加上母音了</p>
-
-<p>所以ㄅ這個音 我們在唸的時候</p>
-
-<p>其實已經在 /b/ 後面加上央元音了 (唸起來像ㄜ
-看起來像阿拉伯數字6像右轉的樣子)</p>
-
-<p>總而言之</p>
-
-<p>子音就是用阻礙的方式 或阻礙的地方 以及有聲無聲(指有無震動聲帶)來區分的</p>
-</div>
-  
-  
-
-
-    </article>
   
   
     <article>
@@ -1893,6 +1687,529 @@ mod</a></li>
 
     </article>
   
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/how_to_use_combine_images_in_css/">如何讀取許多小icons組合而成圖檔</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/how_to_use_combine_images_in_css/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>設計網站時，常會用到許多小小的icon檔(任何圖檔格式)，如果每個小小的icon都是獨立的檔案，這樣會比較不好管理。</p>
+
+<p>解決的方式是先將數個小圖檔給組合成一個單一的圖檔，然後用css定位跟指定大小的方式來顯示需要的icon。</p>
+
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/icons_combined.png" alt="icons_combined.png" /></p>
+
+<p>以上面的圖檔來說，我們若只需要x這個icons，所以我們可以用以下的css語法來顯示這個icon</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>x-icon {
+</span><span class='line'>  background-position: -96px -128px; // icons的位置 
+</span><span class='line'>  width: 16px;                       // icons的大小
+</span><span class='line'>  height: 16px;                      // icons的大小 
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/how_to_test_protected_methods/">How to Test Protected Methods</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/how_to_test_protected_methods/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>In PHP5, the <strong>protected</strong> scope means only class itself and subclass
+can access it. PHPUnit (3.x) is extends from
+<strong>*PHPUnit_Framework_TestCase</strong>*, and PHP5 don&#8217;t support
+multi-inherited, therefore, there is not way to access test target
+directly.</p>
+
+<p>The only way I know that can test <strong>protected</strong> scope method. That is
+used a adapter class that subclass the target class, and do re-publish
+protected methods as public.</p>
+
+<p>I don&#8217;t how to test private method in PHP5. The mock object (stub , or
+whatever )don&#8217;t make sense in this case.</p>
+
+<h2>example</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class Foo {
+</span><span class='line'>    protected function bar() {
+</span><span class='line'>        return "bar";
+</span><span class='line'>        }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class FooAdapter extends Foo {
+</span><span class='line'>        // re-publish tested method as public scope for test purpose only
+</span><span class='line'>    public function bar() {
+</span><span class='line'>        // calling parent tested method
+</span><span class='line'>                return parent::bar();
+</span><span class='line'>    }
+</span><span class='line'>}
+</span><span class='line'> 
+</span><span class='line'>class FooTest extends PHPUnit_Framework_TestCase {
+</span><span class='line'>        // testing the subclass FooAdapter of Foo class instead.
+</span><span class='line'>    private $foo;
+</span><span class='line'>    public function testFoo() {
+</span><span class='line'>        $foo = new FooAdapter;
+</span><span class='line'>        // now we can invoke bar() method. 
+</span><span class='line'>        $foo.bar();
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The Adapter Class should put in test folder with other testcase, and
+never released as production.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/how_to_split_a_word/">字首，字根，字尾結合規則</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/how_to_split_a_word/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>原始資料來源為<a href="http://xination.pixnet.net/blog" title="http://xination.pixnet.net/blog">倫倫的小blog</a>，應該是作者上過莫清威(莫力)老師的詞彙班後所整理的筆記，
+這套方法可以說字首，字根裡一些變化的規則。在學習字首，字根，字尾前，應該要俱備這些基本知識才能事半功倍(相見恨晚呀).</p>
+
+<p>內容我有加入我自已的心得跟筆記，不一定是正確的，所以，最好還是去<a href="http://xination.pixnet.net/blog/post/22544974" title="http://xination.pixnet.net/blog/post/22544974">這裡</a>看原汁原味的原著，還有影音教學哦.</p>
+
+<h1>本文</h1>
+
+<p>本文主要是說明為何同一個字義會有那麼多字源(ad, af, ac, …..
+都是ad的同義字)，以強化字根觀念，如果搭配<a href="http://wiki.kent-chiu.com/doku.php?id=english:grimm_s_law" title="english:grimm_s_law">格林法則</a>就會更有概念。</p>
+
+<p>所有語言文化都是先有聲音再有文字的，尤其對拼音語言(像英文)，文字通常都是為了記錄聲音的，所以都會從聲音那邊發展過來，也會受發音的差異而造成拼法不同的變體字。</p>
+
+<p>e結尾的字通常是動詞, ex: excrete</p>
+
+<h1>Deletion Rules</h1>
+
+<p><a href="#x_deletion" title="word:how_to_split_a_word ↵">X Deletion</a>跟<a href="#s_deletion" title="word:how_to_split_a_word ↵">S
+Deletion</a>都是跟ex有關，ex +
+子音，都是把<strong>x去掉</strong>，ex + s 就是把<strong>s去掉</strong></p>
+
+<p><a href="#d_deletion" title="word:how_to_split_a_word ↵">D Deletion</a>而如果是d +
+s<strong>字尾</strong>就把d去掉</p>
+
+<h2>Vowel Deletion</h2>
+
+<p>當字首+字根，或是，字根+字尾為： 子音母音~1~ +
+母音~2~子音時，會把前一個母音刪掉，變成子音母音~1~子音(刪掉前面的母音，保留後面的母音)。
+例如</p>
+
+<p>anti-       anti + pathy      ant+ agnoize\
+ auto        auto + graph      ant + ism       </p>
+
+<p>s是字音，v(vowel)是母音</p>
+
+<h3>要把h當母音</h3>
+
+<p>anti        ant + helion</p>
+
+<h3>一個音節的字首不適用</h3>
+
+<p>bi-         bi + ped            bi + ennial \
+ de-         de + duce           de + oxide \
+ re-         re + ply            re + act \</p>
+
+<h2>E Deletion</h2>
+
+<p>當後面接的為母音開頭時，前面的e會省略。</p>
+
+<p>mater       mater + nal         matr + ilineal</p>
+
+<p>mat<del><strong>e</strong></del>r + ilineal → matrilineal</p>
+
+<h2>S Deletion</h2>
+
+<p>當在ex後，s會被省略。</p>
+
+<p>spir        in + spir + e       ex + pir + e</p>
+
+<h2>D Deletion</h2>
+
+<p>當d後面接s開頭的字尾時，d會被省略</p>
+
+<p>clud        con + clud + e      con + clu + sion</p>
+
+<p>con + clu<del><strong>d</strong></del> + sion → conclusion</p>
+
+<h2>V-C Deletion</h2>
+
+<p>當後面接y時，v-c(母音 + 字母c)會被省略，跟<a href="#vowel_deletion" title="word:how_to_split_a_word ↵">Vowel
+Deletion</a>類似，只不過是多了一個c</p>
+
+<p>spec        spec + tacle        sp + y</p>
+
+<p>sp<del><strong>ec</strong></del> + y → spy</p>
+
+<h2>N Deletion</h2>
+
+<p>當n後，接子音時，n會被省略</p>
+
+<p>an-         an + harmonic       a + pathy</p>
+
+<p>an + <em>h</em>armonic h要當母音</p>
+
+<h2>X Deletion</h2>
+
+<p>當x後，接有聲子音，x會被省去。</p>
+
+<h4>無聲子音</h4>
+
+<p>p        ex + pel \
+ t        ex + tend \
+ k(q)     ex + quisite \
+ s(c )     ex + cise \</p>
+
+<h4>母音</h4>
+
+<p>a        ex + alted \
+ e        ex + empt \
+ i        ex + it \
+ o        ex + odus \
+ u        ex + uberant \
+ h        ex + hale \</p>
+
+<h4>有聲子音</h4>
+
+<p>b        e + bullient \
+ d        e + duc + ate \
+ g        e + gress \
+ j        e + ject \
+ m        e + mit \
+ l        e + licit \
+ r        e + rase \
+ v        e + volve \</p>
+
+<p>原本的ex中的x被刪掉了，簡單來說，就是看到e + 字音，那e原來應該是ex</p>
+
+<h1>Change Rules</h1>
+
+<h2>Total and Partial Assimilation</h2>
+
+<h3>Total Assimilation</h3>
+
+<hr />
+
+<p>         b         c     f     g     l     m     n    p         r     s    t
+  ab-              abs                                                     abs
+  ad-    ab        ac    af    ag    al          an   ap        ar    as   at
+  dis-                   dif                                                
+  ex-                    ef                                                 
+  ob-    ob        oc    of                           op                    
+  sub-   sub       suc   suf   sug                    sup       sur         
+  syn-   <strong>sym</strong>                     syl   sym        <strong>sym</strong>               </p>
+
+<hr />
+
+<p>syn跟in的變化很類似，只差syn不會受r影響</p>
+
+<p>Total Assimilation(完全同化)是指，</p>
+
+<p>原本為<strong>ad-</strong>的字首:</p>
+
+<blockquote><p>如果後面過到<strong>b</strong>xxx開頭的字，就會同化成<strong>abb</strong>xxx\
+ 如果後面過到<strong>c</strong>xxx開頭的字，就會同化成<strong>abc</strong>xxx\
+ 如果後面過到<strong>f</strong>xxx開頭的字，就會同化成<strong>abf</strong>xxx\
+ 如果後面過到<strong>g</strong>xxx開頭的字，就會同化成<strong>abg</strong>xxx\
+ 如果後面過到<strong>l</strong>xxx開頭的字，就會同化成<strong>abl</strong>xxx\
+ 如果後面過到<strong>n</strong>xxx開頭的字，就會同化成<strong>abn</strong>xxx\
+ 如果後面過到<strong>p</strong>xxx開頭的字，就會同化成<strong>abp</strong>xxx\
+ 如果後面過到<strong>r</strong>xxx開頭的字，就會同化成<strong>abr</strong>xxx\
+ 如果後面過到<strong>s</strong>xxx開頭的字，就會同化成<strong>abs</strong>xxx\
+ 如果後面過到<strong>t</strong>xxx開頭的字，就會同化成<strong>abt</strong>xxx</p>
+
+<blockquote><p>Examples:\
+ a<strong>d</strong> + <strong>b</strong>reviate → <strong>abb</strong>reviate\
+ a<strong>d</strong> + <strong>c</strong>ede → <strong>acc</strong>ede\
+ a<strong>d</strong> + <strong>f</strong>ord → <strong>aff</strong>ord</p></blockquote></blockquote>
+
+<h3>Parital Assimilation</h3>
+
+<p>  original   become   conditions</p>
+
+<hr />
+
+<p>  con        com      p、b、m  (雙唇音)
+  con        col      l
+  con        cor      r
+  con        con      others</p>
+
+<p>Parital Assimilation(部份同化)是指</p>
+
+<blockquote><p>原本為con，如果後面過到p、b、m就會同化成com\
+ 原本為con，如果後面過到l就會同化成col\
+ 原本為con，如果後面過r就會同化成cor</p>
+
+<blockquote><p>Examples:\
+ con + mensurate → commensurate\
+ con + laborate → collaborate\
+ con + ordination → coordination</p></blockquote></blockquote>
+
+<p>  original   become   conditions</p>
+
+<hr />
+
+<p>  in         im       p、b、m  (雙唇音)
+  in         il       l
+  in         ir       r
+  In         In       others</p>
+
+<h2>Voicing Assimilation</h2>
+
+<p>當有聲子音，後接無聲子音時，會同化成無聲子音</p>
+
+<p>g → c \
+ b → p\</p>
+
+<p>reg        reg + u +late          e + rec + t\
+ scrib      in + scirb + e         in + scrip + tion</p>
+
+<h2>Weakening</h2>
+
+<h3>A-weakening</h3>
+
+<p>當含有a字母的字根，在字中、字尾會弱化成e</p>
+
+<p>ann        ann + ual          bi + enn +ial</p>
+
+<p>apt        apt + itude        in + ept</p>
+
+<h3>E-weakening</h3>
+
+<p>當含有e字母的字根，在字中，後接母音，且e後不超過一個子音，會弱化</p>
+
+<p>reg         reg + ular        incor + rig + ible\
+ spec        spec + tacle      con + spic + uous\</p>
+
+<p>cor + rec +t   [後接子音不弱化]\
+ in + spec +t   [後接子音不弱化]\</p>
+
+<p>ab + e<em>rr</em> + ent [超過一個子音不弱化]\
+ at + te<em>nd</em> +ant [超過一個子音不弱化]</p>
+
+<h3>Double-Weakening</h3>
+
+<p>當含有a字母的字根，弱化成i</p>
+
+<p>tag     in + teg + rate      con + tig +u +ous \
+ fac     de + fec + t         de + fic + i + ent \
+ cap     in + cep + tion      in + cip + i + ent \</p>
+
+<h2>E Change</h2>
+
+<p>當el、ol後接子音時，會變成ul</p>
+
+<p>pel     pro + pel            pro + pul + sion \
+ ol      ad + ol +esc +ent    ad + ul +t\</p>
+
+<p>當al弱化成el時也可以由E Change，變成ul</p>
+
+<p>calc    calc +u +late        in+ culc +ate</p>
+
+<h2>T Change</h2>
+
+<p>當t，\
+ 後接{y，e}變成c\
+ 後接{is，ia}時變成s</p>
+
+<p>ec + sta<em>t</em> +y → ec + sta<em>c</em> +y\
+ se + cre + <em>t</em> + y  → se +cre +<em>c</em> +y\</p>
+
+<p>ad+ ol +esc +en<em>t</em> +e → ad+ ol +esc +en<em>c</em> +e \
+ ad+ sist +an<em>t</em> +e → ad+ sist +an<em>c</em> +e \</p>
+
+<p>sta<em>t</em> +is → sta<em>s</em> +is \
+ syn + the +<em>t</em> +is → syn + the +<em>s</em> +is \</p>
+
+<p>an + esthe<em>t</em> +ia  → an + esthe<em>s</em> +ia \
+ dys+ pep<em>t</em> +ia → dys+ pep<em>s</em> +ia \</p>
+
+<p>這條好容易忘記</p>
+
+<h2>V Change</h2>
+
+<p>當v後接，子音時，變成u</p>
+
+<p>volv    re+ volv +e     re+ volu +tion</p>
+
+<h1>Other Rules</h1>
+
+<h2>U addition</h2>
+
+<hr />
+
+<p>  bl   後接母音時   bul
+  cl   後接母音時   cul
+  gl   後接母音時   gul</p>
+
+<hr />
+
+<p>amble      ambul +ate \
+ circle     circul +ate \
+ angle      angul +ar \</p>
+
+<h2>P Addition</h2>
+
+<p>m_t，加上p</p>
+
+<p>assume    assum + p + tion \
+ redeem    redem + p + tion</p>
+
+<h2>Spelling Rules</h2>
+
+<h3>X-Replacement</h3>
+
+<p>當c+s → x</p>
+
+<p>equ + i + no<em>c+s</em> → equ + i + nox \
+ con + ple<em>c+s</em> → com + plex \</p>
+
+<h3>Consonant Doubling</h3>
+
+<p>雙音節字、單子音結尾、重音在後</p>
+
+<p>propel  → prope<em>ll</em>ent \
+ transmit → transmi<em>tt</em>al</p>
+
+<h3>Y change</h3>
+
+<p>缺規則說明</p>
+
+<p>pit<em>y</em> → pit<em>i</em>ful \
+ victor<em>y</em> → victor<em>i</em>ous</p>
+
+<h3>Sterm extender</h3>
+
+<p>i.y.o.u.r.n.s.t</p>
+
+<p>i.y.o.u.r.n.s.t 這幾個字母可能被加入，只是為了輔助發音，本身並無特別意義</p>
+
+<p>ex:</p>
+
+<blockquote><p>equ + <strong>i</strong> + nox → i
+本身為沒有其他特別意義，只是為了輔助發音，其他還有y.o.u.r.n.s.t這七個字也可能被加入當作發音的輔助</p></blockquote>
+
+<p>可用 i your nst來記</p>
+</div>
+  
+  
+
+
+    </article>
+  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/15/">&larr; Older</a>
@@ -1910,15 +2227,7 @@ mod</a></li>
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2013/07/07/python-101/">Python 101</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/06/25/url-encoding/">URL Encoding</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/06/04/restful-api-design/">RESTful API Design</a>
+        <a href="/blog/2013/07/15/mac-os-x-keyboard-shortcuts-for-terminal/">Mac OS X Keyboard Shortcuts for Terminal</a>
       </li>
     
       <li class="post">
@@ -1927,6 +2236,14 @@ mod</a></li>
     
       <li class="post">
         <a href="/blog/2013/05/12/jesper-report-font-issue/">Jesper Report, IReport 匯出成中文PDF</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/12/jasperreport-101/">JasperReport 101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/06/mac-tips/">Mac Tips</a>
       </li>
     
   </ul>

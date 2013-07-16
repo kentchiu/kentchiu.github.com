@@ -9,12 +9,10 @@
   <meta name="author" content="Kent">
 
   
-  <meta name="description" content="Tomcat預設的記憶體使用量太小，調整方式如下 修改bin\catalina.sh或bin\catalina.bat 1
-2
-3
-4
-JAVA_OPTS="-Djava.awt.headless=true -Dfile.encoding=UTF-8
--server -Xms1024m - &hellip;">
+  <meta name="description" content="網路上的android的testing教學，基本上都不太算是真正的unit
+testing，而比較像是Integration
+Testing(整合測試)，因為大多都需要在模擬器或實機中執行測試，這樣便與環境相關。 目前找到最能接近Test Driven
+Development的方式， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -82,436 +80,6 @@ JAVA_OPTS="-Djava.awt.headless=true -Dfile.encoding=UTF-8
     <div id="content">
       <div class="blog-index">
   
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/03/20/tomcat_tuning/">Tomcat Tuning</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-03-20T00:00:00+08:00" pubdate data-updated="true">Mar 20<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/03/20/tomcat_tuning/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Tomcat預設的記憶體使用量太小，調整方式如下</p>
-
-<p>修改bin\catalina.sh或bin\catalina.bat</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>JAVA_OPTS="-Djava.awt.headless=true -Dfile.encoding=UTF-8
-</span><span class='line'>-server -Xms1024m -Xmx1024m
-</span><span class='line'>-XX:NewSize=512m -XX:MaxNewSize=512m -XX:PermSize=512m
-</span><span class='line'>-XX:MaxPermSize=512m -XX:+DisableExplicitGC"</span></code></pre></td></tr></table></div></figure>
-
-
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/03/20/testing_jsp_in_jetty/">Testing JSP in Jetty Server (Embedded Mode)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-03-20T00:00:00+08:00" pubdate data-updated="true">Mar 20<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/03/20/testing_jsp_in_jetty/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>package com.bellwin.idcview.login.page;
-</span><span class='line'> 
-</span><span class='line'>import static org.junit.Assert.assertTrue;
-</span><span class='line'> 
-</span><span class='line'>import org.eclipse.jetty.server.Connector;
-</span><span class='line'>import org.eclipse.jetty.server.Server;
-</span><span class='line'>import org.eclipse.jetty.server.nio.SelectChannelConnector;
-</span><span class='line'>import org.eclipse.jetty.webapp.WebAppContext;
-</span><span class='line'>import org.junit.Before;
-</span><span class='line'>import org.junit.BeforeClass;
-</span><span class='line'> 
-</span><span class='line'>import com.gargoylesoftware.htmlunit.WebClient;
-</span><span class='line'> 
-</span><span class='line'>public abstract class AbstractContainerTest {
-</span><span class='line'>    protected static PauseableServer server;
-</span><span class='line'> 
-</span><span class='line'>    protected static final int port = 9180;
-</span><span class='line'> 
-</span><span class='line'>    protected static final String BASEURI = "http://localhost:" + port + "/";
-</span><span class='line'> 
-</span><span class='line'>    protected final WebClient webClient = new WebClient();
-</span><span class='line'> 
-</span><span class='line'>    @BeforeClass
-</span><span class='line'>    public static void startContainer() throws Exception {
-</span><span class='line'>        if (server == null) {
-</span><span class='line'>            server = new PauseableServer();
-</span><span class='line'>            Connector connector = new SelectChannelConnector();
-</span><span class='line'>            connector.setPort(port);
-</span><span class='line'>            server.setConnectors(new Connector[]{connector});
-</span><span class='line'>            server.setHandler(new WebAppContext("src/main/webapp", "/"));
-</span><span class='line'>            server.start();
-</span><span class='line'>            assertTrue(server.isStarted());
-</span><span class='line'>        }
-</span><span class='line'>    }
-</span><span class='line'> 
-</span><span class='line'>    @Before
-</span><span class='line'>    public void beforeTest() {
-</span><span class='line'>        webClient.setThrowExceptionOnFailingStatusCode(true);
-</span><span class='line'>    }
-</span><span class='line'> 
-</span><span class='line'>    public void pauseServer(boolean paused) {
-</span><span class='line'>        if (server != null) {
-</span><span class='line'>            server.pause(paused);
-</span><span class='line'>        }
-</span><span class='line'>    }
-</span><span class='line'> 
-</span><span class='line'>    public static class PauseableServer extends Server {
-</span><span class='line'>        public synchronized void pause(boolean paused) {
-</span><span class='line'>            try {
-</span><span class='line'>                if (paused) {
-</span><span class='line'>                    for (Connector connector : getConnectors()) {
-</span><span class='line'>                        connector.stop();
-</span><span class='line'>                    }
-</span><span class='line'>                } else {
-</span><span class='line'>                    for (Connector connector : getConnectors()) {
-</span><span class='line'>                        connector.start();
-</span><span class='line'>                    }
-</span><span class='line'>                }
-</span><span class='line'>            } catch (Exception e) {
-</span><span class='line'>            }
-</span><span class='line'>        }
-</span><span class='line'>    }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>package com.bellwin.idcview.login.page;
-</span><span class='line'> 
-</span><span class='line'>import java.io.IOException;
-</span><span class='line'>import java.net.MalformedURLException;
-</span><span class='line'> 
-</span><span class='line'>import org.junit.Before;
-</span><span class='line'>import org.junit.Test;
-</span><span class='line'> 
-</span><span class='line'>import com.gargoylesoftware.htmlunit.ElementNotFoundException;
-</span><span class='line'>import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
-</span><span class='line'>import com.gargoylesoftware.htmlunit.WebAssert;
-</span><span class='line'>import com.gargoylesoftware.htmlunit.html.HtmlCheckBoxInput;
-</span><span class='line'>import com.gargoylesoftware.htmlunit.html.HtmlForm;
-</span><span class='line'>import com.gargoylesoftware.htmlunit.html.HtmlInput;
-</span><span class='line'>import com.gargoylesoftware.htmlunit.html.HtmlPage;
-</span><span class='line'> 
-</span><span class='line'>public class ContainerIntegrationTest extends AbstractContainerTest {
-</span><span class='line'> 
-</span><span class='line'>    @Before
-</span><span class='line'>    public void logOut() throws IOException {
-</span><span class='line'>        // Make sure we are logged out
-</span><span class='line'>        final HtmlPage homePage = webClient.getPage(BASEURI);
-</span><span class='line'>        try {
-</span><span class='line'>            homePage.getAnchorByHref("/logout.jsp").click();
-</span><span class='line'>        }
-</span><span class='line'>        catch (ElementNotFoundException e) {
-</span><span class='line'>            //Ignore
-</span><span class='line'>        }
-</span><span class='line'>    }
-</span><span class='line'> 
-</span><span class='line'>    @Test
-</span><span class='line'>    public void logIn() throws FailingHttpStatusCodeException, MalformedURLException, IOException, InterruptedException {
-</span><span class='line'>        HtmlPage page = webClient.getPage(BASEURI + "login.jsp");
-</span><span class='line'>        HtmlForm form = page.getFormByName("loginform");
-</span><span class='line'>        form.&lt;HtmlInput&gt;getInputByName("username").setValueAttribute("root");
-</span><span class='line'>        form.&lt;HtmlInput&gt;getInputByName("password").setValueAttribute("secret");
-</span><span class='line'>        page = form.&lt;HtmlInput&gt;getInputByName("submit").click();
-</span><span class='line'>        // This'll throw an expection if not logged in
-</span><span class='line'>        page.getAnchorByHref("/logout.jsp");
-</span><span class='line'>    }
-</span><span class='line'> 
-</span><span class='line'>    @Test
-</span><span class='line'>    public void logInAndRememberMe() throws Exception {
-</span><span class='line'>        HtmlPage page = webClient.getPage(BASEURI + "login.jsp");
-</span><span class='line'>        HtmlForm form = page.getFormByName("loginform");
-</span><span class='line'>        form.&lt;HtmlInput&gt;getInputByName("username").setValueAttribute("root");
-</span><span class='line'>        form.&lt;HtmlInput&gt;getInputByName("password").setValueAttribute("secret");
-</span><span class='line'>        HtmlCheckBoxInput checkbox = form.getInputByName("rememberMe");
-</span><span class='line'>        checkbox.setChecked(true);
-</span><span class='line'>        page = form.&lt;HtmlInput&gt;getInputByName("submit").click();
-</span><span class='line'>        server.stop();
-</span><span class='line'>        server.start();
-</span><span class='line'>        page = webClient.getPage(BASEURI);
-</span><span class='line'>        // page.getAnchorByHref("/logout.jsp");
-</span><span class='line'>        WebAssert.assertLinkPresentWithText(page, "Log out");
-</span><span class='line'>        page = page.getAnchorByHref("/account").click();
-</span><span class='line'>        // login page should be shown again - user remembered but not authenticated
-</span><span class='line'>        WebAssert.assertFormPresent(page, "loginform");
-</span><span class='line'>    }
-</span><span class='line'> 
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>You may want to logging message during Server starting.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;logger name="org.eclipse.jetty.util.log" additivity="false"&gt;
-</span><span class='line'>    &lt;level value="debug" /&gt;
-</span><span class='line'>    &lt;appender-ref ref="stdout" /&gt;
-</span><span class='line'>&lt;/logger&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/03/20/test_exception_in_junit/">Test Exception in JUnit</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-03-20T00:00:00+08:00" pubdate data-updated="true">Mar 20<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/03/20/test_exception_in_junit/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>之前遇到測exception message都還改回用try catch，原來，可以用mock
-like的方式去測exception message.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>@Rule
-</span><span class='line'>public ExpectedException thrown = ExpectedException.none();
-</span><span class='line'> 
-</span><span class='line'>@Test
-</span><span class='line'>public void shouldNotLetUnknownUserLogin() throws UnknownUserException {
-</span><span class='line'>    thrown.expect(UnknownUserException.class);
-</span><span class='line'>    thrown.expectMessage("Unknown user: joe");
-</span><span class='line'>    UserDao dao = mock(UserDao.class);
-</span><span class='line'>    when(dao.findByName("joe")).thenReturn(null);
-</span><span class='line'>    manager.setUserDao(dao);
-</span><span class='line'>    manager.login("joe","secret");
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>thrown.expectMessage(JUnitMatchers.containsString("joe"));</span></code></pre></td></tr></table></div></figure>
-
-
-<p>code snippet is from
-<a href="http://weblogs.java.net/blog/johnsmart/archive/2009/09/27/testing-exceptions-junit-47" title="http://weblogs.java.net/blog/johnsmart/archive/2009/09/27/testing-exceptions-junit-47">here</a></p>
-</div>
-  
-  
-
-
-    </article>
   
   
     <article>
@@ -1558,6 +1126,722 @@ ContextMenuInfo)</li>
 
     </article>
   
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/03/20/media_player/">Android Media Player</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-20T00:00:00+08:00" pubdate data-updated="true">Mar 20<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/03/20/media_player/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h5>AndroidMainfest.xml</h5>
+
+<p>如果需要從網路下載音訊檔，需要開放<code>android.permission.INTERNET</code>權限</p>
+
+<pre><code>&lt;uses-permission android:name="android.permission.INTERNET" /&gt;
+</code></pre>
+
+<h3>使用流程</h3>
+
+<h5>State Diagram</h5>
+
+<p>狀態對<a href="http://developer.android.com/reference/android/media/MediaPlayer.html" title="http://developer.android.com/reference/android/media/MediaPlayer.html">MediaPlayer</a>來說是相當重要的，
+在不適當的狀態下呼叫不適當的method會導致MediaPlay丟出例常。</p>
+
+<p><img src="http://developer.android.com/images/mediaplayer_state_diagram.gif" alt="image" /></p>
+
+<p>基本上的使用流程如下</p>
+
+<ol>
+<li>透過<code>create()</code>建立(idle狀態)</li>
+<li>透過<code>setDataSource()</code>初始化MediaPlayer (initialized狀態)</li>
+<li>透過<code>prepare()</code>預備播放 (preparing and prepared狀態)</li>
+<li>透過<code>start()</code>播放 (started狀態)</li>
+<li>之後可以進行播放相關的控制</li>
+<li>透過<code>stop()</code>停止播放 (stop狀態)</li>
+<li><strong>沒有要用MediaPlayer時，記得呼叫release()釋放資源</strong> (end狀態)</li>
+</ol>
+
+
+<h3>音訊來源</h3>
+
+<p>要播放的訊息檔可以來自</p>
+
+<ol>
+<li>Local resources (放程式/raw目錄的檔案，有resource id的)</li>
+<li>Internal URIs (內部uri是指可以透過Content Resolver取存的)</li>
+<li>External URLs (外部url大多是指網路上的檔案，只能以streaming讀取)</li>
+</ol>
+
+
+<p>streaming需要先下載到buffer後再進行播放，未下載的部份，無法做位置控制(forward，reverse，seeking)
+，用串流播放時，前端通常會實作兩段式的progress
+bar，第一段是目前播放的進度，另一段是已下載到buffer的進度。</p>
+
+<h5>播放程式內*有resource id)的音訊檔</h5>
+
+<p>這種方式通常是用來播放跟程式中預先定義好的音效，音樂…</p>
+
+<pre><code>MediaPlayer mediaPlayer = MediaPlayer.create(context, R.raw.sound_file_1);
+mediaPlayer.start(); // no need to call prepare(); create() does that for you
+</code></pre>
+
+<p>讀取resource是透過create時指定resource
+id，這種方式不用自已呼叫prepare(),create()內會自行呼叫prepare()。</p>
+
+<h5>播放手機內部音訊檔</h5>
+
+<p>這種方式是透過Content URI取得內部的音訊資源</p>
+
+<pre><code>Uri myUri = ....; // initialize Uri here
+MediaPlayer mediaPlayer = new MediaPlayer();
+mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+mediaPlayer.setDataSource(getApplicationContext(), myUri);
+mediaPlayer.prepare();
+mediaPlayer.start();
+</code></pre>
+
+<h5>播放網路上的音訊檔</h5>
+
+<p>這種方式是透過標準的url來播放網路上的音訊檔</p>
+
+<pre><code>String url = "http://........"; // your URL here
+MediaPlayer mediaPlayer = new MediaPlayer();
+mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+mediaPlayer.setDataSource(url);
+mediaPlayer.prepare(); // might take long! (for buffering, etc)
+mediaPlayer.start();
+</code></pre>
+
+<h3>Preparation</h3>
+
+<p>MediaPlayer要能開始播放，必須先進入Prepared狀態。</p>
+
+<h5>Asynchronous Preparation</h5>
+
+<p>進入Prepared狀態會花掉一些時間，因為prepare可能需要抓取及解碼音訊檔(可能需幾秒)，如果Prepared是在main
+thread呼叫，會把ui給block住，這樣會影響操作性。
+所以MediaPlayer有提供非同步的Preparation方式，也就是在work
+thread進行preparing的動作，可以讓block情況減緩一些。</p>
+
+<p>透過prepareAsync()可以進行非同步的preparing，因為是非同步的，所以如果要知道何時會prepared完成，那就必須透過<code>MediaPlayer.OnPreparedListener</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public class MyService extends Service implements MediaPlayer.OnPreparedListener {
+</span><span class='line'>    private static final ACTION_PLAY = "com.example.action.PLAY";
+</span><span class='line'>    MediaPlayer mMediaPlayer = null;
+</span><span class='line'> 
+</span><span class='line'>    public int onStartCommand(Intent intent, int flags, int startId) {
+</span><span class='line'>        ...
+</span><span class='line'>        if (intent.getAction().equals(ACTION_PLAY)) {
+</span><span class='line'>            mMediaPlayer = ... // initialize it here
+</span><span class='line'>            mMediaPlayer.setOnPreparedListener(this);
+</span><span class='line'>            mMediaPlayer.prepareAsync(); // prepare async to not block main thread
+</span><span class='line'>        }
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>    /** Called when MediaPlayer is ready */
+</span><span class='line'>    public void onPrepared(MediaPlayer player) {
+</span><span class='line'>        player.start();
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>同步播放進度</h3>
+
+<p>MediaPlayer本身並不包含UI相關的component，如果要控制MediaPlayer的播放動作，可以透過Button去呼叫播放的API。
+其中，有一個比較麻煩的是顯示播放進度的ProgressBar(或SeekBar)，因為progress
+bar需要一直不斷跟MediaPlayer進行同步
+最直接的方式是寫一個thread，然後透過Handler(WorkerThread不能直接存取UI元件)去取得MediaPlayer目前播放進度的資料，並持續的設定到ProgressBar上。</p>
+
+<h5>透過thread同步ProcessBar</h5>
+
+<p>像下面code的這樣，但是，實際使用上，發現效能不是很好，progress
+bar不管怎麼調，都沒Android內建的<a href="http://developer.android.com/reference/android/widget/MediaController.html" title="http://developer.android.com/reference/android/widget/MediaController.html">MediaController</a>好。
+去查了一下MediaController的source發現他是用<strong>recursive(遞歸)的方法</strong>處理的。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Thread syncSeekBarThread = new Thread(new Runnable() {
+</span><span class='line'>    @Override
+</span><span class='line'>    public void run() {
+</span><span class='line'>        int currentPosition = 0;
+</span><span class='line'>        while (player != null && currentPosition &lt; total) {
+</span><span class='line'>            int currentPosition = mPlayer.getCurrentPosition();
+</span><span class='line'>            Message msg = new Message();
+</span><span class='line'>            msg.what = currentPosition;
+</span><span class='line'>            threadHandler.sendMessage(msg);
+</span><span class='line'>            Thread.sleep(1000);
+</span><span class='line'>        }
+</span><span class='line'>    }
+</span><span class='line'>});
+</span><span class='line'> 
+</span><span class='line'>syncSeekBarThread.start(); // start synchronizing
+</span><span class='line'> 
+</span><span class='line'> 
+</span><span class='line'>private Handler threadHandler = new Handler(){
+</span><span class='line'>    public void handleMessage(Message msg){
+</span><span class='line'>        seekBar.setProgress(msg.what);
+</span><span class='line'>    }
+</span><span class='line'>};</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>透過Handler的recursive同步ProcessBar</h5>
+
+<p>主要的重點有</p>
+
+<ol>
+<li>要找一個觸發recursive的好地點，播放器上的play button是一個不錯的位置</li>
+<li>handleMessage一但開始接到Message後，就會不斷的送Message給自已</li>
+<li>用sendMessageDelayed來計算下次的觸發時間</li>
+</ol>
+
+
+<p>相當巧妙的解法，難怪大家都建議多看Android的source，改成這樣後，ProgressBar果然有比較平順。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>private class SyncHandler extends Handler {
+</span><span class='line'>    @Override
+</span><span class='line'>    public void handleMessage(Message msg) {
+</span><span class='line'>        int current = msg.what;
+</span><span class='line'>        seekBar.setProgress(current);
+</span><span class='line'>        if (!seekbarChangeListener.isDragging()) {
+</span><span class='line'>            Message m = obtainMessage();
+</span><span class='line'>            m.what = player.getCurrentPosition();
+</span><span class='line'>            // Send meesage to Handler itself will fire handleMessage() again with new Message.
+</span><span class='line'>            sendMessageDelayed(m, 1000 - player.getCurrentPosition() % 1000);
+</span><span class='line'>        }
+</span><span class='line'>    }
+</span><span class='line'>}
+</span><span class='line'> 
+</span><span class='line'>private Handler    handler = new SyncHandler();
+</span><span class='line'> 
+</span><span class='line'>/**
+</span><span class='line'>  * strt
+</span><span class='line'>  *
+</span><span class='line'>  */
+</span><span class='line'>public void PlayButtonOnClick() {
+</span><span class='line'>    handler.sendEmptyMessage(player.getCurrentPosition());
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>Resource</h1>
+
+<ul>
+<li><a href="http://developer.android.com/guide/topics/media/mediaplayer.html" title="http://developer.android.com/guide/topics/media/mediaplayer.html">官網文件</a></li>
+<li><a href="http://developer.android.com/reference/android/media/MediaPlayer.html" title="http://developer.android.com/reference/android/media/MediaPlayer.html">API</a></li>
+<li><a href="http://developer.android.com/guide/topics/media/mediaplayer.html#wakelocks" title="http://developer.android.com/guide/topics/media/mediaplayer.html#wakelocks">Wake  locks</a>
+
+<ul>
+<li>如果要必免待機時，播放器被停掉，可以設定wake mode</li>
+</ul>
+</li>
+<li><a href="http://developer.android.com/guide/topics/media/mediaplayer.html#audiofocus" title="http://developer.android.com/guide/topics/media/mediaplayer.html#audiofocus">Audio  focus</a>
+
+<ul>
+<li>如果要處理接到電話或其他事件時，把播放器暫停，可以透過audio focus(2.2+)</li>
+</ul>
+</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/03/20/logback_101/">Logback 101</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-20T00:00:00+08:00" pubdate data-updated="true">Mar 20<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/03/20/logback_101/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>在使用log4j時，遇到幾個問題，剛好這個幾個問題是<a href="http://logback.qos.ch/index.html" title="http://logback.qos.ch/index.html">logback</a>特別強調他可以解決的(所以，我們應該是遇到了大多數使用log4j的開發人員會遇到的麻煩)。
+而且，一直以為都是使用<a href="http://www.slf4j.org/" title="http://www.slf4j.org/">SLF4J</a>當作logger的API(slf4j底層是呼叫log4j)，logback也可以無痛轉換，所以就試著把Log4j換成logback</p>
+
+<p>Appender Additivity(疊加)是一個很常用的功能，官網上對它的說明是這樣的</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Appender Additivity
+</span><span class='line'> 
+</span><span class='line'>The output of a log statement of logger L will go to all the appenders in L and its ancestors. This is the meaning of the term "appender additivity".
+</span><span class='line'> 
+</span><span class='line'>However, if an ancestor of logger L, say P, has the additivity flag set to false, then L's output will be directed to all the appenders in L and its ancestors up to and including P but not the appenders in any of the ancestors of P.
+</span><span class='line'> 
+</span><span class='line'>Loggers have their additivity flag set to true by default.</span></code></pre></td></tr></table></div></figure>
+
+
+<p>example</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  Logger Name       Attached Appenders   Additivity Flag   Output Targets           Comment
+</span><span class='line'>  ----------------- -------------------- ----------------- ------------------------ ---------------------------------------root              A1                   not applicable    A1                       Since the root logger stands at the top of the logger hierarchy, the additivity flag does not apply to it.
+</span><span class='line'>  x                 A-x1, A-x2           true              A1, A-x1, A-x2           Appenders of “x” and of root.
+</span><span class='line'>  x.y               none                 true              A1, A-x1, A-x2           Appenders of “x” and of root.
+</span><span class='line'>  x.y.z             A-xyz1               true              A1, A-x1, A-x2, A-xyz1   Appenders of “x.y.z”, “x” and of root.
+</span><span class='line'>  security          A-sec                false             A-sec                    No appender accumulation since the additivity flag is set to “false”. Only appender A-sec will be used.
+</span><span class='line'>  security.access   none                 true              A-sec                    Only appenders of “security” because the additivity flag in “security” is set to “false”.</span></code></pre></td></tr></table></div></figure>
+
+
+<p>基本上，也就是設定<code>Additivity=false</code>時，該logger所宣告的所有appenders不會附加到parent上面(常用來抑制logging到root)，其子logger也不會繼承這個logger所宣告的appenders。</p>
+
+<h4>在配置檔使用變數</h4>
+
+<p>配置檔內可以透過<code>&lt;property&gt;</code>
+tag來定義變數，並透過<code>${變數名稱}</code>來引用它。系統變數也可以直接使用，像<code>${user.home}</code>，另外，也可以用一個獨立的屬性檔(filename.properties)來定義屬性，之後再引入
+<code>&lt;property file=“filename.properties” /&gt;</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;configuration&gt;
+</span><span class='line'> 
+</span><span class='line'>  &lt;property name="USER_HOME" value="/home/sebastien" /&gt;
+</span><span class='line'> 
+</span><span class='line'>  &lt;appender name="FILE" class="ch.qos.logback.core.FileAppender"&gt;
+</span><span class='line'>    &lt;file&gt;${USER_HOME}/myApp.log&lt;/file&gt;
+</span><span class='line'>    &lt;encoder&gt;
+</span><span class='line'>      &lt;pattern&gt;%msg%n&lt;/pattern&gt;
+</span><span class='line'>    &lt;/encoder&gt;
+</span><span class='line'>  &lt;/appender&gt;
+</span><span class='line'> 
+</span><span class='line'>  &lt;root level="debug"&gt;
+</span><span class='line'>    &lt;appender-ref ref="FILE" /&gt;
+</span><span class='line'>  &lt;/root&gt;
+</span><span class='line'>&lt;/configuration&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果定義的變數需要預設使，那可以透過<code>:-</code>符號，ex:
+<code>${aKey:-golden}</code>，如果aKey是null，那就會用<strong>golden</strong>取代</p>
+
+<h1>Log4j to Logback porting筆記</h1>
+
+<h3>換掉library</h3>
+
+<p>專案是用maven管理的，所以，換lib相當簡單，到<a href="http://search.maven.org/" title="http://search.maven.org/">maven的lib搜尋引擎</a>找出最新的logback，換上即可</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;dependency&gt;
+</span><span class='line'>    &lt;groupId&gt;org.slf4j&lt;/groupId&gt;
+</span><span class='line'>    &lt;artifactId&gt;slf4j-api&lt;/artifactId&gt;
+</span><span class='line'>    &lt;version&gt;1.6.3&lt;/version&gt;
+</span><span class='line'>&lt;/dependency&gt;
+</span><span class='line'>&lt;dependency&gt;
+</span><span class='line'>    &lt;groupId&gt;org.slf4j&lt;/groupId&gt;
+</span><span class='line'>    &lt;artifactId&gt;slf4j-log4j12&lt;/artifactId&gt;
+</span><span class='line'>    &lt;version&gt;1.6.3&lt;/version&gt;
+</span><span class='line'>&lt;/dependency&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>換成</h5>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;dependency&gt;
+</span><span class='line'>    &lt;groupId&gt;ch.qos.logback&lt;/groupId&gt;
+</span><span class='line'>    &lt;artifactId&gt;logback-classic&lt;/artifactId&gt;
+</span><span class='line'>    &lt;version&gt;0.9.30&lt;/version&gt;
+</span><span class='line'>&lt;/dependency&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>結果</h5>
+
+<p>因為之前都是slf4j寫的，完全不用改code，但是連其他lib裡的logger都輸出到console了(logback會有一個預設的設定檔，所以，不需要像log4j一樣，一定要給log4.xml或log4j.properties)
+但是用預設的設定，會連其它freamwork的log訊息一起輸出(像hibernate)，log4j在沒有配置檔時，會吐出設定檔不存在的訊息，但是logback則會以預設(內建)的配置檔做設定。</p>
+
+<h3>使用客製的配置檔</h3>
+
+<p>logback會在classpath下依序尋找</p>
+
+<ol>
+<li>logback.groovy (logback可以用groovy當設定檔)</li>
+<li>logback-test.xml (通常用於測試)</li>
+<li>logback.xml (一般是用這個)</li>
+<li><a href="http://logback.qos.ch/xref/ch/qos/logback/classic/BasicConfigurator.html" title="http://logback.qos.ch/xref/ch/qos/logback/classic/BasicConfigurator.html">BasicConfigurator</a>
+如果上面三個都不存在時，會用這個class的內容當作配置檔(預設)</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;configuration  scan="true" scanPeriod="30 seconds" &gt; 
+</span><span class='line'> 
+</span><span class='line'>  &lt;appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender"&gt;
+</span><span class='line'>    &lt;!-- encoders are assigned the type
+</span><span class='line'>         ch.qos.logback.classic.encoder.PatternLayoutEncoder by default --&gt;
+</span><span class='line'>    &lt;encoder&gt;
+</span><span class='line'>      &lt;pattern&gt;%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n&lt;/pattern&gt;
+</span><span class='line'>    &lt;/encoder&gt;
+</span><span class='line'>  &lt;/appender&gt;
+</span><span class='line'> 
+</span><span class='line'>  &lt;root level="debug"&gt;
+</span><span class='line'>    &lt;appender-ref ref="STDOUT" /&gt;
+</span><span class='line'>  &lt;/root&gt;
+</span><span class='line'>&lt;/configuration&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;configuration  
+</span><span class='line'>  scan="true"                 // 更改配置檔內容時，不用重啟程式
+</span><span class='line'>  scanPeriod="30 seconds"     // 多久偵測一次變更
+</span><span class='line'>&gt; </span></code></pre></td></tr></table></div></figure>
+
+
+<h5>Rolling Appender</h5>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  &lt;appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender"&gt;
+</span><span class='line'>        &lt;file&gt;${USER_HOME}/foo.log&lt;/file&gt;
+</span><span class='line'>        &lt;rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy"&gt;
+</span><span class='line'>            &lt;!-- daily rollover --&gt;
+</span><span class='line'>            &lt;fileNamePattern&gt;${USER_HOME}/foo.%d{yyyy-MM-dd}.log&lt;/fileNamePattern&gt;
+</span><span class='line'>            &lt;!-- keep 120 days' worth of history --&gt;
+</span><span class='line'>            &lt;maxHistory&gt;120&lt;/maxHistory&gt;
+</span><span class='line'>        &lt;/rollingPolicy&gt;
+</span><span class='line'>        &lt;encoder&gt;
+</span><span class='line'>            &lt;pattern&gt;%d{HH:mm:ss.SSS} [%thread] %-5level %30.20logger{0}.%-30method - %msg%n&lt;/pattern&gt;
+</span><span class='line'>        &lt;/encoder&gt;
+</span><span class='line'>    &lt;/appender&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>讓Logger周期性的改名成舊版(Rolling)是一個很常見的需求，像是每天午夜12點整，把log改名成前一日的日期，然後當日的log則從新檔開始，這樣可以避免單一的log檔過大，
+這樣的行為，我們叫Daily Rolling。</p>
+
+<p>LogBack的Rolling的設定上很直覺，只要設定fileNamePattern中的日期格式，它就會依設定日期格式的最小單位做Rolling。但要注意的是如果<code>&lt;appender&gt;&lt;file&gt;</code>tag有設定路徑，那<code>&lt;fileNamePattern&gt;</code>也要設定相同的路徑，這樣可以讓舊的log(有包含日期的檔名)跟新的log(作用中的log)在同一個目錄</p>
+
+<p>這樣設定後，在使用者的家目錄下，可以看到類似下面的檔案列要</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>foo.log   // 作用中的log
+</span><span class='line'>foo.2012-01-01.log 
+</span><span class='line'>foo.2012-01-02.log 
+</span><span class='line'>foo.2012-01-03.log 
+</span><span class='line'>foo.2012-01-04.log 
+</span><span class='line'>...</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>TBD</h3>
+
+<ul>
+<li>出異常時，自動修改設定檔，讓其輸出錯誤細節</li>
+</ul>
+
+
+<h1>Resource</h1>
+
+<ul>
+<li><a href="http://logback.qos.ch/" title="http://logback.qos.ch/">官網</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/03/20/listview_style/">ListView Style</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-20T00:00:00+08:00" pubdate data-updated="true">Mar 20<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/03/20/listview_style/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>以下用幾個簡單的步驟來美化ListView</p>
+
+<h5>原始</h5>
+
+<p><img src="http://blog.kent-chiu.com/images/2012-03-20/listview_style_002.png" alt="listview_style_002.png" /></p>
+
+<h5>結果</h5>
+
+<p><img src="http://blog.kent-chiu.com/images/2012-03-20/listview_style_003.png" alt="listview_style_003.png" /></p>
+
+<h5>底圖</h5>
+
+<p>如果沒什麼美工底子，可以到<a href="http://www.bgpatterns.com/" title="http://www.bgpatterns.com/">這個</a>網站產生一個簡易的底圖(下載後檔名改成app_bg.png)</p>
+
+<p><img src="http://blog.kent-chiu.com/images/2012-03-20/listview_style_001.png" alt="listview_style_001.png" /></p>
+
+<h5>drawable/app_background.xm</h5>
+
+<p>因為底圖不會剛好跟螢幕大小一樣，所以要透過bitmap讓底圖重覆</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+</span><span class='line'>&lt;bitmap xmlns:android="http://schemas.android.com/apk/res/android"
+</span><span class='line'>    android:src="@drawable/app_bg"
+</span><span class='line'>    android:tileMode="repeat" /&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>values/styles.xml</h5>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+</span><span class='line'>&lt;resources&gt;
+</span><span class='line'>    &lt;style name="app_theme" parent="android:Theme"&gt;
+</span><span class='line'>        &lt;item name="android:windowBackground"&gt;@drawable/app_background&lt;/item&gt;
+</span><span class='line'>        &lt;item name="android:listViewStyle"&gt;@style/TransparentListView&lt;/item&gt;
+</span><span class='line'>        &lt;item name="android:expandableListViewStyle"&gt;@style/TransparentExpandableListView&lt;/item&gt;
+</span><span class='line'>    &lt;/style&gt;
+</span><span class='line'>    &lt;style name="TransparentListView" parent="@android:style/Widget.ListView"&gt;
+</span><span class='line'>        &lt;item name="android:cacheColorHint"&gt;@android:color/transparent&lt;/item&gt;
+</span><span class='line'>    &lt;/style&gt;
+</span><span class='line'>    &lt;style name="TransparentExpandableListView" parent="@android:style/Widget.ExpandableListView"&gt;
+</span><span class='line'>        &lt;item name="android:cacheColorHint"&gt;@android:color/transparent&lt;/item&gt;
+</span><span class='line'>    &lt;/style&gt;
+</span><span class='line'>&lt;/resources&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>AndroidManifest.xml</h5>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;application android:theme="@style/app_theme"&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>在eclipse預覽</h3>
+
+<p>如果一切都很順利的話，可以用eclipse的layout
+editor打開任一個activity，然後，右邊的theme可以看到剛剛新增的<code>app_theme</code>
+可以看到底圖重覆的在activity的背景</p>
+
+<p><img src="http://blog.kent-chiu.com/images/2012-03-20/listview_style_004.png" alt="listview_style_004.png" /></p>
+
+<p>如果在eclipse看不到預覽，可以執著執行程式，看看emulator或device有沒有效果，或者試著重開eclipse可能就可以看到preview了</p>
+
+<h1>Resource</h1>
+
+<ol>
+<li><a href="http://stackoverflow.com/questions/2706913/how-to-make-android-apps-background-image-repeat" title="http://stackoverflow.com/questions/2706913/how-to-make-android-apps-background-image-repeat">本文主要參考這邊</a></li>
+<li><a href="http://androidblogger.blogspot.com/2009/01/how-to-have-tiled-background-cont.html" title="http://androidblogger.blogspot.com/2009/01/how-to-have-tiled-background-cont.html">http://androidblogger.blogspot.com/2009/01/how-to-have-tiled-background-cont.html</a>
+
+<ul>
+<li>如何設定底圖</li>
+</ul>
+</li>
+</ol>
+
+</div>
+  
+  
+
+
+    </article>
+  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/6/">&larr; Older</a>
@@ -1575,15 +1859,7 @@ ContextMenuInfo)</li>
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2013/07/07/python-101/">Python 101</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/06/25/url-encoding/">URL Encoding</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/06/04/restful-api-design/">RESTful API Design</a>
+        <a href="/blog/2013/07/15/mac-os-x-keyboard-shortcuts-for-terminal/">Mac OS X Keyboard Shortcuts for Terminal</a>
       </li>
     
       <li class="post">
@@ -1592,6 +1868,14 @@ ContextMenuInfo)</li>
     
       <li class="post">
         <a href="/blog/2013/05/12/jesper-report-font-issue/">Jesper Report, IReport 匯出成中文PDF</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/12/jasperreport-101/">JasperReport 101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/06/mac-tips/">Mac Tips</a>
       </li>
     
   </ul>

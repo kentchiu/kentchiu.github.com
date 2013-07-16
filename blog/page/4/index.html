@@ -9,16 +9,10 @@
   <meta name="author" content="Kent">
 
   
-  <meta name="description" content="
-Vim 101
-VIM for PHPer
-VIM cookbook
-vim Recipes
-pdf
-網站(有search功能) vim cheat sheet from
-vgod
-简明 Vim
-练级攻略 一些基本到進階的常用技巧，有圖片及gif動畫說明 VIM常用指令 ">
+  <meta name="description" content="這邊並不算真正的unit
+test，因為整個測試還是需要模擬器或實機執行，而且很依賴測試環境的context，如果有需要
+也是會去連網路或資料庫。 準備工作 要進行Android Testing通常是把test cases建立在另一個Test
+Project而不是像一般的java(maven &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -86,735 +80,6 @@ vgod
     <div id="content">
       <div class="blog-index">
   
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/04/26/vim/">VIM</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-04-26T00:00:00+08:00" pubdate data-updated="true">Apr 26<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/04/26/vim/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><ul>
-<li><a href="http://wiki.kent-chiu.com/doku.php?id=vim:vim_101" title="vim:vim_101">Vim 101</a></li>
-<li><a href="http://wiki.kent-chiu.com/doku.php?id=vim:vim_for_phper" title="vim:vim_for_phper">VIM for  PHPer</a></li>
-<li><a href="http://www.oualline.com/vim-cook.html" title="http://www.oualline.com/vim-cook.html">VIM cookbook</a></li>
-<li>vim Recipes
-<a href="http://wiki.kent-chiu.com/lib/exe/fetch.php?media=vim:vim-recipes.pdf" title="vim:vim-recipes.pdf">pdf</a>
-<a href="http://vim.runpaint.org/" title="http://vim.runpaint.org/">網站(有search功能)</a></li>
-<li><img src="http://blog.kent-chiu.com/images/2012-04-26/vim-cheat-sheet-full.png" alt="vim-cheat-sheet-full.png" />
-<a href="http://blog.vgod.tw/2009/12/08/vim-cheat-sheet-for-programmers/" title="http://blog.vgod.tw/2009/12/08/vim-cheat-sheet-for-programmers/">vim cheat sheet from
-vgod</a></li>
-<li><a href="http://coolshell.cn/articles/5426.html" title="http://coolshell.cn/articles/5426.html">简明 Vim
-练级攻略</a>
-
-<ul>
-<li>一些基本到進階的常用技巧，有圖片及gif動畫說明</li>
-</ul>
-</li>
-<li><a href="http://yannesposito.com/Scratch/en/blog/Learn-Vim-Progressively/" title="http://yannesposito.com/Scratch/en/blog/Learn-Vim-Progressively/">VIM常用指令</a></li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/04/20/actionbar/">Action Bar</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-04-20T00:00:00+08:00" pubdate data-updated="true">Apr 20<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/04/20/actionbar/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>android 3.0+ (API level 11)</p>
-
-<p><img src="http://developer.android.com/design/media/action_bar_basics.png" alt="img" /></p>
-
-<ol>
-<li>具有 tab 的效果，可以在多個 fragments 間切換</li>
-<li>具有 options menu 的功能， options menu 在 3.0 之後會用改採 action
-item 的實作呈現</li>
-</ol>
-
-
-<p>基本的 actionbar
-應用，可以參數<a href="http://developer.android.com/design/patterns/actionbar.html" title="http://developer.android.com/design/patterns/actionbar.html">這裡</a></p>
-
-<p><img src="http://blog.kent-chiu.com/images/2012-04-20/actionbar_001.png" alt="actionbar_001.png" /></p>
-
-<h5>移除 ActionBar</h5>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;activity android:theme="@android:style/Theme.Holo.NoActionBar"&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>移除後，在程式裡面呼叫 <code>getActionBar()</code> 會得到 null</p>
-
-<p><img src="http://blog.kent-chiu.com/images/2012-04-20/actionbar_002.png" alt="actionbar_002.png" /></p>
-
-<h5>隱藏 ActionBar</h5>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ActionBar actionBar = getActionBar();
-</span><span class='line'>actionBar.hide();</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>建立 Action Item</h3>
-
-<p>建立 Action Item 的方式跟之前建立 Option Menu 的方式一樣，只是有些 xml
-屬性不一樣</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>@Override
-</span><span class='line'>public boolean onCreateOptionsMenu(Menu menu) {
-</span><span class='line'>    getMenuInflater().inflate(R.menu.menu_foobar, menu);
-</span><span class='line'>    return true;
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="utf-8"?&gt;
-</span><span class='line'>&lt;menu xmlns:android="http://schemas.android.com/apk/res/android"&gt;
-</span><span class='line'>    &lt;item android:id="@+id/menu_save"
-</span><span class='line'>          android:icon="@drawable/ic_menu_save"
-</span><span class='line'>          android:title="@string/menu_save"
-</span><span class='line'>          android:showAsAction="ifRoom|withText" /&gt;
-</span><span class='line'>&lt;/menu&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>主要的差別在 <code>android:showAsAction</code> 屬性 <strong>ifRoom</strong>
-是指如果空間夠的話，放呈現該item ， <strong>withText</strong> 則是該 item 需不需要
-title 。 不過，就算指定了 title ，如果空間不足時，還是 title
-還是有可能不會出現，但基本上，把 id, icon, titile 視為必要屬性就好了。</p>
-
-<h3>建立 Action View</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;item
-</span><span class='line'>    android:id="@+id/menu_my_action_vew"
-</span><span class='line'>    android:actionViewClass="com.kentchiu.MyActionView"
-</span><span class='line'>    android:icon="@android:drawable/ic_dialog_alert"
-</span><span class='line'>    android:showAsAction="always"
-</span><span class='line'>    android:title="my test action view"/&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>package com.kentchiu;
-</span><span class='line'> 
-</span><span class='line'>import android.content.Context;
-</span><span class='line'>import android.view.LayoutInflater;
-</span><span class='line'>import android.widget.LinearLayout;
-</span><span class='line'> 
-</span><span class='line'>public class MyActionView extends LinearLayout {
-</span><span class='line'> 
-</span><span class='line'>    public MyActionView(Context context) {
-</span><span class='line'>        super(context);
-</span><span class='line'>        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-</span><span class='line'>        inflater.inflate(R.layout.action_test, this, true);
-</span><span class='line'>    }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>如果需要支援 Collapsible 的動作，就要實作
-<code>android.view.CollapsibleActionView</code>。</p>
-
-<h1>TBC</h1>
-
-<ol>
-<li>Action Provider</li>
-<li>Navigation Tabs</li>
-<li>Drop-down Navigation</li>
-</ol>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/04/17/drawable_101/">Android Drawable 101</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-04-17T00:00:00+08:00" pubdate data-updated="true">Apr 17<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/04/17/drawable_101/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>這篇文章裡的原始碼我放在GITHUB上 :
-<a href="https://github.com/DraculaCwg/android_exercise" title="https://github.com/DraculaCwg/android_exercise">https://github.com/DraculaCwg/android_exercise</a></p>
-
-<p>在android中，要設計出美觀的ui，通常都跟<code>Drawable</code>相關的物件脫離不了關係，<code>Drawable</code>翻成中文為”可繪的”，</p>
-
-<p><img src="http://blog.kent-chiu.com/images/2012-04-17/drawable_101_001.png" alt="drawable_101_001.png" /></p>
-
-<p>由上面的類別結構圖可以得知，圖檔、顏色、動畫、圖形，漸層這些都是屬於<code>Drawable</code>的子類別。
-回過頭來看所有gui元件的祖先<code>View</code>
-class，裡面跟<code>Drawable</code>有關的是setBackground開頭的幾個method，
-也就是說，對於所有的元件，我們都可以透過圖片、形狀、顏色、…等<code>Drawable</code>的子類別來改變元件的外觀。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>public class View implements Drawable.Callback, KeyEvent.Callback, AccessibilityEventSource {
-</span><span class='line'>    public void setBackgroundColor(int color) {
-</span><span class='line'>        setBackgroundDrawable(new ColorDrawable(color));
-</span><span class='line'>    }
-</span><span class='line'> 
-</span><span class='line'>    public void setBackgroundColor(int color) {
-</span><span class='line'>       ...
-</span><span class='line'>    }
-</span><span class='line'> 
-</span><span class='line'>    @RemotableViewMethod
-</span><span class='line'>    public void setBackgroundResource(int resid) {
-</span><span class='line'>        if (resid != 0 && resid == mBackgroundResource) {
-</span><span class='line'>            return;
-</span><span class='line'>        }
-</span><span class='line'> 
-</span><span class='line'>        Drawable d= null;
-</span><span class='line'>        if (resid != 0) {
-</span><span class='line'>            d = mResources.getDrawable(resid);
-</span><span class='line'>        }
-</span><span class='line'>        setBackgroundDrawable(d);
-</span><span class='line'> 
-</span><span class='line'>        mBackgroundResource = resid;
-</span><span class='line'>    }
-</span><span class='line'> 
-</span><span class='line'>    public void setBackgroundDrawable(Drawable d) {
-</span><span class='line'>        ...
-</span><span class='line'>    }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>實務上比較常用的做法，是透過xml來設定元件的background，而官網文件上的<a href="http://developer.android.com/guide/topics/resources/drawable-resource.html" title="http://developer.android.com/guide/topics/resources/drawable-resource.html">Drawable
-Resources</a>
-裡面的xml tag都可以找到跟上面的類別相對應的tag，需要特別注意的是 .png,
-.9.png,.jpg, or
-.gif這些圖檔只要放在res\drawable的目錄下，就會自動依檔名變成可以直接在XML裡引用的Drawable
-Resource，不需額外的tag
-而另外常用的還有<code>Shape Drawable</code>這種resource，他裡面包含了處理顏色、形狀，外框的子tags</p>
-
-<p>基本上，只要透過圖片跟Shape
-Drawable，就可以玩出很多效果了，先從簡單的來好了:</p>
-
-<h3>圖片</h3>
-
-<p>要改變元件的外觀，最快的方式就是把元件加上背景圖片，下圖效果都是單純的把元件的背景圖片換掉而已</p>
-
-<p><img src="http://blog.kent-chiu.com/images/2012-04-17/drawable_101_002.png" alt="drawable_101_002.png" /></p>
-
-<p>上圖三個view，分別是用這三個圖片當底圖 (圖片來源 :
-<a href="http://www.dibbus.com/2011/03/9patch-images-in-android/" title="http://www.dibbus.com/2011/03/9patch-images-in-android/">http://www.dibbus.com/2011/03/9patch-images-in-android/</a>)</p>
-
-<p><img src="http://blog.kent-chiu.com/images/2012-04-17/drawable_101_003.png" alt="drawable_101_003.png" />
-<img src="http://blog.kent-chiu.com/images/2012-04-17/drawable_101_004.png" alt="drawable_101_004.png" />
-<img src="http://blog.kent-chiu.com/images/2012-04-17/drawable_101_005.png" alt="drawable_101_005.png" /></p>
-
-<p>透過把android:background設定成圖片的resource就可以達到上面的效果</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="utf-8"?&gt;
-</span><span class='line'>&lt;LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-</span><span class='line'>    android:layout_width="match_parent"
-</span><span class='line'>    android:layout_height="match_parent"
-</span><span class='line'>    android:orientation="vertical" &gt;
-</span><span class='line'> 
-</span><span class='line'>    &lt;TextView
-</span><span class='line'>        android:id="@+id/bule"
-</span><span class='line'>        android:layout_width="match_parent"
-</span><span class='line'>        android:layout_height="100dp"
-</span><span class='line'>        android:background="@drawable/btn_blue_matte"
-</span><span class='line'>        android:gravity="center"
-</span><span class='line'>        android:text="bule"
-</span><span class='line'>        android:textColor="@color/White" /&gt;
-</span><span class='line'> 
-</span><span class='line'>    &lt;TextView
-</span><span class='line'>        android:id="@+id/bule_glossy"
-</span><span class='line'>        android:layout_width="match_parent"
-</span><span class='line'>        android:layout_height="100dp"
-</span><span class='line'>        android:background="@drawable/btn_blue_glossy"
-</span><span class='line'>        android:gravity="center"
-</span><span class='line'>        android:text="bule glossy"
-</span><span class='line'>        android:textColor="@color/White" /&gt;
-</span><span class='line'> 
-</span><span class='line'>    &lt;TextView
-</span><span class='line'>        android:id="@+id/corner"
-</span><span class='line'>        android:layout_width="match_parent"
-</span><span class='line'>        android:layout_height="100dp"
-</span><span class='line'>        android:background="@drawable/btn_blue_pink_glossy"
-</span><span class='line'>        android:gravity="center"
-</span><span class='line'>        android:text="blue glossy with pink"
-</span><span class='line'>        android:textColor="@color/White" /&gt;
-</span><span class='line'> 
-</span><span class='line'>&lt;/LinearLayout&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Shape Drawable</h3>
-
-<p>除了用圖片，也可以用<code>Shape Drawable</code>的方式來改變元件的外觀，Shape
-Drawable可以運用的tag如下</p>
-
-<ol>
-<li>&lt;corners> 圖形的四個角的形狀</li>
-<li>&lt;gradient> 漸層</li>
-<li>&lt;padding> 內部圖文</li>
-<li>&lt;size></li>
-<li>&lt;solid> 填滿的顏色</li>
-<li>&lt;stroke> 外框的線條效果</li>
-</ol>
-
-
-<p>下面就是透過設定<code>Shape Drawable</code>的tag達到的效果</p>
-
-<ol>
-<li>第一個view是使用了數個子tag達到的</li>
-<li>第二個view是只使用<code>&lt;gradient&gt;</code>做漸層</li>
-<li>第三個view是只使用<code>&lt;corners&gt;</code>來設定圖形為圓角(round)</li>
-<li>第四個view是只使用<code>&lt;solid&gt;</code>設定背景為綠色</li>
-<li>第五個view是只使用<code>&lt;stroke&gt;</code>來設定外框的效果</li>
-</ol>
-
-
-<p><img src="http://blog.kent-chiu.com/images/2012-04-17/drawable_101_006.png" alt="drawable_101_006.png" /></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="utf-8"?&gt;
-</span><span class='line'>&lt;LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-</span><span class='line'>    android:layout_width="match_parent"
-</span><span class='line'>    android:layout_height="match_parent"
-</span><span class='line'>    android:orientation="vertical" &gt;
-</span><span class='line'> 
-</span><span class='line'>    &lt;TextView
-</span><span class='line'>        android:id="@+id/all"
-</span><span class='line'>        android:layout_width="match_parent"
-</span><span class='line'>        android:layout_height="75dp"
-</span><span class='line'>        android:gravity="center"
-</span><span class='line'>        android:background="@drawable/shape_all"
-</span><span class='line'>        android:textColor="@color/Black"
-</span><span class='line'>        android:text="shape mix" /&gt;
-</span><span class='line'> 
-</span><span class='line'>    &lt;TextView
-</span><span class='line'>        android:id="@+id/gradient"
-</span><span class='line'>        android:layout_width="match_parent"
-</span><span class='line'>        android:layout_height="75dp"
-</span><span class='line'>        android:gravity="center"
-</span><span class='line'>        android:background="@drawable/shape_gradient"
-</span><span class='line'>        android:textColor="@color/Black"
-</span><span class='line'>        android:text="gradient" /&gt;
-</span><span class='line'> 
-</span><span class='line'>    &lt;TextView
-</span><span class='line'>        android:id="@+id/corner"
-</span><span class='line'>        android:layout_width="match_parent"
-</span><span class='line'>        android:layout_height="75dp"
-</span><span class='line'>        android:gravity="center"
-</span><span class='line'>        android:background="@drawable/shape_corners"
-</span><span class='line'>        android:textColor="@color/Black"
-</span><span class='line'>        android:text="corner" /&gt;
-</span><span class='line'> 
-</span><span class='line'> 
-</span><span class='line'>    &lt;TextView
-</span><span class='line'>        android:id="@+id/corner"
-</span><span class='line'>        android:layout_width="match_parent"
-</span><span class='line'>        android:layout_height="75dp"
-</span><span class='line'>        android:gravity="center"
-</span><span class='line'>        android:background="@drawable/shape_solid"
-</span><span class='line'>        android:textColor="@color/Black"
-</span><span class='line'>        android:text="corner" /&gt;
-</span><span class='line'>    &lt;TextView
-</span><span class='line'>        android:id="@+id/stroke"
-</span><span class='line'>        android:layout_width="match_parent"
-</span><span class='line'>        android:layout_height="75dp"
-</span><span class='line'>        android:gravity="center"
-</span><span class='line'>        android:background="@drawable/shape_stroke"
-</span><span class='line'>        android:textColor="@color/White"
-</span><span class='line'>        android:text="stroke" /&gt;
-</span><span class='line'> 
-</span><span class='line'>&lt;/LinearLayout&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="utf-8"?&gt;
-</span><span class='line'>&lt;shape xmlns:android="http://schemas.android.com/apk/res/android" &gt;
-</span><span class='line'>    &lt;gradient
-</span><span class='line'>        android:centerColor="@color/WhiteSmoke"
-</span><span class='line'>        android:endColor="@color/Yellow"
-</span><span class='line'>        android:startColor="@color/Blue" /&gt;
-</span><span class='line'>    &lt;corners android:radius="50dp" /&gt;
-</span><span class='line'>    &lt;stroke
-</span><span class='line'>        android:dashGap="5dp"
-</span><span class='line'>        android:dashWidth="3dp"
-</span><span class='line'>        android:width="5dp"
-</span><span class='line'>        android:color="@color/DarkSalmon" /&gt;
-</span><span class='line'>&lt;/shape&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<h5>漸層</h5>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="utf-8"?&gt;
-</span><span class='line'>&lt;shape xmlns:android="http://schemas.android.com/apk/res/android" &gt;
-</span><span class='line'> 
-</span><span class='line'>    &lt;gradient
-</span><span class='line'>        android:angle="90"
-</span><span class='line'>        android:centerColor="@color/WhiteSmoke"
-</span><span class='line'>        android:endColor="@color/Yellow"
-</span><span class='line'>        android:startColor="@color/Blue" /&gt;
-</span><span class='line'> 
-</span><span class='line'>&lt;/shape&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<h5>圓角</h5>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="utf-8"?&gt;
-</span><span class='line'>&lt;shape xmlns:android="http://schemas.android.com/apk/res/android" &gt;
-</span><span class='line'>    &lt;corners android:radius="50dp"/&gt;
-</span><span class='line'>    &lt;solid android:color="@color/White"/&gt;
-</span><span class='line'>&lt;/shape&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<h5>背景色</h5>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="utf-8"?&gt;
-</span><span class='line'>&lt;shape xmlns:android="http://schemas.android.com/apk/res/android" &gt;
-</span><span class='line'> 
-</span><span class='line'>    &lt;solid android:color="@color/Green" /&gt;
-</span><span class='line'> 
-</span><span class='line'>&lt;/shape&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<h5>外框</h5>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="utf-8"?&gt;
-</span><span class='line'>&lt;shape xmlns:android="http://schemas.android.com/apk/res/android" &gt;
-</span><span class='line'>    &lt;stroke android:width="5dp"
-</span><span class='line'>        android:color="@color/Red"
-</span><span class='line'>        android:dashWidth="3dp"
-</span><span class='line'>        android:dashGap="5dp"
-</span><span class='line'>        /&gt;
-</span><span class='line'>&lt;/shape&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>半透明效果</h3>
-
-<p>像下圖的半透明效果(Smoked
-Glass)，可以直接透過設定backgroud的顏色的透明度來達到，</p>
-
-<p><img src="http://blog.kent-chiu.com/images/2012-04-17/drawable_101_007.png" alt="drawable_101_007.png" /></p>
-
-<p>上圖的效果，主要就是在下面的這張圖上，放了一個半透明的text
-view，要讓view半透明就是設定View的backgroud屬性，<code>android:background=”#77000000”</code>
-#77000000是傳統的RGB前面加上一個透明度(alpha)，以傳統的RGB值#000000是全黑，#FFFFFF是全白，而前面的alpha的值也是00\~FF，這邊設成77剛好是一半。</p>
-
-<p>[[android:drawable_101_008.png][]</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="utf-8"?&gt;
-</span><span class='line'> 
-</span><span class='line'>&lt;FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-</span><span class='line'>    android:id="@+id/frameLayout1"
-</span><span class='line'>    android:layout_width="match_parent"
-</span><span class='line'>    android:layout_height="200dp"
-</span><span class='line'>    android:background="@drawable/google_doodle" &gt;
-</span><span class='line'> 
-</span><span class='line'>    &lt;TextView
-</span><span class='line'>        android:id="@android:id/text2"
-</span><span class='line'>        android:layout_width="fill_parent"
-</span><span class='line'>        android:layout_height="100dp"
-</span><span class='line'>        android:background="#77000000"
-</span><span class='line'>        android:gravity="center_vertical"
-</span><span class='line'>        android:text="smoked glass"
-</span><span class='line'>        android:textColor="#ffffffff"
-</span><span class='line'>        android:textSize="30dip" /&gt;
-</span><span class='line'> 
-</span><span class='line'>&lt;/FrameLayout&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>透明度的效果好不好，會跟後面的背景有關，有時，同一個透明度的值，在不同的背景下，效果就會差很多</p>
-
-<h1>Resource</h1>
-
-<ul>
-<li><a href="http://www.dibbus.com/2011/03/9patch-images-in-android/" title="http://www.dibbus.com/2011/03/9patch-images-in-android/">http://www.dibbus.com/2011/03/9patch-images-in-android/</a></li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
   
   
     <article>
@@ -3219,6 +2484,436 @@ USER_HOME^<a href="#fn__2">2)</a>^底下有一個<code>.android</code>目錄，�
 
     </article>
   
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/03/20/tomcat_tuning/">Tomcat Tuning</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-20T00:00:00+08:00" pubdate data-updated="true">Mar 20<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/03/20/tomcat_tuning/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Tomcat預設的記憶體使用量太小，調整方式如下</p>
+
+<p>修改bin\catalina.sh或bin\catalina.bat</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>JAVA_OPTS="-Djava.awt.headless=true -Dfile.encoding=UTF-8
+</span><span class='line'>-server -Xms1024m -Xmx1024m
+</span><span class='line'>-XX:NewSize=512m -XX:MaxNewSize=512m -XX:PermSize=512m
+</span><span class='line'>-XX:MaxPermSize=512m -XX:+DisableExplicitGC"</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/03/20/testing_jsp_in_jetty/">Testing JSP in Jetty Server (Embedded Mode)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-20T00:00:00+08:00" pubdate data-updated="true">Mar 20<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/03/20/testing_jsp_in_jetty/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>package com.bellwin.idcview.login.page;
+</span><span class='line'> 
+</span><span class='line'>import static org.junit.Assert.assertTrue;
+</span><span class='line'> 
+</span><span class='line'>import org.eclipse.jetty.server.Connector;
+</span><span class='line'>import org.eclipse.jetty.server.Server;
+</span><span class='line'>import org.eclipse.jetty.server.nio.SelectChannelConnector;
+</span><span class='line'>import org.eclipse.jetty.webapp.WebAppContext;
+</span><span class='line'>import org.junit.Before;
+</span><span class='line'>import org.junit.BeforeClass;
+</span><span class='line'> 
+</span><span class='line'>import com.gargoylesoftware.htmlunit.WebClient;
+</span><span class='line'> 
+</span><span class='line'>public abstract class AbstractContainerTest {
+</span><span class='line'>    protected static PauseableServer server;
+</span><span class='line'> 
+</span><span class='line'>    protected static final int port = 9180;
+</span><span class='line'> 
+</span><span class='line'>    protected static final String BASEURI = "http://localhost:" + port + "/";
+</span><span class='line'> 
+</span><span class='line'>    protected final WebClient webClient = new WebClient();
+</span><span class='line'> 
+</span><span class='line'>    @BeforeClass
+</span><span class='line'>    public static void startContainer() throws Exception {
+</span><span class='line'>        if (server == null) {
+</span><span class='line'>            server = new PauseableServer();
+</span><span class='line'>            Connector connector = new SelectChannelConnector();
+</span><span class='line'>            connector.setPort(port);
+</span><span class='line'>            server.setConnectors(new Connector[]{connector});
+</span><span class='line'>            server.setHandler(new WebAppContext("src/main/webapp", "/"));
+</span><span class='line'>            server.start();
+</span><span class='line'>            assertTrue(server.isStarted());
+</span><span class='line'>        }
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>    @Before
+</span><span class='line'>    public void beforeTest() {
+</span><span class='line'>        webClient.setThrowExceptionOnFailingStatusCode(true);
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>    public void pauseServer(boolean paused) {
+</span><span class='line'>        if (server != null) {
+</span><span class='line'>            server.pause(paused);
+</span><span class='line'>        }
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>    public static class PauseableServer extends Server {
+</span><span class='line'>        public synchronized void pause(boolean paused) {
+</span><span class='line'>            try {
+</span><span class='line'>                if (paused) {
+</span><span class='line'>                    for (Connector connector : getConnectors()) {
+</span><span class='line'>                        connector.stop();
+</span><span class='line'>                    }
+</span><span class='line'>                } else {
+</span><span class='line'>                    for (Connector connector : getConnectors()) {
+</span><span class='line'>                        connector.start();
+</span><span class='line'>                    }
+</span><span class='line'>                }
+</span><span class='line'>            } catch (Exception e) {
+</span><span class='line'>            }
+</span><span class='line'>        }
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>package com.bellwin.idcview.login.page;
+</span><span class='line'> 
+</span><span class='line'>import java.io.IOException;
+</span><span class='line'>import java.net.MalformedURLException;
+</span><span class='line'> 
+</span><span class='line'>import org.junit.Before;
+</span><span class='line'>import org.junit.Test;
+</span><span class='line'> 
+</span><span class='line'>import com.gargoylesoftware.htmlunit.ElementNotFoundException;
+</span><span class='line'>import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
+</span><span class='line'>import com.gargoylesoftware.htmlunit.WebAssert;
+</span><span class='line'>import com.gargoylesoftware.htmlunit.html.HtmlCheckBoxInput;
+</span><span class='line'>import com.gargoylesoftware.htmlunit.html.HtmlForm;
+</span><span class='line'>import com.gargoylesoftware.htmlunit.html.HtmlInput;
+</span><span class='line'>import com.gargoylesoftware.htmlunit.html.HtmlPage;
+</span><span class='line'> 
+</span><span class='line'>public class ContainerIntegrationTest extends AbstractContainerTest {
+</span><span class='line'> 
+</span><span class='line'>    @Before
+</span><span class='line'>    public void logOut() throws IOException {
+</span><span class='line'>        // Make sure we are logged out
+</span><span class='line'>        final HtmlPage homePage = webClient.getPage(BASEURI);
+</span><span class='line'>        try {
+</span><span class='line'>            homePage.getAnchorByHref("/logout.jsp").click();
+</span><span class='line'>        }
+</span><span class='line'>        catch (ElementNotFoundException e) {
+</span><span class='line'>            //Ignore
+</span><span class='line'>        }
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>    @Test
+</span><span class='line'>    public void logIn() throws FailingHttpStatusCodeException, MalformedURLException, IOException, InterruptedException {
+</span><span class='line'>        HtmlPage page = webClient.getPage(BASEURI + "login.jsp");
+</span><span class='line'>        HtmlForm form = page.getFormByName("loginform");
+</span><span class='line'>        form.&lt;HtmlInput&gt;getInputByName("username").setValueAttribute("root");
+</span><span class='line'>        form.&lt;HtmlInput&gt;getInputByName("password").setValueAttribute("secret");
+</span><span class='line'>        page = form.&lt;HtmlInput&gt;getInputByName("submit").click();
+</span><span class='line'>        // This'll throw an expection if not logged in
+</span><span class='line'>        page.getAnchorByHref("/logout.jsp");
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>    @Test
+</span><span class='line'>    public void logInAndRememberMe() throws Exception {
+</span><span class='line'>        HtmlPage page = webClient.getPage(BASEURI + "login.jsp");
+</span><span class='line'>        HtmlForm form = page.getFormByName("loginform");
+</span><span class='line'>        form.&lt;HtmlInput&gt;getInputByName("username").setValueAttribute("root");
+</span><span class='line'>        form.&lt;HtmlInput&gt;getInputByName("password").setValueAttribute("secret");
+</span><span class='line'>        HtmlCheckBoxInput checkbox = form.getInputByName("rememberMe");
+</span><span class='line'>        checkbox.setChecked(true);
+</span><span class='line'>        page = form.&lt;HtmlInput&gt;getInputByName("submit").click();
+</span><span class='line'>        server.stop();
+</span><span class='line'>        server.start();
+</span><span class='line'>        page = webClient.getPage(BASEURI);
+</span><span class='line'>        // page.getAnchorByHref("/logout.jsp");
+</span><span class='line'>        WebAssert.assertLinkPresentWithText(page, "Log out");
+</span><span class='line'>        page = page.getAnchorByHref("/account").click();
+</span><span class='line'>        // login page should be shown again - user remembered but not authenticated
+</span><span class='line'>        WebAssert.assertFormPresent(page, "loginform");
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You may want to logging message during Server starting.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;logger name="org.eclipse.jetty.util.log" additivity="false"&gt;
+</span><span class='line'>    &lt;level value="debug" /&gt;
+</span><span class='line'>    &lt;appender-ref ref="stdout" /&gt;
+</span><span class='line'>&lt;/logger&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/03/20/test_exception_in_junit/">Test Exception in JUnit</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-20T00:00:00+08:00" pubdate data-updated="true">Mar 20<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/03/20/test_exception_in_junit/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>之前遇到測exception message都還改回用try catch，原來，可以用mock
+like的方式去測exception message.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@Rule
+</span><span class='line'>public ExpectedException thrown = ExpectedException.none();
+</span><span class='line'> 
+</span><span class='line'>@Test
+</span><span class='line'>public void shouldNotLetUnknownUserLogin() throws UnknownUserException {
+</span><span class='line'>    thrown.expect(UnknownUserException.class);
+</span><span class='line'>    thrown.expectMessage("Unknown user: joe");
+</span><span class='line'>    UserDao dao = mock(UserDao.class);
+</span><span class='line'>    when(dao.findByName("joe")).thenReturn(null);
+</span><span class='line'>    manager.setUserDao(dao);
+</span><span class='line'>    manager.login("joe","secret");
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>thrown.expectMessage(JUnitMatchers.containsString("joe"));</span></code></pre></td></tr></table></div></figure>
+
+
+<p>code snippet is from
+<a href="http://weblogs.java.net/blog/johnsmart/archive/2009/09/27/testing-exceptions-junit-47" title="http://weblogs.java.net/blog/johnsmart/archive/2009/09/27/testing-exceptions-junit-47">here</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/5/">&larr; Older</a>
@@ -3236,15 +2931,7 @@ USER_HOME^<a href="#fn__2">2)</a>^底下有一個<code>.android</code>目錄，�
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2013/07/07/python-101/">Python 101</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/06/25/url-encoding/">URL Encoding</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/06/04/restful-api-design/">RESTful API Design</a>
+        <a href="/blog/2013/07/15/mac-os-x-keyboard-shortcuts-for-terminal/">Mac OS X Keyboard Shortcuts for Terminal</a>
       </li>
     
       <li class="post">
@@ -3253,6 +2940,14 @@ USER_HOME^<a href="#fn__2">2)</a>^底下有一個<code>.android</code>目錄，�
     
       <li class="post">
         <a href="/blog/2013/05/12/jesper-report-font-issue/">Jesper Report, IReport 匯出成中文PDF</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/12/jasperreport-101/">JasperReport 101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/06/mac-tips/">Mac Tips</a>
       </li>
     
   </ul>

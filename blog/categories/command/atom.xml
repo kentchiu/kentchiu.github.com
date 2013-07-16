@@ -4,7 +4,7 @@
   <title><![CDATA[Category: command | Kent's Blog]]></title>
   <link href="http://blog.kent-chiu.com/blog/categories/command/atom.xml" rel="self"/>
   <link href="http://blog.kent-chiu.com/"/>
-  <updated>2013-07-11T22:01:55+08:00</updated>
+  <updated>2013-07-16T15:15:50+08:00</updated>
   <id>http://blog.kent-chiu.com/</id>
   <author>
     <name><![CDATA[Kent]]></name>
@@ -540,35 +540,24 @@ dos2unix 命令一樣。</li>
 
 <h5>找某個檔案中是否有存在特定文字</h5>
 
-<p>```</p>
-
-<h1>grep foobar ~/myfile.txt</h1>
-
-<p>```</p>
+<pre><code># grep foobar ~/myfile.txt
+</code></pre>
 
 <h5>計算特定文字出現的次數</h5>
 
-<p>```</p>
-
-<h1>grep -c foobar ~/myfile.txt</h1>
-
-<p>```</p>
+<pre><code># grep -c foobar ~/myfile.txt
+</code></pre>
 
 <h5>找有的目錄下的當案是否有存在特定文字</h5>
 
-<p>```</p>
-
-<h1>grep -ri foobar ~/</h1>
-
-<p>```</p>
+<pre><code># grep -r foobar ~/
+# grep -r foobar *
+</code></pre>
 
 <h5>使用Regular Expression</h5>
 
-<p>```</p>
-
-<h1>grep "^foobar" ~/myfile.txt</h1>
-
-<p>```</p>
+<pre><code># grep "^foobar" ~/myfile.txt
+</code></pre>
 
 <p>可以用”^\$”來找出空白行</p>
 ]]></content>
