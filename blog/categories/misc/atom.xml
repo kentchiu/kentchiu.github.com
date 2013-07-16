@@ -4,7 +4,7 @@
   <title><![CDATA[Category: misc | Kent's Blog]]></title>
   <link href="http://blog.kent-chiu.com/blog/categories/misc/atom.xml" rel="self"/>
   <link href="http://blog.kent-chiu.com/"/>
-  <updated>2013-07-16T23:33:07+08:00</updated>
+  <updated>2013-07-17T00:08:36+08:00</updated>
   <id>http://blog.kent-chiu.com/</id>
   <author>
     <name><![CDATA[Kent]]></name>
@@ -12,96 +12,6 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
-  
-  <entry>
-    <title type="html"><![CDATA[MISC]]></title>
-    <link href="http://blog.kent-chiu.com/blog/2011/10/17/misc/"/>
-    <updated>2011-10-17T00:00:00+08:00</updated>
-    <id>http://blog.kent-chiu.com/blog/2011/10/17/misc</id>
-    <content type="html"><![CDATA[<ul>
-<li><a href="http://wiki.kent-chiu.com/lib/exe/fetch.php?media=mind-mapping-technique-notebook-suibkeon-1234171052045.xmind" title="mind-mapping-technique-notebook-suibkeon-1234171052045.xmind">心智圖筆記術(xmind格式)</a></li>
-<li><a href="http://wiki.kent-chiu.com/doku.php?id=misc:balsamiq" title="misc:balsamiq">一個繒制原型(prototype)的好工具</a></li>
-<li><a href="http://wiki.kent-chiu.com/doku.php?id=misc:pinyin" title="misc:pinyin">拼音輸入法</a></li>
-<li><a href="http://openclassroom.stanford.edu/MainFolder/HomePage.php" title="http://openclassroom.stanford.edu/MainFolder/HomePage.php">史丹佛開放式課程</a></li>
-</ul>
-
-
-<h2>裝機軟體</h2>
-
-<ul>
-<li>Firefox</li>
-<li>Chrome</li>
-<li>7-zip</li>
-<li>alcohal 52%</li>
-<li>FileZilla</li>
-<li>JDownload</li>
-<li>Notepad++</li>
-<li>PcMan</li>
-<li>PicPick</li>
-<li>Balsamiq mockups</li>
-<li>Xmind</li>
-<li>splayer</li>
-<li>pps</li>
-</ul>
-
-
-<h4>FireFox Plugins</h4>
-
-<ol>
-<li><a href="http://flashgot.net/" title="http://flashgot.net/">FlahsGot</a> download
-tools</li>
-<li><a href="http://tmp.garyr.net/" title="http://tmp.garyr.net/">Tab Mix Plus</a> tabs
-management</li>
-<li><a href="https://addons.mozilla.org/en-US/firefox/addon/2410" title="https://addons.mozilla.org/en-US/firefox/addon/2410">Xmarks</a>
-bookmarks management</li>
-<li><a href="https://addons.mozilla.org/zh-TW/firefox/addon/8186" title="https://addons.mozilla.org/zh-TW/firefox/addon/8186">ScrapBook+</a></li>
-<li><a href="https://addons.mozilla.org/en-US/firefox/addon/4866" title="https://addons.mozilla.org/en-US/firefox/addon/4866">Better
-Gmail</a>
-Gmail enhancement</li>
-<li><a href="https://addons.mozilla.org/zh-TW/firefox/addon/6424" title="https://addons.mozilla.org/zh-TW/firefox/addon/6424">Better
-GReader</a>
-Google Reader enhancement</li>
-<li><p><a href="https://addons.mozilla.org/zh-TW/firefox/addon/68" title="https://addons.mozilla.org/zh-TW/firefox/addon/68">DictionarySearch</a>
-Dictionary</p>
-
-<ul>
-<li><a href="http://dictionary.reference.com/browse/" title="http://dictionary.reference.com/browse/">http://dictionary.reference.com/browse/</a>\$</li>
-<li><a href="http://www.ldoceonline.com/search/?q=" title="http://www.ldoceonline.com/search/?q=">http://www.ldoceonline.com/search/?q=</a>\$</li>
-<li><a href="http://www.etymonline.com/index.php?term=" title="http://www.etymonline.com/index.php?term=">http://www.etymonline.com/index.php?term=</a>\$</li>
-<li><a href="http://tw.dictionary.yahoo.com/search?ei=UTF-8&amp;p=" title="http://tw.dictionary.yahoo.com/search?ei=UTF-8&amp;p=">http://tw.dictionary.yahoo.com/search?ei=UTF-8&amp;p=</a>\$</li>
-<li><a href="http://dictionary.cambridge.org/search/british/?q=" title="http://dictionary.cambridge.org/search/british/?q=">http://dictionary.cambridge.org/search/british/?q=</a>\$</li>
-<li><a href="http://www.thefreedictionary.com/" title="http://www.thefreedictionary.com/">http://www.thefreedictionary.com/</a>\$</li>
-</ul>
-</li>
-<li><p><a href="http://www.downloadhelper.net/" title="http://www.downloadhelper.net/">Download
-Helper</a>
-download tools (vedio)</p></li>
-<li><a href="https://addons.mozilla.org/en-US/firefox/addon/201" title="https://addons.mozilla.org/en-US/firefox/addon/201">downthemall</a>
-
-<ul>
-<li>download tools</li>
-</ul>
-</li>
-<li><a href="http://getfirebug.com/" title="http://getfirebug.com/">FireBug</a>
-development tools</li>
-<li><a href="https://addons.mozilla.org/zh-TW/firefox/addon/173" title="https://addons.mozilla.org/zh-TW/firefox/addon/173">GMail
-Notifier</a></li>
-<li><a href="https://addons.mozilla.org/zh-TW/firefox/addon/6639" title="https://addons.mozilla.org/zh-TW/firefox/addon/6639">Easy
-DragToGo</a></li>
-<li><a href="https://addons.mozilla.org/en-US/firefox/addon/5081" title="https://addons.mozilla.org/en-US/firefox/addon/5081">TwitterFox</a>
-TwitterFox is a Firefox extension that notifies you of your friends'
-status on Twitter.</li>
-<li><a href="http://chrispederick.com/work/web-developer/" title="http://chrispederick.com/work/web-developer/">Web
-Developer</a>
-development tools</li>
-<li><a href="https://addons.mozilla.org/en-US/firefox/addon/5369" title="https://addons.mozilla.org/en-US/firefox/addon/5369">yslow</a>
-YSlow analyzes web pages and tells you why they're slow based on
-Yahoo's rules for high performance web sites.</li>
-<li><a href="http://tamperdata.mozdev.org/" title="http://tamperdata.mozdev.org/">tamperdata</a></li>
-</ol>
-
-]]></content>
-  </entry>
   
   <entry>
     <title type="html"><![CDATA[Balsamiq Mockups - A Useful Prototype Design Tools]]></title>

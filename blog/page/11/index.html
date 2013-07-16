@@ -9,8 +9,8 @@
   <meta name="author" content="Kent">
 
   
-  <meta name="description" content="Using eclipse External Tools configuration to run a tail program to
-keep monitor log files. Please ensure you have should tail program Location: &hellip;">
+  <meta name="description" content="This article is demonstrate how to run PHPUnit test cases in Eclipse
+PDT. There is no build in support for PHPUnit in PDT 2.0 now (however it &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -78,574 +78,6 @@ keep monitor log files. Please ensure you have should tail program Location: &he
     <div id="content">
       <div class="blog-index">
   
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/10/17/show_log_in_eclipse_console/">Show Log in Eclipse Console</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
-        
-         | <a href="/blog/2011/10/17/show_log_in_eclipse_console/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Using eclipse <strong>External Tools configuration</strong> to run a tail program to
-keep monitor log files.</p>
-
-<p><img src="http://blog.kent-chiu.com/images/2011-10-17/show_log_in_eclipse_console_01.png" alt="show_log_in_eclipse_console_01.png" /></p>
-
-<p>Please ensure you have should tail program</p>
-
-<ul>
-<li>Location: point to your tail program</li>
-<li>Working Directory: Using <strong>Browse Workspace</strong> to select your project
-node.</li>
-<li>Arguments: -f &lt;log file name></li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/10/17/setup_git_server/">Setup Git Server</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
-        
-         | <a href="/blog/2011/10/17/setup_git_server/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>In this article, we will setup a git server from team access. It is
-mimic the <a href="http://whygitisbetterthanx.com/#any-workflow" title="http://whygitisbetterthanx.com/#any-workflow">SVN style
-workflow</a>(Centralized
-Workflow), it&#8217;s a easy way for integrating all code in one place.</p>
-
-<h1>Main Steps</h1>
-
-<ol>
-<li><a href="#init_bare_repository" title="git:setup_git_server ↵">init bare
-repository</a></li>
-<li><a href="#add_user" title="git:setup_git_server ↵">add user</a></li>
-<li><a href="#first_commited" title="git:setup_git_server ↵">first commited</a></li>
-<li><a href="#clone" title="git:setup_git_server ↵">clone</a></li>
-</ol>
-
-
-<h4>init bare repository</h4>
-
-<p>create a bare repository in /opt/git/project.git</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git --bare init
-</span><span class='line'>Initialized empty Git repository in /opt/git/project.git/</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>add user</h4>
-
-<p>add a user called &#8216;git&#8217; for executing git commonds.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ adduser git</span></code></pre></td></tr></table></div></figure>
-
-
-<p>change git&#8217;s password</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ passwd git</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>first commited</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># on SomeBoday's computer
-</span><span class='line'>$ cd myproject
-</span><span class='line'>$ git init
-</span><span class='line'>$ git add .
-</span><span class='line'>$ git commit -m 'initial commit'
-</span><span class='line'>$ git remote add origin git@gitserver:/opt/git/project.git
-</span><span class='line'>$ git push origin master</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>clone</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>git clone git@gitserver:/opt/git/project.git</span></code></pre></td></tr></table></div></figure>
-
-
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/10/17/setup_eclipse_pdt/">How to Setup PDT</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
-        
-         | <a href="/blog/2011/10/17/setup_eclipse_pdt/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>PDT is Eclipse <strong>P</strong>HP <strong>D</strong>evelopment <strong>T</strong>ools, this article is a
-instuction about how to setup PDT with other useful tools, like:</p>
-
-<ol>
-<li>zend debugger</li>
-<li>remote server</li>
-</ol>
-
-
-<p>Option:</p>
-
-<ol>
-<li>SVN plugins</li>
-<li>open extern plugins (open contain folder or shell) ()</li>
-<li>QuickREx (Regular Expression tools)</li>
-</ol>
-
-
-<h1>Install PDT by pulse</h1>
-
-<ol>
-<li>download
-<a href="http://www.poweredbypulse.com/" title="http://www.poweredbypulse.com/">pulse</a></li>
-<li>registry a account if necessary</li>
-<li>install Eclipse 3.x For PHP in pulse menu</li>
-</ol>
-
-
-<h1>Install Plugins (Optional)</h1>
-
-<p>searching Subversive, open extern and QucikREx as keyword in pules
-Browser Categories node then install.</p>
-
-<h1>Install Debugger</h1>
-
-<p>there are two debugger supports by PDT now</p>
-
-<ol>
-<li>zend debugger</li>
-<li>XDebug</li>
-</ol>
-
-
-<p>both two can used as Script Debugger or Server Debugger of PDT debug
-functions.</p>
-
-<h2>zend debugger install</h2>
-
-<p>Assumption: PHP install at C:\xampp\php</p>
-
-<h3>downloading</h3>
-
-<p>Download zend debugger extention from
-<a href="http://downloads.zend.com/pdt/server-debugger" title="http://downloads.zend.com/pdt/server-debugger">here</a>,
-we use
-<a href="http://downloads.zend.com/pdt/server-debugger/ZendDebugger-5.2.15-cygwin_nt-i386.zip" title="http://downloads.zend.com/pdt/server-debugger/ZendDebugger-5.2.15-cygwin_nt-i386.zip">ZendDebugger-5.2.15-cygwin_nt-i386.zip</a>
-in this case(maybe you can find the new version then this).</p>
-
-<h3>copy dll to php ext folder</h3>
-
-<p>copy ZendDebugger.dll to C:\xampp\php\ext folder it maybe not as same
-as your path, you need found out somewhere you installed the php.</p>
-
-<h3>put dummy.php to your web root</h3>
-
-<p>saving follow code as dummy.php and put it to web root(e.g
-c:\xampp\htdocs\dummy.php)</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?php
-</span><span class='line'>@ini_set('zend_monitor.enable', 0);
-</span><span class='line'>if(@function_exists('output_cache_disable')) {
-</span><span class='line'>    @output_cache_disable();
-</span><span class='line'>}
-</span><span class='line'>if(isset($_GET['debugger_connect']) && $_GET['debugger_connect'] == 1) {
-</span><span class='line'>    if(function_exists('debugger_connect'))  {
-</span><span class='line'>        debugger_connect();
-</span><span class='line'>        exit();
-</span><span class='line'>    } else {
-</span><span class='line'>        echo "No connector is installed.";
-</span><span class='line'>    }
-</span><span class='line'>}
-</span><span class='line'>?&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>setup php.ini</h3>
-
-<p>put this section to your php.ini.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>; this is to see output while debugging
-</span><span class='line'>implicit_flush = On 
-</span><span class='line'> 
-</span><span class='line'>; this is to see output while debugging
-</span><span class='line'>output_buffering = 0
-</span><span class='line'> 
-</span><span class='line'>[Zend]
-</span><span class='line'>zend_extension_ts="C:\xampp\php\ext\ZendDebugger.dll"
-</span><span class='line'>zend_debugger.allow_hosts=127.0.0.1/32
-</span><span class='line'>zend_debugger.expose_remotely=always</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>XDebug install</h2>
-
-<h3>downloading</h3>
-
-<p>Download zend debugger extention from
-[<a href="http://www.xdebug.org/download.php" title="http://www.xdebug.org/download.php">http://www.xdebug.org/download.php</a>|here]].</p>
-
-<h3>copy dll to php ext folder</h3>
-
-<p>copy php_xdebug_xxx.dll to C:\xampp\php\ext folder it maybe not as
-same as your path, you need found out somewhere you installed the php.</p>
-
-<h3>setup php.ini</h3>
-
-<p>put this section to your php.ini.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[XDebug]
-</span><span class='line'>;; Only Zend OR (!) XDebug
-</span><span class='line'>zend_extension_ts="C:\xampp\php\ext\php_xdebug.dll"
-</span><span class='line'>xdebug.remote_enable=true
-</span><span class='line'>xdebug.remote_host=127.0.0.1
-</span><span class='line'>xdebug.remote_port=9000
-</span><span class='line'>xdebug.remote_handler=dbgp
-</span><span class='line'>xdebug.profiler_enable=1
-</span><span class='line'>xdebug.profiler_output_dir="C:\xampp\tmp"</span></code></pre></td></tr></table></div></figure>
-
-
-<h1>PDT setup</h1>
-
-<h2>setup php executable</h2>
-
-<h2>setup php manual</h2>
-
-<p>point to here:
-<a href="http://www.php.net/manual/en" title="http://www.php.net/manual/en">http://www.php.net/manual/en</a></p>
-
-<h2>set file association</h2>
-
-<h3>HTML editor</h3>
-
-<p>eclipse menu → window → preference</p>
-
-<ol>
-<li>type &#8216;content types&#8217; in filter filed</li>
-<li>select &#8216;HTML&#8217; node</li>
-<li>click &#8216;Add…&#8217; button to pop-up Add Content Type Association window</li>
-<li>input &#8216;*.dwt&#8217; in Content type field</li>
-<li>click &#8216;OK&#8217; to close Add Content Type Association window</li>
-<li>click preference window</li>
-</ol>
-
-
-<p><img src="http://blog.kent-chiu.com/images/2011-10-17/setup_elcipse_pdt_01.png" alt="setup_elcipse_pdt_01.png" /></p>
-
-<h3>Web Page Editor</h3>
-
-<p>eclipse menu → window → preference</p>
-
-<ol>
-<li>type &#8216;File Accociation&#8217; in filter filed</li>
-<li>Selecte <strong>File Accociation</strong> node</li>
-<li>select <strong>Add…</strong> Button to pop-up <strong>Add File Type</strong> window</li>
-<li>Typing which file type you want to add (should start with *.)</li>
-<li>select <strong>Add…</strong> Button to pop-up
-**<img src="http://blog.kent-chiu.com/images/2011-10-17/setup_elcipse_pdt_02.png" alt="setup_elcipse_pdt_02.png" />
-<img src="http://blog.kent-chiu.com/images/2011-10-17/setup_elcipse_pdt_03.png" alt="setup_elcipse_pdt_03.png" />
-
-<ul>
-<li>select the file type you want to associated to editor. -
-select<strong>Add…</strong>Button to pop-up<strong>Editor Selection</strong>window -
-click<strong>OK</strong>Button and confirm the file type is showed in**File
-Association** List.</li>
-</ul>
-</li>
-</ol>
-
-
-<p><img src="http://blog.kent-chiu.com/images/2011-10-17/setup_elcipse_pdt_04.png" alt="setup_elcipse_pdt_04.png" /></p>
-
-<p>Web Page Editor introduced in WTP 2.0, it provides design time preview
-functionally.</p>
-
-<p><img src="http://www.eclipse.org/webtools/releases/2.0/newandnoteworthy/j2ee/jsf-web-page-editor.png" alt="" /></p>
-
-<h3>Internet Web Browser</h3>
-
-<p>Internet Web Browser can used to preview HTML render with in Eclipse
-View Site.</p>
-
-<p><img src="http://www.eclipse.org/webtools/initial-contribution/IBM/evalGuides/ServerToolsEval_files/monitorBrowser.gif" alt="" /></p>
-
-<p>We also can set *.dwt, *.lbi, *.htm, *.html file association to
-those editors.</p>
-
-<h1>Verifing</h1>
-
-<ul>
-<li>create new project, the project location should set to
-WWW_DOC_ROOT\projectName</li>
-<li>create php file</li>
-<li>run with script or server should all works fine.</li>
-</ul>
-
-
-<h1>Resoures</h1>
-
-<ul>
-<li><a href="http://http://www.poweredbypulse.com/" title="http://http://www.poweredbypulse.com/">pulse</a>
-home</li>
-<li>there are some usful information about how to configurated in <a href="http://www.thierryb.net/pdtwiki/index.php?title=Main_Page" title="http://www.thierryb.net/pdtwiki/index.php?title=Main_Page">pdt
-wiki</a></li>
-<li>the details of how to setup zend debug can be found
-<a href="http://www.thierryb.net/pdtwiki/index.php?title=Using_PDT_:_Installation_:_Installing_the_Zend_Debugger" title="http://www.thierryb.net/pdtwiki/index.php?title=Using_PDT_:_Installation_:_Installing_the_Zend_Debugger">here</a></li>
-<li>the deatils of how to using script and server debugger of PDT,
-please check this
-<a href="http://www.thierryb.net/pdtwiki/index.php?title=Using_PDT_:_User_Guide_:_PHP_Source_Level_Debugging" title="http://www.thierryb.net/pdtwiki/index.php?title=Using_PDT_:_User_Guide_:_PHP_Source_Level_Debugging">reference</a></li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/10/17/scrum/">SCRUM</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
-        
-         | <a href="/blog/2011/10/17/scrum/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>Book</h2>
-
-<ul>
-<li><a href="http://wiki.kent-chiu.com/lib/exe/fetch.php?media=pm:scrum-and-xp-chinese-version.pdf" title="pm:scrum-and-xp-chinese-version.pdf">烟硝中SCRUM與XP(簡體中文)</a>
-
-<ul>
-<li>infoQ的迷你電子書，內容在描述SCURM的實施過程</li>
-</ul>
-</li>
-<li><a href="http://wiki.kent-chiu.com/lib/exe/fetch.php?media=pm:scrum-checklists-chinese.pdf" title="pm:scrum-checklists-chinese.pdf">SCRUM
-checklists(簡體中文)</a></li>
-</ul>
-
-
-<h2>Backlog</h2>
-
-<ul>
-<li><a href="http://wiki.kent-chiu.com/lib/exe/fetch.php?media=pm:simple_backlog.xls" title="pm:simple_backlog.xls">Simple Product and Sprint backlog
-teamplte</a></li>
-<li><a href="http://agilesoftwaredevelopment.com/videos/scrum/simple-product-backlog" title="http://agilesoftwaredevelopment.com/videos/scrum/simple-product-backlog">a video to show you how to using simple product
-backlog</a></li>
-<li><a href="http://agilesoftwaredevelopment.com/videos/scrum/simple-sprint-backlog" title="http://agilesoftwaredevelopment.com/videos/scrum/simple-sprint-backlog">a video to show you how to using simple sprint
-backlog</a></li>
-<li><a href="http://wiki.kent-chiu.com/lib/exe/fetch.php?media=pm:advance_backlog.xls" title="pm:advance_backlog.xls">Advance backlog
-template</a></li>
-<li><a href="http://agilesoftwaredevelopment.com/videos/advanced-excel-template-product-and-sprint-backlog-management" title="http://agilesoftwaredevelopment.com/videos/advanced-excel-template-product-and-sprint-backlog-management">a video to show you how to using advance
-backlog</a></li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/10/17/scim_with_liu/">Ubuntu下裝無蝦米(scim)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
-        
-         | <a href="/blog/2011/10/17/scim_with_liu/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># apt-get install scim scim-pinyin scim-chewing scim-tables-zh scim-qtimm im-switch
-</span><span class='line'># im-switch -s scim
-</span><span class='line'> 
-</span><span class='line'>sudo cp ~/liu.bin /usr/share/scim/tables/Liu5.bin 
-</span><span class='line'>sudo cp ~/liu.png /usr/share/scim/icons/liu5.png
-</span><span class='line'>sudo cp</span></code></pre></td></tr></table></div></figure>
-
-
-<p>之後重新登入即可</p>
-
-<p>liu5.bin是無蝦米官方版本中release給linux用的檔案 liu5.png是 liu 的 icon
-檔 (由 <a href="http://pank.org/blog/" title="http://pank.org/blog/">Pank</a> 提供）</p>
-
-<h1>Ubuntu下裝無蝦米(ibus)</h1>
-
-<p>取得 <a href="http://github.com/vicamo/ibus-table-boshiamy/downloads" title="http://github.com/vicamo/ibus-table-boshiamy/downloads">無蝦米 deb
-package</a>
-Double Click</p>
-</div>
-  
-  
-
-
-    </article>
   
   
     <article>
@@ -857,733 +289,6 @@ field</li>
 in case</p>
 
 <p>^<a href="#fnt__3">3)</a>^ phpunit.bat was gernerated after PHPUnit installed</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/10/17/root_words/">Root Word List</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
-        
-         | <a href="/blog/2011/10/17/root_words/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>ROOTS</h2>
-
-<hr />
-
-<p>  Roots                 Meaning                  Word
-  <strong>alter</strong>             other                    alternate, alter ego
-  <strong>ami, amic-</strong>        love                     amiable, amicable
-  <strong>amphi</strong>             both ends or all sides   amphibian
-  <strong>ann, enni</strong>         year                     anniversary, annual, biennial, perennial
-  <strong>anthrop</strong>           human, man               anthropology, anthropomorphic, misanthrope
-  <strong>aqua, aque</strong>        water                    aquatic, aquarium, aqueduct
-  <strong>arch</strong>              chief, leader, ruler     archangel, monarch, archaic, archenemy
-  <strong>arthro</strong>            joint                    arthritis
-  <strong>aud</strong>               sound                    auditorium, audible, audiologist, audiotape
-  <strong>bell</strong>              war                      belligerent, bellicose
-  <strong>biblio</strong>            book                     bibliography, bibliophile
-  <strong>bio-</strong>              life                     biography, autobiography, biology, antibiotic
-  <strong>brev</strong>              short                    brief, abbreviate
-  <strong>cap</strong>               take, seize              capture, captivate, capacity
-  <strong>carn</strong>              meat                     carnivorous, chili con carne
-  <strong>ced</strong>               yield, go                recede, secede, proceed, intercede, concession
-  <strong>chrom-</strong>            color                    chromatic, monochrome, polychrome
-  <strong>chron-</strong>            time                     chronicle, chronology, chronometer, synchronize
-  <strong>cogn</strong>              know                     recognize, cognitive, incognito
-  <strong>cord/chord</strong>        cord                     harpsichord
-  <strong>corp</strong>              body                     corpus, corpse, corporal
-  <strong>crac, crat</strong>        rule, ruler              autocrat, democracy, bureaucrat, democracy
-  <strong>cred</strong>              believe                  credible, credulous, credibility, credit, credo
-  <strong>cruc</strong>              cross                    crucifix, crucial
-  <strong>crusta</strong>            shell                    crustacean
-  <strong>crypt</strong>             hidden                   cryptogram, cryptology, cryptic
-  <strong>culp</strong>              guilt                    culpable, culprit
-  <strong>dei</strong>               god                      deity, deify
-  <strong>demo-</strong>             people                   demography, democracy, epidemic
-  <strong>dent</strong>              tooth                    dentist, dentifrice, dentin
-  <strong>derm-</strong>             skin                     dermatology, epidermis, hypodermic
-  <strong>dic</strong>               speak, say               dictate, predict, diction, indict
-  <strong>dox</strong>               belief, opinion          orthodoxy, paradox, heterodoxy
-  <strong>duc, duct</strong>         lead                     induce, deduce, seduction, conduct, abduct
-  <strong>duo</strong>               two                      duo
-  <strong>dynam-</strong>            power                    dynamo, hydrodynamics
-  <strong>ego</strong>               self                     egotist, egomania
-  <strong>equ</strong>               equal                    equal, equity, equanimity, equate, equidistant
-  <strong>fac</strong>               make, do                 manufacture, factory, benefactor
-  <strong>fil</strong>               threadlike               filament
-  <strong>frater</strong>            brother                  fraternal, fraternize
-  <strong>gam-</strong>              marriage                 monogamy, polygamy, bigamy
-  <strong>geo-</strong>              earth                    geopolitical, geology, geography, geothermal
-  <strong>glyph</strong>             vertical groove          Hieroglyphics—Egyptian “sky writing”
-  <strong>grad, gress</strong>       step                     gradual, progression, transgression
-  <strong>graph-</strong>            writing, printing        graphology, biography, telegraph, geography
-  <strong>gym</strong>               naked                    gymnasium
-  <strong>gyn-</strong>              woman                    gynecologist, androgynous
-  <strong>hemo, hema, hem</strong>   blood                    hemophilia, hematology, hemoglobin
-  <strong>holo</strong>              whole, entire            holograph
-  <strong>hydro, hydr</strong>       water                    dehydrate, hydraulics, hydroelectric, hydroplane
-  <strong>iso</strong>               equal, identical         isolate
-  <strong>ject</strong>              throw                    inject, reject, subject, projection
-  <strong>jud</strong>               judge                    judicial, judge, adjudicate
-  <strong>leg, lect</strong>         read, choose             legible, lectern, lecturer, election
-  <strong>liter</strong>             letter                   literature, illiterate, literal
-  <strong>loc</strong>               place                    local, location
-  <strong>log</strong>               word                     monologue, epilogue
-  <strong>luc</strong>               light                    lucid, elucidate
-  <strong>magn</strong>              large                    magnify, magnate, magnificent
-  <strong>man</strong>               hand                     manufacture, manual, manuscript
-  <strong>mar</strong>               sea                      marine, mariner
-  <strong>mater</strong>             mother                   maternal, maternity, matriarchy, matricide
-  <strong>mere</strong>              part, segment            mere
-  <strong>meta, met</strong>         behind, between          metacognition—behind the thinking
-  <strong>metri, meter-</strong>     measure                  geometric, thermometer, odometer
-  <strong>min</strong>               small                    minority, minuscule, minute
-  <strong>mit, miss</strong>         send                     permit, submission, mission, emit,
-  <strong>mob, mot, mov</strong>     move                     mobile, automobile, motion, promote, movie
-  <strong>mon</strong>               warn                     premonition, admonition
-  <strong>mor, mort</strong>         death                    mortal, mortician, immortality
-  <strong>morph</strong>             form, structure          metamorphosis, amorphous, morphology
-  <strong>mut</strong>               change                   mutant, mutability, mutate
-  <strong>neuro</strong>             nerve                    neurology, neurosis, neurobiology
-  <strong>nomen /nomin</strong>      name                     nominal, nominate, nomenclature
-  <strong>nov</strong>               new                      novel, renovate, innovation, novella
-  <strong>nym, onym</strong>         word, name               synonym, acronym, anonymous, pseudonym
-  <strong>odonto</strong>            tooth                    orthodontist—one who straightens teeth
-  <strong>ortho-</strong>            straight, correct        orthodox, orthodontist, orthopedic
-  <strong>pac</strong>               peace                    pacify, Pacific Ocean, pacifist
-  <strong>pater</strong>             father                   paternal, paternity, patricide, patrilineal, patriotic
-  <strong>path</strong>              feeling, suffering       sympathy, apathy, empathy, telepathy, pathology
-  <strong>ped, pod</strong>          foot                     pedal, pedometer, centipede, gastropod
-  <strong>pel, puls</strong>         push                     pulsate, repulsive, impulse, compel, propel
-  <strong>pend</strong>              hang, weigh              pendulum, pendant, suspend, pending
-  <strong>phon-, phono-</strong>     sound, voice             telephone, euphony, cacophony, phonograph
-  <strong>plan</strong>              flat                     planar, plantation, plane
-  <strong>pneum</strong>             lung                     pneumatic
-  <strong>pod</strong>               feet                     podiatrist
-  <strong>port</strong>              carry                    portable, transport, portage, report,
-  <strong>pot</strong>               power                    potent, omnipotent, potentate
-  <strong>psych-</strong>            soul, spirit, mind       psychology, psychic, psychobiography
-  <strong>pugna</strong>             fight                    pugnacious, pugilist
-  <strong>quer, quis</strong>        ask                      query, inquisition,
-  <strong>scent, scend</strong>      climb                    ascend, ascent
-  <strong>schizo, schiz</strong>     division, split          schizophrenic
-  <strong>sci</strong>               know                     scientific
-  <strong>sciss</strong>             cut                      scissors
-  <strong>scrib, script</strong>     write                    manuscript, scribe, proscribe, scripture
-  <strong>sec, sect</strong>         cut                      dissect, section
-  <strong>sed, sess</strong>         sit                      sedentary, session
-  <strong>sens, sent</strong>        feel, be aware           sensible, sentient
-  <strong>sequ, secu</strong>        follow                   sequence, sequel, consecutive
-  <strong>serv</strong>              serve, protect           service
-  <strong>simil</strong>             same                     similar, assimilate, simile, facsimile (fax)
-  <strong>siphon</strong>            tube                     siphon
-  <strong>sol</strong>               sun                      solar
-  <strong>son</strong>               sound                    sonar, resonate, unison
-  <strong>soph</strong>              wisdom, knowledge        philosophy, sophisticated, sophomore (wise fool)
-  <strong>spec, spic</strong>        look, see                spectacles, spectator, inauspicious, prospect   
-  <strong>spir</strong>              coil                     spiral
-  <strong>spir</strong>              breathe                  inspire, respiration, conspire, perspiration
-  <strong>spond, spons</strong>      promise, answer for      respond, responsible
-  <strong>spont</strong>             by one&#8217;s own force       spontaneous
-  <strong>stat</strong>              stay, position           station
-  <strong>tang, tact</strong>        touch                    tactile, tangible
-  <strong>temp</strong>              time                     temporary, temporize
-  <strong>ten, tent</strong>         hold                     tentative, tenable, tenuous
-  <strong>terr</strong>              earth                    subterranean, terrain, terrestrial, disinter
-  <strong>theo</strong>              god, deity               theology, polytheism, atheist, monotheism
-  <strong>therm-</strong>            heat                     thermal, thermos, thermometer
-  <strong>trophy</strong>            nutrition, food          atrophy—without nutrition
-  <strong>uro</strong>               urine                    urologist
-  <strong>vac</strong>               empty                    vacation, vacuum, vacuous, vacant
-  <strong>ven, vent</strong>         come, go                 intervene, convene, contravene
-  <strong>ver</strong>               truth                    veracity, verify, verity
-  <strong>vert</strong>              turn                     introvert, irreversible, vertigo
-  <strong>vit</strong>               life                     vital, revitalize, vitamin
-  <strong>voc</strong>               call                     revoke, invocation, vocal, evocative, convocation
-  <strong>zoo</strong>               animal                   zoo, zoology, zoolatry</p>
-
-<hr />
-
-<h2>PREFIXES</h2>
-
-<hr />
-
-<p>  Prefix                       Meaning               Examples
-  <strong>a-, an-</strong>                  not, without          amoral, anesthetic, apolitical, asocial
-  <strong>ab-</strong>                      away from             abduction, abstain, abnormal
-  <strong>ad-</strong>                      to, toward            adjoin, adjacent (lying near to)
-  <strong>ambi-</strong>                    both                  ambidextrous, ambivalent
-  <strong>ana-</strong>                     up, back, again       analogy, anatomy, anagram
-  <strong>anti-</strong>                    against               antipathy, antiwar, antisocial
-  <strong>apo-</strong>                     from, away from       apology, apologize
-  <strong>auto-</strong>                    self                  autobiography, automobile, autocracy, automaton
-  <strong>bene-</strong>                    good                  benediction benevolent benefactor
-  <strong>cata-, cat-</strong>              down, against         catastrophe–a turning down
-  <strong>centro, centri-</strong>          around, center        concentric, centrifugal
-  <strong>circum-</strong>                  around                circumlocution circumference, circumvent
-  <strong>com-</strong>                     with, together        communal, community
-  <strong>con-</strong>                     with, together        connect, confide conspire
-  <strong>contra-</strong>                  against               contradict, contravene
-  <strong>de-</strong>                      down, away            descend, deject (cast down)
-  <strong>dia-, di-</strong>                through, across       diameter, division
-  <strong>dis-</strong>                     apart, not            disengage, discord, discomfort
-  <strong>dys-</strong>                     ill, difficult, bad   dysfunctional, dysentery
-  <strong>e-</strong>                       out of, from          elect (choose out of), eject (throw out)
-  <strong>ecto-</strong>                    on the outside        ectoderm–outer skin
-  <strong>en-, em-</strong>                 in                    empathy–feeling in
-  <strong>endo-</strong>                    within, inside        endoscope–instrument for observing inside
-  <strong>epi-</strong>                     upon                  epitaph epidermis, epicenter
-  <strong>eso-</strong>                     inward, within        esoteric–more inward, esophagus
-  <strong>eu-</strong>                      well, good            euthanasia–good death
-  <strong>ex-</strong>                      out of, from          exhume, exhale, exodus
-  <strong>hetero-</strong>                  other, different      heterosexual, heterodoxy, heterodox heterogeneous
-  <strong>homo-</strong>                    same                  homosexual, homogeneous, homogenized
-  <strong>hyper-</strong>                   over                  hypertension, hypersensitive, hyperactivity
-  <strong>hypo-</strong>                    under                 hypotension, hypodermic
-  <strong>il-</strong>                      not                   illegitimate, illicit, illegal, illegible
-  <strong>im-</strong>                      not                   imperfect, impolite, impossible
-  <strong>im-</strong>                      into                  imbibe (drink in, take in)
-  <strong>in-</strong>                      not                   indiscreet, invisible
-  <strong>in-</strong>                      into                  incorporate (take into the body)
-  <strong>inter-</strong>                   between               intervene (come between), interstate
-  <strong>intra-</strong>                   within                intrastate, intramural
-  <strong>ir-</strong>                      not                   irregular, irrational, irredeemable
-  <strong>macro-</strong>                   large                 macrocosm, macroeconomics
-  <strong>mal, male-</strong>               bad, evil             malediction malevolent, malnutrition
-  <strong>meta-</strong>                    beyond                metaphysical
-  <strong>micro-</strong>                   small                 microscope, microcosm, microeconomics
-  <strong>mono-</strong>                    one, single           monologue, monotheism, monarchy, monogamy
-  <strong>neo-</strong>                     new, recent           neologism, neo-liberal, neonatology. neolithic
-  <strong>ob-</strong>                      against               object, obstruct (build against)
-  <strong>palin-, pali-</strong>            back, again           palindrome
-  <strong>pan-</strong>                     all, every            pantheism, Pan-Hellenic, panorama, pandemic
-  <strong>para-</strong>                    false                 paramilitary, paralegal, parachute
-  <strong>per-</strong>                     through               percolate (flow through) perforate (punch through)
-  <strong>peri-</strong>                    around                perimeter, periscope
-  <strong>phil-, philo-</strong>            like, lover of        philosophy, Francophile, bibliophile, philanthropy
-  <strong>poly-</strong>                    many, several         polygon, polygamy, polytechnic, polytheism
-  <strong>post-</strong>                    after                 postgraduate, posthumous postpone
-  <strong>pre-</strong>                     before                precede, predict (tell before)
-  <strong>pro-</strong>                     for, forward          promote, project
-  <strong>pros-</strong>                    toward, in front      prospect—view in front, something coming up
-  <strong>proto-</strong>                   first                 prototype, protoplasm, protobiology
-  <strong>pseudo</strong>                   false                 pseudonym, pseudoscience
-  <strong>re-</strong>                      again, back           repeat, recede, regress (step back)
-  <strong>retro-</strong>                   back                  retrogression, retroactive
-  <strong>se-</strong>                      away from             seduce (lead away), secede
-  <strong>sub-</strong>                     under                 submarine, subject, subhuman subterranean
-  <strong>sur-, super-</strong>             over, above           superhuman, superego, superintend, surpass
-  <strong>syn-, sym-, syl-, sys-</strong>   with, together        symphony, synonym, system, syllable
-  <strong>tele-</strong>                    distant, far off      telephone, telepathy, television, telegram
-  <strong>trans-</strong>                   across                transient, Transatlantic, transport (carry across)</p>
-
-<hr />
-
-<h2>SUFFIXES</h2>
-
-<hr />
-
-<p>  Suffix                      Definition                 Example
-  <strong>-agog, -agogue</strong>          leader                     demagogue, pedagogue
-  <strong>-cide</strong>                   kill(ing)                  patricide, infanticide, herbicide. suicide
-  <strong>-ectomy</strong>                 cutting                    appendectomy, splenectomy
-  <strong>-ia, -y</strong>                 act, state                 amnesia, mania, democracy, anarchy
-  <strong>-ic, -tic, -ical, -ac</strong>   having to do with          anthropomorphic, dramatic, biblical, cardiac
-  <strong>-ics</strong>                    things having to do with   optics, physics
-  <strong>-isk, -iscus</strong>            small                      asterisk–a little star
-  <strong>-ism</strong>                    the belief in              pacifism, terrorism, socialism, communism
-  <strong>-ist</strong>                    one who believes in        pacifist, terrorist, socialist, communist
-  <strong>-ite</strong>                    one connected with         meteorite, polite, cosmopolite
-  <strong>-logy</strong>                   study field of             biology, geology, etymology, cardiology
-  <strong>-oid</strong>                    resembling, like-shaped    asteroid, spheroid
-  <strong>-or, -er</strong>                one who takes part in      doctor, actor, teacher, driver
-  <strong>-phobia</strong>                 exaggerated fear           photophobia, claustrophobia, agoraphobia
-  <strong>-sis</strong>                    act, state, condition of   analysis</p>
-
-<hr />
-
-<h2>Another list</h2>
-
-<p>  Root, Prefix or Suffix                                Meaning                                                                                              Examples</p>
-
-<hr />
-
-<p>  a, ac, ad, af, ag, al, an, ap, as, at                 to, toward, near, in addition to, by                                                                 aside, accompany, adjust, aggression, allocate, annihilate, affix, associate, attend, adverb
-  a-, an-                                               not, without                                                                                         apolitical, atheist, anarchy, anonymous, apathy, aphasia, anemia
-  ab, abs                                               away from, off                                                                                       absolve, abrupt, absent
-  -able, -ible                                          Adjective: worth, ability                                                                            solvable, incredible
-  acer, acid, acri                                      bitter, sour, sharp                                                                                  acerbic, acidity, acrid, acrimony
-  act, ag                                               do, act, drive                                                                                       active, react, agent, active, agitate
-  acu                                                   sharp                                                                                                acute, acupuncture, accurate
-  -acy, -cy                                             Noun: state or quality                                                                               privacy, nfancy, adequacy, intimacy, supremacy
-  -ade                                                  act, product, sweet drink                                                                            blockade, lemonade
-  aer, aero                                             air, atmosphere, aviation                                                                            aerial, aerosol, aerodrome
-  ag, agi, ig, act                                      do, move, go                                                                                         agent, agenda, agitate, navigate, ambiguous, action
-  -age                                                  Noun: activity, or result of action                                                                  courage, suffrage, shrinkage, tonnage
-  agri, agro                                            pertaining to fields or soil                                                                         agriculture, agroindustry
-  -al                                                   Noun: action, result of action                                                                       referral, disavowal, disposal, festival
-  -al, -ial, -ical                                      Adjective: quality, relation                                                                         structural, territorial, categorical
-  alb, albo                                             white, without pigment                                                                               albino, albite
-  ali, allo, alter                                      other                                                                                                alias, alibi, alien, alloy, alter, alter ego, altruism
-  alt                                                   high, deep                                                                                           altimeter, altitude
-  am, ami, amor                                         love, like, liking                                                                                   amorous, amiable, amicable, enamoured
-  ambi                                                  both                                                                                                 ambidextrous
-  ambul                                                 to walk                                                                                              ambulatory, amble, ambulance, somnambulist
-  -an                                                   Noun: person                                                                                         artisan, guardian, historian, magician
-  ana, ano                                              up, back, again, anew                                                                                anode, anagram, anagenetic
-  -ance, -ence                                          Noun: action, state, quality or process                                                              resistance, independence, extravagance, fraudulence
-  -ancy, -ency                                          Noun: state, quality or capacity                                                                     vacancy, agency, truancy, latency
-  andr, andro                                           male, characteristics of men                                                                         androcentric, android
-  ang                                                   angular                                                                                              angle
-  anim                                                  mind, life, spirit, anger                                                                            animal, animate, animosity
-  ann, annu, enni                                       yearly                                                                                               annual, annual, annuity, anniversary, perrenial
-  -ant, -ent                                            Noun: an agent, something that performs the action                                                   disinfectant, dependent, fragrant
-  -ant, -ent, -ient                                     Adjective: kind of agent, indication                                                                 important, dependent, convenient
-  ante                                                  before                                                                                               anterior, anteroom, antebellum, antedate, antecedent antediluvian
-  anthrop                                               man                                                                                                  anthropology, misanthrope, philanthropy
-  anti, ant                                             against, opposite                                                                                    antisocial, antiseptic, antithesis, antibody, antinomies, antifreeze, antipathy
-  anti, antico                                          old                                                                                                  antique, antiquated, antiquity
-  apo, ap, aph                                          away from, detached, formed                                                                          apology, apocalypse, aphagia
-  aqu                                                   water                                                                                                aqueous
-  -ar, -ary                                             Adjective: resembling, related to                                                                    spectacular, unitary
-  arch                                                  chief, first, rule                                                                                   archangel, architect, archaic, monarchy, matriarchy, patriarchy, Archeozoic era
-  -ard, -art                                            Noun: characterized                                                                                  braggart, drunkard, wizard
-  aster, astr                                           star                                                                                                 aster, asterisk, asteroid, astronomy, astronaut
-  -ate                                                  Noun: state, office, fuction                                                                         candidate, electorate, delegate
-  -ate                                                  Verb: cause to be                                                                                    graduate, ameliorate, amputate, colligate
-  -ate                                                  Adjective: kind of state                                                                             inviolate
-  -ation                                                Noun: action, resulting state                                                                        specialization, aggravation, alternation
-  auc, aug, aut                                         to originate, to increase                                                                            augment , author, augment, auction
-  aud, audi, aur, aus                                   to hear, listen                                                                                      audience, audio, audible, auditorium, audiovisual, audition, auricular, ausculate
-  aug, auc                                              increase                                                                                             augur, augment, auction
-  aut, auto                                             self                                                                                                 automobile, automatic, automotive, autograph, autonomous, autoimmune
-  bar                                                   weight, pressure                                                                                     barometer
-  be                                                    on, around, over, about, excessively, make, cause, name, affect                                      berate, bedeck, bespeak, belittle, beleaguer
-  belli                                                 war                                                                                                  rebellion, belligerent, casus belli, bellicose
-  bene                                                  good, well, gentle                                                                                   benefactor, beneficial, benevolent, benediction, beneficiary, benefit
-  bi, bine                                              two                                                                                                  biped, bifurcate, biweekly, bivalve, biannual
-  bibl, bibli, biblio                                   book                                                                                                 bibliophile, bibliography, Bible
-  bio, bi                                               life                                                                                                 biography, biology, biometricsm biome, biosphere
-  brev                                                  short                                                                                                abbreviate, brevity, brief
-  cad, cap, cas, ceiv, cept, capt, cid, cip             to take, to seize, to hold                                                                           receive, deceive, capable, capacious, captive, accident, capture, occasion, concept, intercept, forceps, except, reciprocate
-  cad, cas                                              to fall                                                                                              cadaver, cadence, cascade
-  -cade                                                 procession                                                                                           motorcade
-  calor                                                 heat                                                                                                 calorie, caloric, calorimeter
-  capit, capt                                           head                                                                                                 decapitate, capital, captain, caption
-  carn                                                  flesh                                                                                                carnivorous, incarnate, reincarnation, carnal
-  cat, cata, cath                                       down, with                                                                                           catalogue, category, catheter
-  caus, caut                                            burn, heat                                                                                           caustic, cauldron, cauterize
-  cause, cuse, cus                                      cause, motive                                                                                        because, excuse, accusation
-  ceas, ced, cede, ceed, cess                           to go, to yield, move, go, surrender                                                                 succeed, proceed, precede, recede, secession, exceed, succession
-  cent                                                  hundred                                                                                              centennial, century, centipede
-  centr, centri                                         center                                                                                               eccentricity, centrifugal, concentric, eccentric
-  chrom                                                 color                                                                                                chrome, chromosome, polychrome, chromatic
-  chron                                                 time                                                                                                 chronology, chronic, chronicle chronometer, anachronism, synchronize
-  cide, cis, cise                                       to kill, to cut, cut down                                                                            fratricide, homicide, incision, incision, circumcision, scissors
-  circum                                                around                                                                                               circumnavigate, circumflex, circumstance, circumcision, circumference, circumorbital, circumlocution, circumvent, circumscribe, circulatory
-  cit                                                   call, start                                                                                          incite, citation, cite
-  civ                                                   citizen                                                                                              civic, civil, civilian, civilization
-  clam, claim                                           cry out                                                                                              exclamation, clamor, proclamation, reclamation, acclaim
-  clin                                                  lean, bend                                                                                           decline, aclinic, inclination
-  clud, clus claus                                      to close, shut                                                                                       include, exclude, clause, claustrophobia, enclose, exclusive, reclusive, conclude
-  co, cog, col, coll, con, com, cor                     with, together                                                                                       cohesiveness, cognate, collaborate, convene, commitment, compress, contemporary, converge, compact, confluence, convenient, concatenate, conjoin, combine, correct
-  cogn, gnos                                            to know                                                                                              recognize, cognizant, diagnose, agnostic, incognito, prognosis
-  com, con                                              fully                                                                                                complete, compel, conscious, condense, confess, confirm
-  contr, contra, counter                                against, opposite                                                                                    contradict, counteract, contravene, contrary, counterspy, contrapuntal
-  cord, cor, cardi                                      heart                                                                                                cordial, concord, discord, courage, encourage
-  corp                                                  body                                                                                                 corporation, corporal punishment, corpse, corpulent, corpus luteum
-  cort                                                  correct                                                                                              escort, cortage
-  cosm                                                  universe, world                                                                                      cosmos, microcosm, cosmopolitan, cosmonaut
-  cour, cur, curr, curs                                 run, course                                                                                          occur, excursion, discourse, courier, course
-  crat, cracy                                           rule                                                                                                 autocrat, aristocrat, theocracy, technocracy
-  cre, cresc, cret, crease                              grow                                                                                                 create, crescent, accretion, increase
-  crea                                                  create                                                                                               creature, recreation, creation
-  cred                                                  believe                                                                                              creed, credo, credence, credit, credulous, incredulous, incredible
-  cresc, cret, crease, cru                              rise, grow                                                                                           crescendo, concrete, increase, decrease, accrue
-  crit                                                  separate, choose                                                                                     critical, criterion, hypocrite
-  cur, curs                                             run                                                                                                  current, concurrent, concur, incur, recur, occur, courier, precursor, cursive
-  cura                                                  care                                                                                                 curator, curative, manicure
-  cycl, cyclo                                           wheel, circle, circular                                                                              Cyclops, unicycle, bicycle, cyclone, cyclic
-  de-                                                   from, down, away, to do the opposite, reverse, against                                               detach, deploy, derange, decrease, deodorize, devoid, deflate, degenerate
-  dec, deca                                             ten, ten times                                                                                       decimal, decade, decalogue, decimate, decathlon
-  dec, dign                                             suitable                                                                                             decent decorate dignity
-  dei, div                                              God                                                                                                  divinity, divine, deity, divination, deify
-  dem, demo                                             people, populace, population                                                                         democracy, demography, demagogue, epidemic
-  dent, dont                                            tooth                                                                                                dental, denture, orthodontist, periodontal
-  derm                                                  skin, covering                                                                                       hypodermic, dermatology, epidermis, taxidermy
-  di-, dy-                                              two, twice, double                                                                                   divide, diverge, diglycerides
-  dia                                                   through, across, between                                                                             diameter, diagonal, dialogue dialect, dialectic, diagnosis, diachronic
-  dic, dict, dit                                        say, speak                                                                                           dictation, dictionary, dictate, dictator, Dictaphone, edict, predict, verdict, contradict, benediction
-  dis, dif                                              not, opposite of, reverse, separate, deprive of, away                                                dismiss, differ, disallow, disperse, dissuade, divide, disconnect, disproportion, disrespect, distemper, disarray
-  dit                                                   give                                                                                                 credit, audit
-  doc, doct                                             teach, prove                                                                                         docile, doctor, doctrine, document, dogma, indoctrinate
-  domin                                                 master, that which is under control                                                                  dominate, dominion, predominant, domain
-  don                                                   give                                                                                                 donate, condone
-  dorm                                                  sleep                                                                                                dormant, dormitory
-  dox                                                   thought, opinion, praise                                                                             orthodox, heterodox, paradox, doxology
-  -drome                                                run, step                                                                                            syndrome, aerodrome, velodrome
-  duc, duct                                             to lead, pull                                                                                        produce, abduct, product, transducer, viaduct, aqueduct, induct, deduct, reduce, induce
-  dura                                                  hard, lasting                                                                                        durable, duration, endure
-  dynam                                                 power                                                                                                dynamo, dynamic, dynamite, hydrodynamics
-  dys-                                                  bad, abnormal, difficult, impaired, unfavorable                                                      dysfunctional, dyslexia, dyspathy
-  e-                                                    not, missing, out, fully, away, computer network related                                             emit, embed, eternal,ether, erase, email, e-tailer
-  ec-                                                   out of, outside                                                                                      echo, eclipse, eclectic, ecesis, ecstasy, exzema
-  eco-                                                  household, environment, relating to ecology or economy                                               ecology, economize, ecospheres, ecomanagement
-  ecto-                                                 outside, external                                                                                    ectomorph, ectoderm, ectoplasm
-  -ed                                                   Verb: past tense                                                                                     dressed, faded, patted, closed, introduced
-  -ed                                                   Adjective: having the quality or characteristics of                                                  winged, moneyed, dogged, tiered
-  -en                                                   Verb: to cause to become                                                                             lengthen, moisten, sharpen
-  -en                                                   Adjective: material                                                                                  golden, woolen, silken
-  en-, em-                                              put into, make, provide with, surround with                                                          enamor, embolden, enslave, empower, entangle
-  -ence, -ency                                          Noun: action or process, quality or state                                                            reference, emergency, dependence, eminence, latency
-  end-                                                  inside, within                                                                                       endorse, endocardial, endergonic, endoskeleton, endoscope, endogenous
-  epi-                                                  upon, close to, over, after, altered                                                                 epicenter, epicarp, epilogue, epigone, epidiorite
-  equi-                                                 equal                                                                                                equidistant, equilateral, equilibrium, equinox, equation, equator
-  -er, -ier                                             Adjective: comparative                                                                               better, brighter, sooner, hotter, happier
-  -er, -or                                              Noun: person or thing that does something                                                            flyer, reporter, player, member, fryer, collector, concentrator
-  -er, -or                                              Verb: action                                                                                         ponder, dishonor, clamor
-  erg                                                   work, effect                                                                                         energy, erg, allergy, ergometer, ergograph, ergophobia
-  -ery                                                  collective qualities, art, practice, trade, collection, state, condition                             snobbery, bakery, geenery, gallery, slavery
-  -es, -ies                                             Noun: plural of most nouns ending in -ch, -s, -sh, -o and -z and some in -f and -y                   passes, glasses, ladies, heroes
-  -es, -ies                                             Verb: third person singular present indicative of verbs that end in -ch, -s, -sh, - and some in -y   blesses, hushes, fizzes, defies
-  -ess                                                  female                                                                                               actress, goddess, poetess
-  -est, -iest                                           Adjective or Adverb: superlative                                                                     latest, strongest, luckiest, lyingest
-  ev-, et-                                              time, age                                                                                            medieval, eternal
-  ex-                                                   out of, away from, lacking, former                                                                   exit, exhale, exclusive, exceed, explosion, ex-mayor
-  exter-, extra-, extro-                                outside of, beyond                                                                                   external, extrinsic, extraordinary, extrapolate, extraneous, extrovert
-  fa, fess                                              speak                                                                                                fable, fabulous, fame, famous, confess, profess
-  fac, fact, fec, fect, fic, fas, fea                   do, make                                                                                             difficult, fashion, feasible, feature, factory, fact, effect, manufacture, amplification, confection
-  fall, fals                                            deceive                                                                                              fallacy, falsify, fallacious
-  femto                                                 quadrillionth                                                                                        femtosecond
-  fer                                                   bear, carry                                                                                          ferry, coniferous, fertile, defer, infer, refer, transfer
-  fic, feign, fain, fit, feat                           shape, make, fashion                                                                                 fiction, faint, feign
-  fid                                                   belief, faith                                                                                        confide, diffident, fidelity
-  fid, fide, feder                                      faith, trust                                                                                         confidante, fidelity, confident, infidelity, infidel, federal, confederacy, semper fi
-  fig                                                   shape, form                                                                                          figurem, effigy, figure, figment
-  fila, fili                                            thread                                                                                               filigree, filament, filter, filet, filibuster
-  fin                                                   end, ended, finished                                                                                 final, finite, finish, confine, fine, refine, define, finale
-  fix                                                   repair, attach                                                                                       fix, fixation, fixture, affix, prefix, suffix
-  flex, flect                                           bend                                                                                                 flex, reflex, flexible, flexor, inflexibility, reflect, deflect,circumflex
-  flict                                                 strike                                                                                               affliction, conflict, inflict
-  flu, fluc, fluv, flux                                 flow                                                                                                 influence, fluid, flue, flush, fluently, fluctuate, reflux, influx
-  -fold                                                 Adverb: in a manner of, marked by                                                                    fourfold
-  for, fore                                             before                                                                                               forecast, fortune, foresee
-  forc, fort                                            strength, strong                                                                                     effort, fort, forte, fortifiable, fortify, forte, fortitude
-  form                                                  shape, resemble                                                                                      form, format, conform, formulate, perform, formal, formula
-  fract, frag, frai                                     break                                                                                                fracture, infraction, fragile, fraction, refract, frail
-  fuge                                                  flee                                                                                                 subterfuge, refuge, centrifuge
-  -ful                                                  Noun: an amount or quanity that fills                                                                mouthful
-  -ful                                                  Adjective: having, giving, marked by                                                                 fanciful
-  fuse                                                  pour                                                                                                 confuse, transfuse
-  -fy                                                   make, form into                                                                                      falsify, dandify
-  gam                                                   marriage                                                                                             bigamy, monogamy, polygamy
-  gastr, gastro                                         stomach                                                                                              gastric, gastronomic, gastritis, gastropod
-  gen                                                   kind                                                                                                 generous
-  gen                                                   birth, race, produce                                                                                 genesis, genetics, eugenics, genealogy, generate, genetic, antigen, pathogen
-  geo                                                   earth                                                                                                geometry, geography, geocentric, geology
-  germ                                                  vital part                                                                                           germination, germ, germane
-  gest                                                  carry, bear                                                                                          congest, gestation
-  giga                                                  billion                                                                                              gigabyte, gigaflop
-  gin                                                   careful                                                                                              gingerly
-  gloss, glot                                           tongue                                                                                               glossary, polyglot, epiglottis
-  glu, glo                                              lump, bond, glue                                                                                     glue, agglutinate, conglomerate
-  gor                                                   to gather, to bring together                                                                         category, categorize
-  grad, gress, gree                                     to gather, to bring together, step, go                                                               grade, degree, progress, gradual, graduate, egress
-  graph, gram, graf                                     write, written, draw                                                                                 graph, graphic, autograph, photography, graphite, telegram, polygraph, grammar, biography, lithograph, graphic
-  grat                                                  pleasing                                                                                             congratulate, gratuity, grateful, ingrate
-  grav                                                  heavy, weighty                                                                                       grave, gravity, aggravate, gravitate
-  greg                                                  herd                                                                                                 gregarious, congregation, segregate, gregarian
-  hale, heal                                            make whole, sound                                                                                    inhale, exhale, heal, healthy, healthiness
-  helio                                                 sun                                                                                                  heliograph, heliotrope, heliocentric
-  hema, hemo                                            blood                                                                                                hemorrhage, hemoglobin, hemophilia, hemostat
-  her, here, hes                                        stick                                                                                                adhere, cohere, cohesion, inherent, hereditary, hesitate
-  hetero                                                other, different                                                                                     heterodox, heterogeneous, heterosexual, heterodyne
-  hex, ses, sex                                         six                                                                                                  hexagon, hexameter, sestet, sextuplets
-  homo                                                  same                                                                                                 homogenize, homosexual, homonym, homophone
-  hum, human                                            earth, ground, man                                                                                   humus, exhume, humane
-  hydr, hydra, hydro                                    water                                                                                                dehydrate, hydrant, hydraulic, hydraulics, hydrogen, hydrophobia
-  hyper                                                 over, above                                                                                          hyperactive, hypertensive, hyperbolic, hypersensitive, hyperventilate, hyperkinetic
-  hypn                                                  sleep                                                                                                hypnosis, hypnotherapy
-  -ia                                                   Noun: names, diseases                                                                                phobia
-  -ian, an                                              Noun: related to, one that is                                                                        pedestrian, human
-  -iatry                                                Noun: art of healing                                                                                 psychiatry
-  -ic                                                   Adjective: quality, relation                                                                         generic
-  -ic, ics                                              Noun: related to the arts and sciences                                                               arithmetic, economics
-  -ice                                                  Noun: act                                                                                            malice
-  -ify                                                  Verb: cause                                                                                          specify
-  ignis                                                 fire                                                                                                 ignite, igneous, ignition
-  -ile                                                  Adjective: having the qualities of                                                                   projectile
-  in, im                                                into, on, near, towards                                                                              instead, import
-  in, im, il, ir                                        not                                                                                                  illegible, irresolute, inaction, inviolate, innocuous, intractable, innocent, impregnable, impossible, imposter
-  infra                                                 beneath                                                                                              infrared, infrastructure
-  -ing                                                  Noun: material made for, activity, result of an activity                                             flooring, swimming, building
-  -ing                                                  Verb: present participle                                                                             depicting
-  -ing                                                  Adjective: activity                                                                                  cohering
-  inter                                                 between, among                                                                                       international, intercept, interject, intermission, internal, intermittent,
-  intra                                                 within, during, between layers, underneath                                                           intramural, intranet, intranatal
-  intro                                                 into, within, inward                                                                                 interoffice, introvert, introspection, introduce
-  -ion                                                  Noun: condition or action                                                                            abduction
-  -ish                                                  Adjective: having the character of                                                                   newish
-  -ism                                                  Noun: doctrine, belief, action or conduct                                                            formalism
-  -ist                                                  Noun: person or member                                                                               podiatrist
-  -ite                                                  Noun: state or quality                                                                               graphite
-  -ity, ty                                              Noun: state or quality                                                                               lucidity, novelty
-  -ive                                                  Noun: condition                                                                                      native
-  -ive, -ative, -itive                                  Adjective: having the quality of                                                                     festive, cooperative, sensitive
-  -ize                                                  Verb: cause                                                                                          fantasize
-  jac, ject                                             throw                                                                                                reject, eject, project, trajectory, interject, dejected, inject, ejaculate, adjacent
-  join, junct                                           join                                                                                                 adjoining, enjoin, juncture, conjunction, injunction, conjunction
-  judice                                                judge                                                                                                prejudice
-  jug, junct, just                                      to join                                                                                              junction, adjust, conjugal
-  juven                                                 young                                                                                                juvenile, rejuvenate
-  labor                                                 work                                                                                                 laborious, belabor
-  lau, lav, lot, lut                                    wash                                                                                                 launder, lavatory, lotion, ablution, dilute
-  lect, leg, lig                                        choose, gather, select, read                                                                         collect, legible, eligible
-  leg                                                   law                                                                                                  legal, legislate, legislature, legitimize
-  -less                                                 Adjective: without, missing                                                                          motiveless
-  levi                                                  light                                                                                                alleviate, levitate, levity
-  lex, leag, leg                                        law                                                                                                  legal, college, league
-  liber, liver                                          free                                                                                                 liberty, liberal, liberalize, deliverance
-  lide                                                  strike                                                                                               collide, nuclide
-  liter                                                 letters                                                                                              literary, literature, literal, alliteration, obliterate
-  loc, loco                                             place, area                                                                                          location, locally, locality, allocate, locomotion
-  log, logo, ology                                      word, study, say, speech, reason, study                                                              catalog, prologue, dialogue, zoology, logo
-  loqu, locut                                           talk, speak                                                                                          eloquent, loquacious, colloquial, circumlocution
-  luc, lum, lun, lus, lust                              light                                                                                                translucent, luminary, luster, luna, illuminate, illustrate
-  lude                                                  play                                                                                                 prelude
-  -ly                                                   Adverb: in the manner of                                                                             fluently
-  macr-, macer                                          lean                                                                                                 emaciated, meager
-  magn                                                  great                                                                                                magnify, magnificent, magnanimous, magnate, magnitude, magnum
-  main                                                  strength, foremost                                                                                   mainstream, mainsail, domain, remain
-  mal                                                   bad, badly                                                                                           malformation, maladjusted, dismal, malady, malcontent,malfunction, malfeasance, maleficent
-  man, manu                                             hand, make, do                                                                                       manual, manage, manufacture, manacle, manicure, manifest, maneuver, emancipate, management
-  mand                                                  command                                                                                              mandatory, remand, mandate
-  mania                                                 madness                                                                                              mania, maniac, kleptomania, pyromania
-  mar, mari, mer                                        sea, pool                                                                                            marine, marsh, maritime, mermaid
-  matri                                                 mother                                                                                               matrimony, maternal, matriarchate, matron
-  medi                                                  half, middle, between, halfway                                                                       mediate, medieval, Mediterranean, mediocre, medium
-  mega                                                  great, million                                                                                       megaphone, megaton, megaflop, megalomaniac, megabyte, megalopolis
-  mem                                                   recall, remember                                                                                     memo, commemoration, memento, memoir, memorable
-  ment                                                  mind                                                                                                 mental, mention
-  -ment                                                 Noun: condition or result                                                                            document
-  meso                                                  middle                                                                                               mesomorph, mesoamerica, mesosphere
-  meta                                                  beyond, change                                                                                       metaphor, metamorphosis, metabolism, metahistorical, metainformation
-  meter                                                 measure                                                                                              meter, voltammeter, barometer, thermometer
-  metr                                                  admeasure, apportion                                                                                 metrics, asymmetric, parametric, telemetry
-  micro                                                 small, millionth                                                                                     microscope, microfilm, microcard, microwave, micrometer, microvolt
-  migra                                                 wander                                                                                               migrate, emigrant, immigrate
-  mill, kilo                                            thousand                                                                                             millennium, kilobyte, kiloton
-  milli                                                 thousandth                                                                                           millisecond, milligram, millivolt
-  min                                                   little, small                                                                                        minute, minor, minuscule
-  mis                                                   wrong, bad, badly                                                                                    misconduct, misinform, misinterpret, mispronounce, misnomer, mistake, misogynist
-  mit, miss                                             send                                                                                                 emit, remit, submit, admit, commit, permit, transmit, omit, intermittent, mission, missile
-  mob, mov, mot                                         move                                                                                                 motion, remove, mobile, motor
-  mon                                                   warn, remind                                                                                         monument, admonition, monitor, premonition
-  mono                                                  one                                                                                                  monopoly, monotype, monologue, mononucleosis, monorail, monotheist,
-  mor, mort                                             mortal, death                                                                                        mortal, immortal, mortality, mortician, mortuary
-  morph                                                 shape, form                                                                                          amorphous, dimorphic, metamorphosis, morphology, polymorphic, morpheme, amorphous
-  multi                                                 many, much                                                                                           multifold, multilingual, multiped, multiply, multitude, multipurpose, multinational
-  nano                                                  billionth                                                                                            nanosecond, nanobucks
-  nasc, nat, gnant, nai                                 to be born                                                                                           nascent, native, pregnant, naive
-  nat, nasc                                             to be from, to spring forth                                                                          innate, natal, native, renaissance
-  neo                                                   new                                                                                                  Neolithic, nuveau riche, neologism, neophyte, neonate
-  -ness                                                 Noun: state, condition, quality                                                                      kindness
-  neur                                                  nerve                                                                                                neuritis, neuropathic, neurologist, neural, neurotic
-  nom                                                   law, order                                                                                           autonomy, astronomy, gastronomy, economy
-  nom, nym                                              name                                                                                                 nominate, synonym
-  nomen, nomin                                          name                                                                                                 nomenclature, nominate, ignominious
-  non                                                   nine                                                                                                 nonagon
-  non                                                   not                                                                                                  nonferrous, nonsense, nonabrasive, nondescript
-  nov                                                   new                                                                                                  novel, renovate, novice, nova, innovate
-  nox, noc                                              night                                                                                                nocturnal, equinox, noctilucent
-  numer                                                 number                                                                                               numeral, numeration, enumerate, innumerable
-  numisma                                               coin                                                                                                 numismatics
-  ob, oc, of, op                                        toward, against, in the way                                                                          oppose, occur, offer, obtain
-  oct                                                   eight                                                                                                octopus, octagon, octogenarian, octave
-  oligo                                                 few, little                                                                                          Oligocene, oligosaccharide, oligotrophic, oligarchy
-  omni                                                  all, every                                                                                           omnipotent, omniscient, omnipresent, omnivorous
-  onym                                                  name                                                                                                 anonymous, pseudonym, antonym, synonym
-  oper                                                  work                                                                                                 operate, cooperate, opus
-  -or                                                   Noun: condition or activity                                                                          valor, honor, humor, minor
-  ortho                                                 straight, correct                                                                                    orthodox, orthodontist, orthopedic, unorthodox
-  -ory                                                  Noun: place for, serves for                                                                          territory, rectory
-  -ous, -eous, -ose, -ious                              Adjective: having the quality of, relating to                                                        adventurous, courageous, verbose, fractious
-  over                                                  excessive, above                                                                                     overwork, overall, overwork
-  pac                                                   peace                                                                                                pacifist, pacify, pacific ocean
-  pair, pare                                            arrange, assemblage, two                                                                             repair, impair, compare, prepare
-  paleo                                                 old                                                                                                  Paleozoic, Paleolithic, paleomagnetism, paleopsychology
-  pan                                                   all                                                                                                  Pan-American, pan-African, panacea, pandemonium (place of all the demons),
-  para                                                  beside                                                                                               paradox, paraprofessional, paramedic, paraphrase, parachute
-  pat, pass, path                                       feel, suffer                                                                                         patient, passion, sympathy, pathology
-  pater, patr                                           father                                                                                               paternity, patriarch, patriot, patron, patronize
-  path, pathy                                           feeling, suffering                                                                                   pathos, sympathy, antipathy, apathy, telepathy
-  ped, pod                                              foot                                                                                                 pedal, impede, pedestrian, centipede, tripod, podiatry, antipode, podium
-  pedo                                                  child                                                                                                orthopedic, pedagogue, pediatrics
-  pel, puls                                             drive, push, urge                                                                                    compel, dispel, expel, repel, propel, pulse, impulse, pulsate, compulsory, expulsion, repulsive
-  pend, pens, pond                                      hang, weigh                                                                                          pendant, pendulum, suspend, appendage, pensive, append
-  per                                                   through, intensive                                                                                   persecute, permit, perspire, perforate, persuade
-  peri                                                  around                                                                                               periscope, perimeter, perigee, periodontal
-  phage                                                 eat                                                                                                  macrophage, bacteriophage
-  phan, phas, phen, fan, phant, fant                    show, make visible                                                                                   phantom, fantasy
-  phe                                                   speak                                                                                                blaspheme, cipher, phenomenon, philosopher
-  phil                                                  love                                                                                                 philosopher, philanthropy, philharmonic, bibliophile
-  phlegma                                               inflammation                                                                                         phlegm, phlegmatic
-  phobia, phobos                                        fear                                                                                                 phobia, claustrophobia, acrophobia, aquaphobia, ergophobia, homophobia
-  phon                                                  sound                                                                                                telephone, phonics, phonograph, phonetic, homophone, microphone, symphony, euphonious
-  phot, photo                                           light                                                                                                photograph, photoelectric, photogenic, photosynthesis, photon
-  pico                                                  trillionth                                                                                           picofarad, picocurie, picovolt
-  pict                                                  paint, show, draw                                                                                    picture, depict
-  plac, plais                                           please                                                                                               placid, placebo, placate, complacent
-  pli, ply                                              fold                                                                                                 reply, implicate, ply
-  plore                                                 cry out, wail                                                                                        implore, exploration, deploring
-  plu, plur, plus                                       more                                                                                                 plural, pluralist, plus
-  pneuma, pneumon                                       breath                                                                                               pneumatic, pneumonia,
-  pod                                                   foot, feet                                                                                           podiatry, tripod
-  poli                                                  city                                                                                                 metropolis, police, politics, Indianapolis, megalopolis, acropolis
-  poly                                                  many                                                                                                 polytheist, polygon, polygamy, polymorphous
-  pon, pos, pound                                       place, put                                                                                           postpone, component, opponent, proponent, expose, impose, deposit, posture, position, expound, impound
-  pop                                                   people                                                                                               population, populous, popular
-  port                                                  carry                                                                                                porter, portable, transport, report, export, import, support, transportation
-  portion                                               part, share                                                                                          portion, proportion
-  post                                                  after, behind                                                                                        postpone, postdate
-  pot                                                   power                                                                                                potential, potentate, impotent
-  pre, pur                                              before                                                                                               precede
-  prehendere                                            seize, grasp                                                                                         apprehend, comprehend, comprehensive, prehensile
-  prin, prim, prime                                     first                                                                                                primacy, prima donna, primitive, primary, primal, primeval, prince, principal
-  pro                                                   for, foward                                                                                          propel
-  proto                                                 first                                                                                                prototype, protocol, protagonist, protozoan, Proterozoic, protoindustrial
-  psych                                                 mind, soul                                                                                           psyche, psychiatry, psychology, psychosis
-  punct                                                 point, dot                                                                                           punctual, punctuation, puncture, acupuncture, punctuation
-  pute                                                  think                                                                                                dispute, computer
-  quat, quad                                            four                                                                                                 quadrangle, quadruplets
-  quint, penta                                          five                                                                                                 quintet, quintuplets, pentagon, pentane, pentameter
-  quip                                                  ship                                                                                                 equip, equipment
-  quir, quis, quest, quer                               seek, ask                                                                                            query, inquire, exquisite, quest
-  re                                                    back, again                                                                                          report, realign, retract, revise, regain
-  reg, recti                                            straighten                                                                                           regiment, regular, rectify, correct, direct, rectangle
-  retro                                                 backwards                                                                                            retrorocket, retrospect, retrogression, retroactive
-  ri, ridi, risi                                        laughter                                                                                             deride, ridicule, ridiculous, derision, risible
-  rog, roga                                             ask                                                                                                  prerogative, interrogation, derogatory
-  rupt                                                  break                                                                                                rupture, interrupt, abrupt, disrupt, ruptible
-  sacr, sanc, secr                                      sacred                                                                                               sacred, sacrosanct, sanction, consecrate, desecrate
-  salv, salu                                            safe, healthy                                                                                        salvation, salvage, salutation
-  sanct                                                 holy                                                                                                 sanctify, sanctuary, sanction, sanctimonious, sacrosanct
-  sat, satis                                            enough                                                                                               satient, saturate, satisfy
-  sci, scio, scientia                                   know                                                                                                 science, conscious, omniscient, cognocienti
-  scope                                                 see, watch                                                                                           telescope, microscope, kaleidoscope, periscope, stethoscope
-  scrib, script                                         write                                                                                                scribe, scribble, inscribe, describe, subscribe, prescribe, manuscript
-  se                                                    apart, move away from                                                                                secede
-  sect, sec                                             cut                                                                                                  intersect, transect, dissect, secant, section
-  sed, sess, sid                                        sit                                                                                                  sediment, session, obsession, possess, preside, president, reside, subside
-  semi                                                  half, partial                                                                                        semifinal, semiconscious, semiannual, semimonthly, semicircle
-  sen, scen                                             old, grow old                                                                                        senior, senator, senile, senescence, evanescent
-  sent, sens                                            feel, think                                                                                          sentiment, consent, resent, dissent, sentimental, sense, sensation, sensitive, sensory, dissension
-  sept                                                  seven                                                                                                septet, septennial
-  sequ, secu, sue                                       follow                                                                                               sequence, consequence, sequel, subsequent, prosecute, consecutive, second, ensue, pursue
-  serv                                                  save, serve, keep                                                                                    servant, service, subservient, servitude, preserve, conserve, reservation, deserve, conservation, observe
-  -ship                                                 Noun: status, condition                                                                              relationship, friendship
-  sign, signi                                           sign, mark, seal                                                                                     signal, signature, design, insignia, significant
-  simil, simul                                          like, resembling                                                                                     similar, assimilate, simulate, simulacrum, simultaneous
-  sist, sta, stit                                       stand, withstand, make up                                                                            assist, insist, persist, circumstance, stamina, status, state, static, stable, stationary, substitute
-  soci                                                  to join, companions                                                                                  sociable, society
-  sol, solus                                            alone                                                                                                solo, soliloquy, solitaire, solitude, solitary, isolate
-  solv, solu, solut                                     loosen, explain                                                                                      solvent, solve, absolve, resolve, soluble, solution, resolution, resolute, dissolute, absolution
-  somn                                                  sleep                                                                                                insomnia, somnambulist
-  soph                                                  wise                                                                                                 sophomore (wise fool), philosophy, sophisticated
-  spec, spect, spi, spic                                look, see                                                                                            specimen, specific, spectator, spectacle, aspect, speculate, inspect, respect, prospect, retrospective, introspective, expect, conspicuous
-  sper                                                  render favorable                                                                                     prosper
-  sphere                                                ball, sphere                                                                                         sphere, stratosphere, hemisphere, spheroid
-  spir                                                  breath                                                                                               spirit, conspire, inspire, aspire, expire, perspire, respiration
-  stand, stant, stab, stat, stan, sti, sta, st, stead   stand                                                                                                stature, establish, stance
-  -ster                                                 person                                                                                               mobster, monster
-  strain, strict, string, stige                         bind, pull, draw tight                                                                               stringent, strict, restrict, constrict, restrain, boa constrictor
-  stru, struct, stroy, stry                             build                                                                                                construe, structure, construct, instruct, obstruct, destruction, destroy, industry, ministry
-  sub, suc, suf, sup, sur, sus                          under, below, from, secretly, instead of                                                             sustain, survive, support, suffice, succeed, submerge, submarine, substandard, subnormal, subvert
-  sume, sump                                            take, use, waste                                                                                     consume, assume, sump, presumption
-  super, supra                                          over, above                                                                                          superior, suprarenal, superscript, supernatural, superimpose, supercede
-  syn, sym                                              together, at the same time                                                                           sympathy, synthesis, synchronous, syndicate
-  tact, tang, tag, tig, ting                            touch                                                                                                tactile, contact, intact, intangible, tangible, contagious, contiguous, contingent
-  tain, ten, tent, tin                                  hold, keep, have                                                                                     retain, continue, content, tenacious
-  tect, teg                                             cover                                                                                                detect, protect, tegular, tegument
-  tele                                                  distance, far, from afar                                                                             telephone, telegraph, telegram, telescope, television, telephoto, telecast, telepathy, telepathy
-  tem, tempo                                            time                                                                                                 tempo, temporary, extemporaneously, contemporary, pro tem, temporal
-  ten, tin, tain                                        hold                                                                                                 tenacious, tenant, tenure, untenable, detention, retentive, content, pertinent, continent, obstinate, contain, abstain, pertain, detain
-  tend, tent, tens                                      stretch, strain                                                                                      tendency, extend, intend, contend, pretend, superintend, tender, extent, tension, pretense
-  tera                                                  trillion                                                                                             terabyte, teraflop
-  term                                                  end, boundary, limit                                                                                 exterminate, terminal
-  terr, terra                                           earth                                                                                                terrain, terrarium, territory, terrestrial
-  test                                                  to bear witness                                                                                      testament, detest, testimony, attest, testify
-  the, theo                                             God, a god                                                                                           monotheism, polytheism, atheism, theology
-  therm                                                 heat                                                                                                 thermometer, theorem, thermal, thermos bottle, thermostat, hypothermia
-  thesis, thet                                          place, put                                                                                           antithesis, hypothesis, synthesis, epithet
-  tire                                                  draw, pull                                                                                           attire, retire, entire
-  tom                                                   cut                                                                                                  atom (not cutable), appendectomy, tonsillectomy, dichotomy, anatomy
-  tor, tors, tort                                       twist                                                                                                torture, retort, extort, distort, contort, torsion, tortuous, torturous
-  tox                                                   poison                                                                                               toxic, intoxicate, antitoxin
-  tract, tra, trai, treat                               drag, draw, pull                                                                                     attract, tractor, traction, extract, retract, protract, detract, subtract, contract, intractable
-  trans                                                 across, beyond, change                                                                               transform, transoceanic, transmit, transportation, transducer
-  tri                                                   three                                                                                                tripod, triangle, trinity, trilateral
-  trib                                                  pay, bestow                                                                                          tribute, contribute, attribute, retribution, tributary
-  tribute                                               give                                                                                                 contribute, distribute, tributary
-  turbo                                                 disturb                                                                                              turbulent, disturb, turbid, turmoil
-  typ                                                   print                                                                                                type, prototype, typical, typography, typewriter, typology, typify
-  ultima                                                last                                                                                                 ultimate, ultimatum
-  umber, umbraticum                                     shadow                                                                                               umbra, penumbra, (take) umbrage, adumbrate
-  un                                                    not, against, opposite                                                                               unceasing, unequal
-  uni                                                   one                                                                                                  uniform, unilateral, universal, unity, unanimous, unite, unison, unicorn
-  -ure                                                  Noun: act, condition, process, function                                                              exposure, conjecture, measure
-  vac                                                   empty                                                                                                vacate, vacuum, evacuate, vacation, vacant, vacuous
-  vade                                                  go                                                                                                   evade, invader
-  vale, vali, valu                                      strength, worth                                                                                      equivalent, valiant, validity, evaluate, value, valor
-  veh, vect                                             to carry                                                                                             vector, vehicle, convection, vehement
-  ven, vent                                             come                                                                                                 convene, intervene, venue, convenient, avenue, circumvent, invent, convent, venture, event, advent, prevent
-  ver, veri                                             true                                                                                                 very, aver, verdict, verity, verify, verisimilitude
-  verb, verv                                            word                                                                                                 verify, veracity, verbalize, verve
-  vert, vers                                            turn, change                                                                                         convert, revert, advertise, versatile, vertigo, invert, reversion, extravert, introvert, diversion, introvert, convertible, reverse, controversy
-  vi                                                    way                                                                                                  viable, vibrate, vibrant
-  vic, vicis                                            change, substitute                                                                                   vicarious, vicar, vicissitude
-  vict, vinc                                            conquer                                                                                              victor, evict, convict, convince, invincible
-  vid, vis                                              see                                                                                                  video, evident, provide, providence, visible, revise, supervise, vista, visit, vision, review, indivisible
-  viv, vita, vivi                                       alive, life                                                                                          revive, survive, vivid, vivacious, vitality, vivisection, vital, vitamins, revitalize
-  voc, voke                                             call                                                                                                 vocation, avocation, convocation, invocation, evoke, provoke, revoke, advocate, provocative, vocal
-  vol                                                   will                                                                                                 malevolent, benevolent, volunteer, volition
-  volcan                                                fire                                                                                                 volcano, vulcanize, Vulcan
-  volv, volt, vol                                       turn about, roll                                                                                     revolve, voluble, voluminous, convolution, revolt, evolution
-  vor                                                   eat greedily                                                                                         voracious, carnivorous, herbivorous, omnivorous, devour
-  -ward                                                 Adverb: in a direction or manner                                                                     homeward
-  -wise                                                 Adverb: in the manner of, with regard to                                                             timewise, clockwise, bitwise
-  with                                                  against                                                                                              withhold, without, withdraw, forthwith
-  -y                                                    Noun: state, condition, result of an activity                                                        society, victory
-  -y                                                    Adjective: marked by, having                                                                         hungry, angry, smeary, teary
-  zo                                                    animal                                                                                               zoo (zoological garden), zoology, zodiac, protozoan</p>
 </div>
   
   
@@ -1834,6 +539,925 @@ Beck</a></li>
 <p>這邊使用的postgresql是8.4版，如果版本不同，版號要適當調整</p>
 
 <h1>Resources</h1>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/postgresql_config/">設定PostgrSQL的連線配置</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/postgresql_config/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>設定可以連線的IP是在 data\postgresql.conf</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>listen_addresses = '*'        # what IP address(es) to listen on;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>設定連線的認證方式是在 data\pg_hba.conf</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># TYPE  DATABASE        USER            CIDR-ADDRESS            METHOD
+</span><span class='line'># IPv4 local connections:
+</span><span class='line'>#host    all             all             127.0.0.1/32            trust
+</span><span class='line'># IPv6 local connections 允許來自同網域的1~128網段的使用者連線，不需密碼
+</span><span class='line'>#host    all             all             ::1/128                trust 
+</span><span class='line'># password authorize     允許來自同網域的1~128網段的任何使用者連線，需密碼
+</span><span class='line'>host      all            all             ::1/128                md5</span></code></pre></td></tr></table></div></figure>
+
+
+<p>USER設為ALL表示，資料庫裡所有的user都能連進資料庫，沒有的user就不能連</p>
+
+<p>如果忘記db密碼，可以設成</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>host    all             all             ::1/128                trust </span></code></pre></td></tr></table></div></figure>
+
+
+<p>允許同網段的ip連入，之後可以透過postgres這個預設的user登入之後，修改postgres
+user的密碼，再改回用密碼認證的方式。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/pinyin/">拼音輸入法</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/pinyin/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>表格</h1>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ㄅ：B　   ㄆ：P　    ㄇ：M      ㄈ：F
+</span><span class='line'>ㄉ：D　   ㄊ：T　    ㄋ：N 　   ㄌ：L
+</span><span class='line'>ㄍ：G　   ㄎ：K　    ㄏ：H
+</span><span class='line'>ㄐ：J　   ㄑ：Q　    ㄒ：X
+</span><span class='line'>ㄓ：ZH    ㄔ：CH     ㄕ：SH     ㄖ：R
+</span><span class='line'>ㄗ：Z　   ㄘ：C　    ㄙ：S
+</span><span class='line'>ㄢ：AN    ㄣ：EN     ㄤ：ANG    ㄥ：ENG
+</span><span class='line'>ㄞ：AI    ㄟ：E      ㄠ：AO     ㄡ：OU
+</span><span class='line'>ㄚ：A     ㄛ：O      ㄜ：E      ㄝ：EI
+</span><span class='line'>ㄧ：Y/I   ㄨ：W/U/O  ㄩ：YU/V   ㄦ：ER</span></code></pre></td></tr></table></div></figure>
+
+
+<p>![mobile01-60f35369e3426c64a72057d0112ee0b4.png]</p>
+
+<p>(圖片來源<a href="http://blog.andytn.tw/2010/05/blog-post.html" title="http://blog.andytn.tw/2010/05/blog-post.html">恩的領域</a>)</p>
+
+<p><img src="http://input.foruto.com/cccl/images/pn3.gif" alt="" /></p>
+
+<p>(圖片來源<a href="http://input.foruto.com/cccl/cccl_article025.html" title="http://input.foruto.com/cccl/cccl_article025.html">中文輸入法世界</a>)</p>
+
+<p>  聲母   韻母   前有聲母   前無聲母   前有聲母   前無聲母   前有聲母   前無聲母</p>
+
+<hr />
+
+<p>  ㄅ     B                                       　         ㄧ         I                  YI               ㄨ     U               WU     　   ㄩ     U                YU   <br/>
+  ㄆ     P                 ㄚ         A                     ㄧㄚ       IA                 YA               ㄨㄚ   UA              WA          ㄩㄚ                         <br/>
+  ㄇ     M                 ㄛ         O                     ㄧㄛ       IO                 YO               ㄨㄛ   UO              WO          ㄩㄛ                         <br/>
+  ㄈ     F                 ㄜ         E                     ㄧㄜ                                           ㄨㄜ                               ㄩㄜ                         <br/>
+  ㄉ     D                 ㄝ         E                     ㄧㄝ       IE                 YE               ㄨㄝ                               ㄩㄝ   UE               YUE    +U
+  ㄊ     T                 ㄞ         AI                    ㄧㄞ                                           ㄨㄞ   UAI             WAI         ㄩㄞ                         <br/>
+  ㄋ     N                 ㄟ         EI                    ㄧㄟ                                           ㄨㄟ   UI     E去除    WEI         ㄩㄟ                         <br/>
+  ㄌ     L                 ㄠ         AO                    ㄧㄠ       IAO                YAO              ㄨㄠ                               ㄩㄠ                         <br/>
+  ㄍ     G                 ㄡ         OU                    ㄧㄡ       IU         O去除   YOU              ㄨㄡ                               ㄩㄡ                         <br/>
+  ㄎ     K                 ㄢ         AN                    ㄧㄢ       IAN                YAN              ㄨㄢ   UAN             WAN         ㄩㄢ   UAN              YUAN   +U
+  ㄏ     H                 ㄣ         EN                    ㄧㄣ       IN         E去除   YIN    E去除+I   ㄨㄣ   UN     E去除    WEN         ㄩㄣ   UN     E去除     YUN    E去除+U
+  ㄐ     J                 ㄤ         ANG                   ㄧㄤ       IANG               YANG             ㄨㄤ   UANG            WANG        ㄩㄤ                         <br/>
+  ㄑ     Q                 ㄥ         ENG                   ㄧㄥ       ING        E去除   YING   E去除+I   ㄨㄥ   ONG    -UE +O   WENG        ㄩㄥ   IONG   -UE + O   YONG   E去除+O
+  ㄒ     X                 ㄦ         R                                                                                                                                    <br/>
+  ㄓ     ZH     ㄗ+H                                                                                                                                                       <br/>
+  ㄔ     CH     ㄘ+H                                                                                                                                                       <br/>
+  ㄕ     SH     ㄙ+H                                                                                                                                                       <br/>
+  ㄖ     R                                                                                                                                                                 <br/>
+  ㄗ     Z                                                                                                                                                                 <br/>
+  ㄘ     C                                                                                                                                    ㄋㄩ   NV                    <br/>
+  ㄙ     S                                                                                                                                    ㄌㄩ   LV</p>
+
+<h4>快捷鍵</h4>
+
+<ol>
+<li>中/英文標點符號切換：Ctrl + .</li>
+<li>中/英文切換：SHIT</li>
+<li>候選字切換：Up/Down</li>
+<li>Google Search: Ctrl + g</li>
+<li>簡/繁切換：Ctrl + Shift + T</li>
+<li>刪除誤造詞：Ctrl + Shift + Num</li>
+<li>筆畫模式：先按”u”進入之後，
+使用代碼h(橫),s(豎),p(撇),n(捺),z(折),d(點)依序輸入。</li>
+<li>英文建議模式：先按”v”進入之後， 打英文即可。</li>
+<li></li>
+</ol>
+
+
+<h1>注意事項</h1>
+
+<ul>
+<li>“ㄓ、ㄔ、ㄕ、ㄖ、ㄗ、ㄘ、ㄙ”等七個音節的韻母用ｉ，即拼作：ｚｈｉ，ｃｈｉ，ｓｈｉ，ｒｉ，ｚｉ，ｃｉ，ｓｉ。</li>
+<li>捲舌音“ㄓ、ㄔ、ㄕ”為”zh,ch,sh”，不捲舌音“ㄗ、ㄘ、ㄙ”則是去掉”h”</li>
+<li>韻母依照英文發音方式即可</li>
+<li><p>需要特別記憶</p>
+
+<ol>
+<li>ㄧㄡ：IU,YOU</li>
+<li>ㄧㄣ：IN,YIN</li>
+<li>ㄧㄥ：ING,YING</li>
+<li>ㄨㄟ：UI,WEI</li>
+<li>ㄨㄣ：UN,WEN</li>
+<li>ㄨㄥ：ONG,WENG</li>
+<li>ㄩㄝ：UE,YUE</li>
+<li>ㄩㄢ：UAN,YUAN</li>
+<li>ㄩㄣ：UN,YUN</li>
+<li>ㄩㄥ：IONG,YONG</li>
+<li>ㄋㄩ：NV</li>
+<li>ㄌㄩ：LV</li>
+</ol>
+</li>
+<li><p>如果想要達到一定的速度，應該心中無注音，直接以拼音來“拼音”</p></li>
+</ul>
+
+
+<h1>難拼字練習</h1>
+
+<ol>
+<li>昂 (ang)</li>
+<li>恩 (eng)</li>
+<li>有 (you)</li>
+<li>謬,丟,牛,留,就,求,修 (*iu)</li>
+<li>因 (yin)</li>
+<li>賓,拼,名,丁,聽,您,林,金,親,心 (*in)</li>
+<li>英 (ying)</li>
+<li>兵,平,明,寧,零,經,新 (*ing)</li>
+<li>玩 (wan)</li>
+<li>端,團,暖,亂,關,寬,專,穿,閂,裝,船,酸,軟 (*uan)</li>
+<li>文 (wen)</li>
+<li>蹲,吞,論,滾,坤,昏,遵,春,飱,閏,尊,村,孫, (*un)</li>
+<li>王 (wang)</li>
+<li>關,框,黃,裝,窗,雙 (*uang)</li>
+<li>翁 (weng)</li>
+<li>紅 (*ong)</li>
+<li>云 (yun)</li>
+<li>軍,群,勲 (*un)</li>
+<li>永 (yong)</li>
+<li>囧,窮,兄 (*iong)</li>
+<li>女 (nv)</li>
+<li>呂 (lv)</li>
+</ol>
+
+
+<h1>參考資料</h1>
+
+<ul>
+<li><a href="http://www.cccla-us.org/pinyin.htm" title="http://www.cccla-us.org/pinyin.htm">漢語拼音與注音符號基本規則對照表</a></li>
+<li><a href="http://www.cybertranslator.idv.tw/pinyin/bopomofo.htm" title="http://www.cybertranslator.idv.tw/pinyin/bopomofo.htm">國語拼音對照表</a></li>
+<li><a href="http://blog.sina.com.tw/tfghs/article.php?pbgid=8608&amp;entryid=6781" title="http://blog.sina.com.tw/tfghs/article.php?pbgid=8608&amp;entryid=6781">拼音規則</a></li>
+<li><a href="http://www.iq-t.com/syscom/pingying2.asp" title="http://www.iq-t.com/syscom/pingying2.asp">http://www.iq-t.com/syscom/pingying2.asp</a></li>
+<li><a href="http://bbs.pxysm.com/index.php" title="http://bbs.pxysm.com/index.php">google PIN YIN
+extension</a></li>
+<li><a href="http://pinyin.sogou.com/" title="http://pinyin.sogou.com/">搜狗拼音輸入法</a>
+
+<ul>
+<li>比GOOGLE拼音好用</li>
+</ul>
+</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/phpunit_101/">PHPUnit 101</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/phpunit_101/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>Hello World</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?php
+</span><span class='line'>require_once 'PHPUnit/Framework.php';
+</span><span class='line'> 
+</span><span class='line'>class ArrayTest extends PHPUnit_Framework_TestCase {
+</span><span class='line'>    public function testNewArrayIsEmpty() {
+</span><span class='line'>        // Create the Array fixture.
+</span><span class='line'>        $fixture = array();
+</span><span class='line'> 
+</span><span class='line'>        // Assert that the size of the Array fixture is 0.
+</span><span class='line'>        $this-&gt;assertEquals(0, sizeof($fixture));
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>    public function testArrayContainsAnElement() {
+</span><span class='line'>        // Create the Array fixture.
+</span><span class='line'>        $fixture = array();
+</span><span class='line'> 
+</span><span class='line'>        // Add an element to the Array fixture.
+</span><span class='line'>        $fixture[] = 'Element';
+</span><span class='line'> 
+</span><span class='line'>        // Assert that the size of the Array fixture is 1.
+</span><span class='line'>        $this-&gt;assertEquals(1, sizeof($fixture));
+</span><span class='line'>    }
+</span><span class='line'>}
+</span><span class='line'>?&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Data Providers</h2>
+
+<ul>
+<li>using the @dataProvider annotation</li>
+<li>A data provider method must be public</li>
+<li>A data provider method must be return an array of arrays or an
+object that implements the Iterator interface and yields an array
+for each iteration step</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?php
+</span><span class='line'>class DataTest extends PHPUnit_Framework_TestCase {
+</span><span class='line'>    /**
+</span><span class='line'>     * @dataProvider provider
+</span><span class='line'>     */
+</span><span class='line'>    public function testAdd($a, $b, $c) {
+</span><span class='line'>        $this-&gt;assertEquals($c, $a + $b);
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>    public function provider() {
+</span><span class='line'>        return array(
+</span><span class='line'>          array(0, 0, 0),
+</span><span class='line'>          array(0, 1, 1),
+</span><span class='line'>          array(1, 0, 1),
+</span><span class='line'>          array(1, 1, 3)
+</span><span class='line'>        );
+</span><span class='line'>    }
+</span><span class='line'>}
+</span><span class='line'>?&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Expected Exception</h2>
+
+<p>there are 3 ways to expecte exception</p>
+
+<ol>
+<li>Using @expectedException annotation</li>
+<li>Using setExpectedException() method</li>
+<li>Using try/catch fail() pattern.</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?php
+</span><span class='line'>require_once 'PHPUnit/Framework.php';
+</span><span class='line'> 
+</span><span class='line'>class ExceptionTest extends PHPUnit_Framework_TestCase
+</span><span class='line'>{
+</span><span class='line'>    /**
+</span><span class='line'>     * @expectedException InvalidArgumentException
+</span><span class='line'>     */
+</span><span class='line'>    public function testException()
+</span><span class='line'>    {
+</span><span class='line'>    }
+</span><span class='line'>}
+</span><span class='line'>?&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?php
+</span><span class='line'>require_once 'PHPUnit/Framework.php';
+</span><span class='line'> 
+</span><span class='line'>class ExceptionTest extends PHPUnit_Framework_TestCase
+</span><span class='line'>{
+</span><span class='line'>    public function testException()
+</span><span class='line'>    {
+</span><span class='line'>        $this-&gt;setExpectedException('InvalidArgumentException');
+</span><span class='line'>    }
+</span><span class='line'>}
+</span><span class='line'>?&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?php
+</span><span class='line'>require_once 'PHPUnit/Framework.php';
+</span><span class='line'> 
+</span><span class='line'>class ExceptionTest extends PHPUnit_Framework_TestCase {
+</span><span class='line'>    public function testException() {
+</span><span class='line'>        try {
+</span><span class='line'>            // ... Code that is expected to raise an exception ...
+</span><span class='line'>        }
+</span><span class='line'> 
+</span><span class='line'>        catch (InvalidArgumentException $expected) {
+</span><span class='line'>            return;
+</span><span class='line'>        }
+</span><span class='line'> 
+</span><span class='line'>        $this-&gt;fail('An expected exception has not been raised.');
+</span><span class='line'>    }
+</span><span class='line'>}
+</span><span class='line'>?&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>setUp() and tearDown()</h2>
+
+<p>Yes. There are setUp and terrDown fixtures in PHPUnit.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?php
+</span><span class='line'>require_once 'PHPUnit/Framework.php';
+</span><span class='line'> 
+</span><span class='line'>class DatabaseTestSuite extends PHPUnit_Framework_TestSuite
+</span><span class='line'>{
+</span><span class='line'>    protected function setUp()
+</span><span class='line'>    {
+</span><span class='line'>        $this-&gt;sharedFixture = new PDO(
+</span><span class='line'>          'mysql:host=wopr;dbname=test',
+</span><span class='line'>          'root',
+</span><span class='line'>          ''
+</span><span class='line'>        );
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>    protected function tearDown()
+</span><span class='line'>    {
+</span><span class='line'>        $this-&gt;sharedFixture = NULL;
+</span><span class='line'>    }
+</span><span class='line'>}
+</span><span class='line'>?&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Test Suites</h2>
+
+<p>TBD</p>
+
+<h2>TestCase Extensions</h2>
+
+<p>there are some TestCase extensions can be used, for example</p>
+
+<ol>
+<li>PHPUnit_Extensions_OutputTestCase</li>
+<li>PHPUnit_Extensions_PerformanceTestCase</li>
+<li>PHPUnit_Extensions_Database_TestCase</li>
+</ol>
+
+
+<p>or you can make your own.</p>
+
+<p>Search PHPUnit_Extensions_* from all testcase extension.</p>
+
+<h2>Skip and Incomplete Test</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?php
+</span><span class='line'>require_once 'PHPUnit/Framework.php';
+</span><span class='line'> 
+</span><span class='line'>class ArrayTest extends PHPUnit_Framework_TestCase {
+</span><span class='line'>    public function testNewArrayIsEmpty() {
+</span><span class='line'>        $array = array();
+</span><span class='line'>        $this-&gt;assertEquals(0, sizeOf($array));
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>    public function testArrayContainsAnElement() {
+</span><span class='line'>        $array[] = "content";
+</span><span class='line'>        $this-&gt;assertEquals(1, sizeof($array));
+</span><span class='line'>        $this-&gt;markTestIncomplete(
+</span><span class='line'>          'This test has not been implemented yet.'
+</span><span class='line'>          );
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'> 
+</span><span class='line'>    public function testArrayContainsTwoElement() {
+</span><span class='line'>        $array[] = "content";
+</span><span class='line'>        $array[] = "content2";
+</span><span class='line'>        $this-&gt;assertEquals(2, sizeof($array));
+</span><span class='line'>        $this-&gt;markTestSkipped("this test is not completed yet");
+</span><span class='line'>    }
+</span><span class='line'>}
+</span><span class='line'> 
+</span><span class='line'>?&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>the output result will show as S or I</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>PHPUnit 3.3.15 by Sebastian Bergmann.
+</span><span class='line'> 
+</span><span class='line'>.SI
+</span><span class='line'> 
+</span><span class='line'>Time: 0 seconds
+</span><span class='line'> 
+</span><span class='line'>OK, but incomplete or skipped tests!
+</span><span class='line'>Tests: 3, Assertions: 1, Incomplete: 1, Skipped: 1.</span></code></pre></td></tr></table></div></figure>
+
+
+<p>if assertion fail before markTestSkipped() or markTestIncomplete(),
+assertion will still fail.</p>
+
+<h2>Test Doubles (a.k.a Mocking)</h2>
+
+<p>check
+<a href="http://www.phpunit.de/manual/current/en/test-doubles.html" title="http://www.phpunit.de/manual/current/en/test-doubles.html">here</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/phonics_101/">Phonics 101</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/phonics_101/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>Letter Sounds</h1>
+
+<h2>Consonant Sounds</h2>
+
+<p>Sometimes the vowel u takes upon itself the consonant sound of w, as in
+quick or suave. This is usually the case when q is followed by u, as in
+quiet and quaint.</p>
+
+<p>When y is not acting as a vowel, it is a consonant. Most consonants have
+only one sound, but a few have multiple sounds. For instance, c can make
+both the /k/ and the /s/ sound.</p>
+
+<h2>Vowel Sounds</h2>
+
+<p>The vowels are a, e, i, o, and u.</p>
+
+<p>Each vowel has two sounds: a long sound and a short sound. The long
+sound is the same as its name.</p>
+
+<p>可先將所有的弱化的母音唸成/ə/</p>
+
+<p>There is both a long and short sound to “oo”. The long sound appears as
+in the words boo, food, smooth, and moose.</p>
+
+<p>這個跟mind map版的規則有衝突，mind
+map版的說oo只有後面接d或k時發短音，其他發長音</p>
+
+<h3>Substitutes</h3>
+
+<p>y → i</p>
+
+<p>w → u (只在a,e,o後)</p>
+
+<p>can be as a u when following a,e,o , but how to pronounce aw,ew,ow (au,
+eu, ou)</p>
+
+<h1>Irregular Vowels</h1>
+
+<p>Sometimes, the basic rules of phonics do not apply. Each of these
+instances must be memorized. Common examples include, but are not
+limited, to:</p>
+
+<ul>
+<li>IGH as in “high” or “sight”</li>
+<li>-NG as in “sing,” “song,” “sung”</li>
+<li>OST as in “most” (but not “lost” or “cost”) uses the long sound
+instead of the normal short sound.</li>
+<li>OW has two different sounds as in “low” and “cow.” (or, “sow” and
+“sow.”)</li>
+<li>ED has three different sounds as in “lifted,” “played,” and “walked”</li>
+<li>OI does not follow the two vowels rule, e.g., “moist” or “boil.”</li>
+<li>Double O has two different sounds, as in “book” and “loose.”</li>
+<li>OUS as in “nervous.”</li>
+<li>AU as in “fault” or “haul.”</li>
+<li>-SION, -TION, and -CION are all pronounced “shun.”</li>
+<li>OUGH has at least seven different sounds, as in “bough,” “cough,”
+“hough,” “tough,” “thorough,” “thought,” and “through.”</li>
+</ul>
+
+
+<h1>accented</h1>
+
+<p>When a word has more than one syllable, one of the syllables is always a
+little louder than the others. The syllable with the louder stress is
+the accented syllable. The unstressed syllable usually takes the schwa
+sound.</p>
+
+<p>It may seem that the placement of accents in words is often random or
+accidental, but these are some rules that usually work.</p>
+
+<ol>
+<li>Accents are often on the first syllable. Examples: ba&#8217;/sic,
+pro&#8217;/gram.</li>
+<li>In words that have suffixes or prefixes, the accent is usually on
+the main root word. Examples: box&#8217;/es, un/tie&#8217;.</li>
+<li>If de-, re-, ex-, in-, po-, pro-, or a- is the first syllable in a
+word, it is usually not accented. Examples: de/lay&#8217;, ex/plore&#8217;.</li>
+<li>Two vowel letters together in the last syllable of a word often
+indicates an accented last syllable. Examples: com/plain&#8217;,
+con/ceal&#8217;.</li>
+<li>When there are two like consonant letters within a word, the
+syllable before the double consonants is usually accented. Examples:
+be/gin&#8217;/ner, let&#8217;/ter.</li>
+<li>The accent is usually on the syllable before the suffixes -ion, ity,
+-ic, -ical, -ian, -ial, or -ious, and on the second syllable before
+the suffix -ate. Examples: af/fec/ta&#8217;/tion, dif/fer/en&#8217;/ti/ate.</li>
+<li>In words of three or more syllables, one of the first two syllables
+is usually accented. Examples: ac&#8217;/ci/dent, de/ter&#8217;/mine.</li>
+</ol>
+
+
+<p>找出重音節的通則(適用大多數狀況)，只能用強記的</p>
+
+<h1>Sight Words</h1>
+
+<p>Many words do not follow these rules, and are called <strong>sight words</strong>.
+Because they do not follow the normal rules, these must be memorized.
+Examples include <em>the</em>, <em>are</em>, and <em>you</em>. They are also sometimes called
+&#8216;irregular words&#8217; or &#8216;outlaw words&#8217;.</p>
+
+<p>Here are some more examples:</p>
+
+<ul>
+<li><em>the</em>, <em>to</em>, <em>do</em>, and <em>who</em> — These should have long vowel sounds
+because they are open syllables, like <em>me</em> and <em>go</em>.</li>
+<li><em>what</em>, <em>was</em>, and <em>whom</em> — These should have short vowel sounds
+because they are closed syllables, like <em>sat</em> and <em>cot</em>.</li>
+<li><em>again</em>, <em>against</em>, <em>says</em> and <em>said</em> — These should have long <em>a</em>
+sounds because of the <em>ai</em> vowel combination, like <em>say</em> and <em>pain</em>.</li>
+<li><em>been</em> — This should have a long <em>e</em> sound, like <em>seen</em>.</li>
+</ul>
+
+
+<p>In many words, the <em>o</em> says /short u/ instead of /short o/ or /long o/,
+as in <em>of</em>, <em>from</em>, <em>son</em>, <em>month</em>, <em>front</em>, <em>some</em>, <em>love</em>, <em>other</em>,
+<em>money</em>, and <em>among</em>.</p>
+
+<p>最後，還有一點，滿令人失望的就是，採用Phonics在聽音拼讀時，會遇到一個很大的麻煩，就是如果母音在輕音節時會弱化，所以
+a,e,i,o,u聽起來是差不多的，很用聽的方式去辨識，但是若是懂得字源分析的概念，這樣就能比較接近<em>會唸就會拼字的境界</em>。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/phonics/">How to Pronounce by Phonics</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/phonics/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img src="http://blog.kent-chiu.com/images/2011-10-17/phonics.png" alt="phonics.png" /></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/pear_101/">PEAR 101</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/pear_101/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>pear command</h2>
+
+<h4>install package</h4>
+
+<p>自網路安裝某一個pear程式庫：</p>
+
+<p>　　pear install packagename</p>
+
+<p>下載 packages 但不安裝：</p>
+
+<p>　　pear download packagename 　　pear download-all</p>
+
+<p>安裝已下載的package：</p>
+
+<p>　　pear install filename.tgz</p>
+
+<h4>listing package</h4>
+
+<p>目前pear網站上所有可取得pear程式庫列表：</p>
+
+<p>　　pear remote-list</p>
+
+<p>列出已安裝package：</p>
+
+<p>　　pear list</p>
+
+<p>列出可以升級的package：</p>
+
+<p>　　pear list-upgrades</p>
+
+<h4>upgrade</h4>
+
+<p>更新package：</p>
+
+<p>　　pear upgrade packagename 　　pear upgrade-all</p>
+
+<h4>remove</h4>
+
+<p>刪除已安裝的package：</p>
+
+<p>　　pear uninstall packagename</p>
 </div>
   
   
