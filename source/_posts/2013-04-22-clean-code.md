@@ -259,4 +259,4 @@ ref: <http://c2.com/cgi/wiki?XpSimplicityRules>
 
 ## Resource
 
-- planetgeek.ch 整理的clean code cheetsheet <http://www.planetgeek.ch/2013/06/05/clean-code-cheat-sheet/> , <a href='http://blog.kent-chiu.com/images/blog/2013-04-22-clean-code_Clean-Code-V2.1.pdf'>備份檔</a>
+- planetgeek.ch 整理的clean code cheetsheet <http://www.planetgeek.ch/2013/06/05/clean-code-cheat-sheet/> , <a href='http://blog.kent-chiu.com/images/blog/2013-04-22/Clean-Code-V2.2.pdf'>備份檔</a>
