@@ -4,7 +4,7 @@
   <title><![CDATA[Category: refactory | Kent's Blog]]></title>
   <link href="http://blog.kent-chiu.com/blog/categories/refactory/atom.xml" rel="self"/>
   <link href="http://blog.kent-chiu.com/"/>
-  <updated>2013-07-16T15:15:50+08:00</updated>
+  <updated>2013-07-16T23:33:07+08:00</updated>
   <id>http://blog.kent-chiu.com/</id>
   <author>
     <name><![CDATA[Kent]]></name>
@@ -485,11 +485,9 @@ Assertion（267）。</p>
 
 <h2>臭味 V.S 除臭劑</h2>
 
-<p>  壞味道（smell）                                 常用的重構手法（Common Refactoring）</p>
+<pre><code>  壞味道（smell）                                 常用的重構手法（Common Refactoring）
 
-<hr />
-
-<p>  Alternative Classes with Different Interfaces   Rename Method (273), Move Method (142)
+  Alternative Classes with Different Interfaces   Rename Method (273), Move Method (142)
   Comments                                        Extract Method (110), Introduce Assertion (267)
   Data Class                                      Move Method (142), Encapsulate Field (206),Encapsulate Collection (208)
   Data Clumps                                     Extract Class (149), Introduce Parameter Object (295),Preserve Whole Object (288)
@@ -510,7 +508,8 @@ Assertion（267）。</p>
   Shotgun Surgery                                 Replace Inheritance with Delegation (352)
   Speculative Generality                          Collapse Hierarchy (344), Inline Class (154),Remove Parameter (277), Rename Method (273)
   Switch Statements                               Replace Conditional with Polymorphism (255), Replace Type Code with Subclasses (223), Replace Type Code with State/Strategy (227), Replace Parameter with Explicit Methods (285), Introduce Null Object (260)
-  Temporary Field                                 Extract Class (149), Introduce Null Object (260)</p>
+  Temporary Field                                 Extract Class (149), Introduce Null Object (260)
+</code></pre>
 
 <h2>Resource</h2>
 
