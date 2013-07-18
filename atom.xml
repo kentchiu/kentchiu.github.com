@@ -4,7 +4,7 @@
   <title><![CDATA[Kent's Blog]]></title>
   <link href="http://blog.kent-chiu.com/atom.xml" rel="self"/>
   <link href="http://blog.kent-chiu.com/"/>
-  <updated>2013-07-18T23:58:45+08:00</updated>
+  <updated>2013-07-19T00:07:10+08:00</updated>
   <id>http://blog.kent-chiu.com/</id>
   <author>
     <name><![CDATA[Kent]]></name>
@@ -418,9 +418,14 @@ public void exportToPDF_data_from_collection() throws Exception {
 <pre><code>/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/LaunchServices.framework/Versions/A/Support/lsregister -kill -r -domain local -domain system -domain user  &amp;&amp; killall Finder
 </code></pre>
 
-<p>  讀不到SD card時，可以試試以下指令</p>
+<p>讀不到SD card時，可以試試以下指令</p>
 
 <pre><code>killall Finder
+</code></pre>
+
+<p>查外部ip</p>
+
+<pre><code>curl ifconfig.me
 </code></pre>
 ]]></content>
   </entry>
