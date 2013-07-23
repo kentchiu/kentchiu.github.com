@@ -9,7 +9,8 @@
   <meta name="author" content="Kent">
 
   
-  <meta name="description" content="設計網站時，常會用到許多小小的icon檔(任何圖檔格式)，如果每個小小的icon都是獨立的檔案，這樣會比較不好管理。 解決的方式是先將數個小圖檔給組合成一個單一的圖檔，然後用css定位跟指定大小的方式來顯示需要的icon。 以上面的圖檔來說，我們若只需要x這個icons， &hellip;">
+  <meta name="description" content=".htaccess is a configuration file of apache, it privoides way for us
+to custome some behavious of apache. .htaccess files provide a way to make &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +78,297 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/htaceess_101/">Htaccess 101</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/htaceess_101/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><code>.htaccess</code> is a configuration file of apache, it privoides way for us
+to custome some behavious of apache.</p>
+
+<p>.htaccess files provide a way to make configuration changes on a
+per-directory basis.</p>
+
+<p>if you need to create a whole new <code>.htaccess</code> file in windows, you need
+save as <code>”.htaccess”</code> with quots</p>
+
+<p>In general, you should never use .htaccess files unless you don&#8217;t have
+access to the main server configuration file.</p>
+
+<h1>functions</h1>
+
+<ol>
+<li><a href="#custom_error_pages" title="apache:htaceess_101">Custom Error Pages</a></li>
+<li><a href="#disabled_directory_listing" title="apache:htaceess_101">Disabled Directory
+Listing</a></li>
+<li><a href="#denyallow_certian_ip_addresses" title="apache:htaceess_101">Deny/Allow Certian IP
+Addresses</a></li>
+<li><a href="#redirection" title="apache:htaceess_101">Redirection</a></li>
+<li><a href="#password_protection" title="apache:htaceess_101">Password Protection</a></li>
+<li><a href="#mime_type_settings" title="apache:htaceess_101">MIME Type Settings</a></li>
+<li><a href="#index_pages_settings" title="apache:htaceess_101">Index Pages
+Settings</a></li>
+<li><a href="#url_rewrite" title="apache:htaceess_101">URL Rewrite</a></li>
+<li><a href="#default_pages" title="apache:htaceess_101">Default Pages</a></li>
+</ol>
+
+
+<h2>Custom Error Pages</h2>
+
+<h4>Using Redirect Pages</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ErrorDocument 400 404.html
+</span><span class='line'>ErrorDocument 401 401.html
+</span><span class='line'>ErrorDocument 402 402.html</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Using inline html</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ErrorDocument 404 "&lt;html&gt;&lt;body&gt;找不到&lt;/body&gt;&lt;/html&gt;"</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Using URL</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ErrorDocument 500 http://www.xxx.com/xxx</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Disabled Directory Listing</h2>
+
+<h4>Deny all access to files (Recommended)</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;Files ~ "^.(htaccess|htpasswd)$"&gt;
+</span><span class='line'>deny from all
+</span><span class='line'>&lt;/Files&gt;
+</span><span class='line'>Options Indexes
+</span><span class='line'>order deny,allow</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Allow access to files (NOT Recommended)</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;Files ~ "^.(htaccess|htpasswd)$"&gt;
+</span><span class='line'>deny from all
+</span><span class='line'>&lt;/Files&gt;
+</span><span class='line'>Options -Indexes
+</span><span class='line'>order deny,allow</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Access restrictions</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>deny from all
+</span><span class='line'>allow from all
+</span><span class='line'>deny from  192.168.1.1
+</span><span class='line'>deny from  192.168.1.1</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Deny/Allow Certian IP Addresses</h2>
+
+<h2>Redirection</h2>
+
+<p>what&#8217;s difference between <strong>Moved Permanently</strong> and <strong>Moved
+Temporarily</strong></p>
+
+<h4>301 Moved Permanently</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Redirect permanent old1 new1
+</span><span class='line'>Redirect permanent /path/old2 /path/new2
+</span><span class='line'>Redirect permanent /path/old3.html /path/old3.php</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>302 Moved Temporarily</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Redirect temp old1 new1
+</span><span class='line'>Redirect temp /path/old2 /path/new2
+</span><span class='line'>Redirect temp /path/old3.html /path/old3.php</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Password Protection</h2>
+
+<h3>Basic authentication</h3>
+
+<ul>
+<li>STEP 1 Create your .htpasswd</li>
+<li>STEP 2 Point the path to the .htpasswd file</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;Files ~ "^.(htaccess|htpasswd)$"&gt;
+</span><span class='line'>deny from all
+</span><span class='line'>&lt;/Files&gt;
+</span><span class='line'>Options -Indexes
+</span><span class='line'>AuthUserFile /home/foo/bar/.htpasswd
+</span><span class='line'>AuthGroupFile /dev/null
+</span><span class='line'>AuthName "Please enter your ID and password"
+</span><span class='line'>AuthType Basic
+</span><span class='line'>require valid-user
+</span><span class='line'>order deny,allow</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>MIME Type Settings</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>```
+</span><span class='line'>
+</span><span class='line'>Index Pages Settings
+</span><span class='line'>--------------------
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>DirectoryIndex index.html index.htm index.cgi</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>
+</span><span class='line'>URL Rewrite
+</span><span class='line'>-----------
+</span><span class='line'>
+</span><span class='line'>### Setup WWW
+</span><span class='line'>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<pre><code>RewriteEngine on
+RewriteCond %{HTTP_HOST} ^(mydomain\.com)(:80)? [NC]
+RewriteRule ^(.*) http://www.mydomain.com/$1 [R=301,L]
+</code></pre>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>
+</span><span class='line'>Examples
+</span><span class='line'>========
+</span><span class='line'>
+</span><span class='line'>Anti HotLinks (protecting others take your impages)
+</span><span class='line'>---------------------------------------------------
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>RewriteEngine on
+RewriteCond %{HTTP_REFERER} !^http://www.domain.com/.<em>$ [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.domain.com$ [NC]
+RewriteRule .</em>.(*)$ /content/no_hotlink.png [R,NC]</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>
+</span><span class='line'>`RewriteRule .*\.(*)$ /content/no_hotlink.png [R,NC]` this means if
+</span><span class='line'>somebody try to hot linking you resource, he will redirect to
+</span><span class='line'>`/content/no_hotlink.png`
+</span><span class='line'>
+</span><span class='line'>Default Pages
+</span><span class='line'>-------------
+</span><span class='line'>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<pre><code>DirectoryIndex index.php mypage.html
+</code></pre>
+
+<p>&#8220;`</p>
+
+<h1>Resources</h1>
+
+<ul>
+<li><a href="http://www.htaccesseditor.com/tc.shtml" title="http://www.htaccesseditor.com/tc.shtml">htaccess
+editor</a>
+
+<ul>
+<li>a web program to help writing htaccess file.</li>
+</ul>
+</li>
+<li><a href="http://httpd.apache.org/docs/2.2/rewrite/" title="http://httpd.apache.org/docs/2.2/rewrite/">apache rewrite
+mod</a></li>
+<li><a href="http://www.widexl.com/tutorials/mod_rewrite.html" title="http://www.widexl.com/tutorials/mod_rewrite.html">http://www.widexl.com/tutorials/mod_rewrite.html</a>
+
+<ul>
+<li>Module Rewrite - URL Rewriting Guide</li>
+</ul>
+</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1384,542 +1676,6 @@ table還是可以在transaction中使用，但rollback時無法正常回復</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/10/17/git_101/">GIT 101</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
-        
-         | <a href="/blog/2011/10/17/git_101/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>NOTICE: The most data in this page is come from <a href="http://progit.org/book/" title="http://progit.org/book/">Pro
-Git</a>.</p>
-
-<h2>Basic</h2>
-
-<h3>The Three States</h3>
-
-<ol>
-<li>committed - the data is safely stored in your local database</li>
-<li>modified - file is changed but have not committed</li>
-<li>staged - marked a modified file in its current version to go into
-your next commit snapshot.</li>
-</ol>
-
-
-<p><img src="http://blog.kent-chiu.com/images/2011-10-17/git_101_001.png" alt="git_101_001.png" /></p>
-
-<ul>
-<li>The Git directory is where Git stores the metadata and object
-database for your project</li>
-<li>The working directory is a single checkout of one version of the
-project.</li>
-<li>The staging area is a simple file, generally contained in your Git
-directory, that stores information about what will go into your next
-commit. It’s sometimes referred to as the index, but it’s becoming
-standard to refer to it as the staging area.</li>
-</ul>
-
-
-<h4>Basic Git workflow</h4>
-
-<ol>
-<li>You modify files in your working directory.</li>
-<li>You stage the files, adding snapshots of them to your staging area.</li>
-<li>You do a commit, which takes the files as they are in the staging
-area and stores that snapshot permanently to your Git directory.</li>
-</ol>
-
-
-<h4>Install Git</h4>
-
-<h5>Windows</h5>
-
-<p>download <a href="http://code.google.com/p/msysgit">msysgit</a> and install it.</p>
-
-<h5>Linux</h5>
-
-<pre><code>$ yum install git-core
-
-
-$ apt-get install git-core
-</code></pre>
-
-<h4>Terms</h4>
-
-<ul>
-<li>HEAD : 一個特殊的指標(pointer)，它指向current branch.</li>
-<li>master : 預設的branch</li>
-<li>origin : 預設遠端的master branch</li>
-<li>remote : 遠端 repository</li>
-<li>tracking branch: 從遠端fetch到local端的branch</li>
-<li>rebase :
-將原先branch出來的時間點(版本)向前或向後移動，這樣可以讓該branch移除或加入功能別的branch的功能</li>
-<li><p>cherry pick commit : 只挑選同一branch的部份commits做merge</p>
-
-<pre><code>A - B - C - D - E   master
-  \ - X - Y  - Z   branch 1
-</code></pre></li>
-</ul>
-
-
-<h5>rebase</h5>
-
-<p>本來branch 1不包含B特性，可以透過rebase將B包含進去</p>
-
-<pre><code>A - B - C - D - E   master
-      \ - X - Y  - Z   branch 1
-</code></pre>
-
-<h5>cherry pick commit</h5>
-
-<p>如果將branch 1 merge 回master，會包含X,Y,Z特性，但可以透過cherry pick
-commit，則可以選擇merge時不包含X,或X,Y</p>
-
-<pre><code>A - B - C - D - E    master
-  \ - X - Y  - Z   branch 1
-</code></pre>
-
-<h4>Tracking Branches</h4>
-
-<p>跟遠端repository的branch有對應關係的local branch，叫tracking branch，如果branch是一個tracking branch
-那麼push時，會自動push到遠端的對應的branch，如果不是tracking branch，就需要特別指定要push到遠端的那一個branch</p>
-
-<p>像這樣 <code>git push origin master</code>，我們在init git repository後，第一次的push需要下這個commit，就是
-因為一開始local的(master) barnch 沒有跟遠端的關聯，所以我們要跟git說要push到遠端(預設遠端的名字叫origin,當然，
-你也可以取其他的名稱ex: github，bitbucket或mycompany)的master上</p>
-
-<h2>Command</h2>
-
-<p>從遠端fetch到local端的branch是無法直接更改的，想要更改必須在建立自已新的branch</p>
-
-<pre><code>checkout -b branch1  remote_server/branch1
-checkout -b feature/peak --track origin/feature/peak
-</code></pre>
-
-<h4>config</h4>
-
-<p>config有三個等級，由小到大分別為</p>
-
-<ol>
-<li>庫等級(repository裡)，只會單一的repository有影響</li>
-<li>全局(global)，放在user home，對user會存取的庫有影響</li>
-<li>系統等級(system),放在系統的配置目錄下(ex: /etc),對所有的user有影響</li>
-</ol>
-
-
-<p>而優先權則相反，以repository的為主，再來是global的，最後才是system的，很直覺也很合理</p>
-
-<h5>list config</h5>
-
-<pre><code>$ git config --list
-user.name=Scott Chacon
-user.email=schacon@gmail.com
-color.status=auto
-color.branch=auto
-color.interactive=auto
-color.diff=auto
-...
-</code></pre>
-
-<p>config是git跟svn最大不同的地方，git必需要正確定user info後，操作會才正常</p>
-
-<h5>config user name and email</h5>
-
-<pre><code>$ git config --global user.name "Kent Chiu"
-$ git config --global user.email kent.chiu@example.com
-</code></pre>
-
-<h5>clone from windows local</h5>
-
-<pre><code>file:///d:/PATH/PROJECT_HOME
-</code></pre>
-
-<h4>add</h4>
-
-<p>add是個多功能的指令，它可以</p>
-
-<ul>
-<li>把untrack file變成tracked file</li>
-<li>把modified file變成staged file</li>
-</ul>
-
-
-<p>或commit時同時做add的動作(不建議)</p>
-
-<pre><code>$ git add -a -m 'comment'
-</code></pre>
-
-<h4>commit</h4>
-
-<pre><code>$ git add *.c
-$ git add README
-# files need be staged before commit
-$ git commit -m 'initial project version'
-</code></pre>
-
-<p>提交所有控版下的檔案</p>
-
-<pre><code>$ git commit -a -m 'comment'
-# 也可以把 a (all) m (message)合在一起用 
-$ git commit -am 'comment'
-</code></pre>
-
-<p>如果對前一次提交的訊息不滿意，可以透過<code>amend</code>做修改</p>
-
-<pre><code>$ git commit --amend -m 'modify comment'
-</code></pre>
-
-<h4>rm</h4>
-
-<p>remove files. 如果是直接從file system刪檔，而沒透過git指令，那該檔案的狀態會變成 <strong>Changed but not updated</strong> (unstaged)</p>
-
-<blockquote><p>上面的<code>add</code> command並不會把檔案刪除的動作加到stage裡</p></blockquote>
-
-<h5>remove file and delete it</h5>
-
-<pre><code>$git rm myfile.txt
-</code></pre>
-
-<h5>remove files from staged</h5>
-
-<p>untracking files but keep in file system.
-這個指定通常用在想把版控的檔案變成非版控</p>
-
-<pre><code>$git rm --staged myfile.txt
-</code></pre>
-
-<h5>清除untracked files</h5>
-
-<p>如果想快速的清除還沒有加到 index 的 file ，可以用以下的指令</p>
-
-<pre><code>$git clean -f -d
-</code></pre>
-
-<p>參數 <code>-d</code> 是指連 untracked 的目錄一併清除</p>
-
-<h4>mv</h4>
-
-<p>搬移/更名</p>
-
-<pre><code>$ git  README README.txt
-</code></pre>
-
-<h4>status</h4>
-
-<p>顯示異動檔案狀態</p>
-
-<h4>log</h4>
-
-<p>顯示異動檔案細節</p>
-
-<pre><code>$ git log
-</code></pre>
-
-<h5>常用參數</h5>
-
-<ul>
-<li>-p 列出細節</li>
-<li>-n n表數字，列出最新的幾個</li>
-<li>–graph 祖譜圖</li>
-<li>–pretty 改變預設的輸出格式</li>
-<li>–pretty:format自定輸出格式 <code>$ git log --pretty=format:"%h - %an, %ar : %s"</code></li>
-</ul>
-
-
-<h5>過濾(limit by commit attributes)</h5>
-
-<pre><code>$ git log --author=kent
-$ git log --committer=kent 
-$ git log --grep="commit .*message"
-</code></pre>
-
-<h5>search for a change</h5>
-
-<pre><code>$ git log -S"Some code change"
-$ git log --pickaxe-regex -S "some.*text"
-</code></pre>
-
-<h5>limit by changes to specific path</h5>
-
-<pre><code>git lot -- some/file
-</code></pre>
-
-<h4>遠端相關的指令</h4>
-
-<h5>show remote repositories</h5>
-
-<pre><code>$ git remote -v
-origin  git://github.com/schacon/ticgit.git
-</code></pre>
-
-<h5>adding remote repositories</h5>
-
-<pre><code>$ git remote add pb git://github.com/paulboone/ticgit.git
-$ git remote -v
-origin  git://github.com/schacon/ticgit.git
-pb  git://github.com/paulboone/ticgit.git
-</code></pre>
-
-<h4>gitk</h4>
-
-<p>Using a GUI to Visualize History.</p>
-
-<h4>mergetool</h4>
-
-<p>Calling merge tool.</p>
-
-<h4>reset</h4>
-
-<p>將檔案unsatged</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>  工作區         暫存區          HEAD
-</span><span class='line'>    | &lt;---------- |                       git reset         重置加入暫存區的動作(也就是取消 git add) 
-</span><span class='line'>                  | &lt;---------- |         git reset --soft  重置加入版本庫的動作(也就是取消commited)，但commmit過的檔案會保留在工作區                
-</span><span class='line'>    | &lt;---------- | &lt;---------- |         git reset --hard  完整的取消整個commit，工作區會的檔案會被恢復到送個版本</span></code></pre></td></tr></table></div></figure>
-
-
-<blockquote><p><code>git reset</code>, <code>git reset HEAD</code>, <code>git reset --mixed</code>這三個指令做的是一樣的事
-<code>git reset --hard</code> 使用上要小心，commit的歷史記錄會不見</p></blockquote>
-
-<p>使用時機</p>
-
-<ul>
-<li><code>git reset</code>          不小心加入不想加入暫存取(index)的檔案，可用這個取消</li>
-<li><code>git reset --soft</code>   想重新修正某一次的commit (<code>git commit --amend</code>就是透過這個指令完成的)</li>
-<li><code>git reset --hard</code>   回到某個版本，就像完做過異動一樣，merge失敗時，也常用這個來恢復到merged前的狀態</li>
-</ul>
-
-
-<h4>diff</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>  工作區         暫存區          HEAD
-</span><span class='line'>     
-</span><span class='line'>    | &lt;---------&gt; |                       git diff                  比對工作區跟暫存區的差異
-</span><span class='line'>                  | &lt;---------&gt; |         git diff --staged         比對HEAD跟暫存區的差異
-</span><span class='line'>    | &lt;-----------------------&gt; |         git diff HEAD             比對HEAD跟工作區的差異
-</span><span class='line'>                            ┌-&gt; |
-</span><span class='line'>                            |   |         git diff $commit $commit  比對兩個commits間的差異
-</span><span class='line'>                            └-&gt; |</span></code></pre></td></tr></table></div></figure>
-
-
-<blockquote><p>如果是要比對某個檔在在不同的 commits 間的差異，可使用以下指令
-<code>git diff $commit $commit -- path/file</code></p></blockquote>
-
-<h4>解讀diff</h4>
-
-<pre><code>@@ -3,7 +3,7 @@
- &lt;h1&gt;Tag Colud&lt;/h1&gt;
- &lt;ul&gt;
-   &lt;li&gt;&lt;a href='/blog/categories/actionbar'&gt;Actionbar (1)&lt;/a&gt;&lt;/li&gt;
--  &lt;li&gt;&lt;a href='/blog/categories/android'&gt;Android (26)&lt;/a&gt;&lt;/li&gt;
-+  &lt;li&gt;&lt;a href='/blog/categories/android'&gt;Android (24)&lt;/a&gt;&lt;/li&gt;
-   &lt;li&gt;&lt;a href='/blog/categories/apache'&gt;Apache (8)&lt;/a&gt;&lt;/li&gt;
-   &lt;li&gt;&lt;a href='/blog/categories/broadcast-receiver'&gt;Broadcast_receiver (2)&lt;/a&gt;&lt;
-   &lt;li&gt;&lt;a href='/blog/categories/cdi'&gt;Cdi (2)&lt;/a&gt;&lt;/li&gt;
-</code></pre>
-
-<p>diff中的資訊包含兩部份，第一部份是異動概要 <code>@@ -3,7 +3,7 @@</code>，第二部份是異動細節
-第一部份的是資訊 <code>@@ -3,7 +3,7 @@</code>是說原始文件從第3行開始，後面的7行(也就是第3~10行)異動成為新文件的第3行到第7行(也是第3~10行)，本例中因為是調整了某一行的內容，所以異動範圍都是七行，如果新的文件的範圍可能更大(ex:加了幾行)，或更小(刪了幾行)。</p>
-
-<blockquote><p>上述的異動範為7行，是指相關的上下文共有七行，而不是這七行都有改到</p></blockquote>
-
-<p>第二部份比較直覺，就上例中的第六行</p>
-
-<pre><code>-  &lt;li&gt;&lt;a href='/blog/categories/android'&gt;Android (26)&lt;/a&gt;&lt;/li&gt;
-</code></pre>
-
-<p>及第七行</p>
-
-<pre><code>+  &lt;li&gt;&lt;a href='/blog/categories/android'&gt;Android (24)&lt;/a&gt;&lt;/li&gt;
-</code></pre>
-
-<p>代表著第六行的內容被異動成第七行</p>
-
-<h4>show</h4>
-
-<h5>review last commit</h5>
-
-<pre><code>$ git show
- 
-### output ###
- 
-commit b8d5b1e2944d1785a3e8ca15979f9c462eb611c9
-Author: Kent Chiu &lt;kent.chiu@techmore.com.tw&gt;
-Date:   Thu Feb 18 13:07:49 2010 +0800
- 
-    foo
- 
-diff --git a/dir/foo b/dir/foo
-new file mode 100644
-index 0000000..257cc56
---- /dev/null
-+++ b/dir/foo
-@@ -0,0 +1 @@
-+foo
-</code></pre>
-
-<h5>show the stats</h5>
-
-<pre><code>$ git show --stat
- 
-### output ###
- 
-commit b8d5b1e2944d1785a3e8ca15979f9c462eb611c9
-Author: Kent Chiu &lt;kent.chiu@techmore.com.tw&gt;
-Date:   Thu Feb 18 13:07:49 2010 +0800
- 
-    foo
- 
- dir/foo |    1 +
- 1 files changed, 1 insertions(+), 0 deletions(-)
-</code></pre>
-
-<h5>show SVN style status</h5>
-
-<pre><code>$ git show --name-status
- 
-### output ###
- 
-commit b8d5b1e2944d1785a3e8ca15979f9c462eb611c9
-Author: Kent Chiu &lt;kent.chiu@techmore.com.tw&gt;
-Date:   Thu Feb 18 13:07:49 2010 +0800
- 
-    foo
- 
-A       dir/foo
-</code></pre>
-
-<h4>push</h4>
-
-<h5>deleting remote branches</h5>
-
-<pre><code>$ git push origin :serverfix
-To git@github.com:schacon/simplegit.git
- - [deleted]         serverfix
-</code></pre>
-
-<p>This is called by</p>
-
-<pre><code>$ git push [remotename] [localbranch]:[remotebranch]
-$ git push origin                    :serverfix 
-</code></pre>
-
-<p>let localbranch blank means deleted it.</p>
-
-<h4>git 全域設定檔</h4>
-
-<p>ini git configuration</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[user]
-</span><span class='line'>  name = kent
-</span><span class='line'>  email = kent@mail.com
-</span><span class='line'>
-</span><span class='line'>[alias]
-</span><span class='line'>  st = status
-</span><span class='line'>    ci = commit
-</span><span class='line'>    co = checkout
-</span><span class='line'>    br = branch
-</span><span class='line'>
-</span><span class='line'>[color]
-</span><span class='line'>  ui = true
-</span><span class='line'>  diff = auto
-</span><span class='line'>  status = auto
-</span><span class='line'>  branch = auto</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>常用指令</h2>
-
-<h4>檢視 fetch 下來但尚未被 merged 的資料</h4>
-
-<p>從遠端 fetch 新資料下來，如果想先在做 merge 前先查看資料的異動狀況，可以透過 log 跟 diff，log 可以查看 commits 的記錄，而 diff 可以對檔案內容做比對</p>
-
-<p>查看 fetch 下來，等著被 merged 的 commits</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git fetch                 # 或者是用 git remote update 來 fetch 所有 branches
-</span><span class='line'>$ git log HEAD..origin      # 在pull (也就是 merge ) 前，可以先用這個指令查看那些 commits 會被 merged
-</span><span class='line'>$ git diff HEAD...origin    # 在pull (也就是 merge ) 前，可以先用這個指令查看那些 diffs 會被 merged</span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
-
-<blockquote><p>執行 fetch 是把 server 上的 branch 更新到 local repository 的 remote branch
-所以需要進行差異性檢視的內容是 HEAD 到 origin</p></blockquote>
-
-<h4>checkout 新的 remote branch 並 tracking</h4>
-
-<p>之前常會發生 checkout 每個 branch後，要 push 遠端server時，卻都只是 push 到 local，這是因為預設的 checkout 指令是不會去 tracking remote branch
-所以，如果要 checkout 後能夠讓 branch 成為 track branch，就要加上 <code>--track</code> 的參數</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ checkout -b new_branch --track origin/branch_name </span></code></pre></td></tr></table></div></figure>
-
-
-<h1>Resource</h1>
-
-<ul>
-<li>幾種merge的手法 <a href="http://eclipsesource.com/blogs/2011/05/30/merging-branches-in-eclipse-git-egit/">http://eclipsesource.com/blogs/2011/05/30/merging-branches-in-eclipse-git-egit/</a></li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/15/">&larr; Older</a>
@@ -1941,6 +1697,10 @@ $ git push origin                    :serverfix
       </li>
     
       <li class="post">
+        <a href="/blog/2013/07/07/python-101/">Python 101</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/05/17/my-intellij-idea-shortcut/">My IntelliJ IDEA Shortcut</a>
       </li>
     
@@ -1952,19 +1712,15 @@ $ git push origin                    :serverfix
         <a href="/blog/2013/05/12/jasperreport-101/">JasperReport 101</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2013/05/06/mac-tips/">Mac Tips</a>
-      </li>
-    
   </ul>
 </section>
 <section>
   <h1>Category Cloud</h1>
-    <span id="tag-cloud"><a href='/blog/categories/actionbar' style='font-size: 102.4%'>actionbar(1)</a> <a href='/blog/categories/android' style='font-size: 160.0%'>android(25)</a> <a href='/blog/categories/apache' style='font-size: 116.8%'>apache(7)</a> <a href='/blog/categories/bash' style='font-size: 107.2%'>bash(3)</a> <a href='/blog/categories/best-practice' style='font-size: 102.4%'>best_practice(1)</a> <a href='/blog/categories/book' style='font-size: 102.4%'>book(1)</a> <a href='/blog/categories/broadcast-receiver' style='font-size: 104.8%'>broadcast_receiver(2)</a> <a href='/blog/categories/cdi' style='font-size: 104.8%'>cdi(2)</a> <a href='/blog/categories/centos' style='font-size: 112.0%'>centos(5)</a> <a href='/blog/categories/clean-code' style='font-size: 102.4%'>clean code(1)</a> <a href='/blog/categories/command' style='font-size: 109.6%'>command(4)</a> <a href='/blog/categories/concurrency' style='font-size: 102.4%'>concurrency(1)</a> <a href='/blog/categories/database' style='font-size: 114.4%'>database(6)</a> <a href='/blog/categories/datetime' style='font-size: 102.4%'>datetime(1)</a> <a href='/blog/categories/di' style='font-size: 104.8%'>di(2)</a> <a href='/blog/categories/drawable' style='font-size: 102.4%'>drawable(1)</a> <a href='/blog/categories/ec' style='font-size: 102.4%'>ec(1)</a> <a href='/blog/categories/eclipse' style='font-size: 102.4%'>eclipse(1)</a> <a href='/blog/categories/ecshop' style='font-size: 116.8%'>ecshop(7)</a> <a href='/blog/categories/editor' style='font-size: 102.4%'>editor(1)</a> <a href='/blog/categories/emulator' style='font-size: 102.4%'>emulator(1)</a> <a href='/blog/categories/english' style='font-size: 133.6%'>english(14)</a> <a href='/blog/categories/excel' style='font-size: 104.8%'>excel(2)</a> <a href='/blog/categories/extjs' style='font-size: 104.8%'>extjs(2)</a> <a href='/blog/categories/gesture' style='font-size: 102.4%'>gesture(1)</a> <a href='/blog/categories/git' style='font-size: 109.6%'>git(4)</a> <a href='/blog/categories/git-flow' style='font-size: 102.4%'>git-flow(1)</a> <a href='/blog/categories/guava' style='font-size: 104.8%'>guava(2)</a> <a href='/blog/categories/guice' style='font-size: 102.4%'>guice(1)</a> <a href='/blog/categories/hamcrest' style='font-size: 102.4%'>hamcrest(1)</a> <a href='/blog/categories/i18n' style='font-size: 102.4%'>i18n(1)</a> <a href='/blog/categories/ide' style='font-size: 102.4%'>IDE(1)</a> <a href='/blog/categories/idea' style='font-size: 102.4%'>IDEA(1)</a> <a href='/blog/categories/injection' style='font-size: 102.4%'>injection(1)</a> <a href='/blog/categories/intent' style='font-size: 102.4%'>intent(1)</a> <a href='/blog/categories/ireport' style='font-size: 104.8%'>ireport(2)</a> <a href='/blog/categories/jasterreport' style='font-size: 104.8%'>jasterreport(2)</a> <a href='/blog/categories/java' style='font-size: 152.8%'>java(22)</a> <a href='/blog/categories/java-ee' style='font-size: 112.0%'>java_ee(5)</a> <a href='/blog/categories/jms' style='font-size: 102.4%'>jms(1)</a> <a href='/blog/categories/joda' style='font-size: 102.4%'>joda(1)</a> <a href='/blog/categories/jpa' style='font-size: 102.4%'>jpa(1)</a> <a href='/blog/categories/jquery' style='font-size: 102.4%'>jquery(1)</a> <a href='/blog/categories/jsp' style='font-size: 104.8%'>jsp(2)</a> <a href='/blog/categories/junit' style='font-size: 102.4%'>junit(1)</a> <a href='/blog/categories/jvm' style='font-size: 104.8%'>jvm(2)</a> <a href='/blog/categories/kohana' style='font-size: 102.4%'>kohana(1)</a> <a href='/blog/categories/l10n' style='font-size: 102.4%'>l10n(1)</a> <a href='/blog/categories/layout' style='font-size: 102.4%'>layout(1)</a> <a href='/blog/categories/linux' style='font-size: 126.4%'>linux(11)</a> <a href='/blog/categories/listview' style='font-size: 104.8%'>listview(2)</a> <a href='/blog/categories/logger' style='font-size: 102.4%'>logger(1)</a> <a href='/blog/categories/m2eclilpse' style='font-size: 102.4%'>m2eclilpse(1)</a> <a href='/blog/categories/mac' style='font-size: 104.8%'>mac(2)</a> <a href='/blog/categories/mat' style='font-size: 102.4%'>mat(1)</a> <a href='/blog/categories/maven' style='font-size: 112.0%'>maven(5)</a> <a href='/blog/categories/memory' style='font-size: 102.4%'>memory(1)</a> <a href='/blog/categories/menu' style='font-size: 102.4%'>menu(1)</a> <a href='/blog/categories/mindmap' style='font-size: 104.8%'>mindmap(2)</a> <a href='/blog/categories/misc' style='font-size: 102.4%'>misc(1)</a> <a href='/blog/categories/mysql' style='font-size: 116.8%'>mysql(7)</a> <a href='/blog/categories/nio' style='font-size: 102.4%'>nio(1)</a> <a href='/blog/categories/octopress' style='font-size: 102.4%'>octopress(1)</a> <a href='/blog/categories/oracle' style='font-size: 102.4%'>oracle(1)</a> <a href='/blog/categories/osgi' style='font-size: 107.2%'>osgi(3)</a> <a href='/blog/categories/pdf' style='font-size: 104.8%'>pdf(2)</a> <a href='/blog/categories/pdt' style='font-size: 112.0%'>pdt(5)</a> <a href='/blog/categories/pear' style='font-size: 104.8%'>pear(2)</a> <a href='/blog/categories/performace' style='font-size: 102.4%'>performace(1)</a> <a href='/blog/categories/pgsql' style='font-size: 102.4%'>pgsql(1)</a> <a href='/blog/categories/php' style='font-size: 114.4%'>php(6)</a> <a href='/blog/categories/play-framework' style='font-size: 102.4%'>play_framework(1)</a> <a href='/blog/categories/pm' style='font-size: 112.0%'>pm(5)</a> <a href='/blog/categories/postgresql' style='font-size: 104.8%'>postgresql(2)</a> <a href='/blog/categories/profile' style='font-size: 102.4%'>profile(1)</a> <a href='/blog/categories/programming' style='font-size: 128.8%'>programming(12)</a> <a href='/blog/categories/re' style='font-size: 102.4%'>re(1)</a> <a href='/blog/categories/refactory' style='font-size: 102.4%'>refactory(1)</a> <a href='/blog/categories/rest' style='font-size: 104.8%'>rest(2)</a> <a href='/blog/categories/roboguice' style='font-size: 102.4%'>roboguice(1)</a> <a href='/blog/categories/sbt' style='font-size: 102.4%'>sbt(1)</a> <a href='/blog/categories/scala' style='font-size: 109.6%'>scala(4)</a> <a href='/blog/categories/security' style='font-size: 102.4%'>security(1)</a> <a href='/blog/categories/service' style='font-size: 104.8%'>service(2)</a> <a href='/blog/categories/shiro' style='font-size: 102.4%'>shiro(1)</a> <a href='/blog/categories/shortchut' style='font-size: 102.4%'>shortchut(1)</a> <a href='/blog/categories/smarty' style='font-size: 107.2%'>smarty(3)</a> <a href='/blog/categories/spring' style='font-size: 102.4%'>spring(1)</a> <a href='/blog/categories/sql' style='font-size: 102.4%'>sql(1)</a> <a href='/blog/categories/style' style='font-size: 102.4%'>style(1)</a> <a href='/blog/categories/tdd' style='font-size: 102.4%'>tdd(1)</a> <a href='/blog/categories/testing' style='font-size: 124.0%'>testing(10)</a> <a href='/blog/categories/theme' style='font-size: 102.4%'>theme(1)</a> <a href='/blog/categories/tips' style='font-size: 104.8%'>tips(2)</a> <a href='/blog/categories/ubuntu' style='font-size: 119.2%'>ubuntu(8)</a> <a href='/blog/categories/ui' style='font-size: 104.8%'>ui(2)</a> <a href='/blog/categories/vim' style='font-size: 104.8%'>vim(2)</a> <a href='/blog/categories/web' style='font-size: 104.8%'>web(2)</a> <a href='/blog/categories/windows' style='font-size: 102.4%'>windows(1)</a> <a href='/blog/categories/xampp' style='font-size: 102.4%'>xampp(1)</a> <a href='/blog/categories/xml' style='font-size: 104.8%'>xml(2)</a> </span>
+    <span id="tag-cloud"><a href='/blog/categories/actionbar' style='font-size: 102.4%'>actionbar(1)</a> <a href='/blog/categories/android' style='font-size: 160.0%'>android(25)</a> <a href='/blog/categories/apache' style='font-size: 116.8%'>apache(7)</a> <a href='/blog/categories/bash' style='font-size: 107.2%'>bash(3)</a> <a href='/blog/categories/best-practice' style='font-size: 102.4%'>best_practice(1)</a> <a href='/blog/categories/book' style='font-size: 102.4%'>book(1)</a> <a href='/blog/categories/broadcast-receiver' style='font-size: 104.8%'>broadcast_receiver(2)</a> <a href='/blog/categories/cdi' style='font-size: 104.8%'>cdi(2)</a> <a href='/blog/categories/centos' style='font-size: 112.0%'>centos(5)</a> <a href='/blog/categories/clean-code' style='font-size: 102.4%'>clean code(1)</a> <a href='/blog/categories/command' style='font-size: 109.6%'>command(4)</a> <a href='/blog/categories/concurrency' style='font-size: 102.4%'>concurrency(1)</a> <a href='/blog/categories/database' style='font-size: 114.4%'>database(6)</a> <a href='/blog/categories/datetime' style='font-size: 102.4%'>datetime(1)</a> <a href='/blog/categories/di' style='font-size: 104.8%'>di(2)</a> <a href='/blog/categories/drawable' style='font-size: 102.4%'>drawable(1)</a> <a href='/blog/categories/ec' style='font-size: 102.4%'>ec(1)</a> <a href='/blog/categories/eclipse' style='font-size: 102.4%'>eclipse(1)</a> <a href='/blog/categories/ecshop' style='font-size: 116.8%'>ecshop(7)</a> <a href='/blog/categories/editor' style='font-size: 102.4%'>editor(1)</a> <a href='/blog/categories/emulator' style='font-size: 102.4%'>emulator(1)</a> <a href='/blog/categories/english' style='font-size: 133.6%'>english(14)</a> <a href='/blog/categories/excel' style='font-size: 104.8%'>excel(2)</a> <a href='/blog/categories/extjs' style='font-size: 104.8%'>extjs(2)</a> <a href='/blog/categories/gesture' style='font-size: 102.4%'>gesture(1)</a> <a href='/blog/categories/git' style='font-size: 109.6%'>git(4)</a> <a href='/blog/categories/git-flow' style='font-size: 102.4%'>git-flow(1)</a> <a href='/blog/categories/guava' style='font-size: 104.8%'>guava(2)</a> <a href='/blog/categories/guice' style='font-size: 102.4%'>guice(1)</a> <a href='/blog/categories/hamcrest' style='font-size: 102.4%'>hamcrest(1)</a> <a href='/blog/categories/i18n' style='font-size: 102.4%'>i18n(1)</a> <a href='/blog/categories/ide' style='font-size: 102.4%'>IDE(1)</a> <a href='/blog/categories/idea' style='font-size: 102.4%'>IDEA(1)</a> <a href='/blog/categories/injection' style='font-size: 102.4%'>injection(1)</a> <a href='/blog/categories/intent' style='font-size: 102.4%'>intent(1)</a> <a href='/blog/categories/ireport' style='font-size: 104.8%'>ireport(2)</a> <a href='/blog/categories/jasterreport' style='font-size: 104.8%'>jasterreport(2)</a> <a href='/blog/categories/java' style='font-size: 152.8%'>java(22)</a> <a href='/blog/categories/java-ee' style='font-size: 112.0%'>java_ee(5)</a> <a href='/blog/categories/jms' style='font-size: 102.4%'>jms(1)</a> <a href='/blog/categories/joda' style='font-size: 102.4%'>joda(1)</a> <a href='/blog/categories/jpa' style='font-size: 102.4%'>jpa(1)</a> <a href='/blog/categories/jquery' style='font-size: 102.4%'>jquery(1)</a> <a href='/blog/categories/jsp' style='font-size: 104.8%'>jsp(2)</a> <a href='/blog/categories/junit' style='font-size: 102.4%'>junit(1)</a> <a href='/blog/categories/jvm' style='font-size: 104.8%'>jvm(2)</a> <a href='/blog/categories/kohana' style='font-size: 102.4%'>kohana(1)</a> <a href='/blog/categories/l10n' style='font-size: 102.4%'>l10n(1)</a> <a href='/blog/categories/layout' style='font-size: 102.4%'>layout(1)</a> <a href='/blog/categories/linux' style='font-size: 126.4%'>linux(11)</a> <a href='/blog/categories/listview' style='font-size: 104.8%'>listview(2)</a> <a href='/blog/categories/logger' style='font-size: 102.4%'>logger(1)</a> <a href='/blog/categories/m2eclilpse' style='font-size: 102.4%'>m2eclilpse(1)</a> <a href='/blog/categories/mac' style='font-size: 104.8%'>mac(2)</a> <a href='/blog/categories/mat' style='font-size: 102.4%'>mat(1)</a> <a href='/blog/categories/maven' style='font-size: 112.0%'>maven(5)</a> <a href='/blog/categories/memory' style='font-size: 102.4%'>memory(1)</a> <a href='/blog/categories/menu' style='font-size: 102.4%'>menu(1)</a> <a href='/blog/categories/mindmap' style='font-size: 104.8%'>mindmap(2)</a> <a href='/blog/categories/misc' style='font-size: 102.4%'>misc(1)</a> <a href='/blog/categories/mysql' style='font-size: 116.8%'>mysql(7)</a> <a href='/blog/categories/nio' style='font-size: 102.4%'>nio(1)</a> <a href='/blog/categories/octopress' style='font-size: 102.4%'>octopress(1)</a> <a href='/blog/categories/oracle' style='font-size: 102.4%'>oracle(1)</a> <a href='/blog/categories/osgi' style='font-size: 107.2%'>osgi(3)</a> <a href='/blog/categories/pdf' style='font-size: 104.8%'>pdf(2)</a> <a href='/blog/categories/pdt' style='font-size: 112.0%'>pdt(5)</a> <a href='/blog/categories/pear' style='font-size: 104.8%'>pear(2)</a> <a href='/blog/categories/performace' style='font-size: 102.4%'>performace(1)</a> <a href='/blog/categories/pgsql' style='font-size: 102.4%'>pgsql(1)</a> <a href='/blog/categories/php' style='font-size: 114.4%'>php(6)</a> <a href='/blog/categories/play-framework' style='font-size: 102.4%'>play_framework(1)</a> <a href='/blog/categories/pm' style='font-size: 112.0%'>pm(5)</a> <a href='/blog/categories/postgresql' style='font-size: 104.8%'>postgresql(2)</a> <a href='/blog/categories/profile' style='font-size: 102.4%'>profile(1)</a> <a href='/blog/categories/programming' style='font-size: 128.8%'>programming(12)</a> <a href='/blog/categories/python' style='font-size: 102.4%'>python(1)</a> <a href='/blog/categories/re' style='font-size: 102.4%'>re(1)</a> <a href='/blog/categories/refactory' style='font-size: 102.4%'>refactory(1)</a> <a href='/blog/categories/rest' style='font-size: 104.8%'>rest(2)</a> <a href='/blog/categories/roboguice' style='font-size: 102.4%'>roboguice(1)</a> <a href='/blog/categories/sbt' style='font-size: 102.4%'>sbt(1)</a> <a href='/blog/categories/scala' style='font-size: 109.6%'>scala(4)</a> <a href='/blog/categories/security' style='font-size: 102.4%'>security(1)</a> <a href='/blog/categories/service' style='font-size: 104.8%'>service(2)</a> <a href='/blog/categories/shiro' style='font-size: 102.4%'>shiro(1)</a> <a href='/blog/categories/shortchut' style='font-size: 102.4%'>shortchut(1)</a> <a href='/blog/categories/smarty' style='font-size: 107.2%'>smarty(3)</a> <a href='/blog/categories/spring' style='font-size: 102.4%'>spring(1)</a> <a href='/blog/categories/sql' style='font-size: 102.4%'>sql(1)</a> <a href='/blog/categories/style' style='font-size: 102.4%'>style(1)</a> <a href='/blog/categories/tdd' style='font-size: 102.4%'>tdd(1)</a> <a href='/blog/categories/testing' style='font-size: 124.0%'>testing(10)</a> <a href='/blog/categories/theme' style='font-size: 102.4%'>theme(1)</a> <a href='/blog/categories/tips' style='font-size: 104.8%'>tips(2)</a> <a href='/blog/categories/ubuntu' style='font-size: 119.2%'>ubuntu(8)</a> <a href='/blog/categories/ui' style='font-size: 104.8%'>ui(2)</a> <a href='/blog/categories/vim' style='font-size: 104.8%'>vim(2)</a> <a href='/blog/categories/web' style='font-size: 104.8%'>web(2)</a> <a href='/blog/categories/windows' style='font-size: 102.4%'>windows(1)</a> <a href='/blog/categories/xampp' style='font-size: 102.4%'>xampp(1)</a> <a href='/blog/categories/xml' style='font-size: 104.8%'>xml(2)</a> </span>
 </section>
 <section>
   <h1>Categories</h1>
-    <ul id="category-list"><li><a href='/blog/categories/actionbar'>actionbar (1)</a></li><li><a href='/blog/categories/android'>android (25)</a></li><li><a href='/blog/categories/apache'>apache (7)</a></li><li><a href='/blog/categories/bash'>bash (3)</a></li><li><a href='/blog/categories/best-practice'>best_practice (1)</a></li><li><a href='/blog/categories/book'>book (1)</a></li><li><a href='/blog/categories/broadcast-receiver'>broadcast_receiver (2)</a></li><li><a href='/blog/categories/cdi'>cdi (2)</a></li><li><a href='/blog/categories/centos'>centos (5)</a></li><li><a href='/blog/categories/clean-code'>clean code (1)</a></li><li><a href='/blog/categories/command'>command (4)</a></li><li><a href='/blog/categories/concurrency'>concurrency (1)</a></li><li><a href='/blog/categories/database'>database (6)</a></li><li><a href='/blog/categories/datetime'>datetime (1)</a></li><li><a href='/blog/categories/di'>di (2)</a></li><li><a href='/blog/categories/drawable'>drawable (1)</a></li><li><a href='/blog/categories/ec'>ec (1)</a></li><li><a href='/blog/categories/eclipse'>eclipse (1)</a></li><li><a href='/blog/categories/ecshop'>ecshop (7)</a></li><li><a href='/blog/categories/editor'>editor (1)</a></li><li><a href='/blog/categories/emulator'>emulator (1)</a></li><li><a href='/blog/categories/english'>english (14)</a></li><li><a href='/blog/categories/excel'>excel (2)</a></li><li><a href='/blog/categories/extjs'>extjs (2)</a></li><li><a href='/blog/categories/gesture'>gesture (1)</a></li><li><a href='/blog/categories/git'>git (4)</a></li><li><a href='/blog/categories/git-flow'>git-flow (1)</a></li><li><a href='/blog/categories/guava'>guava (2)</a></li><li><a href='/blog/categories/guice'>guice (1)</a></li><li><a href='/blog/categories/hamcrest'>hamcrest (1)</a></li><li><a href='/blog/categories/i18n'>i18n (1)</a></li><li><a href='/blog/categories/ide'>IDE (1)</a></li><li><a href='/blog/categories/idea'>IDEA (1)</a></li><li><a href='/blog/categories/injection'>injection (1)</a></li><li><a href='/blog/categories/intent'>intent (1)</a></li><li><a href='/blog/categories/ireport'>ireport (2)</a></li><li><a href='/blog/categories/jasterreport'>jasterreport (2)</a></li><li><a href='/blog/categories/java'>java (22)</a></li><li><a href='/blog/categories/java-ee'>java_ee (5)</a></li><li><a href='/blog/categories/jms'>jms (1)</a></li><li><a href='/blog/categories/joda'>joda (1)</a></li><li><a href='/blog/categories/jpa'>jpa (1)</a></li><li><a href='/blog/categories/jquery'>jquery (1)</a></li><li><a href='/blog/categories/jsp'>jsp (2)</a></li><li><a href='/blog/categories/junit'>junit (1)</a></li><li><a href='/blog/categories/jvm'>jvm (2)</a></li><li><a href='/blog/categories/kohana'>kohana (1)</a></li><li><a href='/blog/categories/l10n'>l10n (1)</a></li><li><a href='/blog/categories/layout'>layout (1)</a></li><li><a href='/blog/categories/linux'>linux (11)</a></li><li><a href='/blog/categories/listview'>listview (2)</a></li><li><a href='/blog/categories/logger'>logger (1)</a></li><li><a href='/blog/categories/m2eclilpse'>m2eclilpse (1)</a></li><li><a href='/blog/categories/mac'>mac (2)</a></li><li><a href='/blog/categories/mat'>mat (1)</a></li><li><a href='/blog/categories/maven'>maven (5)</a></li><li><a href='/blog/categories/memory'>memory (1)</a></li><li><a href='/blog/categories/menu'>menu (1)</a></li><li><a href='/blog/categories/mindmap'>mindmap (2)</a></li><li><a href='/blog/categories/misc'>misc (1)</a></li><li><a href='/blog/categories/mysql'>mysql (7)</a></li><li><a href='/blog/categories/nio'>nio (1)</a></li><li><a href='/blog/categories/octopress'>octopress (1)</a></li><li><a href='/blog/categories/oracle'>oracle (1)</a></li><li><a href='/blog/categories/osgi'>osgi (3)</a></li><li><a href='/blog/categories/pdf'>pdf (2)</a></li><li><a href='/blog/categories/pdt'>pdt (5)</a></li><li><a href='/blog/categories/pear'>pear (2)</a></li><li><a href='/blog/categories/performace'>performace (1)</a></li><li><a href='/blog/categories/pgsql'>pgsql (1)</a></li><li><a href='/blog/categories/php'>php (6)</a></li><li><a href='/blog/categories/play-framework'>play_framework (1)</a></li><li><a href='/blog/categories/pm'>pm (5)</a></li><li><a href='/blog/categories/postgresql'>postgresql (2)</a></li><li><a href='/blog/categories/profile'>profile (1)</a></li><li><a href='/blog/categories/programming'>programming (12)</a></li><li><a href='/blog/categories/re'>re (1)</a></li><li><a href='/blog/categories/refactory'>refactory (1)</a></li><li><a href='/blog/categories/rest'>rest (2)</a></li><li><a href='/blog/categories/roboguice'>roboguice (1)</a></li><li><a href='/blog/categories/sbt'>sbt (1)</a></li><li><a href='/blog/categories/scala'>scala (4)</a></li><li><a href='/blog/categories/security'>security (1)</a></li><li><a href='/blog/categories/service'>service (2)</a></li><li><a href='/blog/categories/shiro'>shiro (1)</a></li><li><a href='/blog/categories/shortchut'>shortchut (1)</a></li><li><a href='/blog/categories/smarty'>smarty (3)</a></li><li><a href='/blog/categories/spring'>spring (1)</a></li><li><a href='/blog/categories/sql'>sql (1)</a></li><li><a href='/blog/categories/style'>style (1)</a></li><li><a href='/blog/categories/tdd'>tdd (1)</a></li><li><a href='/blog/categories/testing'>testing (10)</a></li><li><a href='/blog/categories/theme'>theme (1)</a></li><li><a href='/blog/categories/tips'>tips (2)</a></li><li><a href='/blog/categories/ubuntu'>ubuntu (8)</a></li><li><a href='/blog/categories/ui'>ui (2)</a></li><li><a href='/blog/categories/vim'>vim (2)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/windows'>windows (1)</a></li><li><a href='/blog/categories/xampp'>xampp (1)</a></li><li><a href='/blog/categories/xml'>xml (2)</a></li></ul>
+    <ul id="category-list"><li><a href='/blog/categories/actionbar'>actionbar (1)</a></li><li><a href='/blog/categories/android'>android (25)</a></li><li><a href='/blog/categories/apache'>apache (7)</a></li><li><a href='/blog/categories/bash'>bash (3)</a></li><li><a href='/blog/categories/best-practice'>best_practice (1)</a></li><li><a href='/blog/categories/book'>book (1)</a></li><li><a href='/blog/categories/broadcast-receiver'>broadcast_receiver (2)</a></li><li><a href='/blog/categories/cdi'>cdi (2)</a></li><li><a href='/blog/categories/centos'>centos (5)</a></li><li><a href='/blog/categories/clean-code'>clean code (1)</a></li><li><a href='/blog/categories/command'>command (4)</a></li><li><a href='/blog/categories/concurrency'>concurrency (1)</a></li><li><a href='/blog/categories/database'>database (6)</a></li><li><a href='/blog/categories/datetime'>datetime (1)</a></li><li><a href='/blog/categories/di'>di (2)</a></li><li><a href='/blog/categories/drawable'>drawable (1)</a></li><li><a href='/blog/categories/ec'>ec (1)</a></li><li><a href='/blog/categories/eclipse'>eclipse (1)</a></li><li><a href='/blog/categories/ecshop'>ecshop (7)</a></li><li><a href='/blog/categories/editor'>editor (1)</a></li><li><a href='/blog/categories/emulator'>emulator (1)</a></li><li><a href='/blog/categories/english'>english (14)</a></li><li><a href='/blog/categories/excel'>excel (2)</a></li><li><a href='/blog/categories/extjs'>extjs (2)</a></li><li><a href='/blog/categories/gesture'>gesture (1)</a></li><li><a href='/blog/categories/git'>git (4)</a></li><li><a href='/blog/categories/git-flow'>git-flow (1)</a></li><li><a href='/blog/categories/guava'>guava (2)</a></li><li><a href='/blog/categories/guice'>guice (1)</a></li><li><a href='/blog/categories/hamcrest'>hamcrest (1)</a></li><li><a href='/blog/categories/i18n'>i18n (1)</a></li><li><a href='/blog/categories/ide'>IDE (1)</a></li><li><a href='/blog/categories/idea'>IDEA (1)</a></li><li><a href='/blog/categories/injection'>injection (1)</a></li><li><a href='/blog/categories/intent'>intent (1)</a></li><li><a href='/blog/categories/ireport'>ireport (2)</a></li><li><a href='/blog/categories/jasterreport'>jasterreport (2)</a></li><li><a href='/blog/categories/java'>java (22)</a></li><li><a href='/blog/categories/java-ee'>java_ee (5)</a></li><li><a href='/blog/categories/jms'>jms (1)</a></li><li><a href='/blog/categories/joda'>joda (1)</a></li><li><a href='/blog/categories/jpa'>jpa (1)</a></li><li><a href='/blog/categories/jquery'>jquery (1)</a></li><li><a href='/blog/categories/jsp'>jsp (2)</a></li><li><a href='/blog/categories/junit'>junit (1)</a></li><li><a href='/blog/categories/jvm'>jvm (2)</a></li><li><a href='/blog/categories/kohana'>kohana (1)</a></li><li><a href='/blog/categories/l10n'>l10n (1)</a></li><li><a href='/blog/categories/layout'>layout (1)</a></li><li><a href='/blog/categories/linux'>linux (11)</a></li><li><a href='/blog/categories/listview'>listview (2)</a></li><li><a href='/blog/categories/logger'>logger (1)</a></li><li><a href='/blog/categories/m2eclilpse'>m2eclilpse (1)</a></li><li><a href='/blog/categories/mac'>mac (2)</a></li><li><a href='/blog/categories/mat'>mat (1)</a></li><li><a href='/blog/categories/maven'>maven (5)</a></li><li><a href='/blog/categories/memory'>memory (1)</a></li><li><a href='/blog/categories/menu'>menu (1)</a></li><li><a href='/blog/categories/mindmap'>mindmap (2)</a></li><li><a href='/blog/categories/misc'>misc (1)</a></li><li><a href='/blog/categories/mysql'>mysql (7)</a></li><li><a href='/blog/categories/nio'>nio (1)</a></li><li><a href='/blog/categories/octopress'>octopress (1)</a></li><li><a href='/blog/categories/oracle'>oracle (1)</a></li><li><a href='/blog/categories/osgi'>osgi (3)</a></li><li><a href='/blog/categories/pdf'>pdf (2)</a></li><li><a href='/blog/categories/pdt'>pdt (5)</a></li><li><a href='/blog/categories/pear'>pear (2)</a></li><li><a href='/blog/categories/performace'>performace (1)</a></li><li><a href='/blog/categories/pgsql'>pgsql (1)</a></li><li><a href='/blog/categories/php'>php (6)</a></li><li><a href='/blog/categories/play-framework'>play_framework (1)</a></li><li><a href='/blog/categories/pm'>pm (5)</a></li><li><a href='/blog/categories/postgresql'>postgresql (2)</a></li><li><a href='/blog/categories/profile'>profile (1)</a></li><li><a href='/blog/categories/programming'>programming (12)</a></li><li><a href='/blog/categories/python'>python (1)</a></li><li><a href='/blog/categories/re'>re (1)</a></li><li><a href='/blog/categories/refactory'>refactory (1)</a></li><li><a href='/blog/categories/rest'>rest (2)</a></li><li><a href='/blog/categories/roboguice'>roboguice (1)</a></li><li><a href='/blog/categories/sbt'>sbt (1)</a></li><li><a href='/blog/categories/scala'>scala (4)</a></li><li><a href='/blog/categories/security'>security (1)</a></li><li><a href='/blog/categories/service'>service (2)</a></li><li><a href='/blog/categories/shiro'>shiro (1)</a></li><li><a href='/blog/categories/shortchut'>shortchut (1)</a></li><li><a href='/blog/categories/smarty'>smarty (3)</a></li><li><a href='/blog/categories/spring'>spring (1)</a></li><li><a href='/blog/categories/sql'>sql (1)</a></li><li><a href='/blog/categories/style'>style (1)</a></li><li><a href='/blog/categories/tdd'>tdd (1)</a></li><li><a href='/blog/categories/testing'>testing (10)</a></li><li><a href='/blog/categories/theme'>theme (1)</a></li><li><a href='/blog/categories/tips'>tips (2)</a></li><li><a href='/blog/categories/ubuntu'>ubuntu (8)</a></li><li><a href='/blog/categories/ui'>ui (2)</a></li><li><a href='/blog/categories/vim'>vim (2)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/windows'>windows (1)</a></li><li><a href='/blog/categories/xampp'>xampp (1)</a></li><li><a href='/blog/categories/xml'>xml (2)</a></li></ul>
 </section>
 
   

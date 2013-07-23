@@ -9,12 +9,24 @@
   <meta name="author" content="Kent">
 
   
-  <meta name="description" content="1
+  <meta name="description" content="這邊採用Behavior_Driven_Development所建議的User
+Story格式進行撰寫，簡介可以看這裡或者是這裡 1
 2
 3
 4
-wget http://download.fedora.redhat.com/pub/epel/5/i386/epel-release-5-3.noarch.rpm
-wget http://rpms.famillecollet.com/enterprise/remi-release &hellip;">
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+Title (one line describing the story)
+  &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -82,6 +94,131 @@ wget http://rpms.famillecollet.com/enterprise/remi-release &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/user_story/">User Story簡介</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/user_story/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>這邊採用<a href="http://en.wikipedia.org/wiki/Behavior_Driven_Development" title="http://en.wikipedia.org/wiki/Behavior_Driven_Development">Behavior_Driven_Development</a>所建議的User
+Story格式進行撰寫，簡介可以看<a href="http://dannorth.net/whats-in-a-story" title="http://dannorth.net/whats-in-a-story">這裡</a>或者是<a href="http://c2.com/cgi/wiki?UserStoryTemplate" title="http://c2.com/cgi/wiki?UserStoryTemplate">這裡</a></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Title (one line describing the story)
+</span><span class='line'> 
+</span><span class='line'>Narrative:
+</span><span class='line'>As a [role]
+</span><span class='line'>I want [feature]
+</span><span class='line'>So that [benefit]
+</span><span class='line'> 
+</span><span class='line'>Acceptance Criteria: (presented as Scenarios)
+</span><span class='line'> 
+</span><span class='line'>Scenario 1: Title
+</span><span class='line'>Given [context] And [some more context]...
+</span><span class='line'>When [event]
+</span><span class='line'>Then [outcome] And [another outcome]...
+</span><span class='line'> 
+</span><span class='line'>Scenario 2: ...</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Story: Account Holder withdraws cash
+</span><span class='line'> 
+</span><span class='line'>As an Account Holder
+</span><span class='line'>I want to withdraw cash from an ATM
+</span><span class='line'>So that I can get money when the bank is closed
+</span><span class='line'> 
+</span><span class='line'>Scenario 1: Account has sufficient funds
+</span><span class='line'>Given the account balance is \$100 And the card is valid And the machine contains enough money
+</span><span class='line'>When the Account Holder requests \$20
+</span><span class='line'>Then the ATM should dispense \$20 And the account balance should be \$80 And the card should be returned
+</span><span class='line'> 
+</span><span class='line'>Scenario 2: Account has insufficient funds
+</span><span class='line'>Given the account balance is \$10 And the card is valid And the machine contains enough money
+</span><span class='line'>When the Account Holder requests \$20
+</span><span class='line'>Then the ATM should not dispense any money And the ATM should say there are insufficient funds And the account balance should be \$20 And the card should be returned
+</span><span class='line'> 
+</span><span class='line'>Scenario 3: Card has been disabled
+</span><span class='line'>Given the card is disabled
+</span><span class='line'>When the Account Holder requests \$20
+</span><span class='line'>Then the ATM should retain the card
+</span><span class='line'>And the ATM should say the card has been retained
+</span><span class='line'> 
+</span><span class='line'>Scenario 4: The ATM has insufficient funds
+</span><span class='line'>...</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -2330,776 +2467,6 @@ ask you an account and password.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/10/17/structure/">ECShop Structure</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
-        
-         | <a href="/blog/2011/10/17/structure/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>ECShop upload 的目錄</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-<span class='line-number'>70</span>
-<span class='line-number'>71</span>
-<span class='line-number'>72</span>
-<span class='line-number'>73</span>
-<span class='line-number'>74</span>
-<span class='line-number'>75</span>
-<span class='line-number'>76</span>
-<span class='line-number'>77</span>
-<span class='line-number'>78</span>
-<span class='line-number'>79</span>
-<span class='line-number'>80</span>
-<span class='line-number'>81</span>
-<span class='line-number'>82</span>
-<span class='line-number'>83</span>
-<span class='line-number'>84</span>
-<span class='line-number'>85</span>
-<span class='line-number'>86</span>
-<span class='line-number'>87</span>
-<span class='line-number'>88</span>
-<span class='line-number'>89</span>
-<span class='line-number'>90</span>
-<span class='line-number'>91</span>
-<span class='line-number'>92</span>
-<span class='line-number'>93</span>
-<span class='line-number'>94</span>
-<span class='line-number'>95</span>
-<span class='line-number'>96</span>
-<span class='line-number'>97</span>
-<span class='line-number'>98</span>
-<span class='line-number'>99</span>
-<span class='line-number'>100</span>
-<span class='line-number'>101</span>
-<span class='line-number'>102</span>
-<span class='line-number'>103</span>
-<span class='line-number'>104</span>
-<span class='line-number'>105</span>
-<span class='line-number'>106</span>
-<span class='line-number'>107</span>
-<span class='line-number'>108</span>
-<span class='line-number'>109</span>
-<span class='line-number'>110</span>
-<span class='line-number'>111</span>
-<span class='line-number'>112</span>
-<span class='line-number'>113</span>
-<span class='line-number'>114</span>
-<span class='line-number'>115</span>
-<span class='line-number'>116</span>
-<span class='line-number'>117</span>
-<span class='line-number'>118</span>
-<span class='line-number'>119</span>
-<span class='line-number'>120</span>
-<span class='line-number'>121</span>
-<span class='line-number'>122</span>
-<span class='line-number'>123</span>
-<span class='line-number'>124</span>
-<span class='line-number'>125</span>
-<span class='line-number'>126</span>
-<span class='line-number'>127</span>
-<span class='line-number'>128</span>
-<span class='line-number'>129</span>
-<span class='line-number'>130</span>
-<span class='line-number'>131</span>
-<span class='line-number'>132</span>
-<span class='line-number'>133</span>
-<span class='line-number'>134</span>
-<span class='line-number'>135</span>
-<span class='line-number'>136</span>
-<span class='line-number'>137</span>
-<span class='line-number'>138</span>
-<span class='line-number'>139</span>
-<span class='line-number'>140</span>
-<span class='line-number'>141</span>
-<span class='line-number'>142</span>
-<span class='line-number'>143</span>
-<span class='line-number'>144</span>
-<span class='line-number'>145</span>
-<span class='line-number'>146</span>
-<span class='line-number'>147</span>
-<span class='line-number'>148</span>
-<span class='line-number'>149</span>
-<span class='line-number'>150</span>
-<span class='line-number'>151</span>
-<span class='line-number'>152</span>
-<span class='line-number'>153</span>
-<span class='line-number'>154</span>
-<span class='line-number'>155</span>
-<span class='line-number'>156</span>
-<span class='line-number'>157</span>
-<span class='line-number'>158</span>
-<span class='line-number'>159</span>
-<span class='line-number'>160</span>
-<span class='line-number'>161</span>
-<span class='line-number'>162</span>
-<span class='line-number'>163</span>
-<span class='line-number'>164</span>
-<span class='line-number'>165</span>
-<span class='line-number'>166</span>
-<span class='line-number'>167</span>
-<span class='line-number'>168</span>
-<span class='line-number'>169</span>
-<span class='line-number'>170</span>
-<span class='line-number'>171</span>
-<span class='line-number'>172</span>
-<span class='line-number'>173</span>
-<span class='line-number'>174</span>
-<span class='line-number'>175</span>
-<span class='line-number'>176</span>
-<span class='line-number'>177</span>
-<span class='line-number'>178</span>
-<span class='line-number'>179</span>
-<span class='line-number'>180</span>
-<span class='line-number'>181</span>
-<span class='line-number'>182</span>
-<span class='line-number'>183</span>
-<span class='line-number'>184</span>
-<span class='line-number'>185</span>
-<span class='line-number'>186</span>
-<span class='line-number'>187</span>
-<span class='line-number'>188</span>
-<span class='line-number'>189</span>
-<span class='line-number'>190</span>
-<span class='line-number'>191</span>
-<span class='line-number'>192</span>
-<span class='line-number'>193</span>
-<span class='line-number'>194</span>
-<span class='line-number'>195</span>
-<span class='line-number'>196</span>
-<span class='line-number'>197</span>
-<span class='line-number'>198</span>
-<span class='line-number'>199</span>
-<span class='line-number'>200</span>
-<span class='line-number'>201</span>
-<span class='line-number'>202</span>
-<span class='line-number'>203</span>
-<span class='line-number'>204</span>
-<span class='line-number'>205</span>
-<span class='line-number'>206</span>
-<span class='line-number'>207</span>
-<span class='line-number'>208</span>
-<span class='line-number'>209</span>
-<span class='line-number'>210</span>
-<span class='line-number'>211</span>
-<span class='line-number'>212</span>
-<span class='line-number'>213</span>
-<span class='line-number'>214</span>
-<span class='line-number'>215</span>
-<span class='line-number'>216</span>
-<span class='line-number'>217</span>
-<span class='line-number'>218</span>
-<span class='line-number'>219</span>
-<span class='line-number'>220</span>
-<span class='line-number'>221</span>
-<span class='line-number'>222</span>
-<span class='line-number'>223</span>
-<span class='line-number'>224</span>
-<span class='line-number'>225</span>
-<span class='line-number'>226</span>
-<span class='line-number'>227</span>
-<span class='line-number'>228</span>
-<span class='line-number'>229</span>
-<span class='line-number'>230</span>
-<span class='line-number'>231</span>
-<span class='line-number'>232</span>
-<span class='line-number'>233</span>
-<span class='line-number'>234</span>
-<span class='line-number'>235</span>
-<span class='line-number'>236</span>
-<span class='line-number'>237</span>
-<span class='line-number'>238</span>
-<span class='line-number'>239</span>
-<span class='line-number'>240</span>
-<span class='line-number'>241</span>
-<span class='line-number'>242</span>
-<span class='line-number'>243</span>
-<span class='line-number'>244</span>
-<span class='line-number'>245</span>
-<span class='line-number'>246</span>
-<span class='line-number'>247</span>
-<span class='line-number'>248</span>
-<span class='line-number'>249</span>
-<span class='line-number'>250</span>
-<span class='line-number'>251</span>
-<span class='line-number'>252</span>
-<span class='line-number'>253</span>
-<span class='line-number'>254</span>
-<span class='line-number'>255</span>
-<span class='line-number'>256</span>
-<span class='line-number'>257</span>
-<span class='line-number'>258</span>
-<span class='line-number'>259</span>
-<span class='line-number'>260</span>
-<span class='line-number'>261</span>
-<span class='line-number'>262</span>
-<span class='line-number'>263</span>
-<span class='line-number'>264</span>
-<span class='line-number'>265</span>
-<span class='line-number'>266</span>
-<span class='line-number'>267</span>
-<span class='line-number'>268</span>
-<span class='line-number'>269</span>
-<span class='line-number'>270</span>
-<span class='line-number'>271</span>
-<span class='line-number'>272</span>
-<span class='line-number'>273</span>
-<span class='line-number'>274</span>
-<span class='line-number'>275</span>
-<span class='line-number'>276</span>
-<span class='line-number'>277</span>
-<span class='line-number'>278</span>
-<span class='line-number'>279</span>
-<span class='line-number'>280</span>
-<span class='line-number'>281</span>
-<span class='line-number'>282</span>
-<span class='line-number'>283</span>
-<span class='line-number'>284</span>
-<span class='line-number'>285</span>
-<span class='line-number'>286</span>
-<span class='line-number'>287</span>
-<span class='line-number'>288</span>
-<span class='line-number'>289</span>
-<span class='line-number'>290</span>
-<span class='line-number'>291</span>
-<span class='line-number'>292</span>
-<span class='line-number'>293</span>
-<span class='line-number'>294</span>
-<span class='line-number'>295</span>
-<span class='line-number'>296</span>
-<span class='line-number'>297</span>
-<span class='line-number'>298</span>
-<span class='line-number'>299</span>
-<span class='line-number'>300</span>
-<span class='line-number'>301</span>
-<span class='line-number'>302</span>
-<span class='line-number'>303</span>
-<span class='line-number'>304</span>
-<span class='line-number'>305</span>
-<span class='line-number'>306</span>
-<span class='line-number'>307</span>
-<span class='line-number'>308</span>
-<span class='line-number'>309</span>
-<span class='line-number'>310</span>
-<span class='line-number'>311</span>
-<span class='line-number'>312</span>
-<span class='line-number'>313</span>
-<span class='line-number'>314</span>
-<span class='line-number'>315</span>
-<span class='line-number'>316</span>
-<span class='line-number'>317</span>
-<span class='line-number'>318</span>
-<span class='line-number'>319</span>
-<span class='line-number'>320</span>
-<span class='line-number'>321</span>
-<span class='line-number'>322</span>
-<span class='line-number'>323</span>
-<span class='line-number'>324</span>
-<span class='line-number'>325</span>
-<span class='line-number'>326</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>       ├ activity.php 活動列表
-</span><span class='line'>       ├ affiche.php 廣告處理文件
-</span><span class='line'>       ├ affiliate.php 生成商品列表
-</span><span class='line'>       ├ article.php 文章內容
-</span><span class='line'>       ├ article_cat.php文章分類
-</span><span class='line'>       ├ auction.php 拍賣前台文件
-</span><span class='line'>       ├ brand.php 品牌列表
-</span><span class='line'>       ├ captcha.php 生成驗證碼
-</span><span class='line'>       ├ catalog.php 列出所以分類及品牌
-</span><span class='line'>       ├ category.php 商品分類
-</span><span class='line'>       ├ comment.php 提交用戶評論
-</span><span class='line'>       ├ compare.php 商品比較程序
-</span><span class='line'>       ├ cycle_image.php  輪播圖片程序
-</span><span class='line'>       ├ feed.php RSS Feed 生成程序
-</span><span class='line'>       ├ flow.php 購物流程
-</span><span class='line'>       ├ gallery.php 商品相冊
-</span><span class='line'>       ├ goods.php 商品詳情
-</span><span class='line'>       ├ goods_script.php 生成商品列表
-</span><span class='line'>       ├ group_buy.php 團購商品前台文件
-</span><span class='line'>       ├ index.php 首頁文件
-</span><span class='line'>       ├ myship.php 支付配送DEMO
-</span><span class='line'>       ├ pick_out.php 選購中心
-</span><span class='line'>       ├ receive.php 處理收回確認的頁面
-</span><span class='line'>       ├ region.php 地區切換程序
-</span><span class='line'>       ├ respond.php 支付響應頁面
-</span><span class='line'>       ├ robots.txt
-</span><span class='line'>       ├ search.php 搜索程序
-</span><span class='line'>       ├ sitemaps.php  google sitemap 文件
-</span><span class='line'>       ├ snatch.php 奪寶奇兵前台頁面
-</span><span class='line'>       ├ tag_cloud.php 標籤雲
-</span><span class='line'>       ├ topic.php 專題前台
-</span><span class='line'>       ├ user.php 會員中心
-</span><span class='line'>       ├ vote.php 調查程序
-</span><span class='line'>       ├ wholesale.php 批發前台文件
-</span><span class='line'>       ├ admin文件夾
-</span><span class='line'>       │   ├ account_log.php 管理中心帳戶變動記錄
-</span><span class='line'>       │   ├ admin_logs.php 記錄管理員操作日誌
-</span><span class='line'>       │   ├ ads.php 廣告管理程序
-</span><span class='line'>       │   ├ adsense.php 站外JS投放的統計程序
-</span><span class='line'>       │   ├ ad_position.php廣告位置管理程序
-</span><span class='line'>       │   ├ affiliate.php 程序說明
-</span><span class='line'>       │   ├ affiliate_ck.php 程序說明
-</span><span class='line'>       │   ├ agency.php 管理中心辦事處管理
-</span><span class='line'>       │   ├ area_manage.php 地區列表管理文件
-</span><span class='line'>       │   ├ article.php 管理中心文章處理程序文件
-</span><span class='line'>       │   ├ articlecat.php 文章分類管理程序
-</span><span class='line'>       │   ├ article_auto.php
-</span><span class='line'>       │   ├ attention_list.php
-</span><span class='line'>       │   ├ attribute.php 屬性規格管理
-</span><span class='line'>       │   ├ auction.php 管理中心拍賣活動管理
-</span><span class='line'>       │   ├ bonus.php 紅包類型的處理
-</span><span class='line'>       │   ├ brand.php管理中心品牌管理
-</span><span class='line'>       │   ├ captcha_manage.php
-</span><span class='line'>       │   ├ card.php 賀卡管理程序
-</span><span class='line'>       │   ├ category.php 商品分類管理程序
-</span><span class='line'>       │   ├ check_file_priv.php 系統文件檢測
-</span><span class='line'>       │   ├ comment_manage.php 用戶評論管理程序
-</span><span class='line'>       │   ├ convert.php 轉換程序
-</span><span class='line'>       │   ├ cron.php 計劃任務
-</span><span class='line'>       │   ├ database.php 數據庫管理
-</span><span class='line'>       │   ├ ebao_commend.php 易寶推薦
-</span><span class='line'>       │   ├ edit_languages.php 管理中心語言項編輯(前台語言項)
-</span><span class='line'>       │   ├ email_list.php 郵件列表管理
-</span><span class='line'>       │   ├ favourable.php 管理中心優惠活動管理
-</span><span class='line'>       │   ├ flashplay.php
-</span><span class='line'>       │   ├ flow_stats.php 綜合流量統計
-</span><span class='line'>       │   ├ friend_link.php 友情鏈接管理
-</span><span class='line'>       │   ├ gen_goods_script.php 生成顯示商品的js代碼
-</span><span class='line'>       │   ├ get_password.php 找回管理員密碼
-</span><span class='line'>       │   ├ goods.php 商品管理程序
-</span><span class='line'>       │   ├ goods_auto.php
-</span><span class='line'>       │   ├ goods_batch.php 商品批量上傳、修改
-</span><span class='line'>       │   ├ goods_booking.php 缺貨處理管理程序
-</span><span class='line'>       │   ├ goods_export.php
-</span><span class='line'>       │   ├ goods_type.php 商品類型管理程序
-</span><span class='line'>       │   ├ group_buy.php 管理中心團購商品管理
-</span><span class='line'>       │   ├ guest_stats.php 客戶統計
-</span><span class='line'>       │   ├ index.php 控制台首頁
-</span><span class='line'>       │   ├ integrate.php 第三方程序會員數據整合插件管理程序
-</span><span class='line'>       │   ├ magazine_list.php
-</span><span class='line'>       │   ├ mail_template.php 管理中心模版管理程序
-</span><span class='line'>       │   ├ message.php 管理中心管理員留言程序
-</span><span class='line'>       │   ├ navigator.php
-</span><span class='line'>       │   ├ order.php 訂單管理
-</span><span class='line'>       │   ├ order_stats.php 訂單統計
-</span><span class='line'>       │   ├ pack.php 包裝管理程序
-</span><span class='line'>       │   ├ payment.php 支付方式管理程序
-</span><span class='line'>       │   ├ picture_batch.php 圖片批量處理程序
-</span><span class='line'>       │   ├ privilege.php 管理員信息以及權限管理程序
-</span><span class='line'>       │   ├ sale_general.php 銷售概況
-</span><span class='line'>       │   ├ sale_list.php 銷售明細列表程序
-</span><span class='line'>       │   ├ sale_order.php 商品銷售排行
-</span><span class='line'>       │   ├ searchengine_stats.php 搜索引擎關鍵字統計
-</span><span class='line'>       │   ├ search_log.php
-</span><span class='line'>       │   ├ shipping.php 配送方式管理程序
-</span><span class='line'>       │   ├ shipping_area.php 配送區域管理程序
-</span><span class='line'>       │   ├ shophelp.php 幫助信息管理程序
-</span><span class='line'>       │   ├ shopinfo.php 網店信息管理頁面
-</span><span class='line'>       │   ├ shop_config.php  管理中心商店設置
-</span><span class='line'>       │   ├ sitemap.php 站點地圖生成程序
-</span><span class='line'>       │   ├ sms.php 短信模塊 之 控制器
-</span><span class='line'>       │   ├ snatch.php 奪寶奇兵管理程序
-</span><span class='line'>       │   ├ sql.php sql管理程序
-</span><span class='line'>       │   ├ tag_manage.php 後台標籤管理
-</span><span class='line'>       │   ├ template.php 管理中心模版管理程序
-</span><span class='line'>       │   ├ topic.php 專題管理
-</span><span class='line'>       │   ├ users.php 會員管理程序
-</span><span class='line'>       │   ├ users_order.php 會員排行統計程序
-</span><span class='line'>       │   ├ user_account.php 會員帳目管理(包括預付款，餘額)
-</span><span class='line'>       │   ├ user_msg.php 客戶留言
-</span><span class='line'>       │   ├ user_rank.php 會員等級管理程序
-</span><span class='line'>       │   ├ view_sendlist.php
-</span><span class='line'>       │   ├ virtual_card.php 虛擬卡商品管理程序
-</span><span class='line'>       │   ├ visit_sold.php 訪問購買比例
-</span><span class='line'>       │   ├ vote.php 調查管理程序
-</span><span class='line'>       │   ├ wholesale.php  管理中心批發管理
-</span><span class='line'>       │   ├ help 的目錄  後台操作幫助文件
-</span><span class='line'>       │   ├ images 的目錄
-</span><span class='line'>       │   ├ includes 的目錄
-</span><span class='line'>       │   │  ├ cls_exchange.php 後台自動操作數據庫的類文件
-</span><span class='line'>       │   │  ├ cls_google_sitemap.php Google sitemap 類
-</span><span class='line'>       │   │  ├ cls_phpzip.php ZIP 處理類
-</span><span class='line'>       │   │  ├ cls_sql_dump.php 數據庫導出類
-</span><span class='line'>       │   │  ├ inc_menu.php 管理中心菜單數組
-</span><span class='line'>       │   │  ├ init.php 管理中心公用文件
-</span><span class='line'>       │   │  ├ lib_goods.php 管理中心商品相關函數
-</span><span class='line'>       │   │  ├ lib_main.php 管理中心公用函數庫
-</span><span class='line'>       │   │  └ lib_template.php 管理中心模版相關公用函數庫
-</span><span class='line'>       │   ├ styles 的目錄
-</span><span class='line'>       │   ├ templates 的目錄
-</span><span class='line'>       │   └ js 的目錄
-</span><span class='line'>       │       ├ colorselector.js
-</span><span class='line'>       │       ├ common.js
-</span><span class='line'>       │       ├ listtable.js
-</span><span class='line'>       │       ├ md5.js
-</span><span class='line'>       │       ├ selectzone.js
-</span><span class='line'>       │       ├ tab.js
-</span><span class='line'>       │       ├ todolist.js
-</span><span class='line'>       │       ├ topbar.js
-</span><span class='line'>       │       └ validator.js 表單驗證類
-</span><span class='line'>       ├ api 的目錄
-</span><span class='line'>       │   ├ checkorder.php 檢查訂單 API
-</span><span class='line'>       │   ├ cron.php
-</span><span class='line'>       │   └ init.php API 公用初始化文件
-</span><span class='line'>       ├ cert 的目錄
-</span><span class='line'>       ├ data 的目錄
-</span><span class='line'>       │   ├ ffiliate.html
-</span><span class='line'>       │   ├ goods_script.html
-</span><span class='line'>       │   ├ order_print.html
-</span><span class='line'>       │   ├ afficheimg 的目錄
-</span><span class='line'>       │   ├ brandlogo 的目錄
-</span><span class='line'>       │   ├ captcha 的目錄 驗證碼背景圖片存放位置
-</span><span class='line'>       │   ├ cardimg 的目錄
-</span><span class='line'>       │   ├ feedbackimg 的目錄
-</span><span class='line'>       │   ├ images 的目錄
-</span><span class='line'>       │   ├ packimg 的目錄
-</span><span class='line'>       │   └ sqldata 的目錄
-</span><span class='line'>       ├ images 的目錄
-</span><span class='line'>       │   └ upload 的目錄
-</span><span class='line'>       │        ├ File 文件上傳存放處
-</span><span class='line'>       │        ├ Flash flash上傳存放處
-</span><span class='line'>       │        ├ Image 圖片上傳存放處
-</span><span class='line'>       │        └ Media 視頻上傳存放處
-</span><span class='line'>       ├ includes 的目錄
-</span><span class='line'>       │   ├ cls_captcha.php 驗證碼圖片類
-</span><span class='line'>       │   ├ cls_ecshop.php 基礎類
-</span><span class='line'>       │   ├ cls_error.php 用戶級錯誤處理類
-</span><span class='line'>       │   ├ cls_iconv.php 字符集轉換類
-</span><span class='line'>       │   ├ cls_image.php 後台對上傳文件的處理類(實現圖片上傳，圖片縮小， 增加水印)
-</span><span class='line'>       │   ├ cls_json.php JSON 類
-</span><span class='line'>       │   ├ cls_mysql.php MYSQL 公用類庫
-</span><span class='line'>       │   ├ cls_rss.php RSS 類
-</span><span class='line'>       │   ├ cls_session.php SESSION 公用類庫
-</span><span class='line'>       │   ├ cls_sms.php 短信模塊 之 模型（類庫）
-</span><span class='line'>       │   ├ cls_smtp.php SMTP 郵件類
-</span><span class='line'>       │   ├ cls_sql_executor.php SQL語句執行類。
-</span><span class='line'>       │   ├ cls_template.php 模版類
-</span><span class='line'>       │   ├ cls_transport.php 服務器之間數據傳輸器
-</span><span class='line'>       │   ├ inc_constant.php 常量
-</span><span class='line'>       │   ├ init.php 前台公用文件
-</span><span class='line'>       │   ├ lib.debug.php
-</span><span class='line'>       │   ├ lib_article.php 文章及文章分類相關函數庫
-</span><span class='line'>       │   ├ lib_clips.php ECSHOP 用戶相關函數庫
-</span><span class='line'>       │   ├ lib_code.php 加密解密類
-</span><span class='line'>       │   ├ lib_common.php 公用函數庫
-</span><span class='line'>       │   ├ lib_goods.php 商品相關函數庫
-</span><span class='line'>       │   ├ lib_insert.php 動態內容函數庫
-</span><span class='line'>       │   ├ lib_main.php 前台公用函數庫
-</span><span class='line'>       │   ├ lib_order.php 購物流程函數庫
-</span><span class='line'>       │   ├ lib_passport.php 用戶帳號相關函數庫
-</span><span class='line'>       │   ├ lib_payment.php 支付接口函數庫
-</span><span class='line'>       │   ├ lib_time.php 時間函數
-</span><span class='line'>       │   ├ lib_transaction.php ECSHOP 用戶交易相關函數庫
-</span><span class='line'>       │   ├ codetable 的目錄
-</span><span class='line'>       │   │    ├ big5-gb.table
-</span><span class='line'>       │   │    ├ big5_utf8.php
-</span><span class='line'>       │   │    ├ gb-big5.table
-</span><span class='line'>       │   │    ├ gb_utf8.php
-</span><span class='line'>       │   │    └ ipdata.dat
-</span><span class='line'>       │   ├ fckeditor 的目錄 fckeditor編輯器目錄
-</span><span class='line'>       │   └ modules 的目錄
-</span><span class='line'>       │         ├ convert 的目錄
-</span><span class='line'>       │         │    ├ shopex46.php vshopex4.6轉換程序插件
-</span><span class='line'>       │         │    └ shopex47.php shopex4.7轉換程序插件
-</span><span class='line'>       │         ├ cron 的目錄
-</span><span class='line'>       │         │    ├ auto_manage.php 自動上下架管理
-</span><span class='line'>       │         │    └ ipdel.php 定期刪除
-</span><span class='line'>       │         ├ integrates 的目錄
-</span><span class='line'>       │         │    ├ bmforum.php 會員數據處理類
-</span><span class='line'>       │         │    ├ discuz.php
-</span><span class='line'>       │         │    ├ discuz55.php
-</span><span class='line'>       │         │    ├ dvbbs.php
-</span><span class='line'>       │         │    ├ ecshop.php
-</span><span class='line'>       │         │    ├ integrate.php
-</span><span class='line'>       │         │    ├ ipb.php
-</span><span class='line'>       │         │    ├ molyx.php
-</span><span class='line'>       │         │    ├ phpbb.php
-</span><span class='line'>       │         │    ├ phpwind.php
-</span><span class='line'>       │         │    ├ phpwind5.php
-</span><span class='line'>       │         │    └ vbb.php
-</span><span class='line'>       │         ├ payment 的目錄
-</span><span class='line'>       │         │    ├ alipay.php 支付寶插件
-</span><span class='line'>       │         │    ├ balance.php 餘額支付插件
-</span><span class='line'>       │         │    ├ bank.php 銀行匯款（轉帳）插件
-</span><span class='line'>       │         │    ├ cappay.php 首信易支付插件
-</span><span class='line'>       │         │    ├ chinabank.php 網銀在線插件
-</span><span class='line'>       │         │    ├ cncard.php 雲網支付插件
-</span><span class='line'>       │         │    ├ cod.php 貨到付款插件
-</span><span class='line'>       │         │    ├ ctopay.php Ctopay 支付插件
-</span><span class='line'>       │         │    ├ express.php express支付系統插件
-</span><span class='line'>       │         │    ├ ips.php ips支付系統插件
-</span><span class='line'>       │         │    ├ kuaiqian.php 快錢插件
-</span><span class='line'>       │         │    ├ nps.php NPS支付插件
-</span><span class='line'>       │         │    ├ pay800.php 800pay 支付寶插件
-</span><span class='line'>       │         │    ├ paypal.php 貝寶插件
-</span><span class='line'>       │         │    ├ paypalcn.php 貝寶中國插件
-</span><span class='line'>       │         │    ├ post.php 郵局匯款插件
-</span><span class='line'>       │         │    ├ tenpay.php 財付通插件
-</span><span class='line'>       │         │    ├ udpay.php 網匯通插件
-</span><span class='line'>       │         │    ├ xpay.php 易付通插件
-</span><span class='line'>       │         │    └ yeepay.php YeePay易寶插件
-</span><span class='line'>       │         └ shipping 的目錄
-</span><span class='line'>       │               ├ cac.php 上門取貨插件
-</span><span class='line'>       │               ├ city_express.php 城際快遞插件
-</span><span class='line'>       │               ├ ems.php EMS插件
-</span><span class='line'>       │               ├ flat.php 郵政包裹插件
-</span><span class='line'>       │               ├ fpd.php 到付運費插件
-</span><span class='line'>       │               ├ post_express.php 郵政包裹插件
-</span><span class='line'>       │               ├ post_mail.php 郵局平郵插件
-</span><span class='line'>       │               ├ presswork.php 掛號印刷品插件
-</span><span class='line'>       │               ├ sf_express.php 順豐速運 配送方式插件
-</span><span class='line'>       │               ├ sto_express.php 申通快遞 配送方式插件
-</span><span class='line'>       │               ├ yto.php 圓通速遞插件
-</span><span class='line'>       │               └ zto.php 中通速遞插件
-</span><span class='line'>       ├ install 的目錄  安裝文件目錄
-</span><span class='line'>       ├ js 的目錄
-</span><span class='line'>       │   ├ auto_complete.js
-</span><span class='line'>       │   ├ calendar.php
-</span><span class='line'>       │   ├ common.js
-</span><span class='line'>       │   ├ compare.js
-</span><span class='line'>       │   ├ global.js
-</span><span class='line'>       │   ├ lefttime.js
-</span><span class='line'>       │   ├ myship.js
-</span><span class='line'>       │   ├ region.js
-</span><span class='line'>       │   ├ shopping_flow.js
-</span><span class='line'>       │   ├ transport.js
-</span><span class='line'>       │   ├ user.js
-</span><span class='line'>       │   ├ utils.js
-</span><span class='line'>       │   └ calendar 的目錄
-</span><span class='line'>       ├ languages 的目錄  語言風格文件
-</span><span class='line'>       │   ├ zh_cn 的目錄
-</span><span class='line'>       │   │   ├
-</span><span class='line'>       │   │   ├ admin 的目錄
-</span><span class='line'>       │   │   ├ convert 的目錄
-</span><span class='line'>       │   │   ├ cron 的目錄
-</span><span class='line'>       │   │   ├ payment 的目錄
-</span><span class='line'>       │   │   └ shipping 的目錄
-</span><span class='line'>       │   └ zh_tw 的目錄
-</span><span class='line'>       │        ├ admin 的目錄
-</span><span class='line'>       │        ├ convert 的目錄
-</span><span class='line'>       │        ├ cron 的目錄
-</span><span class='line'>       │        ├ payment 的目錄
-</span><span class='line'>       │        └ shipping 的目錄
-</span><span class='line'>       ├ plugins 的目錄
-</span><span class='line'>       ├ templates 的目錄
-</span><span class='line'>       │   ├ backup 的目錄
-</span><span class='line'>       │   │   └ ibrary 的目錄
-</span><span class='line'>       │   ├ caches 的目錄
-</span><span class='line'>       │   └ compiled 的目錄
-</span><span class='line'>       │        └ admin 的目錄
-</span><span class='line'>       ├ themes 的目錄
-</span><span class='line'>       │   ├ default 的目錄
-</span><span class='line'>       │   │   ├ images 的目錄
-</span><span class='line'>       │   │   └ library 的目錄
-</span><span class='line'>       │   └ sport 的目錄
-</span><span class='line'>       ├ wap 的目錄
-</span><span class='line'>       │   ├ article.php
-</span><span class='line'>       │   ├ brands.php
-</span><span class='line'>       │   ├ buy.php
-</span><span class='line'>       │   ├ category.php
-</span><span class='line'>       │   ├ comment.php
-</span><span class='line'>       │   ├ goods.php
-</span><span class='line'>       │   ├ goods_list.php
-</span><span class='line'>       │   ├ index.php
-</span><span class='line'>       │   ├ user.php
-</span><span class='line'>       │   ├ includes 的目錄
-</span><span class='line'>       │   │   ├ init.php
-</span><span class='line'>       │   │   ├ lib_main.php
-</span><span class='line'>       │   └ templates 的目錄
-</span><span class='line'>       │        ├ article.wml
-</span><span class='line'>       │        ├ article_list.wml
-</span><span class='line'>       │        ├ brands.wml
-</span><span class='line'>       │        ├ buy.wml
-</span><span class='line'>       │        ├ category.wml
-</span><span class='line'>       │        ├ comment.wml
-</span><span class='line'>       │        ├ goods.wml
-</span><span class='line'>       │        ├ goods_img.wml
-</span><span class='line'>       │        ├ goods_list.wml
-</span><span class='line'>       │        ├ index.wml
-</span><span class='line'>       │        ├ login.wml
-</span><span class='line'>       │        ├ order_list.wml
-</span><span class='line'>       │        └ user.wml
-</span><span class='line'>       └ widget 的目錄
-</span><span class='line'>            ├ blog_sohu.php
-</span><span class='line'>            ├ blog_sohu.xhtml
-</span><span class='line'>            └ images 的目錄</span></code></pre></td></tr></table></div></figure>
-
-
-<h1>Major Pages</h1>
-
-<p>各主要頁面 所用模組圖例</p>
-
-<ol>
-<li>首頁:index.dwt</li>
-<li>文章列表:article_cat.dwt</li>
-<li>文章顯示:article.dwt</li>
-<li>商品分類:category.dwt</li>
-<li>商品比較:compare.dwt</li>
-<li>商品詳情:goods.dwt</li>
-<li>搜索結果:search_result.dwt</li>
-<li>奪寶奇兵:snatch.dwt</li>
-</ol>
-
-
-<h1>Library files</h1>
-
-<ol>
-<li>articles.lbi - 文章列表</li>
-<li>article_info.lbi - 文章內容</li>
-<li>article_list.lbi - 文章列表</li>
-<li>best_goods.lbi - 精品推薦</li>
-<li>bought_goods.lbi - 購買過此商品的人購買過哪些商品</li>
-<li>brand_goods.lbi - 品牌的商品</li>
-<li>cart.lbi - 購物車</li>
-<li>cart_view.lbi - 查看購物車</li>
-<li>category_tree.lbi - 商品分類樹</li>
-<li>cat_goods.lbi - 分類下的商品</li>
-<li>comments.lbi - 用戶評論</li>
-<li>comment_form.lbi - 發表評論的表單</li>
-<li>consignee.lbi - 收貨人信息</li>
-<li>fittings.lbi - 相關配件</li>
-<li>footer.lbi - 頁腳</li>
-<li>gallery.lbi - 商品相冊</li>
-<li>goods_detail.lbi - 商品詳情</li>
-<li>goods_info.lbi - 商品基本資訊</li>
-<li>goods_list.lbi - 商品列表</li>
-<li>help.lbi - 説明內容</li>
-<li>history.lbi - 歷史記錄</li>
-<li>hot_goods.lbi - 熱賣商品</li>
-<li>invoice_query.lbi - 發貨單查詢</li>
-<li>member.lbi - 會員登錄區</li>
-<li>member_info.lbi - 會員資訊</li>
-<li>nav_main.lbi - 主導航</li>
-<li>new_goods.lbi - 新品上架</li>
-<li>order_confirm.lbi - 訂單確認</li>
-<li>order_detail.lbi - 訂單詳情</li>
-<li>order_view.lbi - 訂單資訊</li>
-<li>package_card.lbi - 包裝和賀卡</li>
-<li>pages.lbi - 列表分頁</li>
-<li>page_top.lbi - 頁面頂部</li>
-<li>payment.lbi - 支付方式</li>
-<li>promotion.lbi - 促銷商品</li>
-<li>properties.lbi - 商品屬性</li>
-<li>register_login.lbi - 購物流程登錄和註冊</li>
-<li>related_goods.lbi - 相關商品</li>
-<li>search_advanced.lbi - 高級搜索表單</li>
-<li>search_form.lbi - 搜索表單</li>
-<li>search_result.lbi - 搜索結果</li>
-<li>shipping.lbi - 配送方式</li>
-<li>signin.lbi - 會員登錄表單</li>
-<li>snatch_bid.lbi - 奪寶奇兵出價表單</li>
-<li>snatch_goods.lbi - 奪寶奇兵活動的商品</li>
-<li>snatch_list.lbi - 奪寶奇兵活動列表</li>
-<li>snatch_price.lbi - 奪寶奇兵價格列表</li>
-<li>snatch_result.lbi - 奪寶奇兵活動結果</li>
-<li>top10.lbi - 銷售排行</li>
-<li>ur_here.lbi - 當前位置</li>
-<li>user_address.lbi - 會員中心收貨人列表</li>
-<li>user_address_add.lbi - 會員中心添加收貨人</li>
-<li>user_booking.lbi - 會員中心用戶缺貨登記</li>
-<li>user_booking_add.lbi - 會員中心用戶添加缺貨登記</li>
-<li>user_collect.lbi - 會員中心用戶我的最愛</li>
-<li>user_forgetpassword.lbi - 會員中心找回密碼</li>
-</ol>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/10/">&larr; Older</a>
@@ -3121,6 +2488,10 @@ ask you an account and password.</p>
       </li>
     
       <li class="post">
+        <a href="/blog/2013/07/07/python-101/">Python 101</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/05/17/my-intellij-idea-shortcut/">My IntelliJ IDEA Shortcut</a>
       </li>
     
@@ -3132,19 +2503,15 @@ ask you an account and password.</p>
         <a href="/blog/2013/05/12/jasperreport-101/">JasperReport 101</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2013/05/06/mac-tips/">Mac Tips</a>
-      </li>
-    
   </ul>
 </section>
 <section>
   <h1>Category Cloud</h1>
-    <span id="tag-cloud"><a href='/blog/categories/actionbar' style='font-size: 102.4%'>actionbar(1)</a> <a href='/blog/categories/android' style='font-size: 160.0%'>android(25)</a> <a href='/blog/categories/apache' style='font-size: 116.8%'>apache(7)</a> <a href='/blog/categories/bash' style='font-size: 107.2%'>bash(3)</a> <a href='/blog/categories/best-practice' style='font-size: 102.4%'>best_practice(1)</a> <a href='/blog/categories/book' style='font-size: 102.4%'>book(1)</a> <a href='/blog/categories/broadcast-receiver' style='font-size: 104.8%'>broadcast_receiver(2)</a> <a href='/blog/categories/cdi' style='font-size: 104.8%'>cdi(2)</a> <a href='/blog/categories/centos' style='font-size: 112.0%'>centos(5)</a> <a href='/blog/categories/clean-code' style='font-size: 102.4%'>clean code(1)</a> <a href='/blog/categories/command' style='font-size: 109.6%'>command(4)</a> <a href='/blog/categories/concurrency' style='font-size: 102.4%'>concurrency(1)</a> <a href='/blog/categories/database' style='font-size: 114.4%'>database(6)</a> <a href='/blog/categories/datetime' style='font-size: 102.4%'>datetime(1)</a> <a href='/blog/categories/di' style='font-size: 104.8%'>di(2)</a> <a href='/blog/categories/drawable' style='font-size: 102.4%'>drawable(1)</a> <a href='/blog/categories/ec' style='font-size: 102.4%'>ec(1)</a> <a href='/blog/categories/eclipse' style='font-size: 102.4%'>eclipse(1)</a> <a href='/blog/categories/ecshop' style='font-size: 116.8%'>ecshop(7)</a> <a href='/blog/categories/editor' style='font-size: 102.4%'>editor(1)</a> <a href='/blog/categories/emulator' style='font-size: 102.4%'>emulator(1)</a> <a href='/blog/categories/english' style='font-size: 133.6%'>english(14)</a> <a href='/blog/categories/excel' style='font-size: 104.8%'>excel(2)</a> <a href='/blog/categories/extjs' style='font-size: 104.8%'>extjs(2)</a> <a href='/blog/categories/gesture' style='font-size: 102.4%'>gesture(1)</a> <a href='/blog/categories/git' style='font-size: 109.6%'>git(4)</a> <a href='/blog/categories/git-flow' style='font-size: 102.4%'>git-flow(1)</a> <a href='/blog/categories/guava' style='font-size: 104.8%'>guava(2)</a> <a href='/blog/categories/guice' style='font-size: 102.4%'>guice(1)</a> <a href='/blog/categories/hamcrest' style='font-size: 102.4%'>hamcrest(1)</a> <a href='/blog/categories/i18n' style='font-size: 102.4%'>i18n(1)</a> <a href='/blog/categories/ide' style='font-size: 102.4%'>IDE(1)</a> <a href='/blog/categories/idea' style='font-size: 102.4%'>IDEA(1)</a> <a href='/blog/categories/injection' style='font-size: 102.4%'>injection(1)</a> <a href='/blog/categories/intent' style='font-size: 102.4%'>intent(1)</a> <a href='/blog/categories/ireport' style='font-size: 104.8%'>ireport(2)</a> <a href='/blog/categories/jasterreport' style='font-size: 104.8%'>jasterreport(2)</a> <a href='/blog/categories/java' style='font-size: 152.8%'>java(22)</a> <a href='/blog/categories/java-ee' style='font-size: 112.0%'>java_ee(5)</a> <a href='/blog/categories/jms' style='font-size: 102.4%'>jms(1)</a> <a href='/blog/categories/joda' style='font-size: 102.4%'>joda(1)</a> <a href='/blog/categories/jpa' style='font-size: 102.4%'>jpa(1)</a> <a href='/blog/categories/jquery' style='font-size: 102.4%'>jquery(1)</a> <a href='/blog/categories/jsp' style='font-size: 104.8%'>jsp(2)</a> <a href='/blog/categories/junit' style='font-size: 102.4%'>junit(1)</a> <a href='/blog/categories/jvm' style='font-size: 104.8%'>jvm(2)</a> <a href='/blog/categories/kohana' style='font-size: 102.4%'>kohana(1)</a> <a href='/blog/categories/l10n' style='font-size: 102.4%'>l10n(1)</a> <a href='/blog/categories/layout' style='font-size: 102.4%'>layout(1)</a> <a href='/blog/categories/linux' style='font-size: 126.4%'>linux(11)</a> <a href='/blog/categories/listview' style='font-size: 104.8%'>listview(2)</a> <a href='/blog/categories/logger' style='font-size: 102.4%'>logger(1)</a> <a href='/blog/categories/m2eclilpse' style='font-size: 102.4%'>m2eclilpse(1)</a> <a href='/blog/categories/mac' style='font-size: 104.8%'>mac(2)</a> <a href='/blog/categories/mat' style='font-size: 102.4%'>mat(1)</a> <a href='/blog/categories/maven' style='font-size: 112.0%'>maven(5)</a> <a href='/blog/categories/memory' style='font-size: 102.4%'>memory(1)</a> <a href='/blog/categories/menu' style='font-size: 102.4%'>menu(1)</a> <a href='/blog/categories/mindmap' style='font-size: 104.8%'>mindmap(2)</a> <a href='/blog/categories/misc' style='font-size: 102.4%'>misc(1)</a> <a href='/blog/categories/mysql' style='font-size: 116.8%'>mysql(7)</a> <a href='/blog/categories/nio' style='font-size: 102.4%'>nio(1)</a> <a href='/blog/categories/octopress' style='font-size: 102.4%'>octopress(1)</a> <a href='/blog/categories/oracle' style='font-size: 102.4%'>oracle(1)</a> <a href='/blog/categories/osgi' style='font-size: 107.2%'>osgi(3)</a> <a href='/blog/categories/pdf' style='font-size: 104.8%'>pdf(2)</a> <a href='/blog/categories/pdt' style='font-size: 112.0%'>pdt(5)</a> <a href='/blog/categories/pear' style='font-size: 104.8%'>pear(2)</a> <a href='/blog/categories/performace' style='font-size: 102.4%'>performace(1)</a> <a href='/blog/categories/pgsql' style='font-size: 102.4%'>pgsql(1)</a> <a href='/blog/categories/php' style='font-size: 114.4%'>php(6)</a> <a href='/blog/categories/play-framework' style='font-size: 102.4%'>play_framework(1)</a> <a href='/blog/categories/pm' style='font-size: 112.0%'>pm(5)</a> <a href='/blog/categories/postgresql' style='font-size: 104.8%'>postgresql(2)</a> <a href='/blog/categories/profile' style='font-size: 102.4%'>profile(1)</a> <a href='/blog/categories/programming' style='font-size: 128.8%'>programming(12)</a> <a href='/blog/categories/re' style='font-size: 102.4%'>re(1)</a> <a href='/blog/categories/refactory' style='font-size: 102.4%'>refactory(1)</a> <a href='/blog/categories/rest' style='font-size: 104.8%'>rest(2)</a> <a href='/blog/categories/roboguice' style='font-size: 102.4%'>roboguice(1)</a> <a href='/blog/categories/sbt' style='font-size: 102.4%'>sbt(1)</a> <a href='/blog/categories/scala' style='font-size: 109.6%'>scala(4)</a> <a href='/blog/categories/security' style='font-size: 102.4%'>security(1)</a> <a href='/blog/categories/service' style='font-size: 104.8%'>service(2)</a> <a href='/blog/categories/shiro' style='font-size: 102.4%'>shiro(1)</a> <a href='/blog/categories/shortchut' style='font-size: 102.4%'>shortchut(1)</a> <a href='/blog/categories/smarty' style='font-size: 107.2%'>smarty(3)</a> <a href='/blog/categories/spring' style='font-size: 102.4%'>spring(1)</a> <a href='/blog/categories/sql' style='font-size: 102.4%'>sql(1)</a> <a href='/blog/categories/style' style='font-size: 102.4%'>style(1)</a> <a href='/blog/categories/tdd' style='font-size: 102.4%'>tdd(1)</a> <a href='/blog/categories/testing' style='font-size: 124.0%'>testing(10)</a> <a href='/blog/categories/theme' style='font-size: 102.4%'>theme(1)</a> <a href='/blog/categories/tips' style='font-size: 104.8%'>tips(2)</a> <a href='/blog/categories/ubuntu' style='font-size: 119.2%'>ubuntu(8)</a> <a href='/blog/categories/ui' style='font-size: 104.8%'>ui(2)</a> <a href='/blog/categories/vim' style='font-size: 104.8%'>vim(2)</a> <a href='/blog/categories/web' style='font-size: 104.8%'>web(2)</a> <a href='/blog/categories/windows' style='font-size: 102.4%'>windows(1)</a> <a href='/blog/categories/xampp' style='font-size: 102.4%'>xampp(1)</a> <a href='/blog/categories/xml' style='font-size: 104.8%'>xml(2)</a> </span>
+    <span id="tag-cloud"><a href='/blog/categories/actionbar' style='font-size: 102.4%'>actionbar(1)</a> <a href='/blog/categories/android' style='font-size: 160.0%'>android(25)</a> <a href='/blog/categories/apache' style='font-size: 116.8%'>apache(7)</a> <a href='/blog/categories/bash' style='font-size: 107.2%'>bash(3)</a> <a href='/blog/categories/best-practice' style='font-size: 102.4%'>best_practice(1)</a> <a href='/blog/categories/book' style='font-size: 102.4%'>book(1)</a> <a href='/blog/categories/broadcast-receiver' style='font-size: 104.8%'>broadcast_receiver(2)</a> <a href='/blog/categories/cdi' style='font-size: 104.8%'>cdi(2)</a> <a href='/blog/categories/centos' style='font-size: 112.0%'>centos(5)</a> <a href='/blog/categories/clean-code' style='font-size: 102.4%'>clean code(1)</a> <a href='/blog/categories/command' style='font-size: 109.6%'>command(4)</a> <a href='/blog/categories/concurrency' style='font-size: 102.4%'>concurrency(1)</a> <a href='/blog/categories/database' style='font-size: 114.4%'>database(6)</a> <a href='/blog/categories/datetime' style='font-size: 102.4%'>datetime(1)</a> <a href='/blog/categories/di' style='font-size: 104.8%'>di(2)</a> <a href='/blog/categories/drawable' style='font-size: 102.4%'>drawable(1)</a> <a href='/blog/categories/ec' style='font-size: 102.4%'>ec(1)</a> <a href='/blog/categories/eclipse' style='font-size: 102.4%'>eclipse(1)</a> <a href='/blog/categories/ecshop' style='font-size: 116.8%'>ecshop(7)</a> <a href='/blog/categories/editor' style='font-size: 102.4%'>editor(1)</a> <a href='/blog/categories/emulator' style='font-size: 102.4%'>emulator(1)</a> <a href='/blog/categories/english' style='font-size: 133.6%'>english(14)</a> <a href='/blog/categories/excel' style='font-size: 104.8%'>excel(2)</a> <a href='/blog/categories/extjs' style='font-size: 104.8%'>extjs(2)</a> <a href='/blog/categories/gesture' style='font-size: 102.4%'>gesture(1)</a> <a href='/blog/categories/git' style='font-size: 109.6%'>git(4)</a> <a href='/blog/categories/git-flow' style='font-size: 102.4%'>git-flow(1)</a> <a href='/blog/categories/guava' style='font-size: 104.8%'>guava(2)</a> <a href='/blog/categories/guice' style='font-size: 102.4%'>guice(1)</a> <a href='/blog/categories/hamcrest' style='font-size: 102.4%'>hamcrest(1)</a> <a href='/blog/categories/i18n' style='font-size: 102.4%'>i18n(1)</a> <a href='/blog/categories/ide' style='font-size: 102.4%'>IDE(1)</a> <a href='/blog/categories/idea' style='font-size: 102.4%'>IDEA(1)</a> <a href='/blog/categories/injection' style='font-size: 102.4%'>injection(1)</a> <a href='/blog/categories/intent' style='font-size: 102.4%'>intent(1)</a> <a href='/blog/categories/ireport' style='font-size: 104.8%'>ireport(2)</a> <a href='/blog/categories/jasterreport' style='font-size: 104.8%'>jasterreport(2)</a> <a href='/blog/categories/java' style='font-size: 152.8%'>java(22)</a> <a href='/blog/categories/java-ee' style='font-size: 112.0%'>java_ee(5)</a> <a href='/blog/categories/jms' style='font-size: 102.4%'>jms(1)</a> <a href='/blog/categories/joda' style='font-size: 102.4%'>joda(1)</a> <a href='/blog/categories/jpa' style='font-size: 102.4%'>jpa(1)</a> <a href='/blog/categories/jquery' style='font-size: 102.4%'>jquery(1)</a> <a href='/blog/categories/jsp' style='font-size: 104.8%'>jsp(2)</a> <a href='/blog/categories/junit' style='font-size: 102.4%'>junit(1)</a> <a href='/blog/categories/jvm' style='font-size: 104.8%'>jvm(2)</a> <a href='/blog/categories/kohana' style='font-size: 102.4%'>kohana(1)</a> <a href='/blog/categories/l10n' style='font-size: 102.4%'>l10n(1)</a> <a href='/blog/categories/layout' style='font-size: 102.4%'>layout(1)</a> <a href='/blog/categories/linux' style='font-size: 126.4%'>linux(11)</a> <a href='/blog/categories/listview' style='font-size: 104.8%'>listview(2)</a> <a href='/blog/categories/logger' style='font-size: 102.4%'>logger(1)</a> <a href='/blog/categories/m2eclilpse' style='font-size: 102.4%'>m2eclilpse(1)</a> <a href='/blog/categories/mac' style='font-size: 104.8%'>mac(2)</a> <a href='/blog/categories/mat' style='font-size: 102.4%'>mat(1)</a> <a href='/blog/categories/maven' style='font-size: 112.0%'>maven(5)</a> <a href='/blog/categories/memory' style='font-size: 102.4%'>memory(1)</a> <a href='/blog/categories/menu' style='font-size: 102.4%'>menu(1)</a> <a href='/blog/categories/mindmap' style='font-size: 104.8%'>mindmap(2)</a> <a href='/blog/categories/misc' style='font-size: 102.4%'>misc(1)</a> <a href='/blog/categories/mysql' style='font-size: 116.8%'>mysql(7)</a> <a href='/blog/categories/nio' style='font-size: 102.4%'>nio(1)</a> <a href='/blog/categories/octopress' style='font-size: 102.4%'>octopress(1)</a> <a href='/blog/categories/oracle' style='font-size: 102.4%'>oracle(1)</a> <a href='/blog/categories/osgi' style='font-size: 107.2%'>osgi(3)</a> <a href='/blog/categories/pdf' style='font-size: 104.8%'>pdf(2)</a> <a href='/blog/categories/pdt' style='font-size: 112.0%'>pdt(5)</a> <a href='/blog/categories/pear' style='font-size: 104.8%'>pear(2)</a> <a href='/blog/categories/performace' style='font-size: 102.4%'>performace(1)</a> <a href='/blog/categories/pgsql' style='font-size: 102.4%'>pgsql(1)</a> <a href='/blog/categories/php' style='font-size: 114.4%'>php(6)</a> <a href='/blog/categories/play-framework' style='font-size: 102.4%'>play_framework(1)</a> <a href='/blog/categories/pm' style='font-size: 112.0%'>pm(5)</a> <a href='/blog/categories/postgresql' style='font-size: 104.8%'>postgresql(2)</a> <a href='/blog/categories/profile' style='font-size: 102.4%'>profile(1)</a> <a href='/blog/categories/programming' style='font-size: 128.8%'>programming(12)</a> <a href='/blog/categories/python' style='font-size: 102.4%'>python(1)</a> <a href='/blog/categories/re' style='font-size: 102.4%'>re(1)</a> <a href='/blog/categories/refactory' style='font-size: 102.4%'>refactory(1)</a> <a href='/blog/categories/rest' style='font-size: 104.8%'>rest(2)</a> <a href='/blog/categories/roboguice' style='font-size: 102.4%'>roboguice(1)</a> <a href='/blog/categories/sbt' style='font-size: 102.4%'>sbt(1)</a> <a href='/blog/categories/scala' style='font-size: 109.6%'>scala(4)</a> <a href='/blog/categories/security' style='font-size: 102.4%'>security(1)</a> <a href='/blog/categories/service' style='font-size: 104.8%'>service(2)</a> <a href='/blog/categories/shiro' style='font-size: 102.4%'>shiro(1)</a> <a href='/blog/categories/shortchut' style='font-size: 102.4%'>shortchut(1)</a> <a href='/blog/categories/smarty' style='font-size: 107.2%'>smarty(3)</a> <a href='/blog/categories/spring' style='font-size: 102.4%'>spring(1)</a> <a href='/blog/categories/sql' style='font-size: 102.4%'>sql(1)</a> <a href='/blog/categories/style' style='font-size: 102.4%'>style(1)</a> <a href='/blog/categories/tdd' style='font-size: 102.4%'>tdd(1)</a> <a href='/blog/categories/testing' style='font-size: 124.0%'>testing(10)</a> <a href='/blog/categories/theme' style='font-size: 102.4%'>theme(1)</a> <a href='/blog/categories/tips' style='font-size: 104.8%'>tips(2)</a> <a href='/blog/categories/ubuntu' style='font-size: 119.2%'>ubuntu(8)</a> <a href='/blog/categories/ui' style='font-size: 104.8%'>ui(2)</a> <a href='/blog/categories/vim' style='font-size: 104.8%'>vim(2)</a> <a href='/blog/categories/web' style='font-size: 104.8%'>web(2)</a> <a href='/blog/categories/windows' style='font-size: 102.4%'>windows(1)</a> <a href='/blog/categories/xampp' style='font-size: 102.4%'>xampp(1)</a> <a href='/blog/categories/xml' style='font-size: 104.8%'>xml(2)</a> </span>
 </section>
 <section>
   <h1>Categories</h1>
-    <ul id="category-list"><li><a href='/blog/categories/actionbar'>actionbar (1)</a></li><li><a href='/blog/categories/android'>android (25)</a></li><li><a href='/blog/categories/apache'>apache (7)</a></li><li><a href='/blog/categories/bash'>bash (3)</a></li><li><a href='/blog/categories/best-practice'>best_practice (1)</a></li><li><a href='/blog/categories/book'>book (1)</a></li><li><a href='/blog/categories/broadcast-receiver'>broadcast_receiver (2)</a></li><li><a href='/blog/categories/cdi'>cdi (2)</a></li><li><a href='/blog/categories/centos'>centos (5)</a></li><li><a href='/blog/categories/clean-code'>clean code (1)</a></li><li><a href='/blog/categories/command'>command (4)</a></li><li><a href='/blog/categories/concurrency'>concurrency (1)</a></li><li><a href='/blog/categories/database'>database (6)</a></li><li><a href='/blog/categories/datetime'>datetime (1)</a></li><li><a href='/blog/categories/di'>di (2)</a></li><li><a href='/blog/categories/drawable'>drawable (1)</a></li><li><a href='/blog/categories/ec'>ec (1)</a></li><li><a href='/blog/categories/eclipse'>eclipse (1)</a></li><li><a href='/blog/categories/ecshop'>ecshop (7)</a></li><li><a href='/blog/categories/editor'>editor (1)</a></li><li><a href='/blog/categories/emulator'>emulator (1)</a></li><li><a href='/blog/categories/english'>english (14)</a></li><li><a href='/blog/categories/excel'>excel (2)</a></li><li><a href='/blog/categories/extjs'>extjs (2)</a></li><li><a href='/blog/categories/gesture'>gesture (1)</a></li><li><a href='/blog/categories/git'>git (4)</a></li><li><a href='/blog/categories/git-flow'>git-flow (1)</a></li><li><a href='/blog/categories/guava'>guava (2)</a></li><li><a href='/blog/categories/guice'>guice (1)</a></li><li><a href='/blog/categories/hamcrest'>hamcrest (1)</a></li><li><a href='/blog/categories/i18n'>i18n (1)</a></li><li><a href='/blog/categories/ide'>IDE (1)</a></li><li><a href='/blog/categories/idea'>IDEA (1)</a></li><li><a href='/blog/categories/injection'>injection (1)</a></li><li><a href='/blog/categories/intent'>intent (1)</a></li><li><a href='/blog/categories/ireport'>ireport (2)</a></li><li><a href='/blog/categories/jasterreport'>jasterreport (2)</a></li><li><a href='/blog/categories/java'>java (22)</a></li><li><a href='/blog/categories/java-ee'>java_ee (5)</a></li><li><a href='/blog/categories/jms'>jms (1)</a></li><li><a href='/blog/categories/joda'>joda (1)</a></li><li><a href='/blog/categories/jpa'>jpa (1)</a></li><li><a href='/blog/categories/jquery'>jquery (1)</a></li><li><a href='/blog/categories/jsp'>jsp (2)</a></li><li><a href='/blog/categories/junit'>junit (1)</a></li><li><a href='/blog/categories/jvm'>jvm (2)</a></li><li><a href='/blog/categories/kohana'>kohana (1)</a></li><li><a href='/blog/categories/l10n'>l10n (1)</a></li><li><a href='/blog/categories/layout'>layout (1)</a></li><li><a href='/blog/categories/linux'>linux (11)</a></li><li><a href='/blog/categories/listview'>listview (2)</a></li><li><a href='/blog/categories/logger'>logger (1)</a></li><li><a href='/blog/categories/m2eclilpse'>m2eclilpse (1)</a></li><li><a href='/blog/categories/mac'>mac (2)</a></li><li><a href='/blog/categories/mat'>mat (1)</a></li><li><a href='/blog/categories/maven'>maven (5)</a></li><li><a href='/blog/categories/memory'>memory (1)</a></li><li><a href='/blog/categories/menu'>menu (1)</a></li><li><a href='/blog/categories/mindmap'>mindmap (2)</a></li><li><a href='/blog/categories/misc'>misc (1)</a></li><li><a href='/blog/categories/mysql'>mysql (7)</a></li><li><a href='/blog/categories/nio'>nio (1)</a></li><li><a href='/blog/categories/octopress'>octopress (1)</a></li><li><a href='/blog/categories/oracle'>oracle (1)</a></li><li><a href='/blog/categories/osgi'>osgi (3)</a></li><li><a href='/blog/categories/pdf'>pdf (2)</a></li><li><a href='/blog/categories/pdt'>pdt (5)</a></li><li><a href='/blog/categories/pear'>pear (2)</a></li><li><a href='/blog/categories/performace'>performace (1)</a></li><li><a href='/blog/categories/pgsql'>pgsql (1)</a></li><li><a href='/blog/categories/php'>php (6)</a></li><li><a href='/blog/categories/play-framework'>play_framework (1)</a></li><li><a href='/blog/categories/pm'>pm (5)</a></li><li><a href='/blog/categories/postgresql'>postgresql (2)</a></li><li><a href='/blog/categories/profile'>profile (1)</a></li><li><a href='/blog/categories/programming'>programming (12)</a></li><li><a href='/blog/categories/re'>re (1)</a></li><li><a href='/blog/categories/refactory'>refactory (1)</a></li><li><a href='/blog/categories/rest'>rest (2)</a></li><li><a href='/blog/categories/roboguice'>roboguice (1)</a></li><li><a href='/blog/categories/sbt'>sbt (1)</a></li><li><a href='/blog/categories/scala'>scala (4)</a></li><li><a href='/blog/categories/security'>security (1)</a></li><li><a href='/blog/categories/service'>service (2)</a></li><li><a href='/blog/categories/shiro'>shiro (1)</a></li><li><a href='/blog/categories/shortchut'>shortchut (1)</a></li><li><a href='/blog/categories/smarty'>smarty (3)</a></li><li><a href='/blog/categories/spring'>spring (1)</a></li><li><a href='/blog/categories/sql'>sql (1)</a></li><li><a href='/blog/categories/style'>style (1)</a></li><li><a href='/blog/categories/tdd'>tdd (1)</a></li><li><a href='/blog/categories/testing'>testing (10)</a></li><li><a href='/blog/categories/theme'>theme (1)</a></li><li><a href='/blog/categories/tips'>tips (2)</a></li><li><a href='/blog/categories/ubuntu'>ubuntu (8)</a></li><li><a href='/blog/categories/ui'>ui (2)</a></li><li><a href='/blog/categories/vim'>vim (2)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/windows'>windows (1)</a></li><li><a href='/blog/categories/xampp'>xampp (1)</a></li><li><a href='/blog/categories/xml'>xml (2)</a></li></ul>
+    <ul id="category-list"><li><a href='/blog/categories/actionbar'>actionbar (1)</a></li><li><a href='/blog/categories/android'>android (25)</a></li><li><a href='/blog/categories/apache'>apache (7)</a></li><li><a href='/blog/categories/bash'>bash (3)</a></li><li><a href='/blog/categories/best-practice'>best_practice (1)</a></li><li><a href='/blog/categories/book'>book (1)</a></li><li><a href='/blog/categories/broadcast-receiver'>broadcast_receiver (2)</a></li><li><a href='/blog/categories/cdi'>cdi (2)</a></li><li><a href='/blog/categories/centos'>centos (5)</a></li><li><a href='/blog/categories/clean-code'>clean code (1)</a></li><li><a href='/blog/categories/command'>command (4)</a></li><li><a href='/blog/categories/concurrency'>concurrency (1)</a></li><li><a href='/blog/categories/database'>database (6)</a></li><li><a href='/blog/categories/datetime'>datetime (1)</a></li><li><a href='/blog/categories/di'>di (2)</a></li><li><a href='/blog/categories/drawable'>drawable (1)</a></li><li><a href='/blog/categories/ec'>ec (1)</a></li><li><a href='/blog/categories/eclipse'>eclipse (1)</a></li><li><a href='/blog/categories/ecshop'>ecshop (7)</a></li><li><a href='/blog/categories/editor'>editor (1)</a></li><li><a href='/blog/categories/emulator'>emulator (1)</a></li><li><a href='/blog/categories/english'>english (14)</a></li><li><a href='/blog/categories/excel'>excel (2)</a></li><li><a href='/blog/categories/extjs'>extjs (2)</a></li><li><a href='/blog/categories/gesture'>gesture (1)</a></li><li><a href='/blog/categories/git'>git (4)</a></li><li><a href='/blog/categories/git-flow'>git-flow (1)</a></li><li><a href='/blog/categories/guava'>guava (2)</a></li><li><a href='/blog/categories/guice'>guice (1)</a></li><li><a href='/blog/categories/hamcrest'>hamcrest (1)</a></li><li><a href='/blog/categories/i18n'>i18n (1)</a></li><li><a href='/blog/categories/ide'>IDE (1)</a></li><li><a href='/blog/categories/idea'>IDEA (1)</a></li><li><a href='/blog/categories/injection'>injection (1)</a></li><li><a href='/blog/categories/intent'>intent (1)</a></li><li><a href='/blog/categories/ireport'>ireport (2)</a></li><li><a href='/blog/categories/jasterreport'>jasterreport (2)</a></li><li><a href='/blog/categories/java'>java (22)</a></li><li><a href='/blog/categories/java-ee'>java_ee (5)</a></li><li><a href='/blog/categories/jms'>jms (1)</a></li><li><a href='/blog/categories/joda'>joda (1)</a></li><li><a href='/blog/categories/jpa'>jpa (1)</a></li><li><a href='/blog/categories/jquery'>jquery (1)</a></li><li><a href='/blog/categories/jsp'>jsp (2)</a></li><li><a href='/blog/categories/junit'>junit (1)</a></li><li><a href='/blog/categories/jvm'>jvm (2)</a></li><li><a href='/blog/categories/kohana'>kohana (1)</a></li><li><a href='/blog/categories/l10n'>l10n (1)</a></li><li><a href='/blog/categories/layout'>layout (1)</a></li><li><a href='/blog/categories/linux'>linux (11)</a></li><li><a href='/blog/categories/listview'>listview (2)</a></li><li><a href='/blog/categories/logger'>logger (1)</a></li><li><a href='/blog/categories/m2eclilpse'>m2eclilpse (1)</a></li><li><a href='/blog/categories/mac'>mac (2)</a></li><li><a href='/blog/categories/mat'>mat (1)</a></li><li><a href='/blog/categories/maven'>maven (5)</a></li><li><a href='/blog/categories/memory'>memory (1)</a></li><li><a href='/blog/categories/menu'>menu (1)</a></li><li><a href='/blog/categories/mindmap'>mindmap (2)</a></li><li><a href='/blog/categories/misc'>misc (1)</a></li><li><a href='/blog/categories/mysql'>mysql (7)</a></li><li><a href='/blog/categories/nio'>nio (1)</a></li><li><a href='/blog/categories/octopress'>octopress (1)</a></li><li><a href='/blog/categories/oracle'>oracle (1)</a></li><li><a href='/blog/categories/osgi'>osgi (3)</a></li><li><a href='/blog/categories/pdf'>pdf (2)</a></li><li><a href='/blog/categories/pdt'>pdt (5)</a></li><li><a href='/blog/categories/pear'>pear (2)</a></li><li><a href='/blog/categories/performace'>performace (1)</a></li><li><a href='/blog/categories/pgsql'>pgsql (1)</a></li><li><a href='/blog/categories/php'>php (6)</a></li><li><a href='/blog/categories/play-framework'>play_framework (1)</a></li><li><a href='/blog/categories/pm'>pm (5)</a></li><li><a href='/blog/categories/postgresql'>postgresql (2)</a></li><li><a href='/blog/categories/profile'>profile (1)</a></li><li><a href='/blog/categories/programming'>programming (12)</a></li><li><a href='/blog/categories/python'>python (1)</a></li><li><a href='/blog/categories/re'>re (1)</a></li><li><a href='/blog/categories/refactory'>refactory (1)</a></li><li><a href='/blog/categories/rest'>rest (2)</a></li><li><a href='/blog/categories/roboguice'>roboguice (1)</a></li><li><a href='/blog/categories/sbt'>sbt (1)</a></li><li><a href='/blog/categories/scala'>scala (4)</a></li><li><a href='/blog/categories/security'>security (1)</a></li><li><a href='/blog/categories/service'>service (2)</a></li><li><a href='/blog/categories/shiro'>shiro (1)</a></li><li><a href='/blog/categories/shortchut'>shortchut (1)</a></li><li><a href='/blog/categories/smarty'>smarty (3)</a></li><li><a href='/blog/categories/spring'>spring (1)</a></li><li><a href='/blog/categories/sql'>sql (1)</a></li><li><a href='/blog/categories/style'>style (1)</a></li><li><a href='/blog/categories/tdd'>tdd (1)</a></li><li><a href='/blog/categories/testing'>testing (10)</a></li><li><a href='/blog/categories/theme'>theme (1)</a></li><li><a href='/blog/categories/tips'>tips (2)</a></li><li><a href='/blog/categories/ubuntu'>ubuntu (8)</a></li><li><a href='/blog/categories/ui'>ui (2)</a></li><li><a href='/blog/categories/vim'>vim (2)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/windows'>windows (1)</a></li><li><a href='/blog/categories/xampp'>xampp (1)</a></li><li><a href='/blog/categories/xml'>xml (2)</a></li></ul>
 </section>
 
   
