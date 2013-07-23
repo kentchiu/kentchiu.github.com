@@ -8,7 +8,7 @@ comments: true
 sharing: true
 footer: true
 categories: 
-- restful
+- rest
 ---
 
 

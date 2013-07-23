@@ -10,6 +10,8 @@ sharing: true
 footer: true
 categories:
   - java
+  - datetime
+  - joda
 ---
 
 

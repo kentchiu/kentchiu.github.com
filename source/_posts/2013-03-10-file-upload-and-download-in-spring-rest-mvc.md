@@ -7,7 +7,8 @@ comments: true
 sharing: true
 footer: true
 categories:
-  - spring rest  
+  - spring
+  - rest
 ---
 
 

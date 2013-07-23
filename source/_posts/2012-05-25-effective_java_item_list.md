@@ -9,6 +9,8 @@ external-url:
 sharing: true
 footer: true
 categories:
+  - java
+  - best_practice
 ---
 
 

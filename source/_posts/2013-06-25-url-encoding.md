@@ -9,7 +9,7 @@ sharing: true
 footer: true
 categories: 
 - encoding
-- restful
+- rest
 ---
 
 
