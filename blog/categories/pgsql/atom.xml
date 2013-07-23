@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: pgsql | Kent's Blog]]></title>
+  <link href="http://blog.kent-chiu.com/blog/categories/pgsql/atom.xml" rel="self"/>
+  <link href="http://blog.kent-chiu.com/"/>
+  <updated>2013-07-23T12:18:31+08:00</updated>
+  <id>http://blog.kent-chiu.com/</id>
+  <author>
+    <name><![CDATA[Kent]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[PostgreSQL 101]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2012/05/30/postgresql_101/"/>
+    <updated>2012-05-30T00:00:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2012/05/30/postgresql_101</id>
+    <content type="html"><![CDATA[<h1>Command Line</h1>
+
+<p><code>
+psql -U username -W
+</code></p>
+
+<h1>Sequence (AUTO INCREMENT)</h1>
+
+<p>PostgreSQL並沒有自增型欄位型態^<a href="#fn__1">1)</a><sup>AUTO
+INCREMENT</sup>，但是有提供Sequence機制，這部份，與<a href="http://wiki.kent-chiu.com/doku.php?id=database:oracle_101#auto_increment" title="database:oracle_101">oracle</a>比較類似，但PostgreSQL可以透過建立table時的自訂語法來自動套用Sequence，讓其動作比較接近<strong>AUTO
+INCREMENT</strong>的效果</p>
+
+<h3>使用方式</h3>
+
+<h5>讓table的某一column套用sequence</h5>
+
+<p>```
+CREATE TABLE tablename (</p>
+
+<pre><code>colname SERIAL
+</code></pre>
+
+<p>);
+```</p>
+
+<p>上面的語法等效於</p>
+
+<p>```
+CREATE SEQUENCE tablename_colname_seq;
+CREATE TABLE tablename (</p>
+
+<pre><code>colname integer DEFAULT NEXTVAL('tablename_colname_seq') NOT NULL
+</code></pre>
+
+<p>);
+```</p>
+
+<h5>建立sequence</h5>
+
+<p><code>
+create sequence seq start 100;
+</code></p>
+
+<p>以上語法會建立一個名為<code>seq</code>的sequence，啟始值為100 (從100起跳)</p>
+
+<h5>取得目前sequence的值</h5>
+
+<p><code>
+select currval('seq');
+</code></p>
+
+<h5>取得下一個sequence的值</h5>
+
+<p><code>
+select nextval('seq');
+</code></p>
+
+<h5>重新設定sequence值</h5>
+
+<p><code>
+select setval('seq',9)
+</code></p>
+
+<h5>重新設定sequence值(建議)</h5>
+
+<p><code>
+select setval('seq', max(id)) FROM myTable;
+</code></p>
+
+<h3>Drop all tables script</h3>
+
+<p>```
+/<em> create a function for drop all tables </em>/
+CREATE OR REPLACE FUNCTION drop_all_table() RETURNS SETOF RECORD   AS $$
+DECLARE
+  stmt RECORD;
+BEGIN</p>
+
+<pre><code>FOR stmt IN
+    /* select table */
+   SELECT c.relname FROM pg_catalog.pg_class AS c LEFT JOIN
+pg_catalog.pg_namespace AS n ON n.oid = c.relnamespace WHERE relkind =
+'r' AND n.nspname NOT IN ('pg_catalog', 'pg_toast') AND
+pg_catalog.pg_table_is_visible(c.oid)
+ LOOP
+    /* drop table one by one */
+    EXECUTE 'drop table ' || quote_ident(stmt.relname) || ';';
+END LOOP;
+</code></pre>
+
+<p>END;
+$$ LANGUAGE plpgsql STRICT;
+ 
+begin;
+/<em> execute the function </em>/
+SELECT drop_all_table();
+commit;
+```</p>
+
+<h3>Truncate all tables script</h3>
+
+<p>```
+/<em> create a function for drop all tables </em>/
+CREATE OR REPLACE FUNCTION truncate_all_table() RETURNS SETOF RECORD   AS $$
+DECLARE
+  stmt RECORD;
+BEGIN</p>
+
+<pre><code>FOR stmt IN
+    /* select table */
+   SELECT c.relname FROM pg_catalog.pg_class AS c LEFT JOIN
+pg_catalog.pg_namespace AS n ON n.oid = c.relnamespace WHERE relkind =
+'r' AND n.nspname NOT IN ('pg_catalog', 'pg_toast') AND
+pg_catalog.pg_table_is_visible(c.oid)
+ LOOP
+    /* truncate table one by one */
+    EXECUTE 'truncate table ' || quote_ident(stmt.relname) || ';';
+END LOOP;
+</code></pre>
+
+<p>END;
+$$ LANGUAGE plpgsql STRICT;
+ 
+begin;
+/<em> execute the function </em>/
+SELECT  truncate_all_table();
+commit;
+```</p>
+
+<p>如果遇到建立script時<code>language “plpgsql” does not exist</code>(通常在linux下才會),可透過createlang命令，安裝plpgsql到指定的db</p>
+
+<p><code>
+createlang -d &lt;dbname&gt; plpgsql
+</code></p>
+
+<h1>建立全新的Database</h1>
+
+<p>從完全沒有db開始建立的流程如下</p>
+
+<ul>
+<li>pgsql/bin/initdb.exe -D <em>path</em></li>
+<li><em>path</em>pg_hba.conf
+設定local可以不用密碼登入(暫時性的，等設定完成記得改回來)</li>
+<li>用os的帳號登入新的db
+(通常是administrator)，因為上面已設定不用密碼了，所以只要os的帳號即可登入</li>
+<li>登入後再建立新的database跟user</li>
+<li>把<em>path</em>pg_hba.conf改回需認證才能登入</li>
+</ul>
+
+
+<h1>管理</h1>
+
+<h5>列出目前活動</h5>
+
+<p>```
+select * from pg_stat_activity ;</p>
+
+<p> datid | datname | procpid | usesysid | usename | current_query
+-------+---------+---------+----------+---------+---------------
+ 16976 | simpydb |   31008 |      100 | otis    |
+ 16976 | simpydb |   26126 |      100 | otis    |
+(2 rows)
+```</p>
+
+<h1>Resource</h1>
+
+<ul>
+<li><a href="http://www.postgresql.org/docs/8.1/static/sql-createsequence.html" title="http://www.postgresql.org/docs/8.1/static/sql-createsequence.html">CREATE
+SEQUENCE</a></li>
+<li><a href="http://www.postgresql.org/docs/8.1/static/functions-sequence.html" title="http://www.postgresql.org/docs/8.1/static/functions-sequence.html">Sequence Manipulation
+Functions</a></li>
+<li><a href="http://www.postgresql.org/docs/8.0/interactive/datatype.html#DATATYPE-SERIAL" title="http://www.postgresql.org/docs/8.0/interactive/datatype.html#DATATYPE-SERIAL">PostgreSQL serial data
+type</a></li>
+<li><a href="http://wiki.kent-chiu.com/doku.php?id=database:oracle_101" title="database:oracle_101">Oracle
+101</a></li>
+</ul>
+
+
+<p>^<a href="#fnt__1">1)</a>^ 每次insert時會自動讓某一特定欄位+1</p>
+]]></content>
+  </entry>
+  
+</feed>

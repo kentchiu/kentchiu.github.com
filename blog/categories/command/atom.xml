@@ -4,7 +4,7 @@
   <title><![CDATA[Category: command | Kent's Blog]]></title>
   <link href="http://blog.kent-chiu.com/blog/categories/command/atom.xml" rel="self"/>
   <link href="http://blog.kent-chiu.com/"/>
-  <updated>2013-07-19T00:07:10+08:00</updated>
+  <updated>2013-07-23T12:18:31+08:00</updated>
   <id>http://blog.kent-chiu.com/</id>
   <author>
     <name><![CDATA[Kent]]></name>
@@ -12,6 +12,55 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Mac OS X keyboard shortcuts for terminal]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2013/07/15/mac-os-x-keyboard-shortcuts-for-terminal/"/>
+    <updated>2013-07-15T16:53:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2013/07/15/mac-os-x-keyboard-shortcuts-for-terminal</id>
+    <content type="html"><![CDATA[<p>Mac OS X 的 terminal 是 BASH, 以下是 BASH 的快捷鍵:</p>
+
+<pre><code>Ctrl + A    回行首
+Ctrl + E    去行尾
+Ctrl + L    清劃面
+Ctrl + U    清掉游標前的文字
+Ctrl + H    刪一個字元
+Ctrl + R    找執行過的指令 (好用)
+Ctrl + C    中斷執行
+Ctrl + D    跳出目前的shell
+Ctrl + Z    把目前執行的指令設到背影.要回到前景可透過 fg 指令
+Ctrl + W    刪除游標之前的字
+Ctrl + K    清除游標之後所有內容
+Ctrl + T    交換字元
+Esc + T     交換"字"
+Alt + F     往前移一個字
+Alt + B     往後移一個字
+Tab         自動完成
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Mac Tips]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2013/05/06/mac-tips/"/>
+    <updated>2013-05-06T19:17:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2013/05/06/mac-tips</id>
+    <content type="html"><![CDATA[<p>刪掉在pop menu裡重覆的應用程式開啟選項</p>
+
+<pre><code>/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/LaunchServices.framework/Versions/A/Support/lsregister -kill -r -domain local -domain system -domain user  &amp;&amp; killall Finder
+</code></pre>
+
+<p>讀不到SD card時，可以試試以下指令</p>
+
+<pre><code>killall Finder
+</code></pre>
+
+<p>查外部ip</p>
+
+<pre><code>curl ifconfig.me
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Linux Commands]]></title>

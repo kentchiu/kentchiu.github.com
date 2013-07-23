@@ -4,7 +4,7 @@
   <title><![CDATA[Category: java | Kent's Blog]]></title>
   <link href="http://blog.kent-chiu.com/blog/categories/java/atom.xml" rel="self"/>
   <link href="http://blog.kent-chiu.com/"/>
-  <updated>2013-07-19T00:07:10+08:00</updated>
+  <updated>2013-07-23T12:18:31+08:00</updated>
   <id>http://blog.kent-chiu.com/</id>
   <author>
     <name><![CDATA[Kent]]></name>
@@ -1071,6 +1071,299 @@ action(中文)</a></li>
   </entry>
   
   <entry>
+    <title type="html"><![CDATA[Effective Java Item List]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2012/05/25/effective_java_item_list/"/>
+    <updated>2012-05-25T00:00:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2012/05/25/effective_java_item_list</id>
+    <content type="html"><![CDATA[<p>This item list come for <a href="http://java.sun.com/docs/books/effective/toc.html" title="http://java.sun.com/docs/books/effective/toc.html">Effective Java Second Edition</a></p>
+
+<h1>Creating and Destroying Objects</h1>
+
+<h4>Item 1: Consider static factory methods instead of constructors</h4>
+
+<h4>Item 2: Consider a builder when faced with many constructor parameters</h4>
+
+<h4>Item 3: Enforce the singleton property with a private constructor or an enum type</h4>
+
+<h4>Item 4: Enforce noninstantiability with a private constructor</h4>
+
+<h4>Item 5: Avoid creating unnecessary objects</h4>
+
+<h4>Item 6: Eliminate obsolete object references</h4>
+
+<h4>Item 7: Avoid finalizers</h4>
+
+<h1>Methods Common to All Objects</h1>
+
+<h4>Item 8: Obey the general contract when overriding equals</h4>
+
+<h4>Item 9: Always override hashCode when you override equals</h4>
+
+<h4>Item 10: Always override toString</h4>
+
+<h4>Item 11: Override clone judiciously</h4>
+
+<h4>Item 12: Consider implementing Comparable</h4>
+
+<h1>Classes and Interfaces</h1>
+
+<h4>Item 13: Minimize the accessibility of classes and members</h4>
+
+<h4>Item 14: In public classes, use accessor methods, not public fields</h4>
+
+<h4>Item 15: Minimize mutability</h4>
+
+<h4>Item 16: Favor composition over inheritance</h4>
+
+<h4>Item 17: Design and document for inheritance or else prohibit it</h4>
+
+<h4>Item 18: Prefer interfaces to abstract classes</h4>
+
+<h4>Item 19: Use interfaces only to define types</h4>
+
+<h4>Item 20: Prefer class hierarchies to tagged classes</h4>
+
+<h4>Item 21: Use function objects to represent strategies</h4>
+
+<h4>Item 22: Favor static member classes over nonstatic</h4>
+
+<p>除非member classes有存取到outter class的nonstatic
+method，不然，應該把member classes宣告為statics</p>
+
+<h1>Generics</h1>
+
+<h4>Item 23: Don't use raw types in new code</h4>
+
+<h4>Item 24: Eliminate unchecked warnings</h4>
+
+<h4>Item 25: Prefer lists to arrays</h4>
+
+<h4>Item 26: Favor generic types</h4>
+
+<h4>Item 27: Favor generic methods</h4>
+
+<p>```</p>
+
+<pre><code>// Generic method
+public static &lt;E&gt;Set&lt;E&gt;union(Set&lt;E&gt;s1, Set&lt;E&gt;s2) {
+    Set&lt;E&gt;result = new HashSet&lt;E&gt;(s1);
+    result.addAll(s2);
+    return result;
+}
+</code></pre>
+
+<p>```</p>
+
+<h4>Item 28: Use bounded wildcards to increase API flexibility</h4>
+
+<h4>Item 29: Consider typesafe heterogeneous containers</h4>
+
+<p>利用加上Class&lt;T>來確定T的型別</p>
+
+<p>```</p>
+
+<pre><code>// Typesafe heterogeneous container pattern - API
+public class Favorites {
+public &lt;T&gt; void putFavorite(Class&lt;T&gt; type, T instance);
+public &lt;T&gt; T getFavorite(Class&lt;T&gt; type);
+}
+</code></pre>
+
+<p>```</p>
+
+<h1>Enums and Annotations</h1>
+
+<h4>Item 30: Use enums instead of int constants</h4>
+
+<h4>Item 31: Use instance fields instead of ordinals</h4>
+
+<h4>Item 32: Use EnumSet instead of bit fields</h4>
+
+<p>如果要用位元開關的效果，可以考慮用EnumSet</p>
+
+<h4>Item 33: Use EnumMap instead of ordinal indexing</h4>
+
+<p>如果需要對Enum進行排序，可以用EnumMap</p>
+
+<h4>Item 34: Emulate extensible enums with interfaces</h4>
+
+<p>Enum是無法繼承的，如果需要類似的功能，可以考慮用interfaces</p>
+
+<p>```</p>
+
+<pre><code>// Emulated extensible enum using an interface
+public interface Operation {
+    double apply(double x, double y);
+}
+ 
+public enum BasicOperation implements Operation {
+    PLUS("+") {
+        public double apply(double x, double y) {
+            return x + y;
+        }
+    },
+    MINUS("-") {
+        public double apply(double x, double y) {
+            return x - y;
+        }
+    },
+    TIMES("*") {
+        public double apply(double x, double y) {
+            return x * y;
+        }
+    },
+    DIVIDE("/") {
+        public double apply(double x, double y) {
+            return x / y;
+        }
+ 
+        private final String  symbol;
+ 
+        BasicOperation(String symbol) {
+            this.symbol = symbol;
+        }
+ 
+        @Override
+        public String toString() {
+            return symbol;
+        }
+    }
+};
+ 
+// Emulated extension enum
+public enum ExtendedOperation implements Operation {
+    EXP("^") {
+        public double apply(double x, double y) {
+            return Math.pow(x, y);
+        }
+    },
+    REMAINDER("%") {
+        public double apply(double x, double y) {
+            return x % y;
+        }
+    };
+    private final String  symbol;
+ 
+    ExtendedOperation(String symbol) {
+        this.symbol = symbol;
+    }
+ 
+    @Override
+    public String toString() {
+        return symbol;
+    }
+}
+</code></pre>
+
+<p>```</p>
+
+<h4>Item 35: Prefer annotations to naming patterns</h4>
+
+<p>只要想到要用method
+name的rule做判斷邏輯時，可以考慮用annotations或許會更彈性</p>
+
+<h4>Item 36: Consistently use the Override annotation</h4>
+
+<h4>Item 37: Use marker interfaces to define types</h4>
+
+<h1>Methods</h1>
+
+<h4>Item 38: Check parameters for validity</h4>
+
+<h4>Item 39: Make defensive copies when needed</h4>
+
+<h4>Item 40: Design method signatures carefully</h4>
+
+<h4>Item 41: Use overloading judiciously</h4>
+
+<h4>Item 42: Use varargs judiciously</h4>
+
+<h4>Item 43: Return empty arrays or collections, not nulls</h4>
+
+<h4>Item 44: Write doc comments for all exposed API elements</h4>
+
+<h1>General Programming</h1>
+
+<h4>Item 45: Minimize the scope of local variables</h4>
+
+<h4>Item 46: Prefer for-each loops to traditional for loops</h4>
+
+<h4>Item 47: Know and use the libraries</h4>
+
+<h4>Item 48: Avoid float and double if exact answers are required</h4>
+
+<h4>Item 49: Prefer primitive types to boxed primitives</h4>
+
+<h4>Item 50: Avoid strings where other types are more appropriate</h4>
+
+<h4>Item 51: Beware the performance of string concatenation</h4>
+
+<h4>Item 52: Refer to objects by their interfaces</h4>
+
+<h4>Item 53: Prefer interfaces to reflection</h4>
+
+<h4>Item 54: Use native methods judiciously</h4>
+
+<h4>Item 55: Optimize judiciously</h4>
+
+<h4>Item 56: Adhere to generally accepted naming conventions</h4>
+
+<h1>Exceptions</h1>
+
+<h4>Item 57: Use exceptions only for exceptional conditions</h4>
+
+<h4>Item 58: Use checked exceptions for recoverable conditions and runtime exceptions for programming errors</h4>
+
+<p>checked exceptions應該是來被rescue的，只有能被復原的狀況，才用check
+exception</p>
+
+<h4>Item 59: Avoid unnecessary use of checked exceptions</h4>
+
+<h4>Item 60: Favor the use of standard exceptions</h4>
+
+<h4>Item 61: Throw exceptions appropriate to the abstraction</h4>
+
+<h4>Item 62: Document all exceptions thrown by each method</h4>
+
+<h4>Item 63: Include failure-capture information in detail messages</h4>
+
+<h4>Item 64: Strive for failure atomicity</h4>
+
+<h4>Item 65: Don't ignore exceptions</h4>
+
+<h1>Concurrency</h1>
+
+<h4>Item 66: Synchronize access to shared mutable data</h4>
+
+<h4>Item 67: Avoid excessive synchronization</h4>
+
+<h4>Item 68: Prefer executors and tasks to threads</h4>
+
+<h4>Item 69: Prefer concurrency utilities to wait and notify</h4>
+
+<h4>Item 70: Document thread safety</h4>
+
+<h4>Item 71: Use lazy initialization judiciously</h4>
+
+<h4>Item 72: Don't depend on the thread scheduler</h4>
+
+<h4>Item 73: Avoid thread groups</h4>
+
+<h1>Serialization</h1>
+
+<h4>Item 74: Implement Serializable judiciously</h4>
+
+<h4>Item 75: Consider using a custom serialized form</h4>
+
+<h4>Item 76: Write readObject methods defensively</h4>
+
+<h4>Item 77: For instance control, prefer enum types to readResolve</h4>
+
+<h4>Item 78: Consider serialization proxies instead of serialized instances</h4>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[JVM 記憶體調校]]></title>
     <link href="http://blog.kent-chiu.com/blog/2012/05/05/jvm_profile/"/>
     <updated>2012-05-05T00:00:00+08:00</updated>
@@ -1523,125 +1816,6 @@ stackoverflow</a></li>
 </ul>
 </li>
 <li><a href="http://www.tfnico.com/presentations/google-guava" title="http://www.tfnico.com/presentations/google-guava">一些guava使用上的介紹</a></li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[JAVA NIO 101]]></title>
-    <link href="http://blog.kent-chiu.com/blog/2012/04/03/nio_101/"/>
-    <updated>2012-04-03T00:00:00+08:00</updated>
-    <id>http://blog.kent-chiu.com/blog/2012/04/03/nio_101</id>
-    <content type="html"><![CDATA[<h3>Path</h3>
-
-<p>之前java.io的基本操作是基於<a href="http://docs.oracle.com/javase/7/docs/api/java/io/File.html" title="http://docs.oracle.com/javase/7/docs/api/java/io/File.html">File</a>,NIO的基本操作是<a href="http://docs.oracle.com/javase/7/docs/api/java/nio/file/Path.html" title="http://docs.oracle.com/javase/7/docs/api/java/nio/file/Path.html">Path</a>。
-Path</p>
-
-<p>兩者間可以透過<code>Path.toFile()</code>,<code>File.toPath()</code>互相轉換，Path雖然可以完成很多java.io.File的操作，但因為java.io.File具有一些操作是Path沒辦法做的，所以，java.io.File並沒有被deprecate</p>
-
-<p>aPath.resolve(bPath) - bPath會串接在aPath後面，結果會是 <code>aPath/bPath</code></p>
-
-<p>如果不想看了解細節，可以在了解Path後，可以先試著用用看io跟nio的轉換表來使用NIO
-http://docs.oracle.com/javase/tutorial/essential/io/legacy.html#mapping
-http://docs.oracle.com/javase/tutorial/essential/io/legacy.html#mapping")</p>
-
-<h3>Paths</h3>
-
-<h5>多重目錄</h5>
-
-<p><code>
-Path path = Paths.get("myPath", "subPathA", "subPathB"); // myPath/subPathA/subPathB
-</code></p>
-
-<h5>環境變數</h5>
-
-<p>Path並不直接支援環境變數(Environment
-Variable)的使用，所以，需要自行透過System.getProperty()取出變數後，丟進path</p>
-
-<p><code>
-Path downloadedFile = Paths.get(System.getProperty("user.home"),"downloads", "test.txt");
-</code></p>
-
-<h3>Files</h3>
-
-<h5>讀入文字檔</h5>
-
-<p><code>
-List&lt;String&gt; lines = Files.readAllLines(path,Charset.forName("UTF-8"));
-</code></p>
-
-<h5>列出目錄下的子目錄或檔案</h5>
-
-<p>這邊的try-catch是java7的新功能，只要有實作<a href="http://docs.oracle.com/javase/7/docs/api/java/io/Closeable.html" title="http://docs.oracle.com/javase/7/docs/api/java/io/Closeable.html">Closeable</a>的類別，就可以用這樣的方式處理。</p>
-
-<p>```
-Path dir = ...;
-try (DirectoryStream<Path> stream = Files.newDirectoryStream(dir, "*.{java,class,jar}")) {</p>
-
-<pre><code>for (Path entry: stream) {
-    System.out.println(entry.getFileName());
-}
-</code></pre>
-
-<p>} catch (IOException x) {</p>
-
-<pre><code>//IOException can never be thrown by the iteration.
-//In this snippet, it can only be thrown by newDirectoryStream.
-System.err.println(x);
-</code></pre>
-
-<p>}
-```</p>
-
-<h1>MISC</h1>
-
-<h5>Symbolic,Hard Links</h5>
-
-<p>雖然 Windows 沒有 Symbolic, Hard Links
-但在程式中還是可以使用，NIO會處理跨平台的相容性。 Symbolic 會用 Windows
-中的 Shortcut取代。</p>
-
-<h5>從jar檔中取得Path</h5>
-
-<p>在程式中，常用<code>url = myObject.getClass().getResource(“my.txt”)</code>取得檔案的url，然後直接使用裡面的資訊取得File或Stream，Path的話，可以這樣用<code>Path.get(url.toURI())</code>，
-但這個在預設的檔案系統下可以行的通，但程式被包成時jar檔行不通了，因為jar檔在NIO里是另一個FileSystem，以下的method，
-可以不用管resource是放jar或直接放classpath裡面，都以把resource抓成Path，抓成Path後，file
-system的資訊會被包在Path中，所以再來就可以不用管他是不是在jar裡面了</p>
-
-<p>```
-public static Path urlToPath(URL buildUrl) throws URISyntaxException, IOException {</p>
-
-<pre><code>Path result;
-    if ("jar".equalsIgnoreCase(buildUrl.toURI().getScheme())) {
-    JarURLConnection jarUrl = (JarURLConnection) buildUrl.openConnection();
-    FileSystem fs = FileSystems.newFileSystem(Paths.get(jarUrl.getJarFileURL().toURI()), null);
-    result = fs.getPath(jarUrl.getEntryName());
-    logger.info("load {} from jar : {}", result.getFileName(),fs);
-} else {
-    result = Paths.get(buildUrl.toURI());
-    logger.info("load {} from : {}", result.getFileName() ,buildUrl);
-}
-return result;
-</code></pre>
-
-<p>}
-```</p>
-
-<h1>Resource</h1>
-
-<ul>
-<li><a href="http://docs.oracle.com/javase/tutorial/essential/io/fileio.html" title="http://docs.oracle.com/javase/tutorial/essential/io/fileio.html">Oracle官網NIO教學</a></li>
-<li><a href="http://docs.oracle.com/javase/tutorial/essential/io/legacy.html#mapping" title="http://docs.oracle.com/javase/tutorial/essential/io/legacy.html#mapping">io跟nio的轉換表</a></li>
-<li>The power of java 7 NIO.2 (JSR 203) - <a href="http://tamanmohamed.blogspot.com/2012/03/jdk7-part-1-power-of-java-7-nio2-jsr.html" title="http://tamanmohamed.blogspot.com/2012/03/jdk7-part-1-power-of-java-7-nio2-jsr.html">part
-1</a></li>
-<li><a href="http://tutorials.jenkov.com/java-nio/index.html" title="http://tutorials.jenkov.com/java-nio/index.html">Java NIO
-Tutorial</a>
-
-<ul>
-<li>一序列的Java NIO教學</li>
-</ul>
-</li>
 </ul>
 
 ]]></content>

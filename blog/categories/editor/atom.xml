@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: editor | Kent's Blog]]></title>
+  <link href="http://blog.kent-chiu.com/blog/categories/editor/atom.xml" rel="self"/>
+  <link href="http://blog.kent-chiu.com/"/>
+  <updated>2013-07-23T12:18:31+08:00</updated>
+  <id>http://blog.kent-chiu.com/</id>
+  <author>
+    <name><![CDATA[Kent]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[VIM]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2012/04/26/vim/"/>
+    <updated>2012-04-26T00:00:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2012/04/26/vim</id>
+    <content type="html"><![CDATA[<ul>
+<li><a href="http://wiki.kent-chiu.com/doku.php?id=vim:vim_101" title="vim:vim_101">Vim 101</a></li>
+<li><a href="http://wiki.kent-chiu.com/doku.php?id=vim:vim_for_phper" title="vim:vim_for_phper">VIM for  PHPer</a></li>
+<li><a href="http://www.oualline.com/vim-cook.html" title="http://www.oualline.com/vim-cook.html">VIM cookbook</a></li>
+<li>vim Recipes
+<a href="http://wiki.kent-chiu.com/lib/exe/fetch.php?media=vim:vim-recipes.pdf" title="vim:vim-recipes.pdf">pdf</a>
+<a href="http://vim.runpaint.org/" title="http://vim.runpaint.org/">網站(有search功能)</a></li>
+<li><img src="http://blog.kent-chiu.com/images/2012-04-26/vim-cheat-sheet-full.png" alt="vim-cheat-sheet-full.png" />
+<a href="http://blog.vgod.tw/2009/12/08/vim-cheat-sheet-for-programmers/" title="http://blog.vgod.tw/2009/12/08/vim-cheat-sheet-for-programmers/">vim cheat sheet from
+vgod</a></li>
+<li><a href="http://coolshell.cn/articles/5426.html" title="http://coolshell.cn/articles/5426.html">简明 Vim
+练级攻略</a>
+
+<ul>
+<li>一些基本到進階的常用技巧，有圖片及gif動畫說明</li>
+</ul>
+</li>
+<li><a href="http://yannesposito.com/Scratch/en/blog/Learn-Vim-Progressively/" title="http://yannesposito.com/Scratch/en/blog/Learn-Vim-Progressively/">VIM常用指令</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

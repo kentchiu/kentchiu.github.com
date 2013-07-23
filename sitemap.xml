@@ -416,7 +416,7 @@
     </url>
     <url>
         <loc>http://blog.kent-chiu.com/blog/2012/03/20/concurrency_101/</loc>
-        <lastmod>2013-07-11T21:48:04+08:00</lastmod>
+        <lastmod>2013-07-23T12:08:00+08:00</lastmod>
     </url>
     <url>
         <loc>http://blog.kent-chiu.com/blog/2012/03/20/content_provider_101/</loc>
@@ -430,7 +430,7 @@
         <loc>
             http://blog.kent-chiu.com/blog/2012/03/20/developing_restful_android_applications/
         </loc>
-        <lastmod>2013-07-11T21:49:11+08:00</lastmod>
+        <lastmod>2013-07-23T12:07:31+08:00</lastmod>
     </url>
     <url>
         <loc>http://blog.kent-chiu.com/blog/2012/03/20/enum/</loc>
@@ -438,7 +438,7 @@
     </url>
     <url>
         <loc>http://blog.kent-chiu.com/blog/2012/03/20/gesture/</loc>
-        <lastmod>2013-07-11T17:35:55+08:00</lastmod>
+        <lastmod>2013-07-23T12:07:18+08:00</lastmod>
     </url>
     <url>
         <loc>http://blog.kent-chiu.com/blog/2012/03/20/google_guava_-_collection_101/</loc>
@@ -454,11 +454,11 @@
     </url>
     <url>
         <loc>http://blog.kent-chiu.com/blog/2012/03/20/i18n_101/</loc>
-        <lastmod>2013-07-11T21:50:18+08:00</lastmod>
+        <lastmod>2013-07-23T12:06:56+08:00</lastmod>
     </url>
     <url>
         <loc>http://blog.kent-chiu.com/blog/2012/03/20/intents/</loc>
-        <lastmod>2013-07-11T17:35:55+08:00</lastmod>
+        <lastmod>2013-07-23T12:06:28+08:00</lastmod>
     </url>
     <url>
         <loc>http://blog.kent-chiu.com/blog/2012/03/20/layout/</loc>
@@ -466,11 +466,11 @@
     </url>
     <url>
         <loc>http://blog.kent-chiu.com/blog/2012/03/20/listview/</loc>
-        <lastmod>2013-07-11T17:35:55+08:00</lastmod>
+        <lastmod>2013-07-23T12:06:05+08:00</lastmod>
     </url>
     <url>
         <loc>http://blog.kent-chiu.com/blog/2012/03/20/listview_style/</loc>
-        <lastmod>2013-07-11T21:50:34+08:00</lastmod>
+        <lastmod>2013-07-23T12:06:15+08:00</lastmod>
     </url>
     <url>
         <loc>http://blog.kent-chiu.com/blog/2012/03/20/logback_101/</loc>
@@ -478,11 +478,11 @@
     </url>
     <url>
         <loc>http://blog.kent-chiu.com/blog/2012/03/20/media_player/</loc>
-        <lastmod>2013-07-11T17:45:53+08:00</lastmod>
+        <lastmod>2013-07-23T12:05:45+08:00</lastmod>
     </url>
     <url>
         <loc>http://blog.kent-chiu.com/blog/2012/03/20/menu/</loc>
-        <lastmod>2013-07-11T17:35:55+08:00</lastmod>
+        <lastmod>2013-07-23T12:05:21+08:00</lastmod>
     </url>
     <url>
         <loc>http://blog.kent-chiu.com/blog/2012/03/20/roboguice_101/</loc>
@@ -524,7 +524,7 @@
     </url>
     <url>
         <loc>http://blog.kent-chiu.com/blog/2012/03/20/using_android_market_on_emulator/</loc>
-        <lastmod>2013-07-11T17:35:55+08:00</lastmod>
+        <lastmod>2013-07-23T12:04:43+08:00</lastmod>
     </url>
     <url>
         <loc>http://blog.kent-chiu.com/blog/2012/03/20/weld_101/</loc>
@@ -532,7 +532,7 @@
     </url>
     <url>
         <loc>http://blog.kent-chiu.com/blog/2012/03/23/commands/</loc>
-        <lastmod>2013-07-11T17:35:55+08:00</lastmod>
+        <lastmod>2013-07-23T11:51:19+08:00</lastmod>
     </url>
     <url>
         <loc>http://blog.kent-chiu.com/blog/2012/03/29/google_guice_101/</loc>
@@ -560,7 +560,7 @@
     </url>
     <url>
         <loc>http://blog.kent-chiu.com/blog/2012/04/26/vim/</loc>
-        <lastmod>2013-07-11T21:53:03+08:00</lastmod>
+        <lastmod>2013-07-23T11:50:57+08:00</lastmod>
     </url>
     <url>
         <loc>http://blog.kent-chiu.com/blog/2012/04/30/google_guava_101/</loc>
@@ -576,11 +576,11 @@
     </url>
     <url>
         <loc>http://blog.kent-chiu.com/blog/2012/05/25/effective_java_item_list/</loc>
-        <lastmod>2013-07-11T17:35:55+08:00</lastmod>
+        <lastmod>2013-07-23T11:41:20+08:00</lastmod>
     </url>
     <url>
         <loc>http://blog.kent-chiu.com/blog/2012/05/30/postgresql_101/</loc>
-        <lastmod>2013-07-11T17:35:55+08:00</lastmod>
+        <lastmod>2013-07-23T11:40:28+08:00</lastmod>
     </url>
     <url>
         <loc>http://blog.kent-chiu.com/blog/2012/06/21/currying/</loc>
@@ -612,11 +612,11 @@
     </url>
     <url>
         <loc>http://blog.kent-chiu.com/blog/2012/09/12/regular_expression/</loc>
-        <lastmod>2013-07-11T17:35:55+08:00</lastmod>
+        <lastmod>2013-07-23T11:39:31+08:00</lastmod>
     </url>
     <url>
         <loc>http://blog.kent-chiu.com/blog/2012/09/30/date_and_time/</loc>
-        <lastmod>2013-07-11T17:35:55+08:00</lastmod>
+        <lastmod>2013-07-23T11:39:09+08:00</lastmod>
     </url>
     <url>
         <loc>http://blog.kent-chiu.com/blog/2012/10/11/english/</loc>
@@ -624,15 +624,15 @@
     </url>
     <url>
         <loc>http://blog.kent-chiu.com/blog/2012/11/15/extjs_101/</loc>
-        <lastmod>2013-07-16T14:50:21+08:00</lastmod>
+        <lastmod>2013-07-23T11:38:43+08:00</lastmod>
     </url>
     <url>
         <loc>http://blog.kent-chiu.com/blog/2012/12/07/resource/</loc>
-        <lastmod>2013-07-11T17:35:55+08:00</lastmod>
+        <lastmod>2013-07-23T11:38:31+08:00</lastmod>
     </url>
     <url>
         <loc>http://blog.kent-chiu.com/blog/2012/12/28/android_emulator_101/</loc>
-        <lastmod>2013-07-11T21:55:51+08:00</lastmod>
+        <lastmod>2013-07-23T11:38:04+08:00</lastmod>
     </url>
     <url>
         <loc>http://blog.kent-chiu.com/blog/2013/03/04/octopress-configuration/</loc>
@@ -642,7 +642,7 @@
         <loc>
             http://blog.kent-chiu.com/blog/2013/03/10/file-upload-and-download-in-spring-rest-mvc/
         </loc>
-        <lastmod>2013-07-11T17:46:24+08:00</lastmod>
+        <lastmod>2013-07-23T11:35:16+08:00</lastmod>
     </url>
     <url>
         <loc>http://blog.kent-chiu.com/blog/2013/03/14/install-git-flow-on-windows/</loc>
@@ -654,7 +654,7 @@
     </url>
     <url>
         <loc>http://blog.kent-chiu.com/blog/2013/05/06/mac-tips/</loc>
-        <lastmod>2013-07-19T00:00:38+08:00</lastmod>
+        <lastmod>2013-07-23T11:33:49+08:00</lastmod>
     </url>
     <url>
         <loc>http://blog.kent-chiu.com/blog/2013/05/12/jasperreport-101/</loc>
@@ -672,15 +672,15 @@
         <loc>
             http://blog.kent-chiu.com/blog/2013/07/15/mac-os-x-keyboard-shortcuts-for-terminal/
         </loc>
-        <lastmod>2013-07-15T17:01:22+08:00</lastmod>
+        <lastmod>2013-07-23T11:26:54+08:00</lastmod>
     </url>
     <url>
         <loc>http://blog.kent-chiu.com/blog/archives/</loc>
-        <lastmod>2013-07-19T00:00:38+08:00</lastmod>
+        <lastmod>2013-07-23T12:08:00+08:00</lastmod>
     </url>
     <url>
         <loc>http://blog.kent-chiu.com/</loc>
-        <lastmod>2013-07-19T00:00:38+08:00</lastmod>
+        <lastmod>2013-07-23T12:08:00+08:00</lastmod>
     </url>
     <url>
         <loc>http://blog.kent-chiu.com/robots.txt</loc>
