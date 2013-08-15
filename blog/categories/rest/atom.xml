@@ -4,7 +4,7 @@
   <title><![CDATA[Category: rest | Kent's Blog]]></title>
   <link href="http://blog.kent-chiu.com/blog/categories/rest/atom.xml" rel="self"/>
   <link href="http://blog.kent-chiu.com/"/>
-  <updated>2013-07-23T12:27:33+08:00</updated>
+  <updated>2013-08-16T00:47:13+08:00</updated>
   <id>http://blog.kent-chiu.com/</id>
   <author>
     <name><![CDATA[Kent]]></name>
@@ -12,6 +12,203 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[URL encoding]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2013/06/25/url-encoding/"/>
+    <updated>2013-06-25T11:01:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2013/06/25/url-encoding</id>
+    <content type="html"><![CDATA[<p><code>https://bob:bobby@www.lunatech.com:8080/file;p=1?q=2#third</code></p>
+
+<ul>
+<li>Scheme           : https</li>
+<li>User             : bob</li>
+<li>Password         :bobby</li>
+<li>Host address     : www.lunatech.com</li>
+<li>Port             : 8080</li>
+<li>Path             : /file</li>
+<li>Path parameters  : p=1</li>
+<li>Query parameters : q=2</li>
+<li>Fragment         : third</li>
+</ul>
+
+
+<h6>Path parameters</h6>
+
+<p>Path parameters 又叫 Matrix Parameters, 每個 <em>path segment</em> 可以有自已的 Matrix Parameters，這在 Restful style 的設計上有時會很有用。</p>
+
+<h6>Fragment</h6>
+
+<p>Fragment 是用來指出整份 URL resrouce 的某一特定部份，在網頁設計上是用來做定位用的錨點 (anchor)</p>
+
+<h4>保留字處理</h4>
+
+<p>path 跟 query string 對保留字的處理方式不一樣，所以，在做編解碼時，要分開處理</p>
+
+<p>ex:
+空白字元在 path 會被編成 %20 , '+' 會被編成 '_' ,但在 query string 空白字元會被編成 '+' or '%20', '+' 會被編成 '%2B'</p>
+
+<p>所以，如果有一個<code>blue+light blue</code>同時放在 path 跟 query string，那結果會是這樣</p>
+
+<pre><code>http://example.com/blue+light%20blue?blue%2Blight+blue
+</code></pre>
+
+<h4>編碼、中文與 Unicode</h4>
+
+<p>RFC 1738 並沒有規定要用什麼樣的編碼，所以，一般會在 HTTP header 指定 encoding 或採用 HTML page encoding</p>
+
+<h2>Resource</h2>
+
+<ul>
+<li><a href="http://blog.lunatech.com/2009/02/03/what-every-web-developer-must-know-about-url-encoding">http://blog.lunatech.com/2009/02/03/what-every-web-developer-must-know-about-url-encoding</a> - What every web developer must know about URL encoding</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[RESTful API Design]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2013/06/04/restful-api-design/"/>
+    <updated>2013-06-04T09:58:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2013/06/04/restful-api-design</id>
+    <content type="html"><![CDATA[<h2>Method</h2>
+
+<p>POST,DELETE : 操作是 non-idempotent(非幕等)</p>
+
+<p>GET, PUT  : 操作是 idempotent(幕等)</p>
+
+<blockquote><p>TBC : 解釋 idempotent</p></blockquote>
+
+<h3>GET</h3>
+
+<p>GET method用來取得一筆或多的資源，如果是多筆資源，還可以加入分頁，過濾等資訊，也可在header傳入分頁的links，ex:'first', 'last', 'next' and 'prev'</p>
+
+<ul>
+<li>GET     http://www.example.com/orders                           取得多筆訂單</li>
+<li>GET     http://www.example.com/orders/12345                     取得訂單編號為 12345 的訂單</li>
+<li>GET     http://www.example.com/orders/12345/items               取得訂單編號為 12345 的訂單下的所有訂單項目</li>
+<li>GET     http://www.example.com/orders/12345/oitems/678          取得訂單編號為 12345 的訂單下的訂單項目 678</li>
+<li>GET     http://www.example.com/orders?customer=kent             取得客戶 kent 的所有訂單</li>
+</ul>
+
+
+<h5>status code</h5>
+
+<ul>
+<li>200 (OK)            順利取得資源</li>
+<li>400 (BAD REQUEST)   無法順利取得資訊，通常是參數有問題或某個查詢條件失效</li>
+<li>404 (Not Found)     資源不存在</li>
+</ul>
+
+
+<h3>POST</h3>
+
+<p>POST method用來建立新資源，建立完成資源後，通常是回應 201(CREATED) 的狀態碼，而且建立的新資源的 uri link 會放在 HEAD (不是response body)</p>
+
+<pre><code>POST http://www.example.com/order
+</code></pre>
+
+<p>response</p>
+
+<pre><code>200 OK
+Content-Type: application/json
+Location: http://www.example.com/order/123  
+</code></pre>
+
+<h5>status code</h5>
+
+<ul>
+<li>201 (CREATED)       成功建立新資源</li>
+<li>404 (Not Found)     資源不存在</li>
+</ul>
+
+
+<h3>PUT</h3>
+
+<p>POST method 用來更新資源，</p>
+
+<p>如果 resource 的 id，是由前端決定，而不是後端，那麼此時 PUT 也可以拿用做建立新資源的動作</p>
+
+<h5>status code</h5>
+
+<ul>
+<li>200 (OK)            更新成功，如果使用這個status code，response裡會有異動後的內容</li>
+<li>201 (CREATED)       成功建立新資源</li>
+<li>204 (No Content)    更新成功，如果使用這個status code，response裡沒有任何內容</li>
+<li>404 (Not Found)     資源不存在</li>
+</ul>
+
+
+<h3>DELETE</h3>
+
+<h5>status code</h5>
+
+<ul>
+<li>200 (OK)            更新成功，如果使用這個 status code，response裡會有異動後的內容</li>
+<li>204 (No Content)    更新成功，如果使用這個 status code，response裡沒有任何內容</li>
+<li>404 (Not Found)     資源不存在，連續呼叫兩次相同的 delete，會傳回 404</li>
+</ul>
+
+
+<h4>命名規則</h4>
+
+<p>資源命名應為<strong>複數名詞</strong>，不論是 GET, POST, PUT, DELETE 應該都要用<strong>複數名詞</strong>來命名，如果是要取得單筆資訊，
+則是在<strong>複數名詞</strong>的資源後接上該資源的indentity</p>
+
+<p>如果是複合字，應該用<code>-</code>隔開，而不是用 camel style : ex: 採用 <code>hello-world</code> 而非 <code>helloWorld</code></p>
+
+<ul>
+<li>GET     http://www.example.com/orders             取得多筆訂單</li>
+<li>GET     http://www.example.com/orders/12345       取得訂單編號為 12345 的訂單</li>
+<li>GET     http://www.example.com/users?name=kent    取得使用者 kent 的資訊</li>
+<li>PUT     http://www.example.com/users/kent         更新使用者 kent</li>
+<li>POST    http://www.example.com/users/kent         新增使用者 kent</li>
+<li>DELETE  http://www.example.com/users/kent         刪除使用者 kent</li>
+</ul>
+
+
+<p>所以，一般來說，只有兩種 url 的定義方式</p>
+
+<pre><code>GET | PUT | DELETE  http://www.example.com/orders/{id}
+POST                http://www.example.com/orders
+</code></pre>
+
+<blockquote><p>TBC : 查一下 resource id是用純數字(/user/1)，或使用有意義的名稱為佳(users/kent)
+目前認為用 id 應該會比較好，因為名稱可能會異動，如果要用名稱，應該是類似查詢參數的用法 /users?name=kent</p></blockquote>
+
+<h4>輔助用字</h4>
+
+<ul>
+<li>search 搜尋，如果有時就是做搜尋當resource最直覺，就用吧，以名詞命規的規格，還是可以有例外的</li>
+<li>filter 過濾用</li>
+<li>page   分頁用</li>
+<li>sort   排序用，可以用<code>-</code>表示昇冪, ex: sort=-age 由大到小排序，sort=age 由小到大排序</li>
+<li>fields 用來指定後端只傳合那些欄位  ex: fields=id,name,address</li>
+<li>embed  用來指定後端傳合的部份是不是包含 detail，有些資料是master/detail的關係，用embed可以決定要不要傳回 detail</li>
+</ul>
+
+
+<h2>Resource</h2>
+
+<ul>
+<li><a href="http://zh.wikipedia.org/zh-tw/HTTP%E7%8A%B6%E6%80%81%E7%A0%81">http://zh.wikipedia.org/zh-tw/HTTP%E7%8A%B6%E6%80%81%E7%A0%81</a> - HTTP 狀態碼</li>
+<li><a href="http://www.restapitutorial.com/lessons/httpmethods.html">http://www.restapitutorial.com/lessons/httpmethods.html</a>  - RESTful Tutorial</li>
+<li><a href="http://blog.2partsmagic.com/restful-uri-design/">http://blog.2partsmagic.com/restful-uri-design/</a> - rest 命名規格</li>
+<li><a href="http://stackoverflow.com/questions/1619152/how-to-create-rest-urls-without-verbs">http://stackoverflow.com/questions/1619152/how-to-create-rest-urls-without-verbs</a> - 如何避免用動詞命名</li>
+<li>一般流行的 Rest API
+
+<ol>
+<li> <a href="http://docs.aws.amazon.com/AmazonS3/latest/API/APIRest.html">http://docs.aws.amazon.com/AmazonS3/latest/API/APIRest.html</a> - Amazon 的 REST API文件</li>
+<li> <a href="https://dev.twitter.com/docs/api/1.1/get/lists/list">https://dev.twitter.com/docs/api/1.1/get/lists/list</a> - twitter 的 REST API文件</li>
+<li> <a href="https://developers.facebook.com/docs/reference/api/">https://developers.facebook.com/docs/reference/api/</a> - FaceBook 的 REST API文件</li>
+<li> <a href="https://developer.linkedin.com/apis">https://developer.linkedin.com/apis</a> - linkedin 的 REST API文件</li>
+</ol>
+</li>
+<li><a href="http://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api?hn#snake-vs-camel">http://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api?hn#snake-vs-camel</a> - 設計Restful API 相當不錯的參考資料    ，內容很全面，方方面面都有提到</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Spring Rest檔案上傳及下載]]></title>

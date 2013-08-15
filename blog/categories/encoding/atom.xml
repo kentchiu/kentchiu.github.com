@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: encoding | Kent's Blog]]></title>
+  <link href="http://blog.kent-chiu.com/blog/categories/encoding/atom.xml" rel="self"/>
+  <link href="http://blog.kent-chiu.com/"/>
+  <updated>2013-08-16T00:47:13+08:00</updated>
+  <id>http://blog.kent-chiu.com/</id>
+  <author>
+    <name><![CDATA[Kent]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[URL encoding]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2013/06/25/url-encoding/"/>
+    <updated>2013-06-25T11:01:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2013/06/25/url-encoding</id>
+    <content type="html"><![CDATA[<p><code>https://bob:bobby@www.lunatech.com:8080/file;p=1?q=2#third</code></p>
+
+<ul>
+<li>Scheme           : https</li>
+<li>User             : bob</li>
+<li>Password         :bobby</li>
+<li>Host address     : www.lunatech.com</li>
+<li>Port             : 8080</li>
+<li>Path             : /file</li>
+<li>Path parameters  : p=1</li>
+<li>Query parameters : q=2</li>
+<li>Fragment         : third</li>
+</ul>
+
+
+<h6>Path parameters</h6>
+
+<p>Path parameters 又叫 Matrix Parameters, 每個 <em>path segment</em> 可以有自已的 Matrix Parameters，這在 Restful style 的設計上有時會很有用。</p>
+
+<h6>Fragment</h6>
+
+<p>Fragment 是用來指出整份 URL resrouce 的某一特定部份，在網頁設計上是用來做定位用的錨點 (anchor)</p>
+
+<h4>保留字處理</h4>
+
+<p>path 跟 query string 對保留字的處理方式不一樣，所以，在做編解碼時，要分開處理</p>
+
+<p>ex:
+空白字元在 path 會被編成 %20 , '+' 會被編成 '_' ,但在 query string 空白字元會被編成 '+' or '%20', '+' 會被編成 '%2B'</p>
+
+<p>所以，如果有一個<code>blue+light blue</code>同時放在 path 跟 query string，那結果會是這樣</p>
+
+<pre><code>http://example.com/blue+light%20blue?blue%2Blight+blue
+</code></pre>
+
+<h4>編碼、中文與 Unicode</h4>
+
+<p>RFC 1738 並沒有規定要用什麼樣的編碼，所以，一般會在 HTTP header 指定 encoding 或採用 HTML page encoding</p>
+
+<h2>Resource</h2>
+
+<ul>
+<li><a href="http://blog.lunatech.com/2009/02/03/what-every-web-developer-must-know-about-url-encoding">http://blog.lunatech.com/2009/02/03/what-every-web-developer-must-know-about-url-encoding</a> - What every web developer must know about URL encoding</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

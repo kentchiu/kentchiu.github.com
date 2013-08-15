@@ -4,7 +4,7 @@
   <title><![CDATA[Kent's Blog]]></title>
   <link href="http://blog.kent-chiu.com/atom.xml" rel="self"/>
   <link href="http://blog.kent-chiu.com/"/>
-  <updated>2013-07-23T12:27:33+08:00</updated>
+  <updated>2013-08-16T00:47:13+08:00</updated>
   <id>http://blog.kent-chiu.com/</id>
   <author>
     <name><![CDATA[Kent]]></name>
@@ -65,6 +65,8 @@ Tab         自動完成
 
 <h4>Easy_install V.S PIP</h4>
 
+<p>一般的 lib 會提供 <code>python setup.py install</code></p>
+
 <p>easy_install 跟 <a href="http://www.pip-installer.org/">pip</a> 兩者都是套件安裝工具， easy_install 沒有反安裝套件的功能，而 pip 有反安裝套件的功能，所以建議是裝pip</p>
 
 <p>Mac Os 10.8 (mountain lion) 只有預裝 easy_install，要使用 pip，可以透過 easy_install 來安裝 pip
@@ -90,6 +92,18 @@ $ sudo python setup.py install
 <pre><code>export PATH=/System/Library/Frameworks/Python.framework/Versions/3.3/bin:/Users/kent/Library/Python/3.3/bin:$PATH
 </code></pre>
 
+<p>pip 的使用方式</p>
+
+<pre><code>pip list   列出目前安裝的lib
+pip search 搜尋lib
+pip install 安裝lib   
+</code></pre>
+
+<p>ex:</p>
+
+<pre><code>sudo pip install beautifulsoup4   # 安裝 beautifulsoup lib (一個 html parser)   
+</code></pre>
+
 <h4>Testing</h4>
 
 <p>python的 test framework有好幾套，可以自行選擇適合的</p>
@@ -112,6 +126,7 @@ $ sudo python setup.py install
 <li>type(variable)
 取得 object 的型別，撰寫弱型別語言最大的痛苦就是不知道變數是什麼型別，這 type 至少可以在runtime取得變數的型別</li>
 <li>dir() 列出 object 內所有的 methods</li>
+<li>pprint() 列出物件結構</li>
 </ul>
 
 
@@ -205,7 +220,205 @@ print(last_name)                  # chiu
 <li><a href="https://developers.google.com/edu/python/">https://developers.google.com/edu/python/</a>  - Google Python Course</li>
 <li><a href="http://getpython3.com/diveintopython3">http://getpython3.com/diveintopython3</a> - Dive Into Python 3 免費電子書</li>
 <li><a href="http://chimera.labs.oreilly.com/books/1234000000754/index.html">http://chimera.labs.oreilly.com/books/1234000000754/index.html</a> - Test-Driven Web Development with Python</li>
+<li><a href="http://chimera.labs.oreilly.com/books/1230000000393/index.html">http://chimera.labs.oreilly.com/books/1230000000393/index.html</a> - orally python cookbook (<em>問題-解法</em>導向線上電子書)</li>
 <li><a href="http://docs.python.org/2/library/">http://docs.python.org/2/library/</a> - python 標準函式庫文件</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[URL encoding]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2013/06/25/url-encoding/"/>
+    <updated>2013-06-25T11:01:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2013/06/25/url-encoding</id>
+    <content type="html"><![CDATA[<p><code>https://bob:bobby@www.lunatech.com:8080/file;p=1?q=2#third</code></p>
+
+<ul>
+<li>Scheme           : https</li>
+<li>User             : bob</li>
+<li>Password         :bobby</li>
+<li>Host address     : www.lunatech.com</li>
+<li>Port             : 8080</li>
+<li>Path             : /file</li>
+<li>Path parameters  : p=1</li>
+<li>Query parameters : q=2</li>
+<li>Fragment         : third</li>
+</ul>
+
+
+<h6>Path parameters</h6>
+
+<p>Path parameters 又叫 Matrix Parameters, 每個 <em>path segment</em> 可以有自已的 Matrix Parameters，這在 Restful style 的設計上有時會很有用。</p>
+
+<h6>Fragment</h6>
+
+<p>Fragment 是用來指出整份 URL resrouce 的某一特定部份，在網頁設計上是用來做定位用的錨點 (anchor)</p>
+
+<h4>保留字處理</h4>
+
+<p>path 跟 query string 對保留字的處理方式不一樣，所以，在做編解碼時，要分開處理</p>
+
+<p>ex:
+空白字元在 path 會被編成 %20 , &#8216;+&#8217; 會被編成 &#8216;_&#8217; ,但在 query string 空白字元會被編成 &#8216;+&#8217; or &#8216;%20&#8217;, &#8216;+&#8217; 會被編成 &#8216;%2B&#8217;</p>
+
+<p>所以，如果有一個<code>blue+light blue</code>同時放在 path 跟 query string，那結果會是這樣</p>
+
+<pre><code>http://example.com/blue+light%20blue?blue%2Blight+blue
+</code></pre>
+
+<h4>編碼、中文與 Unicode</h4>
+
+<p>RFC 1738 並沒有規定要用什麼樣的編碼，所以，一般會在 HTTP header 指定 encoding 或採用 HTML page encoding</p>
+
+<h2>Resource</h2>
+
+<ul>
+<li><a href="http://blog.lunatech.com/2009/02/03/what-every-web-developer-must-know-about-url-encoding">http://blog.lunatech.com/2009/02/03/what-every-web-developer-must-know-about-url-encoding</a> - What every web developer must know about URL encoding</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[RESTful API Design]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2013/06/04/restful-api-design/"/>
+    <updated>2013-06-04T09:58:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2013/06/04/restful-api-design</id>
+    <content type="html"><![CDATA[<h2>Method</h2>
+
+<p>POST,DELETE : 操作是 non-idempotent(非幕等)</p>
+
+<p>GET, PUT  : 操作是 idempotent(幕等)</p>
+
+<blockquote><p>TBC : 解釋 idempotent</p></blockquote>
+
+<h3>GET</h3>
+
+<p>GET method用來取得一筆或多的資源，如果是多筆資源，還可以加入分頁，過濾等資訊，也可在header傳入分頁的links，ex:&#8217;first&#8217;, &#8216;last&#8217;, &#8216;next&#8217; and &#8216;prev&#8217;</p>
+
+<ul>
+<li>GET     http://www.example.com/orders                           取得多筆訂單</li>
+<li>GET     http://www.example.com/orders/12345                     取得訂單編號為 12345 的訂單</li>
+<li>GET     http://www.example.com/orders/12345/items               取得訂單編號為 12345 的訂單下的所有訂單項目</li>
+<li>GET     http://www.example.com/orders/12345/oitems/678          取得訂單編號為 12345 的訂單下的訂單項目 678</li>
+<li>GET     http://www.example.com/orders?customer=kent             取得客戶 kent 的所有訂單</li>
+</ul>
+
+
+<h5>status code</h5>
+
+<ul>
+<li>200 (OK)            順利取得資源</li>
+<li>400 (BAD REQUEST)   無法順利取得資訊，通常是參數有問題或某個查詢條件失效</li>
+<li>404 (Not Found)     資源不存在</li>
+</ul>
+
+
+<h3>POST</h3>
+
+<p>POST method用來建立新資源，建立完成資源後，通常是回應 201(CREATED) 的狀態碼，而且建立的新資源的 uri link 會放在 HEAD (不是response body)</p>
+
+<pre><code>POST http://www.example.com/order
+</code></pre>
+
+<p>response</p>
+
+<pre><code>200 OK
+Content-Type: application/json
+Location: http://www.example.com/order/123  
+</code></pre>
+
+<h5>status code</h5>
+
+<ul>
+<li>201 (CREATED)       成功建立新資源</li>
+<li>404 (Not Found)     資源不存在</li>
+</ul>
+
+
+<h3>PUT</h3>
+
+<p>POST method 用來更新資源，</p>
+
+<p>如果 resource 的 id，是由前端決定，而不是後端，那麼此時 PUT 也可以拿用做建立新資源的動作</p>
+
+<h5>status code</h5>
+
+<ul>
+<li>200 (OK)            更新成功，如果使用這個status code，response裡會有異動後的內容</li>
+<li>201 (CREATED)       成功建立新資源</li>
+<li>204 (No Content)    更新成功，如果使用這個status code，response裡沒有任何內容</li>
+<li>404 (Not Found)     資源不存在</li>
+</ul>
+
+
+<h3>DELETE</h3>
+
+<h5>status code</h5>
+
+<ul>
+<li>200 (OK)            更新成功，如果使用這個 status code，response裡會有異動後的內容</li>
+<li>204 (No Content)    更新成功，如果使用這個 status code，response裡沒有任何內容</li>
+<li>404 (Not Found)     資源不存在，連續呼叫兩次相同的 delete，會傳回 404</li>
+</ul>
+
+
+<h4>命名規則</h4>
+
+<p>資源命名應為<strong>複數名詞</strong>，不論是 GET, POST, PUT, DELETE 應該都要用<strong>複數名詞</strong>來命名，如果是要取得單筆資訊，
+則是在<strong>複數名詞</strong>的資源後接上該資源的indentity</p>
+
+<p>如果是複合字，應該用<code>-</code>隔開，而不是用 camel style : ex: 採用 <code>hello-world</code> 而非 <code>helloWorld</code></p>
+
+<ul>
+<li>GET     http://www.example.com/orders             取得多筆訂單</li>
+<li>GET     http://www.example.com/orders/12345       取得訂單編號為 12345 的訂單</li>
+<li>GET     http://www.example.com/users?name=kent    取得使用者 kent 的資訊</li>
+<li>PUT     http://www.example.com/users/kent         更新使用者 kent</li>
+<li>POST    http://www.example.com/users/kent         新增使用者 kent</li>
+<li>DELETE  http://www.example.com/users/kent         刪除使用者 kent</li>
+</ul>
+
+
+<p>所以，一般來說，只有兩種 url 的定義方式</p>
+
+<pre><code>GET | PUT | DELETE  http://www.example.com/orders/{id}
+POST                http://www.example.com/orders
+</code></pre>
+
+<blockquote><p>TBC : 查一下 resource id是用純數字(/user/1)，或使用有意義的名稱為佳(users/kent)
+目前認為用 id 應該會比較好，因為名稱可能會異動，如果要用名稱，應該是類似查詢參數的用法 /users?name=kent</p></blockquote>
+
+<h4>輔助用字</h4>
+
+<ul>
+<li>search 搜尋，如果有時就是做搜尋當resource最直覺，就用吧，以名詞命規的規格，還是可以有例外的</li>
+<li>filter 過濾用</li>
+<li>page   分頁用</li>
+<li>sort   排序用，可以用<code>-</code>表示昇冪, ex: sort=-age 由大到小排序，sort=age 由小到大排序</li>
+<li>fields 用來指定後端只傳合那些欄位  ex: fields=id,name,address</li>
+<li>embed  用來指定後端傳合的部份是不是包含 detail，有些資料是master/detail的關係，用embed可以決定要不要傳回 detail</li>
+</ul>
+
+
+<h2>Resource</h2>
+
+<ul>
+<li><a href="http://zh.wikipedia.org/zh-tw/HTTP%E7%8A%B6%E6%80%81%E7%A0%81">http://zh.wikipedia.org/zh-tw/HTTP%E7%8A%B6%E6%80%81%E7%A0%81</a> - HTTP 狀態碼</li>
+<li><a href="http://www.restapitutorial.com/lessons/httpmethods.html">http://www.restapitutorial.com/lessons/httpmethods.html</a>  - RESTful Tutorial</li>
+<li><a href="http://blog.2partsmagic.com/restful-uri-design/">http://blog.2partsmagic.com/restful-uri-design/</a> - rest 命名規格</li>
+<li><a href="http://stackoverflow.com/questions/1619152/how-to-create-rest-urls-without-verbs">http://stackoverflow.com/questions/1619152/how-to-create-rest-urls-without-verbs</a> - 如何避免用動詞命名</li>
+<li>一般流行的 Rest API
+
+<ol>
+<li> <a href="http://docs.aws.amazon.com/AmazonS3/latest/API/APIRest.html">http://docs.aws.amazon.com/AmazonS3/latest/API/APIRest.html</a> - Amazon 的 REST API文件</li>
+<li> <a href="https://dev.twitter.com/docs/api/1.1/get/lists/list">https://dev.twitter.com/docs/api/1.1/get/lists/list</a> - twitter 的 REST API文件</li>
+<li> <a href="https://developers.facebook.com/docs/reference/api/">https://developers.facebook.com/docs/reference/api/</a> - FaceBook 的 REST API文件</li>
+<li> <a href="https://developer.linkedin.com/apis">https://developer.linkedin.com/apis</a> - linkedin 的 REST API文件</li>
+</ol>
+</li>
+<li><a href="http://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api?hn#snake-vs-camel">http://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api?hn#snake-vs-camel</a> - 設計Restful API 相當不錯的參考資料    ，內容很全面，方方面面都有提到</li>
 </ul>
 
 ]]></content>
@@ -287,10 +500,10 @@ print(last_name)                  # chiu
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Jesper Report, IReport 匯出成中文PDF]]></title>
-    <link href="http://blog.kent-chiu.com/blog/2013/05/12/jesper-report-font-issue/"/>
+    <title type="html"><![CDATA[Jasper Report, IReport 匯出成中文PDF]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2013/05/12/jasper-report-font-issue/"/>
     <updated>2013-05-12T12:22:00+08:00</updated>
-    <id>http://blog.kent-chiu.com/blog/2013/05/12/jesper-report-font-issue</id>
+    <id>http://blog.kent-chiu.com/blog/2013/05/12/jasper-report-font-issue</id>
     <content type="html"><![CDATA[<p>jasper report 匯出成 PDF 時， 中文字會無法正常匯出， 需做額外的處理，才能正確的輸出中文。
 中文會有問題主要的原因是缺少中文字體的關係，所以只要滿足了這個條件， PDF 就能顯示中文。</p>
 
@@ -3393,1192 +3606,6 @@ action(中文)</a></li>
 <p>^<a href="#fnt__1">1)</a>^ Durable Subscribe可以不用一直保持連線狀態</p>
 
 <p>^<a href="#fnt__2">2)</a>^ message body本身是沒辦法做查詢的</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[JPA 101]]></title>
-    <link href="http://blog.kent-chiu.com/blog/2012/07/12/jpa_101/"/>
-    <updated>2012-07-12T00:00:00+08:00</updated>
-    <id>http://blog.kent-chiu.com/blog/2012/07/12/jpa_101</id>
-    <content type="html"><![CDATA[<p>Java Persistence API(JPA)</p>
-
-<h1>Where to put the persistence.xml</h1>
-
-<ul>
-<li>for web application → WEB-INF/classes/META-INF/persistence.xml</li>
-<li>for jar →</li>
-<li>for maven main folder → src/main/resource/META-INF/persistence.xml</li>
-<li>for maven test folder → src/test/resource/META-INF/persistence.xml</li>
-</ul>
-
-
-<p>If uses maven structure in Eclipse IDE, main resource and test resource
-would complied to same directory(the build directory), we should avoid
-using the same <strong>persistence-unit</strong> name in test and main resources</p>
-
-<h1>presitence.xml</h1>
-
-<h3>Hibernate</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-</span><span class='line'>&lt;persistence version="1.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"&gt;
-</span><span class='line'>    &lt;persistence-unit name="entity" transaction-type="RESOURCE_LOCAL"&gt;
-</span><span class='line'>        &lt;provider&gt;org.hibernate.ejb.HibernatePersistence&lt;/provider&gt;
-</span><span class='line'>        &lt;class&gt;com.kent.MyClass&lt;/class&gt;
-</span><span class='line'>        &lt;properties&gt;
-</span><span class='line'>            &lt;property name="hibernate.hbm2ddl.auto" value="update" /&gt;
-</span><span class='line'>            &lt;property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" /&gt;
-</span><span class='line'>            &lt;property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver" /&gt;
-</span><span class='line'>            &lt;property name="hibernate.connection.url" value="jdbc:mysql://localhost/database_name" /&gt;
-</span><span class='line'>            &lt;property name="hibernate.connection.username" value="root" /&gt;
-</span><span class='line'>            &lt;property name="hibernate.connection.password" value="" /&gt;
-</span><span class='line'>                        &lt;property name="hibernate.show_sql" value="true" /&gt;
-</span><span class='line'>        &lt;/properties&gt;
-</span><span class='line'>    &lt;/persistence-unit&gt;
-</span><span class='line'>&lt;/persistence&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>set property bernate.show_sql to true to output HSQL → SQL in console.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" /&gt;
-</span><span class='line'>&lt;property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver" /&gt;
-</span><span class='line'>&lt;property name="hibernate.connection.url" value="jdbc:mysql://localhost/database_name" /&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;property name="hibernate.connection.url" value="jdbc:hsqldb:mem:database_name"/&gt;
-</span><span class='line'>&lt;property name="hibernate.connection.driver_class" value="org.hsqldb.jdbcDriver"/&gt;
-</span><span class='line'>&lt;property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect"/&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;property name="hibernate.connection.url" value="jdbc:derby:memory:database_name"/&gt;
-</span><span class='line'>&lt;property name="hibernate.connection.driver_class" value="org.apache.derby.jdbc.EmbeddedDriver"/&gt;
-</span><span class='line'>&lt;property name="hibernate.dialect" value="org.hibernate.dialect.DerbyDialect"/&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5432/databaseName"/&gt;
-</span><span class='line'>&lt;property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/&gt;
-</span><span class='line'>&lt;property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>MySQL encoding issue. If you encountered encoding issue when result set
-contains CJK code, you can add this property to url connection string.
-<code>?useUnicode=true&amp;amp;characterEncoding=UTF-8</code> ex:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>  jdbc:mysql://localhost/database_name?useUnicode=true&amp;characterEncoding=UTF-8</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>EclipseLink - MySQL</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-</span><span class='line'>&lt;persistence version="1.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"&gt;
-</span><span class='line'>    &lt;persistence-unit name="entity" transaction-type="RESOURCE_LOCAL"&gt;
-</span><span class='line'>    &lt;provider&gt;org.eclipse.persistence.jpa.PersistenceProvider&lt;/provider&gt;
-</span><span class='line'>        &lt;class&gt;com.kent.MyClass&lt;/class&gt;
-</span><span class='line'>        &lt;properties&gt;
-</span><span class='line'>            &lt;property name="eclipselink.target-database" value="MYSQL"/&gt;
-</span><span class='line'>            &lt;property name="eclipselink.jdbc.url" value="jdbc:mysql://localhost/database_name"/&gt;
-</span><span class='line'>            &lt;property name="eclipselink.jdbc.driver" value="com.mysql.jdbc.Driver"/&gt;
-</span><span class='line'>            &lt;property name="eclipselink.jdbc.user" value="root"/&gt;
-</span><span class='line'>            &lt;property name="eclipselink.jdbc.password" value=""/&gt;
-</span><span class='line'>            &lt;property name="eclipselink.ddl-generation" value="update-tables"/&gt;
-</span><span class='line'>            &lt;property name="eclipselink.logging.level" value="SEVERE"/&gt;
-</span><span class='line'>        &lt;/properties&gt;
-</span><span class='line'>    &lt;/persistence-unit&gt;
-</span><span class='line'>&lt;/persistence&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>EclipseLink - HSQL</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-</span><span class='line'>&lt;persistence version="1.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"&gt;
-</span><span class='line'>    &lt;persistence-unit name="entity" transaction-type="RESOURCE_LOCAL"&gt;
-</span><span class='line'>    &lt;provider&gt;org.eclipse.persistence.jpa.PersistenceProvider&lt;/provider&gt;
-</span><span class='line'>        &lt;class&gt;com.kent.MyClass&lt;/class&gt;
-</span><span class='line'>        &lt;properties&gt;
-</span><span class='line'>            &lt;property name="eclipselink.target-database" value="HSQL"/&gt;
-</span><span class='line'>            &lt;property name="eclipselink.jdbc.url" value="jdbc:hsqldb:mem:database_name"/&gt;
-</span><span class='line'>            &lt;property name="eclipselink.jdbc.driver" value="org.hsqldb.jdbcDriver"/&gt;
-</span><span class='line'>            &lt;property name="eclipselink.jdbc.user" value="sa"/&gt;
-</span><span class='line'>            &lt;property name="eclipselink.jdbc.password" value=""/&gt;
-</span><span class='line'>            &lt;property name="eclipselink.ddl-generation" value="create-tables"/&gt;
-</span><span class='line'>            &lt;property name="eclipselink.logging.level" value="SEVERE"/&gt;
-</span><span class='line'>        &lt;/properties&gt;
-</span><span class='line'>    &lt;/persistence-unit&gt;
-</span><span class='line'>&lt;/persistence&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<h1>Properties</h1>
-
-<p>EclipseLink does NOT support the property <code>show sql</code> like hibernate, but
-we can turn the logging system to <code>FINE</code> level
-(<code>&lt;property name=“eclipselink.logging.level” value=“FINE”/&gt;</code>), the
-interpret SQL would be dumped.</p>
-
-<h1>CRUD</h1>
-
-<p><strong>C</strong>reate, <strong>R</strong>ead, <strong>U</strong>pdate, <strong>D</strong>elete operations in JPA</p>
-
-<p>Read類型的methods像find(), getReference(), refresh(), detach() and read
-queries，可以在transaction外執行(沒有tx.begin()/tx.commit()的包覆).</p>
-
-<h4>Create</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>entityManager.getTransaction().begin();
-</span><span class='line'>Employee newEmployee = new Employee(5);
-</span><span class='line'>entityManager.persist(newEmployee);
-</span><span class='line'>entityManager.getTransaction().commit();</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>Read</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>entityManager.find(Employee.class, 1);
-</span><span class='line'>// lazy load (as same as hibernate load() method)
-</span><span class='line'>entityManager.getReference(Employee.class, 1);
-</span><span class='line'>entityManager.createQuery("select employee from Employee employee");</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>for single result uses <code>query.getSingleResult()</code>;</li>
-<li>for multiple results (result set) uses <code>query.getResultList()</code>;</li>
-</ul>
-
-
-<h4>Update</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>entityManager.getTransaction().begin();
-</span><span class='line'>Employee existingEmployee = entityManager.find(Employee.class, 5);
-</span><span class='line'>existingEmployee.setLastName("NewLastName");
-</span><span class='line'>entityManager.getTransaction().commit();</span></code></pre></td></tr></table></div></figure>
-
-
-<p>or</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Employee existingEmployee = entityManager.find(Employee.class, 5);
-</span><span class='line'>existingEmployee.setLastName("NewLastName");
-</span><span class='line'> 
-</span><span class='line'>entityManager.getTransaction().begin();
-</span><span class='line'>entityManager.getTransaction().commit();</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>Delete</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>entityManager.getTransaction().begin();
-</span><span class='line'>Employee existingEmployee = entityManager.find(Employee.class, 5);
-</span><span class='line'>entityManager.remove(existingEmployee);
-</span><span class='line'>entityManager.getTransaction().commit();</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Bulk Update / Delete</h3>
-
-<h4>Bulk Update</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>EntityManager entityManager = entityManagerFactory.createEntityManager();
-</span><span class='line'>entityManager.getTransaction().begin();
-</span><span class='line'>String jpqlUpdate = "update Customer set name = :newName where name = :oldName"
-</span><span class='line'>int updatedEntities = entityManager.createQuery( jpqlUpdate )
-</span><span class='line'>                            .setParameter( "newName", newName )
-</span><span class='line'>                            .setParameter( "oldName", oldName )
-</span><span class='line'>                            .executeUpdate();
-</span><span class='line'>entityManager.getTransaction().commit();
-</span><span class='line'>entityManager.close();</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>Bulk Delete</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>EntityManager entityManager = entityManagerFactory.createEntityManager();
-</span><span class='line'>entityManager.getTransaction().begin();
-</span><span class='line'>String hqlDelete = "delete Customer where name = :oldName";
-</span><span class='line'>int deletedEntities = entityManager.createQuery( hqlDelete )
-</span><span class='line'>                            .setParameter( "oldName", oldName )
-</span><span class='line'>                            .executeUpdate();
-</span><span class='line'>entityManager.getTransaction().commit();
-</span><span class='line'>entityManager.close();</span></code></pre></td></tr></table></div></figure>
-
-
-<h1>Tips</h1>
-
-<ul>
-<li>Using wrapper type rather than primitive type to avoid <a href="http://stackoverflow.com/questions/2565352/whats-difference-between-primitive-and-wrapper-class-in-jpa-hibernate-column-m" title="http://stackoverflow.com/questions/2565352/whats-difference-between-primitive-and-wrapper-class-in-jpa-hibernate-column-m">null
-assinged
-issue</a>.</li>
-</ul>
-
-
-<h1>FK constraint violation</h1>
-
-<p>Sometime the forgine key constraint that export by DDL tools would be a
-problem when doing unit testing. But there is no way to disable
-hibernate FK constraints exports. In the situation we can rewrite the
-Dialect to prevent FK constraints exported.</p>
-
-<p>In this case, we created our own H2Dialet (for <a href="http://www.h2database.com/html/main.html" title="http://www.h2database.com/html/main.html">H2
-database</a>)
-and let <code>getAddForeignKeyConstraintString()</code> method empty. Which will
-disable the original <code>org.hibernate.dialect.H2Dialect</code> constraint
-generating statement.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>package com.kent.hibernate.dialect;
-</span><span class='line'>
-</span><span class='line'>public class H2Dialect extends org.hibernate.dialect.H2Dialect {
-</span><span class='line'>    @Override
-</span><span class='line'>    public String getAddForeignKeyConstraintString(String constraintName, String[] foreignKey, String referencedTable, String[] primaryKey, boolean referencesPrimaryKey) {
-</span><span class='line'>        return "";
-</span><span class='line'>    }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Once we have the Dialect, we need apply it our persistence.xml, after
-done, when the schema be generated, the schema will not include any FK
-constraint.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-</span><span class='line'>&lt;persistence version="1.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"&gt;
-</span><span class='line'>    &lt;persistence-unit name="entity-test" transaction-type="RESOURCE_LOCAL"&gt;
-</span><span class='line'>        &lt;provider&gt;org.hibernate.ejb.HibernatePersistence&lt;/provider&gt;
-</span><span class='line'>                 ...
-</span><span class='line'>        &lt;properties&gt;
-</span><span class='line'>            ...
-</span><span class='line'>            &lt;property name="hibernate.hbm2ddl.auto" value="create-drop" /&gt;
-</span><span class='line'>                        &lt;property name="hibernate.dialect" value="com.kent.hibernate.dialect.H2Dialect"/&gt;
-</span><span class='line'>            ...
-</span><span class='line'>        &lt;/properties&gt;
-</span><span class='line'>    &lt;/persistence-unit&gt;
-</span><span class='line'>&lt;/persistence&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<h1>JPA Query</h1>
-
-<p>JPA Query supports</p>
-
-<ol>
-<li>query</li>
-<li><strong>update</strong></li>
-<li><strong>delete</strong></li>
-</ol>
-
-
-<p>function to retrieves, modify, remove data from database.</p>
-
-<h5>IS [NOT] EMPTY</h5>
-
-<p>JPA provides a <strong>empty</strong> to test a collection empty or not:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>select book from Book book where book.chapters is not empty</span></code></pre></td></tr></table></div></figure>
-
-
-<h5>Join Fetch</h5>
-
-<p>JPA tries to fetch any entity as LAZY as possible whatever uses JPA QL
-or get by API.</p>
-
-<p>Fetch lazy or eager is by JPA vendor implementation, not all field type
-can fetch as LAZY</p>
-
-<h3>Local Manager Transaction</h3>
-
-<p>In a non-managed environment, an EntityManagerFactory is usually
-responsible for its own database connection pool. The application
-developer has to manually set transaction boundaries, in other words,
-begin, commit, or rollback database transactions itself</p>
-
-<p>If using local manager transaction, better to apply this template in
-code.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// Non-managed environment idiom
-</span><span class='line'>EntityManager em = emf.createEntityManager();
-</span><span class='line'>EntityTransaction tx = null;
-</span><span class='line'>try {
-</span><span class='line'>    tx = em.getTransaction();
-</span><span class='line'>    tx.begin();
-</span><span class='line'>    // do some work
-</span><span class='line'>    ...
-</span><span class='line'>    tx.commit();
-</span><span class='line'>} catch (RuntimeException e) {
-</span><span class='line'>    if ( tx != null && tx.isActive() ) tx.rollback();
-</span><span class='line'>    throw e; // or display error message
-</span><span class='line'>} finally {
-</span><span class='line'>    em.close(); // make sure you always close and never outside of guaranteed finally block
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Joins and Fetches</h3>
-
-<ol>
-<li>inner join = join</li>
-<li>left out join = left join</li>
-<li>fetch = 用一個select把屬性或集合一次取回</li>
-<li>fetch all = 如果有lazy properties，可用fetch all去init all lazy</li>
-</ol>
-
-
-<h1>Expressions</h1>
-
-<ul>
-<li>is empty, is not empty</li>
-<li>member of, not member of 僅適用於embedded object</li>
-<li>elements 測試某個element是否在elements中</li>
-<li>minimum, maximum, minindex, maxindex 可用於 array, list, map</li>
-<li>KEY() and VALUE() 可用於map</li>
-<li>any, some, all, exists, in 這幾個可以和elements,minimum, maximum,
-minindex, maxinde 搭配使用</li>
-<li>current_date(), current_time(), current_timestamp()</li>
-<li>second(…), minute(…), hour(…), day(…), month(…), year(…), (specific
-to HQL)</li>
-<li>coalesce() and nullif() coalesce（） 取回第一個非NULL的值</li>
-<li>TYPE … in …</li>
-<li>cast(… as …)</li>
-<li>Java public static final constants eg.Color.TABBY</li>
-</ul>
-
-
-<h5>member of</h5>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>'867-5309' MEMBER OF p.phoneNumbers</span></code></pre></td></tr></table></div></figure>
-
-
-<h5>coalesce</h5>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>SELECT COALESCE( NULL, 34, 13, 0 )
-</span><span class='line'>// return 34</span></code></pre></td></tr></table></div></figure>
-
-
-<h5>any, some, all, exists, in</h5>
-
-<p><a href="http://twpug.net/docs/postgresql-doc-8.0-zh_TW/functions-subquery.html" title="http://twpug.net/docs/postgresql-doc-8.0-zh_TW/functions-subquery.html">any, some, all, exists,
-in</a>在SQL-92中的定義</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>select mother from Cat as mother, Cat as kit
-</span><span class='line'>where kit in elements(foo.kittens)</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>select p from NameList list, Person p where p.name = some elements(list.names)</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>select cat from Cat cat where exists elements(cat.kittens)</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>select cat from Player p where 3 &gt; all elements(p.scores)</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>select cat from Show show where 'fizard' in indices(show.acts)</span></code></pre></td></tr></table></div></figure>
-
-
-<h5>index</h5>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>select order from Order order where order.items[0].id = 1234</span></code></pre></td></tr></table></div></figure>
-
-
-<h5>KEY(),VALUE()</h5>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>select i.name, VALUE(p) FROM Item i JOIN i.photos p WHERE KEY(p) LIKE ‘%egret’</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Data in collection</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>public List&lt;Role&gt; listRolesByPermissions(Set&lt;String&gt; permissions) {
-</span><span class='line'>  String ql = "select role from Role role left join role.permissions p where p in (:perms)";
-</span><span class='line'>  Query q = entityManager.createQuery(ql).setParameter("perms", permissions);
-</span><span class='line'>  return q.getResultList();
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>上面的例子採用naming parameter可以正常動作，但下面採用position
-parameter的方式卻不行？</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>public List&lt;Role&gt; listRolesByPermissions(Set&lt;String&gt; permissions) {
-</span><span class='line'>  String ql = "select role from Role role left join role.permissions p where p in (?)";
-</span><span class='line'>  Query q = entityManager.createQuery(ql).setParameter(1, permissions);
-</span><span class='line'>  return q.getResultList();
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<h1>Implementation Restrictions</h1>
-
-<p>To avoid conflicts with the original database operation that fires the
-entity lifecycle event (which is still in progress) callback methods
-should not call <code>EntityManager</code> or <code>Query</code> methods and should not access
-other entity objects.</p>
-
-<p>If a callback method throws an exception within an active transaction,
-the transaction is marked for rollback and no more callback methods are
-invoked for that operation.</p>
-
-<h1>Architecture</h1>
-
-<h4>EntityManagerFactory</h4>
-
-<p>建立時會比較耗時耗資源，所以應隨server啟動而啟動，關閉而關閉.</p>
-
-<h4>EntityManager</h4>
-
-<p>The EntityManager API is used to access a database in a particular unit
-of work. 正常來說，EntityManager的life cycle應該是一個database
-transaction(也就是說，應隨著transaction committed而close),
-但也可以跨多個database
-transactions(跟hibernate的session一樣，可以跟多個transaction).
-如果發生任何例外的話，應該要立即呼叫<code>EntityManager.close()</code>，並且棄用EntityManager
-instance.</p>
-
-<h1>Annotations</h1>
-
-<p>如果需要讓boolean有預設值，可透過<code>@Column</code>的<code>columnDefinition</code>屬性</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>@Column(columnDefinition = "bool default false")
-</span><span class='line'>private boolean   boolField;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>如果要讓欄位接受null，要宣告成物件型別(Object
-type)而非原生型別(primitive type)</p>
-
-<h1>Resources</h1>
-
-<ul>
-<li><a href="http://wiki.eclipse.org/Using_EclipseLink_JPA_Extensions_%28ELUG%29" title="http://wiki.eclipse.org/Using_EclipseLink_JPA_Extensions_%28ELUG%29">EclipseLink
-properties</a></li>
-<li><a href="http://docs.jboss.org/hibernate/stable/annotations/reference/en/html_single/" title="http://docs.jboss.org/hibernate/stable/annotations/reference/en/html_single/">hibernate annotations reference
-manual</a></li>
-<li><a href="http://docs.jboss.org/hibernate/stable/entitymanager/reference/en/html/index.html" title="http://docs.jboss.org/hibernate/stable/entitymanager/reference/en/html/index.html">hibernate Entity Manager reference
-manual</a></li>
-<li><a href="http://en.wikibooks.org/wiki/Java_Persistence" title="http://en.wikibooks.org/wiki/Java_Persistence">JPA 2 on
-wikibook</a></li>
-<li><a href="http://wiki.kent-chiu.com/lib/exe/fetch.php?media=java:jpa_mapping.pdf" title="java:jpa_mapping.pdf">A JavaTM Persistence API Mapping Magical Mystery
-Tour</a>
-
-<ul>
-<li>相當清晰的MAPPING介紹</li>
-</ul>
-</li>
-<li><a href="http://uaihebert.com/?p=1274" title="http://uaihebert.com/?p=1274">JPA Queries and
-Tips</a> -
-JPA的使用實例，有不到best practices的使用</li>
-</ul>
-
-
-<p>[java</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Scala 101]]></title>
-    <link href="http://blog.kent-chiu.com/blog/2012/07/02/scala_101/"/>
-    <updated>2012-07-02T00:00:00+08:00</updated>
-    <id>http://blog.kent-chiu.com/blog/2012/07/02/scala_101</id>
-    <content type="html"><![CDATA[<p>Scala IDE</p>
-
-<ol>
-<li>eclipse 3.7 (indigo)</li>
-<li>scala IDE plugin 2.9</li>
-<li>jdk 1.7.03</li>
-</ol>
-
-
-<p>一切換到scala的環境，IDE就凍住了，用<a href="http://wiki.kent-chiu.com/doku.php?id=java:jvm_profile" title="java:jvm_profile">VirtualVM</a>觀查的結果是執行scala的vm(不是ide本身的vm)的Permanent
-Generation
-Memory爆了，把它開到256M(-XX:MaxPermSize=256m)就不會一切到scala
-perspective，IDE就掛掉。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#utf8 (do not remove)
-</span><span class='line'>-startup
-</span><span class='line'>../../Common/plugins/org.eclipse.equinox.launcher_1.2.0.v20110502.jar
-</span><span class='line'>--launcher.library
-</span><span class='line'>../../Common/plugins/org.eclipse.equinox.launcher.i18n.win32.win32.x86_64_4.2.0.v201201111650
-</span><span class='line'>-showsplash
-</span><span class='line'>C:\Genuitec\Common\plugins\org.eclipse.platform_3.7.2.v201202080800\splash.bmp
-</span><span class='line'>--launcher.XXMaxPermSize
-</span><span class='line'>256m
-</span><span class='line'>--launcher.defaultAction
-</span><span class='line'>openFile
-</span><span class='line'>-install
-</span><span class='line'>C:\Genuitec\Profiles\scala
-</span><span class='line'>-configuration
-</span><span class='line'>C:\Genuitec\Profiles\scala\configuration
-</span><span class='line'>-vmargs
-</span><span class='line'>-Xms256m
-</span><span class='line'>-Xmx1024m
-</span><span class='line'>-XX:MaxPermSize=256m</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>scala是可自我成長的語言</li>
-<li>scala混合了oo跟function lang</li>
-<li>java中的static method可以考慮用function的方式實現，statistic
-method可視為一種退化的function lang?</li>
-<li>scala是純oo
-lang，所有的東西都是物件，所有的操作(含運算子)都是method，所以，可以做運算子的override</li>
-<li><p>scala可以與java無縫的整合，事實上，scala很多型號都是來自java。scala
-call java lib會很容易，但java call
-scala會有比較多的限制，因為scala的物件模型及語意比java豐富，java沒辦法一一對應。</p></li>
-<li><p>scala有兩種變數</p></li>
-<li><p>expression後面的分號(;)可有可無</p></li>
-<li>val : 像java的final變數，一旦宣告後，就不能改變
-(如果重新指派，會出reassignment的error)</li>
-<li><p>var : 像java的non final變數，可以重新指派值</p></li>
-<li><p>scala的array跟java一樣是0-base但是，是透過()存取，而不是[]</p></li>
-</ul>
-
-
-<h5>method</h5>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>def mymethod(x: Int, y: Int) : Int = {
-</span><span class='line'>  x + y
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>def mymethod(x: Int, y: Int) = x + y</span></code></pre></td></tr></table></div></figure>
-
-
-<p>所有的運算子在scala都是method，所以<code>1 + 2</code>是這樣的method call</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>(1).+(2)</span></code></pre></td></tr></table></div></figure>
-
-
-<p><code>1</code>是物件,<code>+</code>是method name，<code>1</code>物件透過<code>.</code>來呼叫<code>+</code>method並傳入參數值<code>2</code></p>
-
-<p>以這樣的角度來看Array，Array就很直覺了，Array在Scala也只是一般的物件，而不是像java一樣，而不是像java一樣，是屬於語法等級的物件</p>
-
-<h5>foreach</h5>
-
-<p>for (arg ← args) println(arg)</p>
-
-<h3>function</h3>
-
-<h4>function literal</h4>
-
-<p>單行</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>(x: Int, y: Int) =&gt; x + y </span></code></pre></td></tr></table></div></figure>
-
-
-<p>多行時可以用大括號將 functio body括起來</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>(x: Int, y: Int) =&gt; {
-</span><span class='line'>    val z = x + 1
-</span><span class='line'>    z + y
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>這邊用function literal來達到foreach的功能，function literal有三種用法</p>
-
-<p>第一種是最囉嗦,array的item要給型別而且給了型別，外面還要配一對括號</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>myarray.foreach((item: String) =&gt; println(item))</span></code></pre></td></tr></table></div></figure>
-
-
-<p>這個是比較正常的用法</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>myarray.foreach(item =&gt; println(item))</span></code></pre></td></tr></table></div></figure>
-
-
-<p>超精簡的用法，但只適用於只有一個參數的狀況</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>myarray.foreach(println)</span></code></pre></td></tr></table></div></figure>
-
-
-<h5>function return type</h5>
-
-<p>為什麼sum function可以不用指定return type，而factorial必須指定return
-type為Int?</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>  def sum(a:Int,b:Int) = a+b
-</span><span class='line'>  def factorial(n:Int):Int = if (n==0) 1 else n * factorial(n-1)</span></code></pre></td></tr></table></div></figure>
-
-
-<p>因為在sum function中complier可以推斷(infer)出a +
-b的回傳值是Int型別，但在factorial中，回傳值可能是 1
-或者是<code>n * factorial(n-1)</code>，
-而<code>n * factorial(n-1)</code>是未知型別，所以，我們必須指定return
-type，給complier一個提示。</p>
-
-<p>有些語言的compiler可以由factorial function的第一個回傳值為1來推斷return
-type為Int，但scala的complier不行</p>
-
-<h5>operator notation</h5>
-
-<ol>
-<li>infix 1 + 2</li>
-<li>prefix +1,-1, !foo, \~bar (只有+,-,!,\~可以為prefix
-operator,定為方式為<code>unary_+</code>,<code>unary_-</code>,<code>unary_!</code>,<code>unary_~</code>,)</li>
-<li>postfix 1.toLong</li>
-</ol>
-
-
-<h4>functionN</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>package scala
-</span><span class='line'> 
-</span><span class='line'> 
-</span><span class='line'>trait Function2[@specialized(scala.Int, scala.Long, scala.Double) -T1, @specialized(scala.Int, scala.Long, scala.Double) -T2, @specialized(scala.Unit, scala.Boolean, scala.Int, scala.Float, scala.Long, scala.Double) +R] extends AnyRef { self =&gt;
-</span><span class='line'>  /** Apply the body of this function to the arguments.
-</span><span class='line'>   *  @return   the result of function application.
-</span><span class='line'>   */
-</span><span class='line'>  def apply(v1: T1, v2: T2): R
-</span><span class='line'> 
-</span><span class='line'>  /** Creates a curried version of this function.
-</span><span class='line'>   *
-</span><span class='line'>   *  @return   a function `f` such that `f(x1)(x2) == apply(x1, x2)`
-</span><span class='line'>   */
-</span><span class='line'>  def curried: T1 =&gt; T2 =&gt; R = {
-</span><span class='line'>    (x1: T1) =&gt; (x2: T2) =&gt; apply(x1, x2)
-</span><span class='line'>  }
-</span><span class='line'>  @deprecated("Use 'curried' instead", "2.8.0")
-</span><span class='line'>  def curry = curried
-</span><span class='line'> 
-</span><span class='line'>  /** Creates a tupled version of this function: instead of 2 arguments,
-</span><span class='line'>   *  it accepts a single [[scala.Tuple2]] argument.
-</span><span class='line'>   *
-</span><span class='line'>   *  @return   a function `f` such that `f((x1, x2)) == f(Tuple2(x1, x2)) == apply(x1, x2)`
-</span><span class='line'>   */
-</span><span class='line'>  def tupled: Tuple2[T1, T2] =&gt; R = {
-</span><span class='line'>    case Tuple2(x1, x2) =&gt; apply(x1, x2)
-</span><span class='line'>  }
-</span><span class='line'>  override def toString() = "&lt;function2&gt;"
-</span><span class='line'>}
-</span><span class='line'> 
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>scala中的每個function，都是實作像上面的functionN(N從0\~22)的trait，以<code>(x: Int, y: Int) ⇒ x + y</code>來說，就是上例中的Function2[-T1,
--T2, +R]， 因為 (x: Int, y: Int) ⇒ x + y 就
-傳入兩個int的參數並傳回一個int的結果，這樣與Function2的<code>def apply(v1: T1, v2: T2): R</code>是相等的。</p>
-
-<h4>closure</h4>
-
-<p>closure跟function literal語法很相似，但closure多了<a href="#free_variables" title="scala:scala_101 ↵">free
-variables</a>，所以，free
-variables可被當做區分closure跟function literal的依據</p>
-
-<h5>free variables</h5>
-
-<p>TBC</p>
-
-<h4>Constructor</h4>
-
-<h5>primary constructor</h5>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>class MyClass(x: Int, y: Int)</span></code></pre></td></tr></table></div></figure>
-
-
-<h5>auxiliary constructor</h5>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>class MyClass(x: Int) {
-</span><span class='line'>    def this(x:Int) = this(x, 1) 
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>在scala，只有primary constructor可以呼叫super class的Constructor</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'> </span></code></pre></td></tr></table></div></figure>
-
-
-<h4>function parameters</h4>
-
-<h5>repeated parameters</h5>
-
-<p>repeated parameters像java的 myfunc(String…
-args)，後面能用0到多個相同型別的參數</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>def myfunc(args: String*)</span></code></pre></td></tr></table></div></figure>
-
-
-<h5>naming parameters</h5>
-
-<p>naming
-parameters主要是在使用functions時可以指定參數的名稱，也因為可以指定參數的名稱，
-所以傳入的參數順序可以跟原來宣告時的不一樣</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>def myfunc(foo: Int, bar: String)
-</span><span class='line'> 
-</span><span class='line'>// call myfunc with naming parameter
-</span><span class='line'>val x = myfunc(bar="test", foo=1)</span></code></pre></td></tr></table></div></figure>
-
-
-<h5>default value</h5>
-
-<p>參數的預設值，如果沒有特別指定時，參數會以預設值為準</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>def myfunc(foo: Int = 5)</span></code></pre></td></tr></table></div></figure>
-
-
-<h5>loop</h5>
-
-<p>如while 或者是 do-while loop 都是會帶有副作用(side
-effect)，請儘量改用其他的方式實作</p>
-
-<h5>for</h5>
-
-<p>for loop有filter的功能</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>val filesHere = (new java.io.File(".")).listFiles
-</span><span class='line'>for (file &lt;- filesHere if file.getName.endsWith(".scala"))
-</span><span class='line'>  println(file)
-</span><span class='line'> 
-</span><span class='line'>// 上面那邊，的效果等同於  
-</span><span class='line'>for (file &lt;- filesHere)
-</span><span class='line'>  if (file.getName.endsWith(".scala"))
-</span><span class='line'>    println(file)  </span></code></pre></td></tr></table></div></figure>
-
-
-<p>filter也可以累加，像這樣</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>for (
-</span><span class='line'>  file &lt;- filesHere
-</span><span class='line'>  if file.isFile
-</span><span class='line'>  if file.getName.endsWith(".scala")
-</span><span class='line'>) println(file)</span></code></pre></td></tr></table></div></figure>
-
-
-<h5>apply() and update()</h5>
-
-<p><code>()</code>跟<code>()=</code>是語法糖(complier sugar)，分別等效於<code>apply()</code>跟<code>update()</code> ()
-: apply() ()= : update()</p>
-
-<h3>Import and Package</h3>
-
-<h5>pacakge</h5>
-
-<ol>
-<li>可以是 java style ，把 package name 放在最上面</li>
-<li>可以是 c# like，用 com.kentchiu { <em>package content } 或 com{
-kentchiu {</em> package content} }</li>
-<li>_root_ package</li>
-</ol>
-
-
-<h5>import</h5>
-
-<p>與 java 的不同</p>
-
-<ol>
-<li>可以直接 import class member</li>
-<li>可以 rename 或隱藏部份被 import 的 members</li>
-</ol>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>import com.kentchiu.{Foo, Bar}        // 只 import Foo 跟 Bar
-</span><span class='line'>import com.kentchiu.{Foo, Bar =&gt; Baz} // 只 import Foo 跟 Bar， Bar 改名為 Baz
-</span><span class='line'>import com.kentchiu.{Bar =&gt; _, _}     // Bar rename 成 _ ，會變成 import com.kentchiu 但把 Bar 排外</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>trait</h3>
-
-<p>Trait像是java的interface，不過，更像是ruby的mixin</p>
-
-<h5>Ordered Trait</h5>
-
-<p>Ordered Trait是用來說明trait一個很好的例子，Rubyer應該對這個例子很眼熟</p>
-
-<h3>case class</h3>
-
-<h5>function programming</h5>
-
-<p>Functional programming is a programming paradigm that describes
-computation as the evaluation of mathematical functions avoiding state,
-mutual data and therefore side effects</p>
-
-<p>Function programming based on applying functions to arguments in order
-to receive some desired values</p>
-
-<p>The core idea for computation has shifted from a series of instructions
-(which specify precisely how the computation should proceed) to Notation
-of expressions, based on functions and values. You no longer have to
-follow a plan of instructions in order to understand a computation but
-decompose such an expression into its single elements.</p>
-
-<h3>Sequence Comprehensions</h3>
-
-<h3>Tuple</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>scala&gt; val t = (1,2)
-</span><span class='line'>t: (Int, Int) = (1,2)
-</span><span class='line'> 
-</span><span class='line'>scala&gt; val t = new Tuple2(1,2)
-</span><span class='line'>t: (Int, Int) = (1,2)</span></code></pre></td></tr></table></div></figure>
-
-
-<p>tuple是透過特殊index語法存取</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>scala&gt; t._1
-</span><span class='line'>res3: Int = 1
-</span><span class='line'> 
-</span><span class='line'>scala&gt; t._2
-</span><span class='line'>res4: Int = 2</span></code></pre></td></tr></table></div></figure>
-
-
-<p>另外一種建立tuple的語法</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>scala&gt; 1-&gt;2
-</span><span class='line'>res0: (Int, Int) = (1,2)</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Extractors</h3>
-
-<p>利用 <code>unApply()</code> method搭配pattern match將資訊從class中萃取出來</p>
-
-<h3>Parser Combinators</h3>
-
-<ul>
-<li>Christoph Henkelmann’s Blog - An Introduction To Scala Parser
-Combinators
-
-<ol>
-<li><a href="http://henkelmann.eu/2011/01/13/an_introduction_to_scala_parser_combinators" title="http://henkelmann.eu/2011/01/13/an_introduction_to_scala_parser_combinators">Part 1: Parser
-Basics</a></li>
-<li><a href="http://henkelmann.eu/2011/01/28/an_introduction_to_scala_parser_combinators-part_2_literal_expressions" title="http://henkelmann.eu/2011/01/28/an_introduction_to_scala_parser_combinators-part_2_literal_expressions">Part 2: Parsing Literal
-Expressions</a></li>
-<li><a href="http://henkelmann.eu/2011/01/29/an_introduction_to_scala_parser_combinators-part_3_unit_tests" title="http://henkelmann.eu/2011/01/29/an_introduction_to_scala_parser_combinators-part_3_unit_tests">An Introduction To Scala Parser Combinators - Part 3: Writing
-unit tests for
-parsers</a></li>
-</ol>
-</li>
-</ul>
-
-
-<h3>Symbol Literals</h3>
-
-<p>Symbol Literals是在字串前加一個單引號&#8217;，像這樣&#8217;foo</p>
-
-<p>Symbol
-Literal主要作用是用來當作識別用，可以視為一個字串，但它不同於字串的地方有</p>
-
-<ol>
-<li>不可以有任何空白</li>
-<li>一致性</li>
-<li>對重構比較友善</li>
-</ol>
-
-
-<p>像典型的map可以寫成這樣</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>"key" -&gt; "value"</span></code></pre></td></tr></table></div></figure>
-
-
-<p>key的部份可以換成Symbol Literal取代</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>'key -&gt; "value"</span></code></pre></td></tr></table></div></figure>
-
-
-<p>這樣的好處是，&#8217;key更能代表唯一性，而且，如果要進行重構，&#8217;key對於重構的支援會比”key”來的好，如果任何地方需要用字串當作識別的時侯，或者可以考慮換成用Symbol
-Literal取代</p>
-
-<h1>TBD</h1>
-
-<ul>
-<li>The Divide and Conquer principle</li>
-<li>Implicit Conversions and Parameters</li>
-</ul>
-
-
-<h1>Resource</h1>
-
-<ul>
-<li><a href="http://www.scala-lang.org/" title="http://www.scala-lang.org/">http://www.scala-lang.org/</a>
-官網</li>
-<li><a href="http://docs.scala-lang.org/index.html" title="http://docs.scala-lang.org/index.html">http://docs.scala-lang.org/index.html</a>
-官網文件</li>
-<li>Functional scala serial
-這一系列教學，很適合java背景，而且沒有function programming的人
-
-<ol>
-<li><a href="http://gleichmann.wordpress.com/2010/10/28/functional-scala-introduction/" title="http://gleichmann.wordpress.com/2010/10/28/functional-scala-introduction/">episode 1:
-Introduction</a></li>
-<li><a href="http://gleichmann.wordpress.com/2010/10/31/functional-scala-functions/" title="http://gleichmann.wordpress.com/2010/10/31/functional-scala-functions/">episode 2:
-Functions</a></li>
-<li><a href="http://gleichmann.wordpress.com/2010/11/08/functional-scala-functions-as-objects-as-functions/" title="http://gleichmann.wordpress.com/2010/11/08/functional-scala-functions-as-objects-as-functions/">episode 3: Functions as Objects as
-Functions</a></li>
-<li><a href="http://gleichmann.wordpress.com/2010/11/15/functional-scala-closures/" title="http://gleichmann.wordpress.com/2010/11/15/functional-scala-closures/">episode 4:
-Closures</a></li>
-<li><a href="http://gleichmann.wordpress.com/2010/11/21/functional-scala-comprehending-comprehensions/" title="http://gleichmann.wordpress.com/2010/11/21/functional-scala-comprehending-comprehensions/">episode 5: Comprehending
-Comprehensions</a></li>
-<li><a href="http://gleichmann.wordpress.com/2010/11/28/high-higher-higher-order-functions/" title="http://gleichmann.wordpress.com/2010/11/28/high-higher-higher-order-functions/">episode 6: High, Higher, Higher Order
-Functions</a></li>
-<li><a href="http://gleichmann.wordpress.com/2010/12/05/functional-scala-lambdas-and-other-shortcuts/" title="http://gleichmann.wordpress.com/2010/12/05/functional-scala-lambdas-and-other-shortcuts/">episode 7: Lambdas and other
-shortcuts</a></li>
-</ol>
-</li>
-</ul>
-
 ]]></content>
   </entry>
   

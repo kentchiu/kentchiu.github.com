@@ -4,7 +4,7 @@
   <title><![CDATA[Category: git | Kent's Blog]]></title>
   <link href="http://blog.kent-chiu.com/blog/categories/git/atom.xml" rel="self"/>
   <link href="http://blog.kent-chiu.com/"/>
-  <updated>2013-07-23T12:27:33+08:00</updated>
+  <updated>2013-08-16T00:47:13+08:00</updated>
   <id>http://blog.kent-chiu.com/</id>
   <author>
     <name><![CDATA[Kent]]></name>
@@ -573,6 +573,8 @@ pb  git://github.com/paulboone/ticgit.git
 <li><code>git reset --hard</code>   回到某個版本，就像完做過異動一樣，merge失敗時，也常用這個來恢復到merged前的狀態</li>
 </ul>
 
+
+<blockquote><p><code>git reset --hard</code> 只會退回到上一個commit，如果要退更多，就要直接指定commit id <code>git reset --hard &lt;commit id&gt;</code></p></blockquote>
 
 <h4>diff</h4>
 

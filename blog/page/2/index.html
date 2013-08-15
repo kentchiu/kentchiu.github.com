@@ -9,10 +9,25 @@
   <meta name="author" content="Kent">
 
   
-  <meta name="description" content="Android Emulator是
-QEMU-based的應用程式，主要功能是在PC上建立一個虛擬的Android平台環境，並提供一個GUI的仿手機介面以供操作。
-Android
-Emulator可以模擬任何Android平台的任何功能，可以模擬手機應用程式執行情形，也可以模擬Native &hellip;">
+  <meta name="description" content="File upload 1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+@RequestMapping(value = "/foobar/upload", method = RequestMethod.POST)
+public @ResponseBody &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -80,6 +95,179 @@ Emulator可以模擬任何Android平台的任何功能，可以模擬手機應�
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/10/file-upload-and-download-in-spring-rest-mvc/">Spring Rest檔案上傳及下載</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-10T14:27:00+08:00" pubdate data-updated="true">Mar 10<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/03/10/file-upload-and-download-in-spring-rest-mvc/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>File upload</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@RequestMapping(value = "/foobar/upload", method = RequestMethod.POST)
+</span><span class='line'>public @ResponseBody
+</span><span class='line'>String upload(@RequestParam("file") MultipartFile file, @RequestParam("fileId") String fileId) {
+</span><span class='line'>  logger.info("save import file {} to {}", file.getOriginalFilename(), fileId);
+</span><span class='line'>
+</span><span class='line'>  File resultHome = getWorkingDir();
+</span><span class='line'>  File temp = new File(resultHome, fileId);
+</span><span class='line'>  try {
+</span><span class='line'>      IOUtils.copy(file.getInputStream(), new FileOutputStream(temp));
+</span><span class='line'>      return "{success: true}";
+</span><span class='line'>  } catch (FileNotFoundException e) {
+</span><span class='line'>      logger.error("upload file fail", e);
+</span><span class='line'>  } catch (IOException e) {
+</span><span class='line'>      logger.error("upload file fail", e);
+</span><span class='line'>  }
+</span><span class='line'>  return "{success: false}";
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>File Download</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@RequestMapping(value = "/forbar/export", method = RequestMethod.GET)
+</span><span class='line'>public HttpEntity&lt;byte[]&gt; excelExcel() throws IOException {
+</span><span class='line'>  File file = new File("myexcel.xls");
+</span><span class='line'>  byte[] body = FileUtils.readFileToByteArray(file);
+</span><span class='line'>  HttpHeaders header = new HttpHeaders();
+</span><span class='line'>  header.setContentType(new MediaType("application", "xls"));
+</span><span class='line'>  header.set("Content-Disposition", "attachment; filename=" + "foobar.xls");
+</span><span class='line'>  header.setContentLength(body.length);
+</span><span class='line'>  return new HttpEntity&lt;byte[]&gt;(body, header);
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/04/octopress-configuration/">Octopress配置</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-04T00:31:00+08:00" pubdate data-updated="true">Mar 4<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/03/04/octopress-configuration/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>配置檔說明在 : https://github.com/mojombo/jekyll/wiki/Configuration</p>
+
+<p>plugins : https://github.com/imathis/octopress/wiki/3rd-party-plugins</p>
+
+<p>小抄: http://dreamrunner.org/wiki/public_html/docs/Web/octopress.html</p>
+
+<hr />
+
+<h4>加快generate的速度</h4>
+
+<p>文章數不到200篇，但在i7的cpu上generate已經要需近一分鐘的時間，還好octopress提供了一個快速generate的指令<code>rake isolate</code>
+，動作原理就是開一個暫存的目錄<code>_stash</code>要generate前會把<code>_post</code>裡的所有檔案copy到暫存的目錄<code>_stash</code>下，等要
+deploy時，再透過指令<code>rake integrate</code>將檔案copy回<code>_post</code></p>
+
+<p>使用範例如下</p>
+
+<p><code>source/_post</code>有10篇文章，其中有一篇檔名為<code>2013-03-04-foo-bar.md</code>是這次要編輯的</p>
+
+<p>透過<code>rake isolate</code>來隔離<code>2013-03-04-foo-bar.md</code>之外的文章</p>
+
+<pre><code> rake isolate[foo-bar]
+</code></pre>
+
+<p>檔名要去掉日期的部份及副檔名, 下完指令後<code>_post</code>目錄下只剩<code>2013-03-04-foo-bar.md</code>這個檔案</p>
+
+<pre><code>rake generate
+</code></pre>
+
+<p>只剩一個檔案，generate速度當然飛快</p>
+
+<p>文章編輯完成，準備發佈前記得透過<code>rake integrate</code>把其他檔案從<code>_stage</code>目錄copy回來</p>
+
+<pre><code>rake integrate
+</code></pre>
+
+<p>此時，所有的檔案已經都回到<code>_post</code>目錄，這時必須再對所有內容<code>generate</code>一次，就可以進行發佈<code>rake deploy</code>了</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -2589,1250 +2777,6 @@ action(中文)</a></li>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/07/12/jpa_101/">JPA 101</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-07-12T00:00:00+08:00" pubdate data-updated="true">Jul 12<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/07/12/jpa_101/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Java Persistence API(JPA)</p>
-
-<h1>Where to put the persistence.xml</h1>
-
-<ul>
-<li>for web application → WEB-INF/classes/META-INF/persistence.xml</li>
-<li>for jar →</li>
-<li>for maven main folder → src/main/resource/META-INF/persistence.xml</li>
-<li>for maven test folder → src/test/resource/META-INF/persistence.xml</li>
-</ul>
-
-
-<p>If uses maven structure in Eclipse IDE, main resource and test resource
-would complied to same directory(the build directory), we should avoid
-using the same <strong>persistence-unit</strong> name in test and main resources</p>
-
-<h1>presitence.xml</h1>
-
-<h3>Hibernate</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-</span><span class='line'>&lt;persistence version="1.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"&gt;
-</span><span class='line'>    &lt;persistence-unit name="entity" transaction-type="RESOURCE_LOCAL"&gt;
-</span><span class='line'>        &lt;provider&gt;org.hibernate.ejb.HibernatePersistence&lt;/provider&gt;
-</span><span class='line'>        &lt;class&gt;com.kent.MyClass&lt;/class&gt;
-</span><span class='line'>        &lt;properties&gt;
-</span><span class='line'>            &lt;property name="hibernate.hbm2ddl.auto" value="update" /&gt;
-</span><span class='line'>            &lt;property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" /&gt;
-</span><span class='line'>            &lt;property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver" /&gt;
-</span><span class='line'>            &lt;property name="hibernate.connection.url" value="jdbc:mysql://localhost/database_name" /&gt;
-</span><span class='line'>            &lt;property name="hibernate.connection.username" value="root" /&gt;
-</span><span class='line'>            &lt;property name="hibernate.connection.password" value="" /&gt;
-</span><span class='line'>                        &lt;property name="hibernate.show_sql" value="true" /&gt;
-</span><span class='line'>        &lt;/properties&gt;
-</span><span class='line'>    &lt;/persistence-unit&gt;
-</span><span class='line'>&lt;/persistence&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>set property bernate.show_sql to true to output HSQL → SQL in console.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" /&gt;
-</span><span class='line'>&lt;property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver" /&gt;
-</span><span class='line'>&lt;property name="hibernate.connection.url" value="jdbc:mysql://localhost/database_name" /&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;property name="hibernate.connection.url" value="jdbc:hsqldb:mem:database_name"/&gt;
-</span><span class='line'>&lt;property name="hibernate.connection.driver_class" value="org.hsqldb.jdbcDriver"/&gt;
-</span><span class='line'>&lt;property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect"/&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;property name="hibernate.connection.url" value="jdbc:derby:memory:database_name"/&gt;
-</span><span class='line'>&lt;property name="hibernate.connection.driver_class" value="org.apache.derby.jdbc.EmbeddedDriver"/&gt;
-</span><span class='line'>&lt;property name="hibernate.dialect" value="org.hibernate.dialect.DerbyDialect"/&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5432/databaseName"/&gt;
-</span><span class='line'>&lt;property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/&gt;
-</span><span class='line'>&lt;property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>MySQL encoding issue. If you encountered encoding issue when result set
-contains CJK code, you can add this property to url connection string.
-<code>?useUnicode=true&amp;amp;characterEncoding=UTF-8</code> ex:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>  jdbc:mysql://localhost/database_name?useUnicode=true&amp;characterEncoding=UTF-8</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>EclipseLink - MySQL</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-</span><span class='line'>&lt;persistence version="1.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"&gt;
-</span><span class='line'>    &lt;persistence-unit name="entity" transaction-type="RESOURCE_LOCAL"&gt;
-</span><span class='line'>    &lt;provider&gt;org.eclipse.persistence.jpa.PersistenceProvider&lt;/provider&gt;
-</span><span class='line'>        &lt;class&gt;com.kent.MyClass&lt;/class&gt;
-</span><span class='line'>        &lt;properties&gt;
-</span><span class='line'>            &lt;property name="eclipselink.target-database" value="MYSQL"/&gt;
-</span><span class='line'>            &lt;property name="eclipselink.jdbc.url" value="jdbc:mysql://localhost/database_name"/&gt;
-</span><span class='line'>            &lt;property name="eclipselink.jdbc.driver" value="com.mysql.jdbc.Driver"/&gt;
-</span><span class='line'>            &lt;property name="eclipselink.jdbc.user" value="root"/&gt;
-</span><span class='line'>            &lt;property name="eclipselink.jdbc.password" value=""/&gt;
-</span><span class='line'>            &lt;property name="eclipselink.ddl-generation" value="update-tables"/&gt;
-</span><span class='line'>            &lt;property name="eclipselink.logging.level" value="SEVERE"/&gt;
-</span><span class='line'>        &lt;/properties&gt;
-</span><span class='line'>    &lt;/persistence-unit&gt;
-</span><span class='line'>&lt;/persistence&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>EclipseLink - HSQL</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-</span><span class='line'>&lt;persistence version="1.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"&gt;
-</span><span class='line'>    &lt;persistence-unit name="entity" transaction-type="RESOURCE_LOCAL"&gt;
-</span><span class='line'>    &lt;provider&gt;org.eclipse.persistence.jpa.PersistenceProvider&lt;/provider&gt;
-</span><span class='line'>        &lt;class&gt;com.kent.MyClass&lt;/class&gt;
-</span><span class='line'>        &lt;properties&gt;
-</span><span class='line'>            &lt;property name="eclipselink.target-database" value="HSQL"/&gt;
-</span><span class='line'>            &lt;property name="eclipselink.jdbc.url" value="jdbc:hsqldb:mem:database_name"/&gt;
-</span><span class='line'>            &lt;property name="eclipselink.jdbc.driver" value="org.hsqldb.jdbcDriver"/&gt;
-</span><span class='line'>            &lt;property name="eclipselink.jdbc.user" value="sa"/&gt;
-</span><span class='line'>            &lt;property name="eclipselink.jdbc.password" value=""/&gt;
-</span><span class='line'>            &lt;property name="eclipselink.ddl-generation" value="create-tables"/&gt;
-</span><span class='line'>            &lt;property name="eclipselink.logging.level" value="SEVERE"/&gt;
-</span><span class='line'>        &lt;/properties&gt;
-</span><span class='line'>    &lt;/persistence-unit&gt;
-</span><span class='line'>&lt;/persistence&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<h1>Properties</h1>
-
-<p>EclipseLink does NOT support the property <code>show sql</code> like hibernate, but
-we can turn the logging system to <code>FINE</code> level
-(<code>&lt;property name=“eclipselink.logging.level” value=“FINE”/&gt;</code>), the
-interpret SQL would be dumped.</p>
-
-<h1>CRUD</h1>
-
-<p><strong>C</strong>reate, <strong>R</strong>ead, <strong>U</strong>pdate, <strong>D</strong>elete operations in JPA</p>
-
-<p>Read類型的methods像find(), getReference(), refresh(), detach() and read
-queries，可以在transaction外執行(沒有tx.begin()/tx.commit()的包覆).</p>
-
-<h4>Create</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>entityManager.getTransaction().begin();
-</span><span class='line'>Employee newEmployee = new Employee(5);
-</span><span class='line'>entityManager.persist(newEmployee);
-</span><span class='line'>entityManager.getTransaction().commit();</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>Read</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>entityManager.find(Employee.class, 1);
-</span><span class='line'>// lazy load (as same as hibernate load() method)
-</span><span class='line'>entityManager.getReference(Employee.class, 1);
-</span><span class='line'>entityManager.createQuery("select employee from Employee employee");</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>for single result uses <code>query.getSingleResult()</code>;</li>
-<li>for multiple results (result set) uses <code>query.getResultList()</code>;</li>
-</ul>
-
-
-<h4>Update</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>entityManager.getTransaction().begin();
-</span><span class='line'>Employee existingEmployee = entityManager.find(Employee.class, 5);
-</span><span class='line'>existingEmployee.setLastName("NewLastName");
-</span><span class='line'>entityManager.getTransaction().commit();</span></code></pre></td></tr></table></div></figure>
-
-
-<p>or</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Employee existingEmployee = entityManager.find(Employee.class, 5);
-</span><span class='line'>existingEmployee.setLastName("NewLastName");
-</span><span class='line'> 
-</span><span class='line'>entityManager.getTransaction().begin();
-</span><span class='line'>entityManager.getTransaction().commit();</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>Delete</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>entityManager.getTransaction().begin();
-</span><span class='line'>Employee existingEmployee = entityManager.find(Employee.class, 5);
-</span><span class='line'>entityManager.remove(existingEmployee);
-</span><span class='line'>entityManager.getTransaction().commit();</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Bulk Update / Delete</h3>
-
-<h4>Bulk Update</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>EntityManager entityManager = entityManagerFactory.createEntityManager();
-</span><span class='line'>entityManager.getTransaction().begin();
-</span><span class='line'>String jpqlUpdate = "update Customer set name = :newName where name = :oldName"
-</span><span class='line'>int updatedEntities = entityManager.createQuery( jpqlUpdate )
-</span><span class='line'>                            .setParameter( "newName", newName )
-</span><span class='line'>                            .setParameter( "oldName", oldName )
-</span><span class='line'>                            .executeUpdate();
-</span><span class='line'>entityManager.getTransaction().commit();
-</span><span class='line'>entityManager.close();</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>Bulk Delete</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>EntityManager entityManager = entityManagerFactory.createEntityManager();
-</span><span class='line'>entityManager.getTransaction().begin();
-</span><span class='line'>String hqlDelete = "delete Customer where name = :oldName";
-</span><span class='line'>int deletedEntities = entityManager.createQuery( hqlDelete )
-</span><span class='line'>                            .setParameter( "oldName", oldName )
-</span><span class='line'>                            .executeUpdate();
-</span><span class='line'>entityManager.getTransaction().commit();
-</span><span class='line'>entityManager.close();</span></code></pre></td></tr></table></div></figure>
-
-
-<h1>Tips</h1>
-
-<ul>
-<li>Using wrapper type rather than primitive type to avoid <a href="http://stackoverflow.com/questions/2565352/whats-difference-between-primitive-and-wrapper-class-in-jpa-hibernate-column-m" title="http://stackoverflow.com/questions/2565352/whats-difference-between-primitive-and-wrapper-class-in-jpa-hibernate-column-m">null
-assinged
-issue</a>.</li>
-</ul>
-
-
-<h1>FK constraint violation</h1>
-
-<p>Sometime the forgine key constraint that export by DDL tools would be a
-problem when doing unit testing. But there is no way to disable
-hibernate FK constraints exports. In the situation we can rewrite the
-Dialect to prevent FK constraints exported.</p>
-
-<p>In this case, we created our own H2Dialet (for <a href="http://www.h2database.com/html/main.html" title="http://www.h2database.com/html/main.html">H2
-database</a>)
-and let <code>getAddForeignKeyConstraintString()</code> method empty. Which will
-disable the original <code>org.hibernate.dialect.H2Dialect</code> constraint
-generating statement.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>package com.kent.hibernate.dialect;
-</span><span class='line'>
-</span><span class='line'>public class H2Dialect extends org.hibernate.dialect.H2Dialect {
-</span><span class='line'>    @Override
-</span><span class='line'>    public String getAddForeignKeyConstraintString(String constraintName, String[] foreignKey, String referencedTable, String[] primaryKey, boolean referencesPrimaryKey) {
-</span><span class='line'>        return "";
-</span><span class='line'>    }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Once we have the Dialect, we need apply it our persistence.xml, after
-done, when the schema be generated, the schema will not include any FK
-constraint.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-</span><span class='line'>&lt;persistence version="1.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"&gt;
-</span><span class='line'>    &lt;persistence-unit name="entity-test" transaction-type="RESOURCE_LOCAL"&gt;
-</span><span class='line'>        &lt;provider&gt;org.hibernate.ejb.HibernatePersistence&lt;/provider&gt;
-</span><span class='line'>                 ...
-</span><span class='line'>        &lt;properties&gt;
-</span><span class='line'>            ...
-</span><span class='line'>            &lt;property name="hibernate.hbm2ddl.auto" value="create-drop" /&gt;
-</span><span class='line'>                        &lt;property name="hibernate.dialect" value="com.kent.hibernate.dialect.H2Dialect"/&gt;
-</span><span class='line'>            ...
-</span><span class='line'>        &lt;/properties&gt;
-</span><span class='line'>    &lt;/persistence-unit&gt;
-</span><span class='line'>&lt;/persistence&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<h1>JPA Query</h1>
-
-<p>JPA Query supports</p>
-
-<ol>
-<li>query</li>
-<li><strong>update</strong></li>
-<li><strong>delete</strong></li>
-</ol>
-
-
-<p>function to retrieves, modify, remove data from database.</p>
-
-<h5>IS [NOT] EMPTY</h5>
-
-<p>JPA provides a <strong>empty</strong> to test a collection empty or not:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>select book from Book book where book.chapters is not empty</span></code></pre></td></tr></table></div></figure>
-
-
-<h5>Join Fetch</h5>
-
-<p>JPA tries to fetch any entity as LAZY as possible whatever uses JPA QL
-or get by API.</p>
-
-<p>Fetch lazy or eager is by JPA vendor implementation, not all field type
-can fetch as LAZY</p>
-
-<h3>Local Manager Transaction</h3>
-
-<p>In a non-managed environment, an EntityManagerFactory is usually
-responsible for its own database connection pool. The application
-developer has to manually set transaction boundaries, in other words,
-begin, commit, or rollback database transactions itself</p>
-
-<p>If using local manager transaction, better to apply this template in
-code.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// Non-managed environment idiom
-</span><span class='line'>EntityManager em = emf.createEntityManager();
-</span><span class='line'>EntityTransaction tx = null;
-</span><span class='line'>try {
-</span><span class='line'>    tx = em.getTransaction();
-</span><span class='line'>    tx.begin();
-</span><span class='line'>    // do some work
-</span><span class='line'>    ...
-</span><span class='line'>    tx.commit();
-</span><span class='line'>} catch (RuntimeException e) {
-</span><span class='line'>    if ( tx != null && tx.isActive() ) tx.rollback();
-</span><span class='line'>    throw e; // or display error message
-</span><span class='line'>} finally {
-</span><span class='line'>    em.close(); // make sure you always close and never outside of guaranteed finally block
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Joins and Fetches</h3>
-
-<ol>
-<li>inner join = join</li>
-<li>left out join = left join</li>
-<li>fetch = 用一個select把屬性或集合一次取回</li>
-<li>fetch all = 如果有lazy properties，可用fetch all去init all lazy</li>
-</ol>
-
-
-<h1>Expressions</h1>
-
-<ul>
-<li>is empty, is not empty</li>
-<li>member of, not member of 僅適用於embedded object</li>
-<li>elements 測試某個element是否在elements中</li>
-<li>minimum, maximum, minindex, maxindex 可用於 array, list, map</li>
-<li>KEY() and VALUE() 可用於map</li>
-<li>any, some, all, exists, in 這幾個可以和elements,minimum, maximum,
-minindex, maxinde 搭配使用</li>
-<li>current_date(), current_time(), current_timestamp()</li>
-<li>second(…), minute(…), hour(…), day(…), month(…), year(…), (specific
-to HQL)</li>
-<li>coalesce() and nullif() coalesce（） 取回第一個非NULL的值</li>
-<li>TYPE … in …</li>
-<li>cast(… as …)</li>
-<li>Java public static final constants eg.Color.TABBY</li>
-</ul>
-
-
-<h5>member of</h5>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>'867-5309' MEMBER OF p.phoneNumbers</span></code></pre></td></tr></table></div></figure>
-
-
-<h5>coalesce</h5>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>SELECT COALESCE( NULL, 34, 13, 0 )
-</span><span class='line'>// return 34</span></code></pre></td></tr></table></div></figure>
-
-
-<h5>any, some, all, exists, in</h5>
-
-<p><a href="http://twpug.net/docs/postgresql-doc-8.0-zh_TW/functions-subquery.html" title="http://twpug.net/docs/postgresql-doc-8.0-zh_TW/functions-subquery.html">any, some, all, exists,
-in</a>在SQL-92中的定義</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>select mother from Cat as mother, Cat as kit
-</span><span class='line'>where kit in elements(foo.kittens)</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>select p from NameList list, Person p where p.name = some elements(list.names)</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>select cat from Cat cat where exists elements(cat.kittens)</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>select cat from Player p where 3 &gt; all elements(p.scores)</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>select cat from Show show where 'fizard' in indices(show.acts)</span></code></pre></td></tr></table></div></figure>
-
-
-<h5>index</h5>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>select order from Order order where order.items[0].id = 1234</span></code></pre></td></tr></table></div></figure>
-
-
-<h5>KEY(),VALUE()</h5>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>select i.name, VALUE(p) FROM Item i JOIN i.photos p WHERE KEY(p) LIKE ‘%egret’</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Data in collection</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>public List&lt;Role&gt; listRolesByPermissions(Set&lt;String&gt; permissions) {
-</span><span class='line'>  String ql = "select role from Role role left join role.permissions p where p in (:perms)";
-</span><span class='line'>  Query q = entityManager.createQuery(ql).setParameter("perms", permissions);
-</span><span class='line'>  return q.getResultList();
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>上面的例子採用naming parameter可以正常動作，但下面採用position
-parameter的方式卻不行？</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>public List&lt;Role&gt; listRolesByPermissions(Set&lt;String&gt; permissions) {
-</span><span class='line'>  String ql = "select role from Role role left join role.permissions p where p in (?)";
-</span><span class='line'>  Query q = entityManager.createQuery(ql).setParameter(1, permissions);
-</span><span class='line'>  return q.getResultList();
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<h1>Implementation Restrictions</h1>
-
-<p>To avoid conflicts with the original database operation that fires the
-entity lifecycle event (which is still in progress) callback methods
-should not call <code>EntityManager</code> or <code>Query</code> methods and should not access
-other entity objects.</p>
-
-<p>If a callback method throws an exception within an active transaction,
-the transaction is marked for rollback and no more callback methods are
-invoked for that operation.</p>
-
-<h1>Architecture</h1>
-
-<h4>EntityManagerFactory</h4>
-
-<p>建立時會比較耗時耗資源，所以應隨server啟動而啟動，關閉而關閉.</p>
-
-<h4>EntityManager</h4>
-
-<p>The EntityManager API is used to access a database in a particular unit
-of work. 正常來說，EntityManager的life cycle應該是一個database
-transaction(也就是說，應隨著transaction committed而close),
-但也可以跨多個database
-transactions(跟hibernate的session一樣，可以跟多個transaction).
-如果發生任何例外的話，應該要立即呼叫<code>EntityManager.close()</code>，並且棄用EntityManager
-instance.</p>
-
-<h1>Annotations</h1>
-
-<p>如果需要讓boolean有預設值，可透過<code>@Column</code>的<code>columnDefinition</code>屬性</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>@Column(columnDefinition = "bool default false")
-</span><span class='line'>private boolean   boolField;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>如果要讓欄位接受null，要宣告成物件型別(Object
-type)而非原生型別(primitive type)</p>
-
-<h1>Resources</h1>
-
-<ul>
-<li><a href="http://wiki.eclipse.org/Using_EclipseLink_JPA_Extensions_%28ELUG%29" title="http://wiki.eclipse.org/Using_EclipseLink_JPA_Extensions_%28ELUG%29">EclipseLink
-properties</a></li>
-<li><a href="http://docs.jboss.org/hibernate/stable/annotations/reference/en/html_single/" title="http://docs.jboss.org/hibernate/stable/annotations/reference/en/html_single/">hibernate annotations reference
-manual</a></li>
-<li><a href="http://docs.jboss.org/hibernate/stable/entitymanager/reference/en/html/index.html" title="http://docs.jboss.org/hibernate/stable/entitymanager/reference/en/html/index.html">hibernate Entity Manager reference
-manual</a></li>
-<li><a href="http://en.wikibooks.org/wiki/Java_Persistence" title="http://en.wikibooks.org/wiki/Java_Persistence">JPA 2 on
-wikibook</a></li>
-<li><a href="http://wiki.kent-chiu.com/lib/exe/fetch.php?media=java:jpa_mapping.pdf" title="java:jpa_mapping.pdf">A JavaTM Persistence API Mapping Magical Mystery
-Tour</a>
-
-<ul>
-<li>相當清晰的MAPPING介紹</li>
-</ul>
-</li>
-<li><a href="http://uaihebert.com/?p=1274" title="http://uaihebert.com/?p=1274">JPA Queries and
-Tips</a> -
-JPA的使用實例，有不到best practices的使用</li>
-</ul>
-
-
-<p>[java</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/07/02/scala_101/">Scala 101</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-07-02T00:00:00+08:00" pubdate data-updated="true">Jul 2<span>nd</span>, 2012</time>
-        
-         | <a href="/blog/2012/07/02/scala_101/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Scala IDE</p>
-
-<ol>
-<li>eclipse 3.7 (indigo)</li>
-<li>scala IDE plugin 2.9</li>
-<li>jdk 1.7.03</li>
-</ol>
-
-
-<p>一切換到scala的環境，IDE就凍住了，用<a href="http://wiki.kent-chiu.com/doku.php?id=java:jvm_profile" title="java:jvm_profile">VirtualVM</a>觀查的結果是執行scala的vm(不是ide本身的vm)的Permanent
-Generation
-Memory爆了，把它開到256M(-XX:MaxPermSize=256m)就不會一切到scala
-perspective，IDE就掛掉。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#utf8 (do not remove)
-</span><span class='line'>-startup
-</span><span class='line'>../../Common/plugins/org.eclipse.equinox.launcher_1.2.0.v20110502.jar
-</span><span class='line'>--launcher.library
-</span><span class='line'>../../Common/plugins/org.eclipse.equinox.launcher.i18n.win32.win32.x86_64_4.2.0.v201201111650
-</span><span class='line'>-showsplash
-</span><span class='line'>C:\Genuitec\Common\plugins\org.eclipse.platform_3.7.2.v201202080800\splash.bmp
-</span><span class='line'>--launcher.XXMaxPermSize
-</span><span class='line'>256m
-</span><span class='line'>--launcher.defaultAction
-</span><span class='line'>openFile
-</span><span class='line'>-install
-</span><span class='line'>C:\Genuitec\Profiles\scala
-</span><span class='line'>-configuration
-</span><span class='line'>C:\Genuitec\Profiles\scala\configuration
-</span><span class='line'>-vmargs
-</span><span class='line'>-Xms256m
-</span><span class='line'>-Xmx1024m
-</span><span class='line'>-XX:MaxPermSize=256m</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>scala是可自我成長的語言</li>
-<li>scala混合了oo跟function lang</li>
-<li>java中的static method可以考慮用function的方式實現，statistic
-method可視為一種退化的function lang?</li>
-<li>scala是純oo
-lang，所有的東西都是物件，所有的操作(含運算子)都是method，所以，可以做運算子的override</li>
-<li><p>scala可以與java無縫的整合，事實上，scala很多型號都是來自java。scala
-call java lib會很容易，但java call
-scala會有比較多的限制，因為scala的物件模型及語意比java豐富，java沒辦法一一對應。</p></li>
-<li><p>scala有兩種變數</p></li>
-<li><p>expression後面的分號(;)可有可無</p></li>
-<li>val : 像java的final變數，一旦宣告後，就不能改變
-(如果重新指派，會出reassignment的error)</li>
-<li><p>var : 像java的non final變數，可以重新指派值</p></li>
-<li><p>scala的array跟java一樣是0-base但是，是透過()存取，而不是[]</p></li>
-</ul>
-
-
-<h5>method</h5>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>def mymethod(x: Int, y: Int) : Int = {
-</span><span class='line'>  x + y
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>def mymethod(x: Int, y: Int) = x + y</span></code></pre></td></tr></table></div></figure>
-
-
-<p>所有的運算子在scala都是method，所以<code>1 + 2</code>是這樣的method call</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>(1).+(2)</span></code></pre></td></tr></table></div></figure>
-
-
-<p><code>1</code>是物件,<code>+</code>是method name，<code>1</code>物件透過<code>.</code>來呼叫<code>+</code>method並傳入參數值<code>2</code></p>
-
-<p>以這樣的角度來看Array，Array就很直覺了，Array在Scala也只是一般的物件，而不是像java一樣，而不是像java一樣，是屬於語法等級的物件</p>
-
-<h5>foreach</h5>
-
-<p>for (arg ← args) println(arg)</p>
-
-<h3>function</h3>
-
-<h4>function literal</h4>
-
-<p>單行</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>(x: Int, y: Int) =&gt; x + y </span></code></pre></td></tr></table></div></figure>
-
-
-<p>多行時可以用大括號將 functio body括起來</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>(x: Int, y: Int) =&gt; {
-</span><span class='line'>    val z = x + 1
-</span><span class='line'>    z + y
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>這邊用function literal來達到foreach的功能，function literal有三種用法</p>
-
-<p>第一種是最囉嗦,array的item要給型別而且給了型別，外面還要配一對括號</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>myarray.foreach((item: String) =&gt; println(item))</span></code></pre></td></tr></table></div></figure>
-
-
-<p>這個是比較正常的用法</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>myarray.foreach(item =&gt; println(item))</span></code></pre></td></tr></table></div></figure>
-
-
-<p>超精簡的用法，但只適用於只有一個參數的狀況</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>myarray.foreach(println)</span></code></pre></td></tr></table></div></figure>
-
-
-<h5>function return type</h5>
-
-<p>為什麼sum function可以不用指定return type，而factorial必須指定return
-type為Int?</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>  def sum(a:Int,b:Int) = a+b
-</span><span class='line'>  def factorial(n:Int):Int = if (n==0) 1 else n * factorial(n-1)</span></code></pre></td></tr></table></div></figure>
-
-
-<p>因為在sum function中complier可以推斷(infer)出a +
-b的回傳值是Int型別，但在factorial中，回傳值可能是 1
-或者是<code>n * factorial(n-1)</code>，
-而<code>n * factorial(n-1)</code>是未知型別，所以，我們必須指定return
-type，給complier一個提示。</p>
-
-<p>有些語言的compiler可以由factorial function的第一個回傳值為1來推斷return
-type為Int，但scala的complier不行</p>
-
-<h5>operator notation</h5>
-
-<ol>
-<li>infix 1 + 2</li>
-<li>prefix +1,-1, !foo, \~bar (只有+,-,!,\~可以為prefix
-operator,定為方式為<code>unary_+</code>,<code>unary_-</code>,<code>unary_!</code>,<code>unary_~</code>,)</li>
-<li>postfix 1.toLong</li>
-</ol>
-
-
-<h4>functionN</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>package scala
-</span><span class='line'> 
-</span><span class='line'> 
-</span><span class='line'>trait Function2[@specialized(scala.Int, scala.Long, scala.Double) -T1, @specialized(scala.Int, scala.Long, scala.Double) -T2, @specialized(scala.Unit, scala.Boolean, scala.Int, scala.Float, scala.Long, scala.Double) +R] extends AnyRef { self =&gt;
-</span><span class='line'>  /** Apply the body of this function to the arguments.
-</span><span class='line'>   *  @return   the result of function application.
-</span><span class='line'>   */
-</span><span class='line'>  def apply(v1: T1, v2: T2): R
-</span><span class='line'> 
-</span><span class='line'>  /** Creates a curried version of this function.
-</span><span class='line'>   *
-</span><span class='line'>   *  @return   a function `f` such that `f(x1)(x2) == apply(x1, x2)`
-</span><span class='line'>   */
-</span><span class='line'>  def curried: T1 =&gt; T2 =&gt; R = {
-</span><span class='line'>    (x1: T1) =&gt; (x2: T2) =&gt; apply(x1, x2)
-</span><span class='line'>  }
-</span><span class='line'>  @deprecated("Use 'curried' instead", "2.8.0")
-</span><span class='line'>  def curry = curried
-</span><span class='line'> 
-</span><span class='line'>  /** Creates a tupled version of this function: instead of 2 arguments,
-</span><span class='line'>   *  it accepts a single [[scala.Tuple2]] argument.
-</span><span class='line'>   *
-</span><span class='line'>   *  @return   a function `f` such that `f((x1, x2)) == f(Tuple2(x1, x2)) == apply(x1, x2)`
-</span><span class='line'>   */
-</span><span class='line'>  def tupled: Tuple2[T1, T2] =&gt; R = {
-</span><span class='line'>    case Tuple2(x1, x2) =&gt; apply(x1, x2)
-</span><span class='line'>  }
-</span><span class='line'>  override def toString() = "&lt;function2&gt;"
-</span><span class='line'>}
-</span><span class='line'> 
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>scala中的每個function，都是實作像上面的functionN(N從0\~22)的trait，以<code>(x: Int, y: Int) ⇒ x + y</code>來說，就是上例中的Function2[-T1,
--T2, +R]， 因為 (x: Int, y: Int) ⇒ x + y 就
-傳入兩個int的參數並傳回一個int的結果，這樣與Function2的<code>def apply(v1: T1, v2: T2): R</code>是相等的。</p>
-
-<h4>closure</h4>
-
-<p>closure跟function literal語法很相似，但closure多了<a href="#free_variables" title="scala:scala_101 ↵">free
-variables</a>，所以，free
-variables可被當做區分closure跟function literal的依據</p>
-
-<h5>free variables</h5>
-
-<p>TBC</p>
-
-<h4>Constructor</h4>
-
-<h5>primary constructor</h5>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>class MyClass(x: Int, y: Int)</span></code></pre></td></tr></table></div></figure>
-
-
-<h5>auxiliary constructor</h5>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>class MyClass(x: Int) {
-</span><span class='line'>    def this(x:Int) = this(x, 1) 
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>在scala，只有primary constructor可以呼叫super class的Constructor</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'> </span></code></pre></td></tr></table></div></figure>
-
-
-<h4>function parameters</h4>
-
-<h5>repeated parameters</h5>
-
-<p>repeated parameters像java的 myfunc(String…
-args)，後面能用0到多個相同型別的參數</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>def myfunc(args: String*)</span></code></pre></td></tr></table></div></figure>
-
-
-<h5>naming parameters</h5>
-
-<p>naming
-parameters主要是在使用functions時可以指定參數的名稱，也因為可以指定參數的名稱，
-所以傳入的參數順序可以跟原來宣告時的不一樣</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>def myfunc(foo: Int, bar: String)
-</span><span class='line'> 
-</span><span class='line'>// call myfunc with naming parameter
-</span><span class='line'>val x = myfunc(bar="test", foo=1)</span></code></pre></td></tr></table></div></figure>
-
-
-<h5>default value</h5>
-
-<p>參數的預設值，如果沒有特別指定時，參數會以預設值為準</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>def myfunc(foo: Int = 5)</span></code></pre></td></tr></table></div></figure>
-
-
-<h5>loop</h5>
-
-<p>如while 或者是 do-while loop 都是會帶有副作用(side
-effect)，請儘量改用其他的方式實作</p>
-
-<h5>for</h5>
-
-<p>for loop有filter的功能</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>val filesHere = (new java.io.File(".")).listFiles
-</span><span class='line'>for (file &lt;- filesHere if file.getName.endsWith(".scala"))
-</span><span class='line'>  println(file)
-</span><span class='line'> 
-</span><span class='line'>// 上面那邊，的效果等同於  
-</span><span class='line'>for (file &lt;- filesHere)
-</span><span class='line'>  if (file.getName.endsWith(".scala"))
-</span><span class='line'>    println(file)  </span></code></pre></td></tr></table></div></figure>
-
-
-<p>filter也可以累加，像這樣</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>for (
-</span><span class='line'>  file &lt;- filesHere
-</span><span class='line'>  if file.isFile
-</span><span class='line'>  if file.getName.endsWith(".scala")
-</span><span class='line'>) println(file)</span></code></pre></td></tr></table></div></figure>
-
-
-<h5>apply() and update()</h5>
-
-<p><code>()</code>跟<code>()=</code>是語法糖(complier sugar)，分別等效於<code>apply()</code>跟<code>update()</code> ()
-: apply() ()= : update()</p>
-
-<h3>Import and Package</h3>
-
-<h5>pacakge</h5>
-
-<ol>
-<li>可以是 java style ，把 package name 放在最上面</li>
-<li>可以是 c# like，用 com.kentchiu { <em>package content } 或 com{
-kentchiu {</em> package content} }</li>
-<li>_root_ package</li>
-</ol>
-
-
-<h5>import</h5>
-
-<p>與 java 的不同</p>
-
-<ol>
-<li>可以直接 import class member</li>
-<li>可以 rename 或隱藏部份被 import 的 members</li>
-</ol>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>import com.kentchiu.{Foo, Bar}        // 只 import Foo 跟 Bar
-</span><span class='line'>import com.kentchiu.{Foo, Bar =&gt; Baz} // 只 import Foo 跟 Bar， Bar 改名為 Baz
-</span><span class='line'>import com.kentchiu.{Bar =&gt; _, _}     // Bar rename 成 _ ，會變成 import com.kentchiu 但把 Bar 排外</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>trait</h3>
-
-<p>Trait像是java的interface，不過，更像是ruby的mixin</p>
-
-<h5>Ordered Trait</h5>
-
-<p>Ordered Trait是用來說明trait一個很好的例子，Rubyer應該對這個例子很眼熟</p>
-
-<h3>case class</h3>
-
-<h5>function programming</h5>
-
-<p>Functional programming is a programming paradigm that describes
-computation as the evaluation of mathematical functions avoiding state,
-mutual data and therefore side effects</p>
-
-<p>Function programming based on applying functions to arguments in order
-to receive some desired values</p>
-
-<p>The core idea for computation has shifted from a series of instructions
-(which specify precisely how the computation should proceed) to Notation
-of expressions, based on functions and values. You no longer have to
-follow a plan of instructions in order to understand a computation but
-decompose such an expression into its single elements.</p>
-
-<h3>Sequence Comprehensions</h3>
-
-<h3>Tuple</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>scala&gt; val t = (1,2)
-</span><span class='line'>t: (Int, Int) = (1,2)
-</span><span class='line'> 
-</span><span class='line'>scala&gt; val t = new Tuple2(1,2)
-</span><span class='line'>t: (Int, Int) = (1,2)</span></code></pre></td></tr></table></div></figure>
-
-
-<p>tuple是透過特殊index語法存取</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>scala&gt; t._1
-</span><span class='line'>res3: Int = 1
-</span><span class='line'> 
-</span><span class='line'>scala&gt; t._2
-</span><span class='line'>res4: Int = 2</span></code></pre></td></tr></table></div></figure>
-
-
-<p>另外一種建立tuple的語法</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>scala&gt; 1-&gt;2
-</span><span class='line'>res0: (Int, Int) = (1,2)</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Extractors</h3>
-
-<p>利用 <code>unApply()</code> method搭配pattern match將資訊從class中萃取出來</p>
-
-<h3>Parser Combinators</h3>
-
-<ul>
-<li>Christoph Henkelmann’s Blog - An Introduction To Scala Parser
-Combinators
-
-<ol>
-<li><a href="http://henkelmann.eu/2011/01/13/an_introduction_to_scala_parser_combinators" title="http://henkelmann.eu/2011/01/13/an_introduction_to_scala_parser_combinators">Part 1: Parser
-Basics</a></li>
-<li><a href="http://henkelmann.eu/2011/01/28/an_introduction_to_scala_parser_combinators-part_2_literal_expressions" title="http://henkelmann.eu/2011/01/28/an_introduction_to_scala_parser_combinators-part_2_literal_expressions">Part 2: Parsing Literal
-Expressions</a></li>
-<li><a href="http://henkelmann.eu/2011/01/29/an_introduction_to_scala_parser_combinators-part_3_unit_tests" title="http://henkelmann.eu/2011/01/29/an_introduction_to_scala_parser_combinators-part_3_unit_tests">An Introduction To Scala Parser Combinators - Part 3: Writing
-unit tests for
-parsers</a></li>
-</ol>
-</li>
-</ul>
-
-
-<h3>Symbol Literals</h3>
-
-<p>Symbol Literals是在字串前加一個單引號&#8217;，像這樣&#8217;foo</p>
-
-<p>Symbol
-Literal主要作用是用來當作識別用，可以視為一個字串，但它不同於字串的地方有</p>
-
-<ol>
-<li>不可以有任何空白</li>
-<li>一致性</li>
-<li>對重構比較友善</li>
-</ol>
-
-
-<p>像典型的map可以寫成這樣</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>"key" -&gt; "value"</span></code></pre></td></tr></table></div></figure>
-
-
-<p>key的部份可以換成Symbol Literal取代</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>'key -&gt; "value"</span></code></pre></td></tr></table></div></figure>
-
-
-<p>這樣的好處是，&#8217;key更能代表唯一性，而且，如果要進行重構，&#8217;key對於重構的支援會比”key”來的好，如果任何地方需要用字串當作識別的時侯，或者可以考慮換成用Symbol
-Literal取代</p>
-
-<h1>TBD</h1>
-
-<ul>
-<li>The Divide and Conquer principle</li>
-<li>Implicit Conversions and Parameters</li>
-</ul>
-
-
-<h1>Resource</h1>
-
-<ul>
-<li><a href="http://www.scala-lang.org/" title="http://www.scala-lang.org/">http://www.scala-lang.org/</a>
-官網</li>
-<li><a href="http://docs.scala-lang.org/index.html" title="http://docs.scala-lang.org/index.html">http://docs.scala-lang.org/index.html</a>
-官網文件</li>
-<li>Functional scala serial
-這一系列教學，很適合java背景，而且沒有function programming的人
-
-<ol>
-<li><a href="http://gleichmann.wordpress.com/2010/10/28/functional-scala-introduction/" title="http://gleichmann.wordpress.com/2010/10/28/functional-scala-introduction/">episode 1:
-Introduction</a></li>
-<li><a href="http://gleichmann.wordpress.com/2010/10/31/functional-scala-functions/" title="http://gleichmann.wordpress.com/2010/10/31/functional-scala-functions/">episode 2:
-Functions</a></li>
-<li><a href="http://gleichmann.wordpress.com/2010/11/08/functional-scala-functions-as-objects-as-functions/" title="http://gleichmann.wordpress.com/2010/11/08/functional-scala-functions-as-objects-as-functions/">episode 3: Functions as Objects as
-Functions</a></li>
-<li><a href="http://gleichmann.wordpress.com/2010/11/15/functional-scala-closures/" title="http://gleichmann.wordpress.com/2010/11/15/functional-scala-closures/">episode 4:
-Closures</a></li>
-<li><a href="http://gleichmann.wordpress.com/2010/11/21/functional-scala-comprehending-comprehensions/" title="http://gleichmann.wordpress.com/2010/11/21/functional-scala-comprehending-comprehensions/">episode 5: Comprehending
-Comprehensions</a></li>
-<li><a href="http://gleichmann.wordpress.com/2010/11/28/high-higher-higher-order-functions/" title="http://gleichmann.wordpress.com/2010/11/28/high-higher-higher-order-functions/">episode 6: High, Higher, Higher Order
-Functions</a></li>
-<li><a href="http://gleichmann.wordpress.com/2010/12/05/functional-scala-lambdas-and-other-shortcuts/" title="http://gleichmann.wordpress.com/2010/12/05/functional-scala-lambdas-and-other-shortcuts/">episode 7: Lambdas and other
-shortcuts</a></li>
-</ol>
-</li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -3858,26 +2802,26 @@ shortcuts</a></li>
       </li>
     
       <li class="post">
+        <a href="/blog/2013/06/25/url-encoding/">URL Encoding</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/04/restful-api-design/">RESTful API Design</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/05/17/my-intellij-idea-shortcut/">My IntelliJ IDEA Shortcut</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/05/12/jesper-report-font-issue/">Jesper Report, IReport 匯出成中文PDF</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/05/12/jasperreport-101/">JasperReport 101</a>
       </li>
     
   </ul>
 </section>
 <section>
   <h1>Category Cloud</h1>
-    <span id="tag-cloud"><a href='/blog/categories/actionbar' style='font-size: 102.4%'>actionbar(1)</a> <a href='/blog/categories/android' style='font-size: 160.0%'>android(25)</a> <a href='/blog/categories/apache' style='font-size: 116.8%'>apache(7)</a> <a href='/blog/categories/bash' style='font-size: 107.2%'>bash(3)</a> <a href='/blog/categories/best-practice' style='font-size: 102.4%'>best_practice(1)</a> <a href='/blog/categories/book' style='font-size: 102.4%'>book(1)</a> <a href='/blog/categories/broadcast-receiver' style='font-size: 104.8%'>broadcast_receiver(2)</a> <a href='/blog/categories/cdi' style='font-size: 104.8%'>cdi(2)</a> <a href='/blog/categories/centos' style='font-size: 112.0%'>centos(5)</a> <a href='/blog/categories/clean-code' style='font-size: 102.4%'>clean code(1)</a> <a href='/blog/categories/command' style='font-size: 109.6%'>command(4)</a> <a href='/blog/categories/concurrency' style='font-size: 102.4%'>concurrency(1)</a> <a href='/blog/categories/database' style='font-size: 114.4%'>database(6)</a> <a href='/blog/categories/datetime' style='font-size: 102.4%'>datetime(1)</a> <a href='/blog/categories/di' style='font-size: 104.8%'>di(2)</a> <a href='/blog/categories/drawable' style='font-size: 102.4%'>drawable(1)</a> <a href='/blog/categories/ec' style='font-size: 102.4%'>ec(1)</a> <a href='/blog/categories/eclipse' style='font-size: 102.4%'>eclipse(1)</a> <a href='/blog/categories/ecshop' style='font-size: 116.8%'>ecshop(7)</a> <a href='/blog/categories/editor' style='font-size: 102.4%'>editor(1)</a> <a href='/blog/categories/emulator' style='font-size: 102.4%'>emulator(1)</a> <a href='/blog/categories/english' style='font-size: 133.6%'>english(14)</a> <a href='/blog/categories/excel' style='font-size: 104.8%'>excel(2)</a> <a href='/blog/categories/extjs' style='font-size: 104.8%'>extjs(2)</a> <a href='/blog/categories/gesture' style='font-size: 102.4%'>gesture(1)</a> <a href='/blog/categories/git' style='font-size: 109.6%'>git(4)</a> <a href='/blog/categories/git-flow' style='font-size: 102.4%'>git-flow(1)</a> <a href='/blog/categories/guava' style='font-size: 104.8%'>guava(2)</a> <a href='/blog/categories/guice' style='font-size: 102.4%'>guice(1)</a> <a href='/blog/categories/hamcrest' style='font-size: 102.4%'>hamcrest(1)</a> <a href='/blog/categories/i18n' style='font-size: 102.4%'>i18n(1)</a> <a href='/blog/categories/ide' style='font-size: 102.4%'>IDE(1)</a> <a href='/blog/categories/idea' style='font-size: 102.4%'>IDEA(1)</a> <a href='/blog/categories/injection' style='font-size: 102.4%'>injection(1)</a> <a href='/blog/categories/intent' style='font-size: 102.4%'>intent(1)</a> <a href='/blog/categories/ireport' style='font-size: 104.8%'>ireport(2)</a> <a href='/blog/categories/jasterreport' style='font-size: 104.8%'>jasterreport(2)</a> <a href='/blog/categories/java' style='font-size: 152.8%'>java(22)</a> <a href='/blog/categories/java-ee' style='font-size: 112.0%'>java_ee(5)</a> <a href='/blog/categories/jms' style='font-size: 102.4%'>jms(1)</a> <a href='/blog/categories/joda' style='font-size: 102.4%'>joda(1)</a> <a href='/blog/categories/jpa' style='font-size: 102.4%'>jpa(1)</a> <a href='/blog/categories/jquery' style='font-size: 102.4%'>jquery(1)</a> <a href='/blog/categories/jsp' style='font-size: 104.8%'>jsp(2)</a> <a href='/blog/categories/junit' style='font-size: 102.4%'>junit(1)</a> <a href='/blog/categories/jvm' style='font-size: 104.8%'>jvm(2)</a> <a href='/blog/categories/kohana' style='font-size: 102.4%'>kohana(1)</a> <a href='/blog/categories/l10n' style='font-size: 102.4%'>l10n(1)</a> <a href='/blog/categories/layout' style='font-size: 102.4%'>layout(1)</a> <a href='/blog/categories/linux' style='font-size: 126.4%'>linux(11)</a> <a href='/blog/categories/listview' style='font-size: 104.8%'>listview(2)</a> <a href='/blog/categories/logger' style='font-size: 102.4%'>logger(1)</a> <a href='/blog/categories/m2eclilpse' style='font-size: 102.4%'>m2eclilpse(1)</a> <a href='/blog/categories/mac' style='font-size: 104.8%'>mac(2)</a> <a href='/blog/categories/mat' style='font-size: 102.4%'>mat(1)</a> <a href='/blog/categories/maven' style='font-size: 112.0%'>maven(5)</a> <a href='/blog/categories/memory' style='font-size: 102.4%'>memory(1)</a> <a href='/blog/categories/menu' style='font-size: 102.4%'>menu(1)</a> <a href='/blog/categories/mindmap' style='font-size: 104.8%'>mindmap(2)</a> <a href='/blog/categories/misc' style='font-size: 102.4%'>misc(1)</a> <a href='/blog/categories/mysql' style='font-size: 116.8%'>mysql(7)</a> <a href='/blog/categories/nio' style='font-size: 102.4%'>nio(1)</a> <a href='/blog/categories/octopress' style='font-size: 102.4%'>octopress(1)</a> <a href='/blog/categories/oracle' style='font-size: 102.4%'>oracle(1)</a> <a href='/blog/categories/osgi' style='font-size: 107.2%'>osgi(3)</a> <a href='/blog/categories/pdf' style='font-size: 104.8%'>pdf(2)</a> <a href='/blog/categories/pdt' style='font-size: 112.0%'>pdt(5)</a> <a href='/blog/categories/pear' style='font-size: 104.8%'>pear(2)</a> <a href='/blog/categories/performace' style='font-size: 102.4%'>performace(1)</a> <a href='/blog/categories/pgsql' style='font-size: 102.4%'>pgsql(1)</a> <a href='/blog/categories/php' style='font-size: 114.4%'>php(6)</a> <a href='/blog/categories/play-framework' style='font-size: 102.4%'>play_framework(1)</a> <a href='/blog/categories/pm' style='font-size: 112.0%'>pm(5)</a> <a href='/blog/categories/postgresql' style='font-size: 104.8%'>postgresql(2)</a> <a href='/blog/categories/profile' style='font-size: 102.4%'>profile(1)</a> <a href='/blog/categories/programming' style='font-size: 128.8%'>programming(12)</a> <a href='/blog/categories/python' style='font-size: 102.4%'>python(1)</a> <a href='/blog/categories/re' style='font-size: 102.4%'>re(1)</a> <a href='/blog/categories/refactory' style='font-size: 102.4%'>refactory(1)</a> <a href='/blog/categories/rest' style='font-size: 104.8%'>rest(2)</a> <a href='/blog/categories/roboguice' style='font-size: 102.4%'>roboguice(1)</a> <a href='/blog/categories/sbt' style='font-size: 102.4%'>sbt(1)</a> <a href='/blog/categories/scala' style='font-size: 109.6%'>scala(4)</a> <a href='/blog/categories/security' style='font-size: 102.4%'>security(1)</a> <a href='/blog/categories/service' style='font-size: 104.8%'>service(2)</a> <a href='/blog/categories/shiro' style='font-size: 102.4%'>shiro(1)</a> <a href='/blog/categories/shortchut' style='font-size: 102.4%'>shortchut(1)</a> <a href='/blog/categories/smarty' style='font-size: 107.2%'>smarty(3)</a> <a href='/blog/categories/spring' style='font-size: 102.4%'>spring(1)</a> <a href='/blog/categories/sql' style='font-size: 102.4%'>sql(1)</a> <a href='/blog/categories/style' style='font-size: 102.4%'>style(1)</a> <a href='/blog/categories/tdd' style='font-size: 102.4%'>tdd(1)</a> <a href='/blog/categories/testing' style='font-size: 124.0%'>testing(10)</a> <a href='/blog/categories/theme' style='font-size: 102.4%'>theme(1)</a> <a href='/blog/categories/tips' style='font-size: 104.8%'>tips(2)</a> <a href='/blog/categories/ubuntu' style='font-size: 119.2%'>ubuntu(8)</a> <a href='/blog/categories/ui' style='font-size: 104.8%'>ui(2)</a> <a href='/blog/categories/vim' style='font-size: 104.8%'>vim(2)</a> <a href='/blog/categories/web' style='font-size: 104.8%'>web(2)</a> <a href='/blog/categories/windows' style='font-size: 102.4%'>windows(1)</a> <a href='/blog/categories/xampp' style='font-size: 102.4%'>xampp(1)</a> <a href='/blog/categories/xml' style='font-size: 104.8%'>xml(2)</a> </span>
+    <span id="tag-cloud"><a href='/blog/categories/actionbar' style='font-size: 102.4%'>actionbar(1)</a> <a href='/blog/categories/android' style='font-size: 160.0%'>android(25)</a> <a href='/blog/categories/apache' style='font-size: 116.8%'>apache(7)</a> <a href='/blog/categories/bash' style='font-size: 107.2%'>bash(3)</a> <a href='/blog/categories/best-practice' style='font-size: 102.4%'>best_practice(1)</a> <a href='/blog/categories/book' style='font-size: 102.4%'>book(1)</a> <a href='/blog/categories/broadcast-receiver' style='font-size: 104.8%'>broadcast_receiver(2)</a> <a href='/blog/categories/cdi' style='font-size: 104.8%'>cdi(2)</a> <a href='/blog/categories/centos' style='font-size: 112.0%'>centos(5)</a> <a href='/blog/categories/clean-code' style='font-size: 102.4%'>clean code(1)</a> <a href='/blog/categories/command' style='font-size: 109.6%'>command(4)</a> <a href='/blog/categories/concurrency' style='font-size: 102.4%'>concurrency(1)</a> <a href='/blog/categories/database' style='font-size: 114.4%'>database(6)</a> <a href='/blog/categories/datetime' style='font-size: 102.4%'>datetime(1)</a> <a href='/blog/categories/di' style='font-size: 104.8%'>di(2)</a> <a href='/blog/categories/drawable' style='font-size: 102.4%'>drawable(1)</a> <a href='/blog/categories/ec' style='font-size: 102.4%'>ec(1)</a> <a href='/blog/categories/eclipse' style='font-size: 102.4%'>eclipse(1)</a> <a href='/blog/categories/ecshop' style='font-size: 116.8%'>ecshop(7)</a> <a href='/blog/categories/editor' style='font-size: 102.4%'>editor(1)</a> <a href='/blog/categories/emulator' style='font-size: 102.4%'>emulator(1)</a> <a href='/blog/categories/encoding' style='font-size: 102.4%'>encoding(1)</a> <a href='/blog/categories/english' style='font-size: 133.6%'>english(14)</a> <a href='/blog/categories/excel' style='font-size: 104.8%'>excel(2)</a> <a href='/blog/categories/extjs' style='font-size: 104.8%'>extjs(2)</a> <a href='/blog/categories/gesture' style='font-size: 102.4%'>gesture(1)</a> <a href='/blog/categories/git' style='font-size: 109.6%'>git(4)</a> <a href='/blog/categories/git-flow' style='font-size: 102.4%'>git-flow(1)</a> <a href='/blog/categories/guava' style='font-size: 104.8%'>guava(2)</a> <a href='/blog/categories/guice' style='font-size: 102.4%'>guice(1)</a> <a href='/blog/categories/hamcrest' style='font-size: 102.4%'>hamcrest(1)</a> <a href='/blog/categories/i18n' style='font-size: 102.4%'>i18n(1)</a> <a href='/blog/categories/ide' style='font-size: 102.4%'>IDE(1)</a> <a href='/blog/categories/idea' style='font-size: 102.4%'>IDEA(1)</a> <a href='/blog/categories/injection' style='font-size: 102.4%'>injection(1)</a> <a href='/blog/categories/intent' style='font-size: 102.4%'>intent(1)</a> <a href='/blog/categories/ireport' style='font-size: 104.8%'>ireport(2)</a> <a href='/blog/categories/jasterreport' style='font-size: 104.8%'>jasterreport(2)</a> <a href='/blog/categories/java' style='font-size: 152.8%'>java(22)</a> <a href='/blog/categories/java-ee' style='font-size: 112.0%'>java_ee(5)</a> <a href='/blog/categories/jms' style='font-size: 102.4%'>jms(1)</a> <a href='/blog/categories/joda' style='font-size: 102.4%'>joda(1)</a> <a href='/blog/categories/jpa' style='font-size: 102.4%'>jpa(1)</a> <a href='/blog/categories/jquery' style='font-size: 102.4%'>jquery(1)</a> <a href='/blog/categories/jsp' style='font-size: 104.8%'>jsp(2)</a> <a href='/blog/categories/junit' style='font-size: 102.4%'>junit(1)</a> <a href='/blog/categories/jvm' style='font-size: 104.8%'>jvm(2)</a> <a href='/blog/categories/kohana' style='font-size: 102.4%'>kohana(1)</a> <a href='/blog/categories/l10n' style='font-size: 102.4%'>l10n(1)</a> <a href='/blog/categories/layout' style='font-size: 102.4%'>layout(1)</a> <a href='/blog/categories/linux' style='font-size: 126.4%'>linux(11)</a> <a href='/blog/categories/listview' style='font-size: 104.8%'>listview(2)</a> <a href='/blog/categories/logger' style='font-size: 102.4%'>logger(1)</a> <a href='/blog/categories/m2eclilpse' style='font-size: 102.4%'>m2eclilpse(1)</a> <a href='/blog/categories/mac' style='font-size: 104.8%'>mac(2)</a> <a href='/blog/categories/mat' style='font-size: 102.4%'>mat(1)</a> <a href='/blog/categories/maven' style='font-size: 112.0%'>maven(5)</a> <a href='/blog/categories/memory' style='font-size: 102.4%'>memory(1)</a> <a href='/blog/categories/menu' style='font-size: 102.4%'>menu(1)</a> <a href='/blog/categories/mindmap' style='font-size: 104.8%'>mindmap(2)</a> <a href='/blog/categories/misc' style='font-size: 102.4%'>misc(1)</a> <a href='/blog/categories/mysql' style='font-size: 116.8%'>mysql(7)</a> <a href='/blog/categories/nio' style='font-size: 102.4%'>nio(1)</a> <a href='/blog/categories/octopress' style='font-size: 102.4%'>octopress(1)</a> <a href='/blog/categories/oracle' style='font-size: 102.4%'>oracle(1)</a> <a href='/blog/categories/osgi' style='font-size: 107.2%'>osgi(3)</a> <a href='/blog/categories/pdf' style='font-size: 104.8%'>pdf(2)</a> <a href='/blog/categories/pdt' style='font-size: 112.0%'>pdt(5)</a> <a href='/blog/categories/pear' style='font-size: 104.8%'>pear(2)</a> <a href='/blog/categories/performace' style='font-size: 102.4%'>performace(1)</a> <a href='/blog/categories/pgsql' style='font-size: 102.4%'>pgsql(1)</a> <a href='/blog/categories/php' style='font-size: 114.4%'>php(6)</a> <a href='/blog/categories/play-framework' style='font-size: 102.4%'>play_framework(1)</a> <a href='/blog/categories/pm' style='font-size: 112.0%'>pm(5)</a> <a href='/blog/categories/postgresql' style='font-size: 104.8%'>postgresql(2)</a> <a href='/blog/categories/profile' style='font-size: 102.4%'>profile(1)</a> <a href='/blog/categories/programming' style='font-size: 128.8%'>programming(12)</a> <a href='/blog/categories/python' style='font-size: 102.4%'>python(1)</a> <a href='/blog/categories/re' style='font-size: 102.4%'>re(1)</a> <a href='/blog/categories/refactory' style='font-size: 102.4%'>refactory(1)</a> <a href='/blog/categories/rest' style='font-size: 109.6%'>rest(4)</a> <a href='/blog/categories/roboguice' style='font-size: 102.4%'>roboguice(1)</a> <a href='/blog/categories/sbt' style='font-size: 102.4%'>sbt(1)</a> <a href='/blog/categories/scala' style='font-size: 109.6%'>scala(4)</a> <a href='/blog/categories/security' style='font-size: 102.4%'>security(1)</a> <a href='/blog/categories/service' style='font-size: 104.8%'>service(2)</a> <a href='/blog/categories/shiro' style='font-size: 102.4%'>shiro(1)</a> <a href='/blog/categories/shortchut' style='font-size: 102.4%'>shortchut(1)</a> <a href='/blog/categories/smarty' style='font-size: 107.2%'>smarty(3)</a> <a href='/blog/categories/spring' style='font-size: 102.4%'>spring(1)</a> <a href='/blog/categories/sql' style='font-size: 102.4%'>sql(1)</a> <a href='/blog/categories/style' style='font-size: 102.4%'>style(1)</a> <a href='/blog/categories/tdd' style='font-size: 102.4%'>tdd(1)</a> <a href='/blog/categories/testing' style='font-size: 124.0%'>testing(10)</a> <a href='/blog/categories/theme' style='font-size: 102.4%'>theme(1)</a> <a href='/blog/categories/tips' style='font-size: 104.8%'>tips(2)</a> <a href='/blog/categories/ubuntu' style='font-size: 119.2%'>ubuntu(8)</a> <a href='/blog/categories/ui' style='font-size: 104.8%'>ui(2)</a> <a href='/blog/categories/vim' style='font-size: 104.8%'>vim(2)</a> <a href='/blog/categories/web' style='font-size: 104.8%'>web(2)</a> <a href='/blog/categories/windows' style='font-size: 102.4%'>windows(1)</a> <a href='/blog/categories/xampp' style='font-size: 102.4%'>xampp(1)</a> <a href='/blog/categories/xml' style='font-size: 104.8%'>xml(2)</a> </span>
 </section>
 <section>
   <h1>Categories</h1>
-    <ul id="category-list"><li><a href='/blog/categories/actionbar'>actionbar (1)</a></li><li><a href='/blog/categories/android'>android (25)</a></li><li><a href='/blog/categories/apache'>apache (7)</a></li><li><a href='/blog/categories/bash'>bash (3)</a></li><li><a href='/blog/categories/best-practice'>best_practice (1)</a></li><li><a href='/blog/categories/book'>book (1)</a></li><li><a href='/blog/categories/broadcast-receiver'>broadcast_receiver (2)</a></li><li><a href='/blog/categories/cdi'>cdi (2)</a></li><li><a href='/blog/categories/centos'>centos (5)</a></li><li><a href='/blog/categories/clean-code'>clean code (1)</a></li><li><a href='/blog/categories/command'>command (4)</a></li><li><a href='/blog/categories/concurrency'>concurrency (1)</a></li><li><a href='/blog/categories/database'>database (6)</a></li><li><a href='/blog/categories/datetime'>datetime (1)</a></li><li><a href='/blog/categories/di'>di (2)</a></li><li><a href='/blog/categories/drawable'>drawable (1)</a></li><li><a href='/blog/categories/ec'>ec (1)</a></li><li><a href='/blog/categories/eclipse'>eclipse (1)</a></li><li><a href='/blog/categories/ecshop'>ecshop (7)</a></li><li><a href='/blog/categories/editor'>editor (1)</a></li><li><a href='/blog/categories/emulator'>emulator (1)</a></li><li><a href='/blog/categories/english'>english (14)</a></li><li><a href='/blog/categories/excel'>excel (2)</a></li><li><a href='/blog/categories/extjs'>extjs (2)</a></li><li><a href='/blog/categories/gesture'>gesture (1)</a></li><li><a href='/blog/categories/git'>git (4)</a></li><li><a href='/blog/categories/git-flow'>git-flow (1)</a></li><li><a href='/blog/categories/guava'>guava (2)</a></li><li><a href='/blog/categories/guice'>guice (1)</a></li><li><a href='/blog/categories/hamcrest'>hamcrest (1)</a></li><li><a href='/blog/categories/i18n'>i18n (1)</a></li><li><a href='/blog/categories/ide'>IDE (1)</a></li><li><a href='/blog/categories/idea'>IDEA (1)</a></li><li><a href='/blog/categories/injection'>injection (1)</a></li><li><a href='/blog/categories/intent'>intent (1)</a></li><li><a href='/blog/categories/ireport'>ireport (2)</a></li><li><a href='/blog/categories/jasterreport'>jasterreport (2)</a></li><li><a href='/blog/categories/java'>java (22)</a></li><li><a href='/blog/categories/java-ee'>java_ee (5)</a></li><li><a href='/blog/categories/jms'>jms (1)</a></li><li><a href='/blog/categories/joda'>joda (1)</a></li><li><a href='/blog/categories/jpa'>jpa (1)</a></li><li><a href='/blog/categories/jquery'>jquery (1)</a></li><li><a href='/blog/categories/jsp'>jsp (2)</a></li><li><a href='/blog/categories/junit'>junit (1)</a></li><li><a href='/blog/categories/jvm'>jvm (2)</a></li><li><a href='/blog/categories/kohana'>kohana (1)</a></li><li><a href='/blog/categories/l10n'>l10n (1)</a></li><li><a href='/blog/categories/layout'>layout (1)</a></li><li><a href='/blog/categories/linux'>linux (11)</a></li><li><a href='/blog/categories/listview'>listview (2)</a></li><li><a href='/blog/categories/logger'>logger (1)</a></li><li><a href='/blog/categories/m2eclilpse'>m2eclilpse (1)</a></li><li><a href='/blog/categories/mac'>mac (2)</a></li><li><a href='/blog/categories/mat'>mat (1)</a></li><li><a href='/blog/categories/maven'>maven (5)</a></li><li><a href='/blog/categories/memory'>memory (1)</a></li><li><a href='/blog/categories/menu'>menu (1)</a></li><li><a href='/blog/categories/mindmap'>mindmap (2)</a></li><li><a href='/blog/categories/misc'>misc (1)</a></li><li><a href='/blog/categories/mysql'>mysql (7)</a></li><li><a href='/blog/categories/nio'>nio (1)</a></li><li><a href='/blog/categories/octopress'>octopress (1)</a></li><li><a href='/blog/categories/oracle'>oracle (1)</a></li><li><a href='/blog/categories/osgi'>osgi (3)</a></li><li><a href='/blog/categories/pdf'>pdf (2)</a></li><li><a href='/blog/categories/pdt'>pdt (5)</a></li><li><a href='/blog/categories/pear'>pear (2)</a></li><li><a href='/blog/categories/performace'>performace (1)</a></li><li><a href='/blog/categories/pgsql'>pgsql (1)</a></li><li><a href='/blog/categories/php'>php (6)</a></li><li><a href='/blog/categories/play-framework'>play_framework (1)</a></li><li><a href='/blog/categories/pm'>pm (5)</a></li><li><a href='/blog/categories/postgresql'>postgresql (2)</a></li><li><a href='/blog/categories/profile'>profile (1)</a></li><li><a href='/blog/categories/programming'>programming (12)</a></li><li><a href='/blog/categories/python'>python (1)</a></li><li><a href='/blog/categories/re'>re (1)</a></li><li><a href='/blog/categories/refactory'>refactory (1)</a></li><li><a href='/blog/categories/rest'>rest (2)</a></li><li><a href='/blog/categories/roboguice'>roboguice (1)</a></li><li><a href='/blog/categories/sbt'>sbt (1)</a></li><li><a href='/blog/categories/scala'>scala (4)</a></li><li><a href='/blog/categories/security'>security (1)</a></li><li><a href='/blog/categories/service'>service (2)</a></li><li><a href='/blog/categories/shiro'>shiro (1)</a></li><li><a href='/blog/categories/shortchut'>shortchut (1)</a></li><li><a href='/blog/categories/smarty'>smarty (3)</a></li><li><a href='/blog/categories/spring'>spring (1)</a></li><li><a href='/blog/categories/sql'>sql (1)</a></li><li><a href='/blog/categories/style'>style (1)</a></li><li><a href='/blog/categories/tdd'>tdd (1)</a></li><li><a href='/blog/categories/testing'>testing (10)</a></li><li><a href='/blog/categories/theme'>theme (1)</a></li><li><a href='/blog/categories/tips'>tips (2)</a></li><li><a href='/blog/categories/ubuntu'>ubuntu (8)</a></li><li><a href='/blog/categories/ui'>ui (2)</a></li><li><a href='/blog/categories/vim'>vim (2)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/windows'>windows (1)</a></li><li><a href='/blog/categories/xampp'>xampp (1)</a></li><li><a href='/blog/categories/xml'>xml (2)</a></li></ul>
+    <ul id="category-list"><li><a href='/blog/categories/actionbar'>actionbar (1)</a></li><li><a href='/blog/categories/android'>android (25)</a></li><li><a href='/blog/categories/apache'>apache (7)</a></li><li><a href='/blog/categories/bash'>bash (3)</a></li><li><a href='/blog/categories/best-practice'>best_practice (1)</a></li><li><a href='/blog/categories/book'>book (1)</a></li><li><a href='/blog/categories/broadcast-receiver'>broadcast_receiver (2)</a></li><li><a href='/blog/categories/cdi'>cdi (2)</a></li><li><a href='/blog/categories/centos'>centos (5)</a></li><li><a href='/blog/categories/clean-code'>clean code (1)</a></li><li><a href='/blog/categories/command'>command (4)</a></li><li><a href='/blog/categories/concurrency'>concurrency (1)</a></li><li><a href='/blog/categories/database'>database (6)</a></li><li><a href='/blog/categories/datetime'>datetime (1)</a></li><li><a href='/blog/categories/di'>di (2)</a></li><li><a href='/blog/categories/drawable'>drawable (1)</a></li><li><a href='/blog/categories/ec'>ec (1)</a></li><li><a href='/blog/categories/eclipse'>eclipse (1)</a></li><li><a href='/blog/categories/ecshop'>ecshop (7)</a></li><li><a href='/blog/categories/editor'>editor (1)</a></li><li><a href='/blog/categories/emulator'>emulator (1)</a></li><li><a href='/blog/categories/encoding'>encoding (1)</a></li><li><a href='/blog/categories/english'>english (14)</a></li><li><a href='/blog/categories/excel'>excel (2)</a></li><li><a href='/blog/categories/extjs'>extjs (2)</a></li><li><a href='/blog/categories/gesture'>gesture (1)</a></li><li><a href='/blog/categories/git'>git (4)</a></li><li><a href='/blog/categories/git-flow'>git-flow (1)</a></li><li><a href='/blog/categories/guava'>guava (2)</a></li><li><a href='/blog/categories/guice'>guice (1)</a></li><li><a href='/blog/categories/hamcrest'>hamcrest (1)</a></li><li><a href='/blog/categories/i18n'>i18n (1)</a></li><li><a href='/blog/categories/ide'>IDE (1)</a></li><li><a href='/blog/categories/idea'>IDEA (1)</a></li><li><a href='/blog/categories/injection'>injection (1)</a></li><li><a href='/blog/categories/intent'>intent (1)</a></li><li><a href='/blog/categories/ireport'>ireport (2)</a></li><li><a href='/blog/categories/jasterreport'>jasterreport (2)</a></li><li><a href='/blog/categories/java'>java (22)</a></li><li><a href='/blog/categories/java-ee'>java_ee (5)</a></li><li><a href='/blog/categories/jms'>jms (1)</a></li><li><a href='/blog/categories/joda'>joda (1)</a></li><li><a href='/blog/categories/jpa'>jpa (1)</a></li><li><a href='/blog/categories/jquery'>jquery (1)</a></li><li><a href='/blog/categories/jsp'>jsp (2)</a></li><li><a href='/blog/categories/junit'>junit (1)</a></li><li><a href='/blog/categories/jvm'>jvm (2)</a></li><li><a href='/blog/categories/kohana'>kohana (1)</a></li><li><a href='/blog/categories/l10n'>l10n (1)</a></li><li><a href='/blog/categories/layout'>layout (1)</a></li><li><a href='/blog/categories/linux'>linux (11)</a></li><li><a href='/blog/categories/listview'>listview (2)</a></li><li><a href='/blog/categories/logger'>logger (1)</a></li><li><a href='/blog/categories/m2eclilpse'>m2eclilpse (1)</a></li><li><a href='/blog/categories/mac'>mac (2)</a></li><li><a href='/blog/categories/mat'>mat (1)</a></li><li><a href='/blog/categories/maven'>maven (5)</a></li><li><a href='/blog/categories/memory'>memory (1)</a></li><li><a href='/blog/categories/menu'>menu (1)</a></li><li><a href='/blog/categories/mindmap'>mindmap (2)</a></li><li><a href='/blog/categories/misc'>misc (1)</a></li><li><a href='/blog/categories/mysql'>mysql (7)</a></li><li><a href='/blog/categories/nio'>nio (1)</a></li><li><a href='/blog/categories/octopress'>octopress (1)</a></li><li><a href='/blog/categories/oracle'>oracle (1)</a></li><li><a href='/blog/categories/osgi'>osgi (3)</a></li><li><a href='/blog/categories/pdf'>pdf (2)</a></li><li><a href='/blog/categories/pdt'>pdt (5)</a></li><li><a href='/blog/categories/pear'>pear (2)</a></li><li><a href='/blog/categories/performace'>performace (1)</a></li><li><a href='/blog/categories/pgsql'>pgsql (1)</a></li><li><a href='/blog/categories/php'>php (6)</a></li><li><a href='/blog/categories/play-framework'>play_framework (1)</a></li><li><a href='/blog/categories/pm'>pm (5)</a></li><li><a href='/blog/categories/postgresql'>postgresql (2)</a></li><li><a href='/blog/categories/profile'>profile (1)</a></li><li><a href='/blog/categories/programming'>programming (12)</a></li><li><a href='/blog/categories/python'>python (1)</a></li><li><a href='/blog/categories/re'>re (1)</a></li><li><a href='/blog/categories/refactory'>refactory (1)</a></li><li><a href='/blog/categories/rest'>rest (4)</a></li><li><a href='/blog/categories/roboguice'>roboguice (1)</a></li><li><a href='/blog/categories/sbt'>sbt (1)</a></li><li><a href='/blog/categories/scala'>scala (4)</a></li><li><a href='/blog/categories/security'>security (1)</a></li><li><a href='/blog/categories/service'>service (2)</a></li><li><a href='/blog/categories/shiro'>shiro (1)</a></li><li><a href='/blog/categories/shortchut'>shortchut (1)</a></li><li><a href='/blog/categories/smarty'>smarty (3)</a></li><li><a href='/blog/categories/spring'>spring (1)</a></li><li><a href='/blog/categories/sql'>sql (1)</a></li><li><a href='/blog/categories/style'>style (1)</a></li><li><a href='/blog/categories/tdd'>tdd (1)</a></li><li><a href='/blog/categories/testing'>testing (10)</a></li><li><a href='/blog/categories/theme'>theme (1)</a></li><li><a href='/blog/categories/tips'>tips (2)</a></li><li><a href='/blog/categories/ubuntu'>ubuntu (8)</a></li><li><a href='/blog/categories/ui'>ui (2)</a></li><li><a href='/blog/categories/vim'>vim (2)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/windows'>windows (1)</a></li><li><a href='/blog/categories/xampp'>xampp (1)</a></li><li><a href='/blog/categories/xml'>xml (2)</a></li></ul>
 </section>
 
   

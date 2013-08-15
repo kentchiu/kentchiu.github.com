@@ -4,7 +4,7 @@
   <title><![CDATA[Category: python | Kent's Blog]]></title>
   <link href="http://blog.kent-chiu.com/blog/categories/python/atom.xml" rel="self"/>
   <link href="http://blog.kent-chiu.com/"/>
-  <updated>2013-07-23T12:27:33+08:00</updated>
+  <updated>2013-08-16T00:47:13+08:00</updated>
   <id>http://blog.kent-chiu.com/</id>
   <author>
     <name><![CDATA[Kent]]></name>
@@ -38,6 +38,8 @@
 
 <h4>Easy_install V.S PIP</h4>
 
+<p>一般的 lib 會提供 <code>python setup.py install</code></p>
+
 <p>easy_install 跟 <a href="http://www.pip-installer.org/">pip</a> 兩者都是套件安裝工具， easy_install 沒有反安裝套件的功能，而 pip 有反安裝套件的功能，所以建議是裝pip</p>
 
 <p>Mac Os 10.8 (mountain lion) 只有預裝 easy_install，要使用 pip，可以透過 easy_install 來安裝 pip
@@ -63,6 +65,18 @@ $ sudo python setup.py install
 <pre><code>export PATH=/System/Library/Frameworks/Python.framework/Versions/3.3/bin:/Users/kent/Library/Python/3.3/bin:$PATH
 </code></pre>
 
+<p>pip 的使用方式</p>
+
+<pre><code>pip list   列出目前安裝的lib
+pip search 搜尋lib
+pip install 安裝lib   
+</code></pre>
+
+<p>ex:</p>
+
+<pre><code>sudo pip install beautifulsoup4   # 安裝 beautifulsoup lib (一個 html parser)   
+</code></pre>
+
 <h4>Testing</h4>
 
 <p>python的 test framework有好幾套，可以自行選擇適合的</p>
@@ -85,6 +99,7 @@ $ sudo python setup.py install
 <li>type(variable)
 取得 object 的型別，撰寫弱型別語言最大的痛苦就是不知道變數是什麼型別，這 type 至少可以在runtime取得變數的型別</li>
 <li>dir() 列出 object 內所有的 methods</li>
+<li>pprint() 列出物件結構</li>
 </ul>
 
 
@@ -178,6 +193,7 @@ print(last_name)                  # chiu
 <li><a href="https://developers.google.com/edu/python/">https://developers.google.com/edu/python/</a>  - Google Python Course</li>
 <li><a href="http://getpython3.com/diveintopython3">http://getpython3.com/diveintopython3</a> - Dive Into Python 3 免費電子書</li>
 <li><a href="http://chimera.labs.oreilly.com/books/1234000000754/index.html">http://chimera.labs.oreilly.com/books/1234000000754/index.html</a> - Test-Driven Web Development with Python</li>
+<li><a href="http://chimera.labs.oreilly.com/books/1230000000393/index.html">http://chimera.labs.oreilly.com/books/1230000000393/index.html</a> - orally python cookbook (<em>問題-解法</em>導向線上電子書)</li>
 <li><a href="http://docs.python.org/2/library/">http://docs.python.org/2/library/</a> - python 標準函式庫文件</li>
 </ul>
 
