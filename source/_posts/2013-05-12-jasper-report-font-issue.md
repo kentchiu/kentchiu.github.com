@@ -1,7 +1,7 @@
 ---
 author: Kent Chiu
 layout: post
-title: "Jesper Report, IReport 匯出成中文PDF"
+title: "Jasper Report, IReport 匯出成中文PDF"
 date: 2013-05-12 12:22
 comments: true
 sharing: true

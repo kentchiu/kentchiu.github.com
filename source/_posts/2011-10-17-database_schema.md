@@ -1,6 +1,6 @@
 ---
 author: Kent Chiu
-published: 
+published: true
 layout: post
 title: "ECShop Database Schema"
 date: 2011-10-17

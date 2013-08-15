@@ -1,5 +1,5 @@
 ---
-published: false
+published: true
 author: Kent Chiu
 layout: post
 title: "RESTful API Design"
@@ -8,7 +8,7 @@ comments: true
 sharing: true
 footer: true
 categories: 
-- rest
+- rest 
 ---
 
 
@@ -90,6 +90,8 @@ POST method 用來更新資源，
 資源命名應為**複數名詞**，不論是 GET, POST, PUT, DELETE 應該都要用**複數名詞**來命名，如果是要取得單筆資訊，
 則是在**複數名詞**的資源後接上該資源的indentity
 
+如果是複合字，應該用`-`隔開，而不是用 camel style : ex: 採用 `hello-world` 而非 `helloWorld`
+
 
 * 	GET 	http://www.example.com/orders			  取得多筆訂單
 * 	GET 	http://www.example.com/orders/12345       取得訂單編號為 12345 的訂單
@@ -106,13 +108,23 @@ POST method 用來更新資源，
 > TBC : 查一下 resource id是用純數字(/user/1)，或使用有意義的名稱為佳(users/kent)
 > 目前認為用 id 應該會比較好，因為名稱可能會異動，如果要用名稱，應該是類似查詢參數的用法 /users?name=kent
 
+#### 輔助用字
+- search 搜尋，如果有時就是做搜尋當resource最直覺，就用吧，以名詞命規的規格，還是可以有例外的
+- filter 過濾用
+- page   分頁用
+- sort   排序用，可以用`-`表示昇冪, ex: sort=-age 由大到小排序，sort=age 由小到大排序
+- fields 用來指定後端只傳合那些欄位  ex: fields=id,name,address
+- embed  用來指定後端傳合的部份是不是包含 detail，有些資料是master/detail的關係，用embed可以決定要不要傳回 detail
+
 ## Resource
 
 - 	<http://zh.wikipedia.org/zh-tw/HTTP%E7%8A%B6%E6%80%81%E7%A0%81> - HTTP 狀態碼
 -	<http://www.restapitutorial.com/lessons/httpmethods.html>  - RESTful Tutorial
-
+-	<http://blog.2partsmagic.com/restful-uri-design/> - rest 命名規格
+-	<http://stackoverflow.com/questions/1619152/how-to-create-rest-urls-without-verbs> - 如何避免用動詞命名
 - 	一般流行的 Rest API
-	-   <http://docs.aws.amazon.com/AmazonS3/latest/API/APIRest.html> - Amazon 的 REST API文件
-	-   <https://dev.twitter.com/docs/api/1.1/get/lists/list> - twitter 的 REST API文件
-	-   <https://developers.facebook.com/docs/reference/api/> - FaceBook 的 REST API文件
-	-   <https://developer.linkedin.com/apis> - linkedin 的 REST API文件
+	1.   <http://docs.aws.amazon.com/AmazonS3/latest/API/APIRest.html> - Amazon 的 REST API文件
+	2.   <https://dev.twitter.com/docs/api/1.1/get/lists/list> - twitter 的 REST API文件
+	3.   <https://developers.facebook.com/docs/reference/api/> - FaceBook 的 REST API文件
+	4.   <https://developer.linkedin.com/apis> - linkedin 的 REST API文件
+- 	<http://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api?hn#snake-vs-camel> - 設計Restful API 相當不錯的參考資料	，內容很全面，方方面面都有提到
