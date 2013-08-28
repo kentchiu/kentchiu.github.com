@@ -1,5 +1,5 @@
 ---
-published: false
+published: true
 author: Kent Chiu
 layout: post
 title: "使用curl指令測試REST服務"
@@ -67,7 +67,11 @@ http參數可以直接加在url的query string，也可以用`-d`帶入參數間
 #### 需先認證或登入才能使用的service #####	
 許多服務，需先進行登入或認證後，才能存取其API服務，依服務要求的條件，的curl可以透過cookie，session或加入在header加入session key，api key或認證的token來達到認證的效果。
 
-**例子: TBD...**
+session 例子: 
+
+後端如果是用session記錄使用者登入資訊，後端會傳一個 session id給前端，前端需要在每次跟後端的requests的header中置入此session id，後端便會以此session id識別前端是屬於那個session，以達到session的效果
+
+	curl --request GET 'http://www.rest.com/api/users' --header 'sessionid:1234567890987654321'
 
 	
 相關資源	
