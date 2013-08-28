@@ -4,7 +4,7 @@
   <title><![CDATA[Category: command | Kent's Blog]]></title>
   <link href="http://blog.kent-chiu.com/blog/categories/command/atom.xml" rel="self"/>
   <link href="http://blog.kent-chiu.com/"/>
-  <updated>2013-08-16T00:47:13+08:00</updated>
+  <updated>2013-08-28T10:37:41+08:00</updated>
   <id>http://blog.kent-chiu.com/</id>
   <author>
     <name><![CDATA[Kent]]></name>
@@ -12,6 +12,87 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[使用curl指令測試REST服務]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2013/08/14/testing-rest-with-curl-command/"/>
+    <updated>2013-08-14T11:26:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2013/08/14/testing-rest-with-curl-command</id>
+    <content type="html"><![CDATA[<p><a href="http://en.wikipedia.org/wiki/CURL">cURL</a> 是很方便的Rest客戶端，可以很方便的完成許多Rest API測試的需求，甚至，如果是需要先登入或認證的rest api，也可以進行測試，利用<em>curl</em>指令，可以送出HTTP GET, POST, PUT, DELETE, 也可以改變 HTTP header來滿足使用REST API需要的特定條件。</p>
+
+<p><a href="http://curl.haxx.se/docs/manpage.html">curl的參數很多</a>，這邊僅列出目前測試REST時常用到的:</p>
+
+<pre><code>-X/--request [GET|POST|PUT|DELETE|…]  使用指定的http method發出 http request
+-H/--header                           設定request裡的header
+-i/--include                          顯示response的header
+-d/--data                             設定 http parameters 
+-v/--verbose                          輸出比較多的訊息
+-u/--user                             使用者帳號、密碼
+-b/--cookie                           cookie  
+</code></pre>
+
+<blockquote><p>linux command line 的參數常，同一個功能常會有兩個功能完全相同參數，一個是比較短的參數，前面通常是用<code>-</code>(一個<code>-</code>)導引符號，另一個比較長的參數，通常會用<code>--</code>(兩個<code>-</code>)導引符號</p>
+
+<p>在curl 使用說明</p>
+
+<pre><code>  -X, --request COMMAND  Specify request command to use
+      --resolve HOST:PORT:ADDRESS  Force resolve of HOST:PORT to ADDRESS
+      --retry NUM   Retry request NUM times if transient problems occur
+      --retry-delay SECONDS When retrying, wait this many seconds between each
+      --retry-max-time SECONDS  Retry only within this period&gt;
+</code></pre>
+
+<p>參數<code>-X</code>跟<code>--request</code>兩個功能是一樣的，所以使用時
+<code>ex:curl -X POST http://www.example.com/</code> 跟 <code>curl --request POST http://www.example.com/</code> 是相等的功能</p></blockquote>
+
+<h4>GET/POST/PUT/DELETE使用方式</h4>
+
+<p>-X 後面加 http method，</p>
+
+<pre><code>curl -X GET "http://www.rest.com/api/users"
+curl -X POST "http://www.rest.com/api/users"
+curl -X PUT "http://www.rest.com/api/users"
+curl -X DELETE "http://www.rest.com/api/users"
+</code></pre>
+
+<p>url要加引號也可以，不加引號也可以，如果有非純英文字或數字外的字元，不加引號可能會有問題，如果是網碼過的url，也要加上引號</p>
+
+<h4>HEADER</h4>
+
+<p>在http header加入的訊息</p>
+
+<pre><code>curl -v -i -H "Content-Type: application/json" http://www.example.com/users
+</code></pre>
+
+<h4>HTTP Parameter</h4>
+
+<p>http參數可以直接加在url的query string，也可以用<code>-d</code>帶入參數間用<code>&amp;</code>串接</p>
+
+<pre><code>curl -X POST -d "param1=value1&amp;param2=value2"
+curl -X POST -d "param1=a 0space"     
+# "a space" url encode後空白字元會編碼成'%20'為"a%20space"，編碼後的參數可以直接使用
+curl -X POST -d "param1=a%20space"     
+</code></pre>
+
+<h4>需先認證或登入才能使用的service #####</h4>
+
+<p>許多服務，需先進行登入或認證後，才能存取其API服務，依服務要求的條件，的curl可以透過cookie，session或加入在header加入session key，api key或認證的token來達到認證的效果。</p>
+
+<p>session 例子:</p>
+
+<p>後端如果是用session記錄使用者登入資訊，後端會傳一個 session id給前端，前端需要在每次跟後端的requests的header中置入此session id，後端便會以此session id識別前端是屬於那個session，以達到session的效果</p>
+
+<pre><code>curl --request GET 'http://www.rest.com/api/users' --header 'sessionid:1234567890987654321'
+</code></pre>
+
+<h2>相關資源    </h2>
+
+<ul>
+<li><a href="http://linux.about.com/od/commands/l/blcmdl1_curl.htm">http://linux.about.com/od/commands/l/blcmdl1_curl.htm</a> - curl 手冊</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Mac OS X keyboard shortcuts for terminal]]></title>

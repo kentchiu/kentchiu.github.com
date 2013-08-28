@@ -9,16 +9,8 @@
   <meta name="author" content="Kent">
 
   
-  <meta name="description" content="
-Vim 101
-VIM for PHPer
-VIM cookbook
-vim Recipes
-pdf
-網站(有search功能) vim cheat sheet from
-vgod
-简明 Vim
-练级攻略 一些基本到進階的常用技巧，有圖片及gif動畫說明 VIM常用指令 ">
+  <meta name="description" content="Guava是google的一個開源項目，目的在提供常用工具類的API，字串處理，caching，primitives型別處理，I/O，併行(concurrnecy)處理，
+還有超級好用的Collections處理。 本篇主要著重於Collection以外相關的使用介紹， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -86,6 +78,465 @@ vgod
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/04/30/google_guava_101/">Google Guava 101</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-30T00:00:00+08:00" pubdate data-updated="true">Apr 30<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/04/30/google_guava_101/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Guava是google的一個開源項目，目的在提供常用工具類的API，字串處理，caching，primitives型別處理，I/O，併行(concurrnecy)處理，
+還有超級好用的Collections處理。</p>
+
+<p>本篇主要著重於<a href="http://wiki.kent-chiu.com/doku.php?id=java:google_guava_-_collection_101" title="java:google_guava_-_collection_101">Collection</a>以外相關的使用介紹，Collection的使用介紹在<a href="http://wiki.kent-chiu.com/doku.php?id=java:google_guava_-_collection_101" title="java:google_guava_-_collection_101">另一篇</a></p>
+
+<ol>
+<li><p><a href="#strings" title="java:google_guava_101 ↵">Strings</a></p>
+
+<ol>
+<li><a href="#joiner" title="java:google_guava_101 ↵">Joiner</a></li>
+<li><a href="#splitter" title="java:google_guava_101 ↵">Splitter</a></li>
+<li><a href="#charmatcher" title="java:google_guava_101 ↵">CharMatcher</a></li>
+</ol>
+</li>
+<li><p><a href="#basic_utilities" title="java:google_guava_101 ↵">Basic Utilities</a></p></li>
+<li><a href="#caches" title="java:google_guava_101 ↵">Caches</a></li>
+<li><a href="#concurrency" title="java:google_guava_101 ↵">Concurrency</a></li>
+<li><a href="#primitives" title="java:google_guava_101 ↵">Primitives</a></li>
+<li><a href="#ranges" title="java:google_guava_101 ↵">Ranges</a></li>
+<li><a href="#hashing" title="java:google_guava_101 ↵">Hashing</a></li>
+<li><a href="#eventbus" title="java:google_guava_101 ↵">EventBus</a></li>
+<li><a href="#math" title="java:google_guava_101 ↵">Math</a></li>
+</ol>
+
+
+<h1>Strings</h1>
+
+<ul>
+<li><a href="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/base/CaseFormat.html" title="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/base/CaseFormat.html">CaseFormat</a></li>
+<li><a href="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/base/CharMatcher.html" title="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/base/CharMatcher.html">CharMatcher</a></li>
+<li><a href="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/base/Charsets.html" title="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/base/Charsets.html">Charsets</a></li>
+<li><a href="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/base/Joiner.html" title="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/base/Joiner.html">Joiner</a></li>
+<li><a href="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/base/Splitter.html" title="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/base/Splitter.html">Splitter</a></li>
+<li><a href="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/base/Strings.html" title="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/base/Strings.html">Strings</a></li>
+</ul>
+
+
+<h5>CharMatcher</h5>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>CharMatcher.is('.').replaceFrom(aStr, '_');                                       // 將字串中的'.'換成'_'
+</span><span class='line'>CharMatcher.DIGIT.matchesAllOf("1231212");                                        // true
+</span><span class='line'>CharMatcher.DIGIT.matchesAnyOf("1231 aa212");                                     // true
+</span><span class='line'>CharMatcher.DIGIT.retainFrom("Hello 1234 567");                                   // "1234567";
+</span><span class='line'>CharMatcher.DIGIT.or(CharMatcher.WHITESPACE).retainFrom("Hello 1234 567");        // " 1234 567"
+</span><span class='line'>CharMatcher.inRange('3', '6').removeFrom("Hello 1234 567");                       // "Hello 12 7";
+</span><span class='line'>CharMatcher.is('$').trimFrom("$$$ This is a $ sign $$$");                         // " This is a $ sign "
+</span><span class='line'>CharMatcher.is('$').or(CharMatcher.is(' ')).trimFrom("$$$ This is a $ sign $$$"); // "This is a $ sign"</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>Joiner</h5>
+
+<p>字串相加</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Joiner joiner = Joiner.on("; ").skipNulls();
+</span><span class='line'>return joiner.join("Harry", null, "Ron", "Hermione"); // "Harry; Ron; Hermione"
+</span><span class='line'> 
+</span><span class='line'>numbersWords.put(1, "one");
+</span><span class='line'>numbersWords.put(2, "two");
+</span><span class='line'>numbersWords.put(3, null);
+</span><span class='line'>numbersWords.put(4, "four");
+</span><span class='line'>Joiner.on(" | ").withKeyValueSeparator(" -&gt; ")
+</span><span class='line'>    .useForNull("Unknown").join(numbersWords)); // 1 -&gt; one | 2 -&gt; two | 3 -&gt; Unknown | 4 -&gt; four"</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>Splitter</h5>
+
+<p>字串分割</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Splitter.on(',')
+</span><span class='line'>       .trimResults()
+</span><span class='line'>       .omitEmptyStrings()
+</span><span class='line'>       .split("foo,bar,,   qux");</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>Basic Utilities</h1>
+
+<h3>Optional (Null處理)</h3>
+
+<p>java對null的處理不是很友善，所以常常需要去對null值特別處理，而Optional就是用來處理null問題的利器。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// 是否是常看到這樣的code
+</span><span class='line'>if (foo == null) {
+</span><span class='line'>  // do something
+</span><span class='line'>} else {
+</span><span class='line'>  // do something
+</span><span class='line'>}
+</span><span class='line'> 
+</span><span class='line'>// servlet總會遇到這個
+</span><span class='line'>String username;
+</span><span class='line'>if (request.getParameter("username") == null) {
+</span><span class='line'>    username = "Stranger";
+</span><span class='line'>} else {
+</span><span class='line'>   username = request.getParameter("username");
+</span><span class='line'>}
+</span><span class='line'> 
+</span><span class='line'>// 或者
+</span><span class='line'>String username = request.getParameter("username") == null ? "Stranger" : request.getParameter("username");</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果改用Optional的話</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Optional.of(request.getParameter("username")).or("default");</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這個class我個人滿少用的，它的一些延伸用法不是很直覺</p>
+
+<h3>Preconditions</h3>
+
+<p>前置條件檢查，通常會在在method的最前面，用來保證參數或變數在一定的狀態，如果不在預期的狀況，就拋出異常。</p>
+
+<ol>
+<li>checkArgument(boolean) : 用來檢查method的參數，不為true則拋出
+IllegalArgumentException</li>
+<li>checkNotNull(T) : 如果是 null 拋出 NullPointerException</li>
+<li>checkState(boolean) :
+跟checkArgument(boolean)很像，但用來檢查非參數的變數，如果不為true，拋出
+IllegalStateException</li>
+<li>checkElementIndex(int index, int size) :
+用來檢查List,Array或字串index的合法性，不合法就拋出
+IndexOutOfBoundsException</li>
+<li>checkPositionIndex(int index, int size) :
+用來檢查List,Array或字串index的合法性，不合法就拋出
+IndexOutOfBoundsException</li>
+<li>checkPositionIndexes(int start, int end, int size) :
+用來檢查List,Array或字串index的合法性，不合法就拋出
+IndexOutOfBoundsException</li>
+</ol>
+
+
+<p>checkElementIndex,checkPositionIndex,checkPositionIndexes用法比較特別，它不需要傳入List,Array或字串本身，只需傳入List,Array或字串的index，size，或start，end</p>
+
+<h3>Ordering</h3>
+
+<p>排序用，如果要被排序的元素本身已有<a href="http://wiki.kent-chiu.com/doku.php?id=java:google_guava_101" title="java:google_guava_101">Comparator</a>的話，可以直做透過Ordering做排序,
+如果沒有，也可以extends Ordering達到排序的效果。</p>
+
+<h3>Object methods</h3>
+
+<p>傳統的Comparable實作方式很煩人，而且容易出錯</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class Person implements Comparable&lt;Person&gt; {
+</span><span class='line'>  private String lastName;
+</span><span class='line'>  private String firstName;
+</span><span class='line'>  private int zipCode;
+</span><span class='line'> 
+</span><span class='line'>  public int compareTo(Person other) {
+</span><span class='line'>    int cmp = lastName.compareTo(other.lastName);
+</span><span class='line'>    if (cmp != 0) {
+</span><span class='line'>      return cmp;
+</span><span class='line'>    }
+</span><span class='line'>    cmp = firstName.compareTo(other.firstName);
+</span><span class='line'>    if (cmp != 0) {
+</span><span class='line'>      return cmp;
+</span><span class='line'>    }
+</span><span class='line'>    return Integer.compare(zipCode, other.zipCode);
+</span><span class='line'>  }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Guava提供ComparisonChain簡化Comparable.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>   public int compareTo(Foo that) {
+</span><span class='line'>     return ComparisonChain.start()
+</span><span class='line'>         .compare(this.aString, that.aString)
+</span><span class='line'>         .compare(this.anInt, that.anInt)
+</span><span class='line'>         .compare(this.anEnum, that.anEnum, Ordering.natural().nullsLast())
+</span><span class='line'>         .result();
+</span><span class='line'>   }</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Throwables</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'> try {
+</span><span class='line'>     someMethodThatCouldThrowAnything();
+</span><span class='line'>   } catch (IKnowWhatToDoWithThisException e) {
+</span><span class='line'>     handle(e);
+</span><span class='line'>   } catch (Throwable t) {
+</span><span class='line'>     Throwables.propagateIfInstanceOf(t, IOException.class);
+</span><span class='line'>     Throwables.propagateIfInstanceOf(t, SQLException.class);
+</span><span class='line'>     throw Throwables.propagate(t);
+</span><span class='line'>   }</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>Caches</h1>
+
+<p>Guava Cache很像Map，但在使用上跟行為上還是跟Map有許多不同之類。Guava
+Cache只會暫存在Memory(RAM)，不會儲存 在local file system.</p>
+
+<p>建立cache有兩種方式，一種是一開始就load所需要的資料，另一種是如果資料不存在就建立，否則就直接取cache內的資料</p>
+
+<h5>CacheLoader是在開始時就建立好cache的資料</h5>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>LoadingCache&lt;Key, Graph&gt; graphs = CacheBuilder.newBuilder()
+</span><span class='line'>        .maximumSize(10000)
+</span><span class='line'>        .expireAfterWrite(10, TimeUnit.MINUTES)
+</span><span class='line'>        .removalListener(MY_LISTENER)
+</span><span class='line'>        .build(
+</span><span class='line'>            new CacheLoader&lt;Key, Graph&gt;() {
+</span><span class='line'>                public Graph load(Key key) throws AnyException {
+</span><span class='line'>                return createExpensiveGraph(key);
+</span><span class='line'>            }
+</span><span class='line'>        });</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>Callable是取不到資料時就建立cache</h5>
+
+<p>當執行cache.get，如果有cache就會從cache取，如果沒有cache就會建立一份到cache中</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Cache&lt;Key, Value&gt; cache = CacheBuilder.newBuilder()
+</span><span class='line'>    .maximumSize(1000)
+</span><span class='line'>    .build(); // look Ma, no CacheLoader
+</span><span class='line'>...
+</span><span class='line'>try {
+</span><span class='line'>  // If the key wasn't in the "easy to compute" group, we need to
+</span><span class='line'>  // do things the hard way.
+</span><span class='line'>  cache.get(key, new Callable&lt;Value&gt;() {
+</span><span class='line'>    @Override
+</span><span class='line'>    public Value call() throws AnyException {
+</span><span class='line'>      return doThingsTheHardWay(key);
+</span><span class='line'>    }
+</span><span class='line'>  };
+</span><span class='line'>} catch (ExecutionException e) {
+</span><span class='line'>  throw new OtherException(e.getCause());
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>Concurrency</h1>
+
+<p>ListenableFuture Service Using Implementations Monitor</p>
+
+<h1>Primitives</h1>
+
+<p>Primitive arrays General utilities Byte conversion Unsigned support</p>
+
+<h1>Ranges</h1>
+
+<p>用來處理一個範圍內class，主要是透過<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html" title="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html">Comparable</a>來做範圍的運算，
+所以不一定是要數值型的class才能做Range，像有實作Comparable的日期也是可以做範圍處理。</p>
+
+<p>可透過Ranges類別來建立Range</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Ranges.closed(1,10);</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>EventBus</h1>
+
+<p>EventBus是guava的事件處理，但不像傳統的Event-Listener那樣需要implement
+xxxListener那樣(結果就是產生了一堆inner class或anonymous inner class)
+而是透過@Annotation的方式處理。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Class is typically registered by the container.
+</span><span class='line'>class EventBusChangeRecorder {
+</span><span class='line'>  @Subscribe void recordCustomerChange(ChangeEvent e) {
+</span><span class='line'>    recordChange(e.getChange());
+</span><span class='line'>  }
+</span><span class='line'>}
+</span><span class='line'>// somewhere during initialization
+</span><span class='line'>eventBus.register(new EventBusChangeRecorder());
+</span><span class='line'>// much later
+</span><span class='line'>public void changeCustomer() {
+</span><span class='line'>  ChangeEvent event = getChangeEvent();
+</span><span class='line'>  eventBus.post(event);
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Reference</h4>
+
+<ol>
+<li><a href="http://codingjunkie.net/guava-eventbus/" title="http://codingjunkie.net/guava-eventbus/">http://codingjunkie.net/guava-eventbus/</a></li>
+<li><a href="http://tomaszdziurko.pl/2012/01/google-guava-eventbus-easy-elegant-publisher-subscriber-cases/" title="http://tomaszdziurko.pl/2012/01/google-guava-eventbus-easy-elegant-publisher-subscriber-cases/">http://tomaszdziurko.pl/2012/01/google-guava-eventbus-easy-elegant-publisher-subscriber-cases/</a></li>
+</ol>
+
+
+<h1>Math</h1>
+
+<p>TBD</p>
+
+<h1>Resources</h1>
+
+<ul>
+<li><a href="http://code.google.com/p/guava-libraries/" title="http://code.google.com/p/guava-libraries/">Guava
+Home</a></li>
+<li><a href="http://code.google.com/p/guava-libraries/wiki/ExplainedContents" title="http://code.google.com/p/guava-libraries/wiki/ExplainedContents">各功能的使用介紹</a>
+(推薦)</li>
+<li><a href="http://jnb.ociweb.com/jnb/jnbApr2010.html" title="http://jnb.ociweb.com/jnb/jnbApr2010.html">Examples</a></li>
+<li><a href="http://jnb.ociweb.com/jnb/jnbFeb2009.html" title="http://jnb.ociweb.com/jnb/jnbFeb2009.html">Google
+Collections</a></li>
+<li><a href="http://www.copperykeenclaws.com/googles-guava-java-the-easy-parts/" title="http://www.copperykeenclaws.com/googles-guava-java-the-easy-parts/">Google’s guava java: the easy
+parts</a></li>
+<li><a href="http://stackoverflow.com/questions/tagged/guava" title="http://stackoverflow.com/questions/tagged/guava">guava on
+stackoverflow</a></li>
+<li>Using the Google Collections Library for Java
+<a href="http://www.youtube.com/watch?v=ZeO_J2OcHYM" title="http://www.youtube.com/watch?v=ZeO_J2OcHYM">part1</a>
+<a href="http://www.youtube.com/watch?v=9ni_KEkHfto" title="http://www.youtube.com/watch?v=9ni_KEkHfto">part2</a></li>
+<li>带你领略 Google Collections <a href="http://jubin2002.javaeye.com/blog/471661" title="http://jubin2002.javaeye.com/blog/471661">part
+1</a>
+<a href="http://jubin2002.javaeye.com/blog/471698" title="http://jubin2002.javaeye.com/blog/471698">part
+2</a></li>
+<li>MapMaker Usage
+<a href="http://norther.javaeye.com/blog/670414" title="http://norther.javaeye.com/blog/670414">http://norther.javaeye.com/blog/670414</a></li>
+<li><a href="http://www.ibm.com/developerworks/cn/java/j-lo-googlecollection/index.html?ca=drs-" title="http://www.ibm.com/developerworks/cn/java/j-lo-googlecollection/index.html?ca=drs-">Google Guava Collections
+使用介绍</a>
+
+<ul>
+<li>IBM 中國上介紹guava的文章</li>
+</ul>
+</li>
+<li><a href="http://www.tfnico.com/presentations/google-guava" title="http://www.tfnico.com/presentations/google-guava">一些guava使用上的介紹</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -3149,76 +3600,6 @@ same space, using beans.xml.</li>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/03/20/using_android_market_on_emulator/">在Emulator裡使用Android Market</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-03-20T00:00:00+08:00" pubdate data-updated="true">Mar 20<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/03/20/using_android_market_on_emulator/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><ol>
-<li>取的1.6的版Android SDK</li>
-<li>建立AVD(假設命名為myAVD)，target設定為1.6版的SDK</li>
-<li>去<a href="http://developer.htc.com/adp.html" title="http://developer.htc.com/adp.html">htc
-developer</a>下載ROM^<a href="#fn__1">1)</a>^
-signed-dream_devphone_userdebug-img-14721.zip</li>
-<li>解壓ZIP後，把system.img檔copy到
-USER_HOME^<a href="#fn__2">2)</a>^底下有一個<code>.android</code>目錄，裡面有一個剛剛命名的AVD(以我的帳號來說，它是在C:\Users\Kent&#46;android\avd\myAVD.avd\目錄)</li>
-<li>重新啟動Emulator即可看到 Android Market的icon在主畫面上</li>
-<li>用google (Gmail)的帳號登入market即可download apps</li>
-</ol>
-
-
-<p>很多需要硬體支援的功能，Emulator還是沒辦法用</p>
-
-<h1>Resources</h1>
-
-<ul>
-<li><a href="http://www.51testing.com/?uid-49689-action-viewspace-itemid-212224" title="http://www.51testing.com/?uid-49689-action-viewspace-itemid-212224">http://www.51testing.com/?uid-49689-action-viewspace-itemid-212224</a>
-
-<ul>
-<li>本篇文章主要參考這裡</li>
-</ul>
-</li>
-<li><h2><a href="http://blog.23corner.com/2010/06/17/%E5%9C%A8-android-emulator-%E4%B8%AD%E4%BD%BF%E7%94%A8-android-market-%E7%9A%84%E6%96%B9%E6%B3%95/" title="http://blog.23corner.com/2010/06/17/%E5%9C%A8-android-emulator-%E4%B8%AD%E4%BD%BF%E7%94%A8-android-market-%E7%9A%84%E6%96%B9%E6%B3%95/">http://blog.23corner.com/2010/06/17/%E5%9C%A8-android-emulator-%E4%B8%AD%E4%BD%BF%E7%94%A8-android-market-%E7%9A%84%E6%96%B9%E6%B3%95/</a></h2>
-
-<p>這篇講到更多的設定方式，但我用1.6版的ROM，只要照我上面寫的流程，就可以使用了</p></li>
-</ul>
-
-
-<p>^<a href="#fnt__1">1)</a>^ 我下的是1.6版的system.img</p>
-
-<p>^<a href="#fnt__2">2)</a>^ 登入OS的使用者帳號</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/5/">&larr; Older</a>
@@ -3236,6 +3617,10 @@ USER_HOME^<a href="#fn__2">2)</a>^底下有一個<code>.android</code>目錄，�
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/08/14/testing-rest-with-curl-command/">使用curl指令測試REST服務</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/07/15/mac-os-x-keyboard-shortcuts-for-terminal/">Mac OS X Keyboard Shortcuts for Terminal</a>
       </li>
     
@@ -3251,19 +3636,15 @@ USER_HOME^<a href="#fn__2">2)</a>^底下有一個<code>.android</code>目錄，�
         <a href="/blog/2013/06/04/restful-api-design/">RESTful API Design</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2013/05/17/my-intellij-idea-shortcut/">My IntelliJ IDEA Shortcut</a>
-      </li>
-    
   </ul>
 </section>
 <section>
   <h1>Category Cloud</h1>
-    <span id="tag-cloud"><a href='/blog/categories/actionbar' style='font-size: 102.4%'>actionbar(1)</a> <a href='/blog/categories/android' style='font-size: 160.0%'>android(25)</a> <a href='/blog/categories/apache' style='font-size: 116.8%'>apache(7)</a> <a href='/blog/categories/bash' style='font-size: 107.2%'>bash(3)</a> <a href='/blog/categories/best-practice' style='font-size: 102.4%'>best_practice(1)</a> <a href='/blog/categories/book' style='font-size: 102.4%'>book(1)</a> <a href='/blog/categories/broadcast-receiver' style='font-size: 104.8%'>broadcast_receiver(2)</a> <a href='/blog/categories/cdi' style='font-size: 104.8%'>cdi(2)</a> <a href='/blog/categories/centos' style='font-size: 112.0%'>centos(5)</a> <a href='/blog/categories/clean-code' style='font-size: 102.4%'>clean code(1)</a> <a href='/blog/categories/command' style='font-size: 109.6%'>command(4)</a> <a href='/blog/categories/concurrency' style='font-size: 102.4%'>concurrency(1)</a> <a href='/blog/categories/database' style='font-size: 114.4%'>database(6)</a> <a href='/blog/categories/datetime' style='font-size: 102.4%'>datetime(1)</a> <a href='/blog/categories/di' style='font-size: 104.8%'>di(2)</a> <a href='/blog/categories/drawable' style='font-size: 102.4%'>drawable(1)</a> <a href='/blog/categories/ec' style='font-size: 102.4%'>ec(1)</a> <a href='/blog/categories/eclipse' style='font-size: 102.4%'>eclipse(1)</a> <a href='/blog/categories/ecshop' style='font-size: 116.8%'>ecshop(7)</a> <a href='/blog/categories/editor' style='font-size: 102.4%'>editor(1)</a> <a href='/blog/categories/emulator' style='font-size: 102.4%'>emulator(1)</a> <a href='/blog/categories/encoding' style='font-size: 102.4%'>encoding(1)</a> <a href='/blog/categories/english' style='font-size: 133.6%'>english(14)</a> <a href='/blog/categories/excel' style='font-size: 104.8%'>excel(2)</a> <a href='/blog/categories/extjs' style='font-size: 104.8%'>extjs(2)</a> <a href='/blog/categories/gesture' style='font-size: 102.4%'>gesture(1)</a> <a href='/blog/categories/git' style='font-size: 109.6%'>git(4)</a> <a href='/blog/categories/git-flow' style='font-size: 102.4%'>git-flow(1)</a> <a href='/blog/categories/guava' style='font-size: 104.8%'>guava(2)</a> <a href='/blog/categories/guice' style='font-size: 102.4%'>guice(1)</a> <a href='/blog/categories/hamcrest' style='font-size: 102.4%'>hamcrest(1)</a> <a href='/blog/categories/i18n' style='font-size: 102.4%'>i18n(1)</a> <a href='/blog/categories/ide' style='font-size: 102.4%'>IDE(1)</a> <a href='/blog/categories/idea' style='font-size: 102.4%'>IDEA(1)</a> <a href='/blog/categories/injection' style='font-size: 102.4%'>injection(1)</a> <a href='/blog/categories/intent' style='font-size: 102.4%'>intent(1)</a> <a href='/blog/categories/ireport' style='font-size: 104.8%'>ireport(2)</a> <a href='/blog/categories/jasterreport' style='font-size: 104.8%'>jasterreport(2)</a> <a href='/blog/categories/java' style='font-size: 152.8%'>java(22)</a> <a href='/blog/categories/java-ee' style='font-size: 112.0%'>java_ee(5)</a> <a href='/blog/categories/jms' style='font-size: 102.4%'>jms(1)</a> <a href='/blog/categories/joda' style='font-size: 102.4%'>joda(1)</a> <a href='/blog/categories/jpa' style='font-size: 102.4%'>jpa(1)</a> <a href='/blog/categories/jquery' style='font-size: 102.4%'>jquery(1)</a> <a href='/blog/categories/jsp' style='font-size: 104.8%'>jsp(2)</a> <a href='/blog/categories/junit' style='font-size: 102.4%'>junit(1)</a> <a href='/blog/categories/jvm' style='font-size: 104.8%'>jvm(2)</a> <a href='/blog/categories/kohana' style='font-size: 102.4%'>kohana(1)</a> <a href='/blog/categories/l10n' style='font-size: 102.4%'>l10n(1)</a> <a href='/blog/categories/layout' style='font-size: 102.4%'>layout(1)</a> <a href='/blog/categories/linux' style='font-size: 126.4%'>linux(11)</a> <a href='/blog/categories/listview' style='font-size: 104.8%'>listview(2)</a> <a href='/blog/categories/logger' style='font-size: 102.4%'>logger(1)</a> <a href='/blog/categories/m2eclilpse' style='font-size: 102.4%'>m2eclilpse(1)</a> <a href='/blog/categories/mac' style='font-size: 104.8%'>mac(2)</a> <a href='/blog/categories/mat' style='font-size: 102.4%'>mat(1)</a> <a href='/blog/categories/maven' style='font-size: 112.0%'>maven(5)</a> <a href='/blog/categories/memory' style='font-size: 102.4%'>memory(1)</a> <a href='/blog/categories/menu' style='font-size: 102.4%'>menu(1)</a> <a href='/blog/categories/mindmap' style='font-size: 104.8%'>mindmap(2)</a> <a href='/blog/categories/misc' style='font-size: 102.4%'>misc(1)</a> <a href='/blog/categories/mysql' style='font-size: 116.8%'>mysql(7)</a> <a href='/blog/categories/nio' style='font-size: 102.4%'>nio(1)</a> <a href='/blog/categories/octopress' style='font-size: 102.4%'>octopress(1)</a> <a href='/blog/categories/oracle' style='font-size: 102.4%'>oracle(1)</a> <a href='/blog/categories/osgi' style='font-size: 107.2%'>osgi(3)</a> <a href='/blog/categories/pdf' style='font-size: 104.8%'>pdf(2)</a> <a href='/blog/categories/pdt' style='font-size: 112.0%'>pdt(5)</a> <a href='/blog/categories/pear' style='font-size: 104.8%'>pear(2)</a> <a href='/blog/categories/performace' style='font-size: 102.4%'>performace(1)</a> <a href='/blog/categories/pgsql' style='font-size: 102.4%'>pgsql(1)</a> <a href='/blog/categories/php' style='font-size: 114.4%'>php(6)</a> <a href='/blog/categories/play-framework' style='font-size: 102.4%'>play_framework(1)</a> <a href='/blog/categories/pm' style='font-size: 112.0%'>pm(5)</a> <a href='/blog/categories/postgresql' style='font-size: 104.8%'>postgresql(2)</a> <a href='/blog/categories/profile' style='font-size: 102.4%'>profile(1)</a> <a href='/blog/categories/programming' style='font-size: 128.8%'>programming(12)</a> <a href='/blog/categories/python' style='font-size: 102.4%'>python(1)</a> <a href='/blog/categories/re' style='font-size: 102.4%'>re(1)</a> <a href='/blog/categories/refactory' style='font-size: 102.4%'>refactory(1)</a> <a href='/blog/categories/rest' style='font-size: 109.6%'>rest(4)</a> <a href='/blog/categories/roboguice' style='font-size: 102.4%'>roboguice(1)</a> <a href='/blog/categories/sbt' style='font-size: 102.4%'>sbt(1)</a> <a href='/blog/categories/scala' style='font-size: 109.6%'>scala(4)</a> <a href='/blog/categories/security' style='font-size: 102.4%'>security(1)</a> <a href='/blog/categories/service' style='font-size: 104.8%'>service(2)</a> <a href='/blog/categories/shiro' style='font-size: 102.4%'>shiro(1)</a> <a href='/blog/categories/shortchut' style='font-size: 102.4%'>shortchut(1)</a> <a href='/blog/categories/smarty' style='font-size: 107.2%'>smarty(3)</a> <a href='/blog/categories/spring' style='font-size: 102.4%'>spring(1)</a> <a href='/blog/categories/sql' style='font-size: 102.4%'>sql(1)</a> <a href='/blog/categories/style' style='font-size: 102.4%'>style(1)</a> <a href='/blog/categories/tdd' style='font-size: 102.4%'>tdd(1)</a> <a href='/blog/categories/testing' style='font-size: 124.0%'>testing(10)</a> <a href='/blog/categories/theme' style='font-size: 102.4%'>theme(1)</a> <a href='/blog/categories/tips' style='font-size: 104.8%'>tips(2)</a> <a href='/blog/categories/ubuntu' style='font-size: 119.2%'>ubuntu(8)</a> <a href='/blog/categories/ui' style='font-size: 104.8%'>ui(2)</a> <a href='/blog/categories/vim' style='font-size: 104.8%'>vim(2)</a> <a href='/blog/categories/web' style='font-size: 104.8%'>web(2)</a> <a href='/blog/categories/windows' style='font-size: 102.4%'>windows(1)</a> <a href='/blog/categories/xampp' style='font-size: 102.4%'>xampp(1)</a> <a href='/blog/categories/xml' style='font-size: 104.8%'>xml(2)</a> </span>
+    <span id="tag-cloud"><a href='/blog/categories/actionbar' style='font-size: 102.4%'>actionbar(1)</a> <a href='/blog/categories/android' style='font-size: 160.0%'>android(25)</a> <a href='/blog/categories/apache' style='font-size: 116.8%'>apache(7)</a> <a href='/blog/categories/bash' style='font-size: 109.6%'>bash(4)</a> <a href='/blog/categories/best-practice' style='font-size: 102.4%'>best_practice(1)</a> <a href='/blog/categories/book' style='font-size: 102.4%'>book(1)</a> <a href='/blog/categories/broadcast-receiver' style='font-size: 104.8%'>broadcast_receiver(2)</a> <a href='/blog/categories/cdi' style='font-size: 104.8%'>cdi(2)</a> <a href='/blog/categories/centos' style='font-size: 112.0%'>centos(5)</a> <a href='/blog/categories/clean-code' style='font-size: 102.4%'>clean code(1)</a> <a href='/blog/categories/command' style='font-size: 112.0%'>command(5)</a> <a href='/blog/categories/concurrency' style='font-size: 102.4%'>concurrency(1)</a> <a href='/blog/categories/curl' style='font-size: 102.4%'>curl(1)</a> <a href='/blog/categories/database' style='font-size: 114.4%'>database(6)</a> <a href='/blog/categories/datetime' style='font-size: 102.4%'>datetime(1)</a> <a href='/blog/categories/di' style='font-size: 104.8%'>di(2)</a> <a href='/blog/categories/drawable' style='font-size: 102.4%'>drawable(1)</a> <a href='/blog/categories/ec' style='font-size: 102.4%'>ec(1)</a> <a href='/blog/categories/eclipse' style='font-size: 102.4%'>eclipse(1)</a> <a href='/blog/categories/ecshop' style='font-size: 116.8%'>ecshop(7)</a> <a href='/blog/categories/editor' style='font-size: 102.4%'>editor(1)</a> <a href='/blog/categories/emulator' style='font-size: 102.4%'>emulator(1)</a> <a href='/blog/categories/encoding' style='font-size: 102.4%'>encoding(1)</a> <a href='/blog/categories/english' style='font-size: 133.6%'>english(14)</a> <a href='/blog/categories/excel' style='font-size: 104.8%'>excel(2)</a> <a href='/blog/categories/extjs' style='font-size: 104.8%'>extjs(2)</a> <a href='/blog/categories/gesture' style='font-size: 102.4%'>gesture(1)</a> <a href='/blog/categories/git' style='font-size: 109.6%'>git(4)</a> <a href='/blog/categories/git-flow' style='font-size: 102.4%'>git-flow(1)</a> <a href='/blog/categories/guava' style='font-size: 104.8%'>guava(2)</a> <a href='/blog/categories/guice' style='font-size: 102.4%'>guice(1)</a> <a href='/blog/categories/hamcrest' style='font-size: 102.4%'>hamcrest(1)</a> <a href='/blog/categories/i18n' style='font-size: 102.4%'>i18n(1)</a> <a href='/blog/categories/ide' style='font-size: 102.4%'>IDE(1)</a> <a href='/blog/categories/idea' style='font-size: 102.4%'>IDEA(1)</a> <a href='/blog/categories/injection' style='font-size: 102.4%'>injection(1)</a> <a href='/blog/categories/intent' style='font-size: 102.4%'>intent(1)</a> <a href='/blog/categories/ireport' style='font-size: 104.8%'>ireport(2)</a> <a href='/blog/categories/jasterreport' style='font-size: 104.8%'>jasterreport(2)</a> <a href='/blog/categories/java' style='font-size: 152.8%'>java(22)</a> <a href='/blog/categories/java-ee' style='font-size: 112.0%'>java_ee(5)</a> <a href='/blog/categories/jms' style='font-size: 102.4%'>jms(1)</a> <a href='/blog/categories/joda' style='font-size: 102.4%'>joda(1)</a> <a href='/blog/categories/jpa' style='font-size: 102.4%'>jpa(1)</a> <a href='/blog/categories/jquery' style='font-size: 102.4%'>jquery(1)</a> <a href='/blog/categories/jsp' style='font-size: 104.8%'>jsp(2)</a> <a href='/blog/categories/junit' style='font-size: 102.4%'>junit(1)</a> <a href='/blog/categories/jvm' style='font-size: 104.8%'>jvm(2)</a> <a href='/blog/categories/kohana' style='font-size: 102.4%'>kohana(1)</a> <a href='/blog/categories/l10n' style='font-size: 102.4%'>l10n(1)</a> <a href='/blog/categories/layout' style='font-size: 102.4%'>layout(1)</a> <a href='/blog/categories/linux' style='font-size: 126.4%'>linux(11)</a> <a href='/blog/categories/listview' style='font-size: 104.8%'>listview(2)</a> <a href='/blog/categories/logger' style='font-size: 102.4%'>logger(1)</a> <a href='/blog/categories/m2eclilpse' style='font-size: 102.4%'>m2eclilpse(1)</a> <a href='/blog/categories/mac' style='font-size: 104.8%'>mac(2)</a> <a href='/blog/categories/mat' style='font-size: 102.4%'>mat(1)</a> <a href='/blog/categories/maven' style='font-size: 112.0%'>maven(5)</a> <a href='/blog/categories/memory' style='font-size: 102.4%'>memory(1)</a> <a href='/blog/categories/menu' style='font-size: 102.4%'>menu(1)</a> <a href='/blog/categories/mindmap' style='font-size: 104.8%'>mindmap(2)</a> <a href='/blog/categories/misc' style='font-size: 102.4%'>misc(1)</a> <a href='/blog/categories/mysql' style='font-size: 116.8%'>mysql(7)</a> <a href='/blog/categories/nio' style='font-size: 102.4%'>nio(1)</a> <a href='/blog/categories/octopress' style='font-size: 102.4%'>octopress(1)</a> <a href='/blog/categories/oracle' style='font-size: 102.4%'>oracle(1)</a> <a href='/blog/categories/osgi' style='font-size: 107.2%'>osgi(3)</a> <a href='/blog/categories/pdf' style='font-size: 104.8%'>pdf(2)</a> <a href='/blog/categories/pdt' style='font-size: 112.0%'>pdt(5)</a> <a href='/blog/categories/pear' style='font-size: 104.8%'>pear(2)</a> <a href='/blog/categories/performace' style='font-size: 102.4%'>performace(1)</a> <a href='/blog/categories/pgsql' style='font-size: 102.4%'>pgsql(1)</a> <a href='/blog/categories/php' style='font-size: 114.4%'>php(6)</a> <a href='/blog/categories/play-framework' style='font-size: 102.4%'>play_framework(1)</a> <a href='/blog/categories/pm' style='font-size: 112.0%'>pm(5)</a> <a href='/blog/categories/postgresql' style='font-size: 104.8%'>postgresql(2)</a> <a href='/blog/categories/profile' style='font-size: 102.4%'>profile(1)</a> <a href='/blog/categories/programming' style='font-size: 128.8%'>programming(12)</a> <a href='/blog/categories/python' style='font-size: 102.4%'>python(1)</a> <a href='/blog/categories/re' style='font-size: 102.4%'>re(1)</a> <a href='/blog/categories/refactory' style='font-size: 102.4%'>refactory(1)</a> <a href='/blog/categories/rest' style='font-size: 112.0%'>rest(5)</a> <a href='/blog/categories/roboguice' style='font-size: 102.4%'>roboguice(1)</a> <a href='/blog/categories/sbt' style='font-size: 102.4%'>sbt(1)</a> <a href='/blog/categories/scala' style='font-size: 109.6%'>scala(4)</a> <a href='/blog/categories/security' style='font-size: 102.4%'>security(1)</a> <a href='/blog/categories/service' style='font-size: 104.8%'>service(2)</a> <a href='/blog/categories/shiro' style='font-size: 102.4%'>shiro(1)</a> <a href='/blog/categories/shortchut' style='font-size: 102.4%'>shortchut(1)</a> <a href='/blog/categories/smarty' style='font-size: 107.2%'>smarty(3)</a> <a href='/blog/categories/spring' style='font-size: 102.4%'>spring(1)</a> <a href='/blog/categories/sql' style='font-size: 102.4%'>sql(1)</a> <a href='/blog/categories/style' style='font-size: 102.4%'>style(1)</a> <a href='/blog/categories/tdd' style='font-size: 102.4%'>tdd(1)</a> <a href='/blog/categories/testing' style='font-size: 124.0%'>testing(10)</a> <a href='/blog/categories/theme' style='font-size: 102.4%'>theme(1)</a> <a href='/blog/categories/tips' style='font-size: 104.8%'>tips(2)</a> <a href='/blog/categories/ubuntu' style='font-size: 119.2%'>ubuntu(8)</a> <a href='/blog/categories/ui' style='font-size: 104.8%'>ui(2)</a> <a href='/blog/categories/vim' style='font-size: 104.8%'>vim(2)</a> <a href='/blog/categories/web' style='font-size: 104.8%'>web(2)</a> <a href='/blog/categories/windows' style='font-size: 102.4%'>windows(1)</a> <a href='/blog/categories/xampp' style='font-size: 102.4%'>xampp(1)</a> <a href='/blog/categories/xml' style='font-size: 104.8%'>xml(2)</a> </span>
 </section>
 <section>
   <h1>Categories</h1>
-    <ul id="category-list"><li><a href='/blog/categories/actionbar'>actionbar (1)</a></li><li><a href='/blog/categories/android'>android (25)</a></li><li><a href='/blog/categories/apache'>apache (7)</a></li><li><a href='/blog/categories/bash'>bash (3)</a></li><li><a href='/blog/categories/best-practice'>best_practice (1)</a></li><li><a href='/blog/categories/book'>book (1)</a></li><li><a href='/blog/categories/broadcast-receiver'>broadcast_receiver (2)</a></li><li><a href='/blog/categories/cdi'>cdi (2)</a></li><li><a href='/blog/categories/centos'>centos (5)</a></li><li><a href='/blog/categories/clean-code'>clean code (1)</a></li><li><a href='/blog/categories/command'>command (4)</a></li><li><a href='/blog/categories/concurrency'>concurrency (1)</a></li><li><a href='/blog/categories/database'>database (6)</a></li><li><a href='/blog/categories/datetime'>datetime (1)</a></li><li><a href='/blog/categories/di'>di (2)</a></li><li><a href='/blog/categories/drawable'>drawable (1)</a></li><li><a href='/blog/categories/ec'>ec (1)</a></li><li><a href='/blog/categories/eclipse'>eclipse (1)</a></li><li><a href='/blog/categories/ecshop'>ecshop (7)</a></li><li><a href='/blog/categories/editor'>editor (1)</a></li><li><a href='/blog/categories/emulator'>emulator (1)</a></li><li><a href='/blog/categories/encoding'>encoding (1)</a></li><li><a href='/blog/categories/english'>english (14)</a></li><li><a href='/blog/categories/excel'>excel (2)</a></li><li><a href='/blog/categories/extjs'>extjs (2)</a></li><li><a href='/blog/categories/gesture'>gesture (1)</a></li><li><a href='/blog/categories/git'>git (4)</a></li><li><a href='/blog/categories/git-flow'>git-flow (1)</a></li><li><a href='/blog/categories/guava'>guava (2)</a></li><li><a href='/blog/categories/guice'>guice (1)</a></li><li><a href='/blog/categories/hamcrest'>hamcrest (1)</a></li><li><a href='/blog/categories/i18n'>i18n (1)</a></li><li><a href='/blog/categories/ide'>IDE (1)</a></li><li><a href='/blog/categories/idea'>IDEA (1)</a></li><li><a href='/blog/categories/injection'>injection (1)</a></li><li><a href='/blog/categories/intent'>intent (1)</a></li><li><a href='/blog/categories/ireport'>ireport (2)</a></li><li><a href='/blog/categories/jasterreport'>jasterreport (2)</a></li><li><a href='/blog/categories/java'>java (22)</a></li><li><a href='/blog/categories/java-ee'>java_ee (5)</a></li><li><a href='/blog/categories/jms'>jms (1)</a></li><li><a href='/blog/categories/joda'>joda (1)</a></li><li><a href='/blog/categories/jpa'>jpa (1)</a></li><li><a href='/blog/categories/jquery'>jquery (1)</a></li><li><a href='/blog/categories/jsp'>jsp (2)</a></li><li><a href='/blog/categories/junit'>junit (1)</a></li><li><a href='/blog/categories/jvm'>jvm (2)</a></li><li><a href='/blog/categories/kohana'>kohana (1)</a></li><li><a href='/blog/categories/l10n'>l10n (1)</a></li><li><a href='/blog/categories/layout'>layout (1)</a></li><li><a href='/blog/categories/linux'>linux (11)</a></li><li><a href='/blog/categories/listview'>listview (2)</a></li><li><a href='/blog/categories/logger'>logger (1)</a></li><li><a href='/blog/categories/m2eclilpse'>m2eclilpse (1)</a></li><li><a href='/blog/categories/mac'>mac (2)</a></li><li><a href='/blog/categories/mat'>mat (1)</a></li><li><a href='/blog/categories/maven'>maven (5)</a></li><li><a href='/blog/categories/memory'>memory (1)</a></li><li><a href='/blog/categories/menu'>menu (1)</a></li><li><a href='/blog/categories/mindmap'>mindmap (2)</a></li><li><a href='/blog/categories/misc'>misc (1)</a></li><li><a href='/blog/categories/mysql'>mysql (7)</a></li><li><a href='/blog/categories/nio'>nio (1)</a></li><li><a href='/blog/categories/octopress'>octopress (1)</a></li><li><a href='/blog/categories/oracle'>oracle (1)</a></li><li><a href='/blog/categories/osgi'>osgi (3)</a></li><li><a href='/blog/categories/pdf'>pdf (2)</a></li><li><a href='/blog/categories/pdt'>pdt (5)</a></li><li><a href='/blog/categories/pear'>pear (2)</a></li><li><a href='/blog/categories/performace'>performace (1)</a></li><li><a href='/blog/categories/pgsql'>pgsql (1)</a></li><li><a href='/blog/categories/php'>php (6)</a></li><li><a href='/blog/categories/play-framework'>play_framework (1)</a></li><li><a href='/blog/categories/pm'>pm (5)</a></li><li><a href='/blog/categories/postgresql'>postgresql (2)</a></li><li><a href='/blog/categories/profile'>profile (1)</a></li><li><a href='/blog/categories/programming'>programming (12)</a></li><li><a href='/blog/categories/python'>python (1)</a></li><li><a href='/blog/categories/re'>re (1)</a></li><li><a href='/blog/categories/refactory'>refactory (1)</a></li><li><a href='/blog/categories/rest'>rest (4)</a></li><li><a href='/blog/categories/roboguice'>roboguice (1)</a></li><li><a href='/blog/categories/sbt'>sbt (1)</a></li><li><a href='/blog/categories/scala'>scala (4)</a></li><li><a href='/blog/categories/security'>security (1)</a></li><li><a href='/blog/categories/service'>service (2)</a></li><li><a href='/blog/categories/shiro'>shiro (1)</a></li><li><a href='/blog/categories/shortchut'>shortchut (1)</a></li><li><a href='/blog/categories/smarty'>smarty (3)</a></li><li><a href='/blog/categories/spring'>spring (1)</a></li><li><a href='/blog/categories/sql'>sql (1)</a></li><li><a href='/blog/categories/style'>style (1)</a></li><li><a href='/blog/categories/tdd'>tdd (1)</a></li><li><a href='/blog/categories/testing'>testing (10)</a></li><li><a href='/blog/categories/theme'>theme (1)</a></li><li><a href='/blog/categories/tips'>tips (2)</a></li><li><a href='/blog/categories/ubuntu'>ubuntu (8)</a></li><li><a href='/blog/categories/ui'>ui (2)</a></li><li><a href='/blog/categories/vim'>vim (2)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/windows'>windows (1)</a></li><li><a href='/blog/categories/xampp'>xampp (1)</a></li><li><a href='/blog/categories/xml'>xml (2)</a></li></ul>
+    <ul id="category-list"><li><a href='/blog/categories/actionbar'>actionbar (1)</a></li><li><a href='/blog/categories/android'>android (25)</a></li><li><a href='/blog/categories/apache'>apache (7)</a></li><li><a href='/blog/categories/bash'>bash (4)</a></li><li><a href='/blog/categories/best-practice'>best_practice (1)</a></li><li><a href='/blog/categories/book'>book (1)</a></li><li><a href='/blog/categories/broadcast-receiver'>broadcast_receiver (2)</a></li><li><a href='/blog/categories/cdi'>cdi (2)</a></li><li><a href='/blog/categories/centos'>centos (5)</a></li><li><a href='/blog/categories/clean-code'>clean code (1)</a></li><li><a href='/blog/categories/command'>command (5)</a></li><li><a href='/blog/categories/concurrency'>concurrency (1)</a></li><li><a href='/blog/categories/curl'>curl (1)</a></li><li><a href='/blog/categories/database'>database (6)</a></li><li><a href='/blog/categories/datetime'>datetime (1)</a></li><li><a href='/blog/categories/di'>di (2)</a></li><li><a href='/blog/categories/drawable'>drawable (1)</a></li><li><a href='/blog/categories/ec'>ec (1)</a></li><li><a href='/blog/categories/eclipse'>eclipse (1)</a></li><li><a href='/blog/categories/ecshop'>ecshop (7)</a></li><li><a href='/blog/categories/editor'>editor (1)</a></li><li><a href='/blog/categories/emulator'>emulator (1)</a></li><li><a href='/blog/categories/encoding'>encoding (1)</a></li><li><a href='/blog/categories/english'>english (14)</a></li><li><a href='/blog/categories/excel'>excel (2)</a></li><li><a href='/blog/categories/extjs'>extjs (2)</a></li><li><a href='/blog/categories/gesture'>gesture (1)</a></li><li><a href='/blog/categories/git'>git (4)</a></li><li><a href='/blog/categories/git-flow'>git-flow (1)</a></li><li><a href='/blog/categories/guava'>guava (2)</a></li><li><a href='/blog/categories/guice'>guice (1)</a></li><li><a href='/blog/categories/hamcrest'>hamcrest (1)</a></li><li><a href='/blog/categories/i18n'>i18n (1)</a></li><li><a href='/blog/categories/ide'>IDE (1)</a></li><li><a href='/blog/categories/idea'>IDEA (1)</a></li><li><a href='/blog/categories/injection'>injection (1)</a></li><li><a href='/blog/categories/intent'>intent (1)</a></li><li><a href='/blog/categories/ireport'>ireport (2)</a></li><li><a href='/blog/categories/jasterreport'>jasterreport (2)</a></li><li><a href='/blog/categories/java'>java (22)</a></li><li><a href='/blog/categories/java-ee'>java_ee (5)</a></li><li><a href='/blog/categories/jms'>jms (1)</a></li><li><a href='/blog/categories/joda'>joda (1)</a></li><li><a href='/blog/categories/jpa'>jpa (1)</a></li><li><a href='/blog/categories/jquery'>jquery (1)</a></li><li><a href='/blog/categories/jsp'>jsp (2)</a></li><li><a href='/blog/categories/junit'>junit (1)</a></li><li><a href='/blog/categories/jvm'>jvm (2)</a></li><li><a href='/blog/categories/kohana'>kohana (1)</a></li><li><a href='/blog/categories/l10n'>l10n (1)</a></li><li><a href='/blog/categories/layout'>layout (1)</a></li><li><a href='/blog/categories/linux'>linux (11)</a></li><li><a href='/blog/categories/listview'>listview (2)</a></li><li><a href='/blog/categories/logger'>logger (1)</a></li><li><a href='/blog/categories/m2eclilpse'>m2eclilpse (1)</a></li><li><a href='/blog/categories/mac'>mac (2)</a></li><li><a href='/blog/categories/mat'>mat (1)</a></li><li><a href='/blog/categories/maven'>maven (5)</a></li><li><a href='/blog/categories/memory'>memory (1)</a></li><li><a href='/blog/categories/menu'>menu (1)</a></li><li><a href='/blog/categories/mindmap'>mindmap (2)</a></li><li><a href='/blog/categories/misc'>misc (1)</a></li><li><a href='/blog/categories/mysql'>mysql (7)</a></li><li><a href='/blog/categories/nio'>nio (1)</a></li><li><a href='/blog/categories/octopress'>octopress (1)</a></li><li><a href='/blog/categories/oracle'>oracle (1)</a></li><li><a href='/blog/categories/osgi'>osgi (3)</a></li><li><a href='/blog/categories/pdf'>pdf (2)</a></li><li><a href='/blog/categories/pdt'>pdt (5)</a></li><li><a href='/blog/categories/pear'>pear (2)</a></li><li><a href='/blog/categories/performace'>performace (1)</a></li><li><a href='/blog/categories/pgsql'>pgsql (1)</a></li><li><a href='/blog/categories/php'>php (6)</a></li><li><a href='/blog/categories/play-framework'>play_framework (1)</a></li><li><a href='/blog/categories/pm'>pm (5)</a></li><li><a href='/blog/categories/postgresql'>postgresql (2)</a></li><li><a href='/blog/categories/profile'>profile (1)</a></li><li><a href='/blog/categories/programming'>programming (12)</a></li><li><a href='/blog/categories/python'>python (1)</a></li><li><a href='/blog/categories/re'>re (1)</a></li><li><a href='/blog/categories/refactory'>refactory (1)</a></li><li><a href='/blog/categories/rest'>rest (5)</a></li><li><a href='/blog/categories/roboguice'>roboguice (1)</a></li><li><a href='/blog/categories/sbt'>sbt (1)</a></li><li><a href='/blog/categories/scala'>scala (4)</a></li><li><a href='/blog/categories/security'>security (1)</a></li><li><a href='/blog/categories/service'>service (2)</a></li><li><a href='/blog/categories/shiro'>shiro (1)</a></li><li><a href='/blog/categories/shortchut'>shortchut (1)</a></li><li><a href='/blog/categories/smarty'>smarty (3)</a></li><li><a href='/blog/categories/spring'>spring (1)</a></li><li><a href='/blog/categories/sql'>sql (1)</a></li><li><a href='/blog/categories/style'>style (1)</a></li><li><a href='/blog/categories/tdd'>tdd (1)</a></li><li><a href='/blog/categories/testing'>testing (10)</a></li><li><a href='/blog/categories/theme'>theme (1)</a></li><li><a href='/blog/categories/tips'>tips (2)</a></li><li><a href='/blog/categories/ubuntu'>ubuntu (8)</a></li><li><a href='/blog/categories/ui'>ui (2)</a></li><li><a href='/blog/categories/vim'>vim (2)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/windows'>windows (1)</a></li><li><a href='/blog/categories/xampp'>xampp (1)</a></li><li><a href='/blog/categories/xml'>xml (2)</a></li></ul>
 </section>
 
   

@@ -9,8 +9,14 @@
   <meta name="author" content="Kent">
 
   
-  <meta name="description" content="Android的背景作業主要有三種 Thread HandlerThread AsyncTask
-Handler 後兩者可以做的事情差不多，Handler使用上比較簡單，但code的可讀性比較差，AsyncTask需另外subclass一個新的類別，但可讀性比較好。 Android的操作， &hellip;">
+  <meta name="description" content="架構圖 Key Components Activity
+與User互動的class，可想像成是一個/畫面/
+View 可視的元件的共同祖先
+Context
+環境變數及資源存取的class
+Services 背景作業的服務程式
+Broadcast receivers
+接收廣播(Broadcast) &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -78,6 +84,365 @@ Handler 後兩者可以做的事情差不多，Handler使用上比較簡單，�
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/03/20/android_101/">Android 101</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-20T00:00:00+08:00" pubdate data-updated="true">Mar 20<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/03/20/android_101/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>架構圖</h1>
+
+<h2>Key Components</h2>
+
+<ol>
+<li><a href="#activity" title="android:android_101 ↵">Activity</a>
+與User互動的class，可想像成是一個/畫面/</li>
+<li><a href="#view" title="android:android_101 ↵">View</a> 可視的元件的共同祖先</li>
+<li><a href="#context" title="android:android_101 ↵">Context</a>
+環境變數及資源存取的class</li>
+<li><a href="#services" title="android:android_101 ↵">Services</a> 背景作業的服務程式</li>
+<li><a href="#broadcast_receivers" title="android:android_101 ↵">Broadcast receivers</a>
+接收廣播(Broadcast)事件</li>
+<li><a href="#content_providers" title="android:android_101 ↵">Content providers</a>
+提供內容(資料)給程式使用</li>
+<li><a href="#widgets" title="android:android_101 ↵">Widgets</a> 各種視覺化元件</li>
+<li><a href="#intents" title="android:android_101 ↵">Intents</a>
+應用程式內部的訊息傳遞系統</li>
+<li><a href="#notifications" title="android:android_101 ↵">Notifications</a>
+通知系統，會以比較明顯的方式顯示在瑩幕上</li>
+</ol>
+
+
+<h3>Activity</h3>
+
+<p>一個<a href="http://developer.android.com/reference/android/app/Activity.html" title="http://developer.android.com/reference/android/app/Activity.html">Activity</a>就是一個畫面或是一個表單(Form)，所有與使用者的互動，都是基於<code>Activity</code>，實作時會把一個<a href="#view" title="android:android_101 ↵">View</a>(通常是<a href="#layout" title="android:android_101 ↵">Layout</a>)設定到<code>Activity</code></p>
+
+<h5>生命周期</h5>
+
+<p>Activity共有四種狀態</p>
+
+<ol>
+<li>active or running (作用中)</li>
+<li>paused (暫停)</li>
+<li>stopped (停止)</li>
+<li>finish (結束)</li>
+</ol>
+
+
+<p><img src="http://blog.kent-chiu.com/images/2012-03-20/activity_lifecycle.png" alt="activity_lifecycle.png" /></p>
+
+<p>上圖中的<strong>on</strong>Xxx() methods是callback
+method，也就是說，當從某個狀態轉換到某個狀態時，會回呼相對的<strong>on</strong>Xxx()
+methods</p>
+
+<h3>View</h3>
+
+<p><a href="http://developer.android.com/reference/android/view/View.html" title="http://developer.android.com/reference/android/view/View.html">View</a>是UI的元件的共同祖先</p>
+
+<h5>類別結構圖</h5>
+
+<p><img src="http://blog.kent-chiu.com/images/2012-03-20/view_hierachy.png" alt="view_hierachy.png" /></p>
+
+<p><code>View</code>是所有可視元件(component)的基本，除了基本的UI元件(TextEdit,
+Button)外,也是<a href="#view_group" title="android:android_101 ↵">View
+Group</a>的父類別。</p>
+
+<h4>View Group</h4>
+
+<p><img src="http://blog.kent-chiu.com/images/2012-03-20/view_group_hierachy.png" alt="view_group_hierachy.png" /></p>
+
+<p>多個view可以組成<a href="#view_group" title="android:android_101 ↵">View
+Group</a>，而布局控制(Layout)也是View
+Group的子類別</p>
+
+<h4>Web View</h4>
+
+<p>Web View元件執行後，會像browser功能，但它可以直接與Java code互動。 ex:
+google mail本身有些mail reading
+operations，像是讀取、刪除、回覆…，但這些操作都是適合在一般電腦的瀏覽器操作，而Web
+View可以把他轉換成Android的Buttons</p>
+
+<h3>Context</h3>
+
+<h3>Services</h3>
+
+<p><a href="http://developer.android.com/reference/android/app/Service.html" title="http://developer.android.com/reference/android/app/Service.html">Services</a>是在背景執行的服務程式(執行在main
+thread)，像是播放音樂，從網路汲取資料等類似的服務。</p>
+
+<p><img src="http://blog.kent-chiu.com/images/2012-03-20/android_101_001.png" alt="android_101_001.png" /></p>
+
+<h3>Broadcast receivers</h3>
+
+<p><a href="http://developer.android.com/reference/android/content/BroadcastReceiver.html" title="http://developer.android.com/reference/android/content/BroadcastReceiver.html">Broadcast
+receivers</a>是用來接收系統或使用者發出來廣播事件。
+系統在使用者變更設定、語系設定、動作完成等事件時，皆會發出廣播事件，使用者也可以發出自行定義的廣播事件。</p>
+
+<h3>Content Providers</h3>
+
+<p>要將某一應用程式資料提供給另一應用程式時，可透過<a href="http://developer.android.com/reference/android/content/ContentProvider.html" title="http://developer.android.com/reference/android/content/ContentProvider.html">Content
+providers</a>達到資料共享的目的。</p>
+
+<p>例如，如果自行客製的程式，需要存取通訊錄時，可透過通訊錄程式所提供的<code>Content Providers</code>得到通訊息的內容。</p>
+
+<h1>Run Demo Applications</h1>
+
+<p>每個不同版本的Android，都會有些Demo程式，這些Demo程式放在<code>ANDROID_HOME/samples/android-7/</code>底下
+(Android 2.1)，可透過Eclipse
+IDE的<code>Import Exists Project</code>匯入專案，匯入後即可執行這些Demo程式。</p>
+
+<h4>Process Management</h4>
+
+<ul>
+<li>Android允許多個Process同時運時</li>
+<li><p>每個Process可以reuse其他process的功能(重要)</p>
+
+<ol>
+<li>是否可以呼叫沒有source的Applications?</li>
+<li>如果得知無source的applications的服務有那些?</li>
+<li>Dependency Checking?</li>
+</ol>
+</li>
+<li><p>Process是Kernel管理，非活動的process會放到System Process裡</p></li>
+<li>System
+Process裡的processes可能會被消滅(destroy)，但當該Application被再被active時，process的狀態會被再次回復。</li>
+</ul>
+
+
+<h4>Location Manager</h4>
+
+<p>用來管理GPS之類的服務</p>
+
+<h5>啟動application的intent</h5>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;intent-filter&gt;
+</span><span class='line'>&lt;action android:name="android.intent.action.MAIN" /&gt;
+</span><span class='line'>&lt;category android:name="android.intent.category.LAUNCHER" /&gt;
+</span><span class='line'>&lt;/intent-filter&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Resource Management</h2>
+
+<p><img src="http://blog.kent-chiu.com/images/2012-03-20/2010-7-24_13-59-15.png" alt="2010-7-24_13-59-15.png" /></p>
+
+<p>所有在<code>PROJECT_HOME\res</code>目錄底下的所有xml檔，會被編譯成<code>R.java</code>，xml檔案名稱會被編譯成field
+name，在程式中，便可透過標準的java語法來存取Resource</p>
+
+<p>ex: /ApiDemos/res/layout/activity_animation.xml
+會被編譯成<code>R.layout.activity_animation</code></p>
+
+<ul>
+<li><code>@+id</code> 表示新增一個id，<code>@id</code>表示引用一個id</li>
+<li><code>@</code> 表示參照到resource file裡</li>
+<li><code>?</code> 表示參照到theme裡</li>
+</ul>
+
+
+<h4>Units</h4>
+
+<ul>
+<li>px (pixels): Dots on the screen.</li>
+<li>in (inches): Size as measured by a ruler.</li>
+<li>mm (millimeters): Size as measured by a ruler.</li>
+<li>pt (points): 1/72 of an inch.</li>
+<li>dp (density-independent pixels): An abstract unit based,on the
+density of the screen. On a display with 160 dots, per inch, 1dp =
+1px.</li>
+<li>dip: Synonym for dp, used more often in Google examples.</li>
+<li>sp (scale-independent pixels): Similar to dp but also scaled by the
+user’s font size preference.</li>
+</ul>
+
+
+<p>建議文字的單位總是採用sp，其他單位總是採用dip</p>
+
+<h4>landscape layout</h4>
+
+<p>在landscape mode時，如果layout效果不理想，有時必須另外建立一個lanscape
+mode專用的layout</p>
+
+<p>res/layout-land/main.xml</p>
+
+<h4>String resource</h4>
+
+<p>string.xml裡的字串，可以有格試設定，像是</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;string name="some_text"&gt;\
+</span><span class='line'> a &lt;i&gt;blocks&lt;/i&gt; string
+</span><span class='line'>&lt;/string&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>“\”符號可以避免產生額外的空白</li>
+<li>&lt;i>blocks&lt;/i>可以讓字體變粗體</li>
+</ol>
+
+
+<h1>MISC</h1>
+
+<h3>Event Mediator</h3>
+
+<p>在實務應用上，常會把多個元件(此例中的button)的listener設定為元件所屬的Activity
+，然後宣告該Activity implements OnClickListener，在Activity的onClick
+event裡在判斷click的目標對象是那個元件，然後進行該元件進行處理。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public class My extends Activity implements OnClickListener {
+</span><span class='line'>    private Button myButton;
+</span><span class='line'>    private Button myButton2;
+</span><span class='line'> 
+</span><span class='line'>    @Override
+</span><span class='line'>    protected void onCreate(Bundle savedInstanceState) {
+</span><span class='line'>        super.onCreate(savedInstanceState);
+</span><span class='line'>        setContentView(R.layout.about);
+</span><span class='line'>        myButton.setOnClickListener(this);
+</span><span class='line'>        myButton2.setOnClickListener(this);
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>    public void onClick(View v) {
+</span><span class='line'>        switch (v.getId()) {
+</span><span class='line'>            case R.id.myButton:
+</span><span class='line'>            // action for myButton click
+</span><span class='line'>            break;
+</span><span class='line'>            case R.id.myButton2:
+</span><span class='line'>            // action for myButton2 click
+</span><span class='line'>            break;
+</span><span class='line'>        }
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>不過，讓Activity implements
+OnXXXListener很容易造成Activity的太多methods，尤其是有些listener的methods一堆，但真正需要實作的只有其中一兩個，
+所以，有時會用inner class來實作。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public class My extends Activity  {
+</span><span class='line'>    private Button myButton;
+</span><span class='line'>    private Button myButton2;
+</span><span class='line'>    class MyOnClickListener implements OnClickListener   {
+</span><span class='line'>    public void onClick(View v) {
+</span><span class='line'>        switch (v.getId()) {
+</span><span class='line'>            case R.id.myButton:
+</span><span class='line'>            // action for myButton click
+</span><span class='line'>            break;
+</span><span class='line'>            case R.id.myButton2:
+</span><span class='line'>            // action for myButton2 click
+</span><span class='line'>            break;
+</span><span class='line'>        }
+</span><span class='line'>    }
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>    @Override
+</span><span class='line'>    protected void onCreate(Bundle savedInstanceState) {
+</span><span class='line'>        super.onCreate(savedInstanceState);
+</span><span class='line'>        setContentView(R.layout.about);
+</span><span class='line'>                MyOnClickListener myOnClickListener = new MyOnClickListener()
+</span><span class='line'>        myButton.setOnClickListener(myOnClickListener);
+</span><span class='line'>        myButton2.setOnClickListener(myOnClickListener);
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>是否採用service來播放music?
+這取決於是否activity結束後，是否要繼續播放的動作。用service，可以在activity結束後繼續播放的動作。</p>
+
+<h1>Resources</h1>
+
+<ul>
+<li><a href="http://www.vogella.de/android.html" title="http://www.vogella.de/android.html">http://www.vogella.de/android.html</a>
+
+<ul>
+<li>這邊的教學的質量都很不錯</li>
+</ul>
+</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1666,323 +2031,6 @@ details&#8230;</a></p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/10/17/word_dna/">英文字彙DNA</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
-        
-         | <a href="/blog/2011/10/17/word_dna/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>本文章內容來節錄自<a href="http://www.epochtimes.com/b5/nf4708.htm" title="http://www.epochtimes.com/b5/nf4708.htm">大記元新聞網</a>，原作者為
-David
-Lee，本內容為了個人學習方便而整理並加上個人學習心得(不保證是正確的)
-如果想看原汁源味的內容^<a href="#fn__1">1)</a>^，還是請到<a href="http://www.epochtimes.com.au/b5/nf4708.htm" title="http://www.epochtimes.com.au/b5/nf4708.htm">這裡</a>吧。
-目前更新到單元 (58)</p>
-
-<h3>導論</h3>
-
-<p>大家都知道，英文字是由26個字母所組成的，但實際上，有大量的字彙，是由一些字首（Prefix）、字根（Root）與字尾（Suffix）的組合。
-這就好像中文字是由一筆一劃所組成的，但其中是有許多「部首」。例如看到有木字旁，就知道這個字與木有關；看到有金字旁，就知道這個字與金屬有關；看到有水字旁，就知道這個字與水有關，等等。
-因此，當你看到有e-
-或ex-時，就要知道那是out的意思；看到su-應知道是under之意，看到co-要知道是together，看到re-要知道是again或back，看到inter-要知道是between之意…等等。
-英文有許多的新字，也是用字根字首來造字的。譬如微軟公司Microsoft,
-原先英文裡並沒有這個字，比爾蓋茲將micro-（微小的）與soft組合起來，就成了他的公司名Microsoft。
-microscope就是顯微鏡的意思，-scope也是一個字根，是to look
-「看」的意思。那麼配上tele-（遠的）字首，就成了telescope 望遠鏡的意思。
-David老師在課堂上常問學員們：microscope有幾個字呢？有的回答十個字。但我告訴同學們：其實只有兩個字，就是micro-
-+
--scope。那麼記兩個字容易、還是記十個字容易呢？大家都會回答：當然是記兩個字容易啊！
-所以許許多多看起來很長的字，如果你用一個字母、一個字母地去記，那就非常辛苦；事實上，它們經常是由2-3個字根、字首或字尾所組成的。好像一樣米養百萬人，但這百萬人其實是23對染色體的排列組合，而每條染色體上有不同的DNA。
-明白了這個道理，我們就趕快來開始學習：組合成英文單字的DNA，相信大家的字彙能力，一定可以在短期內，很快地突飛猛進喔！</p>
-
-<h3>一般單字 V.S 特殊單字</h3>
-
-<p>英文的單字有一個特點，即每一個<strong>基本的</strong>意義都有兩種(或兩種以上)的符號來表示，例如：</p>
-
-<p>  意義   一般單字   特殊單字</p>
-
-<hr />
-
-<p>  吃     eat        ed
-  看     see        vis
-  聽     hear       audi
-  改變   change     mut
-  讀     read       leg
-  相信   believe    cred
-  活     live       viv</p>
-
-<p>一般單字是可以獨立使用符號 – 單字，特殊單字是不可以獨立使用的 –
-字根，學習英語必語<strong>同時</strong>認識兩種符號，才能掌握大量的單字。
-這種”一個意義，兩種符號”的現象形成了英文單字的殊殊性和多樣性，字根雖然是一種不能體使用的符號，不是單字，但實際上它是一種含有具體意義的特殊”單字”，所以，從某種歷義上說，英語中存在著兩套單字：一套是”明的”、一般的單字(see,hear…)，另一套是”暗的”、特殊單字(vism,audi….)。</p>
-
-<h3>字義轉化</h3>
-
-<p>一般來說，知道字根的意義，就可以知道單字的基本意義，再結合字首、字尾，即可得到單字的完整意義，像
-pro- (向前的) + gress(行走) =
-progress(前進)，然而，實際的情況并不完全如此，有一相當部份的單字的字義並不完全等於字首+字根+字尾的意義，甚至，單字的意義與字根的意義間有很大的距離，或毫無關聯，讓我們無法根據字根的意義直接理解單字的意義，例如：</p>
-
-<p>  字根          單字</p>
-
-<hr />
-
-<p>  hospit 客人   hospital醫院
-  sid 坐        president 大學校長，總統
-  ori 昇起      orient 東方
-  vis 看        advise建議
-  port 拿       report報告
-  sect 切，割   insect昆蟲
-  medi 中間     immediate立刻的，直接的
-  spir 呼吸     conspire共謀
-  fer 拿，帶    conference會議
-  ven來         intervention干預
-  sal 鹽        salary工資
-  mini 小       minister大臣，部長</p>
-
-<p>以表面上來看，<strong>意義上風馬牛不相及，但實際上它們之存在著內在的聯系</strong>，它們之間確有一條曲徑相通。這種現象的產生，有的是由于<strong>字義的形成過程過分的曲折，字根的含義由原義引申為其他意義</strong>，有的是由于<strong>字意源自某種歷史背景</strong>，下面對這些字義進行分析溯源：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>hospit 客人 + -al 名詞字尾 -&gt; hospital醫院
-</span><span class='line'>接待"客人"的地方 -&gt; 接待"病客"的地方 -&gt; 醫院
-</span><span class='line'>pre- 前 + sid 坐 -&gt; ent 人的字尾 -&gt; president 大學校長，總統
-</span><span class='line'>開會時"坐在前面的人" -&gt; 主事者，指揮者 -&gt; 大學校長，總統
-</span><span class='line'>ori 昇起 + -ent 名詞字尾 -&gt; 東方
-</span><span class='line'>太陽"昇起"的地方 -&gt; 東方
-</span><span class='line'>ad- 向 + vis 看-&gt; 建議
-</span><span class='line'>"看" -&gt; "看法，意見" -&gt; 向別人提出自已看法或意見
-</span><span class='line'>re- 回 + post 拿 -&gt; repsort 報告
-</span><span class='line'>把消息拿回來
-</span><span class='line'>ad- 向 + vert 轉 + ise 使… -&gt; advertise 廣告
-</span><span class='line'>使人的注意力轉向 -&gt; 使人注意到 -&gt; 廣告
-</span><span class='line'>in- 入 + sect 切割 -&gt; insect昆蟲
-</span><span class='line'>"切入" -&gt; 切裂;昆蟲身體分開像一節一節
-</span><span class='line'>im- 無 + medi 中間 + -ate 的 -&gt; immediate立刻的，直接的
-</span><span class='line'>沒有 中間的 -&gt; 直接的
-</span><span class='line'>con-共同 + spir 呼吸 -&gt; conspire
-</span><span class='line'>共同呼吸 -&gt; 互通氣息 -&gt; 共謀
-</span><span class='line'>con- 共同 + fer 拿 + -ence 名詞字尾 -&gt; conference
-</span><span class='line'>把意見"拿到一起來" -&gt; 交換意見 -&gt; 會議
-</span><span class='line'>inter- 中間 + ven 來 + -tions 名詞字尾 -&gt; intervention 干預
-</span><span class='line'>來到中間 -&gt; 介入其中 -&gt; 干預
-</span><span class='line'>sal 鹽 + -ary  表示物 -&gt; salary 薪水
-</span><span class='line'>古羅馬士兵所領取的"買鹽的錢"，作為生活津貼 -&gt; 薪水
-</span><span class='line'>mini 小 + -ster  表示人 -&gt; minister 部長，大臣
-</span><span class='line'>原義為"小人，僕人"；古時大臣對君王時的自稱</span></code></pre></td></tr></table></div></figure>
-
-
-<p>由上面的分析可看出，一個單字的意義與其字根意義雖然相距很遠，但根據字根的意義，沿著一條曲折的途徑，總是可以尋得單字的意義，一旦透過這種方式了解字根的來源後，對這個單字的印象就會特別的深刻。</p>
-
-<h3>字尾的擴展</h3>
-
-<p>字根 + 字尾形式的單字，一般是非常容易認識的，如</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'> danger 危險 + -ous 的 -&gt; 危險的
-</span><span class='line'> work工作 + -er -&gt;工人</span></code></pre></td></tr></table></div></figure>
-
-
-<p>這類的單字義明顯，容易記憶，只要知道字尾的意義，就能知道單字的意尾。但是<strong>實際上情況並不都是這的簡單</strong>，例如
-supositious去掉-ous後的supositi是什麼呢？如果認得出是suppose，那iti又是什麼？
-rosaceous去掉-ous後的rosace是什麼？
-這個就是英文單字的一個難處，原來這些<strong>單字的字尾都不是-ous</strong>，這些單字的構成是這旁的</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>suppos(e) 假定 + -itious(的)
-</span><span class='line'>ros(e)玫瑰 + aceous(的)
-</span><span class='line'>instant(瞬息) + aneous(的)</span></code></pre></td></tr></table></div></figure>
-
-
-<p>他們的字尾是 -itious,-aceous,-aneous
-這些字尾都含有ous的形式，他們的含義都與=-ous相同，它們稱為”-ous”的擴展形式，-ous是基本形式。
-基本形式的字尾與擴展形式的字尾，是同型字尾，它們都有共同的基本意義，如果只認識”基本形式”而不認識”擴展形式”的字尾，那學習時會愈覺愈困惑的。</p>
-
-<p>可以透過<a href="http://wiki.kent-chiu.com/doku.php?id=word:how_to_split_a_word" title="word:how_to_split_a_word">字首，字根，字尾結合規則</a>解決一部份這方面的問題</p>
-
-<h3>何謂字首字根字尾</h3>
-
-<h5>字首 prefix</h5>
-
-<p>學習難度－中，約80 個﹚，若在字中出現，則在字頭
-﹙有時字根自己一個字，未帶字首，有時同時出現兩個接續的字首﹚。代表下列意思的，幾乎都是字首：
-前、後﹙空間﹚、內、外、先、後﹙時間﹚、遠、近、快、慢、上、下、正、反、新、舊、直、歪、好、壞、優、劣、好﹙喜﹚、惡、是、否、真、偽、主、從、同、異、大、小、多、寡、無、過多、不足、完整、一半、部份、相等、一起、分離、加多、減低、中間、周邊、近旁、彼此之間、超越、次於、橫跨、逼近、離去、分開、轉換、抵擋、針對、數字﹙1-10,
-10的２次方到10的18次方，10 的負2次方到10 的負18次方﹚</p>
-
-<h5>字尾suffix</h5>
-
-<p>學習難度－低，約30 個﹚，若在字中出現，則在字末
-﹙有時字根自己一個字，未帶字尾，有時不只出現一個字尾，而是兩個連接在一起﹚。字尾有兩大辨識作用，可判斷該字屬於何種詞類﹙形容詞、副詞、動詞等﹚，有些字尾也可以代表某種意思，譬如：
-人、物、者、東西、地方、狀態、病症、思想、行為、樣子、方法、制度、現象、行業、身分、領域、化學品、藥物、患者</p>
-
-<h5>字根 root</h5>
-
-<p>﹙學習難度－高，基礎級約２００個﹚，有實質意涵，有時單獨存在為一個字，有時配上另一字根，有時配上字首，有時配上字尾，有時字首字尾都配上，而形成有新意義的字。字根與字首或字尾連接時，<strong>由於發音關係，有時會有拼字上的小變化，譬如添加母音字母、略去母音字母，或因為在希臘或拉丁文的動詞變化時就有衍生字，而至拼法稍有差異。</strong>
-&lt;Note note> 一個字可能會有字首 + 字根，或字根 + 字尾，或字首 + 字根 +
-字尾，但不會只有字首 + 字尾
-字首會影響字的意思，而且字尾通常只是做詞性變化 &lt;/note></p>
-
-<h3>英語說文解字</h3>
-
-<p>語言不是今天的發明，它是文明的產物，是從人與人的互動中產生的，從古代一直流傳下來，隨著人類活動的多樣化與社會的複雜化，文字的內涵也在不斷地增加、愈來愈豐富。
-但即使在最簡單的社會形式中，人也是一張嘴吧、兩隻眼睛、兩隻耳朵、兩隻手、兩隻腳…等等。那麼嘴巴會說、眼睛會看、耳朵會聽，手會拿、會丟、會射、會放置…，腳呢會走、會跑、來來去去…，那麼最早期的字根就從中產生了。
-今天的英文裡，「說」是say，speak，talk等，但在古希臘羅馬文字中，-dict，-cuse，-fess，-nounce等也都是指涉「說」的動作，那麼在漫長的語言形成過程中，許多有關「說」的衍伸字，就是從-dict，-cuse，-fess，-nounce衍伸而來。
-這些動作字根，配上時間、位置、狀態、數量……等字首，就會各自形成不同的意涵的字彙。舉例而言，pre-是「之前」，那麼predict就是「預測」的意思；為什麼是預測呢？因為之前就說了，才算預測嘛！如果之後說，那是放馬後炮，就不算預測了。
-indicate是「指出」之意，point
-out這個片語也很生動地表達「指出來」的意涵。那為什麼indicate是「指出」呢？to
-speak into說到裡邊去了，就是指出囉！
-Excuse是「藉口」的意思，為什麼呢？ex-是位置字根，意思是
-「out」，那麼excuse就是對外說的話，所以是藉口囉！
-confess是懺悔、招供之意，為什麼呢？con-是狀態字首，意思是together，to
-speak together就是統統都說了，懺悔、招供不就是統統都說了嗎？！
-再以denounce為例，denounce是「譴責」的意思，但為什麼是譴責的意思呢？因為de-是狀態字首down或negate，對人說負面、否定的話，所以是譴責的意思。</p>
-
-<h3>談英文的造字法則</h3>
-
-<p>各位讀者好：
-在中文漢字中，大家都知道倉頡造字，造字有造字的法則，主要有象形、會意、形聲、指事、轉注、假借六種。英文也有英文的造字法則，並非是26個字母隨意的排列組合。前文中所提到的字根、字首，都有其基本涵義，許多都是從希臘、羅馬文字中承傳下來的，所以西方人談西方文化，必然離不開希臘、羅馬，因為西方文化就是淵源於希臘、羅馬。
-英文有象形字嗎？其實有。舉個例子：Vase（花瓶）,
-Valley（山谷）,都以V開頭，V這個字像不像是花瓶與山谷呢？不信再看：Mountain（山）這個字，m是不是就像座山呢？
-還有呢：slide, slip, slump, sluggish,
-shed這些字都是下滑的意思，那S這個字是不是就像個「滑坡」呢？再看：snake（蛇）,
-sperm（精子），S這個字是不是也像條蛇、精子呢？
-再談英文的形聲字。David老師常在課堂上問學生，英文是先有聲音？還是先有文字呢？大家都會異口同聲的說：「先有聲音」那麼就字母文化而言，就是如何用
-26個字母將那些聲音拼出來。所以只要知曉如何將聲音字母化的秘訣，其實英文字根本就不用背，你只是用26個字如何把那個聲音拼出來即可。
-有一些聲音，直接就來自於自然界或日常生活中，例如bomb（爆炸）,
-clash（衝突）, crash（撞碎）, crush（壓碎）,
-smash（粉碎）,這些字都是形聲字，直接模仿現象所發出聲音而造的。
-再說到會意字，英文字中最多的大概就屬會意字，其實中文也是如此。像是「昌」這個字，兩個太陽當然就很昌盛囉！「晶」這個字，三個太陽，那真是光亮無比哩！
-那麼英文有那些會意字？其實許許多多的字根組合字，都是屬於會意字，因為有其組合的涵義。例如：coworker,
-一起工作的人，當然就是同事囉！subway，在底下的路，那麼就是地鐵了！predict,
-之前就要說，所以是預測！precaution，之前就要謹慎，所以是預防。
-凡此種種，不勝枚舉。基本上，David老師在這個專欄中舉的大部份例子，都是屬於會意字。</p>
-
-<h3>強調的造字法則(上)</h3>
-
-<p>英文字彙中，有一種造字法則，是把一個字或是一個字根的字首重覆，然後加上a，形成一個新的字，David老師稱此為強調的造字法則。
-以單字為例：
-Set（設定），重複字首加上a，就成了asset，asset是資產的意思，就是強調這幢房子設定給你，就是你的資產了！
-sign（簽署），重複字首加上a，就成了assign，assign是分派的意思，強調主管簽署後分派不同的工作，所以assignment也就是作業了。
-prove（證明），重複字首加上a，就成了approve，approve是批准之意，批准就是強調正式蓋個章，證明Ok了！
-還有像是range（範圍）, locate（座落）,
-等字也都可以依此類推，造出一個新字來，如arrange（安排）,
-allocate（分配）。<em>當然不是所有的字都能運用這個法則</em>，David老師的意思是說，有許多字是透過這樣的造字法則，所造出來的。那麼學會這個造字法則，也就可以很快學會很多字啦！</p>
-
-<p>所以<strong>a</strong>有強調，加強的意思，而且a後面會加上一個重覆的子音字母，所以<strong>a</strong>用在強調時，pattern就是a<strong>xx</strong>，xx是指重覆的字音，也就是在這樣的情況下，<strong>a</strong>才有強調的意思在
-<a href="http://wiki.kent-chiu.com/doku.php?id=word:how_to_split_a_word#total_assimilation" title="word:how_to_split_a_word">total_assimilation</a></p>
-
-<h3>強調的造字法則(下)</h3>
-
-<p>前集中提到，英文字彙中，有一種造字法則，是把一個字或是一個字根的字首重覆，然後加上a，形成一個新的字，David老師稱此為強調的造字法則。
-前集以單字舉例，本集則以字根舉例。</p>
-
-<ul>
-<li>attain=at-+-tain, v. 獲得（重複字根字首+a, 強調造字法）</li>
-<li>announce=an-+-nounce,
-宣佈（重複字根字首＋a,強調造字法則，特別地說，所以是宣佈）</li>
-<li>accuse=ac-+-cuse, 控告（重複字根首字+a,
-強調造字法則，到法庭裡強調地說，因此是控告）</li>
-<li>affect=af-+-fect, v.
-影響（重複字根字首+a，強調造字法則，強調小孩跑來跑去，當然影響大家）</li>
-<li>addict=ad-+-dict, v, 沉溺於（強調造字法則，說話說上癮）</li>
-</ul>
-
-
-<p>–fect=to run –tain=to take</p>
-
-<h3>不同字根組成同義字</h3>
-
-<p>不同字根組成同義字：拒絕
-前集中提到，許多英文字是由字根、字首與字尾所組合而成。也因此，往往有許多情況，是由不同的字根字首，但卻組合成為相同的意思。
-例如：reject與refuse兩個字，都是「拒絕」的意思，分解來看，re-當然都是back之意，-ject是to
-throw丟的意思，to throw back丟回去，當然就是拒絕了。-fuse是to pour
-傾倒之意，to pour
-back傾倒回去，也是表達了拒絕的意函，因此reject與reject就是由不同的字根、相同的字首，組合成為相同的意思。
-不同字根組成同義字：干預 再舉一個例子。interfere, intervene, meddle,
-這三個字都是“干預”的意思，inter-這個字首是between之意。 <strong>-fer是to
-run</strong>, interfere就是to run between，干預就是跑到兩者之間。
-<strong>-vene這個字根是to come</strong>，intervene就是to come
-between，來到二者之間，當然也是干預。
-Meddle是由middle轉換母音i而來，當然也是介入其中之意。所以interfere,
-intervene, meddle就是以不同的字根，組合成為相同的意思。
-不同字根組成同義字：計劃
-不同字根組成同義字，還有一個例子是計劃：project, program,
-proposal這三個字都有計劃的意思，為什麼呢？ -ject這個字根是手的動作to
-throw，丟的意思，pro-則是有關時間先後的字首，這裡是之前的意思，那麼project就是先前就丟出來的的東西，計劃不就是先前丟出來的嗎？
-再看program，-gram是to
-write寫的意思，pro-是之前，之前就寫下來，所以也是計劃。
-那麼proposal呢？-pos 是手的動作，to
-put放置的意思，計劃當然也是事先就要放置出來的東西囉！
-不同字根組成同義字：會議
-再舉一個不同字根組成同義字的例子：會議。請看conference, congress,
-convention, symposium這四個字，為什麼都是會議呢？
-首先看conference，-fer是to run，con- 是together，會議不正是要大家to run
-together跑到一起，才能開會嗎？！ 再看congress，-gress是to go，con-
-是together，會議也是要to go together去到一起，才能開會。
-Convention也是如此，-ven 這個字根是to come之意，to come together
-來到一起，當然也可以是開會。
-至於symposium研討會，sym-也和co-一樣，是together之意，例如symphony
-是交響樂，就是把許多聲音放在一起；sympathy是同情，因為-path是feeling感情之意，有相同的感情，所以是同情。
-那麼字根-pos是手的動作to put之意，合起來就是to put
-together，一個大型的研討會當然是要邀請很多人來，把他們放在一起囉！所以在語意的組合結構上，symposium與conference,
-congress, convention其實都是相同的。</p>
-
-<p>^<a href="#fnt__1">1)</a>^ 而且有一直在新增文章哦</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/9/">&larr; Older</a>
@@ -2000,6 +2048,10 @@ congress, convention其實都是相同的。</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/08/14/testing-rest-with-curl-command/">使用curl指令測試REST服務</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/07/15/mac-os-x-keyboard-shortcuts-for-terminal/">Mac OS X Keyboard Shortcuts for Terminal</a>
       </li>
     
@@ -2015,19 +2067,15 @@ congress, convention其實都是相同的。</p>
         <a href="/blog/2013/06/04/restful-api-design/">RESTful API Design</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2013/05/17/my-intellij-idea-shortcut/">My IntelliJ IDEA Shortcut</a>
-      </li>
-    
   </ul>
 </section>
 <section>
   <h1>Category Cloud</h1>
-    <span id="tag-cloud"><a href='/blog/categories/actionbar' style='font-size: 102.4%'>actionbar(1)</a> <a href='/blog/categories/android' style='font-size: 160.0%'>android(25)</a> <a href='/blog/categories/apache' style='font-size: 116.8%'>apache(7)</a> <a href='/blog/categories/bash' style='font-size: 107.2%'>bash(3)</a> <a href='/blog/categories/best-practice' style='font-size: 102.4%'>best_practice(1)</a> <a href='/blog/categories/book' style='font-size: 102.4%'>book(1)</a> <a href='/blog/categories/broadcast-receiver' style='font-size: 104.8%'>broadcast_receiver(2)</a> <a href='/blog/categories/cdi' style='font-size: 104.8%'>cdi(2)</a> <a href='/blog/categories/centos' style='font-size: 112.0%'>centos(5)</a> <a href='/blog/categories/clean-code' style='font-size: 102.4%'>clean code(1)</a> <a href='/blog/categories/command' style='font-size: 109.6%'>command(4)</a> <a href='/blog/categories/concurrency' style='font-size: 102.4%'>concurrency(1)</a> <a href='/blog/categories/database' style='font-size: 114.4%'>database(6)</a> <a href='/blog/categories/datetime' style='font-size: 102.4%'>datetime(1)</a> <a href='/blog/categories/di' style='font-size: 104.8%'>di(2)</a> <a href='/blog/categories/drawable' style='font-size: 102.4%'>drawable(1)</a> <a href='/blog/categories/ec' style='font-size: 102.4%'>ec(1)</a> <a href='/blog/categories/eclipse' style='font-size: 102.4%'>eclipse(1)</a> <a href='/blog/categories/ecshop' style='font-size: 116.8%'>ecshop(7)</a> <a href='/blog/categories/editor' style='font-size: 102.4%'>editor(1)</a> <a href='/blog/categories/emulator' style='font-size: 102.4%'>emulator(1)</a> <a href='/blog/categories/encoding' style='font-size: 102.4%'>encoding(1)</a> <a href='/blog/categories/english' style='font-size: 133.6%'>english(14)</a> <a href='/blog/categories/excel' style='font-size: 104.8%'>excel(2)</a> <a href='/blog/categories/extjs' style='font-size: 104.8%'>extjs(2)</a> <a href='/blog/categories/gesture' style='font-size: 102.4%'>gesture(1)</a> <a href='/blog/categories/git' style='font-size: 109.6%'>git(4)</a> <a href='/blog/categories/git-flow' style='font-size: 102.4%'>git-flow(1)</a> <a href='/blog/categories/guava' style='font-size: 104.8%'>guava(2)</a> <a href='/blog/categories/guice' style='font-size: 102.4%'>guice(1)</a> <a href='/blog/categories/hamcrest' style='font-size: 102.4%'>hamcrest(1)</a> <a href='/blog/categories/i18n' style='font-size: 102.4%'>i18n(1)</a> <a href='/blog/categories/ide' style='font-size: 102.4%'>IDE(1)</a> <a href='/blog/categories/idea' style='font-size: 102.4%'>IDEA(1)</a> <a href='/blog/categories/injection' style='font-size: 102.4%'>injection(1)</a> <a href='/blog/categories/intent' style='font-size: 102.4%'>intent(1)</a> <a href='/blog/categories/ireport' style='font-size: 104.8%'>ireport(2)</a> <a href='/blog/categories/jasterreport' style='font-size: 104.8%'>jasterreport(2)</a> <a href='/blog/categories/java' style='font-size: 152.8%'>java(22)</a> <a href='/blog/categories/java-ee' style='font-size: 112.0%'>java_ee(5)</a> <a href='/blog/categories/jms' style='font-size: 102.4%'>jms(1)</a> <a href='/blog/categories/joda' style='font-size: 102.4%'>joda(1)</a> <a href='/blog/categories/jpa' style='font-size: 102.4%'>jpa(1)</a> <a href='/blog/categories/jquery' style='font-size: 102.4%'>jquery(1)</a> <a href='/blog/categories/jsp' style='font-size: 104.8%'>jsp(2)</a> <a href='/blog/categories/junit' style='font-size: 102.4%'>junit(1)</a> <a href='/blog/categories/jvm' style='font-size: 104.8%'>jvm(2)</a> <a href='/blog/categories/kohana' style='font-size: 102.4%'>kohana(1)</a> <a href='/blog/categories/l10n' style='font-size: 102.4%'>l10n(1)</a> <a href='/blog/categories/layout' style='font-size: 102.4%'>layout(1)</a> <a href='/blog/categories/linux' style='font-size: 126.4%'>linux(11)</a> <a href='/blog/categories/listview' style='font-size: 104.8%'>listview(2)</a> <a href='/blog/categories/logger' style='font-size: 102.4%'>logger(1)</a> <a href='/blog/categories/m2eclilpse' style='font-size: 102.4%'>m2eclilpse(1)</a> <a href='/blog/categories/mac' style='font-size: 104.8%'>mac(2)</a> <a href='/blog/categories/mat' style='font-size: 102.4%'>mat(1)</a> <a href='/blog/categories/maven' style='font-size: 112.0%'>maven(5)</a> <a href='/blog/categories/memory' style='font-size: 102.4%'>memory(1)</a> <a href='/blog/categories/menu' style='font-size: 102.4%'>menu(1)</a> <a href='/blog/categories/mindmap' style='font-size: 104.8%'>mindmap(2)</a> <a href='/blog/categories/misc' style='font-size: 102.4%'>misc(1)</a> <a href='/blog/categories/mysql' style='font-size: 116.8%'>mysql(7)</a> <a href='/blog/categories/nio' style='font-size: 102.4%'>nio(1)</a> <a href='/blog/categories/octopress' style='font-size: 102.4%'>octopress(1)</a> <a href='/blog/categories/oracle' style='font-size: 102.4%'>oracle(1)</a> <a href='/blog/categories/osgi' style='font-size: 107.2%'>osgi(3)</a> <a href='/blog/categories/pdf' style='font-size: 104.8%'>pdf(2)</a> <a href='/blog/categories/pdt' style='font-size: 112.0%'>pdt(5)</a> <a href='/blog/categories/pear' style='font-size: 104.8%'>pear(2)</a> <a href='/blog/categories/performace' style='font-size: 102.4%'>performace(1)</a> <a href='/blog/categories/pgsql' style='font-size: 102.4%'>pgsql(1)</a> <a href='/blog/categories/php' style='font-size: 114.4%'>php(6)</a> <a href='/blog/categories/play-framework' style='font-size: 102.4%'>play_framework(1)</a> <a href='/blog/categories/pm' style='font-size: 112.0%'>pm(5)</a> <a href='/blog/categories/postgresql' style='font-size: 104.8%'>postgresql(2)</a> <a href='/blog/categories/profile' style='font-size: 102.4%'>profile(1)</a> <a href='/blog/categories/programming' style='font-size: 128.8%'>programming(12)</a> <a href='/blog/categories/python' style='font-size: 102.4%'>python(1)</a> <a href='/blog/categories/re' style='font-size: 102.4%'>re(1)</a> <a href='/blog/categories/refactory' style='font-size: 102.4%'>refactory(1)</a> <a href='/blog/categories/rest' style='font-size: 109.6%'>rest(4)</a> <a href='/blog/categories/roboguice' style='font-size: 102.4%'>roboguice(1)</a> <a href='/blog/categories/sbt' style='font-size: 102.4%'>sbt(1)</a> <a href='/blog/categories/scala' style='font-size: 109.6%'>scala(4)</a> <a href='/blog/categories/security' style='font-size: 102.4%'>security(1)</a> <a href='/blog/categories/service' style='font-size: 104.8%'>service(2)</a> <a href='/blog/categories/shiro' style='font-size: 102.4%'>shiro(1)</a> <a href='/blog/categories/shortchut' style='font-size: 102.4%'>shortchut(1)</a> <a href='/blog/categories/smarty' style='font-size: 107.2%'>smarty(3)</a> <a href='/blog/categories/spring' style='font-size: 102.4%'>spring(1)</a> <a href='/blog/categories/sql' style='font-size: 102.4%'>sql(1)</a> <a href='/blog/categories/style' style='font-size: 102.4%'>style(1)</a> <a href='/blog/categories/tdd' style='font-size: 102.4%'>tdd(1)</a> <a href='/blog/categories/testing' style='font-size: 124.0%'>testing(10)</a> <a href='/blog/categories/theme' style='font-size: 102.4%'>theme(1)</a> <a href='/blog/categories/tips' style='font-size: 104.8%'>tips(2)</a> <a href='/blog/categories/ubuntu' style='font-size: 119.2%'>ubuntu(8)</a> <a href='/blog/categories/ui' style='font-size: 104.8%'>ui(2)</a> <a href='/blog/categories/vim' style='font-size: 104.8%'>vim(2)</a> <a href='/blog/categories/web' style='font-size: 104.8%'>web(2)</a> <a href='/blog/categories/windows' style='font-size: 102.4%'>windows(1)</a> <a href='/blog/categories/xampp' style='font-size: 102.4%'>xampp(1)</a> <a href='/blog/categories/xml' style='font-size: 104.8%'>xml(2)</a> </span>
+    <span id="tag-cloud"><a href='/blog/categories/actionbar' style='font-size: 102.4%'>actionbar(1)</a> <a href='/blog/categories/android' style='font-size: 160.0%'>android(25)</a> <a href='/blog/categories/apache' style='font-size: 116.8%'>apache(7)</a> <a href='/blog/categories/bash' style='font-size: 109.6%'>bash(4)</a> <a href='/blog/categories/best-practice' style='font-size: 102.4%'>best_practice(1)</a> <a href='/blog/categories/book' style='font-size: 102.4%'>book(1)</a> <a href='/blog/categories/broadcast-receiver' style='font-size: 104.8%'>broadcast_receiver(2)</a> <a href='/blog/categories/cdi' style='font-size: 104.8%'>cdi(2)</a> <a href='/blog/categories/centos' style='font-size: 112.0%'>centos(5)</a> <a href='/blog/categories/clean-code' style='font-size: 102.4%'>clean code(1)</a> <a href='/blog/categories/command' style='font-size: 112.0%'>command(5)</a> <a href='/blog/categories/concurrency' style='font-size: 102.4%'>concurrency(1)</a> <a href='/blog/categories/curl' style='font-size: 102.4%'>curl(1)</a> <a href='/blog/categories/database' style='font-size: 114.4%'>database(6)</a> <a href='/blog/categories/datetime' style='font-size: 102.4%'>datetime(1)</a> <a href='/blog/categories/di' style='font-size: 104.8%'>di(2)</a> <a href='/blog/categories/drawable' style='font-size: 102.4%'>drawable(1)</a> <a href='/blog/categories/ec' style='font-size: 102.4%'>ec(1)</a> <a href='/blog/categories/eclipse' style='font-size: 102.4%'>eclipse(1)</a> <a href='/blog/categories/ecshop' style='font-size: 116.8%'>ecshop(7)</a> <a href='/blog/categories/editor' style='font-size: 102.4%'>editor(1)</a> <a href='/blog/categories/emulator' style='font-size: 102.4%'>emulator(1)</a> <a href='/blog/categories/encoding' style='font-size: 102.4%'>encoding(1)</a> <a href='/blog/categories/english' style='font-size: 133.6%'>english(14)</a> <a href='/blog/categories/excel' style='font-size: 104.8%'>excel(2)</a> <a href='/blog/categories/extjs' style='font-size: 104.8%'>extjs(2)</a> <a href='/blog/categories/gesture' style='font-size: 102.4%'>gesture(1)</a> <a href='/blog/categories/git' style='font-size: 109.6%'>git(4)</a> <a href='/blog/categories/git-flow' style='font-size: 102.4%'>git-flow(1)</a> <a href='/blog/categories/guava' style='font-size: 104.8%'>guava(2)</a> <a href='/blog/categories/guice' style='font-size: 102.4%'>guice(1)</a> <a href='/blog/categories/hamcrest' style='font-size: 102.4%'>hamcrest(1)</a> <a href='/blog/categories/i18n' style='font-size: 102.4%'>i18n(1)</a> <a href='/blog/categories/ide' style='font-size: 102.4%'>IDE(1)</a> <a href='/blog/categories/idea' style='font-size: 102.4%'>IDEA(1)</a> <a href='/blog/categories/injection' style='font-size: 102.4%'>injection(1)</a> <a href='/blog/categories/intent' style='font-size: 102.4%'>intent(1)</a> <a href='/blog/categories/ireport' style='font-size: 104.8%'>ireport(2)</a> <a href='/blog/categories/jasterreport' style='font-size: 104.8%'>jasterreport(2)</a> <a href='/blog/categories/java' style='font-size: 152.8%'>java(22)</a> <a href='/blog/categories/java-ee' style='font-size: 112.0%'>java_ee(5)</a> <a href='/blog/categories/jms' style='font-size: 102.4%'>jms(1)</a> <a href='/blog/categories/joda' style='font-size: 102.4%'>joda(1)</a> <a href='/blog/categories/jpa' style='font-size: 102.4%'>jpa(1)</a> <a href='/blog/categories/jquery' style='font-size: 102.4%'>jquery(1)</a> <a href='/blog/categories/jsp' style='font-size: 104.8%'>jsp(2)</a> <a href='/blog/categories/junit' style='font-size: 102.4%'>junit(1)</a> <a href='/blog/categories/jvm' style='font-size: 104.8%'>jvm(2)</a> <a href='/blog/categories/kohana' style='font-size: 102.4%'>kohana(1)</a> <a href='/blog/categories/l10n' style='font-size: 102.4%'>l10n(1)</a> <a href='/blog/categories/layout' style='font-size: 102.4%'>layout(1)</a> <a href='/blog/categories/linux' style='font-size: 126.4%'>linux(11)</a> <a href='/blog/categories/listview' style='font-size: 104.8%'>listview(2)</a> <a href='/blog/categories/logger' style='font-size: 102.4%'>logger(1)</a> <a href='/blog/categories/m2eclilpse' style='font-size: 102.4%'>m2eclilpse(1)</a> <a href='/blog/categories/mac' style='font-size: 104.8%'>mac(2)</a> <a href='/blog/categories/mat' style='font-size: 102.4%'>mat(1)</a> <a href='/blog/categories/maven' style='font-size: 112.0%'>maven(5)</a> <a href='/blog/categories/memory' style='font-size: 102.4%'>memory(1)</a> <a href='/blog/categories/menu' style='font-size: 102.4%'>menu(1)</a> <a href='/blog/categories/mindmap' style='font-size: 104.8%'>mindmap(2)</a> <a href='/blog/categories/misc' style='font-size: 102.4%'>misc(1)</a> <a href='/blog/categories/mysql' style='font-size: 116.8%'>mysql(7)</a> <a href='/blog/categories/nio' style='font-size: 102.4%'>nio(1)</a> <a href='/blog/categories/octopress' style='font-size: 102.4%'>octopress(1)</a> <a href='/blog/categories/oracle' style='font-size: 102.4%'>oracle(1)</a> <a href='/blog/categories/osgi' style='font-size: 107.2%'>osgi(3)</a> <a href='/blog/categories/pdf' style='font-size: 104.8%'>pdf(2)</a> <a href='/blog/categories/pdt' style='font-size: 112.0%'>pdt(5)</a> <a href='/blog/categories/pear' style='font-size: 104.8%'>pear(2)</a> <a href='/blog/categories/performace' style='font-size: 102.4%'>performace(1)</a> <a href='/blog/categories/pgsql' style='font-size: 102.4%'>pgsql(1)</a> <a href='/blog/categories/php' style='font-size: 114.4%'>php(6)</a> <a href='/blog/categories/play-framework' style='font-size: 102.4%'>play_framework(1)</a> <a href='/blog/categories/pm' style='font-size: 112.0%'>pm(5)</a> <a href='/blog/categories/postgresql' style='font-size: 104.8%'>postgresql(2)</a> <a href='/blog/categories/profile' style='font-size: 102.4%'>profile(1)</a> <a href='/blog/categories/programming' style='font-size: 128.8%'>programming(12)</a> <a href='/blog/categories/python' style='font-size: 102.4%'>python(1)</a> <a href='/blog/categories/re' style='font-size: 102.4%'>re(1)</a> <a href='/blog/categories/refactory' style='font-size: 102.4%'>refactory(1)</a> <a href='/blog/categories/rest' style='font-size: 112.0%'>rest(5)</a> <a href='/blog/categories/roboguice' style='font-size: 102.4%'>roboguice(1)</a> <a href='/blog/categories/sbt' style='font-size: 102.4%'>sbt(1)</a> <a href='/blog/categories/scala' style='font-size: 109.6%'>scala(4)</a> <a href='/blog/categories/security' style='font-size: 102.4%'>security(1)</a> <a href='/blog/categories/service' style='font-size: 104.8%'>service(2)</a> <a href='/blog/categories/shiro' style='font-size: 102.4%'>shiro(1)</a> <a href='/blog/categories/shortchut' style='font-size: 102.4%'>shortchut(1)</a> <a href='/blog/categories/smarty' style='font-size: 107.2%'>smarty(3)</a> <a href='/blog/categories/spring' style='font-size: 102.4%'>spring(1)</a> <a href='/blog/categories/sql' style='font-size: 102.4%'>sql(1)</a> <a href='/blog/categories/style' style='font-size: 102.4%'>style(1)</a> <a href='/blog/categories/tdd' style='font-size: 102.4%'>tdd(1)</a> <a href='/blog/categories/testing' style='font-size: 124.0%'>testing(10)</a> <a href='/blog/categories/theme' style='font-size: 102.4%'>theme(1)</a> <a href='/blog/categories/tips' style='font-size: 104.8%'>tips(2)</a> <a href='/blog/categories/ubuntu' style='font-size: 119.2%'>ubuntu(8)</a> <a href='/blog/categories/ui' style='font-size: 104.8%'>ui(2)</a> <a href='/blog/categories/vim' style='font-size: 104.8%'>vim(2)</a> <a href='/blog/categories/web' style='font-size: 104.8%'>web(2)</a> <a href='/blog/categories/windows' style='font-size: 102.4%'>windows(1)</a> <a href='/blog/categories/xampp' style='font-size: 102.4%'>xampp(1)</a> <a href='/blog/categories/xml' style='font-size: 104.8%'>xml(2)</a> </span>
 </section>
 <section>
   <h1>Categories</h1>
-    <ul id="category-list"><li><a href='/blog/categories/actionbar'>actionbar (1)</a></li><li><a href='/blog/categories/android'>android (25)</a></li><li><a href='/blog/categories/apache'>apache (7)</a></li><li><a href='/blog/categories/bash'>bash (3)</a></li><li><a href='/blog/categories/best-practice'>best_practice (1)</a></li><li><a href='/blog/categories/book'>book (1)</a></li><li><a href='/blog/categories/broadcast-receiver'>broadcast_receiver (2)</a></li><li><a href='/blog/categories/cdi'>cdi (2)</a></li><li><a href='/blog/categories/centos'>centos (5)</a></li><li><a href='/blog/categories/clean-code'>clean code (1)</a></li><li><a href='/blog/categories/command'>command (4)</a></li><li><a href='/blog/categories/concurrency'>concurrency (1)</a></li><li><a href='/blog/categories/database'>database (6)</a></li><li><a href='/blog/categories/datetime'>datetime (1)</a></li><li><a href='/blog/categories/di'>di (2)</a></li><li><a href='/blog/categories/drawable'>drawable (1)</a></li><li><a href='/blog/categories/ec'>ec (1)</a></li><li><a href='/blog/categories/eclipse'>eclipse (1)</a></li><li><a href='/blog/categories/ecshop'>ecshop (7)</a></li><li><a href='/blog/categories/editor'>editor (1)</a></li><li><a href='/blog/categories/emulator'>emulator (1)</a></li><li><a href='/blog/categories/encoding'>encoding (1)</a></li><li><a href='/blog/categories/english'>english (14)</a></li><li><a href='/blog/categories/excel'>excel (2)</a></li><li><a href='/blog/categories/extjs'>extjs (2)</a></li><li><a href='/blog/categories/gesture'>gesture (1)</a></li><li><a href='/blog/categories/git'>git (4)</a></li><li><a href='/blog/categories/git-flow'>git-flow (1)</a></li><li><a href='/blog/categories/guava'>guava (2)</a></li><li><a href='/blog/categories/guice'>guice (1)</a></li><li><a href='/blog/categories/hamcrest'>hamcrest (1)</a></li><li><a href='/blog/categories/i18n'>i18n (1)</a></li><li><a href='/blog/categories/ide'>IDE (1)</a></li><li><a href='/blog/categories/idea'>IDEA (1)</a></li><li><a href='/blog/categories/injection'>injection (1)</a></li><li><a href='/blog/categories/intent'>intent (1)</a></li><li><a href='/blog/categories/ireport'>ireport (2)</a></li><li><a href='/blog/categories/jasterreport'>jasterreport (2)</a></li><li><a href='/blog/categories/java'>java (22)</a></li><li><a href='/blog/categories/java-ee'>java_ee (5)</a></li><li><a href='/blog/categories/jms'>jms (1)</a></li><li><a href='/blog/categories/joda'>joda (1)</a></li><li><a href='/blog/categories/jpa'>jpa (1)</a></li><li><a href='/blog/categories/jquery'>jquery (1)</a></li><li><a href='/blog/categories/jsp'>jsp (2)</a></li><li><a href='/blog/categories/junit'>junit (1)</a></li><li><a href='/blog/categories/jvm'>jvm (2)</a></li><li><a href='/blog/categories/kohana'>kohana (1)</a></li><li><a href='/blog/categories/l10n'>l10n (1)</a></li><li><a href='/blog/categories/layout'>layout (1)</a></li><li><a href='/blog/categories/linux'>linux (11)</a></li><li><a href='/blog/categories/listview'>listview (2)</a></li><li><a href='/blog/categories/logger'>logger (1)</a></li><li><a href='/blog/categories/m2eclilpse'>m2eclilpse (1)</a></li><li><a href='/blog/categories/mac'>mac (2)</a></li><li><a href='/blog/categories/mat'>mat (1)</a></li><li><a href='/blog/categories/maven'>maven (5)</a></li><li><a href='/blog/categories/memory'>memory (1)</a></li><li><a href='/blog/categories/menu'>menu (1)</a></li><li><a href='/blog/categories/mindmap'>mindmap (2)</a></li><li><a href='/blog/categories/misc'>misc (1)</a></li><li><a href='/blog/categories/mysql'>mysql (7)</a></li><li><a href='/blog/categories/nio'>nio (1)</a></li><li><a href='/blog/categories/octopress'>octopress (1)</a></li><li><a href='/blog/categories/oracle'>oracle (1)</a></li><li><a href='/blog/categories/osgi'>osgi (3)</a></li><li><a href='/blog/categories/pdf'>pdf (2)</a></li><li><a href='/blog/categories/pdt'>pdt (5)</a></li><li><a href='/blog/categories/pear'>pear (2)</a></li><li><a href='/blog/categories/performace'>performace (1)</a></li><li><a href='/blog/categories/pgsql'>pgsql (1)</a></li><li><a href='/blog/categories/php'>php (6)</a></li><li><a href='/blog/categories/play-framework'>play_framework (1)</a></li><li><a href='/blog/categories/pm'>pm (5)</a></li><li><a href='/blog/categories/postgresql'>postgresql (2)</a></li><li><a href='/blog/categories/profile'>profile (1)</a></li><li><a href='/blog/categories/programming'>programming (12)</a></li><li><a href='/blog/categories/python'>python (1)</a></li><li><a href='/blog/categories/re'>re (1)</a></li><li><a href='/blog/categories/refactory'>refactory (1)</a></li><li><a href='/blog/categories/rest'>rest (4)</a></li><li><a href='/blog/categories/roboguice'>roboguice (1)</a></li><li><a href='/blog/categories/sbt'>sbt (1)</a></li><li><a href='/blog/categories/scala'>scala (4)</a></li><li><a href='/blog/categories/security'>security (1)</a></li><li><a href='/blog/categories/service'>service (2)</a></li><li><a href='/blog/categories/shiro'>shiro (1)</a></li><li><a href='/blog/categories/shortchut'>shortchut (1)</a></li><li><a href='/blog/categories/smarty'>smarty (3)</a></li><li><a href='/blog/categories/spring'>spring (1)</a></li><li><a href='/blog/categories/sql'>sql (1)</a></li><li><a href='/blog/categories/style'>style (1)</a></li><li><a href='/blog/categories/tdd'>tdd (1)</a></li><li><a href='/blog/categories/testing'>testing (10)</a></li><li><a href='/blog/categories/theme'>theme (1)</a></li><li><a href='/blog/categories/tips'>tips (2)</a></li><li><a href='/blog/categories/ubuntu'>ubuntu (8)</a></li><li><a href='/blog/categories/ui'>ui (2)</a></li><li><a href='/blog/categories/vim'>vim (2)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/windows'>windows (1)</a></li><li><a href='/blog/categories/xampp'>xampp (1)</a></li><li><a href='/blog/categories/xml'>xml (2)</a></li></ul>
+    <ul id="category-list"><li><a href='/blog/categories/actionbar'>actionbar (1)</a></li><li><a href='/blog/categories/android'>android (25)</a></li><li><a href='/blog/categories/apache'>apache (7)</a></li><li><a href='/blog/categories/bash'>bash (4)</a></li><li><a href='/blog/categories/best-practice'>best_practice (1)</a></li><li><a href='/blog/categories/book'>book (1)</a></li><li><a href='/blog/categories/broadcast-receiver'>broadcast_receiver (2)</a></li><li><a href='/blog/categories/cdi'>cdi (2)</a></li><li><a href='/blog/categories/centos'>centos (5)</a></li><li><a href='/blog/categories/clean-code'>clean code (1)</a></li><li><a href='/blog/categories/command'>command (5)</a></li><li><a href='/blog/categories/concurrency'>concurrency (1)</a></li><li><a href='/blog/categories/curl'>curl (1)</a></li><li><a href='/blog/categories/database'>database (6)</a></li><li><a href='/blog/categories/datetime'>datetime (1)</a></li><li><a href='/blog/categories/di'>di (2)</a></li><li><a href='/blog/categories/drawable'>drawable (1)</a></li><li><a href='/blog/categories/ec'>ec (1)</a></li><li><a href='/blog/categories/eclipse'>eclipse (1)</a></li><li><a href='/blog/categories/ecshop'>ecshop (7)</a></li><li><a href='/blog/categories/editor'>editor (1)</a></li><li><a href='/blog/categories/emulator'>emulator (1)</a></li><li><a href='/blog/categories/encoding'>encoding (1)</a></li><li><a href='/blog/categories/english'>english (14)</a></li><li><a href='/blog/categories/excel'>excel (2)</a></li><li><a href='/blog/categories/extjs'>extjs (2)</a></li><li><a href='/blog/categories/gesture'>gesture (1)</a></li><li><a href='/blog/categories/git'>git (4)</a></li><li><a href='/blog/categories/git-flow'>git-flow (1)</a></li><li><a href='/blog/categories/guava'>guava (2)</a></li><li><a href='/blog/categories/guice'>guice (1)</a></li><li><a href='/blog/categories/hamcrest'>hamcrest (1)</a></li><li><a href='/blog/categories/i18n'>i18n (1)</a></li><li><a href='/blog/categories/ide'>IDE (1)</a></li><li><a href='/blog/categories/idea'>IDEA (1)</a></li><li><a href='/blog/categories/injection'>injection (1)</a></li><li><a href='/blog/categories/intent'>intent (1)</a></li><li><a href='/blog/categories/ireport'>ireport (2)</a></li><li><a href='/blog/categories/jasterreport'>jasterreport (2)</a></li><li><a href='/blog/categories/java'>java (22)</a></li><li><a href='/blog/categories/java-ee'>java_ee (5)</a></li><li><a href='/blog/categories/jms'>jms (1)</a></li><li><a href='/blog/categories/joda'>joda (1)</a></li><li><a href='/blog/categories/jpa'>jpa (1)</a></li><li><a href='/blog/categories/jquery'>jquery (1)</a></li><li><a href='/blog/categories/jsp'>jsp (2)</a></li><li><a href='/blog/categories/junit'>junit (1)</a></li><li><a href='/blog/categories/jvm'>jvm (2)</a></li><li><a href='/blog/categories/kohana'>kohana (1)</a></li><li><a href='/blog/categories/l10n'>l10n (1)</a></li><li><a href='/blog/categories/layout'>layout (1)</a></li><li><a href='/blog/categories/linux'>linux (11)</a></li><li><a href='/blog/categories/listview'>listview (2)</a></li><li><a href='/blog/categories/logger'>logger (1)</a></li><li><a href='/blog/categories/m2eclilpse'>m2eclilpse (1)</a></li><li><a href='/blog/categories/mac'>mac (2)</a></li><li><a href='/blog/categories/mat'>mat (1)</a></li><li><a href='/blog/categories/maven'>maven (5)</a></li><li><a href='/blog/categories/memory'>memory (1)</a></li><li><a href='/blog/categories/menu'>menu (1)</a></li><li><a href='/blog/categories/mindmap'>mindmap (2)</a></li><li><a href='/blog/categories/misc'>misc (1)</a></li><li><a href='/blog/categories/mysql'>mysql (7)</a></li><li><a href='/blog/categories/nio'>nio (1)</a></li><li><a href='/blog/categories/octopress'>octopress (1)</a></li><li><a href='/blog/categories/oracle'>oracle (1)</a></li><li><a href='/blog/categories/osgi'>osgi (3)</a></li><li><a href='/blog/categories/pdf'>pdf (2)</a></li><li><a href='/blog/categories/pdt'>pdt (5)</a></li><li><a href='/blog/categories/pear'>pear (2)</a></li><li><a href='/blog/categories/performace'>performace (1)</a></li><li><a href='/blog/categories/pgsql'>pgsql (1)</a></li><li><a href='/blog/categories/php'>php (6)</a></li><li><a href='/blog/categories/play-framework'>play_framework (1)</a></li><li><a href='/blog/categories/pm'>pm (5)</a></li><li><a href='/blog/categories/postgresql'>postgresql (2)</a></li><li><a href='/blog/categories/profile'>profile (1)</a></li><li><a href='/blog/categories/programming'>programming (12)</a></li><li><a href='/blog/categories/python'>python (1)</a></li><li><a href='/blog/categories/re'>re (1)</a></li><li><a href='/blog/categories/refactory'>refactory (1)</a></li><li><a href='/blog/categories/rest'>rest (5)</a></li><li><a href='/blog/categories/roboguice'>roboguice (1)</a></li><li><a href='/blog/categories/sbt'>sbt (1)</a></li><li><a href='/blog/categories/scala'>scala (4)</a></li><li><a href='/blog/categories/security'>security (1)</a></li><li><a href='/blog/categories/service'>service (2)</a></li><li><a href='/blog/categories/shiro'>shiro (1)</a></li><li><a href='/blog/categories/shortchut'>shortchut (1)</a></li><li><a href='/blog/categories/smarty'>smarty (3)</a></li><li><a href='/blog/categories/spring'>spring (1)</a></li><li><a href='/blog/categories/sql'>sql (1)</a></li><li><a href='/blog/categories/style'>style (1)</a></li><li><a href='/blog/categories/tdd'>tdd (1)</a></li><li><a href='/blog/categories/testing'>testing (10)</a></li><li><a href='/blog/categories/theme'>theme (1)</a></li><li><a href='/blog/categories/tips'>tips (2)</a></li><li><a href='/blog/categories/ubuntu'>ubuntu (8)</a></li><li><a href='/blog/categories/ui'>ui (2)</a></li><li><a href='/blog/categories/vim'>vim (2)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/windows'>windows (1)</a></li><li><a href='/blog/categories/xampp'>xampp (1)</a></li><li><a href='/blog/categories/xml'>xml (2)</a></li></ul>
 </section>
 
   
