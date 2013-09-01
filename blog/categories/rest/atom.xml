@@ -4,7 +4,7 @@
   <title><![CDATA[Category: rest | Kent's Blog]]></title>
   <link href="http://blog.kent-chiu.com/blog/categories/rest/atom.xml" rel="self"/>
   <link href="http://blog.kent-chiu.com/"/>
-  <updated>2013-08-31T01:36:04+08:00</updated>
+  <updated>2013-09-01T10:08:34+08:00</updated>
   <id>http://blog.kent-chiu.com/</id>
   <author>
     <name><![CDATA[Kent]]></name>
@@ -12,6 +12,222 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Access imgur with API]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2013/08/31/access-imgur-with-api/"/>
+    <updated>2013-08-31T01:20:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2013/08/31/access-imgur-with-api</id>
+    <content type="html"><![CDATA[<ol>
+<li>先註冊 <a href="http://imgur.com/">imgur</a> 的帳號</li>
+<li>申請API使用權限
+<img src="http://blog.kent-chiu.com/images/2013-08-31/2013-08-31-access-imgur-with-api-001.png" alt="2013-08-31-access-imgur-with-api-001.png" /></li>
+<li>註冊成後功，imgur會寄信到email裡，裡面會有 client_id 跟 client_secret</li>
+<li><p>試車 <code>https://api.imgur.com/3/gallery.json</code> 是取得</p>
+
+<pre><code>curl https://api.imgur.com/3/gallery.json -i -H "Authorization: Client-ID 69a8cxxxxxxxxxx" 
+
+HTTP/1.1 200 OK
+Server: nginx
+Date: Fri, 30 Aug 2013 17:59:29 GMT
+Content-Type: application/json
+Transfer-Encoding: chunked
+Connection: keep-alive
+…..
+</code></pre>
+
+<p>如果看到    http status code 200，就表示成功了</p>
+
+<blockquote><p>69a8cxxxxxxxxxx -> 換成你自已的 client_id</p></blockquote></li>
+</ol>
+
+
+<h4>取得相簿</h4>
+
+<pre><code>curl -i -H "Authorization: Client-ID 69a8cxxxxxxxxxx"  https://api.imgur.com/3/gallery/album/lDRB2/json
+    https://api.imgur.com/3/gallery/album/lDRB2/json
+
+{
+    "data": {
+        "id": "lDRB2",
+        "title": "Imgur Office",
+        "description": null,
+        "datetime": 1357856292,
+        "cover": "24nLu",
+        "account_url": "Alan",
+        "privacy": "public",
+        "layout": "blog",
+        "views": 13780,
+        "link": "http://alanbox.imgur.com/a/lDRB2",
+        "ups": 1602,
+        "downs": 14,
+        "score": 1917,
+        "is_album": true,
+        "vote": null,
+        "images_count": 11,
+        "images": [
+            {
+                "id": "24nLu",
+                "title": null,
+                "description": null,
+                "datetime": 1357856352,
+                "type": "image/jpeg",
+                "animated": false,
+                "width": 2592,
+                "height": 1944,
+                "size": 855658,
+                "views": 135772,
+                "bandwidth": 116174397976,
+                "link": "http://i.imgur.com/24nLu.jpg"
+            },
+            {
+                "id": "Ziz25",
+                "title": null,
+                "description": null,
+                "datetime": 1357856394,
+                "type": "image/jpeg",
+                "animated": false,
+                "width": 2592,
+                "height": 1944,
+                "size": 919391,
+                "views": 135493,
+                "bandwidth": 124571044763,
+                "link": "http://i.imgur.com/Ziz25.jpg"
+            },
+            {
+                "id": "9tzW6",
+                "title": null,
+                "description": null,
+                "datetime": 1357856385,
+                "type": "image/jpeg",
+                "animated": false,
+                "width": 2592,
+                "height": 1944,
+                "size": 655028,
+                "views": 135063,
+                "bandwidth": 88470046764,
+                "link": "http://i.imgur.com/9tzW6.jpg"
+            },
+            {
+                "id": "dFg5u",
+                "title": null,
+                "description": null,
+                "datetime": 1357856378,
+                "type": "image/jpeg",
+                "animated": false,
+                "width": 2592,
+                "height": 1944,
+                "size": 812738,
+                "views": 134704,
+                "bandwidth": 109479059552,
+                "link": "http://i.imgur.com/dFg5u.jpg"
+            },
+            {
+                "id": "oknLx",
+                "title": null,
+                "description": null,
+                "datetime": 1357856338,
+                "type": "image/jpeg",
+                "animated": false,
+                "width": 1749,
+                "height": 2332,
+                "size": 717324,
+                "views": 32938,
+                "bandwidth": 23627217912,
+                "link": "http://i.imgur.com/oknLx.jpg"
+            },
+            {
+                "id": "OL6tC",
+                "title": null,
+                "description": null,
+                "datetime": 1357856321,
+                "type": "image/jpeg",
+                "animated": false,
+                "width": 2592,
+                "height": 1944,
+                "size": 1443262,
+                "views": 32346,
+                "bandwidth": 46683752652,
+                "link": "http://i.imgur.com/OL6tC.jpg"
+            },
+            {
+                "id": "cJ9cm",
+                "title": null,
+                "description": null,
+                "datetime": 1357856330,
+                "type": "image/jpeg",
+                "animated": false,
+                "width": 2592,
+                "height": 1944,
+                "size": 544702,
+                "views": 31829,
+                "bandwidth": 17337319958,
+                "link": "http://i.imgur.com/cJ9cm.jpg"
+            },
+            {
+                "id": "7BtPN",
+                "title": null,
+                "description": null,
+                "datetime": 1357856369,
+                "type": "image/jpeg",
+                "animated": false,
+                "width": 2592,
+                "height": 1944,
+                "size": 844863,
+                "views": 31257,
+                "bandwidth": 26407882791,
+                "link": "http://i.imgur.com/7BtPN.jpg"
+            },
+            {
+                "id": "42ib8",
+                "title": null,
+                "description": null,
+                "datetime": 1357856424,
+                "type": "image/jpeg",
+                "animated": false,
+                "width": 2592,
+                "height": 1944,
+                "size": 905073,
+                "views": 30945,
+                "bandwidth": 28007483985,
+                "link": "http://i.imgur.com/42ib8.jpg"
+            },
+            {
+                "id": "BbwIx",
+                "title": null,
+                "description": null,
+                "datetime": 1357856360,
+                "type": "image/jpeg",
+                "animated": false,
+                "width": 1749,
+                "height": 2332,
+                "size": 662413,
+                "views": 30107,
+                "bandwidth": 19943268191,
+                "link": "http://i.imgur.com/BbwIx.jpg"
+            },
+            {
+                "id": "x7b91",
+                "title": null,
+                "description": null,
+                "datetime": 1357856406,
+                "type": "image/jpeg",
+                "animated": false,
+                "width": 1944,
+                "height": 2592,
+                "size": 618567,
+                "views": 29259,
+                "bandwidth": 18098651853,
+                "link": "http://i.imgur.com/x7b91.jpg"
+            }
+        ]
+    },
+    "success": true,
+    "status": 200
+}               
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[使用curl指令測試REST服務]]></title>
@@ -338,100 +554,6 @@ public HttpEntity&lt;byte[]&gt; excelExcel() throws IOException {
 </code></pre>
 
 <p>```</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[開發RESTful應用程式]]></title>
-    <link href="http://blog.kent-chiu.com/blog/2012/03/20/developing_restful_android_applications/"/>
-    <updated>2012-03-20T00:00:00+08:00</updated>
-    <id>http://blog.kent-chiu.com/blog/2012/03/20/developing_restful_android_applications</id>
-    <content type="html"><![CDATA[<p>andoird程式中，常常會有以下類型的動作方式：</p>
-
-<ol>
-<li>到網路抓取資料</li>
-<li>儲存到手機</li>
-<li>檢查並更新手機上的資料</li>
-</ol>
-
-
-<p>像Rss Reader就是很典型的範例，使用者需要在網路有效時對遠端的rss
-server同部rss資料，並可以在沒有網路時在local進行離線閱讀。
-這類型的程式有幾個困難需要處理</p>
-
-<ol>
-<li>不能在activity進行網路抓資料的動作，因為極可能會block住ui，user無法進行其他操作</li>
-<li>抓取資料後，需要在local進行cache(通常是存在SQLite資料庫)</li>
-<li>需對資料庫跟遠端的rss進行同步，如果有新的rss，應該進行通知</li>
-<li>又不能太過頻繁的進行同步</li>
-<li>同步後，使用者在畫面上可以馬上讀取到</li>
-</ol>
-
-
-<p>解決這些問題，不是在一個activity中全部做完即可，而是需要許多個組件相互配合，才不會讓user有不好的使用經驗，為了解決這些問題，google建議了三個處理這個問題的patterns。詳情請參閱參考資源。</p>
-
-<p><img src="http://blog.kent-chiu.com/images/2012-03-20/developing_restful_android_applications_001.png" alt="developing_restful_android_applications_001.png" /></p>
-
-<p><img src="http://blog.kent-chiu.com/images/2012-03-20/developing_restful_android_applications_002.png" alt="developing_restful_android_applications_002.png" /></p>
-
-<h5>處理檔案跟資料庫間的關聯</h5>
-
-<p>在應用上，db的資料，常常會跟某些特定的某些檔案做關聯，傳統的做法，可能是把檔案位置記在table的某個欄位，或用特殊的命名規則來讓table的record跟檔案名稱可以對應的起來。
-Google的提供了另一種方式，主要做法如下：</p>
-
-<ul>
-<li>為檔案建立一個專屬的table，裡面包含 “_id”,”_data”兩個欄位</li>
-<li>建立存取檔案專用的content
-uri，該uri可以指定該table的”_id”，便可取得檔案的相關資訊”_data”</li>
-<li>利用ContentResolver.openInputStream直接開啟檔案</li>
-</ul>
-
-
-<p>這樣做的好處是，ContentProvider的client端(使用ContentProvider
-API的程式)不用管實體檔案存那，就算檔案從手機移到SD
-card或網路上，都不會影響到client的用法。ContentProvider的client面對的都是相同的Content
-URI.</p>
-
-<p><code>
-User Table                                                  User Picture Table
-*-----*------*----------*-------------------------------*  *-----*------------------------------------------*
-| _id | name | password | picture                       |  | _id | _data                                    |
-*-----*------*----------*-------------------------------*  *-----*------------------------------------------*
-|   1 | Kent | xxx      | content://foo.bar.Picture/101 |  | 101 | app_data/data/kent_picture.png           | (user的大頭照在手機記憶體)
-|   2 | John | ooo      | content://foo.bar.Picture/102 |  | 102 | http://www.domain.com/john.png           | (user的大頭照在網路上)
-|   3 | Bob  | ***      | content://foo.bar.Picture/103 |  | 103 | sd_card/data/profile_picture_of_bob.jpg  | (user的大頭照在sd card上)
-*-----*------*----------*-------------------------------*  *-----*------------------------------------------*
-</code></p>
-
-<h4>說明</h4>
-
-<p>左邊User Table記錄的是user的基本資料，右邊的User Picture
-Table是記錄user的大頭照存放位置。user
-table裡並不直接存放大頭照檔案的位置，取而代之的是把大頭的位置放在User
-Picture Table，然後透過user table裡的picture欄位存的content uri,
-來取得User Picture
-Table中的相對row(_id=101),真正存放檔案的欄位一定要叫<strong>_data</strong>，當android收到<code>ContentResolver.openInputStream</code>的需求時，android會將<strong>_data</strong>欄位以streaming的方式開啟。</p>
-
-<p>如果直接將檔案實際路徑(ex:app_data/data/kent_picture.png)放到user的picture的欄位中，而不是放content
-uri，這樣，其他程式則會因沒有權限而無法開啟</p>
-
-<h2>Resource</h2>
-
-<ul>
-<li><a href="http://www.google.com/events/io/2010/sessions/developing-RESTful-android-apps.html" title="http://www.google.com/events/io/2010/sessions/developing-RESTful-android-apps.html">google I/O 2010大會上介紹的處理RESTful Android
-Applications</a>
-<a href="http://www.youtube.com/watch?v=xHXn3Kg2IQE&amp;feature=player_embedded" title="http://www.youtube.com/watch?v=xHXn3Kg2IQE&amp;feature=player_embedded">說明影片</a>
-<a href="http://dl.google.com/googleio/2010/android-developing-RESTful-android-apps.pdf" title="http://dl.google.com/googleio/2010/android-developing-RESTful-android-apps.pdf">投影片</a></li>
-<li><a href="http://programming-android.labs.oreilly.com/ch13.html" title="http://programming-android.labs.oreilly.com/ch13.html">Programming
-Android</a>
-
-<ul>
-<li>oreilly線上書籍Programming Android關於android開發RESTful
-client的注意事項</li>
-</ul>
-</li>
-</ul>
-
 ]]></content>
   </entry>
   
