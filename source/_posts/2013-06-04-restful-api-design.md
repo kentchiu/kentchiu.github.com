@@ -52,6 +52,9 @@ response
 	Location: http://www.example.com/order/123	
 
 
+> POST, PUT, PATCH 出去的資料應該儘量採用json，而不是Request Parameter(form submit)的格式
+> 而且header必須加上 `application/json` 否則就要丟出 HTTP 405 Unsupported Media Type的error
+
 ##### status code
 
 *	201 (CREATED) 		成功建立新資源
