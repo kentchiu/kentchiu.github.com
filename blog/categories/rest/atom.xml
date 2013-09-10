@@ -4,7 +4,7 @@
   <title><![CDATA[Category: rest | Kent's Blog]]></title>
   <link href="http://blog.kent-chiu.com/blog/categories/rest/atom.xml" rel="self"/>
   <link href="http://blog.kent-chiu.com/"/>
-  <updated>2013-09-01T10:08:34+08:00</updated>
+  <updated>2013-09-10T15:13:34+08:00</updated>
   <id>http://blog.kent-chiu.com/</id>
   <author>
     <name><![CDATA[Kent]]></name>
@@ -411,6 +411,9 @@ curl -X POST -d "param1=a%20space"
 Content-Type: application/json
 Location: http://www.example.com/order/123  
 </code></pre>
+
+<blockquote><p>POST, PUT, PATCH 出去的資料應該儘量採用json，而不是Request Parameter(form submit)的格式
+而且header必須加上 <code>application/json</code> 否則就要丟出 HTTP 405 Unsupported Media Type的error</p></blockquote>
 
 <h5>status code</h5>
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Kent's Blog]]></title>
   <link href="http://blog.kent-chiu.com/atom.xml" rel="self"/>
   <link href="http://blog.kent-chiu.com/"/>
-  <updated>2013-09-01T10:08:34+08:00</updated>
+  <updated>2013-09-10T15:13:34+08:00</updated>
   <id>http://blog.kent-chiu.com/</id>
   <author>
     <name><![CDATA[Kent]]></name>
@@ -627,6 +627,9 @@ Content-Type: application/json
 Location: http://www.example.com/order/123  
 </code></pre>
 
+<blockquote><p>POST, PUT, PATCH 出去的資料應該儘量採用json，而不是Request Parameter(form submit)的格式
+而且header必須加上 <code>application/json</code> 否則就要丟出 HTTP 405 Unsupported Media Type的error</p></blockquote>
+
 <h5>status code</h5>
 
 <ul>
@@ -788,10 +791,11 @@ POST                http://www.example.com/orders
 <h2>少用，但值得記</h2>
 
 <ul>
-<li>⌃ + J       : 調出javadoc</li>
-<li>⌃ ⇧ + J     : 多行合併</li>
-<li>⌘ + ⏎       : 智能分行</li>
-<li>⌃ + T       : 在本行(或標記區塊)加上 try/catch,if block, &#8230;.</li>
+<li>⌃ + J               : 調出javadoc</li>
+<li>⌃ + ⇧ + J         : 多行合併</li>
+<li>⌘ + ⏎             : 智能分行</li>
+<li>⌃ + T               : 在本行(或標記區塊)加上 try/catch,if block, &#8230;.</li>
+<li>⌃ + ⇧ + ⌥ + V    : 以純文字貼上(無格式，不會被ide format)</li>
 </ul>
 
 ]]></content>

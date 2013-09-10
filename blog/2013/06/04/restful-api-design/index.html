@@ -149,6 +149,9 @@ Content-Type: application/json
 Location: http://www.example.com/order/123  
 </code></pre>
 
+<blockquote><p>POST, PUT, PATCH 出去的資料應該儘量採用json，而不是Request Parameter(form submit)的格式
+而且header必須加上 <code>application/json</code> 否則就要丟出 HTTP 405 Unsupported Media Type的error</p></blockquote>
+
 <h5>status code</h5>
 
 <ul>

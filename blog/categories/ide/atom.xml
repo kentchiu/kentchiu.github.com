@@ -4,7 +4,7 @@
   <title><![CDATA[Category: IDE | Kent's Blog]]></title>
   <link href="http://blog.kent-chiu.com/blog/categories/ide/atom.xml" rel="self"/>
   <link href="http://blog.kent-chiu.com/"/>
-  <updated>2013-09-01T10:08:34+08:00</updated>
+  <updated>2013-09-10T15:13:34+08:00</updated>
   <id>http://blog.kent-chiu.com/</id>
   <author>
     <name><![CDATA[Kent]]></name>
@@ -79,10 +79,11 @@
 <h2>少用，但值得記</h2>
 
 <ul>
-<li>⌃ + J       : 調出javadoc</li>
-<li>⌃ ⇧ + J     : 多行合併</li>
-<li>⌘ + ⏎       : 智能分行</li>
-<li>⌃ + T       : 在本行(或標記區塊)加上 try/catch,if block, ....</li>
+<li>⌃ + J               : 調出javadoc</li>
+<li>⌃ + ⇧ + J         : 多行合併</li>
+<li>⌘ + ⏎             : 智能分行</li>
+<li>⌃ + T               : 在本行(或標記區塊)加上 try/catch,if block, ....</li>
+<li>⌃ + ⇧ + ⌥ + V    : 以純文字貼上(無格式，不會被ide format)</li>
 </ul>
 
 ]]></content>
