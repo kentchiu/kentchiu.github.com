@@ -9,10 +9,9 @@
   <meta name="author" content="Kent">
 
   
-  <meta name="description" content="Matcher 實作這個Matcher以接受各式各樣格式的參數進行比對。
-一般Unit Test的extension
-framework都會實作自己的Matcher，並且提供Matcher的factory
-methods或factory class。 Description &hellip;">
+  <meta name="description" content="Hierarchy Viewer跟Pixel
+Prefect兩種工具可以對UI進行除錯跟最佳化，兩種工具都可以使用在手機或模擬器。但需要注意的是，使用前，模擬器必需是已經在運行了，而手機必需是可除錯模式的，
+一般手機但多是產品模式，而不是除錯模式，如果手機不是除錯模式， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -80,6 +79,74 @@ methods或factory class。 Description &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/03/20/hierarchy_viewer/">Android Hierarchy Viewer</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-20T00:00:00+08:00" pubdate data-updated="true">Mar 20<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/03/20/hierarchy_viewer/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Hierarchy Viewer跟Pixel
+Prefect兩種工具可以對UI進行除錯跟最佳化，兩種工具都可以使用在手機或模擬器。但需要注意的是，使用前，模擬器必需是已經在運行了，而手機必需是可除錯模式的，
+一般手機但多是產品模式，而不是除錯模式，如果手機不是除錯模式，可以把專案DEPLOY到模擬器上做測式。</p>
+
+<p>只有debug這一欄為true，才能使用Hierarchy Viewer tool.</p>
+
+<p><img src="http://blog.kent-chiu.com/images/2012-03-20/hierarchy_viewer_001.png" alt="hierarchy_viewer_001.png" /></p>
+
+<p>Hierarchy
+Viewer可以獨立執行，也可以直接在eclipse使用，獨立使用的方式，執行
+ANDROID_SDK_HOME\tools\hierarchyviewer.bat
+(windows開發環境)，如果要在eclipse執行，
+可以把模擬器中啟動要進行觀察的專案，再把prospective切換到Hierarchy
+Viewer後，便可以在window
+viewer中看到執行後的專案，click專案的那個item後，就會出現專案的ui結構圖</p>
+
+<p><img src="http://blog.kent-chiu.com/images/2012-03-20/hierarchy_viewer_002.png" alt="hierarchy_viewer_002.png" /></p>
+
+<h1>Resources</h1>
+
+<ul>
+<li><a href="http://developer.android.com/guide/developing/debugging/debugging-ui.html" title="http://developer.android.com/guide/developing/debugging/debugging-ui.html">http://developer.android.com/guide/developing/debugging/debugging-ui.html</a>
+
+<ul>
+<li>官網上的說明</li>
+</ul>
+</li>
+<li><a href="http://mobile.tutsplus.com/tutorials/android/android-tools-using-the-hierarchy-viewer/" title="http://mobile.tutsplus.com/tutorials/android/android-tools-using-the-hierarchy-viewer/">Using the Hierarchy
+Viewer</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -2523,97 +2590,6 @@ data(全局的權限或計數器)。</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/03/20/broadcast_receiver_101/">Broadcast Receiver 101</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-03-20T00:00:00+08:00" pubdate data-updated="true">Mar 20<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/03/20/broadcast_receiver_101/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Broadcast receivers是Application
-Fundamentals中的四大組件之一，主要目的用來在背景接收廣播事件，繼承自BroadcastReceiver，之後再透過在AndroidManifest.xml註冊要聆聽的廣播事件。</p>
-
-<p>當廣播事件抵達時，會執行BroadcastReceiver.onReceive()，而要進行廣播則可利用Context.sendBroadcast()來進行廣播。須注意的是BroadcastReceiver的broadcasted出來的訊息處理是非同步的，也不是一boradcast馬上就會執行，順序也是不確定的，所以，另外有一個Context.sendOrderedBroadcast()可以使用，這個可以保證Broadcast出來的intent的順序性及Priority.</p>
-
-<p>在設計上，可以會面臨Backgroud
-Service要以Servicen實作還是要以BroadcastReceiver實作，<a href="http://developer.android.com/resources/articles/multitasking-android-way.html" title="http://developer.android.com/resources/articles/multitasking-android-way.html">這邊</a>有篇文章可以參考兩者中那個比較適合。</p>
-
-<p>BroadcastReceiver超過十秒就會ANR，所以，比較長時間的動作應該都是由service做</p>
-
-<p>以下的例子是實作一個執行BroadcastReceiver去聆聽開機完成事件的功能</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>public class MyReceiver extends BroadcastReceiver {
-</span><span class='line'> 
-</span><span class='line'>    @Override
-</span><span class='line'>    public void onReceive(Context context, Intent intent) {
-</span><span class='line'>        Intent service = new Intent(context, MyService.class);
-</span><span class='line'>        context.startService(service);
-</span><span class='line'>    }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>    &lt;receiver android:name="MyReciever" &gt;
-</span><span class='line'>        &lt;intent-filter&gt;
-</span><span class='line'>            &lt;action android:name="android.intent.action.BOOT_COMPLETED" /&gt;
-</span><span class='line'>        &lt;/intent-filter&gt;
-</span><span class='line'>    &lt;/receiver&gt;
-</span><span class='line'>    &lt;uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" /&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>發送broadcast的方式</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>context.sendBroadcast(intent);</span></code></pre></td></tr></table></div></figure>
-
-
-<p>如果BroadcastReceiver沒有順利被觸發，可能是因為沒設定權限或者是intent
-filter設定錯誤所導致</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/8/">&larr; Older</a>
@@ -2635,6 +2611,10 @@ filter設定錯誤所導致</p>
       </li>
     
       <li class="post">
+        <a href="/blog/2013/08/30/spring-reference-reading-notes/">Spring Reference Reading Notes</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/08/14/testing-rest-with-curl-command/">使用curl指令測試REST服務</a>
       </li>
     
@@ -2644,10 +2624,6 @@ filter設定錯誤所導致</p>
     
       <li class="post">
         <a href="/blog/2013/07/07/python-101/">Python 101</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/06/25/url-encoding/">URL Encoding</a>
       </li>
     
   </ul>

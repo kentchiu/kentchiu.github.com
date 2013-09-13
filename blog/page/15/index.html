@@ -13,42 +13,7 @@
 2
 3
 4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-...
-# remember to uncomment NameVirtualHost &hellip;">
+5 Alias /dokuwiki "D:/docs/wiki/dokuwiki" &lt;Directory "D:/docs/wiki/dokuwiki"&gt; AllowOverride None Order Deny,Allow &lt;/Directory&gt; &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -116,6 +81,64 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/how_to_add_new_web_site_outside_htdoc/">在htdoc目錄外新增網站</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/how_to_add_new_web_site_outside_htdoc/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>    Alias /dokuwiki "D:/docs/wiki/dokuwiki"
+</span><span class='line'>    &lt;Directory "D:/docs/wiki/dokuwiki"&gt;
+</span><span class='line'>        AllowOverride None
+</span><span class='line'>        Order Deny,Allow 
+</span><span class='line'>    &lt;/Directory&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果是這樣，可能會有問題</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>AllowOverride None
+</span><span class='line'>Order Deny,Allow
+</span><span class='line'>Deny from all </span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1549,70 +1572,6 @@ lib，提供豐富的網頁元件，可以方便的建構出網頁應用程式</
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/10/17/equinox_101/">Equinox 101</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
-        
-         | <a href="/blog/2011/10/17/equinox_101/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Bundles for http servlet.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>0 ACTIVE      org.eclipse.osgi_3.5.2.R35x_v20100126
-</span><span class='line'>1   ACTIVE      javax.servlet_2.5.0.v200806031605
-</span><span class='line'>17  ACTIVE      org.apache.commons.logging_1.0.4.v200904062259
-</span><span class='line'>18  ACTIVE      org.mortbay.jetty.util_6.1.15.v200905182336
-</span><span class='line'>19  ACTIVE      org.eclipse.equinox.http.registry_1.0.200.v20090520-1800
-</span><span class='line'>20  ACTIVE      org.mortbay.jetty.server_6.1.15.v200905151201
-</span><span class='line'>21  ACTIVE      org.eclipse.equinox.http.jetty_2.0.0.v20090520-1800
-</span><span class='line'>22  ACTIVE      org.eclipse.equinox.http.servlet_1.0.200.v20090520-1800
-</span><span class='line'>23  ACTIVE      org.eclipse.osgi.services_3.2.0.v20090520-1800
-</span><span class='line'>24  ACTIVE      org.eclipse.equinox.registry_3.4.100.v20090520-1800
-</span><span class='line'>25  ACTIVE      org.eclipse.equinox.common_3.5.1.R35x_v20090807-1100</span></code></pre></td></tr></table></div></figure>
-
-
-<p>After startting. invoke url <a href="http://localhost/">http://localhost/</a> will get the web render.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/16/">&larr; Older</a>
@@ -1634,6 +1593,10 @@ lib，提供豐富的網頁元件，可以方便的建構出網頁應用程式</
       </li>
     
       <li class="post">
+        <a href="/blog/2013/08/30/spring-reference-reading-notes/">Spring Reference Reading Notes</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/08/14/testing-rest-with-curl-command/">使用curl指令測試REST服務</a>
       </li>
     
@@ -1643,10 +1606,6 @@ lib，提供豐富的網頁元件，可以方便的建構出網頁應用程式</
     
       <li class="post">
         <a href="/blog/2013/07/07/python-101/">Python 101</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/06/25/url-encoding/">URL Encoding</a>
       </li>
     
   </ul>

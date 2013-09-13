@@ -9,8 +9,12 @@
   <meta name="author" content="Kent">
 
   
-  <meta name="description" content="Using eclipse External Tools configuration to run a tail program to
-keep monitor log files. Please ensure you have should tail program Location: &hellip;">
+  <meta name="description" content="access single element by name
+access multi elements by array with name 1
+2
+3
+4
+&lt;members&gt; &lt;user id="kent"&gt;Kent Chiu&lt;/user&gt; &lt;user &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -78,6 +82,84 @@ keep monitor log files. Please ensure you have should tail program Location: &he
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/simplexml/">SimpleXML</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/simplexml/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><ul>
+<li>access single element by name</li>
+<li>access multi elements by array with name</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;members&gt;
+</span><span class='line'>    &lt;user id="kent"&gt;Kent Chiu&lt;/user&gt;
+</span><span class='line'>    &lt;user id="leon"&gt;Leon Wong&lt;/user&gt;
+</span><span class='line'>&lt;/members&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  $members = simplexml_load_file('member.xml'); // root
+</span><span class='line'>    $root-&gt;user[0]; // Kent Chiu
+</span><span class='line'>    $root-&gt;user[1]; // Leon Wong
+</span><span class='line'>        $root-&gt;user[0][id]; // kent
+</span><span class='line'>    $root-&gt;user[0] = 'DraculaCwg'; // now Kent Chiu is replaced to DraculaCwg
+</span><span class='line'>    $root-&gt;user[2] = "New User"; // appends a node 
+</span><span class='line'>    $root-&gt;user[2][id] = "new";</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Resources</h2>
+
+<ul>
+<li><a href="http://tw2.php.net/manual/en/book.simplexml.php" title="http://tw2.php.net/manual/en/book.simplexml.php">SimpleXML at
+PHP.net</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1114,77 +1196,6 @@ Beck</a></li>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/10/17/postgresql_config/">設定PostgrSQL的連線配置</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
-        
-         | <a href="/blog/2011/10/17/postgresql_config/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>設定可以連線的IP是在 data\postgresql.conf</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>listen_addresses = '*'        # what IP address(es) to listen on;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>設定連線的認證方式是在 data\pg_hba.conf</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># TYPE  DATABASE        USER            CIDR-ADDRESS            METHOD
-</span><span class='line'># IPv4 local connections:
-</span><span class='line'>#host    all             all             127.0.0.1/32            trust
-</span><span class='line'># IPv6 local connections 允許來自同網域的1~128網段的使用者連線，不需密碼
-</span><span class='line'>#host    all             all             ::1/128                trust 
-</span><span class='line'># password authorize     允許來自同網域的1~128網段的任何使用者連線，需密碼
-</span><span class='line'>host      all            all             ::1/128                md5</span></code></pre></td></tr></table></div></figure>
-
-
-<p>USER設為ALL表示，資料庫裡所有的user都能連進資料庫，沒有的user就不能連</p>
-
-<p>如果忘記db密碼，可以設成</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>host    all             all             ::1/128                trust </span></code></pre></td></tr></table></div></figure>
-
-
-<p>允許同網段的ip連入，之後可以透過postgres這個預設的user登入之後，修改postgres
-user的密碼，再改回用密碼認證的方式。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/12/">&larr; Older</a>
@@ -1206,6 +1217,10 @@ user的密碼，再改回用密碼認證的方式。</p>
       </li>
     
       <li class="post">
+        <a href="/blog/2013/08/30/spring-reference-reading-notes/">Spring Reference Reading Notes</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/08/14/testing-rest-with-curl-command/">使用curl指令測試REST服務</a>
       </li>
     
@@ -1215,10 +1230,6 @@ user的密碼，再改回用密碼認證的方式。</p>
     
       <li class="post">
         <a href="/blog/2013/07/07/python-101/">Python 101</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/06/25/url-encoding/">URL Encoding</a>
       </li>
     
   </ul>

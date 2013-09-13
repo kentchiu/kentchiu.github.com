@@ -9,24 +9,15 @@
   <meta name="author" content="Kent">
 
   
-  <meta name="description" content="表格 1
+  <meta name="description" content="設定可以連線的IP是在 data\postgresql.conf 1
+listen_addresses = '*' # what IP address(es) to listen on; 設定連線的認證方式是在 data\pg_hba.conf 1
 2
 3
 4
 5
 6
 7
-8
-9
-10
-ㄅ：B　 ㄆ：P　 ㄇ：M ㄈ：F
-ㄉ：D　 ㄊ：T　 ㄋ：N 　 ㄌ：L
-ㄍ：G　 ㄎ：K　 ㄏ：H
-ㄐ：J　 ㄑ：Q　 ㄒ：X
-ㄓ：ZH ㄔ：CH ㄕ：SH ㄖ：R
-ㄗ：Z　 ㄘ：C　 ㄙ：S
-ㄢ：AN ㄣ：EN ㄤ：ANG ㄥ：ENG
-ㄞ：AI &hellip;">
+# TYPE &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -94,6 +85,77 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/postgresql_config/">設定PostgrSQL的連線配置</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/postgresql_config/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>設定可以連線的IP是在 data\postgresql.conf</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>listen_addresses = '*'        # what IP address(es) to listen on;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>設定連線的認證方式是在 data\pg_hba.conf</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># TYPE  DATABASE        USER            CIDR-ADDRESS            METHOD
+</span><span class='line'># IPv4 local connections:
+</span><span class='line'>#host    all             all             127.0.0.1/32            trust
+</span><span class='line'># IPv6 local connections 允許來自同網域的1~128網段的使用者連線，不需密碼
+</span><span class='line'>#host    all             all             ::1/128                trust 
+</span><span class='line'># password authorize     允許來自同網域的1~128網段的任何使用者連線，需密碼
+</span><span class='line'>host      all            all             ::1/128                md5</span></code></pre></td></tr></table></div></figure>
+
+
+<p>USER設為ALL表示，資料庫裡所有的user都能連進資料庫，沒有的user就不能連</p>
+
+<p>如果忘記db密碼，可以設成</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>host    all             all             ::1/128                trust </span></code></pre></td></tr></table></div></figure>
+
+
+<p>允許同網段的ip連入，之後可以透過postgres這個預設的user登入之後，修改postgres
+user的密碼，再改回用密碼認證的方式。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -2161,181 +2223,6 @@ data)的動作進行處理。</p></blockquote>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/10/17/oracle_101/">Oracle 101</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
-        
-         | <a href="/blog/2011/10/17/oracle_101/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h4>Schema</h4>
-
-<p>Oracle的資料庫觀念，與MySql,MSSQL並大一樣，，在連入(不管透過工具或jdbc
-driver)，都必需使用特定的user name連到特定的Schema
-在查詢時，也需指明確的指出查那一個shema</p>
-
-<p>在oracle中，有部份constrain匯入後，有異常，例如說：
-function_log這個table中的 constrain，匯入後是</p>
-
-<p>function_log.<strong>logId</strong> → user_info.userId</p>
-
-<p>但應該下面的才是正確的</p>
-
-<p>function_log.<strong>userId</strong>→ user_info.userId</p>
-
-<h4>Auto Increment</h4>
-
-<p>oracle中沒有自動增值(每次insert後，自動產生+1的值給Primary
-Key使用)，但還是可以透過sequence達到類似的功能，
-惟sequence是須在insert時自行加入Insert
-Statement中，而不是Database自動幫我們設定到PK中</p>
-
-<p><a href="http://fanqiang.chinaunix.net/a2/b2/20010514/10150052_b.html" title="http://fanqiang.chinaunix.net/a2/b2/20010514/10150052_b.html">這裡</a>有相關的說明</p>
-
-<p>Example: 建立給user info用的sequence</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>CREATE SEQUENCE userinfo_sequence 
-</span><span class='line'>    INCREMENT BY 1   
-</span><span class='line'>    START WITH 1     
-</span><span class='line'>    NOMAXVALUE       
-</span><span class='line'>    NOCYCLE          
-</span><span class='line'>    CACHE 10;  </span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>INSERT INTO SCOTT.USER_INFO (USERID,USERNAME) VALUES(userinfo_sequence.NEXTVAL,'kent')</span></code></pre></td></tr></table></div></figure>
-
-
-<h5>測試是否有Sequence存取權限</h5>
-
-<p>該使用者要有存取<a href="http://www.adp-gmbh.ch/ora/misc/dual.html" title="http://www.adp-gmbh.ch/ora/misc/dual.html">daul</a>
-table的權限。<code>daul</code> table是記錄<code>SEQUENCE</code>的table.
-可以透過些語法測試是否有存取<code>daul</code> table的權限</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>select USERINFO_SEQUENCE.NEXTVAL from DUAL</span></code></pre></td></tr></table></div></figure>
-
-
-<h5>所出所有Sequences</h5>
-
-<p>查詢所有<code>SEQUENCE</code>的語法(需要DBA權限)</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>SELECT * FROM dba_sequences</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>Driver</h4>
-
-<p>oracle有提供type 4的jdbc driver (ojdbc or
-odbc)，每一個資料庫版本適用的driver不太一樣，常見的有這幾種</p>
-
-<p>  jar name       For Oracle   說明</p>
-
-<hr />
-
-<p>  oracle12.jar   ALL          for jdk 1.2
-  oracle14.jar   ALL          for jdk 1.4
-  oracle5.jar    11g          for jdk 1.5, 我們主要用的driver
-  oracle6 .jar   11g          for jdk 1.6</p>
-
-<h4>DataType</h4>
-
-<p>Oracle與SQL Server的資料型別上有些差異，我們有用到的部份，表列如下：</p>
-
-<h4>Null與空字串</h4>
-
-<p>Oracle會把空字串(empty string, length=0)當作是null</p>
-
-<h4>SQL syntax</h4>
-
-<p>TBD</p>
-
-<h4>Commands</h4>
-
-<h5>desc</h5>
-
-<p>顯示table的描述</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#語法
-</span><span class='line'>desc table_name
-</span><span class='line'>#範例
-</span><span class='line'>desc my_table</span></code></pre></td></tr></table></div></figure>
-
-
-<h5>list all tables in current schema</h5>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>SELECT table_name FROM user_tables;</span></code></pre></td></tr></table></div></figure>
-
-
-<h5>list all tables current user</h5>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>SELECT table_name FROM all_tables;
-</span><span class='line'> 
-</span><span class='line'>SELECT table_name FROM user_tables where owner='SYS';</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Oracle的字串是區分會小寫，where owner=&#8217;SYS&#8217; 跟where
-owner=&#8217;sys&#8217;查到的結果是不一樣的</p>
-
-<h5>list all schemas</h5>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>SELECT username FROM all_users ORDER BY username;</span></code></pre></td></tr></table></div></figure>
-
-
-<h5>top n records</h5>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>SELECT * FROM table_name where rownum &lt; n;</span></code></pre></td></tr></table></div></figure>
-
-
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/13/">&larr; Older</a>
@@ -2357,6 +2244,10 @@ owner=&#8217;sys&#8217;查到的結果是不一樣的</p>
       </li>
     
       <li class="post">
+        <a href="/blog/2013/08/30/spring-reference-reading-notes/">Spring Reference Reading Notes</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/08/14/testing-rest-with-curl-command/">使用curl指令測試REST服務</a>
       </li>
     
@@ -2366,10 +2257,6 @@ owner=&#8217;sys&#8217;查到的結果是不一樣的</p>
     
       <li class="post">
         <a href="/blog/2013/07/07/python-101/">Python 101</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/06/25/url-encoding/">URL Encoding</a>
       </li>
     
   </ul>

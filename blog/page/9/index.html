@@ -9,20 +9,7 @@
   <meta name="author" content="Kent">
 
   
-  <meta name="description" content="Create 1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-var xhr;
-if (window.XMLHttpRequest) { xhr = new XMLHttpRequest();
-}
-else if (window.ActiveXObject) { xhr = new &hellip;">
+  <meta name="description" content="Expression Description nodename Selects all child nodes of the named node / Selects from the root node // Selects nodes in the document from the &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -90,6 +77,115 @@ else if (window.ActiveXObject) { xhr = new &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/xpath/">XPath</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/xpath/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>  Expression      Description</p>
+
+<hr />
+
+<p>  nodename        Selects all child nodes of the named node
+  /               Selects from the root node
+  //              Selects nodes in the document from the current node that match the selection no matter where they are
+  .               Selects the current node
+  ..              Selects the parent of the current node
+  @               Selects attributes
+  @*             Selects all attributes
+  @c              attributes c
+  node()          all nodes
+  text()          text node
+  a | b           a or b element
+  a[expression]   a node when expression is true
+  *              all elements
+  a/b             selects b child of parent a
+  a//b            selects b child when has a node upon it</p>
+
+<hr />
+
+<p>  Expression        Description</p>
+
+<hr />
+
+<p>  bookstore         Selects all the child nodes of the bookstore element</p>
+
+<p>  /bookstore        Selects the root element bookstore\</p>
+
+<pre><code>                 Note: If the path starts with a slash ( / ) it always represents an absolute path to an element!\
+                 bookstore/book Selects all book elements that are children of bookstore
+</code></pre>
+
+<p>  //book            Selects all book elements no matter where they are in the document</p>
+
+<p>  bookstore//book   Selects all book elements that are descendant of the bookstore element, no matter where they are under the bookstore element</p>
+
+<p>  //@lang           Selects all attributes that are named lang</p>
+
+<hr />
+
+<h2>Operators</h2>
+
+<p>  operator   description</p>
+
+<hr />
+
+<p>  |          Computes two node-sets
+  +          Addition
+  -          Subtraction
+  *         Multiplication
+  div        Division
+  =          Equal
+  !=         Not equal
+  &lt;         Less than
+  ⇐          Less than or equal to
+  >         Greater than
+  >=        Greater than or equal to
+  or         or
+  and        and
+  mod        Modulus</p>
+
+<h2>Resources</h2>
+
+<ul>
+<li><a href="http://www.w3schools.com/XPath/default.asp" title="http://www.w3schools.com/XPath/default.asp">xpath tutorial in w3c
+schools</a></li>
+</ul>
+
+
+<h2>XPath Function</h2>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1654,117 +1750,6 @@ COMMAND，所以<strong>當COMMAND是INSERT，UPDAET，DELETE時要特別小心<
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/10/17/the_eight_great_spelling_rules/">The Eight Great Spelling Rules</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
-        
-         | <a href="/blog/2011/10/17/the_eight_great_spelling_rules/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>author : Mark Pennington</p>
-
-<p>article source :
-<a href="http://ezinearticles.com/?The-Eight-Great-Spelling-Rules&amp;id=1845169" title="http://ezinearticles.com/?The-Eight-Great-Spelling-Rules&amp;id=1845169">http://ezinearticles.com/?The-Eight-Great-Spelling-Rules&amp;id=1845169</a></p>
-
-<p>Although the American-English spelling system has evolved from many
-sources, there are specific patterns that are well-worth learning. These
-spelling patterns, or spelling rules, all have exceptions; however, they
-are minimal. It is always efficient to memorize the rule, rather than
-all of the exceptions. In baseball, batters are taught to “look for the
-fastball, and adjust for the curve.” The same is true in the
-American-English spelling system. The following are the key spelling
-rules that work most of the time in the American-English spelling
-system.</p>
-
-<h2>The i before e Rule</h2>
-
-<p>Usually spell i before e (believe), but spell e before i after a c
-(receive) and when the letters are pronounced as a long /a/ sound
-(neighbor).</p>
-
-<h2>The Final y Rule</h2>
-
-<p>Keep the y when adding an ending if the word ends in a vowel, then a y
-(delay-delayed), or if the ending begins with an i (copy-copying).
-Change the y to i when adding an ending if the word ends in a consonant,
-then a y (pretty-prettiest).</p>
-
-<h2>The Silent e Rule</h2>
-
-<p>Drop the e (have-having) at the end of a syllable if the ending begins
-with a vowel. Keep the e (close-closely) when the ending begins with a
-consonant, has a soft /c/ or /g/ sound, then an “ous” or “able”
-(peaceable, gorgeous), or if it ends in “ee”, “oe”, or “ye” (freedom,
-shoeing, eyeing).</p>
-
-<h2>The Double the Consonant Rule</h2>
-
-<p>Double the consonant, when adding on an ending (permitted), if all three
-of these conditions are met: 1. the last syllable has the accent (per /
-mit) 2. the last syllable ends in a vowel, then a consonant (permit). 3.
-the ending you add begins with a vowel (ed).</p>
-
-<h2>The Ending &#8220;an&#8221; or &#8220;en&#8221; Rule</h2>
-
-<p>End a word with “ance”, “ancy”, or “ant” (vacancy, arrogance) if the
-root before has a hard /c/ or /g/ sound or if the root ends with “ear”
-or “ure” (clearance, insurance). End a word with “ence”, “ency”, or
-“ent” if the root before has a soft /c/ or /g/ sound (magnificent,
-emergency), after “id” (residence), or if the root ends with “ere”
-(reverence).</p>
-
-<h2>The &#8220;able&#8221; or &#8220;ible&#8221; Rule</h2>
-
-<p>End a word with “able” if the root before has a hard /c/ or /g/ sound
-(despicable, navigable), after a complete root word (teachable), or
-after a silent e (likeable). End a word with “ible” if the root has a
-soft /c/ or /g/ sound (reducible, legible), after an “ss” (admissible),
-or after an incomplete root word (audible).</p>
-
-<h2>The Ending &#8220;ion&#8221; Rule</h2>
-
-<p>Spell “sion” (illusion) for the final zyun sound or the final shun sound
-(expulsion, compassion) if after an l or s. Spell “cian” (musician) for
-a person and “tion” (condition) in most all other cases.</p>
-
-<h2>The Plurals Rule</h2>
-
-<p>Spell plural nouns with an s (dog-dogs), even those that end in y
-(day-days) or those that end in a vowel, then an o (stereo-stereos).
-Spell “es” after the sounds of /s/, /x/, /z/, /ch/, or /sh/ (box-boxes)
-or after a consonant, then an o (potato-potatoes). Change the y to i and
-add “es” when the word ends in a consonant, then a y (ferry-ferries).
-Change the “fe” or “lf” ending to “ves” (knife-knives, shelf-shelves).</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/10/">&larr; Older</a>
@@ -1786,6 +1771,10 @@ Change the “fe” or “lf” ending to “ves” (knife-knives, shelf-shelves
       </li>
     
       <li class="post">
+        <a href="/blog/2013/08/30/spring-reference-reading-notes/">Spring Reference Reading Notes</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/08/14/testing-rest-with-curl-command/">使用curl指令測試REST服務</a>
       </li>
     
@@ -1795,10 +1784,6 @@ Change the “fe” or “lf” ending to “ves” (knife-knives, shelf-shelves
     
       <li class="post">
         <a href="/blog/2013/07/07/python-101/">Python 101</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/06/25/url-encoding/">URL Encoding</a>
       </li>
     
   </ul>

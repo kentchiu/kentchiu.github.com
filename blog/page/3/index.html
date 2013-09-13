@@ -9,8 +9,8 @@
   <meta name="author" content="Kent">
 
   
-  <meta name="description" content="dependency時，兩個%%表示cross-build，會把sbt的版號給納入dependency的資訊 Local Maven Repository 如果要使用local或自己架設的maven
-repository，可以透過resolvers += “name” at “maven &hellip;">
+  <meta name="description" content="The Negated Character ^ Remember, a negated character class means “match a character that&#8217;s not
+listed” and not “don&#8217;t match what is &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -78,6 +78,576 @@ repository，可以透過resolvers += “name” at “maven &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/09/12/regular_expression/">Regular Expression (RE)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-12T00:00:00+08:00" pubdate data-updated="true">Sep 12<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/09/12/regular_expression/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>The Negated Character ^</h3>
+
+<p>Remember, a negated character class means “match a character that&#8217;s not
+listed” and not “don&#8217;t match what is listed.”</p>
+
+<p>Thus, [^x] doesn&#8217;t mean <strong>“match unless there is an x”, but rather
+match if there is something that is not x .</strong> The difference is subtle,
+but important. The first concept matches a blank line, for example,
+while ![^x] does not.</p>
+
+<p>A character class, even negated, still requires a character to match.</p>
+
+<h3>The Dot Charactor .</h3>
+
+<p>It can be convenient when you want to have an <strong>any character here</strong>
+placeholder in your expression.</p>
+
+<h3>Parenthesis ()</h3>
+
+<ol>
+<li>capture</li>
+<li>grouping</li>
+<li>TBD</li>
+</ol>
+
+
+<h3>Lookaround</h3>
+
+<ul>
+<li>lookahead left to right</li>
+<li>lookbehind right to left</li>
+</ul>
+
+
+<p>lookaround do <strong>NOT</strong> consume text</p>
+
+<h3>Lookaround</h3>
+
+<p>* (?=Expr) - zero-width positive lookahead 符合後面為exp的文字 *
+(?!Expr) - zero-width negative lookahead 符合後面沒接exp的文字 *
+(?⇐Expr) - zero-width positive lookbehind 符合前為為exp的文字
+*(?&lt;!Expr) - zero-width negative lookbehind 符合前面沒接exp字首的文字</p>
+
+<h4>Positive Lookaround</h4>
+
+<p>lookahead及
+lookbehind所搜尋的是目前符合之前或之後的文字，並不包含目前符合本身。這些就如同”^”及”\b”特殊字元，本身並不會對應任何文字
+(用來界定位置)，也因此稱做是zero-width assertions。</p>
+
+<p>可以想像成SQL語法的<strong>LIKE</strong>或<strong>NOT
+LIKE</strong>不過行為並儘相似，反正想到可用SQL
+like來處理的問題，用Lookaround來處理一定可行。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>\b\w+(?=ing\b) (字尾為ing的字，比如說filling所符合的就是fill)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>(?⇐exp)是一個”zero-width positive lookbehind
+assertion”。它指的就是符合字首為exp的文字，但不包含exp本身。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>(?&lt;=\bre)\w+\b (字首為re的字，比如說repeated所符合的就是peated)
+</span><span class='line'>(?&lt;=\d)\d{3}\b (在字尾的三位數字，且之前接一位數字)
+</span><span class='line'>(?&lt;=\s)\w+(?=\s) (由空白字元分隔開的字母數字字串)</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Negative Lookaround</h4>
+
+<p>但如果只是要驗証某字元不存在而不要對應這些字元進來呢?舉個例子來說，假設要搜尋一個字，它的字母裏有q但接下來的字母不是u，可以用下列的RE來做。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>\b\w*q[^u]\w*\b (一個字，其字母裏有q但接下來的字母不是u)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這樣的RE會有一個問題，因為[^u]要對應一個字元，所以若q是字的最後一個字母，[^u]這樣的下法就會將空白字元對應下去，結果就有可能會符合二個字，比如說”Iraq
+haha”這樣的文字。使用Negative Lookaround就能解決這樣的問題。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>\b\w*q(?!u)\w*\b (一個字，其字母裏有q但接下來的字母不是u)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這是”zero-width negative lookahead assertion”。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>\d{3}(?!\d) (三個位元的數字，其後不接一個位元數字)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>同樣的，可以使用(?&lt;!exp)，”zero-width negative lookbehind
+assertion”，來符合前面沒接exp字首的文字串。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>(?&lt;![a-z ])\w{7} (七個字母數字的字串，其前面沒接字母或空格)
+</span><span class='line'>(?&lt;=&lt;(\w+)&gt;).*(?=&lt;\/\1&gt;) (HTML標籤間的文字)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這使用lookahead及lookbehind
+assertion來取出HTML間的文字，不包括HTML標籤。</p>
+
+<h3>MISC</h3>
+
+<p>“03[-./]19[-./]76” 與 “03[.-/]19[.-/]76”不同，因為”-“會變rang的意思</p>
+
+<p>找gary (gery) 可用”gr[ea]y”，”grey|gray”, and even
+“gr(a|e)y”，但不能用”g[a|e]ry” 因為[a|e]會被當作 a or | or e</p>
+
+<p>“gr(a|e)y”跟”gra|ey”是後者找的是gra或者是ey</p>
+
+<p>.-^ 等在character裡面跟外面有不同的意義</p>
+
+<p>可有可以的字用”?” 如 ”(July|Jul)” 可用 “July?”. “4th|4” 可用 4(th)?</p>
+
+<p>”&lt;H[1-6]
+*>”.如果*前面多一個空格，表示要空n格，如果沒有空格表示n個”]”</p>
+
+<h3>\p{class}, \P{class}</h3>
+
+<p>\p{class} - POSIX or unicode character class \P{class} - exculde POSIX
+or unicode character class</p>
+
+<p>if pattern only contains \p(or \P) without {class}, it means all(or
+excluded all) class</p>
+
+<p>Supported class codes</p>
+
+<p>C</p>
+
+<p>Other</p>
+
+<p>Cc</p>
+
+<p>Control</p>
+
+<p>Cf</p>
+
+<p>Format</p>
+
+<p>Cn</p>
+
+<p>Unassigned</p>
+
+<p>Co</p>
+
+<p>Private use</p>
+
+<p>Cs</p>
+
+<p>Surrogate</p>
+
+<p>L</p>
+
+<p>Letter</p>
+
+<p>Ll</p>
+
+<p>Lower case letter</p>
+
+<p>Lm</p>
+
+<p>Modifier letter</p>
+
+<p>Lo</p>
+
+<p>Other letter</p>
+
+<p>Lt</p>
+
+<p>Title case letter</p>
+
+<p>Lu</p>
+
+<p>Upper case letter</p>
+
+<p>M</p>
+
+<p>Mark</p>
+
+<p>Mc</p>
+
+<p>Spacing mark</p>
+
+<p>Me</p>
+
+<p>Enclosing mark</p>
+
+<p>Mn</p>
+
+<p>Non-spacing mark</p>
+
+<p>N</p>
+
+<p>Number</p>
+
+<p>Nd</p>
+
+<p>Decimal number</p>
+
+<p>Nl</p>
+
+<p>Letter number</p>
+
+<p>No</p>
+
+<p>Other number</p>
+
+<p>P</p>
+
+<p>Punctuation</p>
+
+<p>Pc</p>
+
+<p>Connector punctuation</p>
+
+<p>Pd</p>
+
+<p>Dash punctuation</p>
+
+<p>Pe</p>
+
+<p>Close punctuation</p>
+
+<p>Pf</p>
+
+<p>Final punctuation</p>
+
+<p>Pi</p>
+
+<p>Initial punctuation</p>
+
+<p>Po</p>
+
+<p>Other punctuation</p>
+
+<p>Ps</p>
+
+<p>Open punctuation</p>
+
+<p>S</p>
+
+<p>Symbol</p>
+
+<p>Sc</p>
+
+<p>Currency symbol</p>
+
+<p>Sk</p>
+
+<p>Modifier symbol</p>
+
+<p>Sm</p>
+
+<p>Mathematical symbol</p>
+
+<p>So</p>
+
+<p>Other symbol</p>
+
+<p>Z</p>
+
+<p>Separator</p>
+
+<p>Zl</p>
+
+<p>Line separator</p>
+
+<p>Zp</p>
+
+<p>Paragraph separator</p>
+
+<p>Zs</p>
+
+<p>Space separator</p>
+
+<p>中日韓文可以用 \p{InCJKUnifiedIdeographs}</p>
+
+<h3>TBD</h3>
+
+<p>\i - Match of capture group i</p>
+
+<p>\cC - control character</p>
+
+<p>\G - previous match&#8217;s end</p>
+
+<p>\A - The beginning of the input</p>
+
+<p>&amp;&amp;</p>
+
+<p>(Expr) - mark Expr as capture group</p>
+
+<p>(ismd-ismd) - turn flags on or off</p>
+
+<p>(ismd-ismd:Expr) - turn flags on or off in Expr</p>
+
+<p>(?:Expr) - non capture group (有performance問題時才會使用)</p>
+
+<p>(?>Expr) - non capture atomic group</p>
+
+<h2>Lazy quantifiers</h2>
+
+<ol>
+<li>??</li>
+<li>+?</li>
+<li>*?</li>
+<li>{n}?</li>
+<li>{n,}?</li>
+<li>{n,m}?</li>
+</ol>
+
+
+<p>minimal matching, non-greedy, and un-greedy quantifiers.</p>
+
+<h2>Possessive quantifiers</h2>
+
+<ol>
+<li>?+</li>
+<li>++</li>
+<li>*+</li>
+<li>{n}+</li>
+<li>{n,}+</li>
+<li>{n,m}+</li>
+</ol>
+
+
+<p>Only Java supports those quantifiers now</p>
+
+<h2>Regex Modes and Match Modes</h2>
+
+<ol>
+<li>/i - case-insensitive mode</li>
+<li>/x - free-spacing and comments mode</li>
+<li>/s - dot matches-all match mode (a.k.a., single-line mode)</li>
+<li>/m - enhanced line-anchor match mode (a.k.a., multiline mode)</li>
+<li>\Q…\E - literal-text regex mode</li>
+</ol>
+
+
+<h4>free-spacing and comments mode</h4>
+
+<p>all spaces and anything after comment mark(#) will not interpreted.</p>
+
+<p>if you need a space in pattern, using \s instead normal space
+character.</p>
+
+<h4>dot matches-all match mode (a.k.a., single-line mode)</h4>
+
+<p>Usually, dot does not match a newline, but in this mode, dot does.</p>
+
+<h4>\Q&#8230;\E - literal-text regex mode</h4>
+
+<p>\Q, \E means start/end quoting.</p>
+
+<p>the contents of which have all meta-characters ignored (expect the \E
+itself).</p>
+
+<h3>mode modifier (?modifier)</h3>
+
+<p>(?modifier) could be (?i) or (?-i) to enabled/disabled case-sensitive
+matching.</p>
+
+<p>the modifier can be i, x ,m ,s mode of <a href="#regex_modes_and_match_modes" title="prog:regular_expression ↵">Regex Modes and Match
+Modes</a></p>
+
+<h2>Capture (\1) ,(?&lt;Name>&#8230;) or(?P&lt;Name>&#8230;)</h2>
+
+<p>Here&#8217;s a <strong>PHP</strong> regular expression for matching *nested* parentheses
+(e.g. blocks of code):</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>((?:[^()]++|\((?1)\))*)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The ?1 is a recursive reference to the regex marked by the outermost
+parentheses. It is a feature of the PHP regex engine.</p>
+
+<p>See Jeffrey Friedl&#8217;s Mastering Regular Expressions, 3rd ed., p. 476,
+“Recursive reference to a set of capturing parentheses”.</p>
+
+<p>Another potentially useful regex technique is “named capture”:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>^(?P&lt;protocol&gt;https?)://(?P&lt;host&gt;[^/:]+)(?::(?P&lt;port&gt;\d+))?</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Here you can use either \$matches[0], \$matches[1], \$matches[2] or
+\$matches[&#8216;protocol&#8217;], \$matches[&#8216;host&#8217;], \$matches[&#8216;port&#8217;].</p>
+
+<p>This favour has difference implementation in difference language
+(library), you should check manual of yours.</p>
+
+<h2>Greediness (貪婪)</h2>
+
+<p>regexp 的搜尋引擎有一個特性, 叫做 greediness – 能吃多少,
+就盡量吃多少。克服貪婪可用以下方式</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[^...] "除了 ... 之外的任何一個字元"    </span></code></pre></td></tr></table></div></figure>
+
+
+<p>也可利用<a href="#lazy_quantifiers" title="prog:regular_expression ↵">lazy greedy</a></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>.??  或 .*? </span></code></pre></td></tr></table></div></figure>
+
+
+<p>Lazy quantifiers是要用在<code>.*</code>後面，end of match的前面</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"&gt;
+</span><span class='line'>&lt;html&gt;
+</span><span class='line'>&lt;head&gt;
+</span><span class='line'>&lt;meta http-equiv="Content-Type" content="text/html; charset=UTF-8"&gt;
+</span><span class='line'>&lt;title&gt;Insert title here&lt;/title&gt;
+</span><span class='line'>&lt;/head&gt;
+</span><span class='line'>&lt;body&gt;
+</span><span class='line'>&lt;!-- #BeginLibraryItem "/library/page_header.lbi" --&gt;
+</span><span class='line'>content of /page_header.lbi
+</span><span class='line'>&lt;!-- #EndLibraryItem --&gt;
+</span><span class='line'>&lt;!-- #BeginLibraryItem "/library/page_center.lbi" --&gt;
+</span><span class='line'>content of /page_center.lbi
+</span><span class='line'>&lt;!-- #EndLibraryItem --&gt;
+</span><span class='line'>&lt;!-- #BeginLibraryItem "/library/page_footer.lbi" --&gt;
+</span><span class='line'>content of /page_footer.lbi
+</span><span class='line'>&lt;!-- #EndLibraryItem --&gt;
+</span><span class='line'>&lt;/body&gt;
+</span><span class='line'>&lt;/html&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在使用Single-Line (Dot All) mode下，
+如果是以上面這個RE做條件，會從第8行選到第16行，所以這樣會有三個matchs</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;!--\s*#BeginLibraryItem.*#EndLibraryItem\s*--&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;!-- #BeginLibraryItem "/library/page_header.lbi" --&gt;
+</span><span class='line'>content of /page_header.lbi
+</span><span class='line'>&lt;!-- #EndLibraryItem --&gt;
+</span><span class='line'>&lt;!-- #BeginLibraryItem "/library/page_center.lbi" --&gt;
+</span><span class='line'>content of /page_center.lbi
+</span><span class='line'>&lt;!-- #EndLibraryItem --&gt;
+</span><span class='line'>&lt;!-- #BeginLibraryItem "/library/page_footer.lbi" --&gt;
+</span><span class='line'>content of /page_footer.lbi
+</span><span class='line'>&lt;!-- #EndLibraryItem --&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>但是如果利用lazy quantifiers <code>*?</code>
+，就只會選到第一個#EndLibraryItem(第8行到第10行)，所以這樣會有三個matchs</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;!--\s*#BeginLibraryItem.*?#EndLibraryItem\s*--&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;!-- #BeginLibraryItem "/library/page_header.lbi" --&gt;
+</span><span class='line'>content of /page_header.lbi
+</span><span class='line'>&lt;!-- #EndLibraryItem --&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;!-- #BeginLibraryItem "/library/page_center.lbi" --&gt;
+</span><span class='line'>content of /page_center.lbi
+</span><span class='line'>&lt;!-- #EndLibraryItem --&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;!-- #BeginLibraryItem "/library/page_footer.lbi" --&gt;
+</span><span class='line'>content of /page_footer.lbi
+</span><span class='line'>&lt;!-- #EndLibraryItem --&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>The Backtracking</h2>
+
+<p><strong>TBD</strong></p>
+
+<h2>參考資源</h2>
+
+<ul>
+<li>洪朝貴教授的<a href="http://fsoss.fcu.org.tw/2004/hong-chaogui/08-regexp.html" title="http://fsoss.fcu.org.tw/2004/hong-chaogui/08-regexp.html">一輩子受用的 Regular
+Expressions</a></li>
+<li><a href="http://tw2.php.net/manual/en/reference.pcre.pattern.modifiers.php" title="http://tw2.php.net/manual/en/reference.pcre.pattern.modifiers.php">PHP patter
+modifierss</a></li>
+<li><a href="http://tw2.php.net/manual/en/regexp.reference.php" title="http://tw2.php.net/manual/en/regexp.reference.php">PHP RE
+details</a></li>
+<li><a href="http://www.regular-expressions.info/completelines.html" title="http://www.regular-expressions.info/completelines.html">http://www.regular-expressions.info/completelines.html</a>
+
+<ul>
+<li>a lot of RE examples</li>
+</ul>
+</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -4129,202 +4699,6 @@ exception</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/05/14/tips_and_tricks/">Android Tips & Tricks</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-05-14T00:00:00+08:00" pubdate data-updated="true">May 14<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/05/14/tips_and_tricks/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>WebView</h3>
-
-<h5>讓WebView的內容符合手機的畫面</h5>
-
-<p>webview常常需要去存取現在的網頁，但大部份的網頁沒有針對moible特別做處理，所以用手機去瀏灠網頁時(透過webview)，通常需要左右的捲動才要辦法看到完整的內容。
-解決的方式為</p>
-
-<pre><code>WebView webview = new WebView(getContext());
-webview.getSettings().setLoadWithOverviewMode(true);
-webview.getSettings().setUseWideViewPort(true);
-</code></pre>
-
-<h5>防止webview開成新的瀏灠器</h5>
-
-<p>通常採用webview時，會希望webview
-embbeded在客制的APP裡面，但預設的webview開啟url時，會開啟成新的完整的瀏灠器(含url
-bar)，可以透過以下的code來防止這個行為。</p>
-
-<pre><code>WebView webview = new WebView(getContext());
-webview.setWebViewClient(new WebViewClient());
-</code></pre>
-
-<h5>防止Rotate後webview reload</h5>
-
-<p>手機在直放改成橫放(或橫放改直放)時，activity會呼叫onCreate()重新建立activity，如果activity裡面webview元件，會造成weview的內容消失。
-，可以在AndroidManifest.xml加入如下的設定來避免這種情現</p>
-
-<pre><code>    &lt;activity android:name=".MyActivity" 
-              android:label="@string/app_name" 
-              android:configChanges="orientation|keyboard|keyboardHidden"&gt; 
-</code></pre>
-
-<h3>Storage</h3>
-
-<h5>Internal Memory</h5>
-
-<pre><code>Context.getFilesDir: /data/data/package_name/files
-Context.getDir: /data/data/package_name/app_
-Context.getCacheDir(): /data/data/package_name/cache
-Environment.getDataDirectory(): /data
-Environment.getDownloadCacheDirectory(): /cache
-</code></pre>
-
-<h5>SDCard</h5>
-
-<pre><code>Environment.getExternalStoragePublicDirectory(): /mnt/sdcard
-</code></pre>
-
-<h3>Activity</h3>
-
-<h4>Launch Mode</h4>
-
-<p>Activity Launch Mode是<a href="http://developer.android.com/guide/topics/fundamentals/tasks-and-back-stack.html" title="http://developer.android.com/guide/topics/fundamentals/tasks-and-back-stack.html">current
-task</a>怎麼去啟動的Activity的方式。
-可以透過manifest或programming的方式來設定，但有些設定值，只有manifest有提供，沒辦法在runtime設定。</p>
-
-<ol>
-<li>standard
-預設模組，一個activity可以有多個實體，每個實體分屬不同的task，一個task內也可存在多個實體</li>
-<li>singleTop
-如果有四個activies啟動在task內是<code>A→B→C→D</code>，D在最上面，一般模式下再啟動一次D會變<code>A→B→C→D→D</code>，但如果D是singleTop，不論啟動多少次D，都只會是<code>A→B→C→D</code></li>
-<li>singleTask
-如果不存在任何task中時，會建新另一個新的task，如果存在task中時，會呼叫其他task中的activity，並讓它成為top</li>
-<li>singleInstance
-永遠會建立最新的，但如果目前該activity已經是top，那就不會再建立</li>
-</ol>
-
-
-<h4>Handling Runtime Changes</h4>
-
-<p>手機翻轉時，會重建整個Activity以便loading最新的配置內容，但有時，我們會希望可以保持Activity的部份狀態，要達到這個目的，可以透以下幾種機制</p>
-
-<ol>
-<li>透過 onSaveInstanceState()</li>
-<li>透過 onRetainNonConfigurationInstance()</li>
-<li>透過修改配置檔disable掉config change的事件</li>
-</ol>
-
-
-<h5>透過 onSaveInstanceState</h5>
-
-<p>這個方式適用到保持可以序列化的值，像原生型別(數值，字串…)
-主要是在onSaveInstanceState()被觸發時，把狀態保持在Intent，然後再onCreate()取得原本的狀態</p>
-
-<h5>透過 onRetainNonConfigurationInstance</h5>
-
-<p>onSaveInstanceState會有一個明顯的限制，就是不能處理太複雜或太大的資料，因為會做序列化，不但耗時，而且會佔不少記憶體空間。
-如果要保留比較複雜的資料，可以透過onRetainNonConfigurationInstance()把物件的reference
-hold住，之後，可以下次activity
-restart時，透過getLastNonConfigurationInstance()取出</p>
-
-<pre><code>@Override
-public void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.main);
- 
-    final MyDataObject data = (MyDataObject) getLastNonConfigurationInstance();
-    if (data == null) {
-        data = loadMyData();
-    }
-    ...
-}
-</code></pre>
-
-<p>要被hold住的物件不能跟context有任何關係，不然不旦會造成錯誤，還會造成memory
-leaking</p>
-
-<h5>透過修改配置檔disable掉config change的事件</h5>
-
-<p>這種方式，是直接告訴activty要忽略某些configuration change</p>
-
-<pre><code>&lt;activity
- android:configChanges="orientation|keyboardHidden"
-</code></pre>
-
-<p>一個簡單的翻轉動作，可能同時會觸發多次onConfigurationChanged()，所以，要把相關的設定都關掉，才不會有問題</p>
-
-<h3>List View</h3>
-
-<h5>下拉後更新 (Pull to refresh)</h5>
-
-<p>在許多listview的應用裡可以見到這樣的應用</p>
-
-<p><img src="http://blog.kent-chiu.com/images/2012-05-14/android-pull-to-refresh.png" alt="android-pull-to-refresh.png" /></p>
-
-<p>這個效果的做法的基本原理，是在listview的header放一個layout，在偵測到listview的scroll事件後，讓layout進行動畫播放，再callback一個AsyncTask去取得資料再更新listview。</p>
-
-<p>GitHub上有兩個這樣的library可用</p>
-
-<ol>
-<li><a href="https://github.com/johannilsson/android-pulltorefresh" title="https://github.com/johannilsson/android-pulltorefresh">https://github.com/johannilsson/android-pulltorefresh</a>
-
-<ul>
-<li>基本的list view pull to refresh</li>
-</ul>
-</li>
-<li><a href="https://github.com/chrisbanes/Android-PullToRefresh" title="https://github.com/chrisbanes/Android-PullToRefresh">https://github.com/chrisbanes/Android-PullToRefresh</a>
-
-<ul>
-<li>這個專案目前比較活躍，另外也提供WebView, GridView,
-PullToRefreshExpandableListView的下拉後更新，程式結構也比較清晰</li>
-</ul>
-</li>
-</ol>
-
-
-<h3>TextEdit</h3>
-
-<h5>讓edit text不會一開始就彈出軟體鍵盤</h5>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;activity android:name="MyActivity"
-</span><span class='line'>          android:windowSoftInputMode="adjustUnspecified|stateHidden"
-</span><span class='line'>          android:configChanges="orientation|keyboardHidden"/&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/4/">&larr; Older</a>
@@ -4346,6 +4720,10 @@ PullToRefreshExpandableListView的下拉後更新，程式結構也比較清晰<
       </li>
     
       <li class="post">
+        <a href="/blog/2013/08/30/spring-reference-reading-notes/">Spring Reference Reading Notes</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/08/14/testing-rest-with-curl-command/">使用curl指令測試REST服務</a>
       </li>
     
@@ -4355,10 +4733,6 @@ PullToRefreshExpandableListView的下拉後更新，程式結構也比較清晰<
     
       <li class="post">
         <a href="/blog/2013/07/07/python-101/">Python 101</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/06/25/url-encoding/">URL Encoding</a>
       </li>
     
   </ul>
