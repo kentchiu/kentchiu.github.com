@@ -4,7 +4,7 @@
   <title><![CDATA[Kent's Blog]]></title>
   <link href="http://blog.kent-chiu.com/atom.xml" rel="self"/>
   <link href="http://blog.kent-chiu.com/"/>
-  <updated>2013-09-13T17:11:48+08:00</updated>
+  <updated>2013-09-22T23:41:35+08:00</updated>
   <id>http://blog.kent-chiu.com/</id>
   <author>
     <name><![CDATA[Kent]]></name>
@@ -802,6 +802,64 @@ curl -X POST -d "param1=a%20space"
 
 <ul>
 <li><a href="http://linux.about.com/od/commands/l/blcmdl1_curl.htm">http://linux.about.com/od/commands/l/blcmdl1_curl.htm</a> - curl 手冊</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Spring Restful Web Security]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2013/07/29/spring-restful-web-security/"/>
+    <updated>2013-07-29T10:36:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2013/07/29/spring-restful-web-security</id>
+    <content type="html"><![CDATA[<p>Restful Web Service 常用的保全方式有：</p>
+
+<ol>
+<li>session and cookies</li>
+<li>HTTP 標準認證/摘要驗證(digest authentication)</li>
+<li>API key</li>
+</ol>
+
+
+<p>各有各的優缺點:
+採用 session 記錄 user 的認證的方式，有違 rest stateless 的特性, cookies 只有 http 能用，而且測試上沒header來的方便。而 http 認證，是透過跳出的一認證的視窗的方式，也不是很適合在沒有browser下做操作，所以比較好的方式是採用 API key的方式來處理認證及保全(security)的問題。</p>
+
+<p>API key是指，由server產生一個包含 username password跟相關資料的 token，然後在<em>每個</em> request的 parameter 或 header 中置入這個 token 讓 server 判斷 request 是否合法。</p>
+
+<blockquote><p>token 放在 query string(request parameter)的方式
+這種方式的優點是方便，直覺，容易測試，但缺點是每個url裡都會多出一堆資訊在url</p></blockquote>
+
+<p>要做權限管控，必須先了解需要管控的資源 (target resources) 有那些, 可要管控的等級，管控等級通常取決於登入時的角色，管控的等級大概如下:</p>
+
+<ol>
+<li>Application Level : 是否存取資源, ex: login user 才能存取或 anonymous 就可存取 (authentication &amp; authorization)</li>
+<li>Module Level      : 是否以進入某個功能模組,底下可能會有許多子功能模組</li>
+<li>Function Level    : 是否能使用對某個表單或單一功能, ex: 使用者管理</li>
+<li>Instance Level    : 特定資料列的存取權限, ex: 系統中有10個使用者，但只有對其中 3 個有存取權限</li>
+<li>Field Level       : 只針對特定欄位, ex: 使用者資料表中的敏感欄位(ex: 薪資) 只有特定人員可以存取</li>
+</ol>
+
+
+<p>1 ~ 3 是屬於功能性的權限管控</p>
+
+<p>4 ~ 5 是屬於資料的權限管控</p>
+
+<p>選定了要採用要在每個 header 置入 token 的方式後，再來就是設計要放入什麼樣的 token 在 header 當作辨識的依據，以及採用什麼方式保護及驗証 toekn 的安全性及有效性。</p>
+
+<p>keyed-HMAC</p>
+
+<p>token主要有兩種用途</p>
+
+<h2>Resources</h2>
+
+<ul>
+<li><a href="http://docs.aws.amazon.com/AmazonS3/latest/dev/RESTAuthentication.html">http://docs.aws.amazon.com/AmazonS3/latest/dev/RESTAuthentication.html</a></li>
+<li><a href="http://devcenter.kinvey.com/rest/guides/security">http://devcenter.kinvey.com/rest/guides/security</a></li>
+<li><a href="http://www.infoq.com/cn/news/2010/01/rest-api-authentication-schemes">http://www.infoq.com/cn/news/2010/01/rest-api-authentication-schemes</a></li>
+<li><p><a href="http://www.baeldung.com/security-spring">http://www.baeldung.com/security-spring</a></p>
+
+<h4>deprecate</h4></li>
+<li><p><a href="http://appsandsecurity.blogspot.tw/2011/04/rest-and-stateless-session-ids.html">http://appsandsecurity.blogspot.tw/2011/04/rest-and-stateless-session-ids.html</a></p></li>
 </ul>
 
 ]]></content>
@@ -2654,398 +2712,6 @@ Rules</a></li>
 format</a>,
 <a href="http://wiki.kent-chiu.com/lib/exe/fetch.php?media=english:phonics.xmind" title="english:phonics.xmind">XMind
 format</a></li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[時間日期處理]]></title>
-    <link href="http://blog.kent-chiu.com/blog/2012/09/30/date_and_time/"/>
-    <updated>2012-09-30T00:00:00+08:00</updated>
-    <id>http://blog.kent-chiu.com/blog/2012/09/30/date_and_time</id>
-    <content type="html"><![CDATA[<p>日期的處理，在java中，一直是一個麻煩的問題，很多時間或日期操作若只是想透過JDK的<a href="http://download.oracle.com/javase/6/docs/api/java/util/Date.html" title="http://download.oracle.com/javase/6/docs/api/java/util/Date.html">Date</a>
-或<a href="http://download.oracle.com/javase/6/docs/api/java/util/Calendar.html" title="http://download.oracle.com/javase/6/docs/api/java/util/Calendar.html">Calendar</a>來處理，會相當的不方便，況且
-JDK內日期時間就有好幾種，很容易讓許多人無從下手，以下列出JDK
-1.6內的日期時間相關物件(不含時間日期格式物件)</p>
-
-<ol>
-<li><a href="http://download.oracle.com/javase/6/docs/api/java/util/Date.html" title="http://download.oracle.com/javase/6/docs/api/java/util/Date.html">java.util.Date</a>
-java日期物件</li>
-<li><a href="http://download.oracle.com/javase/6/docs/api/java/sql/Date.html" title="http://download.oracle.com/javase/6/docs/api/java/sql/Date.html">java.sql.Date</a>
-資料庫用的日期物件</li>
-<li><a href="http://download.oracle.com/javase/6/docs/api/java/sql/Time.html" title="http://download.oracle.com/javase/6/docs/api/java/sql/Time.html">java.sql.Time</a>
-資料庫用的日期物件</li>
-<li><a href="http://download.oracle.com/javase/6/docs/api/java/sql/Timestamp.html" title="http://download.oracle.com/javase/6/docs/api/java/sql/Timestamp.html">java.sql.Timestamp</a>
-資料庫用的時間戳記物件</li>
-<li><a href="http://download.oracle.com/javase/6/docs/api/java/util/Calendar.html" title="http://download.oracle.com/javase/6/docs/api/java/util/Calendar.html">java.util.Calendar</a>
-java日期物件</li>
-</ol>
-
-
-<p>目前處理日期相關的工具，除了上述的之外，JDK內還有<a href="http://wiki.kent-chiu.com/doku.php?id=java:date_and_time" title="java:date_and_time">日期格式化的相關功能</a>，另外，還有
-Apache
-<a href="http://commons.apache.org/lang/" title="http://commons.apache.org/lang/">connons-lang</a>裡的<a href="http://commons.apache.org/lang/api-2.6/org/apache/commons/lang/time/DateUtils.html" title="http://commons.apache.org/lang/api-2.6/org/apache/commons/lang/time/DateUtils.html">DateUtils</a>有許多好用的method可以做日期的判斷，
-如果還是不足夠的話，還有時間日期處理的終極武器<a href="http://joda-time.sourceforge.net/" title="http://joda-time.sourceforge.net/">Joda
-time</a>，可以很有效的對付時間日期區間的問題(Start
-Time, End Time報表常會用到)， 那也可以看看<a href="http://sourceforge.net/apps/mediawiki/threeten/index.php?title=ThreeTen" title="http://sourceforge.net/apps/mediawiki/threeten/index.php?title=ThreeTen">JSR
-310時間日期處理功能</a>，這個原本有可能是<a href="http://download.oracle.com/javase/7/docs/" title="http://download.oracle.com/javase/7/docs/">JDK
-7</a>的一部份，現在就不了了之了</p>
-
-<h3>日期時間常見的議題有</h3>
-
-<ol>
-<li>例假日</li>
-<li>農民曆</li>
-<li>中華民國歷</li>
-<li>日光節約時間</li>
-<li>地區化</li>
-<li>格式化</li>
-<li>日期區間運算</li>
-</ol>
-
-
-<h1>Apache Commons Lang</h1>
-
-<h4>時間的shift</h4>
-
-<ul>
-<li>addDays</li>
-<li>addHours</li>
-<li>addMinutes</li>
-<li>…</li>
-</ul>
-
-
-<h4>四捨五入，完全捨去，完全進位</h4>
-
-<ul>
-<li>ceiling</li>
-<li>round</li>
-<li>truncate</li>
-</ul>
-
-
-<h4>其他</h4>
-
-<ul>
-<li>toCalendar(Date) Date轉Calendar</li>
-<li>isSameDay 是否為同一天</li>
-<li>parseDate(String, String[]) 將字串轉成日期</li>
-<li>getFragmentInXXX() 經過了多少的時間單位</li>
-<li>iterator</li>
-</ul>
-
-
-<p>getFragmentInXXX()一系列的方法，可以計算出從何時到何時，總共經過了多時間，比如說，今年到今天，總共已經了多少天，或多少小時或多少秒，…</p>
-
-<p>而iterator可以用以下的參數對某一個時間做iterator</p>
-
-<ol>
-<li>RANGE_MONTH_SUNDAY</li>
-<li>RANGE_MONTH_MONDAY</li>
-<li>RANGE_WEEK_SUNDAY</li>
-<li>RANGE_WEEK_MONDAY</li>
-<li>RANGE_WEEK_RELATIVE</li>
-<li>RANGE_WEEK_CENTER</li>
-</ol>
-
-
-<h1>Joda Time</h1>
-
-<ul>
-<li>很容易從jdk的Date,Calendar轉換，只要傳入DateTime的Constructor即可</li>
-<li>所有的datetime
-classes都是immutable，但有提供一些method可以方便的傳回運算後新的datetime</li>
-</ul>
-
-
-<h3>主要的觀念</h3>
-
-<ul>
-<li>Instant - 最基本的觀念，基本上就是一個時間點或DateTime</li>
-<li>Partial -</li>
-<li>Interval - 時間間隔，也就是start time 跟 end time</li>
-<li>Period - 期間，像是3天，6個月，5個小時，可以從interval轉換過來</li>
-<li>Duration -
-期間，跟Interval的不同是Duration是無timezone的，可以從interval轉換過來，但無法轉回interval</li>
-<li>Chronology - 設計日曆的api用，大部份的情況下，可以不管它</li>
-<li>DateTimeZone - Time Zone</li>
-</ul>
-
-
-<p>Duration V.S Period</p>
-
-<p>Duration是很簡純的觀念，它就是一個固定的時間(多少毫秒)，而Period則是會隨CONTEXT變化的時間單位，比如說Period如果為一個月，對
-一月份一的個月，跟二月份的一個月，長度就不一樣。</p>
-
-<p>ex: 1/15要加一個月的時間，用Period來處理，就是1 Month Period,
-(記為P1M)，就是是2/15日，如果用Duration來處理，它只能固定為一個時間長度(換算成milliseconds)，1月到2月是(29天的換算成的milliseconds)，所以就無法用相同的一個Duration來計算下個月的15號時何時(2-3月是30天)。</p>
-
-<p>base, chrono, convert, field and tz這幾個packages是private
-package,一般的application大多字會用到<code>org.joda.time</code> package的內容</p>
-
-<h3>重要的Interface</h3>
-
-<h5>ReadableInstant</h5>
-
-<ol>
-<li>compareTo(Object)</li>
-<li>equals(Object)</li>
-<li>get(DateTimeFieldType)</li>
-<li>getChronology()</li>
-<li>getMillis()</li>
-<li>getZone()</li>
-<li>hashCode()</li>
-<li>isAfter(ReadableInstant)</li>
-<li>isBefore(ReadableInstant)</li>
-<li>isEqual(ReadableInstant)</li>
-<li>isSupported(DateTimeFieldType)</li>
-<li>toInstant()</li>
-<li>toString()</li>
-</ol>
-
-
-<h5>ReadableInterval</h5>
-
-<ol>
-<li>contains(ReadableInstant)</li>
-<li>contains(ReadableInterval)</li>
-<li>equals(Object)</li>
-<li>getChronology()</li>
-<li>getEnd()</li>
-<li>getEndMillis()</li>
-<li>getStart()</li>
-<li>getStartMillis()</li>
-<li>hashCode()</li>
-<li>isAfter(ReadableInstant)</li>
-<li>isAfter(ReadableInterval)</li>
-<li>isBefore(ReadableInstant)</li>
-<li>isBefore(ReadableInterval)</li>
-<li>overlaps(ReadableInterval)</li>
-<li>toDuration()</li>
-<li>toDurationMillis()</li>
-<li>toInterval()</li>
-<li>toMutableInterval()</li>
-<li>toPeriod()</li>
-<li>toPeriod(PeriodType)</li>
-<li>toString()</li>
-</ol>
-
-
-<h5>ReadablePeriod</h5>
-
-<ol>
-<li>equals(Object)</li>
-<li>get(DurationFieldType)</li>
-<li>getFieldType(int)</li>
-<li>getPeriodType()</li>
-<li>getValue(int)</li>
-<li>hashCode()</li>
-<li>isSupported(DurationFieldType)</li>
-<li>size()</li>
-<li>toMutablePeriod()</li>
-<li>toPeriod()</li>
-<li>toString()</li>
-</ol>
-
-
-<p>joda-time中的interface跟一般framework中的interface不大一樣，一般的framework中，會建議儘量宣告物件成interface，但是在joda-time中，大多數的情況下，
-必須用Concreate Class方能取得物件完整的能力</p>
-
-<h3>ISO Date Format</h3>
-
-<p><a href="http://en.wikipedia.org/wiki/ISO_8601" title="http://en.wikipedia.org/wiki/ISO_8601">ISO_8601</a>是關於日期時間格式相關的ISO規定，裡面的日期，是用”-“做分隔符號(而不是”/”)，建議所有的日期格式與ISO
-8601相容 這樣，很多lib(不管是前端或後端)都可以比較容易處理。</p>
-
-<h3>code snippet</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Days days = Days.daysBetween(new DateTime(start), new DateTime(end));</span></code></pre></td></tr></table></div></figure>
-
-
-<p>parse含有AM/PM，要加上Locale.US，不然會出exception</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>SimpleDateFormat df = new SimpleDateFormat("hh:mm aa", Locale.US);</span></code></pre></td></tr></table></div></figure>
-
-
-<p>如果有時確定格式是對的，但是就是一直出ParseException，這時記得加上Locale.US的參數試試</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-<span class='line-number'>70</span>
-<span class='line-number'>71</span>
-<span class='line-number'>72</span>
-<span class='line-number'>73</span>
-<span class='line-number'>74</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>import org.joda.time.DateTime;
-</span><span class='line'>import org.joda.time.Interval;
-</span><span class='line'> 
-</span><span class='line'>public enum Scheduling {
-</span><span class='line'>    DAILY, WEEKLY, MONTHLY,;
-</span><span class='line'> 
-</span><span class='line'>    public Interval interval(DateTime dt) {
-</span><span class='line'>        DateTime start;
-</span><span class='line'>        DateTime end;
-</span><span class='line'>        switch (this.name()) {
-</span><span class='line'>        case "DAILY":
-</span><span class='line'>            start = dt.withMillisOfDay(0);
-</span><span class='line'>            end = dt.withMillisOfDay(24 * 60 * 60 * 1000 -1);
-</span><span class='line'>            break;
-</span><span class='line'>        case "WEEKLY":
-</span><span class='line'>            start = dt.withDayOfWeek(1);
-</span><span class='line'>            end = dt.withDayOfWeek(7).withMillisOfDay(24 * 60 * 60 * 1000 -1);
-</span><span class='line'>            break;
-</span><span class='line'>        case "MONTHLY":
-</span><span class='line'>            start = dt.withDayOfMonth(1);
-</span><span class='line'>            int max = dt.dayOfMonth().getMaximumValue();
-</span><span class='line'>            end = dt.withDayOfMonth(max).withMillisOfDay(24 * 60 * 60 * 1000 -1);
-</span><span class='line'>            break;
-</span><span class='line'>        default:
-</span><span class='line'>            throw new UnsupportedOperationException("Unknow name :" + this.name());
-</span><span class='line'>        }
-</span><span class='line'>        return new Interval(start, end);
-</span><span class='line'>    }
-</span><span class='line'> 
-</span><span class='line'>}
-</span><span class='line'> 
-</span><span class='line'>//
-</span><span class='line'>// test case 
-</span><span class='line'>//
-</span><span class='line'>import static org.hamcrest.Matchers.is;
-</span><span class='line'>import static org.junit.Assert.assertThat;
-</span><span class='line'> 
-</span><span class='line'>import java.util.Date;
-</span><span class='line'>import java.util.Locale;
-</span><span class='line'> 
-</span><span class='line'>import org.apache.commons.lang3.time.DateUtils;
-</span><span class='line'>import org.joda.time.DateTime;
-</span><span class='line'>import org.joda.time.Interval;
-</span><span class='line'>import org.junit.Test;
-</span><span class='line'> 
-</span><span class='line'>public class SchedulingTest {
-</span><span class='line'> 
-</span><span class='line'>    @Test
-</span><span class='line'>    public void interval_daily() throws Exception {
-</span><span class='line'>        Date date = DateUtils.parseDate("2012/02/14", "yyyy/MM/dd");
-</span><span class='line'>        Interval interval = Scheduling.DAILY.interval(new DateTime(date));
-</span><span class='line'>        assertThat("2012/02/14 00:00:00", is(interval.getStart().toString("yyyy/MM/dd HH:mm:ss")));
-</span><span class='line'>        assertThat("2012/02/14 23:59:59", is(interval.getEnd().toString("yyyy/MM/dd HH:mm:ss")));
-</span><span class='line'>    }
-</span><span class='line'> 
-</span><span class='line'>    @Test
-</span><span class='line'>    public void interval_weekly() throws Exception {
-</span><span class='line'>        Date date = DateUtils.parseDate("2012/02/14", "yyyy/MM/dd"); // 2012/2/14 was a Tuesday
-</span><span class='line'>        Interval interval = Scheduling.WEEKLY.interval(new DateTime(date));
-</span><span class='line'>        assertThat("2012/02/13 00:00:00", is(interval.getStart().toString("yyyy/MM/dd HH:mm:ss")));
-</span><span class='line'>        assertThat("2012/02/19 23:59:59", is(interval.getEnd().toString("yyyy/MM/dd HH:mm:ss")));
-</span><span class='line'>        assertThat(interval.getStart().dayOfWeek().getAsText(Locale.ENGLISH), is("Monday")); // which day is first day of week that depend on OS settings
-</span><span class='line'>        assertThat(interval.getEnd().dayOfWeek().getAsText(Locale.ENGLISH), is("Sunday"));  // which day is end day of week that depend on OS settings
-</span><span class='line'>    }
-</span><span class='line'> 
-</span><span class='line'>    @Test
-</span><span class='line'>    public void interval_monthly() throws Exception {
-</span><span class='line'>        Date date = DateUtils.parseDate("2012/02/14", "yyyy/MM/dd"); 
-</span><span class='line'>        Interval interval = Scheduling.MONTHLY.interval(new DateTime(date));
-</span><span class='line'>        assertThat("2012/02/01 00:00:00", is(interval.getStart().toString("yyyy/MM/dd HH:mm:ss")));
-</span><span class='line'>        assertThat("2012/02/29 23:59:59", is(interval.getEnd().toString("yyyy/MM/dd HH:mm:ss")));
-</span><span class='line'>    }
-</span><span class='line'> 
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<h1>Resources</h1>
-
-<ul>
-<li><a href="http://commons.apache.org/lang/" title="http://commons.apache.org/lang/">http://commons.apache.org/lang/</a>
-
-<ul>
-<li>Apache Commons Lang</li>
-</ul>
-</li>
-<li><a href="http://joda-time.sourceforge.net/" title="http://joda-time.sourceforge.net/">joda
-time</a>
-
-<ul>
-<li>joda-time</li>
-</ul>
-</li>
-<li><a href="http://sourceforge.net/apps/mediawiki/threeten/index.php?title=ThreeTen" title="http://sourceforge.net/apps/mediawiki/threeten/index.php?title=ThreeTen">JSR
-310</a>
-
-<ul>
-<li>採用了很多<a href="http://joda-time.sourceforge.net/" title="http://joda-time.sourceforge.net/">joda
-time</a>的API設計，但還沒穩定，建用還是用joda</li>
-</ul>
-</li>
 </ul>
 
 ]]></content>

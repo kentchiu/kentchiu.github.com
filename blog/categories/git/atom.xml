@@ -4,7 +4,7 @@
   <title><![CDATA[Category: git | Kent's Blog]]></title>
   <link href="http://blog.kent-chiu.com/blog/categories/git/atom.xml" rel="self"/>
   <link href="http://blog.kent-chiu.com/"/>
-  <updated>2013-09-13T17:11:48+08:00</updated>
+  <updated>2013-09-22T23:41:35+08:00</updated>
   <id>http://blog.kent-chiu.com/</id>
   <author>
     <name><![CDATA[Kent]]></name>
@@ -694,6 +694,8 @@ $ git push origin                    :serverfix
 </code></pre>
 
 <p>let localbranch blank means deleted it.</p>
+
+<blockquote><p>git 1.7之後提供這個指令可以刪遠端server <code>git push origin --delete &lt;branchName&gt;</code></p></blockquote>
 
 <h4>git 全域設定檔</h4>
 
