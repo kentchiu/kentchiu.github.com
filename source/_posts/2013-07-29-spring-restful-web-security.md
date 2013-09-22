@@ -1,5 +1,5 @@
 ---
-published: false
+published: true
 author: Kent Chiu
 layout: post
 title: "Spring Restful Web Security"
@@ -20,9 +20,12 @@ Restful Web Service 常用的保全方式有：
 3. API key
 
 各有各的優缺點:
-採用 session 記錄 user 的認證的方式，有違 rest stateless 的特性, cookies 只有 http 能用。而 http 認證，是透過跳出的一認證的視窗的方式，也不是很適合在沒有browser下做操作，所以比較好的方式是採用 API key的方式來處理認證及保全(security)的問題。
+採用 session 記錄 user 的認證的方式，有違 rest stateless 的特性, cookies 只有 http 能用，而且測試上沒header來的方便。而 http 認證，是透過跳出的一認證的視窗的方式，也不是很適合在沒有browser下做操作，所以比較好的方式是採用 API key的方式來處理認證及保全(security)的問題。
 
 API key是指，由server產生一個包含 username password跟相關資料的 token，然後在*每個* request的 parameter 或 header 中置入這個 token 讓 server 判斷 request 是否合法。
+
+> token 放在 query string(request parameter)的方式
+> 這種方式的優點是方便，直覺，容易測試，但缺點是每個url裡都會多出一堆資訊在url
 
 
 
@@ -37,3 +40,21 @@ API key是指，由server產生一個包含 username password跟相關資料的 
 1 ~ 3 是屬於功能性的權限管控
 
 4 ~ 5 是屬於資料的權限管控
+
+
+選定了要採用要在每個 header 置入 token 的方式後，再來就是設計要放入什麼樣的 token 在 header 當作辨識的依據，以及採用什麼方式保護及驗証 toekn 的安全性及有效性。
+
+keyed-HMAC
+
+
+token主要有兩種用途
+
+Resources
+---------
+- <http://docs.aws.amazon.com/AmazonS3/latest/dev/RESTAuthentication.html>
+- <http://devcenter.kinvey.com/rest/guides/security>
+- <http://www.infoq.com/cn/news/2010/01/rest-api-authentication-schemes>
+- <http://www.baeldung.com/security-spring>
+#### deprecate
+
+- <http://appsandsecurity.blogspot.tw/2011/04/rest-and-stateless-session-ids.html>
