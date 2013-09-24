@@ -4,7 +4,7 @@
   <title><![CDATA[Category: command | Kent's Blog]]></title>
   <link href="http://blog.kent-chiu.com/blog/categories/command/atom.xml" rel="self"/>
   <link href="http://blog.kent-chiu.com/"/>
-  <updated>2013-09-22T23:41:35+08:00</updated>
+  <updated>2013-09-24T13:16:34+08:00</updated>
   <id>http://blog.kent-chiu.com/</id>
   <author>
     <name><![CDATA[Kent]]></name>
@@ -83,6 +83,16 @@ curl -X POST -d "param1=a%20space"
 <p>後端如果是用session記錄使用者登入資訊，後端會傳一個 session id給前端，前端需要在每次跟後端的requests的header中置入此session id，後端便會以此session id識別前端是屬於那個session，以達到session的效果</p>
 
 <pre><code>curl --request GET 'http://www.rest.com/api/users' --header 'sessionid:1234567890987654321'
+</code></pre>
+
+<p>cookie 例子</p>
+
+<p>如果是使用cookie，在認證後，後端會回一個cookie回來，把該cookie成檔案，當要存取需要任務的url時，再用<code>-b cookie_file</code> 的方式在request中植入cookie即可正常使用</p>
+
+<pre><code># 將cookie存檔
+curl -i -X POST -d username=kent -d password=kent123 -c  ~/cookie.txt  http://www.rest.com/auth
+# 載入cookie到request中 
+curl -i --header "Accept:application/json" -X GET -b ~/cookie.txt http://www.rest.com/users/1
 </code></pre>
 
 <h2>相關資源    </h2>

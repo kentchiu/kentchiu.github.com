@@ -4,7 +4,7 @@
   <title><![CDATA[Kent's Blog]]></title>
   <link href="http://blog.kent-chiu.com/atom.xml" rel="self"/>
   <link href="http://blog.kent-chiu.com/"/>
-  <updated>2013-09-22T23:41:35+08:00</updated>
+  <updated>2013-09-24T13:16:34+08:00</updated>
   <id>http://blog.kent-chiu.com/</id>
   <author>
     <name><![CDATA[Kent]]></name>
@@ -798,6 +798,16 @@ curl -X POST -d "param1=a%20space"
 <pre><code>curl --request GET 'http://www.rest.com/api/users' --header 'sessionid:1234567890987654321'
 </code></pre>
 
+<p>cookie 例子</p>
+
+<p>如果是使用cookie，在認證後，後端會回一個cookie回來，把該cookie成檔案，當要存取需要任務的url時，再用<code>-b cookie_file</code> 的方式在request中植入cookie即可正常使用</p>
+
+<pre><code># 將cookie存檔
+curl -i -X POST -d username=kent -d password=kent123 -c  ~/cookie.txt  http://www.rest.com/auth
+# 載入cookie到request中 
+curl -i --header "Accept:application/json" -X GET -b ~/cookie.txt http://www.rest.com/users/1
+</code></pre>
+
 <h2>相關資源    </h2>
 
 <ul>
@@ -809,9 +819,9 @@ curl -X POST -d "param1=a%20space"
   
   <entry>
     <title type="html"><![CDATA[Spring Restful Web Security]]></title>
-    <link href="http://blog.kent-chiu.com/blog/2013/07/29/spring-restful-web-security/"/>
+    <link href="http://blog.kent-chiu.com/blog/2013/07/29/restful-web-security/"/>
     <updated>2013-07-29T10:36:00+08:00</updated>
-    <id>http://blog.kent-chiu.com/blog/2013/07/29/spring-restful-web-security</id>
+    <id>http://blog.kent-chiu.com/blog/2013/07/29/restful-web-security</id>
     <content type="html"><![CDATA[<p>Restful Web Service 常用的保全方式有：</p>
 
 <ol>
@@ -827,7 +837,8 @@ curl -X POST -d "param1=a%20space"
 <p>API key是指，由server產生一個包含 username password跟相關資料的 token，然後在<em>每個</em> request的 parameter 或 header 中置入這個 token 讓 server 判斷 request 是否合法。</p>
 
 <blockquote><p>token 放在 query string(request parameter)的方式
-這種方式的優點是方便，直覺，容易測試，但缺點是每個url裡都會多出一堆資訊在url</p></blockquote>
+這種方式的優點是方便，直覺，容易測試，但缺點是每個url裡都會多出一堆資訊在url，而且會有安全跟cache的問題
+建議 token 放header會比較好</p></blockquote>
 
 <p>要做權限管控，必須先了解需要管控的資源 (target resources) 有那些, 可要管控的等級，管控等級通常取決於登入時的角色，管控的等級大概如下:</p>
 
@@ -844,11 +855,9 @@ curl -X POST -d "param1=a%20space"
 
 <p>4 ~ 5 是屬於資料的權限管控</p>
 
-<p>選定了要採用要在每個 header 置入 token 的方式後，再來就是設計要放入什麼樣的 token 在 header 當作辨識的依據，以及採用什麼方式保護及驗証 toekn 的安全性及有效性。</p>
+<p>選定了要採用要在每個 header 置入 token 的方式後，再來就是設計要放入什麼樣的 token 在 header 當作辨識的依據()，以及採用什麼方式保護及驗証 toekn 的安全性及有效性。</p>
 
 <p>keyed-HMAC</p>
-
-<p>token主要有兩種用途</p>
 
 <h2>Resources</h2>
 
