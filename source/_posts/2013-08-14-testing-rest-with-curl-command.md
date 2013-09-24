@@ -73,6 +73,15 @@ session 例子:
 
 	curl --request GET 'http://www.rest.com/api/users' --header 'sessionid:1234567890987654321'
 
+cookie 例子
+
+如果是使用cookie，在認證後，後端會回一個cookie回來，把該cookie成檔案，當要存取需要任務的url時，再用`-b cookie_file` 的方式在request中植入cookie即可正常使用
+	
+	# 將cookie存檔
+	curl -i -X POST -d username=kent -d password=kent123 -c  ~/cookie.txt  http://www.rest.com/auth
+	# 載入cookie到request中	
+	curl -i --header "Accept:application/json" -X GET -b ~/cookie.txt http://www.rest.com/users/1
+
 	
 相關資源	
 -------

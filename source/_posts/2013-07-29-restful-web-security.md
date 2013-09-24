@@ -9,8 +9,9 @@ sharing: true
 footer: true
 categories: 
 - rest
-- spring
-- spring security
+- authentication
+- authorization
+- security
 ---
 
 Restful Web Service 常用的保全方式有：
@@ -25,7 +26,8 @@ Restful Web Service 常用的保全方式有：
 API key是指，由server產生一個包含 username password跟相關資料的 token，然後在*每個* request的 parameter 或 header 中置入這個 token 讓 server 判斷 request 是否合法。
 
 > token 放在 query string(request parameter)的方式
-> 這種方式的優點是方便，直覺，容易測試，但缺點是每個url裡都會多出一堆資訊在url
+> 這種方式的優點是方便，直覺，容易測試，但缺點是每個url裡都會多出一堆資訊在url，而且會有安全跟cache的問題
+> 建議 token 放header會比較好
 
 
 
@@ -42,12 +44,11 @@ API key是指，由server產生一個包含 username password跟相關資料的 
 4 ~ 5 是屬於資料的權限管控
 
 
-選定了要採用要在每個 header 置入 token 的方式後，再來就是設計要放入什麼樣的 token 在 header 當作辨識的依據，以及採用什麼方式保護及驗証 toekn 的安全性及有效性。
+選定了要採用要在每個 header 置入 token 的方式後，再來就是設計要放入什麼樣的 token 在 header 當作辨識的依據()，以及採用什麼方式保護及驗証 toekn 的安全性及有效性。
 
 keyed-HMAC
 
 
-token主要有兩種用途
 
 Resources
 ---------
