@@ -130,4 +130,5 @@ POST method 用來更新資源，
 	2.   <https://dev.twitter.com/docs/api/1.1/get/lists/list> - twitter 的 REST API文件
 	3.   <https://developers.facebook.com/docs/reference/api/> - FaceBook 的 REST API文件
 	4.   <https://developer.linkedin.com/apis> - linkedin 的 REST API文件
+	5.   <https://developer.paypal.com/webapps/developer/docs/api/> - paypal  的 REST API文件
 - 	<http://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api?hn#snake-vs-camel> - 設計Restful API 相當不錯的參考資料	，內容很全面，方方面面都有提到

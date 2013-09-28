@@ -2,7 +2,7 @@
 published: true
 author: Kent Chiu
 layout: post
-title: "Spring Restful Web Security"
+title: "Restful Web Security"
 date: 2013-07-29 10:36
 comments: true
 sharing: true
