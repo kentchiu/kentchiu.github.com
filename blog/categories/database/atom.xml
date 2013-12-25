@@ -4,7 +4,7 @@
   <title><![CDATA[Category: database | Kent's Blog]]></title>
   <link href="http://blog.kent-chiu.com/blog/categories/database/atom.xml" rel="self"/>
   <link href="http://blog.kent-chiu.com/"/>
-  <updated>2013-09-28T20:21:32+08:00</updated>
+  <updated>2013-12-25T15:56:51+08:00</updated>
   <id>http://blog.kent-chiu.com/</id>
   <author>
     <name><![CDATA[Kent]]></name>
@@ -189,9 +189,11 @@ Indexes:
 
 <h1>Sequence (AUTO INCREMENT)</h1>
 
-<p>PostgreSQL並沒有自增型欄位型態^<a href="#fn__1">1)</a><sup>AUTO
-INCREMENT</sup>，但是有提供Sequence機制，這部份，與<a href="http://wiki.kent-chiu.com/doku.php?id=database:oracle_101#auto_increment" title="database:oracle_101">oracle</a>比較類似，但PostgreSQL可以透過建立table時的自訂語法來自動套用Sequence，讓其動作比較接近<strong>AUTO
+<p>PostgreSQL<del>並沒有自增型欄位型態</del>(AUTO
+INCREMENT)，但是有提供Sequence機制，這部份，與<a href="http://wiki.kent-chiu.com/doku.php?id=database:oracle_101#auto_increment" title="database:oracle_101">oracle</a>比較類似，但PostgreSQL可以透過建立table時的自訂語法來自動套用Sequence，讓其動作比較接近<strong>AUTO
 INCREMENT</strong>的效果</p>
+
+<blockquote><p>更新: 型態選用<code>serial</code>即可有 auto increment 的功能，在執行不指定id欄位的insert後，每個資料列會自動填入 +1 的序號值，不需額外的處理</p></blockquote>
 
 <h3>使用方式</h3>
 
@@ -348,19 +350,15 @@ select * from pg_stat_activity ;</p>
 <h1>Resource</h1>
 
 <ul>
-<li><a href="http://www.postgresql.org/docs/8.1/static/sql-createsequence.html" title="http://www.postgresql.org/docs/8.1/static/sql-createsequence.html">CREATE
-SEQUENCE</a></li>
+<li><a href="http://www.postgresql.org/docs/8.1/static/sql-createsequence.html" title="http://www.postgresql.org/docs/8.1/static/sql-createsequence.html">CREATE SEQUENCE</a></li>
 <li><a href="http://www.postgresql.org/docs/8.1/static/functions-sequence.html" title="http://www.postgresql.org/docs/8.1/static/functions-sequence.html">Sequence Manipulation
 Functions</a></li>
 <li><a href="http://www.postgresql.org/docs/8.0/interactive/datatype.html#DATATYPE-SERIAL" title="http://www.postgresql.org/docs/8.0/interactive/datatype.html#DATATYPE-SERIAL">PostgreSQL serial data
 type</a></li>
-<li><a href="http://wiki.kent-chiu.com/doku.php?id=database:oracle_101" title="database:oracle_101">Oracle
-101</a></li>
+<li><a href="http://wiki.kent-chiu.com/doku.php?id=database:oracle_101" title="database:oracle_101">Oracle 101</a></li>
 <li><a href="http://www.postgresql.org/docs/9.1/static/errcodes-appendix.html">postgresql error code</a></li>
 </ul>
 
-
-<p>^<a href="#fnt__1">1)</a>^ 每次insert時會自動讓某一特定欄位+1</p>
 ]]></content>
   </entry>
   

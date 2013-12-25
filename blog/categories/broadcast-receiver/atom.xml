@@ -4,7 +4,7 @@
   <title><![CDATA[Category: broadcast_receiver | Kent's Blog]]></title>
   <link href="http://blog.kent-chiu.com/blog/categories/broadcast-receiver/atom.xml" rel="self"/>
   <link href="http://blog.kent-chiu.com/"/>
-  <updated>2013-09-28T20:21:32+08:00</updated>
+  <updated>2013-12-25T15:56:51+08:00</updated>
   <id>http://blog.kent-chiu.com/</id>
   <author>
     <name><![CDATA[Kent]]></name>
@@ -19,7 +19,7 @@
     <updated>2012-03-20T00:00:00+08:00</updated>
     <id>http://blog.kent-chiu.com/blog/2012/03/20/service_101</id>
     <content type="html"><![CDATA[<p>Android
-Service可以視為Windows的系統服務或Linux的Daemons，可以長時間在存在系統中(不一定要直在活動狀態)，而且，他有自已的生命周期函數，不會隨著Activity的消滅而消滅。</p>
+Service可以視為Windows的系統服務或Linux的Daemons，可以長時間在存在系統中(不一定要直在活動狀態)，而且，他有自已的生命周期，不會隨著Activity的消滅而消滅。</p>
 
 <p>Android有兩種類型的services</p>
 
@@ -29,27 +29,17 @@ Service可以視為Windows的系統服務或Linux的Daemons，可以長時間在
 </ol>
 
 
-<p>Local Service是該應用程式自已內部要使用的service，而Remote
-Service則可提供給其他應用程式使用。Service執行時，一樣是執行在Main
-Thread(UI Thread)，所以，service會影響到
-UI的操作效能，如果service執行的時間很短，那問題不大
-，一但service要執行很久的時間，那應該要採用<a href="http://wiki.kent-chiu.com/doku.php?id=android:background_processing" title="android:background_processing">背景服務</a>的方式來處理，也就是在service內另外</p>
+<p>Local Service是應用程式自已內部要使用的service，而Remote Service則可提供給其他應用程式使用。Service執行時，一樣是執行在Main Thread(UI Thread)，所以，service會影響到UI的操作效能，如果service執行的時間很短，那問題不大，一但service要執行很久的時間，那應該要採用<a href="http://blog.kent-chiu.com/blog/2012/03/19/background_processing" title="">背景服務</a>的方式來處理。</p>
 
-<p>如果想讓serivce裡的worker
-thread只有一個instance，可以在oncreate建立，這樣就能讓thread
-instance(或者是<a href="http://developer.android.com/reference/java/util/concurrent/ExecutorService.html" title="http://developer.android.com/reference/java/util/concurrent/ExecutorService.html">ExecutorService</a>)只有一份</p>
+<p>如果想讓serivce裡的worker thread只有一個instance，可以在oncreate建立，這樣就能讓thread instance(或者是<a href="http://developer.android.com/reference/java/util/concurrent/ExecutorService.html" title="http://developer.android.com/reference/java/util/concurrent/ExecutorService.html">ExecutorService</a>)只有一份</p>
 
-<p>Android有提供另一個跟Service一樣，適合在背景作業的機制叫<a href="http://developer.android.com/reference/android/content/BroadcastReceiver.html" title="http://developer.android.com/reference/android/content/BroadcastReceiver.html">Broadcast
-Receiver</a>，至於何時該用Servce，何時該用Broadcast
-Receiver可以參考<a href="http://developer.android.com/resources/articles/multitasking-android-way.html" title="http://developer.android.com/resources/articles/multitasking-android-way.html">這篇</a>文章</p>
+<p>Android有提供另一個跟Service一樣，適合在背景作業的機制叫<a href="http://developer.android.com/reference/android/content/BroadcastReceiver.html" title="http://developer.android.com/reference/android/content/BroadcastReceiver.html">Broadcast Receiver</a>，至於何時該用Servce，何時該用Broadcast Receiver可以參考<a href="http://developer.android.com/resources/articles/multitasking-android-way.html" title="http://developer.android.com/resources/articles/multitasking-android-way.html">這篇</a>文章</p>
 
 <h4>Service</h4>
 
-<p>下面是一個簡單的service，<code>onBind()</code>如果不是要做<a href="#bound_service" title="android:service_101 ↵">Bound
-Service</a>的話，就直接return
-null即可，而<code>onStartCommand()</code>則是service主要要實作的部份
-，依收到的intent去決定要實作那些功能，如果比較耗時的功能，記得用<a href="http://wiki.kent-chiu.com/doku.php?id=android:background_processing" title="android:background_processing">Android
-背景作業處理</a>處理，因為service<code>並不是執行在另一個thread</code>。</p>
+<p>下例是一個簡單的service，<code>onBind()</code>如果不是要做<em>Bound
+Service</em>的話，就直接return null即可，而<code>onStartCommand()</code>則是service主要要實作的部份
+，依收到的intent去決定要實作那些功能，如果比較耗時的功能，記得用<a href="" title="http://blog.kent-chiu.com/blog/2012/03/19/background_processing/">背景作業處理</a>處理，因為service<strong>並不是執行在另一個thread</strong>。</p>
 
 <p>如果想讓Service執行成另一個獨立的process，可以透過設定service的xml中的process屬性，像這樣</p>
 
@@ -74,38 +64,32 @@ cycle有關。在系統需要資源時，系統可能會把service給kill掉，�
 
 <ol>
 <li>START_STICKY :
-預設的行為，service被系統kill掉後或做完工作後，系統會restart
-service，一般要停止service話，是透過stopService()，或stopSelf()</li>
-<li>START_NOT_STICKY : 如果serice做完工作後，系統會stop
-service，而不是restart
-service，這個很適用來做周期的工作(比如說每15分鐘檢查一次mail
+預設的行為，service被系統kill掉後或做完工作後，系統會restart service，一般要停止service話，是透過stopService()，或stopSelf()</li>
+<li>START_NOT_STICKY : 如果service做完工作後，系統會stop service，而不是restart service，這個很適用來做周期的工作(比如說每15分鐘檢查一次mail
 box)，而不是一直不斷執行的任務，下次收到intent</li>
 <li>START_REDELIVER_INTENT :
 跟START_NOT_STICKY很像，這個適合用來做失敗時會再重做n次的工作，它會在工作沒能成功做完時再次呼叫自己</li>
 </ol>
 
 
-<p>```
-public class MyService extends Service {
- </p>
+<p>```</p>
 
-<pre><code>@Override
-public IBinder onBind(Intent intent) {
-    return null;
+<pre><code>public class MyService extends Service {
+
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
+    }
+ 
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        return super.onStartCommand(intent, flags, startId);
+    }
+ 
 }
 </code></pre>
 
-<p> </p>
-
-<pre><code>@Override
-public int onStartCommand(Intent intent, int flags, int startId) {
-    return super.onStartCommand(intent, flags, startId);
-}
-</code></pre>
-
-<p> 
-}
-```</p>
+<p>```</p>
 
 <h4>Intent Service</h4>
 
@@ -166,10 +150,9 @@ Service跟寫一般RMI(RPC)的程式流程上差不多，定義interface(AIDL)�
 code，實作stub
 code，實作完是直接使用service，而不是透過intent呼叫。也跟一般的RMI一樣，你必須認真面對複雜型別的Serialization問題。</p>
 
-<h1>Bound Service</h1>
+<h2>Bound Service</h2>
 
-<p>Bound
-Service中的Bound的意思是要跟某個Activity”綁定”，也就是說，這個service的生命周期會受到Activity所控制。</p>
+<p>Bound Service中的Bound的意思是要跟某個Activity”綁定”，也就是說，這個service的生命周期會受到Activity所控制。</p>
 
 <ul>
 <li>binding是非同步的，也就是，service ready時，才會call back
@@ -210,10 +193,8 @@ public class LocalBinder<S> extends Binder {</p>
 
 <ol>
 <li>希望service的生命周期activity跟一致(一般的service啟動後，就會一直執在背景執行，直到收到stop或被系統kill)</li>
-<li>不希望service在沒預期的情況下被系統kill
-(系統會在資料不足情況下<a href="http://wiki.kent-chiu.com/doku.php?id=android:%E4%BE%9D%E5%BA%8F" title="android:依序">依序</a>殺掉process，當然，你也可以透過<a href="http://developer.android.com/reference/android/app/Service.html#startForeground(int,%20android.app.Notification">startForeground()</a> "http://developer.android.com/reference/android/app/Service.html#startForeground(int, android.app.Notification)")來<strong>降低</strong>被殺掉的機率)</li>
-<li>希望在activity內可以直接對service進行更多操作 (local
-service要透過intent啟動，停止或進行其他command)</li>
+<li>不希望service在沒預期的情況下被系統kill(系統會在資料不足情況下殺掉process，但可以透過<a href="http://developer.android.com/reference/android/app/Service.html#startForeground(int,%20android.app.Notification">startForeground()</a> "http://developer.android.com/reference/android/app/Service.html#startForeground(int, android.app.Notification)")來<strong>降低</strong>被殺掉的機率)</li>
+<li>希望在activity內可以直接對service進行更多操作 (local service要透過intent啟動，停止或進行其他command)</li>
 </ol>
 
 
@@ -247,31 +228,16 @@ public void onReceive(Context context, Intent intent) {
 
 <p>```</p>
 
-<p>如果程式放在SD
-Card上，recive的xml設定檔還要去註冊<code>android.intent.action.ACTION_EXTERNAL_APPLICATIONS_AVAILABLE</code>，另外，在Android
-3.0之後，程式至少要被執行過一次才會接到這個廣播事件。</p>
+<p>如果程式放在SD Card上，recive的xml設定檔還要去註冊<code>android.intent.action.ACTION_EXTERNAL_APPLICATIONS_AVAILABLE</code>，另外，在Android 3.0之後，程式至少要被執行過一次才會接到這個廣播事件。</p>
 
-<h1>Resources</h1>
+<h2>Resources</h2>
 
 <ul>
-<li><a href="http://www.ozdroid.com/#!BLOG/2010/12/19/How_to_make_a_local_Service_and_bind_to_it_in_Android" title="http://www.ozdroid.com/#!BLOG/2010/12/19/How_to_make_a_local_Service_and_bind_to_it_in_Android">http://www.ozdroid.com/#!BLOG/2010/12/19/How_to_make_a_local_Service_and_bind_to_it_in_Android</a>
-
-<ul>
-<li>service binding的介紹</li>
-</ul>
-</li>
-<li><a href="http://developer.android.com/resources/articles/multitasking-android-way.html" title="http://developer.android.com/resources/articles/multitasking-android-way.html">http://developer.android.com/resources/articles/multitasking-android-way.html</a>
-
-<ul>
-<li>關於android
-multitasking的介紹，可以更瞭解service的設計與使用的時機</li>
-</ul>
-</li>
+<li><a href="http://www.ozdroid.com/#!BLOG/2010/12/19/How_to_make_a_local_Service_and_bind_to_it_in_Android" title="http://www.ozdroid.com/#!BLOG/2010/12/19/How_to_make_a_local_Service_and_bind_to_it_in_Android">http://www.ozdroid.com/#!BLOG/2010/12/19/How_to_make_a_local_Service_and_bind_to_it_in_Android</a> - service binding的介紹</li>
+<li><a href="http://developer.android.com/resources/articles/multitasking-android-way.html" title="http://developer.android.com/resources/articles/multitasking-android-way.html">http://developer.android.com/resources/articles/multitasking-android-way.html</a> - 關於android multitasking的介紹，可以更瞭解service的設計與使用的時機</li>
 <li><a href="http://www.vogella.de/articles/AndroidServices/article.html" title="http://www.vogella.de/articles/AndroidServices/article.html">http://www.vogella.de/articles/AndroidServices/article.html</a></li>
 </ul>
 
-
-<p>[broadcast</p>
 ]]></content>
   </entry>
   

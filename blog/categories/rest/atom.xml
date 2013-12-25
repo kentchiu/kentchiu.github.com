@@ -4,7 +4,7 @@
   <title><![CDATA[Category: rest | Kent's Blog]]></title>
   <link href="http://blog.kent-chiu.com/blog/categories/rest/atom.xml" rel="self"/>
   <link href="http://blog.kent-chiu.com/"/>
-  <updated>2013-09-28T20:21:32+08:00</updated>
+  <updated>2013-12-25T15:56:51+08:00</updated>
   <id>http://blog.kent-chiu.com/</id>
   <author>
     <name><![CDATA[Kent]]></name>
@@ -290,6 +290,15 @@ curl -X POST -d "param1=a 0space"
 curl -X POST -d "param1=a%20space"     
 </code></pre>
 
+<h4>post json 格式得資料</h4>
+
+<p>如同時需要傳送request parameter跟json，request parameter可以加在url後面，json資料則放入<code>-d</code>的參數，然後利用單引號將json資料含起來(如果json內容是用單引號，-d的參數則改用雙引號包覆)，header要加入"Content-Type:application/json"跟"Accept:application/json"</p>
+
+<pre><code>curl http://www.example.com?modifier=kent -X PUT -i -H "Content-Type:application/json" -H "Accept:application/json" -d '{"boolean" : false, "foo" : "bar"}'
+# 不加"Accept:application/json"也可以
+curl http://www.example.com?modifier=kent -X PUT -i -H "Content-Type:application/json" -d '{"boolean" : false, "foo" : "bar"}'
+</code></pre>
+
 <h4>需先認證或登入才能使用的service #####</h4>
 
 <p>許多服務，需先進行登入或認證後，才能存取其API服務，依服務要求的條件，的curl可以透過cookie，session或加入在header加入session key，api key或認證的token來達到認證的效果。</p>
@@ -310,6 +319,13 @@ curl -i -X POST -d username=kent -d password=kent123 -c  ~/cookie.txt  http://ww
 # 載入cookie到request中 
 curl -i --header "Accept:application/json" -X GET -b ~/cookie.txt http://www.rest.com/users/1
 </code></pre>
+
+<h4>檔案上傳</h4>
+
+<pre><code>curl -i -X POST -F 'file=@/Users/kent/my_file.txt' -F 'name=a_file_name'
+</code></pre>
+
+<p>這個是透過 HTTP multipart POST 上傳資料， <code>-F</code> 是使用http query parameter的方式，指定檔案位置的參數要加上<code>@</code></p>
 
 <h2>相關資源    </h2>
 
@@ -437,13 +453,20 @@ curl -i --header "Accept:application/json" -X GET -b ~/cookie.txt http://www.res
     <id>http://blog.kent-chiu.com/blog/2013/06/04/restful-api-design</id>
     <content type="html"><![CDATA[<h2>Method</h2>
 
-<p>POST,DELETE : 操作是 non-idempotent(非幕等)</p>
+<p>POST : 操作是 nont-idempotent(非幕等)</p>
 
-<p>GET, PUT  : 操作是 idempotent(幕等)</p>
+<p>GET, PUT, DELETE  : 操作是 idempotent(幕等)</p>
 
-<blockquote><p>TBC : 解釋 idempotent</p></blockquote>
+<p>idempotent 是指執行的結果不依賴於執行的次數，ex: <code>count=1+2</code> 是 idempotent，因為不管執行幾次，都不
+響影效到結果，但 <code>count++</code> 就是 nont-idempotent，因為執行的次數會影響結果
+通常，GET是idempotent，POST是non-idemptent這沒什麼爭議，但PUT的操作是幕等，就常常令我感到疑惑，
+目前看到最好的解釋是，PUT是用來建立或取代資源(PUT不是只用於update，也可以create)
+ex: <code>PUT www.api.com/blogs/blog-123</code> 這個操作不管執行幾次，應該都是用來建立或更新 id 為<em>blog-123</em> 的blog
+相對於<code>POST www.api.com/blogs</code>，則是每次執行都會產生一篇新的blog。</p>
 
-<h3>GET</h3>
+<p>另外DELETE操作是idempotent是指，不論執行幾次，都可以執行刪除的動作，所以就算資源不存在，也不應丟出異常，以刷前端double submit時，第二個submit造成失敗</p>
+
+<h2>GET</h2>
 
 <p>GET method用來取得一筆或多的資源，如果是多筆資源，還可以加入分頁，過濾等資訊，也可在header傳入分頁的links，ex:'first', 'last', 'next' and 'prev'</p>
 
@@ -540,8 +563,8 @@ Location: http://www.example.com/order/123
 POST                http://www.example.com/orders
 </code></pre>
 
-<blockquote><p>TBC : 查一下 resource id是用純數字(/user/1)，或使用有意義的名稱為佳(users/kent)
-目前認為用 id 應該會比較好，因為名稱可能會異動，如果要用名稱，應該是類似查詢參數的用法 /users?name=kent</p></blockquote>
+<blockquote><p>資源 id 當識別會比用name來的好，因為名稱可能會異動，如果要用名稱，應該是類似查詢參數的用法 /users?name=kent
+另外，用id也可以避免名稱衝突ex: orders/new 如果這邊是採用名稱，就不易辨識這個new是指新的order，還有有張order名稱為<em>new</em></p></blockquote>
 
 <h4>輔助用字</h4>
 
@@ -561,18 +584,20 @@ POST                http://www.example.com/orders
 <li><a href="http://zh.wikipedia.org/zh-tw/HTTP%E7%8A%B6%E6%80%81%E7%A0%81">http://zh.wikipedia.org/zh-tw/HTTP%E7%8A%B6%E6%80%81%E7%A0%81</a> - HTTP 狀態碼</li>
 <li><a href="http://www.restapitutorial.com/lessons/httpmethods.html">http://www.restapitutorial.com/lessons/httpmethods.html</a>  - RESTful Tutorial</li>
 <li><a href="http://blog.2partsmagic.com/restful-uri-design/">http://blog.2partsmagic.com/restful-uri-design/</a> - rest 命名規格</li>
-<li><a href="http://stackoverflow.com/questions/1619152/how-to-create-rest-urls-without-verbs">http://stackoverflow.com/questions/1619152/how-to-create-rest-urls-without-verbs</a> - 如何避免用動詞命名</li>
-<li>一般流行的 Rest API
+<li><a href="http://stackoverflow.com/questions/1619152/how-to-create-rest-urls-without-verbs">http://stackoverflow.com/questions/1619152/how-to-create-rest-urls-without-verbs</a> - 如何避免用動詞命名
+件</li>
+<li><a href="http://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api?hn#snake-vs-camel">http://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api?hn#snake-vs-camel</a> - 設計Restful API 相當不錯的參考資料    ，內容很全面，方方面面都有提到</li>
+<li>一些流行的 Rest API
 
 <ol>
 <li> <a href="http://docs.aws.amazon.com/AmazonS3/latest/API/APIRest.html">http://docs.aws.amazon.com/AmazonS3/latest/API/APIRest.html</a> - Amazon 的 REST API文件</li>
 <li> <a href="https://dev.twitter.com/docs/api/1.1/get/lists/list">https://dev.twitter.com/docs/api/1.1/get/lists/list</a> - twitter 的 REST API文件</li>
 <li> <a href="https://developers.facebook.com/docs/reference/api/">https://developers.facebook.com/docs/reference/api/</a> - FaceBook 的 REST API文件</li>
 <li> <a href="https://developer.linkedin.com/apis">https://developer.linkedin.com/apis</a> - linkedin 的 REST API文件</li>
-<li> <a href="https://developer.paypal.com/webapps/developer/docs/api/">https://developer.paypal.com/webapps/developer/docs/api/</a> - paypal  的 REST API文件</li>
+<li> <a href="https://developer.paypal.com/webapps/developer/docs/api/">https://developer.paypal.com/webapps/developer/docs/api/</a> - paypal  的 REST API文</li>
 </ol>
 </li>
-<li><a href="http://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api?hn#snake-vs-camel">http://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api?hn#snake-vs-camel</a> - 設計Restful API 相當不錯的參考資料    ，內容很全面，方方面面都有提到</li>
+<li><a href="http://www.thebuzzmedia.com/designing-a-secure-rest-api-without-oauth-authentication/">http://www.thebuzzmedia.com/designing-a-secure-rest-api-without-oauth-authentication/</a> - auth token的設計</li>
 </ul>
 
 ]]></content>

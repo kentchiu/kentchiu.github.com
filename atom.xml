@@ -4,7 +4,7 @@
   <title><![CDATA[Kent's Blog]]></title>
   <link href="http://blog.kent-chiu.com/atom.xml" rel="self"/>
   <link href="http://blog.kent-chiu.com/"/>
-  <updated>2013-09-28T20:21:32+08:00</updated>
+  <updated>2013-12-25T15:56:51+08:00</updated>
   <id>http://blog.kent-chiu.com/</id>
   <author>
     <name><![CDATA[Kent]]></name>
@@ -12,6 +12,69 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[透過JMX重新載入Tomcat上的Web Application]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2013/11/16/reload-tomcat-web-application-by-jmx/"/>
+    <updated>2013-11-16T15:45:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2013/11/16/reload-tomcat-web-application-by-jmx</id>
+    <content type="html"><![CDATA[<h2>tomcat</h2>
+
+<h2>test by jconsole</h2>
+
+<p>啟動tomat</p>
+
+<pre><code>kents-mbp:~ kent$ tail -f ~/dev/apache-tomcat-7.0.42/logs/catalina.out
+Nov 16, 2013 4:05:29 PM org.apache.catalina.startup.HostConfig deployWAR
+INFO: Deploying web application archive /Users/kent/dev/apache-tomcat-7.0.42/webapps/my-webapp.war
+</code></pre>
+
+<p>jconsole的位置在JDK的bin目錄下，執行後可以看到本機jvm運行中的程式。</p>
+
+<p>一層一層展開下去可以看到tomcat有一個reload的節點，把節點的object name複製出來，程式會用到</p>
+
+<p><code>Catalina/WebModule/"//localhost/my-webapp"/non/e/none/Operations/reload</code></p>
+
+<p>jconsole可以直接執行reload的節點，執行後可以看到tomcat進行reload</p>
+
+<pre><code>Nov 16, 2013 4:16:24 PM org.apache.catalina.core.StandardContext reload  # 透過JMX執行reload operation後可以看到tomcat對my-webapp進行reload
+INFO: Reloading Context with name [/my-webapp] has started
+Nov 16, 2013 4:16:25 PM org.apache.catalina.core.StandardContext reload
+INFO: Reloading Context with name [/my-webapp] is completed
+</code></pre>
+
+<p>也可以透過程式進行jmx呼叫，下面的程式是透過spring3執行jmx</p>
+
+<pre><code>// bean的configration檔
+public MBeanServerConnection jmxConnector() {
+    MBeanServerConnectionFactoryBean factoryBean =new MBeanServerConnectionFactoryBean();
+    try {
+        factoryBean.setServiceUrl("service:jmx:rmi://localhost/jndi/rmi://localhost:1099/jmxrmi");
+        factoryBean.afterPropertiesSet();
+        MBeanServerConnection connection = factoryBean.getObject();
+        return connection;
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return null;
+}
+
+
+// 程式
+@Autowaire
+private MBeanServerConnection connection;
+
+public void reloadWebApplication() {
+    try {
+        ObjectName objectName = new ObjectName("Catalina:j2eeType=WebModule,name=//localhost/idcview,J2EEApplication=none,J2EEServer=none");
+        connection.invoke(objectName, "reload", null, null); // 執行tomcat的reload
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Access imgur with API]]></title>
@@ -787,6 +850,15 @@ curl -X POST -d "param1=a 0space"
 curl -X POST -d "param1=a%20space"     
 </code></pre>
 
+<h4>post json 格式得資料</h4>
+
+<p>如同時需要傳送request parameter跟json，request parameter可以加在url後面，json資料則放入<code>-d</code>的參數，然後利用單引號將json資料含起來(如果json內容是用單引號，-d的參數則改用雙引號包覆)，header要加入&#8221;Content-Type:application/json&#8221;跟&#8221;Accept:application/json&#8221;</p>
+
+<pre><code>curl http://www.example.com?modifier=kent -X PUT -i -H "Content-Type:application/json" -H "Accept:application/json" -d '{"boolean" : false, "foo" : "bar"}'
+# 不加"Accept:application/json"也可以
+curl http://www.example.com?modifier=kent -X PUT -i -H "Content-Type:application/json" -d '{"boolean" : false, "foo" : "bar"}'
+</code></pre>
+
 <h4>需先認證或登入才能使用的service #####</h4>
 
 <p>許多服務，需先進行登入或認證後，才能存取其API服務，依服務要求的條件，的curl可以透過cookie，session或加入在header加入session key，api key或認證的token來達到認證的效果。</p>
@@ -807,6 +879,13 @@ curl -i -X POST -d username=kent -d password=kent123 -c  ~/cookie.txt  http://ww
 # 載入cookie到request中 
 curl -i --header "Accept:application/json" -X GET -b ~/cookie.txt http://www.rest.com/users/1
 </code></pre>
+
+<h4>檔案上傳</h4>
+
+<pre><code>curl -i -X POST -F 'file=@/Users/kent/my_file.txt' -F 'name=a_file_name'
+</code></pre>
+
+<p>這個是透過 HTTP multipart POST 上傳資料， <code>-F</code> 是使用http query parameter的方式，指定檔案位置的參數要加上<code>@</code></p>
 
 <h2>相關資源    </h2>
 
@@ -1149,13 +1228,20 @@ print(last_name)                  # chiu
     <id>http://blog.kent-chiu.com/blog/2013/06/04/restful-api-design</id>
     <content type="html"><![CDATA[<h2>Method</h2>
 
-<p>POST,DELETE : 操作是 non-idempotent(非幕等)</p>
+<p>POST : 操作是 nont-idempotent(非幕等)</p>
 
-<p>GET, PUT  : 操作是 idempotent(幕等)</p>
+<p>GET, PUT, DELETE  : 操作是 idempotent(幕等)</p>
 
-<blockquote><p>TBC : 解釋 idempotent</p></blockquote>
+<p>idempotent 是指執行的結果不依賴於執行的次數，ex: <code>count=1+2</code> 是 idempotent，因為不管執行幾次，都不
+響影效到結果，但 <code>count++</code> 就是 nont-idempotent，因為執行的次數會影響結果
+通常，GET是idempotent，POST是non-idemptent這沒什麼爭議，但PUT的操作是幕等，就常常令我感到疑惑，
+目前看到最好的解釋是，PUT是用來建立或取代資源(PUT不是只用於update，也可以create)
+ex: <code>PUT www.api.com/blogs/blog-123</code> 這個操作不管執行幾次，應該都是用來建立或更新 id 為<em>blog-123</em> 的blog
+相對於<code>POST www.api.com/blogs</code>，則是每次執行都會產生一篇新的blog。</p>
 
-<h3>GET</h3>
+<p>另外DELETE操作是idempotent是指，不論執行幾次，都可以執行刪除的動作，所以就算資源不存在，也不應丟出異常，以刷前端double submit時，第二個submit造成失敗</p>
+
+<h2>GET</h2>
 
 <p>GET method用來取得一筆或多的資源，如果是多筆資源，還可以加入分頁，過濾等資訊，也可在header傳入分頁的links，ex:&#8217;first&#8217;, &#8216;last&#8217;, &#8216;next&#8217; and &#8216;prev&#8217;</p>
 
@@ -1252,8 +1338,8 @@ Location: http://www.example.com/order/123
 POST                http://www.example.com/orders
 </code></pre>
 
-<blockquote><p>TBC : 查一下 resource id是用純數字(/user/1)，或使用有意義的名稱為佳(users/kent)
-目前認為用 id 應該會比較好，因為名稱可能會異動，如果要用名稱，應該是類似查詢參數的用法 /users?name=kent</p></blockquote>
+<blockquote><p>資源 id 當識別會比用name來的好，因為名稱可能會異動，如果要用名稱，應該是類似查詢參數的用法 /users?name=kent
+另外，用id也可以避免名稱衝突ex: orders/new 如果這邊是採用名稱，就不易辨識這個new是指新的order，還有有張order名稱為<em>new</em></p></blockquote>
 
 <h4>輔助用字</h4>
 
@@ -1273,18 +1359,20 @@ POST                http://www.example.com/orders
 <li><a href="http://zh.wikipedia.org/zh-tw/HTTP%E7%8A%B6%E6%80%81%E7%A0%81">http://zh.wikipedia.org/zh-tw/HTTP%E7%8A%B6%E6%80%81%E7%A0%81</a> - HTTP 狀態碼</li>
 <li><a href="http://www.restapitutorial.com/lessons/httpmethods.html">http://www.restapitutorial.com/lessons/httpmethods.html</a>  - RESTful Tutorial</li>
 <li><a href="http://blog.2partsmagic.com/restful-uri-design/">http://blog.2partsmagic.com/restful-uri-design/</a> - rest 命名規格</li>
-<li><a href="http://stackoverflow.com/questions/1619152/how-to-create-rest-urls-without-verbs">http://stackoverflow.com/questions/1619152/how-to-create-rest-urls-without-verbs</a> - 如何避免用動詞命名</li>
-<li>一般流行的 Rest API
+<li><a href="http://stackoverflow.com/questions/1619152/how-to-create-rest-urls-without-verbs">http://stackoverflow.com/questions/1619152/how-to-create-rest-urls-without-verbs</a> - 如何避免用動詞命名
+件</li>
+<li><a href="http://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api?hn#snake-vs-camel">http://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api?hn#snake-vs-camel</a> - 設計Restful API 相當不錯的參考資料    ，內容很全面，方方面面都有提到</li>
+<li>一些流行的 Rest API
 
 <ol>
 <li> <a href="http://docs.aws.amazon.com/AmazonS3/latest/API/APIRest.html">http://docs.aws.amazon.com/AmazonS3/latest/API/APIRest.html</a> - Amazon 的 REST API文件</li>
 <li> <a href="https://dev.twitter.com/docs/api/1.1/get/lists/list">https://dev.twitter.com/docs/api/1.1/get/lists/list</a> - twitter 的 REST API文件</li>
 <li> <a href="https://developers.facebook.com/docs/reference/api/">https://developers.facebook.com/docs/reference/api/</a> - FaceBook 的 REST API文件</li>
 <li> <a href="https://developer.linkedin.com/apis">https://developer.linkedin.com/apis</a> - linkedin 的 REST API文件</li>
-<li> <a href="https://developer.paypal.com/webapps/developer/docs/api/">https://developer.paypal.com/webapps/developer/docs/api/</a> - paypal  的 REST API文件</li>
+<li> <a href="https://developer.paypal.com/webapps/developer/docs/api/">https://developer.paypal.com/webapps/developer/docs/api/</a> - paypal  的 REST API文</li>
 </ol>
 </li>
-<li><a href="http://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api?hn#snake-vs-camel">http://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api?hn#snake-vs-camel</a> - 設計Restful API 相當不錯的參考資料    ，內容很全面，方方面面都有提到</li>
+<li><a href="http://www.thebuzzmedia.com/designing-a-secure-rest-api-without-oauth-authentication/">http://www.thebuzzmedia.com/designing-a-secure-rest-api-without-oauth-authentication/</a> - auth token的設計</li>
 </ul>
 
 ]]></content>
@@ -2653,75 +2741,6 @@ debugger的功能，設定中斷點後，執行script會停在中斷點上，便
 
 <ul>
 <li>十個應避免的extjs設計 - <a href="http://www.sencha.com/blog/top-10-ext-js-development-practices-to-avoid/">http://www.sencha.com/blog/top-10-ext-js-development-practices-to-avoid/</a></li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[English]]></title>
-    <link href="http://blog.kent-chiu.com/blog/2012/10/11/english/"/>
-    <updated>2012-10-11T00:00:00+08:00</updated>
-    <id>http://blog.kent-chiu.com/blog/2012/10/11/english</id>
-    <content type="html"><![CDATA[<ul>
-<li><a href="http://wiki.kent-chiu.com/doku.php?id=english:notes" title="english:notes">My English
-Notes</a></li>
-<li><a href="http://wiki.kent-chiu.com/doku.php?id=english:defining_vocabulary" title="english:defining_vocabulary">Longman Dictionary Defining Vocabulary (2,000
-words)</a></li>
-<li><a href="http://wiki.kent-chiu.com/doku.php?id=english:my_vocabulary" title="english:my_vocabulary">My
-Vocabulary</a></li>
-<li><a href="http://wiki.kent-chiu.com/doku.php?id=english:collocation" title="english:collocation">搭配詞</a></li>
-<li><a href="http://wiki.kent-chiu.com/doku.php?id=sense_grammer:start" title="sense_grammer:start">文法書</a></li>
-<li><a href="http://wiki.kent-chiu.com/doku.php?id=english:linguistic" title="english:linguistic">語言學簡介</a></li>
-<li>Grammer Mind Map - <a href="http://wiki.kent-chiu.com/doku.php?id=english:grammer" title="english:grammer">Image
-format</a>,
-<a href="http://wiki.kent-chiu.com/lib/exe/fetch.php?media=english:grammar.xmind" title="english:grammar.xmind">XMind format</a></li>
-<li><a href="http://georgechen.idv.tw/wordpress/" title="http://georgechen.idv.tw/wordpress/">英文字典達人的站</a></li>
-<li><a href="http://lsmls.org/" title="http://lsmls.org/">路 - 自學館</a></li>
-<li><a href="http://www.sense-english.com/default.php?id=179" title="http://www.sense-english.com/default.php?id=179">廣讀(extensive
-reading)的作法</a></li>
-<li><a href="http://georgechen.idv.tw/wordpress/?p=59" title="http://georgechen.idv.tw/wordpress/?p=59">為什麼要使用英英字典</a></li>
-<li><a href="http://blog.sina.com.cn/zhangliminqd" title="http://blog.sina.com.cn/zhangliminqd">Longman Dictionary
-Enhancement</a></li>
-<li><a href="http://crazycat1130.pixnet.net/blog/post/15426620" title="http://crazycat1130.pixnet.net/blog/post/15426620">形容詞子句(source:
-瘋小貓的華麗冒險)</a></li>
-<li><a href="http://crazycat1130.pixnet.net/blog/post/17458923" title="http://crazycat1130.pixnet.net/blog/post/17458923">名詞子句(source:
-瘋小貓的華麗冒險)</a></li>
-<li><a href="http://crazycat1130.pixnet.net/blog/post/17459071" title="http://crazycat1130.pixnet.net/blog/post/17459071">Direct/Indirect Speech(source:
-瘋小貓的華麗冒險)</a></li>
-<li><a href="http://www.englishclub.com/writing/spelling_add-ing.htm" title="http://www.englishclub.com/writing/spelling_add-ing.htm">+ing,+ed的方式</a></li>
-</ul>
-
-
-<h2>Phonics</h2>
-
-<ul>
-<li><a href="http://wiki.kent-chiu.com/doku.php?id=english:phonics_101" title="english:phonics_101">Phonics
-101</a></li>
-<li><a href="http://wiki.kent-chiu.com/doku.php?id=english:syllables_101" title="english:syllables_101">Syllable
-101</a></li>
-<li><a href="http://www.phonicsontheweb.com/index.php" title="http://www.phonicsontheweb.com/index.php">Phonics on
-web</a>
-
-<ul>
-<li>the Phonics rules</li>
-</ul>
-</li>
-<li><a href="http://www.cla.calpoly.edu/~jrubba/phon/syllables.html" title="http://www.cla.calpoly.edu/~jrubba/phon/syllables.html">Syllable Structure in
-English</a>
-
-<ul>
-<li>一篇說明如何劃分音節的文章</li>
-</ul>
-</li>
-<li><a href="http://www.spelling.hemscott.net/" title="http://www.spelling.hemscott.net/">Spelling it Right - Learn How to Spell
-Confidently</a></li>
-<li><a href="http://wiki.kent-chiu.com/doku.php?id=english:the_eight_great_spelling_rules" title="english:the_eight_great_spelling_rules">The Eight Great Spelling
-Rules</a></li>
-<li>Phonics Mind Map - <a href="http://wiki.kent-chiu.com/doku.php?id=english:phonics" title="english:phonics">Image
-format</a>,
-<a href="http://wiki.kent-chiu.com/lib/exe/fetch.php?media=english:phonics.xmind" title="english:phonics.xmind">XMind
-format</a></li>
 </ul>
 
 ]]></content>

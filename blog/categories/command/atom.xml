@@ -4,7 +4,7 @@
   <title><![CDATA[Category: command | Kent's Blog]]></title>
   <link href="http://blog.kent-chiu.com/blog/categories/command/atom.xml" rel="self"/>
   <link href="http://blog.kent-chiu.com/"/>
-  <updated>2013-09-28T20:21:32+08:00</updated>
+  <updated>2013-12-25T15:56:51+08:00</updated>
   <id>http://blog.kent-chiu.com/</id>
   <author>
     <name><![CDATA[Kent]]></name>
@@ -74,6 +74,15 @@ curl -X POST -d "param1=a 0space"
 curl -X POST -d "param1=a%20space"     
 </code></pre>
 
+<h4>post json 格式得資料</h4>
+
+<p>如同時需要傳送request parameter跟json，request parameter可以加在url後面，json資料則放入<code>-d</code>的參數，然後利用單引號將json資料含起來(如果json內容是用單引號，-d的參數則改用雙引號包覆)，header要加入"Content-Type:application/json"跟"Accept:application/json"</p>
+
+<pre><code>curl http://www.example.com?modifier=kent -X PUT -i -H "Content-Type:application/json" -H "Accept:application/json" -d '{"boolean" : false, "foo" : "bar"}'
+# 不加"Accept:application/json"也可以
+curl http://www.example.com?modifier=kent -X PUT -i -H "Content-Type:application/json" -d '{"boolean" : false, "foo" : "bar"}'
+</code></pre>
+
 <h4>需先認證或登入才能使用的service #####</h4>
 
 <p>許多服務，需先進行登入或認證後，才能存取其API服務，依服務要求的條件，的curl可以透過cookie，session或加入在header加入session key，api key或認證的token來達到認證的效果。</p>
@@ -94,6 +103,13 @@ curl -i -X POST -d username=kent -d password=kent123 -c  ~/cookie.txt  http://ww
 # 載入cookie到request中 
 curl -i --header "Accept:application/json" -X GET -b ~/cookie.txt http://www.rest.com/users/1
 </code></pre>
+
+<h4>檔案上傳</h4>
+
+<pre><code>curl -i -X POST -F 'file=@/Users/kent/my_file.txt' -F 'name=a_file_name'
+</code></pre>
+
+<p>這個是透過 HTTP multipart POST 上傳資料， <code>-F</code> 是使用http query parameter的方式，指定檔案位置的參數要加上<code>@</code></p>
 
 <h2>相關資源    </h2>
 

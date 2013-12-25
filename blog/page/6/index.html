@@ -9,9 +9,15 @@
   <meta name="author" content="Kent">
 
   
-  <meta name="description" content="Setting encoding filter and JSP page encoding in web.xml could fix
-encoding issue. servlet filter. JSP page encoding. Without this, you need put
-&lt &hellip;">
+  <meta name="description" content="Apache Shiro
+(之前叫JSecurity)是RBAC權限系統，也就是以角色為主的權限。
+目前survey過的幾套java base的權限系統有 Spring
+Security(之前叫Acige
+Security)
+JPA
+Security
+Apache
+Shiro( &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -79,6 +85,216 @@ encoding issue. servlet filter. JSP page encoding. Without this, you need put
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/03/20/shiro_101/">Apache Shiro 101</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-20T00:00:00+08:00" pubdate data-updated="true">Mar 20<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/03/20/shiro_101/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Apache <a href="http://shiro.apache.org/" title="http://shiro.apache.org/">Shiro</a>
+(之前叫JSecurity)是<a href="http://en.wikipedia.org/wiki/Role-based_access_control" title="http://en.wikipedia.org/wiki/Role-based_access_control">RBAC</a>權限系統，也就是以角色為主的權限。
+目前survey過的幾套java base的權限系統有</p>
+
+<ol>
+<li><a href="http://static.springsource.org/spring-security/site/index.html" title="http://static.springsource.org/spring-security/site/index.html">Spring
+Security</a>(之前叫Acige
+Security)</li>
+<li><a href="http://jpasecurity.sourceforge.net/" title="http://jpasecurity.sourceforge.net/">JPA
+Security</a></li>
+<li><a href="http://incubator.apache.org/shiro/index.html" title="http://incubator.apache.org/shiro/index.html">Apache
+Shiro</a>(之前叫JSecurity或ki)</li>
+</ol>
+
+
+<h5>Spring Security</h5>
+
+<p>之前做文件管理系統時有採用過，很強大，但使用上也很複雜，特點是透過AOP來管控access，
+而且可以依權限產生相對的Query (sql query or JPA query).
+但目前一定要搭著Spring使用<img src="http://wiki.kent-chiu.com/lib/images/smileys/icon_sad.gif" alt=":-(" /></p>
+
+<h5>JPA Security</h5>
+
+<p>透過Annotation控管權限，特點是owner-ship(擁有權)的處理，而且會依不同的權限，產生不同的query條件(where
+conditions)</p>
+
+<h5>Apache Shiro</h5>
+
+<p>Apache
+Shiro的特色在permission的管控，所有的permission是透過特定格式的文字來記錄，語法大概像這樣
+<code>domain:operations:instance</code>，並搭配wildcard(通配字元)進行較大範圍的控制。</p>
+
+<h1>WildcardPermission</h1>
+
+<p>Format:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>domain:action:instances</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Simple Usage</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>editNewsletter 新聞編輯的權限
+</span><span class='line'>*              所有的權限(root)</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Multiple Levels</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>newsletter:edit             新聞編輯的權限
+</span><span class='line'>newsletter:edit,remove,add  新聞編輯、移除、加入的權限
+</span><span class='line'>newsletter:*                新聞所有的權限
+</span><span class='line'>*:view                      所有VIEW的權限</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Instance-level Access Control</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>newsletter:edit:12,13,18   對12,13,18這三則新聞編輯的權限
+</span><span class='line'>newsletter:*:12,13,18      對12,13,18這三則新聞所有的權限
+</span><span class='line'>newsletter:*:*             對所有新聞的所有權限</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>Modeling</h1>
+
+<p>以下是Shiro的創建者Les Hazlewood建議的modeling方式</p>
+
+<p>Les general rule of thumb:</p>
+
+<ol>
+<li>a Role is a named Set of permissions</li>
+<li>a User &#8216;has&#8217; a Set of one or more Roles</li>
+<li>a User &#8216;has&#8217; a Set of permissions for <strong>that-user-only</strong> permissions
+(not shared with anyone else - otherwise they&#8217;d go in a Role)</li>
+<li>a Group is a named Set of &#8216;Party&#8217; objects (a User is a Party and a
+Group is a Party - allowing for instances of both to exist in
+hierarchical Party trees)</li>
+</ol>
+
+
+<p>Les並建議不要採用deney的方式modeling權限，而且採用Aggregated Roles的方式
+(<a href="http://shiro-user.582556.n2.nabble.com/Permission-Implementation-td3554707.html#a3554707" title="http://shiro-user.582556.n2.nabble.com/Permission-Implementation-td3554707.html#a3554707">原文參考</a>)</p>
+
+<p>針對第三點，Kent還是偏好用<strong>that-user-only</strong>
+role，而不是直接把permission指派給user</p>
+
+<h3>Instance Level範例</h3>
+
+<p>權限系統中，Kent個人認為，最關鍵也是最麻煩的地方在對Instance Level
+resource的管控。
+也就怎如何控制，具有相同角色(也就是擁有相同的權限)的人對相同類型的資源，有不同的控制能力。
+舉例來說： IT Manager跟ServiceDesk
+Manager都具有部門主管的角色，所以都擁有業務審核(auditing)的權限，
+但因為IT Manager是IT部門主管，Service Desk
+Manager是ServiceDesk主管，所以</p>
+
+<ul>
+<li>IT Manager只能審核IT部門的業務</li>
+<li>Service Desk Manager只能審核ServiceDesk部門的業務</li>
+</ul>
+
+
+<p>正常來說設計成</p>
+
+<ul>
+<li>部門主管擁有審核的權限</li>
+</ul>
+
+
+<p>會比</p>
+
+<ul>
+<li>IT Manager只能審核IT部門的業務</li>
+<li>Service Desk Manager只能審核Service Desk部門的業務</li>
+</ul>
+
+
+<p>來的直覺，而且比較符合Business
+Rules，而且不會造成角色爆炸問題(如果有100個部門，就要需100個角色^<a href="#fn__1">1)</a>^)</p>
+
+<p>要達到第一種的設計方式，就是要從Instance Level的權限來做管控。 像這樣:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># IT Manager
+</span><span class='line'>performance:auditing:it_department_id
+</span><span class='line'># Service Desk Manager
+</span><span class='line'>performance:auditing:it_servicedesk_id</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>performance:auditing:it_department_id</code>或<code>performance:auditing:it_servicedesk_id</code>指派給Manager
+Role時 Manager Role會同時具有IT, ServiceDesk
+Manager的權限，可是，我們要的是讓每個部門的Manager有專屬的權限，此時就需要把權限指派給
+User，更好的方式是讓每個User擁有自已專屬的Role，然後指<code>performance:auditing:it_department_id</code>或<code>performance:auditing:it_servicedesk_id</code>指派給User的role，並讓user具有manager的role
+。這樣，不但可以保持只有一個叫<code>Manager</code>的Role，而且IT manager跟Service
+Desk的權限是不同的。 ^<a href="#fn__2">2)</a>^</p>
+
+<h1>Things that need to know</h1>
+
+<ol>
+<li>Shiro的實際運用上，permission會比role更實用，實作時，
+應該是針對permission。</li>
+<li>Shiro會cache住AuthorizationInfo，你可以透過<code>clearCachedAuthorizationInfo</code>來refresh
+caching</li>
+<li>Shiro並未提供直接的API去異動role, permission…，必須自行extend
+Realm以達到這個功能</li>
+<li>Shiro並未提供直接Group，Role Hierarchal, Role(Group)
+Inheritance等data model，但有需要的話，可以自行實作
+(<a href="http://shiro-user.582556.n2.nabble.com/Privilages-inheritance-in-groups-td3253048.html#a3253048" title="http://shiro-user.582556.n2.nabble.com/Privilages-inheritance-in-groups-td3253048.html#a3253048">範例</a>)</li>
+</ol>
+
+
+<h1>Resources</h1>
+
+<ul>
+<li><a href="http://incubator.apache.org/shiro/permissions.html" title="http://incubator.apache.org/shiro/permissions.html">Shiro
+permissions</a></li>
+</ul>
+
+
+<p>^<a href="#fnt__1">1)</a>^
+也有人主張可以把權限直接直派給<strong>人</strong>而不是角色，來解決這樣的問題,詳見note說明</p>
+
+<p>^<a href="#fnt__2">2)</a>^ 或許有更好的解法</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -172,7 +388,7 @@ in every JSP pages.</p>
 
 
   <div class="entry-content"><p>Android
-Service可以視為Windows的系統服務或Linux的Daemons，可以長時間在存在系統中(不一定要直在活動狀態)，而且，他有自已的生命周期函數，不會隨著Activity的消滅而消滅。</p>
+Service可以視為Windows的系統服務或Linux的Daemons，可以長時間在存在系統中(不一定要直在活動狀態)，而且，他有自已的生命周期，不會隨著Activity的消滅而消滅。</p>
 
 <p>Android有兩種類型的services</p>
 
@@ -182,27 +398,17 @@ Service可以視為Windows的系統服務或Linux的Daemons，可以長時間在
 </ol>
 
 
-<p>Local Service是該應用程式自已內部要使用的service，而Remote
-Service則可提供給其他應用程式使用。Service執行時，一樣是執行在Main
-Thread(UI Thread)，所以，service會影響到
-UI的操作效能，如果service執行的時間很短，那問題不大
-，一但service要執行很久的時間，那應該要採用<a href="http://wiki.kent-chiu.com/doku.php?id=android:background_processing" title="android:background_processing">背景服務</a>的方式來處理，也就是在service內另外</p>
+<p>Local Service是應用程式自已內部要使用的service，而Remote Service則可提供給其他應用程式使用。Service執行時，一樣是執行在Main Thread(UI Thread)，所以，service會影響到UI的操作效能，如果service執行的時間很短，那問題不大，一但service要執行很久的時間，那應該要採用<a href="http://blog.kent-chiu.com/blog/2012/03/19/background_processing" title="">背景服務</a>的方式來處理。</p>
 
-<p>如果想讓serivce裡的worker
-thread只有一個instance，可以在oncreate建立，這樣就能讓thread
-instance(或者是<a href="http://developer.android.com/reference/java/util/concurrent/ExecutorService.html" title="http://developer.android.com/reference/java/util/concurrent/ExecutorService.html">ExecutorService</a>)只有一份</p>
+<p>如果想讓serivce裡的worker thread只有一個instance，可以在oncreate建立，這樣就能讓thread instance(或者是<a href="http://developer.android.com/reference/java/util/concurrent/ExecutorService.html" title="http://developer.android.com/reference/java/util/concurrent/ExecutorService.html">ExecutorService</a>)只有一份</p>
 
-<p>Android有提供另一個跟Service一樣，適合在背景作業的機制叫<a href="http://developer.android.com/reference/android/content/BroadcastReceiver.html" title="http://developer.android.com/reference/android/content/BroadcastReceiver.html">Broadcast
-Receiver</a>，至於何時該用Servce，何時該用Broadcast
-Receiver可以參考<a href="http://developer.android.com/resources/articles/multitasking-android-way.html" title="http://developer.android.com/resources/articles/multitasking-android-way.html">這篇</a>文章</p>
+<p>Android有提供另一個跟Service一樣，適合在背景作業的機制叫<a href="http://developer.android.com/reference/android/content/BroadcastReceiver.html" title="http://developer.android.com/reference/android/content/BroadcastReceiver.html">Broadcast Receiver</a>，至於何時該用Servce，何時該用Broadcast Receiver可以參考<a href="http://developer.android.com/resources/articles/multitasking-android-way.html" title="http://developer.android.com/resources/articles/multitasking-android-way.html">這篇</a>文章</p>
 
 <h4>Service</h4>
 
-<p>下面是一個簡單的service，<code>onBind()</code>如果不是要做<a href="#bound_service" title="android:service_101 ↵">Bound
-Service</a>的話，就直接return
-null即可，而<code>onStartCommand()</code>則是service主要要實作的部份
-，依收到的intent去決定要實作那些功能，如果比較耗時的功能，記得用<a href="http://wiki.kent-chiu.com/doku.php?id=android:background_processing" title="android:background_processing">Android
-背景作業處理</a>處理，因為service<code>並不是執行在另一個thread</code>。</p>
+<p>下例是一個簡單的service，<code>onBind()</code>如果不是要做<em>Bound
+Service</em>的話，就直接return null即可，而<code>onStartCommand()</code>則是service主要要實作的部份
+，依收到的intent去決定要實作那些功能，如果比較耗時的功能，記得用<a href="" title="http://blog.kent-chiu.com/blog/2012/03/19/background_processing/">背景作業處理</a>處理，因為service<strong>並不是執行在另一個thread</strong>。</p>
 
 <p>如果想讓Service執行成另一個獨立的process，可以透過設定service的xml中的process屬性，像這樣</p>
 
@@ -230,11 +436,8 @@ cycle有關。在系統需要資源時，系統可能會把service給kill掉，�
 
 <ol>
 <li>START_STICKY :
-預設的行為，service被系統kill掉後或做完工作後，系統會restart
-service，一般要停止service話，是透過stopService()，或stopSelf()</li>
-<li>START_NOT_STICKY : 如果serice做完工作後，系統會stop
-service，而不是restart
-service，這個很適用來做周期的工作(比如說每15分鐘檢查一次mail
+預設的行為，service被系統kill掉後或做完工作後，系統會restart service，一般要停止service話，是透過stopService()，或stopSelf()</li>
+<li>START_NOT_STICKY : 如果service做完工作後，系統會stop service，而不是restart service，這個很適用來做周期的工作(比如說每15分鐘檢查一次mail
 box)，而不是一直不斷執行的任務，下次收到intent</li>
 <li>START_REDELIVER_INTENT :
 跟START_NOT_STICKY很像，這個適合用來做失敗時會再重做n次的工作，它會在工作沒能成功做完時再次呼叫自己</li>
@@ -255,7 +458,7 @@ box)，而不是一直不斷執行的任務，下次收到intent</li>
 <span class='line-number'>12</span>
 <span class='line-number'>13</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>public class MyService extends Service {
-</span><span class='line'> 
+</span><span class='line'>
 </span><span class='line'>    @Override
 </span><span class='line'>    public IBinder onBind(Intent intent) {
 </span><span class='line'>        return null;
@@ -338,10 +541,9 @@ Service跟寫一般RMI(RPC)的程式流程上差不多，定義interface(AIDL)�
 code，實作stub
 code，實作完是直接使用service，而不是透過intent呼叫。也跟一般的RMI一樣，你必須認真面對複雜型別的Serialization問題。</p>
 
-<h1>Bound Service</h1>
+<h2>Bound Service</h2>
 
-<p>Bound
-Service中的Bound的意思是要跟某個Activity”綁定”，也就是說，這個service的生命周期會受到Activity所控制。</p>
+<p>Bound Service中的Bound的意思是要跟某個Activity”綁定”，也就是說，這個service的生命周期會受到Activity所控制。</p>
 
 <ul>
 <li>binding是非同步的，也就是，service ready時，才會call back
@@ -385,10 +587,8 @@ leaking的問題</li>
 
 <ol>
 <li>希望service的生命周期activity跟一致(一般的service啟動後，就會一直執在背景執行，直到收到stop或被系統kill)</li>
-<li>不希望service在沒預期的情況下被系統kill
-(系統會在資料不足情況下<a href="http://wiki.kent-chiu.com/doku.php?id=android:%E4%BE%9D%E5%BA%8F" title="android:依序">依序</a>殺掉process，當然，你也可以透過<a href="http://developer.android.com/reference/android/app/Service.html#startForeground(int,%20android.app.Notification">startForeground()</a> &#8220;http://developer.android.com/reference/android/app/Service.html#startForeground(int, android.app.Notification)&#8221;)來<strong>降低</strong>被殺掉的機率)</li>
-<li>希望在activity內可以直接對service進行更多操作 (local
-service要透過intent啟動，停止或進行其他command)</li>
+<li>不希望service在沒預期的情況下被系統kill(系統會在資料不足情況下殺掉process，但可以透過<a href="http://developer.android.com/reference/android/app/Service.html#startForeground(int,%20android.app.Notification">startForeground()</a> &#8220;http://developer.android.com/reference/android/app/Service.html#startForeground(int, android.app.Notification)&#8221;)來<strong>降低</strong>被殺掉的機率)</li>
+<li>希望在activity內可以直接對service進行更多操作 (local service要透過intent啟動，停止或進行其他command)</li>
 </ol>
 
 
@@ -430,31 +630,16 @@ service要透過intent啟動，停止或進行其他command)</li>
 </span><span class='line'>    &lt;uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" /&gt;</span></code></pre></td></tr></table></div></figure>
 
 
-<p>如果程式放在SD
-Card上，recive的xml設定檔還要去註冊<code>android.intent.action.ACTION_EXTERNAL_APPLICATIONS_AVAILABLE</code>，另外，在Android
-3.0之後，程式至少要被執行過一次才會接到這個廣播事件。</p>
+<p>如果程式放在SD Card上，recive的xml設定檔還要去註冊<code>android.intent.action.ACTION_EXTERNAL_APPLICATIONS_AVAILABLE</code>，另外，在Android 3.0之後，程式至少要被執行過一次才會接到這個廣播事件。</p>
 
-<h1>Resources</h1>
+<h2>Resources</h2>
 
 <ul>
-<li><a href="http://www.ozdroid.com/#!BLOG/2010/12/19/How_to_make_a_local_Service_and_bind_to_it_in_Android" title="http://www.ozdroid.com/#!BLOG/2010/12/19/How_to_make_a_local_Service_and_bind_to_it_in_Android">http://www.ozdroid.com/#!BLOG/2010/12/19/How_to_make_a_local_Service_and_bind_to_it_in_Android</a>
-
-<ul>
-<li>service binding的介紹</li>
-</ul>
-</li>
-<li><a href="http://developer.android.com/resources/articles/multitasking-android-way.html" title="http://developer.android.com/resources/articles/multitasking-android-way.html">http://developer.android.com/resources/articles/multitasking-android-way.html</a>
-
-<ul>
-<li>關於android
-multitasking的介紹，可以更瞭解service的設計與使用的時機</li>
-</ul>
-</li>
+<li><a href="http://www.ozdroid.com/#!BLOG/2010/12/19/How_to_make_a_local_Service_and_bind_to_it_in_Android" title="http://www.ozdroid.com/#!BLOG/2010/12/19/How_to_make_a_local_Service_and_bind_to_it_in_Android">http://www.ozdroid.com/#!BLOG/2010/12/19/How_to_make_a_local_Service_and_bind_to_it_in_Android</a> - service binding的介紹</li>
+<li><a href="http://developer.android.com/resources/articles/multitasking-android-way.html" title="http://developer.android.com/resources/articles/multitasking-android-way.html">http://developer.android.com/resources/articles/multitasking-android-way.html</a> - 關於android multitasking的介紹，可以更瞭解service的設計與使用的時機</li>
 <li><a href="http://www.vogella.de/articles/AndroidServices/article.html" title="http://www.vogella.de/articles/AndroidServices/article.html">http://www.vogella.de/articles/AndroidServices/article.html</a></li>
 </ul>
 
-
-<p>[broadcast</p>
 </div>
   
   
@@ -1488,8 +1673,8 @@ editor打開任一個activity，然後，右邊的theme可以看到剛剛新增�
 <p>ListView元件被設計時，考慮到ListView主要是要來呈現許多類似的內容列表，但因為要運在手機上，所以
 就算是有大量的內容，也不能影響到操作的效能。</p>
 
-<p>基於以上原因，在使用ListView時的API時，有一些潛規格及patterns要遵守，當然，你也可以去hack這個行為，但
-通常這樣做的後果，就是比較差的效果，以及可能會破壞一些本來可以跟ListView可以互動良好的機制。</p>
+<p>基於以上原因，在使用ListView時的API時，有一些潛規則及patterns要遵守，當然，你也可以去hack這個行為，但
+通常這樣做的後果，就是比較差的效能，以及可能會破壞一些本來可以跟ListView可以互動良好的機制。</p>
 
 <p>建議在使用ListView前，先閱讀一下<a href="#resource" title="android:listview ↵">Resource</a>中Google
 IO大會的相關資訊，可以避免掉很常見的陷阱</p>
@@ -1582,7 +1767,7 @@ Window (View Part)</p>
 
 
 <p>這樣的方式可以解決記憶體問題，但是如果當畫面從顯示
-1\~5，捲動到3\~7時，1跟2是消失在畫面，而6跟7是出現在畫面的下面，如果只是單純的把1個2的view做destory()，6跟7做view的create()
+1~5，捲動到3~7時，1跟2是消失在畫面，而6跟7是出現在畫面的下面，如果只是單純的把1個2的view做destory()，6跟7做view的create()
 ，那會造成需要大量的建立/消滅物件的動作，這樣會消耗不少cpu資源，所以，android採用<strong>回收</strong>的機制來避免大量物件建立。</p>
 
 <p>ListView的ListItem有一個特色，就是每個item
@@ -1704,59 +1889,27 @@ widget中比較複雜的元件，資料量少時，可以用LinerLayout加上動
 </ul>
 
 
-<p>基本上這些都是跟ViewItems回收機制有關，很多行為都讓你驚訝，怎麼跟想像的不一樣，這可已經違反了API設計上的原則(No
-Surprise^<a href="#fn__1">1)</a>^)。</p>
+<p>基本上這些都是跟ViewItems回收機制有關，很多行為都讓你驚訝，怎麼跟想像的不一樣。</p>
 
-<h1>Resource</h1>
-
-<ul>
-<li><a href="http://ysl-paradise.blogspot.com/2011/04/listview-i.html" title="http://ysl-paradise.blogspot.com/2011/04/listview-i.html">使用 ListView 元件時該注意的技巧 -
-I</a>
-<a href="http://ysl-paradise.blogspot.com/2011/05/listview-ii.html" title="http://ysl-paradise.blogspot.com/2011/05/listview-ii.html">使用 ListView 元件時該注意的技巧 -
-II</a>
+<h2>Resource</h2>
 
 <ul>
-<li><a href="http://ysl-paradise.blogspot.com/" title="http://ysl-paradise.blogspot.com/">ysl
-的程式天堂</a>對ListView使用上的一些技巧的介紹</li>
-</ul>
-</li>
-<li><a href="http://android.amberfog.com/?p=296" title="http://android.amberfog.com/?p=296">http://android.amberfog.com/?p=296</a>
-
-<ul>
-<li>解說Recycler的文章</li>
-</ul>
-</li>
-<li><a href="http://blog.jteam.nl/2009/09/17/exploring-the-world-of-android-part-2/" title="http://blog.jteam.nl/2009/09/17/exploring-the-world-of-android-part-2/">http://blog.jteam.nl/2009/09/17/exploring-the-world-of-android-part-2/</a>
-
-<ul>
-<li>異步載入image到listview的教學</li>
-</ul>
-</li>
+<li><a href="http://ysl-paradise.blogspot.com/2011/04/listview-i.html" title="http://ysl-paradise.blogspot.com/2011/04/listview-i.html">使用 ListView 元件時該注意的技巧 - I</a>
+<a href="http://ysl-paradise.blogspot.com/2011/05/listview-ii.html" title="http://ysl-paradise.blogspot.com/2011/05/listview-ii.html">使用 ListView 元件時該注意的技巧 - II</a></li>
+<li><a href="http://ysl-paradise.blogspot.com/" title="http://ysl-paradise.blogspot.com/">ysl的程式天堂</a>對ListView使用上的一些技巧的介紹</li>
+<li><a href="http://android.amberfog.com/?p=296" title="http://android.amberfog.com/?p=296">http://android.amberfog.com/?p=296</a> - 解說Recycler的文章</li>
+<li><a href="http://blog.jteam.nl/2009/09/17/exploring-the-world-of-android-part-2/" title="http://blog.jteam.nl/2009/09/17/exploring-the-world-of-android-part-2/">http://blog.jteam.nl/2009/09/17/exploring-the-world-of-android-part-2/</a> - 異步載入image到listview的教學</li>
 <li>Google IO大會中關於listview的介紹(強烈建議至少看過一次)
 
 <ol>
 <li>Turbo-charge your UI: How to Make your Android UI Fast and
-Efficient
-<a href="http://dl.google.com/io/2009/pres/Th_0230_TurboChargeYourUI-HowtomakeyourAndroidUIfastandefficient.pdf" title="http://dl.google.com/io/2009/pres/Th_0230_TurboChargeYourUI-HowtomakeyourAndroidUIfastandefficient.pdf">投影片</a>,<a href="http://www.youtube.com/watch?v=N6YdwzAvwOA&amp;feature=player_embedded" title="http://www.youtube.com/watch?v=N6YdwzAvwOA&amp;feature=player_embedded">影片</a>
-
-<ul>
-<li>adapter效能優化方式</li>
-</ul>
-</li>
+Efficient<a href="http://dl.google.com/io/2009/pres/Th_0230_TurboChargeYourUI-HowtomakeyourAndroidUIfastandefficient.pdf" title="http://dl.google.com/io/2009/pres/Th_0230_TurboChargeYourUI-HowtomakeyourAndroidUIfastandefficient.pdf">投影片</a>,<a href="http://www.youtube.com/watch?v=N6YdwzAvwOA&amp;feature=player_embedded" title="http://www.youtube.com/watch?v=N6YdwzAvwOA&amp;feature=player_embedded">影片</a> - adapter效能優化方式</li>
 <li>The world of ListView
-<a href="http://dl.google.com/googleio/2010/android-world-of-listview-android.pdf" title="http://dl.google.com/googleio/2010/android-world-of-listview-android.pdf">投影片</a>
-,<a href="http://www.youtube.com/watch?v=wDBM6wVEO70&amp;feature=player_embedded" title="http://www.youtube.com/watch?v=wDBM6wVEO70&amp;feature=player_embedded">影片</a>
-
-<ul>
-<li>ListView使用的注意事項(一堆要注意的陷阱)</li>
-</ul>
-</li>
+<a href="http://dl.google.com/googleio/2010/android-world-of-listview-android.pdf" title="http://dl.google.com/googleio/2010/android-world-of-listview-android.pdf">投影片</a>,<a href="http://www.youtube.com/watch?v=wDBM6wVEO70&amp;feature=player_embedded" title="http://www.youtube.com/watch?v=wDBM6wVEO70&amp;feature=player_embedded">影片</a> - ListView使用的注意事項(一堆要注意的陷阱)</li>
 </ol>
 </li>
 </ul>
 
-
-<p>^<a href="#fnt__1">1)</a>^ API的設計上應該不能讓使用的人感到意外</p>
 </div>
   
   
@@ -1989,160 +2142,6 @@ swing，應該很熟悉這種使用方式</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/03/20/intents/">Intents and Intent Filters</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-03-20T00:00:00+08:00" pubdate data-updated="true">Mar 20<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/03/20/intents/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Intents是Android應用程式內部或應用程式與應用程式間溝通的一個機制。你可以簡單把Intents的視為是一種事件處理系統。</p>
-
-<p>Intents的使用可分顯式啟動或隱式啟動，當一個隱式的Intent啟動時，Intent可以不知道會由誰來處理這個Intent，一般都是由系統決定什麼樣的Intent會由那一個Component處理。這樣可以達到應用上的解耦。
-讓不同程式的Activity可以交互使用。例如，如果客製的程式需要一個發mail的功能，你可以直接使用系統現有的mail功能(含mail的UI)，不用自已再重寫一個mail
-activity.</p>
-
-<p>Intent可以包含以下內容：</p>
-
-<ol>
-<li>Component name :
-要處理Intent的元件名稱，選擇性的屬性，如果有設定，就會由該元件處理這個intent，元件名稱是像這樣的格式:
-com.example.project.app.FreneticActivity</li>
-<li>Action : 執行什麼樣的動作</li>
-<li>Data : content uri</li>
-<li>Type : MIME type,用來識別資料型別</li>
-<li>Category : action category</li>
-<li>Extras : intent間溝通用的容器(Key-Value pair)</li>
-<li>Flags</li>
-</ol>
-
-
-<p>典型的Intent的使用方式如下：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Intent intent = new Intent(MyActivity.this, MyOtherActivity.class);
-</span><span class='line'>startActivity(intent);</span></code></pre></td></tr></table></div></figure>
-
-
-<p>當<code>startActivity(intent);</code>被呼叫時，新的Activity(MyOtherActivity.class)會被帶到目前(MyActivity)的上面。</p>
-
-<p>component設定可透過以下幾種方式</p>
-
-<ol>
-<li>setComponent(String name)</li>
-<li>setClass(Class cls)</li>
-<li>setClassName(String name)</li>
-</ol>
-
-
-<p>setClass因為對重構比基於字串為主的另外幾個method友善，所以，通常都用這個。</p>
-
-<p>典型的隱式呼叫(適合用在跟其他app溝通)：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>private static final int PICK_CONTACT_SUBACTIVITY = 2;
-</span><span class='line'>Uri uri = Uri.parse("content://contacts/people");
-</span><span class='line'>Intent intent = new Intent(Intent.ACTION_PICK, uri);
-</span><span class='line'>startActivityForResult(intent, PICK_CONTACT_SUBACTIVITY);</span></code></pre></td></tr></table></div></figure>
-
-
-<p>跟顯式呼叫的差別在，intent認的是事件的代碼，而不是activity本身。</p>
-
-<p>Action Name的名稱為
-<code>&lt;your-package-name &gt;.intent.action.YOUR_ACTION_NAME</code></p>
-
-<h3>Intent filters</h3>
-
-<p>Intent filters是activities, services, and broadcast
-receivers用來過濾隱式intent的機制，只有intent有指定component
-name就會直接送到該compnent處理(顯式)，不受intent filter的管理。
-而如果沒有指定component
-name(隱式)，就得看是否有通過附加在元件(activities, services, and
-broadcast receivers)上的intent filter的測試。
-Intent裡的只有以下三個屬性會被intent
-filter拿來做測試用的條件，其他的不會影響intent filter的結果</p>
-
-<ol>
-<li>action</li>
-<li>data (both URI and data type)</li>
-<li>category</li>
-</ol>
-
-
-<p>這三個測試條件要完全通過，元件才會處理該intent，只有一個不符合，就算測試失敗，一般應用上，如果會擔心無法接收到想處理的intent，可以設定多個intent
-filters來處理。</p>
-
-<p><code>&lt;intent-filter&gt;</code>tag至少要包含action，如果<code>&lt;intent-filter&gt;</code>是空的tag，那會收到所有的intent</p>
-
-<p>如果三個都是action，只要符合其中一個就算測試通過</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;intent-filter . . . &gt;
-</span><span class='line'>    &lt;action android:name="com.example.project.SHOW_CURRENT" /&gt;
-</span><span class='line'>    &lt;action android:name="com.example.project.SHOW_RECENT" /&gt;
-</span><span class='line'>    &lt;action android:name="com.example.project.SHOW_PENDING" /&gt;
-</span><span class='line'>    . . .
-</span><span class='line'>&lt;/intent-filter&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>如果兩者都是category，只有符合其中一個就通過，或者，如果intent本身沒設定任何category，也會通過測試</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;intent-filter . . . &gt;
-</span><span class='line'>    &lt;category android:name="android.intent.category.DEFAULT" /&gt;
-</span><span class='line'>    &lt;category android:name="android.intent.category.BROWSABLE" /&gt;
-</span><span class='line'>    . . .
-</span><span class='line'>&lt;/intent-filter&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Context.startActivity() 及
-Activity.startActivityForResult()需要有<strong>DEFAULT
-category</strong>(android.intent.category.DEFAULT)的intent
-filter才能接收得到，所以除了<strong>MAIN action</strong>跟<strong>LAUNCHER
-category</strong>外的activity 都應該要設定<strong>DEFAULT category</strong></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/7/">&larr; Older</a>
@@ -2160,6 +2159,10 @@ category</strong>外的activity 都應該要設定<strong>DEFAULT category</stro
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/11/16/reload-tomcat-web-application-by-jmx/">透過JMX重新載入Tomcat上的Web Application</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/08/31/access-imgur-with-api/">Access Imgur With API</a>
       </li>
     
@@ -2175,19 +2178,15 @@ category</strong>外的activity 都應該要設定<strong>DEFAULT category</stro
         <a href="/blog/2013/07/29/restful-web-security/">Restful Web Security</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2013/07/15/mac-os-x-keyboard-shortcuts-for-terminal/">Mac OS X Keyboard Shortcuts for Terminal</a>
-      </li>
-    
   </ul>
 </section>
 <section>
   <h1>Category Cloud</h1>
-    <span id="tag-cloud"><a href='/blog/categories/actionbar' style='font-size: 102.4%'>actionbar(1)</a> <a href='/blog/categories/android' style='font-size: 160.0%'>android(25)</a> <a href='/blog/categories/apache' style='font-size: 116.8%'>apache(7)</a> <a href='/blog/categories/authentication' style='font-size: 102.4%'>authentication(1)</a> <a href='/blog/categories/authorization' style='font-size: 102.4%'>authorization(1)</a> <a href='/blog/categories/bash' style='font-size: 109.6%'>bash(4)</a> <a href='/blog/categories/best-practice' style='font-size: 102.4%'>best_practice(1)</a> <a href='/blog/categories/book' style='font-size: 102.4%'>book(1)</a> <a href='/blog/categories/broadcast-receiver' style='font-size: 104.8%'>broadcast_receiver(2)</a> <a href='/blog/categories/cdi' style='font-size: 104.8%'>cdi(2)</a> <a href='/blog/categories/centos' style='font-size: 112.0%'>centos(5)</a> <a href='/blog/categories/clean-code' style='font-size: 102.4%'>clean code(1)</a> <a href='/blog/categories/command' style='font-size: 112.0%'>command(5)</a> <a href='/blog/categories/concurrency' style='font-size: 102.4%'>concurrency(1)</a> <a href='/blog/categories/curl' style='font-size: 102.4%'>curl(1)</a> <a href='/blog/categories/database' style='font-size: 114.4%'>database(6)</a> <a href='/blog/categories/datetime' style='font-size: 102.4%'>datetime(1)</a> <a href='/blog/categories/di' style='font-size: 104.8%'>di(2)</a> <a href='/blog/categories/drawable' style='font-size: 102.4%'>drawable(1)</a> <a href='/blog/categories/ec' style='font-size: 102.4%'>ec(1)</a> <a href='/blog/categories/eclipse' style='font-size: 102.4%'>eclipse(1)</a> <a href='/blog/categories/ecshop' style='font-size: 116.8%'>ecshop(7)</a> <a href='/blog/categories/editor' style='font-size: 102.4%'>editor(1)</a> <a href='/blog/categories/emulator' style='font-size: 102.4%'>emulator(1)</a> <a href='/blog/categories/encoding' style='font-size: 102.4%'>encoding(1)</a> <a href='/blog/categories/english' style='font-size: 133.6%'>english(14)</a> <a href='/blog/categories/excel' style='font-size: 104.8%'>excel(2)</a> <a href='/blog/categories/extjs' style='font-size: 104.8%'>extjs(2)</a> <a href='/blog/categories/gesture' style='font-size: 102.4%'>gesture(1)</a> <a href='/blog/categories/git' style='font-size: 109.6%'>git(4)</a> <a href='/blog/categories/git-flow' style='font-size: 102.4%'>git-flow(1)</a> <a href='/blog/categories/guava' style='font-size: 104.8%'>guava(2)</a> <a href='/blog/categories/guice' style='font-size: 102.4%'>guice(1)</a> <a href='/blog/categories/hamcrest' style='font-size: 102.4%'>hamcrest(1)</a> <a href='/blog/categories/i18n' style='font-size: 102.4%'>i18n(1)</a> <a href='/blog/categories/ide' style='font-size: 102.4%'>IDE(1)</a> <a href='/blog/categories/idea' style='font-size: 102.4%'>IDEA(1)</a> <a href='/blog/categories/imgur' style='font-size: 102.4%'>imgur(1)</a> <a href='/blog/categories/injection' style='font-size: 102.4%'>injection(1)</a> <a href='/blog/categories/intent' style='font-size: 102.4%'>intent(1)</a> <a href='/blog/categories/ireport' style='font-size: 104.8%'>ireport(2)</a> <a href='/blog/categories/jasterreport' style='font-size: 104.8%'>jasterreport(2)</a> <a href='/blog/categories/java' style='font-size: 152.8%'>java(22)</a> <a href='/blog/categories/java-ee' style='font-size: 112.0%'>java_ee(5)</a> <a href='/blog/categories/jms' style='font-size: 102.4%'>jms(1)</a> <a href='/blog/categories/joda' style='font-size: 102.4%'>joda(1)</a> <a href='/blog/categories/jpa' style='font-size: 102.4%'>jpa(1)</a> <a href='/blog/categories/jquery' style='font-size: 102.4%'>jquery(1)</a> <a href='/blog/categories/jsp' style='font-size: 104.8%'>jsp(2)</a> <a href='/blog/categories/junit' style='font-size: 102.4%'>junit(1)</a> <a href='/blog/categories/jvm' style='font-size: 104.8%'>jvm(2)</a> <a href='/blog/categories/kohana' style='font-size: 102.4%'>kohana(1)</a> <a href='/blog/categories/l10n' style='font-size: 102.4%'>l10n(1)</a> <a href='/blog/categories/layout' style='font-size: 102.4%'>layout(1)</a> <a href='/blog/categories/linux' style='font-size: 126.4%'>linux(11)</a> <a href='/blog/categories/listview' style='font-size: 104.8%'>listview(2)</a> <a href='/blog/categories/logger' style='font-size: 102.4%'>logger(1)</a> <a href='/blog/categories/m2eclilpse' style='font-size: 102.4%'>m2eclilpse(1)</a> <a href='/blog/categories/mac' style='font-size: 104.8%'>mac(2)</a> <a href='/blog/categories/mat' style='font-size: 102.4%'>mat(1)</a> <a href='/blog/categories/maven' style='font-size: 112.0%'>maven(5)</a> <a href='/blog/categories/memory' style='font-size: 102.4%'>memory(1)</a> <a href='/blog/categories/menu' style='font-size: 102.4%'>menu(1)</a> <a href='/blog/categories/mindmap' style='font-size: 104.8%'>mindmap(2)</a> <a href='/blog/categories/misc' style='font-size: 102.4%'>misc(1)</a> <a href='/blog/categories/mysql' style='font-size: 116.8%'>mysql(7)</a> <a href='/blog/categories/nio' style='font-size: 102.4%'>nio(1)</a> <a href='/blog/categories/octopress' style='font-size: 102.4%'>octopress(1)</a> <a href='/blog/categories/oracle' style='font-size: 102.4%'>oracle(1)</a> <a href='/blog/categories/osgi' style='font-size: 107.2%'>osgi(3)</a> <a href='/blog/categories/pdf' style='font-size: 104.8%'>pdf(2)</a> <a href='/blog/categories/pdt' style='font-size: 112.0%'>pdt(5)</a> <a href='/blog/categories/pear' style='font-size: 104.8%'>pear(2)</a> <a href='/blog/categories/performace' style='font-size: 102.4%'>performace(1)</a> <a href='/blog/categories/pgsql' style='font-size: 102.4%'>pgsql(1)</a> <a href='/blog/categories/php' style='font-size: 114.4%'>php(6)</a> <a href='/blog/categories/play-framework' style='font-size: 102.4%'>play_framework(1)</a> <a href='/blog/categories/pm' style='font-size: 112.0%'>pm(5)</a> <a href='/blog/categories/postgresql' style='font-size: 104.8%'>postgresql(2)</a> <a href='/blog/categories/profile' style='font-size: 102.4%'>profile(1)</a> <a href='/blog/categories/programming' style='font-size: 128.8%'>programming(12)</a> <a href='/blog/categories/python' style='font-size: 102.4%'>python(1)</a> <a href='/blog/categories/re' style='font-size: 102.4%'>re(1)</a> <a href='/blog/categories/refactory' style='font-size: 102.4%'>refactory(1)</a> <a href='/blog/categories/rest' style='font-size: 116.8%'>rest(7)</a> <a href='/blog/categories/roboguice' style='font-size: 102.4%'>roboguice(1)</a> <a href='/blog/categories/sbt' style='font-size: 102.4%'>sbt(1)</a> <a href='/blog/categories/scala' style='font-size: 109.6%'>scala(4)</a> <a href='/blog/categories/security' style='font-size: 104.8%'>security(2)</a> <a href='/blog/categories/service' style='font-size: 104.8%'>service(2)</a> <a href='/blog/categories/shiro' style='font-size: 102.4%'>shiro(1)</a> <a href='/blog/categories/shortchut' style='font-size: 102.4%'>shortchut(1)</a> <a href='/blog/categories/smarty' style='font-size: 107.2%'>smarty(3)</a> <a href='/blog/categories/spring' style='font-size: 102.4%'>spring(1)</a> <a href='/blog/categories/sql' style='font-size: 102.4%'>sql(1)</a> <a href='/blog/categories/style' style='font-size: 102.4%'>style(1)</a> <a href='/blog/categories/tdd' style='font-size: 102.4%'>tdd(1)</a> <a href='/blog/categories/testing' style='font-size: 124.0%'>testing(10)</a> <a href='/blog/categories/theme' style='font-size: 102.4%'>theme(1)</a> <a href='/blog/categories/tips' style='font-size: 104.8%'>tips(2)</a> <a href='/blog/categories/ubuntu' style='font-size: 119.2%'>ubuntu(8)</a> <a href='/blog/categories/ui' style='font-size: 104.8%'>ui(2)</a> <a href='/blog/categories/vim' style='font-size: 104.8%'>vim(2)</a> <a href='/blog/categories/web' style='font-size: 104.8%'>web(2)</a> <a href='/blog/categories/windows' style='font-size: 102.4%'>windows(1)</a> <a href='/blog/categories/xampp' style='font-size: 102.4%'>xampp(1)</a> <a href='/blog/categories/xml' style='font-size: 104.8%'>xml(2)</a> </span>
+    <span id="tag-cloud"><a href='/blog/categories/actionbar' style='font-size: 102.4%'>actionbar(1)</a> <a href='/blog/categories/android' style='font-size: 160.0%'>android(25)</a> <a href='/blog/categories/apache' style='font-size: 116.8%'>apache(7)</a> <a href='/blog/categories/authentication' style='font-size: 102.4%'>authentication(1)</a> <a href='/blog/categories/authorization' style='font-size: 102.4%'>authorization(1)</a> <a href='/blog/categories/bash' style='font-size: 109.6%'>bash(4)</a> <a href='/blog/categories/best-practice' style='font-size: 102.4%'>best_practice(1)</a> <a href='/blog/categories/book' style='font-size: 102.4%'>book(1)</a> <a href='/blog/categories/broadcast-receiver' style='font-size: 104.8%'>broadcast_receiver(2)</a> <a href='/blog/categories/cdi' style='font-size: 104.8%'>cdi(2)</a> <a href='/blog/categories/centos' style='font-size: 112.0%'>centos(5)</a> <a href='/blog/categories/clean-code' style='font-size: 102.4%'>clean code(1)</a> <a href='/blog/categories/command' style='font-size: 112.0%'>command(5)</a> <a href='/blog/categories/concurrency' style='font-size: 102.4%'>concurrency(1)</a> <a href='/blog/categories/curl' style='font-size: 102.4%'>curl(1)</a> <a href='/blog/categories/database' style='font-size: 114.4%'>database(6)</a> <a href='/blog/categories/datetime' style='font-size: 102.4%'>datetime(1)</a> <a href='/blog/categories/di' style='font-size: 104.8%'>di(2)</a> <a href='/blog/categories/drawable' style='font-size: 102.4%'>drawable(1)</a> <a href='/blog/categories/ec' style='font-size: 102.4%'>ec(1)</a> <a href='/blog/categories/eclipse' style='font-size: 102.4%'>eclipse(1)</a> <a href='/blog/categories/ecshop' style='font-size: 116.8%'>ecshop(7)</a> <a href='/blog/categories/editor' style='font-size: 102.4%'>editor(1)</a> <a href='/blog/categories/emulator' style='font-size: 102.4%'>emulator(1)</a> <a href='/blog/categories/encoding' style='font-size: 102.4%'>encoding(1)</a> <a href='/blog/categories/english' style='font-size: 133.6%'>english(14)</a> <a href='/blog/categories/excel' style='font-size: 104.8%'>excel(2)</a> <a href='/blog/categories/extjs' style='font-size: 104.8%'>extjs(2)</a> <a href='/blog/categories/gesture' style='font-size: 102.4%'>gesture(1)</a> <a href='/blog/categories/git' style='font-size: 109.6%'>git(4)</a> <a href='/blog/categories/git-flow' style='font-size: 102.4%'>git-flow(1)</a> <a href='/blog/categories/guava' style='font-size: 104.8%'>guava(2)</a> <a href='/blog/categories/guice' style='font-size: 102.4%'>guice(1)</a> <a href='/blog/categories/hamcrest' style='font-size: 102.4%'>hamcrest(1)</a> <a href='/blog/categories/i18n' style='font-size: 102.4%'>i18n(1)</a> <a href='/blog/categories/ide' style='font-size: 102.4%'>IDE(1)</a> <a href='/blog/categories/idea' style='font-size: 102.4%'>IDEA(1)</a> <a href='/blog/categories/imgur' style='font-size: 102.4%'>imgur(1)</a> <a href='/blog/categories/injection' style='font-size: 102.4%'>injection(1)</a> <a href='/blog/categories/intent' style='font-size: 102.4%'>intent(1)</a> <a href='/blog/categories/ireport' style='font-size: 104.8%'>ireport(2)</a> <a href='/blog/categories/jasterreport' style='font-size: 104.8%'>jasterreport(2)</a> <a href='/blog/categories/java' style='font-size: 152.8%'>java(22)</a> <a href='/blog/categories/java-ee' style='font-size: 112.0%'>java_ee(5)</a> <a href='/blog/categories/jms' style='font-size: 102.4%'>jms(1)</a> <a href='/blog/categories/jmx' style='font-size: 102.4%'>JMX(1)</a> <a href='/blog/categories/joda' style='font-size: 102.4%'>joda(1)</a> <a href='/blog/categories/jpa' style='font-size: 102.4%'>jpa(1)</a> <a href='/blog/categories/jquery' style='font-size: 102.4%'>jquery(1)</a> <a href='/blog/categories/jsp' style='font-size: 104.8%'>jsp(2)</a> <a href='/blog/categories/junit' style='font-size: 102.4%'>junit(1)</a> <a href='/blog/categories/jvm' style='font-size: 104.8%'>jvm(2)</a> <a href='/blog/categories/kohana' style='font-size: 102.4%'>kohana(1)</a> <a href='/blog/categories/l10n' style='font-size: 102.4%'>l10n(1)</a> <a href='/blog/categories/layout' style='font-size: 102.4%'>layout(1)</a> <a href='/blog/categories/linux' style='font-size: 126.4%'>linux(11)</a> <a href='/blog/categories/listview' style='font-size: 104.8%'>listview(2)</a> <a href='/blog/categories/logger' style='font-size: 102.4%'>logger(1)</a> <a href='/blog/categories/m2eclilpse' style='font-size: 102.4%'>m2eclilpse(1)</a> <a href='/blog/categories/mac' style='font-size: 104.8%'>mac(2)</a> <a href='/blog/categories/mat' style='font-size: 102.4%'>mat(1)</a> <a href='/blog/categories/maven' style='font-size: 112.0%'>maven(5)</a> <a href='/blog/categories/memory' style='font-size: 102.4%'>memory(1)</a> <a href='/blog/categories/menu' style='font-size: 102.4%'>menu(1)</a> <a href='/blog/categories/mindmap' style='font-size: 104.8%'>mindmap(2)</a> <a href='/blog/categories/misc' style='font-size: 102.4%'>misc(1)</a> <a href='/blog/categories/mysql' style='font-size: 116.8%'>mysql(7)</a> <a href='/blog/categories/nio' style='font-size: 102.4%'>nio(1)</a> <a href='/blog/categories/octopress' style='font-size: 102.4%'>octopress(1)</a> <a href='/blog/categories/oracle' style='font-size: 102.4%'>oracle(1)</a> <a href='/blog/categories/osgi' style='font-size: 107.2%'>osgi(3)</a> <a href='/blog/categories/pdf' style='font-size: 104.8%'>pdf(2)</a> <a href='/blog/categories/pdt' style='font-size: 112.0%'>pdt(5)</a> <a href='/blog/categories/pear' style='font-size: 104.8%'>pear(2)</a> <a href='/blog/categories/performace' style='font-size: 102.4%'>performace(1)</a> <a href='/blog/categories/pgsql' style='font-size: 102.4%'>pgsql(1)</a> <a href='/blog/categories/php' style='font-size: 114.4%'>php(6)</a> <a href='/blog/categories/play-framework' style='font-size: 102.4%'>play_framework(1)</a> <a href='/blog/categories/pm' style='font-size: 112.0%'>pm(5)</a> <a href='/blog/categories/postgresql' style='font-size: 104.8%'>postgresql(2)</a> <a href='/blog/categories/profile' style='font-size: 102.4%'>profile(1)</a> <a href='/blog/categories/programming' style='font-size: 128.8%'>programming(12)</a> <a href='/blog/categories/python' style='font-size: 102.4%'>python(1)</a> <a href='/blog/categories/re' style='font-size: 102.4%'>re(1)</a> <a href='/blog/categories/refactory' style='font-size: 102.4%'>refactory(1)</a> <a href='/blog/categories/rest' style='font-size: 116.8%'>rest(7)</a> <a href='/blog/categories/roboguice' style='font-size: 102.4%'>roboguice(1)</a> <a href='/blog/categories/sbt' style='font-size: 102.4%'>sbt(1)</a> <a href='/blog/categories/scala' style='font-size: 109.6%'>scala(4)</a> <a href='/blog/categories/security' style='font-size: 104.8%'>security(2)</a> <a href='/blog/categories/service' style='font-size: 104.8%'>service(2)</a> <a href='/blog/categories/shiro' style='font-size: 102.4%'>shiro(1)</a> <a href='/blog/categories/shortchut' style='font-size: 102.4%'>shortchut(1)</a> <a href='/blog/categories/smarty' style='font-size: 107.2%'>smarty(3)</a> <a href='/blog/categories/spring' style='font-size: 104.8%'>spring(2)</a> <a href='/blog/categories/sql' style='font-size: 102.4%'>sql(1)</a> <a href='/blog/categories/style' style='font-size: 102.4%'>style(1)</a> <a href='/blog/categories/tdd' style='font-size: 102.4%'>tdd(1)</a> <a href='/blog/categories/testing' style='font-size: 124.0%'>testing(10)</a> <a href='/blog/categories/theme' style='font-size: 102.4%'>theme(1)</a> <a href='/blog/categories/tips' style='font-size: 104.8%'>tips(2)</a> <a href='/blog/categories/tomcat' style='font-size: 102.4%'>tomcat(1)</a> <a href='/blog/categories/ubuntu' style='font-size: 119.2%'>ubuntu(8)</a> <a href='/blog/categories/ui' style='font-size: 104.8%'>ui(2)</a> <a href='/blog/categories/vim' style='font-size: 104.8%'>vim(2)</a> <a href='/blog/categories/web' style='font-size: 104.8%'>web(2)</a> <a href='/blog/categories/windows' style='font-size: 102.4%'>windows(1)</a> <a href='/blog/categories/xampp' style='font-size: 102.4%'>xampp(1)</a> <a href='/blog/categories/xml' style='font-size: 104.8%'>xml(2)</a> </span>
 </section>
 <section>
   <h1>Categories</h1>
-    <ul id="category-list"><li><a href='/blog/categories/actionbar'>actionbar (1)</a></li><li><a href='/blog/categories/android'>android (25)</a></li><li><a href='/blog/categories/apache'>apache (7)</a></li><li><a href='/blog/categories/authentication'>authentication (1)</a></li><li><a href='/blog/categories/authorization'>authorization (1)</a></li><li><a href='/blog/categories/bash'>bash (4)</a></li><li><a href='/blog/categories/best-practice'>best_practice (1)</a></li><li><a href='/blog/categories/book'>book (1)</a></li><li><a href='/blog/categories/broadcast-receiver'>broadcast_receiver (2)</a></li><li><a href='/blog/categories/cdi'>cdi (2)</a></li><li><a href='/blog/categories/centos'>centos (5)</a></li><li><a href='/blog/categories/clean-code'>clean code (1)</a></li><li><a href='/blog/categories/command'>command (5)</a></li><li><a href='/blog/categories/concurrency'>concurrency (1)</a></li><li><a href='/blog/categories/curl'>curl (1)</a></li><li><a href='/blog/categories/database'>database (6)</a></li><li><a href='/blog/categories/datetime'>datetime (1)</a></li><li><a href='/blog/categories/di'>di (2)</a></li><li><a href='/blog/categories/drawable'>drawable (1)</a></li><li><a href='/blog/categories/ec'>ec (1)</a></li><li><a href='/blog/categories/eclipse'>eclipse (1)</a></li><li><a href='/blog/categories/ecshop'>ecshop (7)</a></li><li><a href='/blog/categories/editor'>editor (1)</a></li><li><a href='/blog/categories/emulator'>emulator (1)</a></li><li><a href='/blog/categories/encoding'>encoding (1)</a></li><li><a href='/blog/categories/english'>english (14)</a></li><li><a href='/blog/categories/excel'>excel (2)</a></li><li><a href='/blog/categories/extjs'>extjs (2)</a></li><li><a href='/blog/categories/gesture'>gesture (1)</a></li><li><a href='/blog/categories/git'>git (4)</a></li><li><a href='/blog/categories/git-flow'>git-flow (1)</a></li><li><a href='/blog/categories/guava'>guava (2)</a></li><li><a href='/blog/categories/guice'>guice (1)</a></li><li><a href='/blog/categories/hamcrest'>hamcrest (1)</a></li><li><a href='/blog/categories/i18n'>i18n (1)</a></li><li><a href='/blog/categories/ide'>IDE (1)</a></li><li><a href='/blog/categories/idea'>IDEA (1)</a></li><li><a href='/blog/categories/imgur'>imgur (1)</a></li><li><a href='/blog/categories/injection'>injection (1)</a></li><li><a href='/blog/categories/intent'>intent (1)</a></li><li><a href='/blog/categories/ireport'>ireport (2)</a></li><li><a href='/blog/categories/jasterreport'>jasterreport (2)</a></li><li><a href='/blog/categories/java'>java (22)</a></li><li><a href='/blog/categories/java-ee'>java_ee (5)</a></li><li><a href='/blog/categories/jms'>jms (1)</a></li><li><a href='/blog/categories/joda'>joda (1)</a></li><li><a href='/blog/categories/jpa'>jpa (1)</a></li><li><a href='/blog/categories/jquery'>jquery (1)</a></li><li><a href='/blog/categories/jsp'>jsp (2)</a></li><li><a href='/blog/categories/junit'>junit (1)</a></li><li><a href='/blog/categories/jvm'>jvm (2)</a></li><li><a href='/blog/categories/kohana'>kohana (1)</a></li><li><a href='/blog/categories/l10n'>l10n (1)</a></li><li><a href='/blog/categories/layout'>layout (1)</a></li><li><a href='/blog/categories/linux'>linux (11)</a></li><li><a href='/blog/categories/listview'>listview (2)</a></li><li><a href='/blog/categories/logger'>logger (1)</a></li><li><a href='/blog/categories/m2eclilpse'>m2eclilpse (1)</a></li><li><a href='/blog/categories/mac'>mac (2)</a></li><li><a href='/blog/categories/mat'>mat (1)</a></li><li><a href='/blog/categories/maven'>maven (5)</a></li><li><a href='/blog/categories/memory'>memory (1)</a></li><li><a href='/blog/categories/menu'>menu (1)</a></li><li><a href='/blog/categories/mindmap'>mindmap (2)</a></li><li><a href='/blog/categories/misc'>misc (1)</a></li><li><a href='/blog/categories/mysql'>mysql (7)</a></li><li><a href='/blog/categories/nio'>nio (1)</a></li><li><a href='/blog/categories/octopress'>octopress (1)</a></li><li><a href='/blog/categories/oracle'>oracle (1)</a></li><li><a href='/blog/categories/osgi'>osgi (3)</a></li><li><a href='/blog/categories/pdf'>pdf (2)</a></li><li><a href='/blog/categories/pdt'>pdt (5)</a></li><li><a href='/blog/categories/pear'>pear (2)</a></li><li><a href='/blog/categories/performace'>performace (1)</a></li><li><a href='/blog/categories/pgsql'>pgsql (1)</a></li><li><a href='/blog/categories/php'>php (6)</a></li><li><a href='/blog/categories/play-framework'>play_framework (1)</a></li><li><a href='/blog/categories/pm'>pm (5)</a></li><li><a href='/blog/categories/postgresql'>postgresql (2)</a></li><li><a href='/blog/categories/profile'>profile (1)</a></li><li><a href='/blog/categories/programming'>programming (12)</a></li><li><a href='/blog/categories/python'>python (1)</a></li><li><a href='/blog/categories/re'>re (1)</a></li><li><a href='/blog/categories/refactory'>refactory (1)</a></li><li><a href='/blog/categories/rest'>rest (7)</a></li><li><a href='/blog/categories/roboguice'>roboguice (1)</a></li><li><a href='/blog/categories/sbt'>sbt (1)</a></li><li><a href='/blog/categories/scala'>scala (4)</a></li><li><a href='/blog/categories/security'>security (2)</a></li><li><a href='/blog/categories/service'>service (2)</a></li><li><a href='/blog/categories/shiro'>shiro (1)</a></li><li><a href='/blog/categories/shortchut'>shortchut (1)</a></li><li><a href='/blog/categories/smarty'>smarty (3)</a></li><li><a href='/blog/categories/spring'>spring (1)</a></li><li><a href='/blog/categories/sql'>sql (1)</a></li><li><a href='/blog/categories/style'>style (1)</a></li><li><a href='/blog/categories/tdd'>tdd (1)</a></li><li><a href='/blog/categories/testing'>testing (10)</a></li><li><a href='/blog/categories/theme'>theme (1)</a></li><li><a href='/blog/categories/tips'>tips (2)</a></li><li><a href='/blog/categories/ubuntu'>ubuntu (8)</a></li><li><a href='/blog/categories/ui'>ui (2)</a></li><li><a href='/blog/categories/vim'>vim (2)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/windows'>windows (1)</a></li><li><a href='/blog/categories/xampp'>xampp (1)</a></li><li><a href='/blog/categories/xml'>xml (2)</a></li></ul>
+    <ul id="category-list"><li><a href='/blog/categories/actionbar'>actionbar (1)</a></li><li><a href='/blog/categories/android'>android (25)</a></li><li><a href='/blog/categories/apache'>apache (7)</a></li><li><a href='/blog/categories/authentication'>authentication (1)</a></li><li><a href='/blog/categories/authorization'>authorization (1)</a></li><li><a href='/blog/categories/bash'>bash (4)</a></li><li><a href='/blog/categories/best-practice'>best_practice (1)</a></li><li><a href='/blog/categories/book'>book (1)</a></li><li><a href='/blog/categories/broadcast-receiver'>broadcast_receiver (2)</a></li><li><a href='/blog/categories/cdi'>cdi (2)</a></li><li><a href='/blog/categories/centos'>centos (5)</a></li><li><a href='/blog/categories/clean-code'>clean code (1)</a></li><li><a href='/blog/categories/command'>command (5)</a></li><li><a href='/blog/categories/concurrency'>concurrency (1)</a></li><li><a href='/blog/categories/curl'>curl (1)</a></li><li><a href='/blog/categories/database'>database (6)</a></li><li><a href='/blog/categories/datetime'>datetime (1)</a></li><li><a href='/blog/categories/di'>di (2)</a></li><li><a href='/blog/categories/drawable'>drawable (1)</a></li><li><a href='/blog/categories/ec'>ec (1)</a></li><li><a href='/blog/categories/eclipse'>eclipse (1)</a></li><li><a href='/blog/categories/ecshop'>ecshop (7)</a></li><li><a href='/blog/categories/editor'>editor (1)</a></li><li><a href='/blog/categories/emulator'>emulator (1)</a></li><li><a href='/blog/categories/encoding'>encoding (1)</a></li><li><a href='/blog/categories/english'>english (14)</a></li><li><a href='/blog/categories/excel'>excel (2)</a></li><li><a href='/blog/categories/extjs'>extjs (2)</a></li><li><a href='/blog/categories/gesture'>gesture (1)</a></li><li><a href='/blog/categories/git'>git (4)</a></li><li><a href='/blog/categories/git-flow'>git-flow (1)</a></li><li><a href='/blog/categories/guava'>guava (2)</a></li><li><a href='/blog/categories/guice'>guice (1)</a></li><li><a href='/blog/categories/hamcrest'>hamcrest (1)</a></li><li><a href='/blog/categories/i18n'>i18n (1)</a></li><li><a href='/blog/categories/ide'>IDE (1)</a></li><li><a href='/blog/categories/idea'>IDEA (1)</a></li><li><a href='/blog/categories/imgur'>imgur (1)</a></li><li><a href='/blog/categories/injection'>injection (1)</a></li><li><a href='/blog/categories/intent'>intent (1)</a></li><li><a href='/blog/categories/ireport'>ireport (2)</a></li><li><a href='/blog/categories/jasterreport'>jasterreport (2)</a></li><li><a href='/blog/categories/java'>java (22)</a></li><li><a href='/blog/categories/java-ee'>java_ee (5)</a></li><li><a href='/blog/categories/jms'>jms (1)</a></li><li><a href='/blog/categories/jmx'>JMX (1)</a></li><li><a href='/blog/categories/joda'>joda (1)</a></li><li><a href='/blog/categories/jpa'>jpa (1)</a></li><li><a href='/blog/categories/jquery'>jquery (1)</a></li><li><a href='/blog/categories/jsp'>jsp (2)</a></li><li><a href='/blog/categories/junit'>junit (1)</a></li><li><a href='/blog/categories/jvm'>jvm (2)</a></li><li><a href='/blog/categories/kohana'>kohana (1)</a></li><li><a href='/blog/categories/l10n'>l10n (1)</a></li><li><a href='/blog/categories/layout'>layout (1)</a></li><li><a href='/blog/categories/linux'>linux (11)</a></li><li><a href='/blog/categories/listview'>listview (2)</a></li><li><a href='/blog/categories/logger'>logger (1)</a></li><li><a href='/blog/categories/m2eclilpse'>m2eclilpse (1)</a></li><li><a href='/blog/categories/mac'>mac (2)</a></li><li><a href='/blog/categories/mat'>mat (1)</a></li><li><a href='/blog/categories/maven'>maven (5)</a></li><li><a href='/blog/categories/memory'>memory (1)</a></li><li><a href='/blog/categories/menu'>menu (1)</a></li><li><a href='/blog/categories/mindmap'>mindmap (2)</a></li><li><a href='/blog/categories/misc'>misc (1)</a></li><li><a href='/blog/categories/mysql'>mysql (7)</a></li><li><a href='/blog/categories/nio'>nio (1)</a></li><li><a href='/blog/categories/octopress'>octopress (1)</a></li><li><a href='/blog/categories/oracle'>oracle (1)</a></li><li><a href='/blog/categories/osgi'>osgi (3)</a></li><li><a href='/blog/categories/pdf'>pdf (2)</a></li><li><a href='/blog/categories/pdt'>pdt (5)</a></li><li><a href='/blog/categories/pear'>pear (2)</a></li><li><a href='/blog/categories/performace'>performace (1)</a></li><li><a href='/blog/categories/pgsql'>pgsql (1)</a></li><li><a href='/blog/categories/php'>php (6)</a></li><li><a href='/blog/categories/play-framework'>play_framework (1)</a></li><li><a href='/blog/categories/pm'>pm (5)</a></li><li><a href='/blog/categories/postgresql'>postgresql (2)</a></li><li><a href='/blog/categories/profile'>profile (1)</a></li><li><a href='/blog/categories/programming'>programming (12)</a></li><li><a href='/blog/categories/python'>python (1)</a></li><li><a href='/blog/categories/re'>re (1)</a></li><li><a href='/blog/categories/refactory'>refactory (1)</a></li><li><a href='/blog/categories/rest'>rest (7)</a></li><li><a href='/blog/categories/roboguice'>roboguice (1)</a></li><li><a href='/blog/categories/sbt'>sbt (1)</a></li><li><a href='/blog/categories/scala'>scala (4)</a></li><li><a href='/blog/categories/security'>security (2)</a></li><li><a href='/blog/categories/service'>service (2)</a></li><li><a href='/blog/categories/shiro'>shiro (1)</a></li><li><a href='/blog/categories/shortchut'>shortchut (1)</a></li><li><a href='/blog/categories/smarty'>smarty (3)</a></li><li><a href='/blog/categories/spring'>spring (2)</a></li><li><a href='/blog/categories/sql'>sql (1)</a></li><li><a href='/blog/categories/style'>style (1)</a></li><li><a href='/blog/categories/tdd'>tdd (1)</a></li><li><a href='/blog/categories/testing'>testing (10)</a></li><li><a href='/blog/categories/theme'>theme (1)</a></li><li><a href='/blog/categories/tips'>tips (2)</a></li><li><a href='/blog/categories/tomcat'>tomcat (1)</a></li><li><a href='/blog/categories/ubuntu'>ubuntu (8)</a></li><li><a href='/blog/categories/ui'>ui (2)</a></li><li><a href='/blog/categories/vim'>vim (2)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/windows'>windows (1)</a></li><li><a href='/blog/categories/xampp'>xampp (1)</a></li><li><a href='/blog/categories/xml'>xml (2)</a></li></ul>
 </section>
 
   

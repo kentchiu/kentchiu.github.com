@@ -4,7 +4,7 @@
   <title><![CDATA[Category: listview | Kent's Blog]]></title>
   <link href="http://blog.kent-chiu.com/blog/categories/listview/atom.xml" rel="self"/>
   <link href="http://blog.kent-chiu.com/"/>
-  <updated>2013-09-28T20:21:32+08:00</updated>
+  <updated>2013-12-25T15:56:51+08:00</updated>
   <id>http://blog.kent-chiu.com/</id>
   <author>
     <name><![CDATA[Kent]]></name>
@@ -114,8 +114,8 @@ editor打開任一個activity，然後，右邊的theme可以看到剛剛新增�
 <p>ListView元件被設計時，考慮到ListView主要是要來呈現許多類似的內容列表，但因為要運在手機上，所以
 就算是有大量的內容，也不能影響到操作的效能。</p>
 
-<p>基於以上原因，在使用ListView時的API時，有一些潛規格及patterns要遵守，當然，你也可以去hack這個行為，但
-通常這樣做的後果，就是比較差的效果，以及可能會破壞一些本來可以跟ListView可以互動良好的機制。</p>
+<p>基於以上原因，在使用ListView時的API時，有一些潛規則及patterns要遵守，當然，你也可以去hack這個行為，但
+通常這樣做的後果，就是比較差的效能，以及可能會破壞一些本來可以跟ListView可以互動良好的機制。</p>
 
 <p>建議在使用ListView前，先閱讀一下<a href="#resource" title="android:listview ↵">Resource</a>中Google
 IO大會的相關資訊，可以避免掉很常見的陷阱</p>
@@ -203,7 +203,7 @@ Window (View Part)</p>
 <p>```</p>
 
 <p>這樣的方式可以解決記憶體問題，但是如果當畫面從顯示
-1\~5，捲動到3\~7時，1跟2是消失在畫面，而6跟7是出現在畫面的下面，如果只是單純的把1個2的view做destory()，6跟7做view的create()
+1~5，捲動到3~7時，1跟2是消失在畫面，而6跟7是出現在畫面的下面，如果只是單純的把1個2的view做destory()，6跟7做view的create()
 ，那會造成需要大量的建立/消滅物件的動作，這樣會消耗不少cpu資源，所以，android採用<strong>回收</strong>的機制來避免大量物件建立。</p>
 
 <p>ListView的ListItem有一個特色，就是每個item
@@ -295,59 +295,27 @@ widget中比較複雜的元件，資料量少時，可以用LinerLayout加上動
 </ul>
 
 
-<p>基本上這些都是跟ViewItems回收機制有關，很多行為都讓你驚訝，怎麼跟想像的不一樣，這可已經違反了API設計上的原則(No
-Surprise^<a href="#fn__1">1)</a>^)。</p>
+<p>基本上這些都是跟ViewItems回收機制有關，很多行為都讓你驚訝，怎麼跟想像的不一樣。</p>
 
-<h1>Resource</h1>
-
-<ul>
-<li><a href="http://ysl-paradise.blogspot.com/2011/04/listview-i.html" title="http://ysl-paradise.blogspot.com/2011/04/listview-i.html">使用 ListView 元件時該注意的技巧 -
-I</a>
-<a href="http://ysl-paradise.blogspot.com/2011/05/listview-ii.html" title="http://ysl-paradise.blogspot.com/2011/05/listview-ii.html">使用 ListView 元件時該注意的技巧 -
-II</a>
+<h2>Resource</h2>
 
 <ul>
-<li><a href="http://ysl-paradise.blogspot.com/" title="http://ysl-paradise.blogspot.com/">ysl
-的程式天堂</a>對ListView使用上的一些技巧的介紹</li>
-</ul>
-</li>
-<li><a href="http://android.amberfog.com/?p=296" title="http://android.amberfog.com/?p=296">http://android.amberfog.com/?p=296</a>
-
-<ul>
-<li>解說Recycler的文章</li>
-</ul>
-</li>
-<li><a href="http://blog.jteam.nl/2009/09/17/exploring-the-world-of-android-part-2/" title="http://blog.jteam.nl/2009/09/17/exploring-the-world-of-android-part-2/">http://blog.jteam.nl/2009/09/17/exploring-the-world-of-android-part-2/</a>
-
-<ul>
-<li>異步載入image到listview的教學</li>
-</ul>
-</li>
+<li><a href="http://ysl-paradise.blogspot.com/2011/04/listview-i.html" title="http://ysl-paradise.blogspot.com/2011/04/listview-i.html">使用 ListView 元件時該注意的技巧 - I</a>
+<a href="http://ysl-paradise.blogspot.com/2011/05/listview-ii.html" title="http://ysl-paradise.blogspot.com/2011/05/listview-ii.html">使用 ListView 元件時該注意的技巧 - II</a></li>
+<li><a href="http://ysl-paradise.blogspot.com/" title="http://ysl-paradise.blogspot.com/">ysl的程式天堂</a>對ListView使用上的一些技巧的介紹</li>
+<li><a href="http://android.amberfog.com/?p=296" title="http://android.amberfog.com/?p=296">http://android.amberfog.com/?p=296</a> - 解說Recycler的文章</li>
+<li><a href="http://blog.jteam.nl/2009/09/17/exploring-the-world-of-android-part-2/" title="http://blog.jteam.nl/2009/09/17/exploring-the-world-of-android-part-2/">http://blog.jteam.nl/2009/09/17/exploring-the-world-of-android-part-2/</a> - 異步載入image到listview的教學</li>
 <li>Google IO大會中關於listview的介紹(強烈建議至少看過一次)
 
 <ol>
 <li>Turbo-charge your UI: How to Make your Android UI Fast and
-Efficient
-<a href="http://dl.google.com/io/2009/pres/Th_0230_TurboChargeYourUI-HowtomakeyourAndroidUIfastandefficient.pdf" title="http://dl.google.com/io/2009/pres/Th_0230_TurboChargeYourUI-HowtomakeyourAndroidUIfastandefficient.pdf">投影片</a>,<a href="http://www.youtube.com/watch?v=N6YdwzAvwOA&amp;feature=player_embedded" title="http://www.youtube.com/watch?v=N6YdwzAvwOA&amp;feature=player_embedded">影片</a>
-
-<ul>
-<li>adapter效能優化方式</li>
-</ul>
-</li>
+Efficient<a href="http://dl.google.com/io/2009/pres/Th_0230_TurboChargeYourUI-HowtomakeyourAndroidUIfastandefficient.pdf" title="http://dl.google.com/io/2009/pres/Th_0230_TurboChargeYourUI-HowtomakeyourAndroidUIfastandefficient.pdf">投影片</a>,<a href="http://www.youtube.com/watch?v=N6YdwzAvwOA&amp;feature=player_embedded" title="http://www.youtube.com/watch?v=N6YdwzAvwOA&amp;feature=player_embedded">影片</a> - adapter效能優化方式</li>
 <li>The world of ListView
-<a href="http://dl.google.com/googleio/2010/android-world-of-listview-android.pdf" title="http://dl.google.com/googleio/2010/android-world-of-listview-android.pdf">投影片</a>
-,<a href="http://www.youtube.com/watch?v=wDBM6wVEO70&amp;feature=player_embedded" title="http://www.youtube.com/watch?v=wDBM6wVEO70&amp;feature=player_embedded">影片</a>
-
-<ul>
-<li>ListView使用的注意事項(一堆要注意的陷阱)</li>
-</ul>
-</li>
+<a href="http://dl.google.com/googleio/2010/android-world-of-listview-android.pdf" title="http://dl.google.com/googleio/2010/android-world-of-listview-android.pdf">投影片</a>,<a href="http://www.youtube.com/watch?v=wDBM6wVEO70&amp;feature=player_embedded" title="http://www.youtube.com/watch?v=wDBM6wVEO70&amp;feature=player_embedded">影片</a> - ListView使用的注意事項(一堆要注意的陷阱)</li>
 </ol>
 </li>
 </ul>
 
-
-<p>^<a href="#fnt__1">1)</a>^ API的設計上應該不能讓使用的人感到意外</p>
 ]]></content>
   </entry>
   
