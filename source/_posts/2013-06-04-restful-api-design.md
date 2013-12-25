@@ -15,13 +15,23 @@ categories:
 ## Method
 
 
-POST,DELETE : 操作是 non-idempotent(非幕等)
+POST : 操作是 nont-idempotent(非幕等)
 
-GET, PUT  : 操作是 idempotent(幕等)
+GET, PUT, DELETE  : 操作是 idempotent(幕等)
 
-> TBC : 解釋 idempotent
 
-### GET
+
+idempotent 是指執行的結果不依賴於執行的次數，ex: `count=1+2` 是 idempotent，因為不管執行幾次，都不
+響影效到結果，但 `count++` 就是 nont-idempotent，因為執行的次數會影響結果
+通常，GET是idempotent，POST是non-idemptent這沒什麼爭議，但PUT的操作是幕等，就常常令我感到疑惑，
+目前看到最好的解釋是，PUT是用來建立或取代資源(PUT不是只用於update，也可以create)
+ex: `PUT www.api.com/blogs/blog-123` 這個操作不管執行幾次，應該都是用來建立或更新 id 為*blog-123* 的blog
+相對於`POST www.api.com/blogs`，則是每次執行都會產生一篇新的blog。
+
+另外DELETE操作是idempotent是指，不論執行幾次，都可以執行刪除的動作，所以就算資源不存在，也不應丟出異常，以刷前端double submit時，第二個submit造成失敗
+
+
+## GET
 
 GET method用來取得一筆或多的資源，如果是多筆資源，還可以加入分頁，過濾等資訊，也可在header傳入分頁的links，ex:'first', 'last', 'next' and 'prev'
 
@@ -108,8 +118,8 @@ POST method 用來更新資源，
 	GET | PUT | DELETE 	http://www.example.com/orders/{id}
 	POST 				http://www.example.com/orders
 
-> TBC : 查一下 resource id是用純數字(/user/1)，或使用有意義的名稱為佳(users/kent)
-> 目前認為用 id 應該會比較好，因為名稱可能會異動，如果要用名稱，應該是類似查詢參數的用法 /users?name=kent
+> 資源 id 當識別會比用name來的好，因為名稱可能會異動，如果要用名稱，應該是類似查詢參數的用法 /users?name=kent
+> 另外，用id也可以避免名稱衝突ex: orders/new 如果這邊是採用名稱，就不易辨識這個new是指新的order，還有有張order名稱為*new*
 
 #### 輔助用字
 - search 搜尋，如果有時就是做搜尋當resource最直覺，就用吧，以名詞命規的規格，還是可以有例外的
@@ -125,10 +135,12 @@ POST method 用來更新資源，
 -	<http://www.restapitutorial.com/lessons/httpmethods.html>  - RESTful Tutorial
 -	<http://blog.2partsmagic.com/restful-uri-design/> - rest 命名規格
 -	<http://stackoverflow.com/questions/1619152/how-to-create-rest-urls-without-verbs> - 如何避免用動詞命名
-- 	一般流行的 Rest API
+件
+- 	<http://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api?hn#snake-vs-camel> - 設計Restful API 相當不錯的參考資料	，內容很全面，方方面面都有提到
+- 	一些流行的 Rest API
 	1.   <http://docs.aws.amazon.com/AmazonS3/latest/API/APIRest.html> - Amazon 的 REST API文件
 	2.   <https://dev.twitter.com/docs/api/1.1/get/lists/list> - twitter 的 REST API文件
 	3.   <https://developers.facebook.com/docs/reference/api/> - FaceBook 的 REST API文件
 	4.   <https://developer.linkedin.com/apis> - linkedin 的 REST API文件
-	5.   <https://developer.paypal.com/webapps/developer/docs/api/> - paypal  的 REST API文件
-- 	<http://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api?hn#snake-vs-camel> - 設計Restful API 相當不錯的參考資料	，內容很全面，方方面面都有提到
+	5.   <https://developer.paypal.com/webapps/developer/docs/api/> - paypal  的 REST API文
+- 	<http://www.thebuzzmedia.com/designing-a-secure-rest-api-without-oauth-authentication/> - auth token的設計	

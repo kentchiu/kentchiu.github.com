@@ -64,6 +64,15 @@ http參數可以直接加在url的query string，也可以用`-d`帶入參數間
 	# "a space" url encode後空白字元會編碼成'%20'為"a%20space"，編碼後的參數可以直接使用
 	curl -X POST -d "param1=a%20space"     
 
+#### post json 格式得資料 ####
+如同時需要傳送request parameter跟json，request parameter可以加在url後面，json資料則放入`-d`的參數，然後利用單引號將json資料含起來(如果json內容是用單引號，-d的參數則改用雙引號包覆)，header要加入"Content-Type:application/json"跟"Accept:application/json"
+
+
+	curl http://www.example.com?modifier=kent -X PUT -i -H "Content-Type:application/json" -H "Accept:application/json" -d '{"boolean" : false, "foo" : "bar"}'
+	# 不加"Accept:application/json"也可以
+	curl http://www.example.com?modifier=kent -X PUT -i -H "Content-Type:application/json" -d '{"boolean" : false, "foo" : "bar"}'
+	
+
 #### 需先認證或登入才能使用的service #####	
 許多服務，需先進行登入或認證後，才能存取其API服務，依服務要求的條件，的curl可以透過cookie，session或加入在header加入session key，api key或認證的token來達到認證的效果。
 
@@ -81,6 +90,12 @@ cookie 例子
 	curl -i -X POST -d username=kent -d password=kent123 -c  ~/cookie.txt  http://www.rest.com/auth
 	# 載入cookie到request中	
 	curl -i --header "Accept:application/json" -X GET -b ~/cookie.txt http://www.rest.com/users/1
+	
+#### 檔案上傳
+
+	curl -i -X POST -F 'file=@/Users/kent/my_file.txt' -F 'name=a_file_name'
+	
+這個是透過 HTTP multipart POST 上傳資料， `-F` 是使用http query parameter的方式，指定檔案位置的參數要加上`@` 		
 
 	
 相關資源	
