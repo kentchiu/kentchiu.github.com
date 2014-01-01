@@ -670,7 +670,7 @@
     </url>
     <url>
         <loc>http://blog.kent-chiu.com/blog/2013/06/04/restful-api-design/</loc>
-        <lastmod>2013-11-05T08:41:58+08:00</lastmod>
+        <lastmod>2013-12-26T09:50:41+08:00</lastmod>
     </url>
     <url>
         <loc>http://blog.kent-chiu.com/blog/2013/06/25/url-encoding/</loc>
@@ -700,19 +700,23 @@
     </url>
     <url>
         <loc>http://blog.kent-chiu.com/blog/2013/08/31/access-imgur-with-api/</loc>
-        <lastmod>2013-09-01T10:06:50+08:00</lastmod>
+        <lastmod>2013-12-26T09:59:23+08:00</lastmod>
     </url>
     <url>
         <loc>http://blog.kent-chiu.com/blog/2013/11/16/reload-tomcat-web-application-by-jmx/</loc>
         <lastmod>2013-12-08T10:48:22+08:00</lastmod>
     </url>
     <url>
+        <loc>http://blog.kent-chiu.com/blog/2013/12/28/python-type-hint-in-idea/</loc>
+        <lastmod>2013-12-28T22:24:34+08:00</lastmod>
+    </url>
+    <url>
         <loc>http://blog.kent-chiu.com/blog/archives/</loc>
-        <lastmod>2013-12-25T15:25:42+08:00</lastmod>
+        <lastmod>2013-12-28T22:24:34+08:00</lastmod>
     </url>
     <url>
         <loc>http://blog.kent-chiu.com/</loc>
-        <lastmod>2013-12-25T15:25:42+08:00</lastmod>
+        <lastmod>2013-12-28T22:24:34+08:00</lastmod>
     </url>
     <url>
         <loc>http://blog.kent-chiu.com/robots.txt</loc>

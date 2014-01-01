@@ -4,7 +4,7 @@
   <title><![CDATA[Category: IDEA | Kent's Blog]]></title>
   <link href="http://blog.kent-chiu.com/blog/categories/idea/atom.xml" rel="self"/>
   <link href="http://blog.kent-chiu.com/"/>
-  <updated>2013-12-25T15:56:51+08:00</updated>
+  <updated>2014-01-01T17:03:21+08:00</updated>
   <id>http://blog.kent-chiu.com/</id>
   <author>
     <name><![CDATA[Kent]]></name>
@@ -12,6 +12,74 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Python type hint in IDEA]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2013/12/28/python-type-hint-in-idea/"/>
+    <updated>2013-12-28T12:09:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2013/12/28/python-type-hint-in-idea</id>
+    <content type="html"><![CDATA[<p>在現代的IDE中，程式碼自動完成(code assist or code complete)幾乎是必備的基本功能，這個功能在靜態功能型別的語言中，IDE通常可以很完全的運作；但是在動態型別的語言中，就常常沒辦法推斷出正確的型別了。
+因為有的IDE從另外從程式碼外的其它地方(通常是註解)加入協助IDE做類型推斷(type infer)的動作。</p>
+
+<p>IDEA的pythond plugin(或 pycharm)也是使用註解的做type hint來協助IDEA做類型推斷。如果是使用python3開發，那麼還可以用<a href="http://www.python.org/dev/peps/pep-3107/">PEP-3107</a>。
+<em>PEP-3107</em>在語言的級別上加入了參數跟傳回值的型別，這樣IDE就有辦法做類型的推斷。</p>
+
+<pre><code># 未採用PEP-3107的method宣告方式
+def a_method(foo, bar) :
+    return foobar;
+
+# 採用PEP-3107的method宣告方式
+def a_method(foo : TypeFoo, bar: TypeBar) -&gt; TypeFooBar
+</code></pre>
+
+<p>TypeFoo是參數foo的型別，TypeBar是參數bar的型別，而TypeFooBar則是 return value foobar的型別</p>
+
+<p>但是以下幾種狀況是<em>PEP-3107</em>無法處理的:</p>
+
+<ul>
+<li>locale variable，如果 locale variable不是某個method的傳回值，那就沒有型別</li>
+<li>field ，field也沒有型別</li>
+<li>third party的lib，third party的lib寫法可能不是採用<em>PEP-3107</em>方式，所以ide也無法提供code complete</li>
+</ul>
+
+
+<p>計對這些狀況，可以用一開始提到的方式，套用特定的註解來協助IDE做類型推斷。</p>
+
+<pre><code>r = praw.Reddit(user_agent='User-Agent: rbot/1.0 by draculacwg')
+''':type: six.Subreddit ''' 
+subreddit = r.get_subreddit(subreddits)
+submissions = subreddit.get_new()
+</code></pre>
+
+<p>原來的<code>subreddit.get_new()</code>，原本沒有code complete，加入<code>''':type: six.Subreddit '''</code> 後，就會有code complete了</p>
+
+<h4>IDEA 建議的type hinting 語法</h4>
+
+<ul>
+<li>Foo # Class Foo visible in the current scope</li>
+<li>x.y.Bar # Class Bar from x.y module</li>
+<li>Foo | Bar # Foo or Bar</li>
+<li>(Foo, Bar) # Tuple of Foo and Bar</li>
+<li>list[Foo] # List of Foo elements</li>
+<li>dict[Foo, Bar] # Dict from Foo to Bar</li>
+<li>T # Generic type (T-Z are reserved for generics)</li>
+<li>T &lt;= Foo # Generic type with upper bound Foo</li>
+<li>Foo[T] # Foo parameterized with T</li>
+<li>(Foo, Bar) -> Baz # Function of Foo and Bar that returns Baz</li>
+<li>list[dict[str, datetime]] # List of dicts from str to datetime (nested arguments)</li>
+</ul>
+
+
+<h2>Resource</h2>
+
+<ul>
+<li><a href="http://www.jetbrains.com/pycharm/webhelp/type-hinting-in-pycharm.html">http://www.jetbrains.com/pycharm/webhelp/type-hinting-in-pycharm.html</a> - pycharm 或 IDEA python plugin中 type hint的方式</li>
+<li><a href="http://www.python.org/dev/peps/pep-0257/">http://www.python.org/dev/peps/pep-0257/</a> - PEP 257  : Docstring Conventions</li>
+<li><a href="http://www.python.org/dev/peps/pep-3107/">http://www.python.org/dev/peps/pep-3107/</a> - PEP 3107 : python 3 中可用的類型註解</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[My IntelliJ IDEA Shortcut]]></title>
