@@ -21,14 +21,12 @@ GET, PUT, DELETE  : 操作是 idempotent(幕等)
 
 
 
-idempotent 是指執行的結果不依賴於執行的次數，ex: `count=1+2` 是 idempotent，因為不管執行幾次，都不
-響影效到結果，但 `count++` 就是 nont-idempotent，因為執行的次數會影響結果
-通常，GET是idempotent，POST是non-idemptent這沒什麼爭議，但PUT的操作是幕等，就常常令我感到疑惑，
+idempotent 是指執行的結果不依賴於執行的次數，ex: `count=1+2` 是 idempotent，因為不管執行幾次，都不會影響到結果，但 `count++` 就是 nont-idempotent，因為執行的次數會影響結果。通常，GET是idempotent，POST是non-idemptent這沒什麼爭議，但PUT的操作是幕等，就常常令人感到疑惑，
 目前看到最好的解釋是，PUT是用來建立或取代資源(PUT不是只用於update，也可以create)
 ex: `PUT www.api.com/blogs/blog-123` 這個操作不管執行幾次，應該都是用來建立或更新 id 為*blog-123* 的blog
 相對於`POST www.api.com/blogs`，則是每次執行都會產生一篇新的blog。
 
-另外DELETE操作是idempotent是指，不論執行幾次，都可以執行刪除的動作，所以就算資源不存在，也不應丟出異常，以刷前端double submit時，第二個submit造成失敗
+另外DELETE操作是idempotent是指，不論執行幾次，都可以執行刪除的動作，所以就算資源不存在，也不應丟出異常，以避免前端double submit時，第二個submit造成失敗
 
 
 ## GET
@@ -119,7 +117,7 @@ POST method 用來更新資源，
 	POST 				http://www.example.com/orders
 
 > 資源 id 當識別會比用name來的好，因為名稱可能會異動，如果要用名稱，應該是類似查詢參數的用法 /users?name=kent
-> 另外，用id也可以避免名稱衝突ex: orders/new 如果這邊是採用名稱，就不易辨識這個new是指新的order，還有有張order名稱為*new*
+> 另外，用id也可以避免名稱衝突ex: orders/new 如果這邊是採用名稱，就不易辨識這個new是指新的order，還是有張order名稱為*new*
 
 #### 輔助用字
 - search 搜尋，如果有時就是做搜尋當resource最直覺，就用吧，以名詞命規的規格，還是可以有例外的
