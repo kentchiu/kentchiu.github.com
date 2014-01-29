@@ -4,7 +4,7 @@
   <title><![CDATA[Category: rest | Kent's Blog]]></title>
   <link href="http://blog.kent-chiu.com/blog/categories/rest/atom.xml" rel="self"/>
   <link href="http://blog.kent-chiu.com/"/>
-  <updated>2014-01-01T17:07:48+08:00</updated>
+  <updated>2014-01-29T18:10:22+08:00</updated>
   <id>http://blog.kent-chiu.com/</id>
   <author>
     <name><![CDATA[Kent]]></name>
@@ -584,7 +584,8 @@ POST                http://www.example.com/orders
 <li><a href="http://blog.2partsmagic.com/restful-uri-design/">http://blog.2partsmagic.com/restful-uri-design/</a> - rest 命名規格</li>
 <li><a href="http://stackoverflow.com/questions/1619152/how-to-create-rest-urls-without-verbs">http://stackoverflow.com/questions/1619152/how-to-create-rest-urls-without-verbs</a> - 如何避免用動詞命名
 件</li>
-<li><a href="http://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api?hn#snake-vs-camel">http://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api?hn#snake-vs-camel</a> - 設計Restful API 相當不錯的參考資料    ，內容很全面，方方面面都有提到</li>
+<li><a href="http://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api?hn#snake-vs-camel">http://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api?hn#snake-vs-camel</a> - 設計Restful API 相當不錯的參考資料，內容很全面，方方面面都有提到</li>
+<li><a href="http://codeplanet.io/principles-good-restful-api-design/">http://codeplanet.io/principles-good-restful-api-design/</a> - Principles of good RESTful API Design, 譂述如何設計優質的API</li>
 <li>一些流行的 Rest API
 
 <ol>
