@@ -4,7 +4,7 @@
   <title><![CDATA[Kent's Blog]]></title>
   <link href="http://blog.kent-chiu.com/atom.xml" rel="self"/>
   <link href="http://blog.kent-chiu.com/"/>
-  <updated>2014-01-29T18:10:22+08:00</updated>
+  <updated>2014-02-01T09:50:13+08:00</updated>
   <id>http://blog.kent-chiu.com/</id>
   <author>
     <name><![CDATA[Kent]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Python type hint in IDEA]]></title>
-    <link href="http://blog.kent-chiu.com/blog/2013/12/28/python-type-hint-in-idea/"/>
+    <link href="http://blog.kent-chiu.com/blog/2013/12/28/python-type-hint-in-idea+copy/"/>
     <updated>2013-12-28T12:09:00+08:00</updated>
-    <id>http://blog.kent-chiu.com/blog/2013/12/28/python-type-hint-in-idea</id>
+    <id>http://blog.kent-chiu.com/blog/2013/12/28/python-type-hint-in-idea copy</id>
     <content type="html"><![CDATA[<p>在現代的IDE中，程式碼自動完成(code assist or code complete)幾乎是必備的基本功能，這個功能在靜態功能型別的語言中，IDE通常可以很完全的運作；但是在動態型別的語言中，就常常沒辦法推斷出正確的型別了。
 因為有的IDE從另外從程式碼外的其它地方(通常是註解)加入協助IDE做類型推斷(type infer)的動作。</p>
 
