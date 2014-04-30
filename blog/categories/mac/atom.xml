@@ -4,7 +4,7 @@
   <title><![CDATA[Category: mac | Kent's Blog]]></title>
   <link href="http://blog.kent-chiu.com/blog/categories/mac/atom.xml" rel="self"/>
   <link href="http://blog.kent-chiu.com/"/>
-  <updated>2014-02-01T09:50:13+08:00</updated>
+  <updated>2014-04-30T10:55:33+08:00</updated>
   <id>http://blog.kent-chiu.com/</id>
   <author>
     <name><![CDATA[Kent]]></name>
@@ -12,6 +12,86 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[“Mac開發環境設定”]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2013/12/28/mac-dev-setup/"/>
+    <updated>2013-12-28T12:09:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2013/12/28/mac-dev-setup</id>
+    <content type="html"><![CDATA[<p>mac os重裝，重裝後開發需要用到的工具及相關設定方式如下:</p>
+
+<ul>
+<li>JDK 1.7</li>
+<li>Apache Maven 3.1.1</li>
+<li>ruby</li>
+<li>python</li>
+<li>homebrew</li>
+<li>octopress</li>
+<li>postgresql</li>
+</ul>
+
+
+<h2>環境變數</h2>
+
+<p>設定環境變數可以在<code>.bashrc</code>跟<code>.bashfile</code>,
+為了保證不管透過遠端登入或在登入後另外開shell都會執行設定環境的動作，可以在<code>.bashfile</code>加入環境變數的設定，
+但linux下的習慣以’.bashrc’為主，因為在linux環境下，反而是’.bashrc’會保證被執行到</p>
+
+<p>為了保持跟linux的一致，以<code>.bashrc</code>為主要的設定檔，可以<code>.bash_profile</code>加入這段，讓它去執行<code>.bashrc</code></p>
+
+<pre><code># ~/.bash_profile
+if [ -f ~/.bashrc ]; then
+        source ~/.bashrc
+fi
+</code></pre>
+
+<p>這樣就可以跟linux一樣，所有的設定放<code>.bashrc</code>即可</p>
+
+<pre><code># 設定 JAVA_HOME 
+export JAVA_HOME=`/usr/libexec/java_home -v 1.7`
+
+# 設定 MAVEN_HOME
+export MAVEN_HOME=/Users/kent/dev/idcview/toolchain/apache-maven-3.1.1
+
+# 輸出路徑
+export PATH=$JAVA_HOME\bin:$MAVEN_HOME\bin:$PATH
+</code></pre>
+
+<p>完成後，記得執行一下 <code>source ~/.bashrc</code>看看有沒有錯誤，然後便可以<code>echo $JAVA_HOME</code>看看java的部徑有沒有設定進去，
+如果都ok，可以執行一下<code>java -version</code> 跟 'mvn -v'看一下java跟maven的版號</p>
+
+<h4>Eclipse找不到jdk</h4>
+
+<p>Oracle沒有定義jvm 1.7的相容性，所以在gui環境eclipse會找不到jdk
+解決的方式如下</p>
+
+<pre><code># COPYjdk7的Info.plist出來修改
+cp /Library/Java/JavaVirtualMachines/jdk.1.7.&lt;…&gt;/Contents/Info.plist ~/Downloads/
+</code></pre>
+
+<p>Info.plist</p>
+
+<pre><code>&lt;key&gt;JVMCapabilities&lt;/key&gt;
+ &lt;array&gt;
+  &lt;string&gt;CommandLine&lt;/string&gt;
+ &lt;/array&gt;
+</code></pre>
+
+<p>改成</p>
+
+<pre><code>&lt;key&gt;JVMCapabilities&lt;/key&gt;
+ &lt;array&gt;
+  &lt;string&gt;JNI&lt;/string&gt;
+  &lt;string&gt;BundledApp&lt;/string&gt;
+  &lt;string&gt;WebStart&lt;/string&gt;
+  &lt;string&gt;Applets&lt;/string&gt;
+  &lt;string&gt;CommandLine&lt;/string&gt;
+ &lt;/array&gt; 
+</code></pre>
+
+<p>之後再copy回去原來的地上，改完需重新登入或重開機，之後eclipse便可以執行了</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Mac OS X keyboard shortcuts for terminal]]></title>

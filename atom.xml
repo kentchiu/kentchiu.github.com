@@ -4,7 +4,7 @@
   <title><![CDATA[Kent's Blog]]></title>
   <link href="http://blog.kent-chiu.com/atom.xml" rel="self"/>
   <link href="http://blog.kent-chiu.com/"/>
-  <updated>2014-02-01T09:50:13+08:00</updated>
+  <updated>2014-04-30T10:55:33+08:00</updated>
   <id>http://blog.kent-chiu.com/</id>
   <author>
     <name><![CDATA[Kent]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Python type hint in IDEA]]></title>
-    <link href="http://blog.kent-chiu.com/blog/2013/12/28/python-type-hint-in-idea+copy/"/>
+    <link href="http://blog.kent-chiu.com/blog/2013/12/28/python-type-hint-in-idea/"/>
     <updated>2013-12-28T12:09:00+08:00</updated>
-    <id>http://blog.kent-chiu.com/blog/2013/12/28/python-type-hint-in-idea copy</id>
+    <id>http://blog.kent-chiu.com/blog/2013/12/28/python-type-hint-in-idea</id>
     <content type="html"><![CDATA[<p>在現代的IDE中，程式碼自動完成(code assist or code complete)幾乎是必備的基本功能，這個功能在靜態功能型別的語言中，IDE通常可以很完全的運作；但是在動態型別的語言中，就常常沒辦法推斷出正確的型別了。
 因為有的IDE從另外從程式碼外的其它地方(通常是註解)加入協助IDE做類型推斷(type infer)的動作。</p>
 
@@ -78,6 +78,86 @@ submissions = subreddit.get_new()
 <li><a href="http://www.python.org/dev/peps/pep-3107/">http://www.python.org/dev/peps/pep-3107/</a> - PEP 3107 : python 3 中可用的類型註解</li>
 </ul>
 
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[“Mac開發環境設定”]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2013/12/28/mac-dev-setup/"/>
+    <updated>2013-12-28T12:09:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2013/12/28/mac-dev-setup</id>
+    <content type="html"><![CDATA[<p>mac os重裝，重裝後開發需要用到的工具及相關設定方式如下:</p>
+
+<ul>
+<li>JDK 1.7</li>
+<li>Apache Maven 3.1.1</li>
+<li>ruby</li>
+<li>python</li>
+<li>homebrew</li>
+<li>octopress</li>
+<li>postgresql</li>
+</ul>
+
+
+<h2>環境變數</h2>
+
+<p>設定環境變數可以在<code>.bashrc</code>跟<code>.bashfile</code>,
+為了保證不管透過遠端登入或在登入後另外開shell都會執行設定環境的動作，可以在<code>.bashfile</code>加入環境變數的設定，
+但linux下的習慣以’.bashrc’為主，因為在linux環境下，反而是’.bashrc’會保證被執行到</p>
+
+<p>為了保持跟linux的一致，以<code>.bashrc</code>為主要的設定檔，可以<code>.bash_profile</code>加入這段，讓它去執行<code>.bashrc</code></p>
+
+<pre><code># ~/.bash_profile
+if [ -f ~/.bashrc ]; then
+        source ~/.bashrc
+fi
+</code></pre>
+
+<p>這樣就可以跟linux一樣，所有的設定放<code>.bashrc</code>即可</p>
+
+<pre><code># 設定 JAVA_HOME 
+export JAVA_HOME=`/usr/libexec/java_home -v 1.7`
+
+# 設定 MAVEN_HOME
+export MAVEN_HOME=/Users/kent/dev/idcview/toolchain/apache-maven-3.1.1
+
+# 輸出路徑
+export PATH=$JAVA_HOME\bin:$MAVEN_HOME\bin:$PATH
+</code></pre>
+
+<p>完成後，記得執行一下 <code>source ~/.bashrc</code>看看有沒有錯誤，然後便可以<code>echo $JAVA_HOME</code>看看java的部徑有沒有設定進去，
+如果都ok，可以執行一下<code>java -version</code> 跟 &#8216;mvn -v&#8217;看一下java跟maven的版號</p>
+
+<h4>Eclipse找不到jdk</h4>
+
+<p>Oracle沒有定義jvm 1.7的相容性，所以在gui環境eclipse會找不到jdk
+解決的方式如下</p>
+
+<pre><code># COPYjdk7的Info.plist出來修改
+cp /Library/Java/JavaVirtualMachines/jdk.1.7.&lt;…&gt;/Contents/Info.plist ~/Downloads/
+</code></pre>
+
+<p>Info.plist</p>
+
+<pre><code>&lt;key&gt;JVMCapabilities&lt;/key&gt;
+ &lt;array&gt;
+  &lt;string&gt;CommandLine&lt;/string&gt;
+ &lt;/array&gt;
+</code></pre>
+
+<p>改成</p>
+
+<pre><code>&lt;key&gt;JVMCapabilities&lt;/key&gt;
+ &lt;array&gt;
+  &lt;string&gt;JNI&lt;/string&gt;
+  &lt;string&gt;BundledApp&lt;/string&gt;
+  &lt;string&gt;WebStart&lt;/string&gt;
+  &lt;string&gt;Applets&lt;/string&gt;
+  &lt;string&gt;CommandLine&lt;/string&gt;
+ &lt;/array&gt; 
+</code></pre>
+
+<p>之後再copy回去原來的地上，改完需重新登入或重開機，之後eclipse便可以執行了</p>
 ]]></content>
   </entry>
   
@@ -1880,7 +1960,7 @@ getActiveAccountInfo()
 
 <p>也不用特意在命名時加上型別， ex: NameString, CustomerObject 因為在 IDE 幫助下，已經可以很方便的知道物件的型號了，不需要特別去加上類別資訊</p>
 
-<h6>採用技術性的命名方式，而已領域性的命名方式</h6>
+<h6>採用技術性的命名方式，而非領域性的命名方式</h6>
 
 <p>會去看代碼的，大多是 programmer ，所以應該是用技術性的名字，像是 JobQuery, AccountVisitor 來取名字，而不是領域上的專業術語，如果一定要用到領域上的術語
 ，那務必讓術語的名字與領域術語能一致。</p>
@@ -1943,7 +2023,7 @@ extract 後的 function 是一個完全不同於原來 function 的功能，而�
 
 <blockquote><p>我試著去翻出 Kent Beck 最早期的 junit (3.4) 大多的 function 也都相當的短 (10行以下)， 也有少數比較長的，但也沒超過50行
 不過，讓每個 function 都小到了極致，那勢必會產生更多的 fucntions 或 classes 而造成 <em>Divergent Change（發散式變化</em> 或 <em>Shotgun Surgery（霰彈式修改)</em>
-這部份要如果解決，有待確認</p></blockquote>
+這部份，可透過package或class的重新組織，並秉持著single responsibility principle (單一職責原則)，通常就不會有太大的問題</p></blockquote>
 
 <ul>
 <li>functon 內的實作抽像等級應該要一致，不要同一個 function 內，有很高階的實作，又有很低階的實作
@@ -2428,67 +2508,6 @@ size勾選，可以讓模擬器瑩幕的大小跟實際在手機上看到比較�
 <li><a href="http://developer.android.com/guide/developing/tools/emulator.html" title="http://developer.android.com/guide/developing/tools/emulator.html">Android Emulator</a></li>
 <li><a href="http://developer.android.com/guide/developing/tools/avd.html" title="http://developer.android.com/guide/developing/tools/avd.html">Android Virtual Devices</a></li>
 </ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Maven Resources]]></title>
-    <link href="http://blog.kent-chiu.com/blog/2012/12/07/resource/"/>
-    <updated>2012-12-07T00:00:00+08:00</updated>
-    <id>http://blog.kent-chiu.com/blog/2012/12/07/resource</id>
-    <content type="html"><![CDATA[<p>maven的command是有次序性的 ex:
-<code>mvn clean install source:jar javadoc:jar</code>
-只會產生source.jar跟javadoc.jar在target目錄下，但是
-<code>mvn clean source:jar javadoc:jar install</code>
-就會產生source.jar跟javadoc.jar並安裝到local的repository，
-善用這個特性可以加快building的速度</p>
-
-<h3>m2eclipse</h3>
-
-<p>使用m2eclipse時如果過到maven
-console出現求要使用jdk不要使用jre的訊息時，可以透過以-vm指定vm</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>....
-</span><span class='line'>
-</span><span class='line'>-install
-</span><span class='line'>C:\Users\Kent\AppData\Local\Genuitec\Profiles\Bellwin_3.6
-</span><span class='line'>#用這一行指定eclipse使用的vm是jdk版本而不是jre版本後，就正常了
-</span><span class='line'>-vm 
-</span><span class='line'>C:\Program Files\Java\jdk1.6.0_25\bin\javaw.exe 
-</span><span class='line'>-configuration
-</span><span class='line'>C:\Users\Kent\AppData\Local\Genuitec\Profiles\Bellwin_3.6\configuration
-</span><span class='line'>-vmargs
-</span><span class='line'>-Xms250m
-</span><span class='line'>-Xmx768m</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>download source &amp; javadoc</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>mvn dependency:sources
-</span><span class='line'>mvn dependency:resolve -Dclassifier=javadoc</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>版本檢查，java source下載</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>versions:display-dependency-updates versions:display-plugin-updates versions:display-property-updates   dependency:sources dependency:resolve -Dclassifier=javadoc</span></code></pre></td></tr></table></div></figure>
-
-
 
 ]]></content>
   </entry>
