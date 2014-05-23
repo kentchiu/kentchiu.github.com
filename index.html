@@ -1226,9 +1226,12 @@ curl -X DELETE "http://www.rest.com/api/users"
 
 <h4>HTTP Parameter</h4>
 
-<p>http參數可以直接加在url的query string，也可以用<code>-d</code>帶入參數間用<code>&amp;</code>串接</p>
+<p>http參數可以直接加在url的query string，也可以用<code>-d</code>帶入參數間用<code>&amp;</code>串接，或使用多個<code>-d</code></p>
 
-<pre><code>curl -X POST -d "param1=value1&amp;param2=value2"
+<pre><code># 使用`&amp;`串接多個參數
+curl -X POST -d "param1=value1&amp;param2=value2"
+# 也可使用多個`-d`，效果同上
+curl -X POST -d "param1=value1" -d "param2=value2"
 curl -X POST -d "param1=a 0space"     
 # "a space" url encode後空白字元會編碼成'%20'為"a%20space"，編碼後的參數可以直接使用
 curl -X POST -d "param1=a%20space"     
@@ -1243,7 +1246,7 @@ curl -X POST -d "param1=a%20space"
 curl http://www.example.com?modifier=kent -X PUT -i -H "Content-Type:application/json" -d '{"boolean" : false, "foo" : "bar"}'
 </code></pre>
 
-<h4>需先認證或登入才能使用的service #####</h4>
+<h4>需先認證或登入才能使用的service</h4>
 
 <p>許多服務，需先進行登入或認證後，才能存取其API服務，依服務要求的條件，的curl可以透過cookie，session或加入在header加入session key，api key或認證的token來達到認證的效果。</p>
 
@@ -1270,6 +1273,56 @@ curl -i --header "Accept:application/json" -X GET -b ~/cookie.txt http://www.res
 </code></pre>
 
 <p>這個是透過 HTTP multipart POST 上傳資料， <code>-F</code> 是使用http query parameter的方式，指定檔案位置的參數要加上<code>@</code></p>
+
+<h4>HTTP Basic Authentication (HTTP基本認證)</h4>
+
+<p>如果網站是採HTTP基本認證, 可以使用 <code>--user username:password</code> 登入</p>
+
+<pre><code>curl -i --user kent:secret http://www.rest.com/api/foo'    
+</code></pre>
+
+<p>認證失敗時，會是<code>401 Unauthorized</code></p>
+
+<pre><code>HTTP/1.1 401 Unauthorized
+Server: Apache-Coyote/1.1
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+WWW-Authenticate: Basic realm="Realm"
+Content-Type: text/html;charset=utf-8
+Content-Language: en
+Content-Length: 1022
+Date: Thu, 15 May 2014 06:32:49 GMT
+</code></pre>
+
+<p>認證通過時，會回應 <code>200 OK</code></p>
+
+<pre><code>HTTP/1.1 200 OK
+Server: Apache-Coyote/1.1
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Set-Cookie: JSESSIONID=A75066DCC816CE31D8F69255DEB6C30B; Path=/mdserver/; HttpOnly
+Content-Type: application/json;charset=UTF-8
+Transfer-Encoding: chunked
+Date: Thu, 15 May 2014 06:14:11 GMT
+</code></pre>
+
+<p>可以把認證後的cookie存起來，重複使用</p>
+
+<pre><code>curl -i --user kent:secret http://www.rest.com/api/foo' -c ~/cookies.txt
+</code></pre>
+
+<p>登入之前暫存的cookies，可以不用每次都認證</p>
+
+<pre><code>curl -i  http://www.rest.com/api/foo' -b ~/cookies.txt
+</code></pre>
 
 <h2>相關資源    </h2>
 
