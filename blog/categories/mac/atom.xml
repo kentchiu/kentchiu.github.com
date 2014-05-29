@@ -4,7 +4,7 @@
   <title><![CDATA[Category: mac | Kent's Blog]]></title>
   <link href="http://blog.kent-chiu.com/blog/categories/mac/atom.xml" rel="self"/>
   <link href="http://blog.kent-chiu.com/"/>
-  <updated>2014-05-23T10:21:45+08:00</updated>
+  <updated>2014-05-29T12:26:05+08:00</updated>
   <id>http://blog.kent-chiu.com/</id>
   <author>
     <name><![CDATA[Kent]]></name>
@@ -21,8 +21,8 @@
     <content type="html"><![CDATA[<p>mac os重裝，重裝後開發需要用到的工具及相關設定方式如下:</p>
 
 <ul>
-<li>JDK 1.7</li>
-<li>Apache Maven 3.1.1</li>
+<li>JDK 1.8</li>
+<li>Apache Maven 3.2.1</li>
 <li>ruby</li>
 <li>python</li>
 <li>homebrew</li>
@@ -37,30 +37,35 @@
 為了保證不管透過遠端登入或在登入後另外開shell都會執行設定環境的動作，可以在<code>.bashfile</code>加入環境變數的設定，
 但linux下的習慣以’.bashrc’為主，因為在linux環境下，反而是’.bashrc’會保證被執行到</p>
 
-<p>為了保持跟linux的一致，以<code>.bashrc</code>為主要的設定檔，可以<code>.bash_profile</code>加入這段，讓它去執行<code>.bashrc</code></p>
+<p><code>vi ~/.bash_profile</code></p>
 
-<pre><code># ~/.bash_profile
-if [ -f ~/.bashrc ]; then
-        source ~/.bashrc
-fi
+<pre><code>function setjdk() {
+  if [ $# -ne 0 ]; then
+   removeFromPath '/System/Library/Frameworks/JavaVM.framework/Home/bin'
+   if [ -n "${JAVA_HOME+x}" ]; then
+    removeFromPath $JAVA_HOME
+   fi
+   export JAVA_HOME=`/usr/libexec/java_home -v $@`
+   export PATH=$JAVA_HOME/bin:$PATH
+  fi
+ }
+ function removeFromPath() {
+  export PATH=$(echo $PATH | sed -E -e "s;:$1;;" -e "s;$1:?;;")
+ }
+setjdk 1.8
+
+export MAVEN_HOME=/Users/kent/dev/apache-maven-3.2.1
+export M2_HOME=$MAVEN_HOME
+export CATALINA_HOME=/Users/kent/dev/apache-tomcat-8.0.5
+export GRADLE_HOME=/Users/kent/dev/gradle-1.10
+
+export PATH=$MAVEN_HOME/bin:$GRADLE_HOME/bin:$PATH
 </code></pre>
 
-<p>這樣就可以跟linux一樣，所有的設定放<code>.bashrc</code>即可</p>
-
-<pre><code># 設定 JAVA_HOME 
-export JAVA_HOME=`/usr/libexec/java_home -v 1.7`
-
-# 設定 MAVEN_HOME
-export MAVEN_HOME=/Users/kent/dev/idcview/toolchain/apache-maven-3.1.1
-
-# 輸出路徑
-export PATH=$JAVA_HOME\bin:$MAVEN_HOME\bin:$PATH
-</code></pre>
-
-<p>完成後，記得執行一下 <code>source ~/.bashrc</code>看看有沒有錯誤，然後便可以<code>echo $JAVA_HOME</code>看看java的部徑有沒有設定進去，
+<p>完成後，記得執行一下 <code>source ~/.bash_profile</code>看看有沒有錯誤，然後便可以<code>echo $JAVA_HOME</code>看看java的部徑有沒有設定進去，
 如果都ok，可以執行一下<code>java -version</code> 跟 'mvn -v'看一下java跟maven的版號</p>
 
-<h4>Eclipse找不到jdk</h4>
+<h4>Eclipse找不到jdk (JDK 7 only)</h4>
 
 <p>Oracle沒有定義jvm 1.7的相容性，所以在gui環境eclipse會找不到jdk
 解決的方式如下</p>
