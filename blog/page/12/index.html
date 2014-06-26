@@ -9,8 +9,10 @@
   <meta name="author" content="Kent">
 
   
-  <meta name="description" content="This article is demonstrate how to run PHPUnit test cases in Eclipse
-PDT. There is no build in support for PHPUnit in PDT 2.0 now (however it &hellip;">
+  <meta name="description" content="In this article, we will setup a git server from team access. It is
+mimic the SVN style
+workflow(Centralized
+Workflow), it&#8217;s a easy way for &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -78,6 +80,523 @@ PDT. There is no build in support for PHPUnit in PDT 2.0 now (however it &hellip
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/setup_git_server/">Setup Git Server</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/setup_git_server/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>In this article, we will setup a git server from team access. It is
+mimic the <a href="http://whygitisbetterthanx.com/#any-workflow" title="http://whygitisbetterthanx.com/#any-workflow">SVN style
+workflow</a>(Centralized
+Workflow), it&#8217;s a easy way for integrating all code in one place.</p>
+
+<h1>Main Steps</h1>
+
+<ol>
+<li><a href="#init_bare_repository" title="git:setup_git_server ↵">init bare
+repository</a></li>
+<li><a href="#add_user" title="git:setup_git_server ↵">add user</a></li>
+<li><a href="#first_commited" title="git:setup_git_server ↵">first commited</a></li>
+<li><a href="#clone" title="git:setup_git_server ↵">clone</a></li>
+</ol>
+
+
+<h4>init bare repository</h4>
+
+<p>create a bare repository in /opt/git/project.git</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git --bare init
+</span><span class='line'>Initialized empty Git repository in /opt/git/project.git/</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>add user</h4>
+
+<p>add a user called &#8216;git&#8217; for executing git commonds.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ adduser git</span></code></pre></td></tr></table></div></figure>
+
+
+<p>change git&#8217;s password</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ passwd git</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>first commited</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># on SomeBoday's computer
+</span><span class='line'>$ cd myproject
+</span><span class='line'>$ git init
+</span><span class='line'>$ git add .
+</span><span class='line'>$ git commit -m 'initial commit'
+</span><span class='line'>$ git remote add origin git@gitserver:/opt/git/project.git
+</span><span class='line'>$ git push origin master</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>clone</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git clone git@gitserver:/opt/git/project.git</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/setup_eclipse_pdt/">How to Setup PDT</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/setup_eclipse_pdt/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>PDT is Eclipse <strong>P</strong>HP <strong>D</strong>evelopment <strong>T</strong>ools, this article is a
+instuction about how to setup PDT with other useful tools, like:</p>
+
+<ol>
+<li>zend debugger</li>
+<li>remote server</li>
+</ol>
+
+
+<p>Option:</p>
+
+<ol>
+<li>SVN plugins</li>
+<li>open extern plugins (open contain folder or shell) ()</li>
+<li>QuickREx (Regular Expression tools)</li>
+</ol>
+
+
+<h1>Install PDT by pulse</h1>
+
+<ol>
+<li>download
+<a href="http://www.poweredbypulse.com/" title="http://www.poweredbypulse.com/">pulse</a></li>
+<li>registry a account if necessary</li>
+<li>install Eclipse 3.x For PHP in pulse menu</li>
+</ol>
+
+
+<h1>Install Plugins (Optional)</h1>
+
+<p>searching Subversive, open extern and QucikREx as keyword in pules
+Browser Categories node then install.</p>
+
+<h1>Install Debugger</h1>
+
+<p>there are two debugger supports by PDT now</p>
+
+<ol>
+<li>zend debugger</li>
+<li>XDebug</li>
+</ol>
+
+
+<p>both two can used as Script Debugger or Server Debugger of PDT debug
+functions.</p>
+
+<h2>zend debugger install</h2>
+
+<p>Assumption: PHP install at C:\xampp\php</p>
+
+<h3>downloading</h3>
+
+<p>Download zend debugger extention from
+<a href="http://downloads.zend.com/pdt/server-debugger" title="http://downloads.zend.com/pdt/server-debugger">here</a>,
+we use
+<a href="http://downloads.zend.com/pdt/server-debugger/ZendDebugger-5.2.15-cygwin_nt-i386.zip" title="http://downloads.zend.com/pdt/server-debugger/ZendDebugger-5.2.15-cygwin_nt-i386.zip">ZendDebugger-5.2.15-cygwin_nt-i386.zip</a>
+in this case(maybe you can find the new version then this).</p>
+
+<h3>copy dll to php ext folder</h3>
+
+<p>copy ZendDebugger.dll to C:\xampp\php\ext folder it maybe not as same
+as your path, you need found out somewhere you installed the php.</p>
+
+<h3>put dummy.php to your web root</h3>
+
+<p>saving follow code as dummy.php and put it to web root(e.g
+c:\xampp\htdocs\dummy.php)</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?php
+</span><span class='line'>@ini_set('zend_monitor.enable', 0);
+</span><span class='line'>if(@function_exists('output_cache_disable')) {
+</span><span class='line'>    @output_cache_disable();
+</span><span class='line'>}
+</span><span class='line'>if(isset($_GET['debugger_connect']) && $_GET['debugger_connect'] == 1) {
+</span><span class='line'>    if(function_exists('debugger_connect'))  {
+</span><span class='line'>        debugger_connect();
+</span><span class='line'>        exit();
+</span><span class='line'>    } else {
+</span><span class='line'>        echo "No connector is installed.";
+</span><span class='line'>    }
+</span><span class='line'>}
+</span><span class='line'>?&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>setup php.ini</h3>
+
+<p>put this section to your php.ini.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>; this is to see output while debugging
+</span><span class='line'>implicit_flush = On 
+</span><span class='line'> 
+</span><span class='line'>; this is to see output while debugging
+</span><span class='line'>output_buffering = 0
+</span><span class='line'> 
+</span><span class='line'>[Zend]
+</span><span class='line'>zend_extension_ts="C:\xampp\php\ext\ZendDebugger.dll"
+</span><span class='line'>zend_debugger.allow_hosts=127.0.0.1/32
+</span><span class='line'>zend_debugger.expose_remotely=always</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>XDebug install</h2>
+
+<h3>downloading</h3>
+
+<p>Download zend debugger extention from
+[<a href="http://www.xdebug.org/download.php" title="http://www.xdebug.org/download.php">http://www.xdebug.org/download.php</a>|here]].</p>
+
+<h3>copy dll to php ext folder</h3>
+
+<p>copy php_xdebug_xxx.dll to C:\xampp\php\ext folder it maybe not as
+same as your path, you need found out somewhere you installed the php.</p>
+
+<h3>setup php.ini</h3>
+
+<p>put this section to your php.ini.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[XDebug]
+</span><span class='line'>;; Only Zend OR (!) XDebug
+</span><span class='line'>zend_extension_ts="C:\xampp\php\ext\php_xdebug.dll"
+</span><span class='line'>xdebug.remote_enable=true
+</span><span class='line'>xdebug.remote_host=127.0.0.1
+</span><span class='line'>xdebug.remote_port=9000
+</span><span class='line'>xdebug.remote_handler=dbgp
+</span><span class='line'>xdebug.profiler_enable=1
+</span><span class='line'>xdebug.profiler_output_dir="C:\xampp\tmp"</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>PDT setup</h1>
+
+<h2>setup php executable</h2>
+
+<h2>setup php manual</h2>
+
+<p>point to here:
+<a href="http://www.php.net/manual/en" title="http://www.php.net/manual/en">http://www.php.net/manual/en</a></p>
+
+<h2>set file association</h2>
+
+<h3>HTML editor</h3>
+
+<p>eclipse menu → window → preference</p>
+
+<ol>
+<li>type &#8216;content types&#8217; in filter filed</li>
+<li>select &#8216;HTML&#8217; node</li>
+<li>click &#8216;Add…&#8217; button to pop-up Add Content Type Association window</li>
+<li>input &#8216;*.dwt&#8217; in Content type field</li>
+<li>click &#8216;OK&#8217; to close Add Content Type Association window</li>
+<li>click preference window</li>
+</ol>
+
+
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/setup_elcipse_pdt_01.png" alt="setup_elcipse_pdt_01.png" /></p>
+
+<h3>Web Page Editor</h3>
+
+<p>eclipse menu → window → preference</p>
+
+<ol>
+<li>type &#8216;File Accociation&#8217; in filter filed</li>
+<li>Selecte <strong>File Accociation</strong> node</li>
+<li>select <strong>Add…</strong> Button to pop-up <strong>Add File Type</strong> window</li>
+<li>Typing which file type you want to add (should start with *.)</li>
+<li>select <strong>Add…</strong> Button to pop-up
+**<img src="http://blog.kent-chiu.com/images/2011-10-17/setup_elcipse_pdt_02.png" alt="setup_elcipse_pdt_02.png" />
+<img src="http://blog.kent-chiu.com/images/2011-10-17/setup_elcipse_pdt_03.png" alt="setup_elcipse_pdt_03.png" />
+
+<ul>
+<li>select the file type you want to associated to editor. -
+select<strong>Add…</strong>Button to pop-up<strong>Editor Selection</strong>window -
+click<strong>OK</strong>Button and confirm the file type is showed in**File
+Association** List.</li>
+</ul>
+</li>
+</ol>
+
+
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/setup_elcipse_pdt_04.png" alt="setup_elcipse_pdt_04.png" /></p>
+
+<p>Web Page Editor introduced in WTP 2.0, it provides design time preview
+functionally.</p>
+
+<p><img src="http://www.eclipse.org/webtools/releases/2.0/newandnoteworthy/j2ee/jsf-web-page-editor.png" alt="" /></p>
+
+<h3>Internet Web Browser</h3>
+
+<p>Internet Web Browser can used to preview HTML render with in Eclipse
+View Site.</p>
+
+<p><img src="http://www.eclipse.org/webtools/initial-contribution/IBM/evalGuides/ServerToolsEval_files/monitorBrowser.gif" alt="" /></p>
+
+<p>We also can set *.dwt, *.lbi, *.htm, *.html file association to
+those editors.</p>
+
+<h1>Verifing</h1>
+
+<ul>
+<li>create new project, the project location should set to
+WWW_DOC_ROOT\projectName</li>
+<li>create php file</li>
+<li>run with script or server should all works fine.</li>
+</ul>
+
+
+<h1>Resoures</h1>
+
+<ul>
+<li><a href="http://http://www.poweredbypulse.com/" title="http://http://www.poweredbypulse.com/">pulse</a>
+home</li>
+<li>there are some usful information about how to configurated in <a href="http://www.thierryb.net/pdtwiki/index.php?title=Main_Page" title="http://www.thierryb.net/pdtwiki/index.php?title=Main_Page">pdt
+wiki</a></li>
+<li>the details of how to setup zend debug can be found
+<a href="http://www.thierryb.net/pdtwiki/index.php?title=Using_PDT_:_Installation_:_Installing_the_Zend_Debugger" title="http://www.thierryb.net/pdtwiki/index.php?title=Using_PDT_:_Installation_:_Installing_the_Zend_Debugger">here</a></li>
+<li>the deatils of how to using script and server debugger of PDT,
+please check this
+<a href="http://www.thierryb.net/pdtwiki/index.php?title=Using_PDT_:_User_Guide_:_PHP_Source_Level_Debugging" title="http://www.thierryb.net/pdtwiki/index.php?title=Using_PDT_:_User_Guide_:_PHP_Source_Level_Debugging">reference</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/scrum/">SCRUM</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/scrum/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>Book</h2>
+
+<ul>
+<li><a href="http://wiki.kent-chiu.com/lib/exe/fetch.php?media=pm:scrum-and-xp-chinese-version.pdf" title="pm:scrum-and-xp-chinese-version.pdf">烟硝中SCRUM與XP(簡體中文)</a>
+
+<ul>
+<li>infoQ的迷你電子書，內容在描述SCURM的實施過程</li>
+</ul>
+</li>
+<li><a href="http://wiki.kent-chiu.com/lib/exe/fetch.php?media=pm:scrum-checklists-chinese.pdf" title="pm:scrum-checklists-chinese.pdf">SCRUM
+checklists(簡體中文)</a></li>
+</ul>
+
+
+<h2>Backlog</h2>
+
+<ul>
+<li><a href="http://wiki.kent-chiu.com/lib/exe/fetch.php?media=pm:simple_backlog.xls" title="pm:simple_backlog.xls">Simple Product and Sprint backlog
+teamplte</a></li>
+<li><a href="http://agilesoftwaredevelopment.com/videos/scrum/simple-product-backlog" title="http://agilesoftwaredevelopment.com/videos/scrum/simple-product-backlog">a video to show you how to using simple product
+backlog</a></li>
+<li><a href="http://agilesoftwaredevelopment.com/videos/scrum/simple-sprint-backlog" title="http://agilesoftwaredevelopment.com/videos/scrum/simple-sprint-backlog">a video to show you how to using simple sprint
+backlog</a></li>
+<li><a href="http://wiki.kent-chiu.com/lib/exe/fetch.php?media=pm:advance_backlog.xls" title="pm:advance_backlog.xls">Advance backlog
+template</a></li>
+<li><a href="http://agilesoftwaredevelopment.com/videos/advanced-excel-template-product-and-sprint-backlog-management" title="http://agilesoftwaredevelopment.com/videos/advanced-excel-template-product-and-sprint-backlog-management">a video to show you how to using advance
+backlog</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/scim_with_liu/">Ubuntu下裝無蝦米(scim)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/scim_with_liu/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># apt-get install scim scim-pinyin scim-chewing scim-tables-zh scim-qtimm im-switch
+</span><span class='line'># im-switch -s scim
+</span><span class='line'> 
+</span><span class='line'>sudo cp ~/liu.bin /usr/share/scim/tables/Liu5.bin 
+</span><span class='line'>sudo cp ~/liu.png /usr/share/scim/icons/liu5.png
+</span><span class='line'>sudo cp</span></code></pre></td></tr></table></div></figure>
+
+
+<p>之後重新登入即可</p>
+
+<p>liu5.bin是無蝦米官方版本中release給linux用的檔案 liu5.png是 liu 的 icon
+檔 (由 <a href="http://pank.org/blog/" title="http://pank.org/blog/">Pank</a> 提供）</p>
+
+<h1>Ubuntu下裝無蝦米(ibus)</h1>
+
+<p>取得 <a href="http://github.com/vicamo/ibus-table-boshiamy/downloads" title="http://github.com/vicamo/ibus-table-boshiamy/downloads">無蝦米 deb
+package</a>
+Double Click</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -800,671 +1319,6 @@ extension</a></li>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/10/17/phpunit_101/">PHPUnit 101</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
-        
-         | <a href="/blog/2011/10/17/phpunit_101/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>Hello World</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?php
-</span><span class='line'>require_once 'PHPUnit/Framework.php';
-</span><span class='line'> 
-</span><span class='line'>class ArrayTest extends PHPUnit_Framework_TestCase {
-</span><span class='line'>    public function testNewArrayIsEmpty() {
-</span><span class='line'>        // Create the Array fixture.
-</span><span class='line'>        $fixture = array();
-</span><span class='line'> 
-</span><span class='line'>        // Assert that the size of the Array fixture is 0.
-</span><span class='line'>        $this-&gt;assertEquals(0, sizeof($fixture));
-</span><span class='line'>    }
-</span><span class='line'> 
-</span><span class='line'>    public function testArrayContainsAnElement() {
-</span><span class='line'>        // Create the Array fixture.
-</span><span class='line'>        $fixture = array();
-</span><span class='line'> 
-</span><span class='line'>        // Add an element to the Array fixture.
-</span><span class='line'>        $fixture[] = 'Element';
-</span><span class='line'> 
-</span><span class='line'>        // Assert that the size of the Array fixture is 1.
-</span><span class='line'>        $this-&gt;assertEquals(1, sizeof($fixture));
-</span><span class='line'>    }
-</span><span class='line'>}
-</span><span class='line'>?&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Data Providers</h2>
-
-<ul>
-<li>using the @dataProvider annotation</li>
-<li>A data provider method must be public</li>
-<li>A data provider method must be return an array of arrays or an
-object that implements the Iterator interface and yields an array
-for each iteration step</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?php
-</span><span class='line'>class DataTest extends PHPUnit_Framework_TestCase {
-</span><span class='line'>    /**
-</span><span class='line'>     * @dataProvider provider
-</span><span class='line'>     */
-</span><span class='line'>    public function testAdd($a, $b, $c) {
-</span><span class='line'>        $this-&gt;assertEquals($c, $a + $b);
-</span><span class='line'>    }
-</span><span class='line'> 
-</span><span class='line'>    public function provider() {
-</span><span class='line'>        return array(
-</span><span class='line'>          array(0, 0, 0),
-</span><span class='line'>          array(0, 1, 1),
-</span><span class='line'>          array(1, 0, 1),
-</span><span class='line'>          array(1, 1, 3)
-</span><span class='line'>        );
-</span><span class='line'>    }
-</span><span class='line'>}
-</span><span class='line'>?&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Expected Exception</h2>
-
-<p>there are 3 ways to expecte exception</p>
-
-<ol>
-<li>Using @expectedException annotation</li>
-<li>Using setExpectedException() method</li>
-<li>Using try/catch fail() pattern.</li>
-</ol>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?php
-</span><span class='line'>require_once 'PHPUnit/Framework.php';
-</span><span class='line'> 
-</span><span class='line'>class ExceptionTest extends PHPUnit_Framework_TestCase
-</span><span class='line'>{
-</span><span class='line'>    /**
-</span><span class='line'>     * @expectedException InvalidArgumentException
-</span><span class='line'>     */
-</span><span class='line'>    public function testException()
-</span><span class='line'>    {
-</span><span class='line'>    }
-</span><span class='line'>}
-</span><span class='line'>?&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?php
-</span><span class='line'>require_once 'PHPUnit/Framework.php';
-</span><span class='line'> 
-</span><span class='line'>class ExceptionTest extends PHPUnit_Framework_TestCase
-</span><span class='line'>{
-</span><span class='line'>    public function testException()
-</span><span class='line'>    {
-</span><span class='line'>        $this-&gt;setExpectedException('InvalidArgumentException');
-</span><span class='line'>    }
-</span><span class='line'>}
-</span><span class='line'>?&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?php
-</span><span class='line'>require_once 'PHPUnit/Framework.php';
-</span><span class='line'> 
-</span><span class='line'>class ExceptionTest extends PHPUnit_Framework_TestCase {
-</span><span class='line'>    public function testException() {
-</span><span class='line'>        try {
-</span><span class='line'>            // ... Code that is expected to raise an exception ...
-</span><span class='line'>        }
-</span><span class='line'> 
-</span><span class='line'>        catch (InvalidArgumentException $expected) {
-</span><span class='line'>            return;
-</span><span class='line'>        }
-</span><span class='line'> 
-</span><span class='line'>        $this-&gt;fail('An expected exception has not been raised.');
-</span><span class='line'>    }
-</span><span class='line'>}
-</span><span class='line'>?&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>setUp() and tearDown()</h2>
-
-<p>Yes. There are setUp and terrDown fixtures in PHPUnit.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?php
-</span><span class='line'>require_once 'PHPUnit/Framework.php';
-</span><span class='line'> 
-</span><span class='line'>class DatabaseTestSuite extends PHPUnit_Framework_TestSuite
-</span><span class='line'>{
-</span><span class='line'>    protected function setUp()
-</span><span class='line'>    {
-</span><span class='line'>        $this-&gt;sharedFixture = new PDO(
-</span><span class='line'>          'mysql:host=wopr;dbname=test',
-</span><span class='line'>          'root',
-</span><span class='line'>          ''
-</span><span class='line'>        );
-</span><span class='line'>    }
-</span><span class='line'> 
-</span><span class='line'>    protected function tearDown()
-</span><span class='line'>    {
-</span><span class='line'>        $this-&gt;sharedFixture = NULL;
-</span><span class='line'>    }
-</span><span class='line'>}
-</span><span class='line'>?&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Test Suites</h2>
-
-<p>TBD</p>
-
-<h2>TestCase Extensions</h2>
-
-<p>there are some TestCase extensions can be used, for example</p>
-
-<ol>
-<li>PHPUnit_Extensions_OutputTestCase</li>
-<li>PHPUnit_Extensions_PerformanceTestCase</li>
-<li>PHPUnit_Extensions_Database_TestCase</li>
-</ol>
-
-
-<p>or you can make your own.</p>
-
-<p>Search PHPUnit_Extensions_* from all testcase extension.</p>
-
-<h2>Skip and Incomplete Test</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?php
-</span><span class='line'>require_once 'PHPUnit/Framework.php';
-</span><span class='line'> 
-</span><span class='line'>class ArrayTest extends PHPUnit_Framework_TestCase {
-</span><span class='line'>    public function testNewArrayIsEmpty() {
-</span><span class='line'>        $array = array();
-</span><span class='line'>        $this-&gt;assertEquals(0, sizeOf($array));
-</span><span class='line'>    }
-</span><span class='line'> 
-</span><span class='line'>    public function testArrayContainsAnElement() {
-</span><span class='line'>        $array[] = "content";
-</span><span class='line'>        $this-&gt;assertEquals(1, sizeof($array));
-</span><span class='line'>        $this-&gt;markTestIncomplete(
-</span><span class='line'>          'This test has not been implemented yet.'
-</span><span class='line'>          );
-</span><span class='line'>    }
-</span><span class='line'> 
-</span><span class='line'> 
-</span><span class='line'>    public function testArrayContainsTwoElement() {
-</span><span class='line'>        $array[] = "content";
-</span><span class='line'>        $array[] = "content2";
-</span><span class='line'>        $this-&gt;assertEquals(2, sizeof($array));
-</span><span class='line'>        $this-&gt;markTestSkipped("this test is not completed yet");
-</span><span class='line'>    }
-</span><span class='line'>}
-</span><span class='line'> 
-</span><span class='line'>?&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>the output result will show as S or I</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>PHPUnit 3.3.15 by Sebastian Bergmann.
-</span><span class='line'> 
-</span><span class='line'>.SI
-</span><span class='line'> 
-</span><span class='line'>Time: 0 seconds
-</span><span class='line'> 
-</span><span class='line'>OK, but incomplete or skipped tests!
-</span><span class='line'>Tests: 3, Assertions: 1, Incomplete: 1, Skipped: 1.</span></code></pre></td></tr></table></div></figure>
-
-
-<p>if assertion fail before markTestSkipped() or markTestIncomplete(),
-assertion will still fail.</p>
-
-<h2>Test Doubles (a.k.a Mocking)</h2>
-
-<p>check
-<a href="http://www.phpunit.de/manual/current/en/test-doubles.html" title="http://www.phpunit.de/manual/current/en/test-doubles.html">here</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/10/17/phonics_101/">Phonics 101</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
-        
-         | <a href="/blog/2011/10/17/phonics_101/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h1>Letter Sounds</h1>
-
-<h2>Consonant Sounds</h2>
-
-<p>Sometimes the vowel u takes upon itself the consonant sound of w, as in
-quick or suave. This is usually the case when q is followed by u, as in
-quiet and quaint.</p>
-
-<p>When y is not acting as a vowel, it is a consonant. Most consonants have
-only one sound, but a few have multiple sounds. For instance, c can make
-both the /k/ and the /s/ sound.</p>
-
-<h2>Vowel Sounds</h2>
-
-<p>The vowels are a, e, i, o, and u.</p>
-
-<p>Each vowel has two sounds: a long sound and a short sound. The long
-sound is the same as its name.</p>
-
-<p>可先將所有的弱化的母音唸成/ə/</p>
-
-<p>There is both a long and short sound to “oo”. The long sound appears as
-in the words boo, food, smooth, and moose.</p>
-
-<p>這個跟mind map版的規則有衝突，mind
-map版的說oo只有後面接d或k時發短音，其他發長音</p>
-
-<h3>Substitutes</h3>
-
-<p>y → i</p>
-
-<p>w → u (只在a,e,o後)</p>
-
-<p>can be as a u when following a,e,o , but how to pronounce aw,ew,ow (au,
-eu, ou)</p>
-
-<h1>Irregular Vowels</h1>
-
-<p>Sometimes, the basic rules of phonics do not apply. Each of these
-instances must be memorized. Common examples include, but are not
-limited, to:</p>
-
-<ul>
-<li>IGH as in “high” or “sight”</li>
-<li>-NG as in “sing,” “song,” “sung”</li>
-<li>OST as in “most” (but not “lost” or “cost”) uses the long sound
-instead of the normal short sound.</li>
-<li>OW has two different sounds as in “low” and “cow.” (or, “sow” and
-“sow.”)</li>
-<li>ED has three different sounds as in “lifted,” “played,” and “walked”</li>
-<li>OI does not follow the two vowels rule, e.g., “moist” or “boil.”</li>
-<li>Double O has two different sounds, as in “book” and “loose.”</li>
-<li>OUS as in “nervous.”</li>
-<li>AU as in “fault” or “haul.”</li>
-<li>-SION, -TION, and -CION are all pronounced “shun.”</li>
-<li>OUGH has at least seven different sounds, as in “bough,” “cough,”
-“hough,” “tough,” “thorough,” “thought,” and “through.”</li>
-</ul>
-
-
-<h1>accented</h1>
-
-<p>When a word has more than one syllable, one of the syllables is always a
-little louder than the others. The syllable with the louder stress is
-the accented syllable. The unstressed syllable usually takes the schwa
-sound.</p>
-
-<p>It may seem that the placement of accents in words is often random or
-accidental, but these are some rules that usually work.</p>
-
-<ol>
-<li>Accents are often on the first syllable. Examples: ba&#8217;/sic,
-pro&#8217;/gram.</li>
-<li>In words that have suffixes or prefixes, the accent is usually on
-the main root word. Examples: box&#8217;/es, un/tie&#8217;.</li>
-<li>If de-, re-, ex-, in-, po-, pro-, or a- is the first syllable in a
-word, it is usually not accented. Examples: de/lay&#8217;, ex/plore&#8217;.</li>
-<li>Two vowel letters together in the last syllable of a word often
-indicates an accented last syllable. Examples: com/plain&#8217;,
-con/ceal&#8217;.</li>
-<li>When there are two like consonant letters within a word, the
-syllable before the double consonants is usually accented. Examples:
-be/gin&#8217;/ner, let&#8217;/ter.</li>
-<li>The accent is usually on the syllable before the suffixes -ion, ity,
--ic, -ical, -ian, -ial, or -ious, and on the second syllable before
-the suffix -ate. Examples: af/fec/ta&#8217;/tion, dif/fer/en&#8217;/ti/ate.</li>
-<li>In words of three or more syllables, one of the first two syllables
-is usually accented. Examples: ac&#8217;/ci/dent, de/ter&#8217;/mine.</li>
-</ol>
-
-
-<p>找出重音節的通則(適用大多數狀況)，只能用強記的</p>
-
-<h1>Sight Words</h1>
-
-<p>Many words do not follow these rules, and are called <strong>sight words</strong>.
-Because they do not follow the normal rules, these must be memorized.
-Examples include <em>the</em>, <em>are</em>, and <em>you</em>. They are also sometimes called
-&#8216;irregular words&#8217; or &#8216;outlaw words&#8217;.</p>
-
-<p>Here are some more examples:</p>
-
-<ul>
-<li><em>the</em>, <em>to</em>, <em>do</em>, and <em>who</em> — These should have long vowel sounds
-because they are open syllables, like <em>me</em> and <em>go</em>.</li>
-<li><em>what</em>, <em>was</em>, and <em>whom</em> — These should have short vowel sounds
-because they are closed syllables, like <em>sat</em> and <em>cot</em>.</li>
-<li><em>again</em>, <em>against</em>, <em>says</em> and <em>said</em> — These should have long <em>a</em>
-sounds because of the <em>ai</em> vowel combination, like <em>say</em> and <em>pain</em>.</li>
-<li><em>been</em> — This should have a long <em>e</em> sound, like <em>seen</em>.</li>
-</ul>
-
-
-<p>In many words, the <em>o</em> says /short u/ instead of /short o/ or /long o/,
-as in <em>of</em>, <em>from</em>, <em>son</em>, <em>month</em>, <em>front</em>, <em>some</em>, <em>love</em>, <em>other</em>,
-<em>money</em>, and <em>among</em>.</p>
-
-<p>最後，還有一點，滿令人失望的就是，採用Phonics在聽音拼讀時，會遇到一個很大的麻煩，就是如果母音在輕音節時會弱化，所以
-a,e,i,o,u聽起來是差不多的，很用聽的方式去辨識，但是若是懂得字源分析的概念，這樣就能比較接近<em>會唸就會拼字的境界</em>。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/10/17/phonics/">How to Pronounce by Phonics</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
-        
-         | <a href="/blog/2011/10/17/phonics/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><img src="http://blog.kent-chiu.com/images/2011-10-17/phonics.png" alt="phonics.png" /></p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/10/17/pear_101/">PEAR 101</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
-        
-         | <a href="/blog/2011/10/17/pear_101/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>pear command</h2>
-
-<h4>install package</h4>
-
-<p>自網路安裝某一個pear程式庫：</p>
-
-<p>　　pear install packagename</p>
-
-<p>下載 packages 但不安裝：</p>
-
-<p>　　pear download packagename 　　pear download-all</p>
-
-<p>安裝已下載的package：</p>
-
-<p>　　pear install filename.tgz</p>
-
-<h4>listing package</h4>
-
-<p>目前pear網站上所有可取得pear程式庫列表：</p>
-
-<p>　　pear remote-list</p>
-
-<p>列出已安裝package：</p>
-
-<p>　　pear list</p>
-
-<p>列出可以升級的package：</p>
-
-<p>　　pear list-upgrades</p>
-
-<h4>upgrade</h4>
-
-<p>更新package：</p>
-
-<p>　　pear upgrade packagename 　　pear upgrade-all</p>
-
-<h4>remove</h4>
-
-<p>刪除已安裝的package：</p>
-
-<p>　　pear uninstall packagename</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/13/">&larr; Older</a>
@@ -1482,34 +1336,34 @@ a,e,i,o,u聽起來是差不多的，很用聽的方式去辨識，但是若是�
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/03/14/umlet-sequence-diagram/">UMLet Sequence Diagram</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/03/14/java-8-lambda/">Java 8 Lambda</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/03/14/java-8-utility-object/">Java 8 好用工具箱</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/03/14/java-8-date-and-time-api/">Java 8 時間、日期 API</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/12/28/python-type-hint-in-idea/">Python Type Hint in IDEA</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/12/28/mac-dev-setup/">“Mac開發環境設定”</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/11/16/reload-tomcat-web-application-by-jmx/">透過JMX重新載入Tomcat上的Web Application</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/08/31/access-imgur-with-api/">Access Imgur With API</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/08/30/spring-reference-reading-notes/">Spring Reference Reading Notes</a>
       </li>
     
   </ul>
 </section>
 <section>
   <h1>Category Cloud</h1>
-    <span id="tag-cloud"><a href='/blog/categories/actionbar' style='font-size: 102.4%'>actionbar(1)</a> <a href='/blog/categories/android' style='font-size: 160.0%'>android(25)</a> <a href='/blog/categories/apache' style='font-size: 116.8%'>apache(7)</a> <a href='/blog/categories/authentication' style='font-size: 102.4%'>authentication(1)</a> <a href='/blog/categories/authorization' style='font-size: 102.4%'>authorization(1)</a> <a href='/blog/categories/bash' style='font-size: 109.6%'>bash(4)</a> <a href='/blog/categories/best-practice' style='font-size: 102.4%'>best_practice(1)</a> <a href='/blog/categories/book' style='font-size: 102.4%'>book(1)</a> <a href='/blog/categories/broadcast-receiver' style='font-size: 104.8%'>broadcast_receiver(2)</a> <a href='/blog/categories/cdi' style='font-size: 104.8%'>cdi(2)</a> <a href='/blog/categories/centos' style='font-size: 112.0%'>centos(5)</a> <a href='/blog/categories/clean-code' style='font-size: 102.4%'>clean code(1)</a> <a href='/blog/categories/command' style='font-size: 112.0%'>command(5)</a> <a href='/blog/categories/concurrency' style='font-size: 102.4%'>concurrency(1)</a> <a href='/blog/categories/curl' style='font-size: 102.4%'>curl(1)</a> <a href='/blog/categories/database' style='font-size: 114.4%'>database(6)</a> <a href='/blog/categories/datetime' style='font-size: 102.4%'>datetime(1)</a> <a href='/blog/categories/di' style='font-size: 104.8%'>di(2)</a> <a href='/blog/categories/drawable' style='font-size: 102.4%'>drawable(1)</a> <a href='/blog/categories/ec' style='font-size: 102.4%'>ec(1)</a> <a href='/blog/categories/eclipse' style='font-size: 102.4%'>eclipse(1)</a> <a href='/blog/categories/ecshop' style='font-size: 116.8%'>ecshop(7)</a> <a href='/blog/categories/editor' style='font-size: 102.4%'>editor(1)</a> <a href='/blog/categories/emulator' style='font-size: 102.4%'>emulator(1)</a> <a href='/blog/categories/encoding' style='font-size: 102.4%'>encoding(1)</a> <a href='/blog/categories/english' style='font-size: 133.6%'>english(14)</a> <a href='/blog/categories/excel' style='font-size: 104.8%'>excel(2)</a> <a href='/blog/categories/extjs' style='font-size: 104.8%'>extjs(2)</a> <a href='/blog/categories/gesture' style='font-size: 102.4%'>gesture(1)</a> <a href='/blog/categories/git' style='font-size: 109.6%'>git(4)</a> <a href='/blog/categories/git-flow' style='font-size: 102.4%'>git-flow(1)</a> <a href='/blog/categories/guava' style='font-size: 104.8%'>guava(2)</a> <a href='/blog/categories/guice' style='font-size: 102.4%'>guice(1)</a> <a href='/blog/categories/hamcrest' style='font-size: 102.4%'>hamcrest(1)</a> <a href='/blog/categories/i18n' style='font-size: 102.4%'>i18n(1)</a> <a href='/blog/categories/ide' style='font-size: 102.4%'>IDE(1)</a> <a href='/blog/categories/idea' style='font-size: 104.8%'>IDEA(2)</a> <a href='/blog/categories/imgur' style='font-size: 102.4%'>imgur(1)</a> <a href='/blog/categories/injection' style='font-size: 102.4%'>injection(1)</a> <a href='/blog/categories/intent' style='font-size: 102.4%'>intent(1)</a> <a href='/blog/categories/ireport' style='font-size: 104.8%'>ireport(2)</a> <a href='/blog/categories/jasterreport' style='font-size: 104.8%'>jasterreport(2)</a> <a href='/blog/categories/java' style='font-size: 152.8%'>java(22)</a> <a href='/blog/categories/java-ee' style='font-size: 112.0%'>java_ee(5)</a> <a href='/blog/categories/jms' style='font-size: 102.4%'>jms(1)</a> <a href='/blog/categories/jmx' style='font-size: 102.4%'>JMX(1)</a> <a href='/blog/categories/joda' style='font-size: 102.4%'>joda(1)</a> <a href='/blog/categories/jpa' style='font-size: 102.4%'>jpa(1)</a> <a href='/blog/categories/jquery' style='font-size: 102.4%'>jquery(1)</a> <a href='/blog/categories/jsp' style='font-size: 104.8%'>jsp(2)</a> <a href='/blog/categories/junit' style='font-size: 102.4%'>junit(1)</a> <a href='/blog/categories/jvm' style='font-size: 104.8%'>jvm(2)</a> <a href='/blog/categories/kohana' style='font-size: 102.4%'>kohana(1)</a> <a href='/blog/categories/l10n' style='font-size: 102.4%'>l10n(1)</a> <a href='/blog/categories/layout' style='font-size: 102.4%'>layout(1)</a> <a href='/blog/categories/linux' style='font-size: 126.4%'>linux(11)</a> <a href='/blog/categories/listview' style='font-size: 104.8%'>listview(2)</a> <a href='/blog/categories/logger' style='font-size: 102.4%'>logger(1)</a> <a href='/blog/categories/m2eclilpse' style='font-size: 102.4%'>m2eclilpse(1)</a> <a href='/blog/categories/mac' style='font-size: 107.2%'>mac(3)</a> <a href='/blog/categories/mat' style='font-size: 102.4%'>mat(1)</a> <a href='/blog/categories/maven' style='font-size: 112.0%'>maven(5)</a> <a href='/blog/categories/memory' style='font-size: 102.4%'>memory(1)</a> <a href='/blog/categories/menu' style='font-size: 102.4%'>menu(1)</a> <a href='/blog/categories/mindmap' style='font-size: 104.8%'>mindmap(2)</a> <a href='/blog/categories/misc' style='font-size: 102.4%'>misc(1)</a> <a href='/blog/categories/mysql' style='font-size: 116.8%'>mysql(7)</a> <a href='/blog/categories/nio' style='font-size: 102.4%'>nio(1)</a> <a href='/blog/categories/octopress' style='font-size: 102.4%'>octopress(1)</a> <a href='/blog/categories/oracle' style='font-size: 102.4%'>oracle(1)</a> <a href='/blog/categories/osgi' style='font-size: 107.2%'>osgi(3)</a> <a href='/blog/categories/pdf' style='font-size: 104.8%'>pdf(2)</a> <a href='/blog/categories/pdt' style='font-size: 112.0%'>pdt(5)</a> <a href='/blog/categories/pear' style='font-size: 104.8%'>pear(2)</a> <a href='/blog/categories/performace' style='font-size: 102.4%'>performace(1)</a> <a href='/blog/categories/pgsql' style='font-size: 102.4%'>pgsql(1)</a> <a href='/blog/categories/php' style='font-size: 114.4%'>php(6)</a> <a href='/blog/categories/play-framework' style='font-size: 102.4%'>play_framework(1)</a> <a href='/blog/categories/pm' style='font-size: 112.0%'>pm(5)</a> <a href='/blog/categories/postgresql' style='font-size: 104.8%'>postgresql(2)</a> <a href='/blog/categories/profile' style='font-size: 102.4%'>profile(1)</a> <a href='/blog/categories/programming' style='font-size: 128.8%'>programming(12)</a> <a href='/blog/categories/python' style='font-size: 104.8%'>python(2)</a> <a href='/blog/categories/re' style='font-size: 102.4%'>re(1)</a> <a href='/blog/categories/refactory' style='font-size: 102.4%'>refactory(1)</a> <a href='/blog/categories/rest' style='font-size: 116.8%'>rest(7)</a> <a href='/blog/categories/roboguice' style='font-size: 102.4%'>roboguice(1)</a> <a href='/blog/categories/sbt' style='font-size: 102.4%'>sbt(1)</a> <a href='/blog/categories/scala' style='font-size: 109.6%'>scala(4)</a> <a href='/blog/categories/security' style='font-size: 104.8%'>security(2)</a> <a href='/blog/categories/service' style='font-size: 104.8%'>service(2)</a> <a href='/blog/categories/shiro' style='font-size: 102.4%'>shiro(1)</a> <a href='/blog/categories/shortchut' style='font-size: 102.4%'>shortchut(1)</a> <a href='/blog/categories/smarty' style='font-size: 107.2%'>smarty(3)</a> <a href='/blog/categories/spring' style='font-size: 104.8%'>spring(2)</a> <a href='/blog/categories/sql' style='font-size: 102.4%'>sql(1)</a> <a href='/blog/categories/style' style='font-size: 102.4%'>style(1)</a> <a href='/blog/categories/tdd' style='font-size: 102.4%'>tdd(1)</a> <a href='/blog/categories/testing' style='font-size: 124.0%'>testing(10)</a> <a href='/blog/categories/theme' style='font-size: 102.4%'>theme(1)</a> <a href='/blog/categories/tips' style='font-size: 104.8%'>tips(2)</a> <a href='/blog/categories/tomcat' style='font-size: 102.4%'>tomcat(1)</a> <a href='/blog/categories/ubuntu' style='font-size: 119.2%'>ubuntu(8)</a> <a href='/blog/categories/ui' style='font-size: 104.8%'>ui(2)</a> <a href='/blog/categories/vim' style='font-size: 104.8%'>vim(2)</a> <a href='/blog/categories/web' style='font-size: 104.8%'>web(2)</a> <a href='/blog/categories/windows' style='font-size: 102.4%'>windows(1)</a> <a href='/blog/categories/xampp' style='font-size: 102.4%'>xampp(1)</a> <a href='/blog/categories/xml' style='font-size: 104.8%'>xml(2)</a> </span>
+    <span id="tag-cloud"><a href='/blog/categories/actionbar' style='font-size: 102.4%'>actionbar(1)</a> <a href='/blog/categories/android' style='font-size: 160.0%'>android(25)</a> <a href='/blog/categories/apache' style='font-size: 116.8%'>apache(7)</a> <a href='/blog/categories/authentication' style='font-size: 102.4%'>authentication(1)</a> <a href='/blog/categories/authorization' style='font-size: 102.4%'>authorization(1)</a> <a href='/blog/categories/bash' style='font-size: 109.6%'>bash(4)</a> <a href='/blog/categories/best-practice' style='font-size: 102.4%'>best_practice(1)</a> <a href='/blog/categories/book' style='font-size: 102.4%'>book(1)</a> <a href='/blog/categories/broadcast-receiver' style='font-size: 104.8%'>broadcast_receiver(2)</a> <a href='/blog/categories/cdi' style='font-size: 104.8%'>cdi(2)</a> <a href='/blog/categories/centos' style='font-size: 112.0%'>centos(5)</a> <a href='/blog/categories/clean-code' style='font-size: 102.4%'>clean code(1)</a> <a href='/blog/categories/clojure' style='font-size: 102.4%'>clojure(1)</a> <a href='/blog/categories/command' style='font-size: 112.0%'>command(5)</a> <a href='/blog/categories/concurrency' style='font-size: 102.4%'>concurrency(1)</a> <a href='/blog/categories/curl' style='font-size: 102.4%'>curl(1)</a> <a href='/blog/categories/database' style='font-size: 114.4%'>database(6)</a> <a href='/blog/categories/datetime' style='font-size: 102.4%'>datetime(1)</a> <a href='/blog/categories/di' style='font-size: 104.8%'>di(2)</a> <a href='/blog/categories/drawable' style='font-size: 102.4%'>drawable(1)</a> <a href='/blog/categories/ec' style='font-size: 102.4%'>ec(1)</a> <a href='/blog/categories/eclipse' style='font-size: 102.4%'>eclipse(1)</a> <a href='/blog/categories/ecshop' style='font-size: 116.8%'>ecshop(7)</a> <a href='/blog/categories/editor' style='font-size: 102.4%'>editor(1)</a> <a href='/blog/categories/emulator' style='font-size: 102.4%'>emulator(1)</a> <a href='/blog/categories/encoding' style='font-size: 102.4%'>encoding(1)</a> <a href='/blog/categories/english' style='font-size: 133.6%'>english(14)</a> <a href='/blog/categories/excel' style='font-size: 104.8%'>excel(2)</a> <a href='/blog/categories/extjs' style='font-size: 104.8%'>extjs(2)</a> <a href='/blog/categories/functional-programming' style='font-size: 102.4%'>functional programming(1)</a> <a href='/blog/categories/gesture' style='font-size: 102.4%'>gesture(1)</a> <a href='/blog/categories/git' style='font-size: 109.6%'>git(4)</a> <a href='/blog/categories/git-flow' style='font-size: 102.4%'>git-flow(1)</a> <a href='/blog/categories/guava' style='font-size: 104.8%'>guava(2)</a> <a href='/blog/categories/guice' style='font-size: 102.4%'>guice(1)</a> <a href='/blog/categories/hamcrest' style='font-size: 102.4%'>hamcrest(1)</a> <a href='/blog/categories/i18n' style='font-size: 102.4%'>i18n(1)</a> <a href='/blog/categories/ide' style='font-size: 102.4%'>IDE(1)</a> <a href='/blog/categories/idea' style='font-size: 104.8%'>IDEA(2)</a> <a href='/blog/categories/imgur' style='font-size: 102.4%'>imgur(1)</a> <a href='/blog/categories/injection' style='font-size: 102.4%'>injection(1)</a> <a href='/blog/categories/intent' style='font-size: 102.4%'>intent(1)</a> <a href='/blog/categories/ireport' style='font-size: 104.8%'>ireport(2)</a> <a href='/blog/categories/jasterreport' style='font-size: 104.8%'>jasterreport(2)</a> <a href='/blog/categories/java' style='font-size: 152.8%'>java(22)</a> <a href='/blog/categories/java8' style='font-size: 104.8%'>java8(2)</a> <a href='/blog/categories/java-ee' style='font-size: 112.0%'>java_ee(5)</a> <a href='/blog/categories/jms' style='font-size: 102.4%'>jms(1)</a> <a href='/blog/categories/jmx' style='font-size: 102.4%'>JMX(1)</a> <a href='/blog/categories/joda' style='font-size: 102.4%'>joda(1)</a> <a href='/blog/categories/jpa' style='font-size: 102.4%'>jpa(1)</a> <a href='/blog/categories/jquery' style='font-size: 102.4%'>jquery(1)</a> <a href='/blog/categories/jsp' style='font-size: 104.8%'>jsp(2)</a> <a href='/blog/categories/junit' style='font-size: 102.4%'>junit(1)</a> <a href='/blog/categories/jvm' style='font-size: 104.8%'>jvm(2)</a> <a href='/blog/categories/kohana' style='font-size: 102.4%'>kohana(1)</a> <a href='/blog/categories/l10n' style='font-size: 102.4%'>l10n(1)</a> <a href='/blog/categories/lambda' style='font-size: 102.4%'>lambda(1)</a> <a href='/blog/categories/layout' style='font-size: 102.4%'>layout(1)</a> <a href='/blog/categories/linux' style='font-size: 126.4%'>linux(11)</a> <a href='/blog/categories/listview' style='font-size: 104.8%'>listview(2)</a> <a href='/blog/categories/logger' style='font-size: 102.4%'>logger(1)</a> <a href='/blog/categories/m2eclilpse' style='font-size: 102.4%'>m2eclilpse(1)</a> <a href='/blog/categories/mac' style='font-size: 107.2%'>mac(3)</a> <a href='/blog/categories/mat' style='font-size: 102.4%'>mat(1)</a> <a href='/blog/categories/maven' style='font-size: 112.0%'>maven(5)</a> <a href='/blog/categories/memory' style='font-size: 102.4%'>memory(1)</a> <a href='/blog/categories/menu' style='font-size: 102.4%'>menu(1)</a> <a href='/blog/categories/mindmap' style='font-size: 104.8%'>mindmap(2)</a> <a href='/blog/categories/misc' style='font-size: 102.4%'>misc(1)</a> <a href='/blog/categories/mysql' style='font-size: 116.8%'>mysql(7)</a> <a href='/blog/categories/nio' style='font-size: 102.4%'>nio(1)</a> <a href='/blog/categories/octopress' style='font-size: 102.4%'>octopress(1)</a> <a href='/blog/categories/oracle' style='font-size: 102.4%'>oracle(1)</a> <a href='/blog/categories/osgi' style='font-size: 107.2%'>osgi(3)</a> <a href='/blog/categories/pdf' style='font-size: 104.8%'>pdf(2)</a> <a href='/blog/categories/pdt' style='font-size: 112.0%'>pdt(5)</a> <a href='/blog/categories/pear' style='font-size: 104.8%'>pear(2)</a> <a href='/blog/categories/performace' style='font-size: 102.4%'>performace(1)</a> <a href='/blog/categories/pgsql' style='font-size: 102.4%'>pgsql(1)</a> <a href='/blog/categories/php' style='font-size: 114.4%'>php(6)</a> <a href='/blog/categories/play-framework' style='font-size: 102.4%'>play_framework(1)</a> <a href='/blog/categories/pm' style='font-size: 112.0%'>pm(5)</a> <a href='/blog/categories/postgresql' style='font-size: 104.8%'>postgresql(2)</a> <a href='/blog/categories/profile' style='font-size: 102.4%'>profile(1)</a> <a href='/blog/categories/programming' style='font-size: 128.8%'>programming(12)</a> <a href='/blog/categories/python' style='font-size: 104.8%'>python(2)</a> <a href='/blog/categories/re' style='font-size: 102.4%'>re(1)</a> <a href='/blog/categories/refactory' style='font-size: 102.4%'>refactory(1)</a> <a href='/blog/categories/rest' style='font-size: 116.8%'>rest(7)</a> <a href='/blog/categories/roboguice' style='font-size: 102.4%'>roboguice(1)</a> <a href='/blog/categories/sbt' style='font-size: 102.4%'>sbt(1)</a> <a href='/blog/categories/scala' style='font-size: 109.6%'>scala(4)</a> <a href='/blog/categories/security' style='font-size: 104.8%'>security(2)</a> <a href='/blog/categories/sequence-diagram' style='font-size: 102.4%'>sequence_diagram(1)</a> <a href='/blog/categories/service' style='font-size: 104.8%'>service(2)</a> <a href='/blog/categories/shiro' style='font-size: 102.4%'>shiro(1)</a> <a href='/blog/categories/shortchut' style='font-size: 102.4%'>shortchut(1)</a> <a href='/blog/categories/smarty' style='font-size: 107.2%'>smarty(3)</a> <a href='/blog/categories/spring' style='font-size: 104.8%'>spring(2)</a> <a href='/blog/categories/sql' style='font-size: 102.4%'>sql(1)</a> <a href='/blog/categories/style' style='font-size: 102.4%'>style(1)</a> <a href='/blog/categories/tdd' style='font-size: 102.4%'>tdd(1)</a> <a href='/blog/categories/testing' style='font-size: 124.0%'>testing(10)</a> <a href='/blog/categories/theme' style='font-size: 102.4%'>theme(1)</a> <a href='/blog/categories/tips' style='font-size: 104.8%'>tips(2)</a> <a href='/blog/categories/tomcat' style='font-size: 102.4%'>tomcat(1)</a> <a href='/blog/categories/ubuntu' style='font-size: 119.2%'>ubuntu(8)</a> <a href='/blog/categories/ui' style='font-size: 104.8%'>ui(2)</a> <a href='/blog/categories/uml' style='font-size: 102.4%'>uml(1)</a> <a href='/blog/categories/umlet' style='font-size: 102.4%'>umlet(1)</a> <a href='/blog/categories/vim' style='font-size: 104.8%'>vim(2)</a> <a href='/blog/categories/web' style='font-size: 104.8%'>web(2)</a> <a href='/blog/categories/windows' style='font-size: 102.4%'>windows(1)</a> <a href='/blog/categories/xampp' style='font-size: 102.4%'>xampp(1)</a> <a href='/blog/categories/xml' style='font-size: 104.8%'>xml(2)</a> </span>
 </section>
 <section>
   <h1>Categories</h1>
-    <ul id="category-list"><li><a href='/blog/categories/actionbar'>actionbar (1)</a></li><li><a href='/blog/categories/android'>android (25)</a></li><li><a href='/blog/categories/apache'>apache (7)</a></li><li><a href='/blog/categories/authentication'>authentication (1)</a></li><li><a href='/blog/categories/authorization'>authorization (1)</a></li><li><a href='/blog/categories/bash'>bash (4)</a></li><li><a href='/blog/categories/best-practice'>best_practice (1)</a></li><li><a href='/blog/categories/book'>book (1)</a></li><li><a href='/blog/categories/broadcast-receiver'>broadcast_receiver (2)</a></li><li><a href='/blog/categories/cdi'>cdi (2)</a></li><li><a href='/blog/categories/centos'>centos (5)</a></li><li><a href='/blog/categories/clean-code'>clean code (1)</a></li><li><a href='/blog/categories/command'>command (5)</a></li><li><a href='/blog/categories/concurrency'>concurrency (1)</a></li><li><a href='/blog/categories/curl'>curl (1)</a></li><li><a href='/blog/categories/database'>database (6)</a></li><li><a href='/blog/categories/datetime'>datetime (1)</a></li><li><a href='/blog/categories/di'>di (2)</a></li><li><a href='/blog/categories/drawable'>drawable (1)</a></li><li><a href='/blog/categories/ec'>ec (1)</a></li><li><a href='/blog/categories/eclipse'>eclipse (1)</a></li><li><a href='/blog/categories/ecshop'>ecshop (7)</a></li><li><a href='/blog/categories/editor'>editor (1)</a></li><li><a href='/blog/categories/emulator'>emulator (1)</a></li><li><a href='/blog/categories/encoding'>encoding (1)</a></li><li><a href='/blog/categories/english'>english (14)</a></li><li><a href='/blog/categories/excel'>excel (2)</a></li><li><a href='/blog/categories/extjs'>extjs (2)</a></li><li><a href='/blog/categories/gesture'>gesture (1)</a></li><li><a href='/blog/categories/git'>git (4)</a></li><li><a href='/blog/categories/git-flow'>git-flow (1)</a></li><li><a href='/blog/categories/guava'>guava (2)</a></li><li><a href='/blog/categories/guice'>guice (1)</a></li><li><a href='/blog/categories/hamcrest'>hamcrest (1)</a></li><li><a href='/blog/categories/i18n'>i18n (1)</a></li><li><a href='/blog/categories/ide'>IDE (1)</a></li><li><a href='/blog/categories/idea'>IDEA (2)</a></li><li><a href='/blog/categories/imgur'>imgur (1)</a></li><li><a href='/blog/categories/injection'>injection (1)</a></li><li><a href='/blog/categories/intent'>intent (1)</a></li><li><a href='/blog/categories/ireport'>ireport (2)</a></li><li><a href='/blog/categories/jasterreport'>jasterreport (2)</a></li><li><a href='/blog/categories/java'>java (22)</a></li><li><a href='/blog/categories/java-ee'>java_ee (5)</a></li><li><a href='/blog/categories/jms'>jms (1)</a></li><li><a href='/blog/categories/jmx'>JMX (1)</a></li><li><a href='/blog/categories/joda'>joda (1)</a></li><li><a href='/blog/categories/jpa'>jpa (1)</a></li><li><a href='/blog/categories/jquery'>jquery (1)</a></li><li><a href='/blog/categories/jsp'>jsp (2)</a></li><li><a href='/blog/categories/junit'>junit (1)</a></li><li><a href='/blog/categories/jvm'>jvm (2)</a></li><li><a href='/blog/categories/kohana'>kohana (1)</a></li><li><a href='/blog/categories/l10n'>l10n (1)</a></li><li><a href='/blog/categories/layout'>layout (1)</a></li><li><a href='/blog/categories/linux'>linux (11)</a></li><li><a href='/blog/categories/listview'>listview (2)</a></li><li><a href='/blog/categories/logger'>logger (1)</a></li><li><a href='/blog/categories/m2eclilpse'>m2eclilpse (1)</a></li><li><a href='/blog/categories/mac'>mac (3)</a></li><li><a href='/blog/categories/mat'>mat (1)</a></li><li><a href='/blog/categories/maven'>maven (5)</a></li><li><a href='/blog/categories/memory'>memory (1)</a></li><li><a href='/blog/categories/menu'>menu (1)</a></li><li><a href='/blog/categories/mindmap'>mindmap (2)</a></li><li><a href='/blog/categories/misc'>misc (1)</a></li><li><a href='/blog/categories/mysql'>mysql (7)</a></li><li><a href='/blog/categories/nio'>nio (1)</a></li><li><a href='/blog/categories/octopress'>octopress (1)</a></li><li><a href='/blog/categories/oracle'>oracle (1)</a></li><li><a href='/blog/categories/osgi'>osgi (3)</a></li><li><a href='/blog/categories/pdf'>pdf (2)</a></li><li><a href='/blog/categories/pdt'>pdt (5)</a></li><li><a href='/blog/categories/pear'>pear (2)</a></li><li><a href='/blog/categories/performace'>performace (1)</a></li><li><a href='/blog/categories/pgsql'>pgsql (1)</a></li><li><a href='/blog/categories/php'>php (6)</a></li><li><a href='/blog/categories/play-framework'>play_framework (1)</a></li><li><a href='/blog/categories/pm'>pm (5)</a></li><li><a href='/blog/categories/postgresql'>postgresql (2)</a></li><li><a href='/blog/categories/profile'>profile (1)</a></li><li><a href='/blog/categories/programming'>programming (12)</a></li><li><a href='/blog/categories/python'>python (2)</a></li><li><a href='/blog/categories/re'>re (1)</a></li><li><a href='/blog/categories/refactory'>refactory (1)</a></li><li><a href='/blog/categories/rest'>rest (7)</a></li><li><a href='/blog/categories/roboguice'>roboguice (1)</a></li><li><a href='/blog/categories/sbt'>sbt (1)</a></li><li><a href='/blog/categories/scala'>scala (4)</a></li><li><a href='/blog/categories/security'>security (2)</a></li><li><a href='/blog/categories/service'>service (2)</a></li><li><a href='/blog/categories/shiro'>shiro (1)</a></li><li><a href='/blog/categories/shortchut'>shortchut (1)</a></li><li><a href='/blog/categories/smarty'>smarty (3)</a></li><li><a href='/blog/categories/spring'>spring (2)</a></li><li><a href='/blog/categories/sql'>sql (1)</a></li><li><a href='/blog/categories/style'>style (1)</a></li><li><a href='/blog/categories/tdd'>tdd (1)</a></li><li><a href='/blog/categories/testing'>testing (10)</a></li><li><a href='/blog/categories/theme'>theme (1)</a></li><li><a href='/blog/categories/tips'>tips (2)</a></li><li><a href='/blog/categories/tomcat'>tomcat (1)</a></li><li><a href='/blog/categories/ubuntu'>ubuntu (8)</a></li><li><a href='/blog/categories/ui'>ui (2)</a></li><li><a href='/blog/categories/vim'>vim (2)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/windows'>windows (1)</a></li><li><a href='/blog/categories/xampp'>xampp (1)</a></li><li><a href='/blog/categories/xml'>xml (2)</a></li></ul>
+    <ul id="category-list"><li><a href='/blog/categories/actionbar'>actionbar (1)</a></li><li><a href='/blog/categories/android'>android (25)</a></li><li><a href='/blog/categories/apache'>apache (7)</a></li><li><a href='/blog/categories/authentication'>authentication (1)</a></li><li><a href='/blog/categories/authorization'>authorization (1)</a></li><li><a href='/blog/categories/bash'>bash (4)</a></li><li><a href='/blog/categories/best-practice'>best_practice (1)</a></li><li><a href='/blog/categories/book'>book (1)</a></li><li><a href='/blog/categories/broadcast-receiver'>broadcast_receiver (2)</a></li><li><a href='/blog/categories/cdi'>cdi (2)</a></li><li><a href='/blog/categories/centos'>centos (5)</a></li><li><a href='/blog/categories/clean-code'>clean code (1)</a></li><li><a href='/blog/categories/clojure'>clojure (1)</a></li><li><a href='/blog/categories/command'>command (5)</a></li><li><a href='/blog/categories/concurrency'>concurrency (1)</a></li><li><a href='/blog/categories/curl'>curl (1)</a></li><li><a href='/blog/categories/database'>database (6)</a></li><li><a href='/blog/categories/datetime'>datetime (1)</a></li><li><a href='/blog/categories/di'>di (2)</a></li><li><a href='/blog/categories/drawable'>drawable (1)</a></li><li><a href='/blog/categories/ec'>ec (1)</a></li><li><a href='/blog/categories/eclipse'>eclipse (1)</a></li><li><a href='/blog/categories/ecshop'>ecshop (7)</a></li><li><a href='/blog/categories/editor'>editor (1)</a></li><li><a href='/blog/categories/emulator'>emulator (1)</a></li><li><a href='/blog/categories/encoding'>encoding (1)</a></li><li><a href='/blog/categories/english'>english (14)</a></li><li><a href='/blog/categories/excel'>excel (2)</a></li><li><a href='/blog/categories/extjs'>extjs (2)</a></li><li><a href='/blog/categories/functional-programming'>functional programming (1)</a></li><li><a href='/blog/categories/gesture'>gesture (1)</a></li><li><a href='/blog/categories/git'>git (4)</a></li><li><a href='/blog/categories/git-flow'>git-flow (1)</a></li><li><a href='/blog/categories/guava'>guava (2)</a></li><li><a href='/blog/categories/guice'>guice (1)</a></li><li><a href='/blog/categories/hamcrest'>hamcrest (1)</a></li><li><a href='/blog/categories/i18n'>i18n (1)</a></li><li><a href='/blog/categories/ide'>IDE (1)</a></li><li><a href='/blog/categories/idea'>IDEA (2)</a></li><li><a href='/blog/categories/imgur'>imgur (1)</a></li><li><a href='/blog/categories/injection'>injection (1)</a></li><li><a href='/blog/categories/intent'>intent (1)</a></li><li><a href='/blog/categories/ireport'>ireport (2)</a></li><li><a href='/blog/categories/jasterreport'>jasterreport (2)</a></li><li><a href='/blog/categories/java'>java (22)</a></li><li><a href='/blog/categories/java8'>java8 (2)</a></li><li><a href='/blog/categories/java-ee'>java_ee (5)</a></li><li><a href='/blog/categories/jms'>jms (1)</a></li><li><a href='/blog/categories/jmx'>JMX (1)</a></li><li><a href='/blog/categories/joda'>joda (1)</a></li><li><a href='/blog/categories/jpa'>jpa (1)</a></li><li><a href='/blog/categories/jquery'>jquery (1)</a></li><li><a href='/blog/categories/jsp'>jsp (2)</a></li><li><a href='/blog/categories/junit'>junit (1)</a></li><li><a href='/blog/categories/jvm'>jvm (2)</a></li><li><a href='/blog/categories/kohana'>kohana (1)</a></li><li><a href='/blog/categories/l10n'>l10n (1)</a></li><li><a href='/blog/categories/lambda'>lambda (1)</a></li><li><a href='/blog/categories/layout'>layout (1)</a></li><li><a href='/blog/categories/linux'>linux (11)</a></li><li><a href='/blog/categories/listview'>listview (2)</a></li><li><a href='/blog/categories/logger'>logger (1)</a></li><li><a href='/blog/categories/m2eclilpse'>m2eclilpse (1)</a></li><li><a href='/blog/categories/mac'>mac (3)</a></li><li><a href='/blog/categories/mat'>mat (1)</a></li><li><a href='/blog/categories/maven'>maven (5)</a></li><li><a href='/blog/categories/memory'>memory (1)</a></li><li><a href='/blog/categories/menu'>menu (1)</a></li><li><a href='/blog/categories/mindmap'>mindmap (2)</a></li><li><a href='/blog/categories/misc'>misc (1)</a></li><li><a href='/blog/categories/mysql'>mysql (7)</a></li><li><a href='/blog/categories/nio'>nio (1)</a></li><li><a href='/blog/categories/octopress'>octopress (1)</a></li><li><a href='/blog/categories/oracle'>oracle (1)</a></li><li><a href='/blog/categories/osgi'>osgi (3)</a></li><li><a href='/blog/categories/pdf'>pdf (2)</a></li><li><a href='/blog/categories/pdt'>pdt (5)</a></li><li><a href='/blog/categories/pear'>pear (2)</a></li><li><a href='/blog/categories/performace'>performace (1)</a></li><li><a href='/blog/categories/pgsql'>pgsql (1)</a></li><li><a href='/blog/categories/php'>php (6)</a></li><li><a href='/blog/categories/play-framework'>play_framework (1)</a></li><li><a href='/blog/categories/pm'>pm (5)</a></li><li><a href='/blog/categories/postgresql'>postgresql (2)</a></li><li><a href='/blog/categories/profile'>profile (1)</a></li><li><a href='/blog/categories/programming'>programming (12)</a></li><li><a href='/blog/categories/python'>python (2)</a></li><li><a href='/blog/categories/re'>re (1)</a></li><li><a href='/blog/categories/refactory'>refactory (1)</a></li><li><a href='/blog/categories/rest'>rest (7)</a></li><li><a href='/blog/categories/roboguice'>roboguice (1)</a></li><li><a href='/blog/categories/sbt'>sbt (1)</a></li><li><a href='/blog/categories/scala'>scala (4)</a></li><li><a href='/blog/categories/security'>security (2)</a></li><li><a href='/blog/categories/sequence-diagram'>sequence_diagram (1)</a></li><li><a href='/blog/categories/service'>service (2)</a></li><li><a href='/blog/categories/shiro'>shiro (1)</a></li><li><a href='/blog/categories/shortchut'>shortchut (1)</a></li><li><a href='/blog/categories/smarty'>smarty (3)</a></li><li><a href='/blog/categories/spring'>spring (2)</a></li><li><a href='/blog/categories/sql'>sql (1)</a></li><li><a href='/blog/categories/style'>style (1)</a></li><li><a href='/blog/categories/tdd'>tdd (1)</a></li><li><a href='/blog/categories/testing'>testing (10)</a></li><li><a href='/blog/categories/theme'>theme (1)</a></li><li><a href='/blog/categories/tips'>tips (2)</a></li><li><a href='/blog/categories/tomcat'>tomcat (1)</a></li><li><a href='/blog/categories/ubuntu'>ubuntu (8)</a></li><li><a href='/blog/categories/ui'>ui (2)</a></li><li><a href='/blog/categories/uml'>uml (1)</a></li><li><a href='/blog/categories/umlet'>umlet (1)</a></li><li><a href='/blog/categories/vim'>vim (2)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/windows'>windows (1)</a></li><li><a href='/blog/categories/xampp'>xampp (1)</a></li><li><a href='/blog/categories/xml'>xml (2)</a></li></ul>
 </section>
 
   

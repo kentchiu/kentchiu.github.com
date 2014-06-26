@@ -9,8 +9,11 @@
   <meta name="author" content="Kent">
 
   
-  <meta name="description" content="ListView是android裡一個很常用的元件，但他的使用上並不是那麼直接，而且有許多事項要去注意。 ListView元件被設計時，考慮到ListView主要是要來呈現許多類似的內容列表，但因為要運在手機上，所以
-就算是有大量的內容，也不能影響到操作的效能。 基於以上原因， &hellip;">
+  <meta name="description" content="Icons Menu
+Expended Menu
+SubMenus
+Context Menu Icons Menu 不能顯示 checkboxes, radio buttons, or the shortcut keys
+透過改寫 android.app.Activity. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -78,6 +81,811 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/03/20/menu/">Android Menu</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-20T00:00:00+08:00" pubdate data-updated="true">Mar 20<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/03/20/menu/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><ol>
+<li>Icons Menu</li>
+<li>Expended Menu</li>
+<li>SubMenus</li>
+<li>Context Menu</li>
+</ol>
+
+
+<h5>Icons Menu</h5>
+
+<ol>
+<li>不能顯示 checkboxes, radio buttons, or the shortcut keys</li>
+<li>透過改寫 android.app.Activity.onCreateOptionsMenu(Menu)</li>
+<li>要在method一開始call super.onCreateOptionsMenu(Menu)</li>
+<li>透過改寫com.paad.todolist.ToDoList.onOptionsItemSelected(MenuItem)來處理事件</li>
+</ol>
+
+
+<h5>SubMenus</h5>
+
+<ol>
+<li>不支援巢式子選單</li>
+</ol>
+
+
+<h5>Context Menu</h5>
+
+<ol>
+<li>要註冊欲使用Context Menu的元件</li>
+<li>透過改成android.app.Activity.onCreateContextMenu(ContextMenu, View,
+ContextMenuInfo)</li>
+<li>要在method一開始call super.onCreateContextMenu(ContextMenu, View,
+ContextMenuInfo)</li>
+<li>透過改寫com.paad.todolist.ToDoList.onContextItemSelected(MenuItem)來處理事件</li>
+</ol>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/03/20/media_player/">Media_player</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-20T00:00:00+08:00" pubdate data-updated="true">Mar 20<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/03/20/media_player/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><hr />
+
+<p>author: Kent Chiu
+published: true
+layout: post
+title: &#8220;Android Media Player&#8221;
+date: 2012-03-20
+comments: true
+external-url:
+sharing: true
+footer: true
+categories:
+  - android
+  - media_player
+ &#8211;</p>
+
+<h5>AndroidMainfest.xml</h5>
+
+<p>如果需要從網路下載音訊檔，需要開放<code>android.permission.INTERNET</code>權限</p>
+
+<pre><code>&lt;uses-permission android:name="android.permission.INTERNET" /&gt;
+</code></pre>
+
+<h3>使用流程</h3>
+
+<h5>State Diagram</h5>
+
+<p>狀態對<a href="http://developer.android.com/reference/android/media/MediaPlayer.html" title="http://developer.android.com/reference/android/media/MediaPlayer.html">MediaPlayer</a>來說是相當重要的，
+在不適當的狀態下呼叫不適當的method會導致MediaPlay丟出例常。</p>
+
+<p><img src="http://developer.android.com/images/mediaplayer_state_diagram.gif" alt="image" /></p>
+
+<p>基本上的使用流程如下</p>
+
+<ol>
+<li>透過<code>create()</code>建立(idle狀態)</li>
+<li>透過<code>setDataSource()</code>初始化MediaPlayer (initialized狀態)</li>
+<li>透過<code>prepare()</code>預備播放 (preparing and prepared狀態)</li>
+<li>透過<code>start()</code>播放 (started狀態)</li>
+<li>之後可以進行播放相關的控制</li>
+<li>透過<code>stop()</code>停止播放 (stop狀態)</li>
+<li><strong>沒有要用MediaPlayer時，記得呼叫release()釋放資源</strong> (end狀態)</li>
+</ol>
+
+
+<h3>音訊來源</h3>
+
+<p>要播放的訊息檔可以來自</p>
+
+<ol>
+<li>Local resources (放程式/raw目錄的檔案，有resource id的)</li>
+<li>Internal URIs (內部uri是指可以透過Content Resolver取存的)</li>
+<li>External URLs (外部url大多是指網路上的檔案，只能以streaming讀取)</li>
+</ol>
+
+
+<p>streaming需要先下載到buffer後再進行播放，未下載的部份，無法做位置控制(forward，reverse，seeking)
+，用串流播放時，前端通常會實作兩段式的progress
+bar，第一段是目前播放的進度，另一段是已下載到buffer的進度。</p>
+
+<h5>播放程式內*有resource id)的音訊檔</h5>
+
+<p>這種方式通常是用來播放跟程式中預先定義好的音效，音樂…</p>
+
+<pre><code>MediaPlayer mediaPlayer = MediaPlayer.create(context, R.raw.sound_file_1);
+mediaPlayer.start(); // no need to call prepare(); create() does that for you
+</code></pre>
+
+<p>讀取resource是透過create時指定resource
+id，這種方式不用自已呼叫prepare(),create()內會自行呼叫prepare()。</p>
+
+<h5>播放手機內部音訊檔</h5>
+
+<p>這種方式是透過Content URI取得內部的音訊資源</p>
+
+<pre><code>Uri myUri = ....; // initialize Uri here
+MediaPlayer mediaPlayer = new MediaPlayer();
+mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+mediaPlayer.setDataSource(getApplicationContext(), myUri);
+mediaPlayer.prepare();
+mediaPlayer.start();
+</code></pre>
+
+<h5>播放網路上的音訊檔</h5>
+
+<p>這種方式是透過標準的url來播放網路上的音訊檔</p>
+
+<pre><code>String url = "http://........"; // your URL here
+MediaPlayer mediaPlayer = new MediaPlayer();
+mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+mediaPlayer.setDataSource(url);
+mediaPlayer.prepare(); // might take long! (for buffering, etc)
+mediaPlayer.start();
+</code></pre>
+
+<h3>Preparation</h3>
+
+<p>MediaPlayer要能開始播放，必須先進入Prepared狀態。</p>
+
+<h5>Asynchronous Preparation</h5>
+
+<p>進入Prepared狀態會花掉一些時間，因為prepare可能需要抓取及解碼音訊檔(可能需幾秒)，如果Prepared是在main
+thread呼叫，會把ui給block住，這樣會影響操作性。
+所以MediaPlayer有提供非同步的Preparation方式，也就是在work
+thread進行preparing的動作，可以讓block情況減緩一些。</p>
+
+<p>透過prepareAsync()可以進行非同步的preparing，因為是非同步的，所以如果要知道何時會prepared完成，那就必須透過<code>MediaPlayer.OnPreparedListener</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public class MyService extends Service implements MediaPlayer.OnPreparedListener {
+</span><span class='line'>    private static final ACTION_PLAY = "com.example.action.PLAY";
+</span><span class='line'>    MediaPlayer mMediaPlayer = null;
+</span><span class='line'> 
+</span><span class='line'>    public int onStartCommand(Intent intent, int flags, int startId) {
+</span><span class='line'>        ...
+</span><span class='line'>        if (intent.getAction().equals(ACTION_PLAY)) {
+</span><span class='line'>            mMediaPlayer = ... // initialize it here
+</span><span class='line'>            mMediaPlayer.setOnPreparedListener(this);
+</span><span class='line'>            mMediaPlayer.prepareAsync(); // prepare async to not block main thread
+</span><span class='line'>        }
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>    /** Called when MediaPlayer is ready */
+</span><span class='line'>    public void onPrepared(MediaPlayer player) {
+</span><span class='line'>        player.start();
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>同步播放進度</h3>
+
+<p>MediaPlayer本身並不包含UI相關的component，如果要控制MediaPlayer的播放動作，可以透過Button去呼叫播放的API。
+其中，有一個比較麻煩的是顯示播放進度的ProgressBar(或SeekBar)，因為progress
+bar需要一直不斷跟MediaPlayer進行同步
+最直接的方式是寫一個thread，然後透過Handler(WorkerThread不能直接存取UI元件)去取得MediaPlayer目前播放進度的資料，並持續的設定到ProgressBar上。</p>
+
+<h5>透過thread同步ProcessBar</h5>
+
+<p>像下面code的這樣，但是，實際使用上，發現效能不是很好，progress
+bar不管怎麼調，都沒Android內建的<a href="http://developer.android.com/reference/android/widget/MediaController.html" title="http://developer.android.com/reference/android/widget/MediaController.html">MediaController</a>好。
+去查了一下MediaController的source發現他是用<strong>recursive(遞歸)的方法</strong>處理的。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Thread syncSeekBarThread = new Thread(new Runnable() {
+</span><span class='line'>    @Override
+</span><span class='line'>    public void run() {
+</span><span class='line'>        int currentPosition = 0;
+</span><span class='line'>        while (player != null && currentPosition &lt; total) {
+</span><span class='line'>            int currentPosition = mPlayer.getCurrentPosition();
+</span><span class='line'>            Message msg = new Message();
+</span><span class='line'>            msg.what = currentPosition;
+</span><span class='line'>            threadHandler.sendMessage(msg);
+</span><span class='line'>            Thread.sleep(1000);
+</span><span class='line'>        }
+</span><span class='line'>    }
+</span><span class='line'>});
+</span><span class='line'> 
+</span><span class='line'>syncSeekBarThread.start(); // start synchronizing
+</span><span class='line'> 
+</span><span class='line'> 
+</span><span class='line'>private Handler threadHandler = new Handler(){
+</span><span class='line'>    public void handleMessage(Message msg){
+</span><span class='line'>        seekBar.setProgress(msg.what);
+</span><span class='line'>    }
+</span><span class='line'>};</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>透過Handler的recursive同步ProcessBar</h5>
+
+<p>主要的重點有</p>
+
+<ol>
+<li>要找一個觸發recursive的好地點，播放器上的play button是一個不錯的位置</li>
+<li>handleMessage一但開始接到Message後，就會不斷的送Message給自已</li>
+<li>用sendMessageDelayed來計算下次的觸發時間</li>
+</ol>
+
+
+<p>相當巧妙的解法，難怪大家都建議多看Android的source，改成這樣後，ProgressBar果然有比較平順。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>private class SyncHandler extends Handler {
+</span><span class='line'>    @Override
+</span><span class='line'>    public void handleMessage(Message msg) {
+</span><span class='line'>        int current = msg.what;
+</span><span class='line'>        seekBar.setProgress(current);
+</span><span class='line'>        if (!seekbarChangeListener.isDragging()) {
+</span><span class='line'>            Message m = obtainMessage();
+</span><span class='line'>            m.what = player.getCurrentPosition();
+</span><span class='line'>            // Send meesage to Handler itself will fire handleMessage() again with new Message.
+</span><span class='line'>            sendMessageDelayed(m, 1000 - player.getCurrentPosition() % 1000);
+</span><span class='line'>        }
+</span><span class='line'>    }
+</span><span class='line'>}
+</span><span class='line'> 
+</span><span class='line'>private Handler    handler = new SyncHandler();
+</span><span class='line'> 
+</span><span class='line'>/**
+</span><span class='line'>  * strt
+</span><span class='line'>  *
+</span><span class='line'>  */
+</span><span class='line'>public void PlayButtonOnClick() {
+</span><span class='line'>    handler.sendEmptyMessage(player.getCurrentPosition());
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>Resource</h1>
+
+<ul>
+<li><a href="http://developer.android.com/guide/topics/media/mediaplayer.html" title="http://developer.android.com/guide/topics/media/mediaplayer.html">官網文件</a></li>
+<li><a href="http://developer.android.com/reference/android/media/MediaPlayer.html" title="http://developer.android.com/reference/android/media/MediaPlayer.html">API</a></li>
+<li><a href="http://developer.android.com/guide/topics/media/mediaplayer.html#wakelocks" title="http://developer.android.com/guide/topics/media/mediaplayer.html#wakelocks">Wake  locks</a>
+
+<ul>
+<li>如果要必免待機時，播放器被停掉，可以設定wake mode</li>
+</ul>
+</li>
+<li><a href="http://developer.android.com/guide/topics/media/mediaplayer.html#audiofocus" title="http://developer.android.com/guide/topics/media/mediaplayer.html#audiofocus">Audio  focus</a>
+
+<ul>
+<li>如果要處理接到電話或其他事件時，把播放器暫停，可以透過audio focus(2.2+)</li>
+</ul>
+</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/03/20/logback_101/">Logback 101</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-20T00:00:00+08:00" pubdate data-updated="true">Mar 20<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/03/20/logback_101/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>在使用log4j時，遇到幾個問題，剛好這個幾個問題是<a href="http://logback.qos.ch/index.html" title="http://logback.qos.ch/index.html">logback</a>特別強調他可以解決的(所以，我們應該是遇到了大多數使用log4j的開發人員會遇到的麻煩)。
+而且，一直以為都是使用<a href="http://www.slf4j.org/" title="http://www.slf4j.org/">SLF4J</a>當作logger的API(slf4j底層是呼叫log4j)，logback也可以無痛轉換，所以就試著把Log4j換成logback</p>
+
+<p>Appender Additivity(疊加)是一個很常用的功能，官網上對它的說明是這樣的</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Appender Additivity
+</span><span class='line'> 
+</span><span class='line'>The output of a log statement of logger L will go to all the appenders in L and its ancestors. This is the meaning of the term "appender additivity".
+</span><span class='line'> 
+</span><span class='line'>However, if an ancestor of logger L, say P, has the additivity flag set to false, then L's output will be directed to all the appenders in L and its ancestors up to and including P but not the appenders in any of the ancestors of P.
+</span><span class='line'> 
+</span><span class='line'>Loggers have their additivity flag set to true by default.</span></code></pre></td></tr></table></div></figure>
+
+
+<p>example</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  Logger Name       Attached Appenders   Additivity Flag   Output Targets           Comment
+</span><span class='line'>  ----------------- -------------------- ----------------- ------------------------ ---------------------------------------root              A1                   not applicable    A1                       Since the root logger stands at the top of the logger hierarchy, the additivity flag does not apply to it.
+</span><span class='line'>  x                 A-x1, A-x2           true              A1, A-x1, A-x2           Appenders of “x” and of root.
+</span><span class='line'>  x.y               none                 true              A1, A-x1, A-x2           Appenders of “x” and of root.
+</span><span class='line'>  x.y.z             A-xyz1               true              A1, A-x1, A-x2, A-xyz1   Appenders of “x.y.z”, “x” and of root.
+</span><span class='line'>  security          A-sec                false             A-sec                    No appender accumulation since the additivity flag is set to “false”. Only appender A-sec will be used.
+</span><span class='line'>  security.access   none                 true              A-sec                    Only appenders of “security” because the additivity flag in “security” is set to “false”.</span></code></pre></td></tr></table></div></figure>
+
+
+<p>基本上，也就是設定<code>Additivity=false</code>時，該logger所宣告的所有appenders不會附加到parent上面(常用來抑制logging到root)，其子logger也不會繼承這個logger所宣告的appenders。</p>
+
+<h4>在配置檔使用變數</h4>
+
+<p>配置檔內可以透過<code>&lt;property&gt;</code>
+tag來定義變數，並透過<code>${變數名稱}</code>來引用它。系統變數也可以直接使用，像<code>${user.home}</code>，另外，也可以用一個獨立的屬性檔(filename.properties)來定義屬性，之後再引入
+<code>&lt;property file=“filename.properties” /&gt;</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;configuration&gt;
+</span><span class='line'> 
+</span><span class='line'>  &lt;property name="USER_HOME" value="/home/sebastien" /&gt;
+</span><span class='line'> 
+</span><span class='line'>  &lt;appender name="FILE" class="ch.qos.logback.core.FileAppender"&gt;
+</span><span class='line'>    &lt;file&gt;${USER_HOME}/myApp.log&lt;/file&gt;
+</span><span class='line'>    &lt;encoder&gt;
+</span><span class='line'>      &lt;pattern&gt;%msg%n&lt;/pattern&gt;
+</span><span class='line'>    &lt;/encoder&gt;
+</span><span class='line'>  &lt;/appender&gt;
+</span><span class='line'> 
+</span><span class='line'>  &lt;root level="debug"&gt;
+</span><span class='line'>    &lt;appender-ref ref="FILE" /&gt;
+</span><span class='line'>  &lt;/root&gt;
+</span><span class='line'>&lt;/configuration&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果定義的變數需要預設使，那可以透過<code>:-</code>符號，ex:
+<code>${aKey:-golden}</code>，如果aKey是null，那就會用<strong>golden</strong>取代</p>
+
+<h1>Log4j to Logback porting筆記</h1>
+
+<h3>換掉library</h3>
+
+<p>專案是用maven管理的，所以，換lib相當簡單，到<a href="http://search.maven.org/" title="http://search.maven.org/">maven的lib搜尋引擎</a>找出最新的logback，換上即可</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;dependency&gt;
+</span><span class='line'>    &lt;groupId&gt;org.slf4j&lt;/groupId&gt;
+</span><span class='line'>    &lt;artifactId&gt;slf4j-api&lt;/artifactId&gt;
+</span><span class='line'>    &lt;version&gt;1.6.3&lt;/version&gt;
+</span><span class='line'>&lt;/dependency&gt;
+</span><span class='line'>&lt;dependency&gt;
+</span><span class='line'>    &lt;groupId&gt;org.slf4j&lt;/groupId&gt;
+</span><span class='line'>    &lt;artifactId&gt;slf4j-log4j12&lt;/artifactId&gt;
+</span><span class='line'>    &lt;version&gt;1.6.3&lt;/version&gt;
+</span><span class='line'>&lt;/dependency&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>換成</h5>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;dependency&gt;
+</span><span class='line'>    &lt;groupId&gt;ch.qos.logback&lt;/groupId&gt;
+</span><span class='line'>    &lt;artifactId&gt;logback-classic&lt;/artifactId&gt;
+</span><span class='line'>    &lt;version&gt;0.9.30&lt;/version&gt;
+</span><span class='line'>&lt;/dependency&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>結果</h5>
+
+<p>因為之前都是slf4j寫的，完全不用改code，但是連其他lib裡的logger都輸出到console了(logback會有一個預設的設定檔，所以，不需要像log4j一樣，一定要給log4.xml或log4j.properties)
+但是用預設的設定，會連其它freamwork的log訊息一起輸出(像hibernate)，log4j在沒有配置檔時，會吐出設定檔不存在的訊息，但是logback則會以預設(內建)的配置檔做設定。</p>
+
+<h3>使用客製的配置檔</h3>
+
+<p>logback會在classpath下依序尋找</p>
+
+<ol>
+<li>logback.groovy (logback可以用groovy當設定檔)</li>
+<li>logback-test.xml (通常用於測試)</li>
+<li>logback.xml (一般是用這個)</li>
+<li><a href="http://logback.qos.ch/xref/ch/qos/logback/classic/BasicConfigurator.html" title="http://logback.qos.ch/xref/ch/qos/logback/classic/BasicConfigurator.html">BasicConfigurator</a>
+如果上面三個都不存在時，會用這個class的內容當作配置檔(預設)</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;configuration  scan="true" scanPeriod="30 seconds" &gt; 
+</span><span class='line'> 
+</span><span class='line'>  &lt;appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender"&gt;
+</span><span class='line'>    &lt;!-- encoders are assigned the type
+</span><span class='line'>         ch.qos.logback.classic.encoder.PatternLayoutEncoder by default --&gt;
+</span><span class='line'>    &lt;encoder&gt;
+</span><span class='line'>      &lt;pattern&gt;%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n&lt;/pattern&gt;
+</span><span class='line'>    &lt;/encoder&gt;
+</span><span class='line'>  &lt;/appender&gt;
+</span><span class='line'> 
+</span><span class='line'>  &lt;root level="debug"&gt;
+</span><span class='line'>    &lt;appender-ref ref="STDOUT" /&gt;
+</span><span class='line'>  &lt;/root&gt;
+</span><span class='line'>&lt;/configuration&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;configuration  
+</span><span class='line'>  scan="true"                 // 更改配置檔內容時，不用重啟程式
+</span><span class='line'>  scanPeriod="30 seconds"     // 多久偵測一次變更
+</span><span class='line'>&gt; </span></code></pre></td></tr></table></div></figure>
+
+
+<h5>Rolling Appender</h5>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  &lt;appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender"&gt;
+</span><span class='line'>        &lt;file&gt;${USER_HOME}/foo.log&lt;/file&gt;
+</span><span class='line'>        &lt;rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy"&gt;
+</span><span class='line'>            &lt;!-- daily rollover --&gt;
+</span><span class='line'>            &lt;fileNamePattern&gt;${USER_HOME}/foo.%d{yyyy-MM-dd}.log&lt;/fileNamePattern&gt;
+</span><span class='line'>            &lt;!-- keep 120 days' worth of history --&gt;
+</span><span class='line'>            &lt;maxHistory&gt;120&lt;/maxHistory&gt;
+</span><span class='line'>        &lt;/rollingPolicy&gt;
+</span><span class='line'>        &lt;encoder&gt;
+</span><span class='line'>            &lt;pattern&gt;%d{HH:mm:ss.SSS} [%thread] %-5level %30.20logger{0}.%-30method - %msg%n&lt;/pattern&gt;
+</span><span class='line'>        &lt;/encoder&gt;
+</span><span class='line'>    &lt;/appender&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>讓Logger周期性的改名成舊版(Rolling)是一個很常見的需求，像是每天午夜12點整，把log改名成前一日的日期，然後當日的log則從新檔開始，這樣可以避免單一的log檔過大，
+這樣的行為，我們叫Daily Rolling。</p>
+
+<p>LogBack的Rolling的設定上很直覺，只要設定fileNamePattern中的日期格式，它就會依設定日期格式的最小單位做Rolling。但要注意的是如果<code>&lt;appender&gt;&lt;file&gt;</code>tag有設定路徑，那<code>&lt;fileNamePattern&gt;</code>也要設定相同的路徑，這樣可以讓舊的log(有包含日期的檔名)跟新的log(作用中的log)在同一個目錄</p>
+
+<p>這樣設定後，在使用者的家目錄下，可以看到類似下面的檔案列要</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>foo.log   // 作用中的log
+</span><span class='line'>foo.2012-01-01.log 
+</span><span class='line'>foo.2012-01-02.log 
+</span><span class='line'>foo.2012-01-03.log 
+</span><span class='line'>foo.2012-01-04.log 
+</span><span class='line'>...</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>TBD</h3>
+
+<ul>
+<li>出異常時，自動修改設定檔，讓其輸出錯誤細節</li>
+</ul>
+
+
+<h1>Resource</h1>
+
+<ul>
+<li><a href="http://logback.qos.ch/" title="http://logback.qos.ch/">官網</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/03/20/listview_style/">ListView Style</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-20T00:00:00+08:00" pubdate data-updated="true">Mar 20<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/03/20/listview_style/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>以下用幾個簡單的步驟來美化ListView</p>
+
+<h5>原始</h5>
+
+<p><img src="http://blog.kent-chiu.com/images/2012-03-20/listview_style_002.png" alt="listview_style_002.png" /></p>
+
+<h5>結果</h5>
+
+<p><img src="http://blog.kent-chiu.com/images/2012-03-20/listview_style_003.png" alt="listview_style_003.png" /></p>
+
+<h5>底圖</h5>
+
+<p>如果沒什麼美工底子，可以到<a href="http://www.bgpatterns.com/" title="http://www.bgpatterns.com/">這個</a>網站產生一個簡易的底圖(下載後檔名改成app_bg.png)</p>
+
+<p><img src="http://blog.kent-chiu.com/images/2012-03-20/listview_style_001.png" alt="listview_style_001.png" /></p>
+
+<h5>drawable/app_background.xm</h5>
+
+<p>因為底圖不會剛好跟螢幕大小一樣，所以要透過bitmap讓底圖重覆</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+</span><span class='line'>&lt;bitmap xmlns:android="http://schemas.android.com/apk/res/android"
+</span><span class='line'>    android:src="@drawable/app_bg"
+</span><span class='line'>    android:tileMode="repeat" /&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>values/styles.xml</h5>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+</span><span class='line'>&lt;resources&gt;
+</span><span class='line'>    &lt;style name="app_theme" parent="android:Theme"&gt;
+</span><span class='line'>        &lt;item name="android:windowBackground"&gt;@drawable/app_background&lt;/item&gt;
+</span><span class='line'>        &lt;item name="android:listViewStyle"&gt;@style/TransparentListView&lt;/item&gt;
+</span><span class='line'>        &lt;item name="android:expandableListViewStyle"&gt;@style/TransparentExpandableListView&lt;/item&gt;
+</span><span class='line'>    &lt;/style&gt;
+</span><span class='line'>    &lt;style name="TransparentListView" parent="@android:style/Widget.ListView"&gt;
+</span><span class='line'>        &lt;item name="android:cacheColorHint"&gt;@android:color/transparent&lt;/item&gt;
+</span><span class='line'>    &lt;/style&gt;
+</span><span class='line'>    &lt;style name="TransparentExpandableListView" parent="@android:style/Widget.ExpandableListView"&gt;
+</span><span class='line'>        &lt;item name="android:cacheColorHint"&gt;@android:color/transparent&lt;/item&gt;
+</span><span class='line'>    &lt;/style&gt;
+</span><span class='line'>&lt;/resources&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>AndroidManifest.xml</h5>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;application android:theme="@style/app_theme"&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>在eclipse預覽</h3>
+
+<p>如果一切都很順利的話，可以用eclipse的layout
+editor打開任一個activity，然後，右邊的theme可以看到剛剛新增的<code>app_theme</code>
+可以看到底圖重覆的在activity的背景</p>
+
+<p><img src="http://blog.kent-chiu.com/images/2012-03-20/listview_style_004.png" alt="listview_style_004.png" /></p>
+
+<p>如果在eclipse看不到預覽，可以執著執行程式，看看emulator或device有沒有效果，或者試著重開eclipse可能就可以看到preview了</p>
+
+<h1>Resource</h1>
+
+<ol>
+<li><a href="http://stackoverflow.com/questions/2706913/how-to-make-android-apps-background-image-repeat" title="http://stackoverflow.com/questions/2706913/how-to-make-android-apps-background-image-repeat">本文主要參考這邊</a></li>
+<li><a href="http://androidblogger.blogspot.com/2009/01/how-to-have-tiled-background-cont.html" title="http://androidblogger.blogspot.com/2009/01/how-to-have-tiled-background-cont.html">http://androidblogger.blogspot.com/2009/01/how-to-have-tiled-background-cont.html</a>
+
+<ul>
+<li>如何設定底圖</li>
+</ul>
+</li>
+</ol>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1363,1504 +2171,6 @@ toolset</a></li>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/03/20/google_guava_-_collection_101/">Google Guava - Collection 101</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-03-20T00:00:00+08:00" pubdate data-updated="true">Mar 20<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/03/20/google_guava_-_collection_101/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Guava是google的一個開源項目，目的在提供常用工具類的API，字串處理，caching，primitives型別處理，I/O，併行(concurrnecy)處理，
-還有超級好用的Collections處理。</p>
-
-<p>本篇主要著重於Collection相關的使用介紹，有<a href="http://wiki.kent-chiu.com/doku.php?id=java:google_guava_101" title="java:google_guava_101">另外一篇</a>專門在介紹Collection之外其它的功能的用法。</p>
-
-<h1>Iterable &amp; Iterators</h1>
-
-<p>如果之前method的return值習慣用Collection, List, Set, Map,
-建議可以改傳回Iteratable&lt;T></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>  // 原本是傳回集合
-</span><span class='line'>  public List&lt;String&gt; getData(){...};
-</span><span class='line'>  // 可以改成傳回Iterable (RECOMMAND)
-</span><span class='line'>  public Iterable&lt;String&gt; getData(){...};
-</span><span class='line'>  // 或改成傳回Iterator
-</span><span class='line'>  public Iterator&lt;String&gt; getData(){...};</span></code></pre></td></tr></table></div></figure>
-
-
-<p>雖然<strong>大部份的API都是傳回Iterator(since JDK1.4)</strong>, 在Hamcrest
-lib中只有提供Iterable(since JDK1.5) base的lib，沒有Iterator base的
-<code>IsIterableWithSize&lt;E&gt; extends FeatureMatcher&lt;Iterable&lt;E&gt;, Integer&gt;</code>
-用Iterable應該會相對方便些，而且Iterable可以取出Iterator，而Iterator沒有辦法直接取得Iterable，而且實作Iterable可以直接餵給foreach</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>assertThat(data, Matchers.&lt;MyClass&gt;iterableWithSize(1));</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>Iterable v.s Iterator</h4>
-
-<p>是java
-1.5引入，跟foreach搭配使用的<code>java.lang.Iterable&lt;T&gt;</code>，<code>java.util.Iterator&lt;E&gt;</code>則是java
-1.2引入後，1.5加入泛型的能力。</p>
-
-<p>Iterable是指含有Iterator的物件，而Iterator則是指向集合裡單一的instance。</p>
-
-<p>如果對一個集合取兩次的Iterator，兩次的Iterator是各自獨立的。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>package java.util;
-</span><span class='line'> 
-</span><span class='line'>/**
-</span><span class='line'> * @since 1.2
-</span><span class='line'> */
-</span><span class='line'>public interface Iterator&lt;E&gt; {
-</span><span class='line'>    boolean hasNext();
-</span><span class='line'> 
-</span><span class='line'>    E next();
-</span><span class='line'> 
-</span><span class='line'>    void remove();
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>/** Implementing this interface allows an object to be the target of
-</span><span class='line'> *  the "foreach" statement.
-</span><span class='line'> * @since 1.5
-</span><span class='line'> */
-</span><span class='line'>public interface Iterable&lt;T&gt; {
-</span><span class='line'> 
-</span><span class='line'>    Iterator&lt;T&gt; iterator();
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>Iterable Array ?</h4>
-
-<p>在java
-5+，有新的<a href="http://docs.oracle.com/javase/1.5.0/docs/guide/language/foreach.html" title="http://docs.oracle.com/javase/1.5.0/docs/guide/language/foreach.html">For-Each</a>
-loop語法， 它可以用來iterate實作Iterable
-interface的類別。通常是用來iterate Collection(List, Set,
-Map,…)及array，但是
-如果試著把array丟到其他Iterable類型的參數，卻行不通，why?</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>String myArray = new String[]{"foo", "bar", "baz"};
-</span><span class='line'>for(String each : myArray) { // this one works
-</span><span class='line'> 
-</span><span class='line'>}
-</span><span class='line'> 
-</span><span class='line'>doIterate(myArray); // this cause compiler level error
-</span><span class='line'> 
-</span><span class='line'>public doIterate(Iterable args) {
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>原因為array根本沒有實作Iterable，For-Each
-Loop對array的支援是compiler的syntax
-sugar，compiler會把for-each展開成一般的for-loop</p>
-
-<p>如果需要讓Array讓成iterable，可以用Arrays.asList()</p>
-
-<h1>Function &amp; Predicate</h1>
-
-<p>Function跟Predicate是許多method的參數，像常用的應該是</p>
-
-<h4>Predicaten</h4>
-
-<p>Predicaten常用於</p>
-
-<ol>
-<li>過濾集合中<em>特定條件的元素</em>
-<code>Collections2.filter(Collection&lt;E&gt;, Predicate&lt;? super E&gt;)</code></li>
-<li>搜尋集合中<em>特定條件的元素</em>
-<code>find(Iterator&lt;T&gt;, Predicate&lt;? super T&gt;, T)</code></li>
-<li>定位集合中<em>特定條件的元素</em>
-<code>indexOf(Iterator&lt;T&gt;, Predicate&lt;? super T&gt;)</code></li>
-<li>判斷集合中所有<em>特定條件的元素</em>都符合條件
-<code>Iterators.all(Iterator&lt;T&gt;, Predicate&lt;? super T&gt;)</code></li>
-<li>判斷集合中是否包含任何<em>特定條件的元素</em>
-<code>any(Iterator&lt;T&gt;, Predicate&lt;? super T&gt;)</code></li>
-<li>…</li>
-</ol>
-
-
-<p>上述中的<strong>特定條件的元素</strong>就是用Predicate實作，Predicate是一個interface，宣告如下</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>public interface Predicate&lt;T&gt; {
-</span><span class='line'>  /**
-</span><span class='line'>   * Returns the result of applying this predicate to {@code input}. This method is &lt;i&gt;generally
-</span><span class='line'>   * expected&lt;/i&gt;, but not absolutely required, to have the following properties:
-</span><span class='line'>   *
-</span><span class='line'>   * &lt;ul&gt;
-</span><span class='line'>   * &lt;li&gt;Its execution does not cause any observable side effects.
-</span><span class='line'>   * &lt;li&gt;The computation is &lt;i&gt;consistent with equals&lt;/i&gt;; that is, {@link Objects#equal
-</span><span class='line'>   *     Objects.equal}{@code (a, b)} implies that {@code predicate.apply(a) ==
-</span><span class='line'>   *     predicate.apply(b))}.
-</span><span class='line'>   * &lt;/ul&gt;
-</span><span class='line'>   *
-</span><span class='line'>   * @throws NullPointerException if {@code input} is null and this predicate does not accept null
-</span><span class='line'>   *     arguments
-</span><span class='line'>   */
-</span><span class='line'>  boolean apply(@Nullable T input);
-</span><span class='line'> 
-</span><span class='line'>  /**
-</span><span class='line'>   * Indicates whether another object is equal to this predicate.
-</span><span class='line'>   *
-</span><span class='line'>   * &lt;p&gt;Most implementations will have no reason to override the behavior of {@link Object#equals}.
-</span><span class='line'>   * However, an implementation may also choose to return {@code true} whenever {@code object} is a
-</span><span class='line'>   * {@link Predicate} that it considers &lt;i&gt;interchangeable&lt;/i&gt; with this one. "Interchangeable"
-</span><span class='line'>   * &lt;i&gt;typically&lt;/i&gt; means that {@code this.apply(t) == that.apply(t)} for all {@code t} of type
-</span><span class='line'>   * {@code T}). Note that a {@code false} result from this method does not imply that the
-</span><span class='line'>   * predicates are known &lt;i&gt;not&lt;/i&gt; to be interchangeable.
-</span><span class='line'>   */
-</span><span class='line'>  @Override
-</span><span class='line'>  boolean equals(@Nullable Object object);
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>一般來說，就是在apply()裡實作需求就可，apply會依序將集合中的元件透過input傳入，apply一次會處理一個元素(input)，判斷input符不符合<strong>特定條件的元素</strong>，然後return
-true或false</p>
-
-<p>比如說，我們做一個判斷數值是否大於0的Predicate</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>class IsGreateThenZero implements Predicate&lt;Integer&gt; {
-</span><span class='line'>    @Override
-</span><span class='line'>    public boolean apply(Integer input) {
-</span><span class='line'>        return input &gt; 0;
-</span><span class='line'>    }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>這樣就可以用來</p>
-
-<ol>
-<li>過濾集合中<em>大於0的的元素</em>
-<code>Collections2.filter(myIntegerList, new IsGreateThenZero())</code></li>
-<li>搜尋集合中<em>大於0的的元素</em>
-<code>find(myIntegerList,  new IsGreateThenZero())</code></li>
-<li>定位集合中<em>大於0的的元素</em>
-<code>indexOf(myIntegerList, new IsGreateThenZero())</code></li>
-<li>判斷集合是否全部<em>大於0的</em>
-<code>Iterators.all(myIntegerList, new IsGreateThenZero())</code></li>
-<li>判斷集合中是否包含任何<em>大於0的元素</em>
-<code>any(myIntegerList, new IsGreateThenZero())</code></li>
-<li>….</li>
-</ol>
-
-
-<p>另外兩個Predicate間可以做邏輯運算，像AND, OR, NOT …</p>
-
-<p>比如說，我們再寫一個判斷數值是否小於10的Predicate</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>class IsLessThenTen implements Predicate&lt;Integer&gt; {
-</span><span class='line'>    @Override
-</span><span class='line'>    public boolean apply(Integer input) {
-</span><span class='line'>        return input &lt; 10;
-</span><span class='line'>    }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>這樣，我們也可以用來AND, OR來做出 <code>&gt; 0 AND &lt; 10</code>，<code>&gt; 0 OR &lt; 10</code>的新條件</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>IsGreateThenZeroAndLessThenTenPredicate = Predicates.and(new IsGreateThenZero(), new IsLessThenTen());</span></code></pre></td></tr></table></div></figure>
-
-
-<p><a href="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/base/Predicates.html" title="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/base/Predicates.html">Predicates</a>裡面還有不少做集合運算的Predicates可以使用。</p>
-
-<h4>Function</h4>
-
-<p>Function常用於transform(轉換)，把某個集合轉成另一個集合，比如說，把List&lt;Integer>專成List&lt;String>，或把List&lt;Integer>轉成Set&lt;Integer>，當然，實際上的用法會比這樣的例子複雜許多，
-不過，基本上想要把一種集合的元素，轉成”另一種”集合的<strong>另一種元素</strong>，就可以用<code>Iterables.transform(Iterable&lt;F&gt;, Function&lt;? super F, ? extends T&gt;)</code>達到</p>
-
-<p>Function的用法上跟<a href="#predicate" title="java:google_guava_-_collection_101 ↵">Predicate</a>差不多，Function也是一個interface，內容如下</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>public interface Function&lt;F, T&gt; {
-</span><span class='line'>  /**
-</span><span class='line'>   * Returns the result of applying this function to {@code input}. This method is &lt;i&gt;generally
-</span><span class='line'>   * expected&lt;/i&gt;, but not absolutely required, to have the following properties:
-</span><span class='line'>   *
-</span><span class='line'>   * &lt;ul&gt;
-</span><span class='line'>   * &lt;li&gt;Its execution does not cause any observable side effects.
-</span><span class='line'>   * &lt;li&gt;The computation is &lt;i&gt;consistent with equals&lt;/i&gt;; that is, {@link Objects#equal
-</span><span class='line'>   *     Objects.equal}{@code (a, b)} implies that {@code Objects.equal(function.apply(a),
-</span><span class='line'>   *     function.apply(b))}.
-</span><span class='line'>   * &lt;/ul&gt;
-</span><span class='line'>   *
-</span><span class='line'>   * @throws NullPointerException if {@code input} is null and this function does not accept null
-</span><span class='line'>   *     arguments
-</span><span class='line'>   */
-</span><span class='line'>  T apply(@Nullable F input);
-</span><span class='line'> 
-</span><span class='line'>  /**
-</span><span class='line'>   * Indicates whether another object is equal to this function.
-</span><span class='line'>   *
-</span><span class='line'>   * &lt;p&gt;Most implementations will have no reason to override the behavior of {@link Object#equals}.
-</span><span class='line'>   * However, an implementation may also choose to return {@code true} whenever {@code object} is a
-</span><span class='line'>   * {@link Function} that it considers &lt;i&gt;interchangeable&lt;/i&gt; with this one. "Interchangeable"
-</span><span class='line'>   * &lt;i&gt;typically&lt;/i&gt; means that {@code Objects.equal(this.apply(f), that.apply(f))} is true for all
-</span><span class='line'>   * {@code f} of type {@code F}. Note that a {@code false} result from this method does not imply
-</span><span class='line'>   * that the functions are known &lt;i&gt;not&lt;/i&gt; to be interchangeable.
-</span><span class='line'>   */
-</span><span class='line'>  @Override
-</span><span class='line'>  boolean equals(@Nullable Object object);
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Function的template有兩個參數F, T，代表著From, To,
-跟Predicate一樣也是實作apply，不過，他的apply的return不是boolean，而是T(To)
-所以，主要的實作就是做input型別F跟return 型別T之間的mapping</p>
-
-<h1>Collection</h1>
-
-<p><a href="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/collect/package-summary.html" title="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/collect/package-summary.html">Collection
-Javadoc</a></p>
-
-<ul>
-<li>Using Multimaps relpace Map&lt;Foo, Collection&lt;Bar» :
-key是唯一值,如果put不同的內容到value,value會一直累加而不是取代</li>
-<li>MapMaker</li>
-<li>BiMap : 雙向的map,可以由key取出value,也可以由value取出key</li>
-<li>ForwardingObject : google
-collections大多宣告成final，無法改寫，而forwarding提供一個decorate的機制，
-可在既有的google collections上做延伸</li>
-</ul>
-
-
-<p>Google Collection裡很多class都不能直接用new產生，必須透過create()
-method來建立 ex: ” HashBiMap.create()”</p>
-
-<p>The following codes is got from many places, you can check the
-<a href="#resources" title="java:google_guava_-_collection_101 ↵">Resources</a> section
-for source and details.</p>
-
-<h3>ImmutableXXX</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ImmutableMap.&lt;String, Object&gt;builder().put("a", objectA)..put("b", objectB).build();</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Find in collection</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>find = Iterators.find(myCollection.iterator(), predicate);
-</span><span class='line'>find2 = Iterables.find(myCollection, predicate);
-</span><span class='line'>// find1 == find2</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Iterators &amp; Iterables</h3>
-
-<p><a href="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/collect/Iterators.html" title="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/collect/Iterators.html">Iterators</a>跟<a href="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/collect/Iterables.html" title="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/collect/Iterables.html">Iterables</a>
-的功能差不多，都是在Collection進行Iterator的相關動作，ex:</p>
-
-<h5>搜尋、過濾與定址取值</h5>
-
-<ol>
-<li>filter</li>
-<li>find</li>
-<li>get</li>
-<li>getFirst</li>
-<li>getLast</li>
-<li>getOnlyElement</li>
-<li>indexOf</li>
-<li>skip</li>
-<li>partition</li>
-<li>limit</li>
-<li>paddedPartition</li>
-<li>peekingIterator (不會造成Iterator.next())</li>
-</ol>
-
-
-<h5>相加</h5>
-
-<ol>
-<li>addAll</li>
-<li>concat</li>
-</ol>
-
-
-<h5>條件測試</h5>
-
-<ol>
-<li>all</li>
-<li>any</li>
-<li>contains</li>
-<li>elementsEqual</li>
-<li>contains</li>
-<li>isEmpty</li>
-<li>elementsEqual (集合內元素順序是否完全相等)</li>
-</ol>
-
-
-<h5>移除</h5>
-
-<ol>
-<li>removeAll</li>
-<li>removeIf</li>
-<li>retainAll</li>
-</ol>
-
-
-<h5>其它</h5>
-
-<ol>
-<li>consumingIterable</li>
-<li>cycle</li>
-<li>unmodifiableIterable</li>
-<li>frequency</li>
-</ol>
-
-
-<h5>轉換</h5>
-
-<ol>
-<li><strong>forArray</strong></li>
-<li>transform</li>
-<li><strong>forEnumeration</strong></li>
-</ol>
-
-
-<h3>transform</h3>
-
-<p>將collection內容的類型轉換成另一種類型(ex: Double → String).
-^<a href="#fn__1">1)</a>^</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>List&lt;String&gt; list1 = Lists.newArrayList("1", "2", "3");
-</span><span class='line'>List&lt;Double&gt; list2 = Lists.transform(list1, new Function&lt;String, Double&gt;() {
-</span><span class='line'>   public Double apply(String from) {
-</span><span class='line'>      return Double.parseDouble(from);
-</span><span class='line'>   }
-</span><span class='line'>});
-</span><span class='line'>System.out.println(Joiner.on(" | ").join(list2));
-</span><span class='line'> 
-</span><span class='line'>// result
-</span><span class='line'>// 1.0 | 2.0 | 3.0</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Filter</h3>
-
-<p>利用<strong>Predicate</strong>對collection進行過濾</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>List&lt;String&gt; list = Lists.newArrayList("A100", "B100", null, "B200");
-</span><span class='line'>Iterable&lt;String&gt; filtered = Iterables.filter(list, new Predicate&lt;String&gt;() {
-</span><span class='line'>   public boolean apply(String input) {
-</span><span class='line'>      return input == null || input.startsWith("B");
-</span><span class='line'>   }
-</span><span class='line'>});
-</span><span class='line'> 
-</span><span class='line'>System.out.println(Joiner.on("; ").useForNull("B000").join(filtered));
-</span><span class='line'> 
-</span><span class='line'>// result
-</span><span class='line'>// B100; B000; B200</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Ording</h3>
-
-<p>利用<strong>Compartor</strong>進行排序,也提供<code>max(),min()</code>等功能</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'> Ordering.from(lastNameComparator);</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>ComparatorOrdering</h3>
-
-<p>除了基本的比較功能外，還有<strong>Ordering</strong>的功能</p>
-
-<h3>Predicate</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>import static com.google.common.base.Predicates.and;
-</span><span class='line'>import static com.google.common.base.Predicates.compose;
-</span><span class='line'>import static com.google.common.base.Predicates.in;
-</span><span class='line'>import static com.google.common.base.Predicates.not;
-</span><span class='line'> 
-</span><span class='line'>List&lt;String&gt; list1 = Lists.newArrayList("1", "2", "3");
-</span><span class='line'>List&lt;String&gt; list2 = Lists.newArrayList("1", "4", "5");
-</span><span class='line'>List&lt;String&gt; list3 = Lists.newArrayList("1", "4", "6");
-</span><span class='line'> 
-</span><span class='line'>boolean result = and( not( in(list1) ), in(list2), in(list3)).apply("1");
-</span><span class='line'> 
-</span><span class='line'>System.out.println(result);  // false
-</span><span class='line'> 
-</span><span class='line'>List&lt;String&gt; list1 = Lists.newArrayList("A1", "A2", "A3");
-</span><span class='line'>boolean result = compose(in(list1), new Function&lt;String, String&gt;() {
-</span><span class='line'>   public String apply(String from) {
-</span><span class='line'>      return "A" + from;
-</span><span class='line'>   }
-</span><span class='line'>}).apply("1");
-</span><span class='line'> 
-</span><span class='line'>System.out.println(result);  // true</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Combining and Modifying Comparators</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>public class Person {
-</span><span class='line'>   private String firstName;
-</span><span class='line'>   private String lastName;
-</span><span class='line'> 
-</span><span class='line'>   public Person(String firstName, String lastName) {
-</span><span class='line'>      this.setFirstName(firstName);
-</span><span class='line'>      this.setLastName(lastName);
-</span><span class='line'>   }
-</span><span class='line'> 
-</span><span class='line'>   @Override
-</span><span class='line'>   public String toString() {
-</span><span class='line'>      return getFirstName() + " " + getLastName();
-</span><span class='line'>   }
-</span><span class='line'> 
-</span><span class='line'>   public void setFirstName(String firstName) {
-</span><span class='line'>      this.firstName = firstName;
-</span><span class='line'>   }
-</span><span class='line'> 
-</span><span class='line'>   public String getFirstName() {
-</span><span class='line'>      return firstName;
-</span><span class='line'>   }
-</span><span class='line'> 
-</span><span class='line'>   public void setLastName(String lastName) {
-</span><span class='line'>      this.lastName = lastName;
-</span><span class='line'>   }
-</span><span class='line'> 
-</span><span class='line'>   public String getLastName() {
-</span><span class='line'>      return lastName;
-</span><span class='line'>   }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>List&lt;Person&gt; persons = Lists.newArrayList(
-</span><span class='line'>   new Person("Alfred", "Hitchcock"),
-</span><span class='line'>   null,
-</span><span class='line'>   new Person("Homer", "Simpson"),
-</span><span class='line'>   new Person("Peter", "Fox"),
-</span><span class='line'>   new Person("Bart", "Simpson"));
-</span><span class='line'> 
-</span><span class='line'>Comparator&lt;Person&gt; lastNameComparator = new Comparator&lt;Person&gt;() {
-</span><span class='line'>   public int compare(Person p1, Person p2) {
-</span><span class='line'>      return p1.getLastName().compareTo(p2.getLastName());
-</span><span class='line'>   }
-</span><span class='line'>};
-</span><span class='line'> 
-</span><span class='line'>Comparator&lt;Person&gt; firstNameComparator = new Comparator&lt;Person&gt;() {
-</span><span class='line'>   public int compare(Person p1, Person p2) {
-</span><span class='line'>      return p1.getFirstName().compareTo(p2.getFirstName());
-</span><span class='line'>   }
-</span><span class='line'>};
-</span><span class='line'> 
-</span><span class='line'>// order by last name ascending
-</span><span class='line'>Ordering&lt;Person&gt; ordering = Ordering.from(lastNameComparator);
-</span><span class='line'>System.out.println(ordering.nullsLast().sortedCopy(persons));
-</span><span class='line'> 
-</span><span class='line'>// order by last name descending, first name ascending
-</span><span class='line'>ordering = ordering.reverse().compound(firstNameComparator);
-</span><span class='line'>System.out.println(ordering.nullsLast().sortedCopy(persons));</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Constraints</h3>
-
-<p>TBD</p>
-
-<h3>ForwardingObject</h3>
-
-<p><img src="http://blog.kent-chiu.com/images/2012-03-20/guava_101_001.png" alt="guava_101_001.png" /></p>
-
-<p>ForwardingObject是一種<a href="http://en.wikipedia.org/wiki/Decorator_pattern" title="http://en.wikipedia.org/wiki/Decorator_pattern">Decorator_pattern</a>的實作，而在guava裡，extends自ForwardingObject的類別都是collection，也就是說
-在guava裡ForwardingObject是設計來改寫collection的預設行為的。</p>
-
-<p>example: 改變原來LIST的的add()
-method，如果加入null的話，就採用預設值”UNKNOWN”</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>import java.util.*;
-</span><span class='line'>import com.google.common.collect.*;
-</span><span class='line'> 
-</span><span class='line'>public class ListWithDefault&lt;E&gt; extends ForwardingList&lt;E&gt; {
-</span><span class='line'>    final E defaultValue;
-</span><span class='line'>    final List&lt;E&gt; delegate;
-</span><span class='line'> 
-</span><span class='line'>    ListWithDefault(List&lt;E&gt; delegate, E defaultValue) {
-</span><span class='line'>        this.delegate = delegate;
-</span><span class='line'>        this.defaultValue = defaultValue;
-</span><span class='line'>    }
-</span><span class='line'>    @Override protected List delegate() {
-</span><span class='line'>        return delegate;
-</span><span class='line'>    }
-</span><span class='line'>    @Override public E get(int index) {
-</span><span class='line'>        E v = super.get(index);
-</span><span class='line'>        return (v == null ? defaultValue : v);
-</span><span class='line'>    }
-</span><span class='line'>    @Override public Iterator&lt;E&gt; iterator() {
-</span><span class='line'>        final Iterator&lt;E&gt; iter = super.iterator();
-</span><span class='line'>        return new ForwardingIterator&lt;E&gt;() {
-</span><span class='line'>            @Override protected Iterator&lt;E&gt; delegate() {
-</span><span class='line'>                return iter;
-</span><span class='line'>            }
-</span><span class='line'>            @Override public E next() {
-</span><span class='line'>                E v = super.next();
-</span><span class='line'>                return (v == null ? defaultValue : v); 
-</span><span class='line'>            }
-</span><span class='line'>        };
-</span><span class='line'>    }
-</span><span class='line'>}
-</span><span class='line'> 
-</span><span class='line'>public static void main(String[] args) {
-</span><span class='line'>    List&lt;String&gt; names = new ListWithDefault&lt;String&gt;(
-</span><span class='line'>        Arrays.asList("Alice", null, "Bob", "Carol", null),
-</span><span class='line'>        "UNKNOWN"
-</span><span class='line'>    );
-</span><span class='line'> 
-</span><span class='line'>    for (String name : names) {
-</span><span class='line'>        System.out.println(name);
-</span><span class='line'>    }
-</span><span class='line'>    // Alice
-</span><span class='line'>    // UNKNOWN
-</span><span class='line'>    // Bob
-</span><span class='line'>    // Carol
-</span><span class='line'>    // UNKNOWN
-</span><span class='line'> 
-</span><span class='line'>    System.out.println(names);
-</span><span class='line'>    // [Alice, null, Bob, Carol, null]
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Decorator
-Pattern的精神在不改變原來類別的行為的基礎下，為該類別加入其他功能。
-比如說，原來的類別可以印出 “hello
-word”，如果套入一個叫”StarDecorator”，那原來的輸出會變成 “* hello word
-*” 如果再套上”BarDecorator”那輸出就會變成 “|* hello word *|”</p>
-
-<p>也就是不改成原來印出 “hello word”的功能下，裝飾上星型邊框
-，再裝飾上條狀邊框，這也就是這個pattern的名稱的由來，</p>
-
-<h1>Resources</h1>
-
-<ul>
-<li><a href="http://code.google.com/p/guava-libraries/" title="http://code.google.com/p/guava-libraries/">Guava
-Home</a></li>
-<li><a href="http://code.google.com/p/guava-libraries/wiki/ExplainedContents" title="http://code.google.com/p/guava-libraries/wiki/ExplainedContents">各功能的使用介紹</a></li>
-<li><a href="http://jnb.ociweb.com/jnb/jnbApr2010.html" title="http://jnb.ociweb.com/jnb/jnbApr2010.html">Examples</a></li>
-<li><a href="http://jnb.ociweb.com/jnb/jnbFeb2009.html" title="http://jnb.ociweb.com/jnb/jnbFeb2009.html">Google
-Collections</a></li>
-<li><a href="http://www.copperykeenclaws.com/googles-guava-java-the-easy-parts/" title="http://www.copperykeenclaws.com/googles-guava-java-the-easy-parts/">Google’s guava java: the easy
-parts</a></li>
-<li><a href="http://stackoverflow.com/questions/tagged/guava" title="http://stackoverflow.com/questions/tagged/guava">guava on
-stackoverflow</a></li>
-<li>Using the Google Collections Library for Java
-<a href="http://www.youtube.com/watch?v=ZeO_J2OcHYM" title="http://www.youtube.com/watch?v=ZeO_J2OcHYM">part1</a>
-<a href="http://www.youtube.com/watch?v=9ni_KEkHfto" title="http://www.youtube.com/watch?v=9ni_KEkHfto">part2</a></li>
-<li>带你领略 Google Collections <a href="http://jubin2002.javaeye.com/blog/471661" title="http://jubin2002.javaeye.com/blog/471661">part
-1</a>
-<a href="http://jubin2002.javaeye.com/blog/471698" title="http://jubin2002.javaeye.com/blog/471698">part
-2</a></li>
-<li>MapMaker Usage
-<a href="http://norther.javaeye.com/blog/670414" title="http://norther.javaeye.com/blog/670414">http://norther.javaeye.com/blog/670414</a></li>
-<li><a href="http://www.ibm.com/developerworks/cn/java/j-lo-googlecollection/index.html?ca=drs-" title="http://www.ibm.com/developerworks/cn/java/j-lo-googlecollection/index.html?ca=drs-">Google Guava Collections
-使用介绍</a>
-
-<ul>
-<li>IBM 中國上介紹guava的文章</li>
-</ul>
-</li>
-<li><a href="http://www.tfnico.com/presentations/google-guava" title="http://www.tfnico.com/presentations/google-guava">一些guava使用上的介紹</a></li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/03/20/gesture/">Android Gesture</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-03-20T00:00:00+08:00" pubdate data-updated="true">Mar 20<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/03/20/gesture/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Android
-Gesture是用來偵測、處理手勢的相關動作，像是手指頭在螢幕畫出圖案，大部份的應用是拿來偵測上下或左右滑過螢幕(swipe)，
-如果不需要處理特別的手勢，那通常用<a href="http://wiki.kent-chiu.com/doku.php?id=android:gesture" title="android:gesture">GestureDetector</a>相關的類別即可。</p>
-
-<p>幾個主要的類別是：</p>
-
-<ol>
-<li>android.view.GestureDetector 偵測手勢</li>
-<li>android.view.GestureDetector.OnGestureListener 處理Gesture事件</li>
-<li>android.view.GestureDetector.OnDoubleTapListener
-處理double-tap(雙擊)事件</li>
-<li>android.view.GestureDetector.SimpleOnGestureListener
-一個基本的Gesture
-Listener實作，直接extneds這個類別可以不用實作一堆OnGestureListener,OnDoubleTapListener用不著的methods</li>
-<li>android.view.View.OnTouchListener
-用來把View上所發生的事件傳給GestureDetector</li>
-</ol>
-
-
-<p>處理多點觸控的相關類別是：</p>
-
-<ol>
-<li>android.view.ScaleGestureDetector</li>
-<li>android.view.OnScaleGestureListener</li>
-<li>android.view.SimpleOnScaleGestureListener</li>
-</ol>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>public class MyActivity extends Activity {
-</span><span class='line'> 
-</span><span class='line'>    private GestureDetector    detector;
-</span><span class='line'>    private WebView myWebView;
-</span><span class='line'> 
-</span><span class='line'>    @Override
-</span><span class='line'>    public void onCreate(Bundle savedInstanceState) {
-</span><span class='line'>        detector = new GestureDetector(new MyOnGestureListener());
-</span><span class='line'>        myWebView.setOnTouchListener(new MyOnTouchListener());
-</span><span class='line'>    }    
-</span><span class='line'> 
-</span><span class='line'> 
-</span><span class='line'>    class MyOnGestureListener implements OnGestureListener {
-</span><span class='line'> 
-</span><span class='line'>        @Override
-</span><span class='line'>        public boolean onDown(MotionEvent e) {
-</span><span class='line'>            return false;
-</span><span class='line'>        }
-</span><span class='line'> 
-</span><span class='line'>        @Override
-</span><span class='line'>        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-</span><span class='line'>            if (e1.getX() - e2.getX() &gt; 200) { //swipe left，如果向左滑動的距離超過200才執行
-</span><span class='line'>            } else if (e2.getX() - e1.getX() &gt; 200) { // 如果向向滑動的距離超過200才執行
-</span><span class='line'>            }
-</span><span class='line'>            return true;
-</span><span class='line'>        }
-</span><span class='line'> 
-</span><span class='line'>        @Override
-</span><span class='line'>        public void onLongPress(MotionEvent e) {
-</span><span class='line'>        }
-</span><span class='line'> 
-</span><span class='line'>        @Override
-</span><span class='line'>        public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-</span><span class='line'>            return false;
-</span><span class='line'>        }
-</span><span class='line'> 
-</span><span class='line'>        @Override
-</span><span class='line'>        public void onShowPress(MotionEvent e) {
-</span><span class='line'> 
-</span><span class='line'>        }
-</span><span class='line'> 
-</span><span class='line'>        @Override
-</span><span class='line'>        public boolean onSingleTapUp(MotionEvent e) {
-</span><span class='line'>            return false;
-</span><span class='line'>        }
-</span><span class='line'>    }
-</span><span class='line'> 
-</span><span class='line'> 
-</span><span class='line'>    class MyOnTouchListener implements OnTouchListener {
-</span><span class='line'>        @Override
-</span><span class='line'>        public boolean onTouch(View v, MotionEvent event) {
-</span><span class='line'>            return detector.onTouchEvent(event);
-</span><span class='line'>        }
-</span><span class='line'>    }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>使用上比較需要注意的是OnTouchListener，這個要設定到你操作的元件上，本例中，Activity上面是整個被WebView(myWebView)佔住了
-，所以所有的手勢操作是發生在WebView上而不是Activity，所以必須把WebView的TouchEvent傳給detector</p>
-
-<p>上面的MyOnGestureListener可以用下面的這個MySimpleOnGestureListener取代，可以不用實作一堆空methods</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>class MySimpleOnGestureListener extends SimpleOnGestureListener {
-</span><span class='line'> 
-</span><span class='line'> 
-</span><span class='line'>    @Override
-</span><span class='line'>    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-</span><span class='line'>        if (e1.getX() - e2.getX() &gt; 200) { //swipe left，如果向左滑動的距離超過200才執行
-</span><span class='line'>        } else if (e2.getX() - e1.getX() &gt; 200) { // 如果向向滑動的距離超過200才執行
-</span><span class='line'>        }
-</span><span class='line'>        return true;
-</span><span class='line'>    }
-</span><span class='line'> 
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/03/20/enum/">Enum 進階應用</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-03-20T00:00:00+08:00" pubdate data-updated="true">Mar 20<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/03/20/enum/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>用多型取代if-else</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>public enum VoltageRange {
-</span><span class='line'>    V100_120, V200_240, V100_240;
-</span><span class='line'>
-</span><span class='line'>    public boolean isVoltageInRange(int voltage) {
-</span><span class='line'>        if (StringUtils.equals("V100_120", name())) {
-</span><span class='line'>            IntRange v100to120 = new IntRange(100, 120);
-</span><span class='line'>            return v100to120.containsInteger(voltage);
-</span><span class='line'>        } else if (StringUtils.equals("V200_240", name())) {
-</span><span class='line'>            IntRange v200to240 = new IntRange(200, 240);
-</span><span class='line'>            return v200to240.containsInteger(voltage);
-</span><span class='line'>        } else if (StringUtils.equals("V100_240", name())) {
-</span><span class='line'>            IntRange v100to120 = new IntRange(100, 120);
-</span><span class='line'>            IntRange v200to240 = new IntRange(200, 240);
-</span><span class='line'>            return v100to120.containsInteger(voltage) || v200to240.containsInteger(voltage);
-</span><span class='line'>        }
-</span><span class='line'>        return false;
-</span><span class='line'>    }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>package com.bellwin.idcview.device.model;
-</span><span class='line'>
-</span><span class='line'>import org.apache.commons.lang.math.IntRange;
-</span><span class='line'>
-</span><span class='line'>public enum VoltageRange {
-</span><span class='line'>    V100_120 {
-</span><span class='line'>        @Override
-</span><span class='line'>        public boolean isVoltageInRange(int voltage) {
-</span><span class='line'>            IntRange v100to120 = new IntRange(100, 120);
-</span><span class='line'>            return v100to120.containsInteger(voltage);
-</span><span class='line'>        }
-</span><span class='line'>
-</span><span class='line'>    },
-</span><span class='line'>    V200_240 {
-</span><span class='line'>        @Override
-</span><span class='line'>        public boolean isVoltageInRange(int voltage) {
-</span><span class='line'>            IntRange v200to240 = new IntRange(200, 240);
-</span><span class='line'>            return v200to240.containsInteger(voltage);
-</span><span class='line'>        }
-</span><span class='line'>
-</span><span class='line'>    },
-</span><span class='line'>    V100_240 {
-</span><span class='line'>        @Override
-</span><span class='line'>        public boolean isVoltageInRange(int voltage) {
-</span><span class='line'>            IntRange v100to120 = new IntRange(100, 120);
-</span><span class='line'>            IntRange v200to240 = new IntRange(200, 240);
-</span><span class='line'>            return v100to120.containsInteger(voltage) || v200to240.containsInteger(voltage);
-</span><span class='line'>        }
-</span><span class='line'>
-</span><span class='line'>    };
-</span><span class='line'>    
-</span><span class='line'>    // 因為 V100_120, V200_240, V100_240 實際上是VoltageRange的instnace，所以必須要宣告一個method(是不是需要為abstract method視需求而定)
-</span><span class='line'>    public abstract boolean isVoltageInRange(int voltage);
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>改變ordinal的預設行為</h3>
-
-<p>JPA如果選擇以<code>@Enumerated(EnumType.ORDINAL)</code>，他的值一定是一個順序值, 0,
-1, 2, 3, 4, …
-，沒辦法跳號，而且存入資料庫的值也會是這樣的順序號，無法跳號，
-但有時如果我們的物件模型不見得是順序號的時侯，這時就會比較麻煩。</p>
-
-<p>比如說，以家用電源來說，有單相(SINGLE_PHASE)跟三相(THREE_PHASE)，但沒有雙相電，雖然我們宣告一個電力相的物件模型為這樣的列舉值</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>public enum PhaseType {
-</span><span class='line'>    SINGLE_PHASE(1), THREE_PHASE(3);
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>但JPA若選擇以<code>@Enumerated(EnumType.ORDINAL)</code>方式存入資料庫，那麼存入db的值是會取決於ordinal()這個method，所以會是單相電會存入&#8217;0&#8217;，三相電會存入&#8217;1&#8217;到db。我們可以選擇用<code>@Enumerated(EnumType.STRING)</code>來處理，但這樣存入db的型態會是字串，另一種較好的方式，改寫列舉型別PhaseType，並要求使用他的對象類別(此例中的AirCon)配合修改</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>public enum PhaseType {
-</span><span class='line'> 
-</span><span class='line'>    SINGLE_PHASE(1), THREE_PHASE(3);
-</span><span class='line'> 
-</span><span class='line'>    // 用parse來決定value真正的值
-</span><span class='line'>    public static PhaseType parse(int id) {
-</span><span class='line'>        PhaseType type = null; // Default
-</span><span class='line'>        for (PhaseType item : PhaseType.values()) {
-</span><span class='line'>            if (item.getValue() == id) {
-</span><span class='line'>                type = item;
-</span><span class='line'>                break;
-</span><span class='line'>            }
-</span><span class='line'>        }
-</span><span class='line'>        return type;
-</span><span class='line'>    }
-</span><span class='line'> 
-</span><span class='line'>    private final int    value;
-</span><span class='line'> 
-</span><span class='line'>    PhaseType(int value) {
-</span><span class='line'>        this.value = value;
-</span><span class='line'>    }
-</span><span class='line'> 
-</span><span class='line'>    public int getValue() {
-</span><span class='line'>        return value;
-</span><span class='line'>    }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>光是這樣是不夠的，使用列舉型別PhaseType的對象，也需要配合修改</p>
-
-<ol>
-<li>將原本定義為@Enumerated改成數值型態</li>
-<li>getter跟setter要呼叫PhaseType裡的getValue()跟parse()將PhaseType轉成數值型態</li>
-</ol>
-
-
-<p>這樣修改後，對於使用AirCon(冷氣機)物件來說，還是使用列舉型別PhaseType，但存入db的由原來的0(單相)、1(三相)變成更直覺的1(單相)、3(三相)</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>@Entity
-</span><span class='line'>public AirCon {
-</span><span class='line'>    /**
-</span><span class='line'>     * 原本是宣告成PhaseType列舉型別
-</span><span class='line'>     */
-</span><span class='line'>    //@Enumerated(EnumType.ORDINAL)
-</span><span class='line'>    //private PhaseType   voltageRange;
-</span><span class='line'>    // 改成宣告為數值
-</span><span class='line'>    private Integer           phaseType;
-</span><span class='line'> 
-</span><span class='line'>    // getter跟setter要配合修改，將PhaseType轉成int，這樣對使用AirCon來說，還是使用比較直覺的列舉型別PhaseType
-</span><span class='line'>    @Override
-</span><span class='line'>    public PhaseType getPhaseType() {
-</span><span class='line'>        return PhaseType.parse(phaseType);
-</span><span class='line'>    }
-</span><span class='line'> 
-</span><span class='line'>    public void setPhaseType(PhaseType phaseType) {
-</span><span class='line'>        this.phaseType = phaseType.getValue();
-</span><span class='line'>    }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/03/20/developing_restful_android_applications/">開發RESTful應用程式</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-03-20T00:00:00+08:00" pubdate data-updated="true">Mar 20<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/03/20/developing_restful_android_applications/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>andoird程式中，常常會有以下類型的動作方式：</p>
-
-<ol>
-<li>到網路抓取資料</li>
-<li>儲存到手機</li>
-<li>檢查並更新手機上的資料</li>
-</ol>
-
-
-<p>像Rss Reader就是很典型的範例，使用者需要在網路有效時對遠端的rss
-server同部rss資料，並可以在沒有網路時在local進行離線閱讀。
-這類型的程式有幾個困難需要處理</p>
-
-<ol>
-<li>不能在activity進行網路抓資料的動作，因為極可能會block住ui，user無法進行其他操作</li>
-<li>抓取資料後，需要在local進行cache(通常是存在SQLite資料庫)</li>
-<li>需對資料庫跟遠端的rss進行同步，如果有新的rss，應該進行通知</li>
-<li>又不能太過頻繁的進行同步</li>
-<li>同步後，使用者在畫面上可以馬上讀取到</li>
-</ol>
-
-
-<p>解決這些問題，不是在一個activity中全部做完即可，而是需要許多個組件相互配合，才不會讓user有不好的使用經驗，為了解決這些問題，google建議了三個處理這個問題的patterns。詳情請參閱參考資源。</p>
-
-<p><img src="http://blog.kent-chiu.com/images/2012-03-20/developing_restful_android_applications_001.png" alt="developing_restful_android_applications_001.png" /></p>
-
-<p><img src="http://blog.kent-chiu.com/images/2012-03-20/developing_restful_android_applications_002.png" alt="developing_restful_android_applications_002.png" /></p>
-
-<h5>處理檔案跟資料庫間的關聯</h5>
-
-<p>在應用上，db的資料，常常會跟某些特定的某些檔案做關聯，傳統的做法，可能是把檔案位置記在table的某個欄位，或用特殊的命名規則來讓table的record跟檔案名稱可以對應的起來。
-Google的提供了另一種方式，主要做法如下：</p>
-
-<ul>
-<li>為檔案建立一個專屬的table，裡面包含 “_id”,”_data”兩個欄位</li>
-<li>建立存取檔案專用的content
-uri，該uri可以指定該table的”_id”，便可取得檔案的相關資訊”_data”</li>
-<li>利用ContentResolver.openInputStream直接開啟檔案</li>
-</ul>
-
-
-<p>這樣做的好處是，ContentProvider的client端(使用ContentProvider
-API的程式)不用管實體檔案存那，就算檔案從手機移到SD
-card或網路上，都不會影響到client的用法。ContentProvider的client面對的都是相同的Content
-URI.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>User Table                                                  User Picture Table
-</span><span class='line'>*-----*------*----------*-------------------------------*  *-----*------------------------------------------*
-</span><span class='line'>| _id | name | password | picture                       |  | _id | _data                                    |
-</span><span class='line'>*-----*------*----------*-------------------------------*  *-----*------------------------------------------*
-</span><span class='line'>|   1 | Kent | xxx      | content://foo.bar.Picture/101 |  | 101 | app_data/data/kent_picture.png           | (user的大頭照在手機記憶體)
-</span><span class='line'>|   2 | John | ooo      | content://foo.bar.Picture/102 |  | 102 | http://www.domain.com/john.png           | (user的大頭照在網路上)
-</span><span class='line'>|   3 | Bob  | ***      | content://foo.bar.Picture/103 |  | 103 | sd_card/data/profile_picture_of_bob.jpg  | (user的大頭照在sd card上)
-</span><span class='line'>*-----*------*----------*-------------------------------*  *-----*------------------------------------------*</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>說明</h4>
-
-<p>左邊User Table記錄的是user的基本資料，右邊的User Picture
-Table是記錄user的大頭照存放位置。user
-table裡並不直接存放大頭照檔案的位置，取而代之的是把大頭的位置放在User
-Picture Table，然後透過user table裡的picture欄位存的content uri,
-來取得User Picture
-Table中的相對row(_id=101),真正存放檔案的欄位一定要叫<strong>_data</strong>，當android收到<code>ContentResolver.openInputStream</code>的需求時，android會將<strong>_data</strong>欄位以streaming的方式開啟。</p>
-
-<p>如果直接將檔案實際路徑(ex:app_data/data/kent_picture.png)放到user的picture的欄位中，而不是放content
-uri，這樣，其他程式則會因沒有權限而無法開啟</p>
-
-<h2>Resource</h2>
-
-<ul>
-<li><a href="http://www.google.com/events/io/2010/sessions/developing-RESTful-android-apps.html" title="http://www.google.com/events/io/2010/sessions/developing-RESTful-android-apps.html">google I/O 2010大會上介紹的處理RESTful Android
-Applications</a>
-<a href="http://www.youtube.com/watch?v=xHXn3Kg2IQE&amp;feature=player_embedded" title="http://www.youtube.com/watch?v=xHXn3Kg2IQE&amp;feature=player_embedded">說明影片</a>
-<a href="http://dl.google.com/googleio/2010/android-developing-RESTful-android-apps.pdf" title="http://dl.google.com/googleio/2010/android-developing-RESTful-android-apps.pdf">投影片</a></li>
-<li><a href="http://programming-android.labs.oreilly.com/ch13.html" title="http://programming-android.labs.oreilly.com/ch13.html">Programming
-Android</a>
-
-<ul>
-<li>oreilly線上書籍Programming Android關於android開發RESTful
-client的注意事項</li>
-</ul>
-</li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/8/">&larr; Older</a>
@@ -2878,34 +2188,34 @@ client的注意事項</li>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/03/14/umlet-sequence-diagram/">UMLet Sequence Diagram</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/03/14/java-8-lambda/">Java 8 Lambda</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/03/14/java-8-utility-object/">Java 8 好用工具箱</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/03/14/java-8-date-and-time-api/">Java 8 時間、日期 API</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/12/28/python-type-hint-in-idea/">Python Type Hint in IDEA</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/12/28/mac-dev-setup/">“Mac開發環境設定”</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/11/16/reload-tomcat-web-application-by-jmx/">透過JMX重新載入Tomcat上的Web Application</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/08/31/access-imgur-with-api/">Access Imgur With API</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/08/30/spring-reference-reading-notes/">Spring Reference Reading Notes</a>
       </li>
     
   </ul>
 </section>
 <section>
   <h1>Category Cloud</h1>
-    <span id="tag-cloud"><a href='/blog/categories/actionbar' style='font-size: 102.4%'>actionbar(1)</a> <a href='/blog/categories/android' style='font-size: 160.0%'>android(25)</a> <a href='/blog/categories/apache' style='font-size: 116.8%'>apache(7)</a> <a href='/blog/categories/authentication' style='font-size: 102.4%'>authentication(1)</a> <a href='/blog/categories/authorization' style='font-size: 102.4%'>authorization(1)</a> <a href='/blog/categories/bash' style='font-size: 109.6%'>bash(4)</a> <a href='/blog/categories/best-practice' style='font-size: 102.4%'>best_practice(1)</a> <a href='/blog/categories/book' style='font-size: 102.4%'>book(1)</a> <a href='/blog/categories/broadcast-receiver' style='font-size: 104.8%'>broadcast_receiver(2)</a> <a href='/blog/categories/cdi' style='font-size: 104.8%'>cdi(2)</a> <a href='/blog/categories/centos' style='font-size: 112.0%'>centos(5)</a> <a href='/blog/categories/clean-code' style='font-size: 102.4%'>clean code(1)</a> <a href='/blog/categories/command' style='font-size: 112.0%'>command(5)</a> <a href='/blog/categories/concurrency' style='font-size: 102.4%'>concurrency(1)</a> <a href='/blog/categories/curl' style='font-size: 102.4%'>curl(1)</a> <a href='/blog/categories/database' style='font-size: 114.4%'>database(6)</a> <a href='/blog/categories/datetime' style='font-size: 102.4%'>datetime(1)</a> <a href='/blog/categories/di' style='font-size: 104.8%'>di(2)</a> <a href='/blog/categories/drawable' style='font-size: 102.4%'>drawable(1)</a> <a href='/blog/categories/ec' style='font-size: 102.4%'>ec(1)</a> <a href='/blog/categories/eclipse' style='font-size: 102.4%'>eclipse(1)</a> <a href='/blog/categories/ecshop' style='font-size: 116.8%'>ecshop(7)</a> <a href='/blog/categories/editor' style='font-size: 102.4%'>editor(1)</a> <a href='/blog/categories/emulator' style='font-size: 102.4%'>emulator(1)</a> <a href='/blog/categories/encoding' style='font-size: 102.4%'>encoding(1)</a> <a href='/blog/categories/english' style='font-size: 133.6%'>english(14)</a> <a href='/blog/categories/excel' style='font-size: 104.8%'>excel(2)</a> <a href='/blog/categories/extjs' style='font-size: 104.8%'>extjs(2)</a> <a href='/blog/categories/gesture' style='font-size: 102.4%'>gesture(1)</a> <a href='/blog/categories/git' style='font-size: 109.6%'>git(4)</a> <a href='/blog/categories/git-flow' style='font-size: 102.4%'>git-flow(1)</a> <a href='/blog/categories/guava' style='font-size: 104.8%'>guava(2)</a> <a href='/blog/categories/guice' style='font-size: 102.4%'>guice(1)</a> <a href='/blog/categories/hamcrest' style='font-size: 102.4%'>hamcrest(1)</a> <a href='/blog/categories/i18n' style='font-size: 102.4%'>i18n(1)</a> <a href='/blog/categories/ide' style='font-size: 102.4%'>IDE(1)</a> <a href='/blog/categories/idea' style='font-size: 104.8%'>IDEA(2)</a> <a href='/blog/categories/imgur' style='font-size: 102.4%'>imgur(1)</a> <a href='/blog/categories/injection' style='font-size: 102.4%'>injection(1)</a> <a href='/blog/categories/intent' style='font-size: 102.4%'>intent(1)</a> <a href='/blog/categories/ireport' style='font-size: 104.8%'>ireport(2)</a> <a href='/blog/categories/jasterreport' style='font-size: 104.8%'>jasterreport(2)</a> <a href='/blog/categories/java' style='font-size: 152.8%'>java(22)</a> <a href='/blog/categories/java-ee' style='font-size: 112.0%'>java_ee(5)</a> <a href='/blog/categories/jms' style='font-size: 102.4%'>jms(1)</a> <a href='/blog/categories/jmx' style='font-size: 102.4%'>JMX(1)</a> <a href='/blog/categories/joda' style='font-size: 102.4%'>joda(1)</a> <a href='/blog/categories/jpa' style='font-size: 102.4%'>jpa(1)</a> <a href='/blog/categories/jquery' style='font-size: 102.4%'>jquery(1)</a> <a href='/blog/categories/jsp' style='font-size: 104.8%'>jsp(2)</a> <a href='/blog/categories/junit' style='font-size: 102.4%'>junit(1)</a> <a href='/blog/categories/jvm' style='font-size: 104.8%'>jvm(2)</a> <a href='/blog/categories/kohana' style='font-size: 102.4%'>kohana(1)</a> <a href='/blog/categories/l10n' style='font-size: 102.4%'>l10n(1)</a> <a href='/blog/categories/layout' style='font-size: 102.4%'>layout(1)</a> <a href='/blog/categories/linux' style='font-size: 126.4%'>linux(11)</a> <a href='/blog/categories/listview' style='font-size: 104.8%'>listview(2)</a> <a href='/blog/categories/logger' style='font-size: 102.4%'>logger(1)</a> <a href='/blog/categories/m2eclilpse' style='font-size: 102.4%'>m2eclilpse(1)</a> <a href='/blog/categories/mac' style='font-size: 107.2%'>mac(3)</a> <a href='/blog/categories/mat' style='font-size: 102.4%'>mat(1)</a> <a href='/blog/categories/maven' style='font-size: 112.0%'>maven(5)</a> <a href='/blog/categories/memory' style='font-size: 102.4%'>memory(1)</a> <a href='/blog/categories/menu' style='font-size: 102.4%'>menu(1)</a> <a href='/blog/categories/mindmap' style='font-size: 104.8%'>mindmap(2)</a> <a href='/blog/categories/misc' style='font-size: 102.4%'>misc(1)</a> <a href='/blog/categories/mysql' style='font-size: 116.8%'>mysql(7)</a> <a href='/blog/categories/nio' style='font-size: 102.4%'>nio(1)</a> <a href='/blog/categories/octopress' style='font-size: 102.4%'>octopress(1)</a> <a href='/blog/categories/oracle' style='font-size: 102.4%'>oracle(1)</a> <a href='/blog/categories/osgi' style='font-size: 107.2%'>osgi(3)</a> <a href='/blog/categories/pdf' style='font-size: 104.8%'>pdf(2)</a> <a href='/blog/categories/pdt' style='font-size: 112.0%'>pdt(5)</a> <a href='/blog/categories/pear' style='font-size: 104.8%'>pear(2)</a> <a href='/blog/categories/performace' style='font-size: 102.4%'>performace(1)</a> <a href='/blog/categories/pgsql' style='font-size: 102.4%'>pgsql(1)</a> <a href='/blog/categories/php' style='font-size: 114.4%'>php(6)</a> <a href='/blog/categories/play-framework' style='font-size: 102.4%'>play_framework(1)</a> <a href='/blog/categories/pm' style='font-size: 112.0%'>pm(5)</a> <a href='/blog/categories/postgresql' style='font-size: 104.8%'>postgresql(2)</a> <a href='/blog/categories/profile' style='font-size: 102.4%'>profile(1)</a> <a href='/blog/categories/programming' style='font-size: 128.8%'>programming(12)</a> <a href='/blog/categories/python' style='font-size: 104.8%'>python(2)</a> <a href='/blog/categories/re' style='font-size: 102.4%'>re(1)</a> <a href='/blog/categories/refactory' style='font-size: 102.4%'>refactory(1)</a> <a href='/blog/categories/rest' style='font-size: 116.8%'>rest(7)</a> <a href='/blog/categories/roboguice' style='font-size: 102.4%'>roboguice(1)</a> <a href='/blog/categories/sbt' style='font-size: 102.4%'>sbt(1)</a> <a href='/blog/categories/scala' style='font-size: 109.6%'>scala(4)</a> <a href='/blog/categories/security' style='font-size: 104.8%'>security(2)</a> <a href='/blog/categories/service' style='font-size: 104.8%'>service(2)</a> <a href='/blog/categories/shiro' style='font-size: 102.4%'>shiro(1)</a> <a href='/blog/categories/shortchut' style='font-size: 102.4%'>shortchut(1)</a> <a href='/blog/categories/smarty' style='font-size: 107.2%'>smarty(3)</a> <a href='/blog/categories/spring' style='font-size: 104.8%'>spring(2)</a> <a href='/blog/categories/sql' style='font-size: 102.4%'>sql(1)</a> <a href='/blog/categories/style' style='font-size: 102.4%'>style(1)</a> <a href='/blog/categories/tdd' style='font-size: 102.4%'>tdd(1)</a> <a href='/blog/categories/testing' style='font-size: 124.0%'>testing(10)</a> <a href='/blog/categories/theme' style='font-size: 102.4%'>theme(1)</a> <a href='/blog/categories/tips' style='font-size: 104.8%'>tips(2)</a> <a href='/blog/categories/tomcat' style='font-size: 102.4%'>tomcat(1)</a> <a href='/blog/categories/ubuntu' style='font-size: 119.2%'>ubuntu(8)</a> <a href='/blog/categories/ui' style='font-size: 104.8%'>ui(2)</a> <a href='/blog/categories/vim' style='font-size: 104.8%'>vim(2)</a> <a href='/blog/categories/web' style='font-size: 104.8%'>web(2)</a> <a href='/blog/categories/windows' style='font-size: 102.4%'>windows(1)</a> <a href='/blog/categories/xampp' style='font-size: 102.4%'>xampp(1)</a> <a href='/blog/categories/xml' style='font-size: 104.8%'>xml(2)</a> </span>
+    <span id="tag-cloud"><a href='/blog/categories/actionbar' style='font-size: 102.4%'>actionbar(1)</a> <a href='/blog/categories/android' style='font-size: 160.0%'>android(25)</a> <a href='/blog/categories/apache' style='font-size: 116.8%'>apache(7)</a> <a href='/blog/categories/authentication' style='font-size: 102.4%'>authentication(1)</a> <a href='/blog/categories/authorization' style='font-size: 102.4%'>authorization(1)</a> <a href='/blog/categories/bash' style='font-size: 109.6%'>bash(4)</a> <a href='/blog/categories/best-practice' style='font-size: 102.4%'>best_practice(1)</a> <a href='/blog/categories/book' style='font-size: 102.4%'>book(1)</a> <a href='/blog/categories/broadcast-receiver' style='font-size: 104.8%'>broadcast_receiver(2)</a> <a href='/blog/categories/cdi' style='font-size: 104.8%'>cdi(2)</a> <a href='/blog/categories/centos' style='font-size: 112.0%'>centos(5)</a> <a href='/blog/categories/clean-code' style='font-size: 102.4%'>clean code(1)</a> <a href='/blog/categories/clojure' style='font-size: 102.4%'>clojure(1)</a> <a href='/blog/categories/command' style='font-size: 112.0%'>command(5)</a> <a href='/blog/categories/concurrency' style='font-size: 102.4%'>concurrency(1)</a> <a href='/blog/categories/curl' style='font-size: 102.4%'>curl(1)</a> <a href='/blog/categories/database' style='font-size: 114.4%'>database(6)</a> <a href='/blog/categories/datetime' style='font-size: 102.4%'>datetime(1)</a> <a href='/blog/categories/di' style='font-size: 104.8%'>di(2)</a> <a href='/blog/categories/drawable' style='font-size: 102.4%'>drawable(1)</a> <a href='/blog/categories/ec' style='font-size: 102.4%'>ec(1)</a> <a href='/blog/categories/eclipse' style='font-size: 102.4%'>eclipse(1)</a> <a href='/blog/categories/ecshop' style='font-size: 116.8%'>ecshop(7)</a> <a href='/blog/categories/editor' style='font-size: 102.4%'>editor(1)</a> <a href='/blog/categories/emulator' style='font-size: 102.4%'>emulator(1)</a> <a href='/blog/categories/encoding' style='font-size: 102.4%'>encoding(1)</a> <a href='/blog/categories/english' style='font-size: 133.6%'>english(14)</a> <a href='/blog/categories/excel' style='font-size: 104.8%'>excel(2)</a> <a href='/blog/categories/extjs' style='font-size: 104.8%'>extjs(2)</a> <a href='/blog/categories/functional-programming' style='font-size: 102.4%'>functional programming(1)</a> <a href='/blog/categories/gesture' style='font-size: 102.4%'>gesture(1)</a> <a href='/blog/categories/git' style='font-size: 109.6%'>git(4)</a> <a href='/blog/categories/git-flow' style='font-size: 102.4%'>git-flow(1)</a> <a href='/blog/categories/guava' style='font-size: 104.8%'>guava(2)</a> <a href='/blog/categories/guice' style='font-size: 102.4%'>guice(1)</a> <a href='/blog/categories/hamcrest' style='font-size: 102.4%'>hamcrest(1)</a> <a href='/blog/categories/i18n' style='font-size: 102.4%'>i18n(1)</a> <a href='/blog/categories/ide' style='font-size: 102.4%'>IDE(1)</a> <a href='/blog/categories/idea' style='font-size: 104.8%'>IDEA(2)</a> <a href='/blog/categories/imgur' style='font-size: 102.4%'>imgur(1)</a> <a href='/blog/categories/injection' style='font-size: 102.4%'>injection(1)</a> <a href='/blog/categories/intent' style='font-size: 102.4%'>intent(1)</a> <a href='/blog/categories/ireport' style='font-size: 104.8%'>ireport(2)</a> <a href='/blog/categories/jasterreport' style='font-size: 104.8%'>jasterreport(2)</a> <a href='/blog/categories/java' style='font-size: 152.8%'>java(22)</a> <a href='/blog/categories/java8' style='font-size: 104.8%'>java8(2)</a> <a href='/blog/categories/java-ee' style='font-size: 112.0%'>java_ee(5)</a> <a href='/blog/categories/jms' style='font-size: 102.4%'>jms(1)</a> <a href='/blog/categories/jmx' style='font-size: 102.4%'>JMX(1)</a> <a href='/blog/categories/joda' style='font-size: 102.4%'>joda(1)</a> <a href='/blog/categories/jpa' style='font-size: 102.4%'>jpa(1)</a> <a href='/blog/categories/jquery' style='font-size: 102.4%'>jquery(1)</a> <a href='/blog/categories/jsp' style='font-size: 104.8%'>jsp(2)</a> <a href='/blog/categories/junit' style='font-size: 102.4%'>junit(1)</a> <a href='/blog/categories/jvm' style='font-size: 104.8%'>jvm(2)</a> <a href='/blog/categories/kohana' style='font-size: 102.4%'>kohana(1)</a> <a href='/blog/categories/l10n' style='font-size: 102.4%'>l10n(1)</a> <a href='/blog/categories/lambda' style='font-size: 102.4%'>lambda(1)</a> <a href='/blog/categories/layout' style='font-size: 102.4%'>layout(1)</a> <a href='/blog/categories/linux' style='font-size: 126.4%'>linux(11)</a> <a href='/blog/categories/listview' style='font-size: 104.8%'>listview(2)</a> <a href='/blog/categories/logger' style='font-size: 102.4%'>logger(1)</a> <a href='/blog/categories/m2eclilpse' style='font-size: 102.4%'>m2eclilpse(1)</a> <a href='/blog/categories/mac' style='font-size: 107.2%'>mac(3)</a> <a href='/blog/categories/mat' style='font-size: 102.4%'>mat(1)</a> <a href='/blog/categories/maven' style='font-size: 112.0%'>maven(5)</a> <a href='/blog/categories/memory' style='font-size: 102.4%'>memory(1)</a> <a href='/blog/categories/menu' style='font-size: 102.4%'>menu(1)</a> <a href='/blog/categories/mindmap' style='font-size: 104.8%'>mindmap(2)</a> <a href='/blog/categories/misc' style='font-size: 102.4%'>misc(1)</a> <a href='/blog/categories/mysql' style='font-size: 116.8%'>mysql(7)</a> <a href='/blog/categories/nio' style='font-size: 102.4%'>nio(1)</a> <a href='/blog/categories/octopress' style='font-size: 102.4%'>octopress(1)</a> <a href='/blog/categories/oracle' style='font-size: 102.4%'>oracle(1)</a> <a href='/blog/categories/osgi' style='font-size: 107.2%'>osgi(3)</a> <a href='/blog/categories/pdf' style='font-size: 104.8%'>pdf(2)</a> <a href='/blog/categories/pdt' style='font-size: 112.0%'>pdt(5)</a> <a href='/blog/categories/pear' style='font-size: 104.8%'>pear(2)</a> <a href='/blog/categories/performace' style='font-size: 102.4%'>performace(1)</a> <a href='/blog/categories/pgsql' style='font-size: 102.4%'>pgsql(1)</a> <a href='/blog/categories/php' style='font-size: 114.4%'>php(6)</a> <a href='/blog/categories/play-framework' style='font-size: 102.4%'>play_framework(1)</a> <a href='/blog/categories/pm' style='font-size: 112.0%'>pm(5)</a> <a href='/blog/categories/postgresql' style='font-size: 104.8%'>postgresql(2)</a> <a href='/blog/categories/profile' style='font-size: 102.4%'>profile(1)</a> <a href='/blog/categories/programming' style='font-size: 128.8%'>programming(12)</a> <a href='/blog/categories/python' style='font-size: 104.8%'>python(2)</a> <a href='/blog/categories/re' style='font-size: 102.4%'>re(1)</a> <a href='/blog/categories/refactory' style='font-size: 102.4%'>refactory(1)</a> <a href='/blog/categories/rest' style='font-size: 116.8%'>rest(7)</a> <a href='/blog/categories/roboguice' style='font-size: 102.4%'>roboguice(1)</a> <a href='/blog/categories/sbt' style='font-size: 102.4%'>sbt(1)</a> <a href='/blog/categories/scala' style='font-size: 109.6%'>scala(4)</a> <a href='/blog/categories/security' style='font-size: 104.8%'>security(2)</a> <a href='/blog/categories/sequence-diagram' style='font-size: 102.4%'>sequence_diagram(1)</a> <a href='/blog/categories/service' style='font-size: 104.8%'>service(2)</a> <a href='/blog/categories/shiro' style='font-size: 102.4%'>shiro(1)</a> <a href='/blog/categories/shortchut' style='font-size: 102.4%'>shortchut(1)</a> <a href='/blog/categories/smarty' style='font-size: 107.2%'>smarty(3)</a> <a href='/blog/categories/spring' style='font-size: 104.8%'>spring(2)</a> <a href='/blog/categories/sql' style='font-size: 102.4%'>sql(1)</a> <a href='/blog/categories/style' style='font-size: 102.4%'>style(1)</a> <a href='/blog/categories/tdd' style='font-size: 102.4%'>tdd(1)</a> <a href='/blog/categories/testing' style='font-size: 124.0%'>testing(10)</a> <a href='/blog/categories/theme' style='font-size: 102.4%'>theme(1)</a> <a href='/blog/categories/tips' style='font-size: 104.8%'>tips(2)</a> <a href='/blog/categories/tomcat' style='font-size: 102.4%'>tomcat(1)</a> <a href='/blog/categories/ubuntu' style='font-size: 119.2%'>ubuntu(8)</a> <a href='/blog/categories/ui' style='font-size: 104.8%'>ui(2)</a> <a href='/blog/categories/uml' style='font-size: 102.4%'>uml(1)</a> <a href='/blog/categories/umlet' style='font-size: 102.4%'>umlet(1)</a> <a href='/blog/categories/vim' style='font-size: 104.8%'>vim(2)</a> <a href='/blog/categories/web' style='font-size: 104.8%'>web(2)</a> <a href='/blog/categories/windows' style='font-size: 102.4%'>windows(1)</a> <a href='/blog/categories/xampp' style='font-size: 102.4%'>xampp(1)</a> <a href='/blog/categories/xml' style='font-size: 104.8%'>xml(2)</a> </span>
 </section>
 <section>
   <h1>Categories</h1>
-    <ul id="category-list"><li><a href='/blog/categories/actionbar'>actionbar (1)</a></li><li><a href='/blog/categories/android'>android (25)</a></li><li><a href='/blog/categories/apache'>apache (7)</a></li><li><a href='/blog/categories/authentication'>authentication (1)</a></li><li><a href='/blog/categories/authorization'>authorization (1)</a></li><li><a href='/blog/categories/bash'>bash (4)</a></li><li><a href='/blog/categories/best-practice'>best_practice (1)</a></li><li><a href='/blog/categories/book'>book (1)</a></li><li><a href='/blog/categories/broadcast-receiver'>broadcast_receiver (2)</a></li><li><a href='/blog/categories/cdi'>cdi (2)</a></li><li><a href='/blog/categories/centos'>centos (5)</a></li><li><a href='/blog/categories/clean-code'>clean code (1)</a></li><li><a href='/blog/categories/command'>command (5)</a></li><li><a href='/blog/categories/concurrency'>concurrency (1)</a></li><li><a href='/blog/categories/curl'>curl (1)</a></li><li><a href='/blog/categories/database'>database (6)</a></li><li><a href='/blog/categories/datetime'>datetime (1)</a></li><li><a href='/blog/categories/di'>di (2)</a></li><li><a href='/blog/categories/drawable'>drawable (1)</a></li><li><a href='/blog/categories/ec'>ec (1)</a></li><li><a href='/blog/categories/eclipse'>eclipse (1)</a></li><li><a href='/blog/categories/ecshop'>ecshop (7)</a></li><li><a href='/blog/categories/editor'>editor (1)</a></li><li><a href='/blog/categories/emulator'>emulator (1)</a></li><li><a href='/blog/categories/encoding'>encoding (1)</a></li><li><a href='/blog/categories/english'>english (14)</a></li><li><a href='/blog/categories/excel'>excel (2)</a></li><li><a href='/blog/categories/extjs'>extjs (2)</a></li><li><a href='/blog/categories/gesture'>gesture (1)</a></li><li><a href='/blog/categories/git'>git (4)</a></li><li><a href='/blog/categories/git-flow'>git-flow (1)</a></li><li><a href='/blog/categories/guava'>guava (2)</a></li><li><a href='/blog/categories/guice'>guice (1)</a></li><li><a href='/blog/categories/hamcrest'>hamcrest (1)</a></li><li><a href='/blog/categories/i18n'>i18n (1)</a></li><li><a href='/blog/categories/ide'>IDE (1)</a></li><li><a href='/blog/categories/idea'>IDEA (2)</a></li><li><a href='/blog/categories/imgur'>imgur (1)</a></li><li><a href='/blog/categories/injection'>injection (1)</a></li><li><a href='/blog/categories/intent'>intent (1)</a></li><li><a href='/blog/categories/ireport'>ireport (2)</a></li><li><a href='/blog/categories/jasterreport'>jasterreport (2)</a></li><li><a href='/blog/categories/java'>java (22)</a></li><li><a href='/blog/categories/java-ee'>java_ee (5)</a></li><li><a href='/blog/categories/jms'>jms (1)</a></li><li><a href='/blog/categories/jmx'>JMX (1)</a></li><li><a href='/blog/categories/joda'>joda (1)</a></li><li><a href='/blog/categories/jpa'>jpa (1)</a></li><li><a href='/blog/categories/jquery'>jquery (1)</a></li><li><a href='/blog/categories/jsp'>jsp (2)</a></li><li><a href='/blog/categories/junit'>junit (1)</a></li><li><a href='/blog/categories/jvm'>jvm (2)</a></li><li><a href='/blog/categories/kohana'>kohana (1)</a></li><li><a href='/blog/categories/l10n'>l10n (1)</a></li><li><a href='/blog/categories/layout'>layout (1)</a></li><li><a href='/blog/categories/linux'>linux (11)</a></li><li><a href='/blog/categories/listview'>listview (2)</a></li><li><a href='/blog/categories/logger'>logger (1)</a></li><li><a href='/blog/categories/m2eclilpse'>m2eclilpse (1)</a></li><li><a href='/blog/categories/mac'>mac (3)</a></li><li><a href='/blog/categories/mat'>mat (1)</a></li><li><a href='/blog/categories/maven'>maven (5)</a></li><li><a href='/blog/categories/memory'>memory (1)</a></li><li><a href='/blog/categories/menu'>menu (1)</a></li><li><a href='/blog/categories/mindmap'>mindmap (2)</a></li><li><a href='/blog/categories/misc'>misc (1)</a></li><li><a href='/blog/categories/mysql'>mysql (7)</a></li><li><a href='/blog/categories/nio'>nio (1)</a></li><li><a href='/blog/categories/octopress'>octopress (1)</a></li><li><a href='/blog/categories/oracle'>oracle (1)</a></li><li><a href='/blog/categories/osgi'>osgi (3)</a></li><li><a href='/blog/categories/pdf'>pdf (2)</a></li><li><a href='/blog/categories/pdt'>pdt (5)</a></li><li><a href='/blog/categories/pear'>pear (2)</a></li><li><a href='/blog/categories/performace'>performace (1)</a></li><li><a href='/blog/categories/pgsql'>pgsql (1)</a></li><li><a href='/blog/categories/php'>php (6)</a></li><li><a href='/blog/categories/play-framework'>play_framework (1)</a></li><li><a href='/blog/categories/pm'>pm (5)</a></li><li><a href='/blog/categories/postgresql'>postgresql (2)</a></li><li><a href='/blog/categories/profile'>profile (1)</a></li><li><a href='/blog/categories/programming'>programming (12)</a></li><li><a href='/blog/categories/python'>python (2)</a></li><li><a href='/blog/categories/re'>re (1)</a></li><li><a href='/blog/categories/refactory'>refactory (1)</a></li><li><a href='/blog/categories/rest'>rest (7)</a></li><li><a href='/blog/categories/roboguice'>roboguice (1)</a></li><li><a href='/blog/categories/sbt'>sbt (1)</a></li><li><a href='/blog/categories/scala'>scala (4)</a></li><li><a href='/blog/categories/security'>security (2)</a></li><li><a href='/blog/categories/service'>service (2)</a></li><li><a href='/blog/categories/shiro'>shiro (1)</a></li><li><a href='/blog/categories/shortchut'>shortchut (1)</a></li><li><a href='/blog/categories/smarty'>smarty (3)</a></li><li><a href='/blog/categories/spring'>spring (2)</a></li><li><a href='/blog/categories/sql'>sql (1)</a></li><li><a href='/blog/categories/style'>style (1)</a></li><li><a href='/blog/categories/tdd'>tdd (1)</a></li><li><a href='/blog/categories/testing'>testing (10)</a></li><li><a href='/blog/categories/theme'>theme (1)</a></li><li><a href='/blog/categories/tips'>tips (2)</a></li><li><a href='/blog/categories/tomcat'>tomcat (1)</a></li><li><a href='/blog/categories/ubuntu'>ubuntu (8)</a></li><li><a href='/blog/categories/ui'>ui (2)</a></li><li><a href='/blog/categories/vim'>vim (2)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/windows'>windows (1)</a></li><li><a href='/blog/categories/xampp'>xampp (1)</a></li><li><a href='/blog/categories/xml'>xml (2)</a></li></ul>
+    <ul id="category-list"><li><a href='/blog/categories/actionbar'>actionbar (1)</a></li><li><a href='/blog/categories/android'>android (25)</a></li><li><a href='/blog/categories/apache'>apache (7)</a></li><li><a href='/blog/categories/authentication'>authentication (1)</a></li><li><a href='/blog/categories/authorization'>authorization (1)</a></li><li><a href='/blog/categories/bash'>bash (4)</a></li><li><a href='/blog/categories/best-practice'>best_practice (1)</a></li><li><a href='/blog/categories/book'>book (1)</a></li><li><a href='/blog/categories/broadcast-receiver'>broadcast_receiver (2)</a></li><li><a href='/blog/categories/cdi'>cdi (2)</a></li><li><a href='/blog/categories/centos'>centos (5)</a></li><li><a href='/blog/categories/clean-code'>clean code (1)</a></li><li><a href='/blog/categories/clojure'>clojure (1)</a></li><li><a href='/blog/categories/command'>command (5)</a></li><li><a href='/blog/categories/concurrency'>concurrency (1)</a></li><li><a href='/blog/categories/curl'>curl (1)</a></li><li><a href='/blog/categories/database'>database (6)</a></li><li><a href='/blog/categories/datetime'>datetime (1)</a></li><li><a href='/blog/categories/di'>di (2)</a></li><li><a href='/blog/categories/drawable'>drawable (1)</a></li><li><a href='/blog/categories/ec'>ec (1)</a></li><li><a href='/blog/categories/eclipse'>eclipse (1)</a></li><li><a href='/blog/categories/ecshop'>ecshop (7)</a></li><li><a href='/blog/categories/editor'>editor (1)</a></li><li><a href='/blog/categories/emulator'>emulator (1)</a></li><li><a href='/blog/categories/encoding'>encoding (1)</a></li><li><a href='/blog/categories/english'>english (14)</a></li><li><a href='/blog/categories/excel'>excel (2)</a></li><li><a href='/blog/categories/extjs'>extjs (2)</a></li><li><a href='/blog/categories/functional-programming'>functional programming (1)</a></li><li><a href='/blog/categories/gesture'>gesture (1)</a></li><li><a href='/blog/categories/git'>git (4)</a></li><li><a href='/blog/categories/git-flow'>git-flow (1)</a></li><li><a href='/blog/categories/guava'>guava (2)</a></li><li><a href='/blog/categories/guice'>guice (1)</a></li><li><a href='/blog/categories/hamcrest'>hamcrest (1)</a></li><li><a href='/blog/categories/i18n'>i18n (1)</a></li><li><a href='/blog/categories/ide'>IDE (1)</a></li><li><a href='/blog/categories/idea'>IDEA (2)</a></li><li><a href='/blog/categories/imgur'>imgur (1)</a></li><li><a href='/blog/categories/injection'>injection (1)</a></li><li><a href='/blog/categories/intent'>intent (1)</a></li><li><a href='/blog/categories/ireport'>ireport (2)</a></li><li><a href='/blog/categories/jasterreport'>jasterreport (2)</a></li><li><a href='/blog/categories/java'>java (22)</a></li><li><a href='/blog/categories/java8'>java8 (2)</a></li><li><a href='/blog/categories/java-ee'>java_ee (5)</a></li><li><a href='/blog/categories/jms'>jms (1)</a></li><li><a href='/blog/categories/jmx'>JMX (1)</a></li><li><a href='/blog/categories/joda'>joda (1)</a></li><li><a href='/blog/categories/jpa'>jpa (1)</a></li><li><a href='/blog/categories/jquery'>jquery (1)</a></li><li><a href='/blog/categories/jsp'>jsp (2)</a></li><li><a href='/blog/categories/junit'>junit (1)</a></li><li><a href='/blog/categories/jvm'>jvm (2)</a></li><li><a href='/blog/categories/kohana'>kohana (1)</a></li><li><a href='/blog/categories/l10n'>l10n (1)</a></li><li><a href='/blog/categories/lambda'>lambda (1)</a></li><li><a href='/blog/categories/layout'>layout (1)</a></li><li><a href='/blog/categories/linux'>linux (11)</a></li><li><a href='/blog/categories/listview'>listview (2)</a></li><li><a href='/blog/categories/logger'>logger (1)</a></li><li><a href='/blog/categories/m2eclilpse'>m2eclilpse (1)</a></li><li><a href='/blog/categories/mac'>mac (3)</a></li><li><a href='/blog/categories/mat'>mat (1)</a></li><li><a href='/blog/categories/maven'>maven (5)</a></li><li><a href='/blog/categories/memory'>memory (1)</a></li><li><a href='/blog/categories/menu'>menu (1)</a></li><li><a href='/blog/categories/mindmap'>mindmap (2)</a></li><li><a href='/blog/categories/misc'>misc (1)</a></li><li><a href='/blog/categories/mysql'>mysql (7)</a></li><li><a href='/blog/categories/nio'>nio (1)</a></li><li><a href='/blog/categories/octopress'>octopress (1)</a></li><li><a href='/blog/categories/oracle'>oracle (1)</a></li><li><a href='/blog/categories/osgi'>osgi (3)</a></li><li><a href='/blog/categories/pdf'>pdf (2)</a></li><li><a href='/blog/categories/pdt'>pdt (5)</a></li><li><a href='/blog/categories/pear'>pear (2)</a></li><li><a href='/blog/categories/performace'>performace (1)</a></li><li><a href='/blog/categories/pgsql'>pgsql (1)</a></li><li><a href='/blog/categories/php'>php (6)</a></li><li><a href='/blog/categories/play-framework'>play_framework (1)</a></li><li><a href='/blog/categories/pm'>pm (5)</a></li><li><a href='/blog/categories/postgresql'>postgresql (2)</a></li><li><a href='/blog/categories/profile'>profile (1)</a></li><li><a href='/blog/categories/programming'>programming (12)</a></li><li><a href='/blog/categories/python'>python (2)</a></li><li><a href='/blog/categories/re'>re (1)</a></li><li><a href='/blog/categories/refactory'>refactory (1)</a></li><li><a href='/blog/categories/rest'>rest (7)</a></li><li><a href='/blog/categories/roboguice'>roboguice (1)</a></li><li><a href='/blog/categories/sbt'>sbt (1)</a></li><li><a href='/blog/categories/scala'>scala (4)</a></li><li><a href='/blog/categories/security'>security (2)</a></li><li><a href='/blog/categories/sequence-diagram'>sequence_diagram (1)</a></li><li><a href='/blog/categories/service'>service (2)</a></li><li><a href='/blog/categories/shiro'>shiro (1)</a></li><li><a href='/blog/categories/shortchut'>shortchut (1)</a></li><li><a href='/blog/categories/smarty'>smarty (3)</a></li><li><a href='/blog/categories/spring'>spring (2)</a></li><li><a href='/blog/categories/sql'>sql (1)</a></li><li><a href='/blog/categories/style'>style (1)</a></li><li><a href='/blog/categories/tdd'>tdd (1)</a></li><li><a href='/blog/categories/testing'>testing (10)</a></li><li><a href='/blog/categories/theme'>theme (1)</a></li><li><a href='/blog/categories/tips'>tips (2)</a></li><li><a href='/blog/categories/tomcat'>tomcat (1)</a></li><li><a href='/blog/categories/ubuntu'>ubuntu (8)</a></li><li><a href='/blog/categories/ui'>ui (2)</a></li><li><a href='/blog/categories/uml'>uml (1)</a></li><li><a href='/blog/categories/umlet'>umlet (1)</a></li><li><a href='/blog/categories/vim'>vim (2)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/windows'>windows (1)</a></li><li><a href='/blog/categories/xampp'>xampp (1)</a></li><li><a href='/blog/categories/xml'>xml (2)</a></li></ul>
 </section>
 
   

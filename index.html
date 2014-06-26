@@ -9,8 +9,12 @@
   <meta name="author" content="Kent">
 
   
-  <meta name="description" content="在現代的IDE中，程式碼自動完成(code assist or code complete)幾乎是必備的基本功能，這個功能在靜態功能型別的語言中，IDE通常可以很完全的運作；但是在動態型別的語言中，就常常沒辦法推斷出正確的型別了。
-因為有的IDE從另外從程式碼外的其它地方(通常是註解) &hellip;">
+  <meta name="description" content="title: sample
+_alpha:A~id1_|_beta:B~id2_|_gamma:G~id3_
+id1-&gt;&gt;id2:id1,id2
+id2-/&gt;id1:async Msg.
+id3-&gt;&gt;&gt;id1:id1,id3
+id1.&gt;id3:id1, &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -78,6 +82,515 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/03/14/umlet-sequence-diagram/">UMLet Sequence Diagram</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-03-14T12:05:00+08:00" pubdate data-updated="true">Mar 14<span>th</span>, 2015</time>
+        
+         | <a href="/blog/2015/03/14/umlet-sequence-diagram/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img src="http://blog.kent-chiu.com/images/2014-05-14/umlet-sequence-diagram_001.jpg" alt="img_001" /></p>
+
+<pre><code>title: sample
+_alpha:A~id1_|_beta:B~id2_|_gamma:G~id3_
+id1-&gt;&gt;id2:id1,id2
+id2-/&gt;id1:async Msg.
+id3-&gt;&gt;&gt;id1:id1,id3
+id1.&gt;id3:id1,id3:async return Msg
+id1-&gt;id1:id1:self
+// this comment will not be render
+iframe{:interaction frame
+id2-&gt;id3:id1,id3:async Msg.
+iframe}
+</code></pre>
+
+<p><code>title</code> : 圖左上方的標題</p>
+
+<h2>Life Cycle</h2>
+
+<p><code>_alpha:A~id1_</code> : alpha 是instance name, A: 是class name, id1 是識別用的id，用來當作其他圖示的reference，加上 <code>_</code> 則會出現下畫線</p>
+
+<h2>Message</h2>
+
+<p>訊息流向的基本格式為: <code>line:active:name</code> ，可以分成三段</p>
+
+<ol>
+<li><p>第一段是訊息的線條
+訊息的線條又可分為</p>
+
+<ul>
+<li><code>-&gt;&gt;</code> 同步，空心箭頭</li>
+<li><code>-/&gt;</code> 非同步，單邊箭頭</li>
+<li>&#8217;->>>&#8217; 同步，實心箭頭</li>
+<li>&#8217;.>&#8217; 非同步，虛線</li>
+<li>&#8217;->&#8217; 同步</li>
+</ul>
+</li>
+<li><p>第二段是訊息是否活動中
+如果是活動中的訊息，會出現 execution specification (或者是 activation)</p></li>
+<li><p>第三段是訊息的名稱，可省略</p></li>
+</ol>
+
+
+<p>ex:</p>
+
+<p><code>id1-&gt;&gt;id2:id1,id2</code> :  <code>-&gt;&gt;</code> 表示同步訊息，從id1到id2
+<code>id2-/&gt;id1:async Msg</code> : <code>-/&gt;</code> 表示非同步訊息，<code>async Msg</code>是訊息名稱
+<code>3-&gt;&gt;&gt;1:1,3</code> : <code>-&gt;&gt;&gt;</code> 表示</p>
+
+<h2>Interaction Fragment</h2>
+
+<p>在 iframe 包來的範圍是 interaction fragment</p>
+
+<h2>Resource</h2>
+
+<ul>
+<li><a href="http://www.uml-diagrams.org/sequence-diagrams.html">http://www.uml-diagrams.org/sequence-diagrams.html</a> uml圖示說明</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/03/14/java-8-lambda/">Java 8 Lambda</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-14T12:47:00+08:00" pubdate data-updated="true">Mar 14<span>th</span>, 2014</time>
+        
+         | <a href="/blog/2014/03/14/java-8-lambda/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>基本語法:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'>    <span class="o">(</span><span class="n">parameters</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">expression</span>
+</span><span class='line'><span class="n">or</span>
+</span><span class='line'>    <span class="o">(</span><span class="n">parameters</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span> <span class="n">statements</span><span class="o">;</span> <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">(</span><span class="n">parameters</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">expression</span>
+</span><span class='line'><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="o">;</span>    <span class="c1">// 計算 x + y 的結果</span>
+</span><span class='line'><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Hi! &quot;</span> <span class="o">+</span> <span class="n">name</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">(</span><span class="n">parameters</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span> <span class="n">statements</span><span class="o">;</span> <span class="o">}</span>
+</span><span class='line'><span class="n">x</span> <span class="o">-&gt;</span> <span class="o">{</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="o">;</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">2</span><span class="o">;</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">3</span><span class="o">;</span> <span class="k">return</span> <span class="n">x</span><span class="o">;</span> <span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>參數的型別如果沒有指定的，會進行類型推斷(type infer)</p>
+
+<h4>functional interface</h4>
+
+<p>只有定義一個抽象方法的interface叫&#8221;functional interface&#8221;，functional interface主要的用途是做 lambda expression.</p>
+
+<p>在對lambda的使用還不熟悉時，可以先用anonymous class來一步一步轉換成lambda</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="c1">// Stream裡filter method的宣告，filter method需要傳入一個Predicate的interface</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Stream</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="kd">extends</span> <span class="n">BaseStream</span><span class="o">&lt;</span><span class="n">T</span><span class="o">,</span> <span class="n">Stream</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;&gt;</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">Stream</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="nf">filter</span><span class="o">(</span><span class="n">Predicate</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="n">T</span><span class="o">&gt;</span> <span class="n">predicate</span><span class="o">);</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Predicate主要是透過test這個method來解決結果是true，或false </span>
+</span><span class='line'><span class="nd">@FunctionalInterface</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Predicate</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="o">{</span>
+</span><span class='line'>    <span class="cm">/**</span>
+</span><span class='line'><span class="cm">     * Evaluates this predicate on the given argument.</span>
+</span><span class='line'><span class="cm">     *</span>
+</span><span class='line'><span class="cm">     * @param t the input argument</span>
+</span><span class='line'><span class="cm">     * @return {@code true} if the input argument matches the predicate,</span>
+</span><span class='line'><span class="cm">     * otherwise {@code false}</span>
+</span><span class='line'><span class="cm">     */</span>
+</span><span class='line'>    <span class="kt">boolean</span> <span class="nf">test</span><span class="o">(</span><span class="n">T</span> <span class="n">t</span><span class="o">);</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>sample:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'>    <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">list</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+</span><span class='line'>    <span class="n">list</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+</span><span class='line'>    <span class="n">list</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="mi">2</span><span class="o">);</span>
+</span><span class='line'>    <span class="n">list</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="mi">3</span><span class="o">);</span>
+</span><span class='line'>    <span class="n">list</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="mi">4</span><span class="o">);</span>
+</span><span class='line'>    <span class="n">list</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="mi">5</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// 先用anonymous實作，這邊就可以看出來，如果Predicate有超過一個的abstract method，</span>
+</span><span class='line'>    <span class="n">Predicate</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">predicate</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Predicate</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;()</span> <span class="o">{</span>
+</span><span class='line'>        <span class="nd">@Override</span>
+</span><span class='line'>        <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">test</span><span class="o">(</span><span class="n">Integer</span> <span class="n">i</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="o">;</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>    <span class="o">};</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// 執行後，results會只包含list中大於3的數，所以為4,5這兩個數字    </span>
+</span><span class='line'>    <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">results</span> <span class="o">=</span> <span class="n">list</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">filter</span><span class="o">(</span><span class="n">predicate</span><span class="o">).</span><span class="na">collect</span><span class="o">(</span><span class="n">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">());</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// 傳成lambda時，因為Predicate是function interface，只有一個abstract method，</span>
+</span><span class='line'>    <span class="c1">// 所以，我們可以很清楚的知道，我們要實作的method是`public boolean test(Integer i)`</span>
+</span><span class='line'>    <span class="c1">// 傳入的參數為Integer, 而實作的logic為判斷參數是否大於3</span>
+</span><span class='line'>    <span class="n">Predicate</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">predicate</span> <span class="o">=</span> <span class="o">(</span><span class="n">Integer</span> <span class="n">i</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span><span class="k">return</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="o">;};</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// java8的compier類型推斷(type infer)能力變強了，可以compiler可以由程式的上下文(context)猜出正確的型別，</span>
+</span><span class='line'>    <span class="c1">// lambda expression可以再簡化如下</span>
+</span><span class='line'>    <span class="n">Predicate</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">predicate</span> <span class="o">=</span> <span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span><span class="k">return</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="o">;};</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// 再把冗餘的括號點去掉，lambda expression預設會return最後一行的值，所以，return也可以去掉    </span>
+</span><span class='line'>    <span class="n">Predicate</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">predicate</span> <span class="o">=</span> <span class="n">i</span> <span class="o">-&gt;</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// 在filter中套上predicate</span>
+</span><span class='line'>    <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">results</span> <span class="o">=</span> <span class="n">list</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">filter</span><span class="o">(</span><span class="n">predicate</span><span class="o">).</span><span class="na">collect</span><span class="o">(</span><span class="n">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">());</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// 對predicate執行 inline variable的refactory</span>
+</span><span class='line'>    <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">results</span> <span class="o">=</span> <span class="n">list</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">filter</span><span class="o">(</span><span class="n">i</span> <span class="o">-&gt;</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="o">).</span><span class="na">collect</span><span class="o">(</span><span class="n">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">());</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在Predicate中，還有幾個default method，主要是用來輔助Predicate的使用，例如我們想取出上面相反的結果(不是大於3的值)，
+直覺的方式，就是判斷的邏輯 <code>i&gt;3</code> 改寫成 <code>!(i &gt; 3)</code>，而Predicate.negate()這個default method就是在做這件事</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'>    <span class="n">Predicate</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">predicate</span> <span class="o">=</span> <span class="n">i</span> <span class="o">-&gt;</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="o">;</span>  <span class="c1">// 先把lambda express從filter method中extract出來</span>
+</span><span class='line'>    <span class="n">Predicate</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">negate</span> <span class="o">=</span> <span class="n">predicate</span><span class="o">.</span><span class="na">negate</span><span class="o">();</span> <span class="c1">// 取反向的值 </span>
+</span><span class='line'>    <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">results</span> <span class="o">=</span> <span class="n">list</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">filter</span><span class="o">(</span><span class="n">negate</span><span class="o">).</span><span class="na">collect</span><span class="o">(</span><span class="n">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">());</span> <span class="c1">// 得到的results為 1, 2, 3</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>可以看到，我們用<code>predicate.negate()</code>就不用直接改寫原來的邏輯，只要直接對predicate做negate的運算即可。</p>
+
+<p>Predicate還有幾個default methods都是在做Predicate運算時常會用到的，功用跟<a href="http://docs.guava-libraries.googlecode.com/git/javadoc/com/google/common/base/Predicates.html">guava lib中的Predicats</a>類型，
+Predicate function interface 的完整程式如下</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'>    <span class="nd">@FunctionalInterface</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Predicate</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="o">{</span>
+</span><span class='line'>        <span class="kt">boolean</span> <span class="nf">test</span><span class="o">(</span><span class="n">T</span> <span class="n">t</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">default</span> <span class="n">Predicate</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="nf">and</span><span class="o">(</span><span class="n">Predicate</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="n">T</span><span class="o">&gt;</span> <span class="n">other</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>            <span class="n">Objects</span><span class="o">.</span><span class="na">requireNonNull</span><span class="o">(</span><span class="n">other</span><span class="o">);</span>
+</span><span class='line'>            <span class="k">return</span> <span class="o">(</span><span class="n">t</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">test</span><span class="o">(</span><span class="n">t</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="n">other</span><span class="o">.</span><span class="na">test</span><span class="o">(</span><span class="n">t</span><span class="o">);</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">default</span> <span class="n">Predicate</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="nf">negate</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="o">(</span><span class="n">t</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">!</span><span class="n">test</span><span class="o">(</span><span class="n">t</span><span class="o">);</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">default</span> <span class="n">Predicate</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="nf">or</span><span class="o">(</span><span class="n">Predicate</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="n">T</span><span class="o">&gt;</span> <span class="n">other</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>            <span class="n">Objects</span><span class="o">.</span><span class="na">requireNonNull</span><span class="o">(</span><span class="n">other</span><span class="o">);</span>
+</span><span class='line'>            <span class="k">return</span> <span class="o">(</span><span class="n">t</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">test</span><span class="o">(</span><span class="n">t</span><span class="o">)</span> <span class="o">||</span> <span class="n">other</span><span class="o">.</span><span class="na">test</span><span class="o">(</span><span class="n">t</span><span class="o">);</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>        <span class="kd">static</span> <span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">Predicate</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">isEqual</span><span class="o">(</span><span class="n">Object</span> <span class="n">targetRef</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="o">(</span><span class="kc">null</span> <span class="o">==</span> <span class="n">targetRef</span><span class="o">)</span>
+</span><span class='line'>                    <span class="o">?</span> <span class="nl">Objects:</span><span class="o">:</span><span class="n">isNull</span>
+</span><span class='line'>                    <span class="o">:</span> <span class="n">object</span> <span class="o">-&gt;</span> <span class="n">targetRef</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">object</span><span class="o">);</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>    <span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>lambda expression</h4>
+
+<p>A lambda expression is an instance of a functional interface</p>
+
+<h1>RESOURCE</h1>
+
+<ul>
+<li>http://www.techempower.com/blog/2013/03/26/everything-about-java-8/</li>
+<li>http://winterbe.com/posts/2014/03/16/java-8-tutorial/</li>
+<li>http://docs.oracle.com/javase/tutorial/collections/streams/reduction.html - reduce</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/03/14/java-8-utility-object/">Java 8 好用工具箱</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-14T12:43:00+08:00" pubdate data-updated="true">Mar 14<span>th</span>, 2014</time>
+        
+         | <a href="/blog/2014/03/14/java-8-utility-object/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>java 8 多了不少好用的工具類class，例如: 字串處理，null處理…之前透常是透過<a href="https://code.google.com/p/guava-libraries/">google guava</a>，或<a href="http://commons.apache.org/proper/commons-lang/">apache common lang</a>來處理，現在java 8 就有內建了。</p>
+
+<ul>
+<li><a href="http://download.java.net/jdk8/docs/api/java/util/Optional.html">Optional</a> 更安全、方便處理NULL的物件</li>
+<li>Objects</li>
+<li>StringJoin</li>
+</ul>
+
+
+<h4>Objects</h4>
+
+<ul>
+<li>requireNonNull(T obj) 如果傳入的obj為空，會丟出<code>NullPointerException</code>異常</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/03/14/java-8-date-and-time-api/">Java 8 時間、日期 API</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-14T12:35:00+08:00" pubdate data-updated="true">Mar 14<span>th</span>, 2014</time>
+        
+         | <a href="/blog/2014/03/14/java-8-date-and-time-api/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>在做java 8 time轉換傳統的 java.util.Date時，要記住一個大原則，就是java 8的 LocalXXX是沒時區的，所以，要想辦法補上時區之後，之後再轉成Instant，就很容易轉換到Date(雖然整個過程實在說不上<strong>容易</strong>)</p>
+
+<ul>
+<li>Date -> LocalDate</li>
+<li>Date -> LocalTime</li>
+<li>Date -> LocalDateTime</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="c1">// 先轉成 Instant</span>
+</span><span class='line'><span class="n">Instant</span> <span class="n">instant</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Date</span><span class="o">().</span><span class="na">toInstant</span><span class="o">();</span>
+</span><span class='line'><span class="c1">// LocalDateTime 有提供 ofInstant 的factory method</span>
+</span><span class='line'><span class="n">LocalDateTime</span> <span class="n">localDateTime</span> <span class="o">=</span> <span class="n">LocalDateTime</span><span class="o">.</span><span class="na">ofInstant</span><span class="o">(</span><span class="n">instant</span><span class="o">,</span> <span class="n">ZoneId</span><span class="o">.</span><span class="na">systemDefault</span><span class="o">());</span>  <span class="c1">//2014-06-06T00:41:19.550 </span>
+</span><span class='line'><span class="c1">// LocalDate,LocalTime 沒有提供 ofInstant，需先轉成 LocalDateTime 後再 toLocalDate() 或 toLocalTime()</span>
+</span><span class='line'><span class="n">LocalDate</span> <span class="n">localDate</span>  <span class="o">=</span> <span class="n">localDateTime</span><span class="o">.</span><span class="na">toLocalDate</span><span class="o">();</span> <span class="c1">//00:41:19.550</span>
+</span><span class='line'><span class="n">LocalTime</span> <span class="n">localTime</span> <span class="o">=</span> <span class="n">localDateTime</span><span class="o">.</span><span class="na">toLocalTime</span><span class="o">();</span> <span class="c1">//2014-06-06</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>LocalDate -> Date</li>
+<li>LocalTime -> Date</li>
+<li>LocalDateTime -> Date</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">LocalDateTime</span> <span class="n">localDateTime</span> <span class="o">=</span> <span class="n">LocalDateTime</span><span class="o">.</span><span class="na">now</span><span class="o">();</span>
+</span><span class='line'><span class="n">Instant</span> <span class="n">instant</span> <span class="o">=</span> <span class="n">localDateTime</span><span class="o">.</span><span class="na">toInstant</span><span class="o">(</span><span class="n">ZoneOffset</span><span class="o">.</span><span class="na">UTC</span><span class="o">);</span>
+</span><span class='line'><span class="n">Date</span> <span class="n">date</span> <span class="o">=</span> <span class="n">Date</span><span class="o">.</span><span class="na">from</span><span class="o">(</span><span class="n">instant</span><span class="o">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>日期格式</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">LocalDateTime</span><span class="o">.</span><span class="na">now</span><span class="o">().</span><span class="na">format</span><span class="o">(</span><span class="n">DateTimeFormatter</span><span class="o">.</span><span class="na">ofPattern</span><span class="o">(</span><span class="s">&quot;yyyy-MM-dd HH:mm&quot;</span><span class="o">));</span> <span class="c1">//2014-06-06 00:52</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>LocalDateTime 是沒有時區資訊的，所以，如果要轉成 epoch (unix time)，就必需要加入時區資訊，沒有加入時區，就無法直接轉換。</p>
+
+<p>LocalDateTime 對人來說，是使用上比較直覺的，不管在世界上任何一個地方 &#8216;2014-1-1 12:00:00&#8217; 都是指2014年第一天的中午12點，不用去管時區，但，如果把這個時間轉成格林威治時間(GMT)，或世界協調時間(UTC)，就必需加上時區的資料，才會正確，美國紐約的 &#8216;2014-1-1 12:00:00&#8217;跟台灣的&#8217;2014-1-1 12:00:00&#8217;, 一定是不一樣的，美國紐約是GMT - 4:00，台灣是GMT + 8:00</p>
+
+<p>java的 getMillis() 的是採 unix timesamp(epoch)的設計，所以，如果要轉成 MILL</p>
+
+<blockquote><p><a href="http://www.computerhope.com/jargon/e/epoch.htm">epoch</a>通常是指從1970/1/1 開始增加至今的秒數，最多可到2038-1-19 03:14:07 (32位元有號數最大值: 2,147,483,647)
+<img src="http://en.wikipedia.org/wiki/Year_2038_problem#mediaviewer/File:Year_2038_problem.gif" alt="img" /></p></blockquote>
+
+<h2>Resource</h2>
+
+<ul>
+<li><a href="http://docs.oracle.com/javase/tutorial/datetime/iso/legacy.html">http://docs.oracle.com/javase/tutorial/datetime/iso/legacy.html</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1342,447 +1855,6 @@ Date: Thu, 15 May 2014 06:14:11 GMT
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/07/29/restful-web-security/">Restful Web Security</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-07-29T10:36:00+08:00" pubdate data-updated="true">Jul 29<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/07/29/restful-web-security/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Restful Web Service 常用的保全方式有：</p>
-
-<ol>
-<li>session and cookies</li>
-<li>HTTP 標準認證/摘要驗證(digest authentication)</li>
-<li>API key</li>
-</ol>
-
-
-<p>各有各的優缺點:
-採用 session 記錄 user 的認證的方式，有違 rest stateless 的特性, cookies 只有 http 能用，而且測試上沒header來的方便。而 http 認證，是透過跳出的一認證的視窗的方式，也不是很適合在沒有browser下做操作，所以比較好的方式是採用 API key的方式來處理認證及保全(security)的問題。</p>
-
-<p>API key是指，由server產生一個包含 username password跟相關資料的 token，然後在<em>每個</em> request的 parameter 或 header 中置入這個 token 讓 server 判斷 request 是否合法。</p>
-
-<blockquote><p>token 放在 query string(request parameter)的方式
-這種方式的優點是方便，直覺，容易測試，但缺點是每個url裡都會多出一堆資訊在url，而且會有安全跟cache的問題
-建議 token 放header會比較好</p></blockquote>
-
-<p>要做權限管控，必須先了解需要管控的資源 (target resources) 有那些, 可要管控的等級，管控等級通常取決於登入時的角色，管控的等級大概如下:</p>
-
-<ol>
-<li>Application Level : 是否存取資源, ex: login user 才能存取或 anonymous 就可存取 (authentication &amp; authorization)</li>
-<li>Module Level      : 是否以進入某個功能模組,底下可能會有許多子功能模組</li>
-<li>Function Level    : 是否能使用對某個表單或單一功能, ex: 使用者管理</li>
-<li>Instance Level    : 特定資料列的存取權限, ex: 系統中有10個使用者，但只有對其中 3 個有存取權限</li>
-<li>Field Level       : 只針對特定欄位, ex: 使用者資料表中的敏感欄位(ex: 薪資) 只有特定人員可以存取</li>
-</ol>
-
-
-<p>1 ~ 3 是屬於功能性的權限管控</p>
-
-<p>4 ~ 5 是屬於資料的權限管控</p>
-
-<p>選定了要採用要在每個 header 置入 token 的方式後，再來就是設計要放入什麼樣的 token 在 header 當作辨識的依據()，以及採用什麼方式保護及驗証 toekn 的安全性及有效性。</p>
-
-<p>keyed-HMAC</p>
-
-<h2>Resources</h2>
-
-<ul>
-<li><a href="http://docs.aws.amazon.com/AmazonS3/latest/dev/RESTAuthentication.html">http://docs.aws.amazon.com/AmazonS3/latest/dev/RESTAuthentication.html</a></li>
-<li><a href="http://devcenter.kinvey.com/rest/guides/security">http://devcenter.kinvey.com/rest/guides/security</a></li>
-<li><a href="http://www.infoq.com/cn/news/2010/01/rest-api-authentication-schemes">http://www.infoq.com/cn/news/2010/01/rest-api-authentication-schemes</a></li>
-<li><p><a href="http://www.baeldung.com/security-spring">http://www.baeldung.com/security-spring</a></p>
-
-<h4>deprecate</h4></li>
-<li><p><a href="http://appsandsecurity.blogspot.tw/2011/04/rest-and-stateless-session-ids.html">http://appsandsecurity.blogspot.tw/2011/04/rest-and-stateless-session-ids.html</a></p></li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/07/15/mac-os-x-keyboard-shortcuts-for-terminal/">Mac OS X Keyboard Shortcuts for Terminal</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-07-15T16:53:00+08:00" pubdate data-updated="true">Jul 15<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/07/15/mac-os-x-keyboard-shortcuts-for-terminal/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Mac OS X 的 terminal 是 BASH, 以下是 BASH 的快捷鍵:</p>
-
-<pre><code>Ctrl + A    回行首
-Ctrl + E    去行尾
-Ctrl + L    清劃面
-Ctrl + U    清掉游標前的文字
-Ctrl + H    刪一個字元
-Ctrl + R    找執行過的指令 (好用)
-Ctrl + C    中斷執行
-Ctrl + D    跳出目前的shell
-Ctrl + Z    把目前執行的指令設到背影.要回到前景可透過 fg 指令
-Ctrl + W    刪除游標之前的字
-Ctrl + K    清除游標之後所有內容
-Ctrl + T    交換字元
-Esc + T     交換"字"
-Alt + F     往前移一個字
-Alt + B     往後移一個字
-Tab         自動完成
-</code></pre>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/07/07/python-101/">Python 101</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-07-07T12:10:00+08:00" pubdate data-updated="true">Jul 7<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/07/07/python-101/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>本文是初學 Python 遇到的一些問題留下的筆記:</p>
-
-<p>一開始進入 Python 的世界，除了程式語言本身外還有許多基本的工具要先了解:</p>
-
-<ul>
-<li>Python 2 V.S Python 3 : python 語言的版本</li>
-<li>easy_install V.S PIP : 套件安裝工具</li>
-<li>virtualenv            : 虛擬工作環境</li>
-</ul>
-
-
-<h4>Python 2 V.S Python 3</h4>
-
-<p>剛進行 Python 的世界，一開始就要面臨的抉擇，就是要用 Python 2 或 Python 3，因為是初學者，沒有任何包袱，當然是選 Python 3。 (也有人建議一律用2.7的語法撰寫，這樣可以同時相容於2跟3)</p>
-
-<blockquote><p>Mac Os 10.8 (mountain lion)預裝的是 Python 2.7.2，要自行昇級成 Python 3.x (目前 2013/07/07 3.3.2是 release 版)
-可以透過在 Mac OS 的terminal 下執行 <code>python -V</code> 取得版號</p></blockquote>
-
-<h4>Easy_install V.S PIP</h4>
-
-<p>一般的 lib 會提供 <code>python setup.py install</code></p>
-
-<p>easy_install 跟 <a href="http://www.pip-installer.org/">pip</a> 兩者都是套件安裝工具， easy_install 沒有反安裝套件的功能，而 pip 有反安裝套件的功能，所以建議是裝pip</p>
-
-<p>Mac Os 10.8 (mountain lion) 只有預裝 easy_install，要使用 pip，可以透過 easy_install 來安裝 pip
-安裝 pip 的指令如下 <code>$ easy_install pip</code>，如果無法安裝的話，可以直接抓 source 下來裝
-下載的url為 :</p>
-
-<p>必須先安裝<a href="http://pythonhosted.org/setuptools/">setuptools</a></p>
-
-<pre><code>$ curl -O https://bitbucket.org/pypa/setuptools/raw/0.8/ez_setup.py
-$ python ez_setup.py --user 
-</code></pre>
-
-<p>才能再裝 pip</p>
-
-<pre><code>$ curl -O https://pypi.python.org/packages/source/p/pip/pip-1.3.tar.gz
-$ tar xzf pip-1.3.tar.gz
-$ cd pip-1.3
-$ sudo python setup.py install
-</code></pre>
-
-<p>裝完後檢查一下執行一下 <code>pip</code> 指令，如果不能執行，可能是Path沒設好,Path變數是在 <code>~/.bash_profile</code> 如果沒這個檔，可以自已新增一個</p>
-
-<pre><code>export PATH=/System/Library/Frameworks/Python.framework/Versions/3.3/bin:/Users/kent/Library/Python/3.3/bin:$PATH
-</code></pre>
-
-<p>pip 的使用方式</p>
-
-<pre><code>pip list   列出目前安裝的lib
-pip search 搜尋lib
-pip install 安裝lib   
-</code></pre>
-
-<p>ex:</p>
-
-<pre><code>sudo pip install beautifulsoup4   # 安裝 beautifulsoup lib (一個 html parser)   
-</code></pre>
-
-<h4>Testing</h4>
-
-<p>python的 test framework有好幾套，可以自行選擇適合的</p>
-
-<ul>
-<li>unittest 內建的，不用另外再抓lib</li>
-<li>nosetest 可獨立執行某個 test method 或一整個 test suite 的功能</li>
-<li>doctest  測試 python doc 的邏輯</li>
-</ul>
-
-
-<h4>初學者必備技能</h4>
-
-<ul>
-<li><p>python Interpreter (直譯器)
-直譯式語言的優點就是會有直譯器可以用，在直譯器執行程式，可以立即得到執行的結果，在不了解API的用法時，我通常會在執譯器上先做測試，或者直接用 unittest 寫<em>Learning Test</em>。
-平常沒事也可以掛著查 API doc</p></li>
-<li><p>help([object])<br/>
-列出說明，會說明該 object 有那些 methods 及使用方式</p></li>
-<li>type(variable)
-取得 object 的型別，撰寫弱型別語言最大的痛苦就是不知道變數是什麼型別，這 type 至少可以在runtime取得變數的型別</li>
-<li>dir() 列出 object 內所有的 methods</li>
-<li>pprint() 列出物件結構</li>
-</ul>
-
-
-<h2>Python Language</h2>
-
-<h4>連算子</h4>
-
-<ul>
-<li>沒有增量 <code>++</code>，減量 <code>--</code> 運算子</li>
-<li>+=，-= 這是合法的運算子</li>
-<li>除法用<code>/</code> , 整數除法用 <code>//</code></li>
-<li>一個<code>*</code>是乘，兩個<code>*</code>是幂(次方)英文為<em>power</em> <code>2 * 3 =6</code> , <code>2 ** 3 = 8</code></li>
-</ul>
-
-
-<h4>字串</h4>
-
-<ul>
-<li>字串可用單引號或雙引號，單引號較常用</li>
-<li>字串前面加 <code>r</code> 表示為 raw string, ex: raw = r&#8217;this is a \t\n raw string&#8217;</li>
-<li>字串前面加 <code>u</code> 表示為 unicode string, ex: ustring = u&#8217;A unicode \u018e string \xf1&#8217;</li>
-</ul>
-
-
-<h4>條件式結構</h4>
-
-<pre><code> if speed &gt;= 80:
-    print 'License and registration please'
-    if mood == 'terrible' or speed &gt;= 100:
-      print 'You have the right to remain silent.'
-    elif mood == 'bad' or speed &gt;= 90:
-      print "I'm going to have to write you a ticket."
-      write_ticket()
-    else:
-      print "Let's try to keep it under 80 ok?"
-</code></pre>
-
-<p>較簡潔的語法</p>
-
-<pre><code>if speed &gt;= 80: print 'You are so busted'
-else: print 'Have a nice day'         
-</code></pre>
-
-<ul>
-<li>python不是用 {}，也不是用begin/end，而是用縮排跟冒號<code>:</code>來做為區塊結構的範圍</li>
-<li>不是用 <code>else if</code> 而是 <code>elif</code></li>
-</ul>
-
-
-<h4>List, Tuple, Dictionary</h4>
-
-<pre><code>a = [ 1, 3.4, 'hello' ] # A list
-b = ( 10, 20, 30 )      # A tuple   c = { 'a': 3, 'b': 42 } # A dictionary
-</code></pre>
-
-<p>list 可視為 array，語法如下</p>
-
-<p>list = [&#8216;larry&#8217;, &#8216;curly&#8217;, &#8216;moe&#8217;]
-list = [1, 2, 3.4, &#8216;hello&#8217;, &#8216;word&#8217;] # 可以放不同類型的內容</p>
-
-<p>list 還有一個很特別的一點是可以直接在 list 裡執行 expression，叫 List Comprehensions,
-語法為 [expr for var in list ]</p>
-
-<p>範例:</p>
-
-<pre><code>nums = [1, 2, 3, 4]
-squares = [ n * n for n in nums ]   ## [1, 4, 9, 16]
-</code></pre>
-
-<p>tuple 很像 list，但tuple是不可變的，語法如下 <code>tuple = (1, 2, 'hi')</code></p>
-
-<pre><code>a = ()      # 0-tuple (empty tuple) b = (item,) # 1-tuple (note the trailing comma) c = item,   # 1-tuple (note the trailing comma)tuple裡的值，可以容易再被獨立指派成變數，ex:
-full_name = ('kent','chiu')
-first_name, last_name = full_name # 把full_name的兩個值指派給 first_name, last_name
-print(first_name)                 # kent
-print(last_name)                  # chiu
-</code></pre>
-
-<h4>TBD</h4>
-
-<ul>
-<li>yield</li>
-<li>decorator (@staticmethod)</li>
-<li>list Ellipsis</li>
-<li>class method (<code>__xxx__</code>)</li>
-</ul>
-
-
-<h2>學習資源</h2>
-
-<ul>
-<li><a href="https://developers.google.com/edu/python/">https://developers.google.com/edu/python/</a>  - Google Python Course</li>
-<li><a href="http://getpython3.com/diveintopython3">http://getpython3.com/diveintopython3</a> - Dive Into Python 3 免費電子書</li>
-<li><a href="http://chimera.labs.oreilly.com/books/1234000000754/index.html">http://chimera.labs.oreilly.com/books/1234000000754/index.html</a> - Test-Driven Web Development with Python</li>
-<li><a href="http://chimera.labs.oreilly.com/books/1230000000393/index.html">http://chimera.labs.oreilly.com/books/1230000000393/index.html</a> - orally python cookbook (<em>問題-解法</em>導向線上電子書)</li>
-<li><a href="http://docs.python.org/2/library/">http://docs.python.org/2/library/</a> - python 標準函式庫文件</li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/06/25/url-encoding/">URL Encoding</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-06-25T11:01:00+08:00" pubdate data-updated="true">Jun 25<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/06/25/url-encoding/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><code>https://bob:bobby@www.lunatech.com:8080/file;p=1?q=2#third</code></p>
-
-<ul>
-<li>Scheme           : https</li>
-<li>User             : bob</li>
-<li>Password         :bobby</li>
-<li>Host address     : www.lunatech.com</li>
-<li>Port             : 8080</li>
-<li>Path             : /file</li>
-<li>Path parameters  : p=1</li>
-<li>Query parameters : q=2</li>
-<li>Fragment         : third</li>
-</ul>
-
-
-<h6>Path parameters</h6>
-
-<p>Path parameters 又叫 Matrix Parameters, 每個 <em>path segment</em> 可以有自已的 Matrix Parameters，這在 Restful style 的設計上有時會很有用。</p>
-
-<h6>Fragment</h6>
-
-<p>Fragment 是用來指出整份 URL resrouce 的某一特定部份，在網頁設計上是用來做定位用的錨點 (anchor)</p>
-
-<h4>保留字處理</h4>
-
-<p>path 跟 query string 對保留字的處理方式不一樣，所以，在做編解碼時，要分開處理</p>
-
-<p>ex:
-空白字元在 path 會被編成 %20 , &#8216;+&#8217; 會被編成 &#8216;_&#8217; ,但在 query string 空白字元會被編成 &#8216;+&#8217; or &#8216;%20&#8217;, &#8216;+&#8217; 會被編成 &#8216;%2B&#8217;</p>
-
-<p>所以，如果有一個<code>blue+light blue</code>同時放在 path 跟 query string，那結果會是這樣</p>
-
-<pre><code>http://example.com/blue+light%20blue?blue%2Blight+blue
-</code></pre>
-
-<h4>編碼、中文與 Unicode</h4>
-
-<p>RFC 1738 並沒有規定要用什麼樣的編碼，所以，一般會在 HTTP header 指定 encoding 或採用 HTML page encoding</p>
-
-<h2>Resource</h2>
-
-<ul>
-<li><a href="http://blog.lunatech.com/2009/02/03/what-every-web-developer-must-know-about-url-encoding">http://blog.lunatech.com/2009/02/03/what-every-web-developer-must-know-about-url-encoding</a> - What every web developer must know about URL encoding</li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -1798,34 +1870,34 @@ print(last_name)                  # chiu
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/03/14/umlet-sequence-diagram/">UMLet Sequence Diagram</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/03/14/java-8-lambda/">Java 8 Lambda</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/03/14/java-8-utility-object/">Java 8 好用工具箱</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/03/14/java-8-date-and-time-api/">Java 8 時間、日期 API</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/12/28/python-type-hint-in-idea/">Python Type Hint in IDEA</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/12/28/mac-dev-setup/">“Mac開發環境設定”</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/11/16/reload-tomcat-web-application-by-jmx/">透過JMX重新載入Tomcat上的Web Application</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/08/31/access-imgur-with-api/">Access Imgur With API</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/08/30/spring-reference-reading-notes/">Spring Reference Reading Notes</a>
       </li>
     
   </ul>
 </section>
 <section>
   <h1>Category Cloud</h1>
-    <span id="tag-cloud"><a href='/blog/categories/actionbar' style='font-size: 102.4%'>actionbar(1)</a> <a href='/blog/categories/android' style='font-size: 160.0%'>android(25)</a> <a href='/blog/categories/apache' style='font-size: 116.8%'>apache(7)</a> <a href='/blog/categories/authentication' style='font-size: 102.4%'>authentication(1)</a> <a href='/blog/categories/authorization' style='font-size: 102.4%'>authorization(1)</a> <a href='/blog/categories/bash' style='font-size: 109.6%'>bash(4)</a> <a href='/blog/categories/best-practice' style='font-size: 102.4%'>best_practice(1)</a> <a href='/blog/categories/book' style='font-size: 102.4%'>book(1)</a> <a href='/blog/categories/broadcast-receiver' style='font-size: 104.8%'>broadcast_receiver(2)</a> <a href='/blog/categories/cdi' style='font-size: 104.8%'>cdi(2)</a> <a href='/blog/categories/centos' style='font-size: 112.0%'>centos(5)</a> <a href='/blog/categories/clean-code' style='font-size: 102.4%'>clean code(1)</a> <a href='/blog/categories/command' style='font-size: 112.0%'>command(5)</a> <a href='/blog/categories/concurrency' style='font-size: 102.4%'>concurrency(1)</a> <a href='/blog/categories/curl' style='font-size: 102.4%'>curl(1)</a> <a href='/blog/categories/database' style='font-size: 114.4%'>database(6)</a> <a href='/blog/categories/datetime' style='font-size: 102.4%'>datetime(1)</a> <a href='/blog/categories/di' style='font-size: 104.8%'>di(2)</a> <a href='/blog/categories/drawable' style='font-size: 102.4%'>drawable(1)</a> <a href='/blog/categories/ec' style='font-size: 102.4%'>ec(1)</a> <a href='/blog/categories/eclipse' style='font-size: 102.4%'>eclipse(1)</a> <a href='/blog/categories/ecshop' style='font-size: 116.8%'>ecshop(7)</a> <a href='/blog/categories/editor' style='font-size: 102.4%'>editor(1)</a> <a href='/blog/categories/emulator' style='font-size: 102.4%'>emulator(1)</a> <a href='/blog/categories/encoding' style='font-size: 102.4%'>encoding(1)</a> <a href='/blog/categories/english' style='font-size: 133.6%'>english(14)</a> <a href='/blog/categories/excel' style='font-size: 104.8%'>excel(2)</a> <a href='/blog/categories/extjs' style='font-size: 104.8%'>extjs(2)</a> <a href='/blog/categories/gesture' style='font-size: 102.4%'>gesture(1)</a> <a href='/blog/categories/git' style='font-size: 109.6%'>git(4)</a> <a href='/blog/categories/git-flow' style='font-size: 102.4%'>git-flow(1)</a> <a href='/blog/categories/guava' style='font-size: 104.8%'>guava(2)</a> <a href='/blog/categories/guice' style='font-size: 102.4%'>guice(1)</a> <a href='/blog/categories/hamcrest' style='font-size: 102.4%'>hamcrest(1)</a> <a href='/blog/categories/i18n' style='font-size: 102.4%'>i18n(1)</a> <a href='/blog/categories/ide' style='font-size: 102.4%'>IDE(1)</a> <a href='/blog/categories/idea' style='font-size: 104.8%'>IDEA(2)</a> <a href='/blog/categories/imgur' style='font-size: 102.4%'>imgur(1)</a> <a href='/blog/categories/injection' style='font-size: 102.4%'>injection(1)</a> <a href='/blog/categories/intent' style='font-size: 102.4%'>intent(1)</a> <a href='/blog/categories/ireport' style='font-size: 104.8%'>ireport(2)</a> <a href='/blog/categories/jasterreport' style='font-size: 104.8%'>jasterreport(2)</a> <a href='/blog/categories/java' style='font-size: 152.8%'>java(22)</a> <a href='/blog/categories/java-ee' style='font-size: 112.0%'>java_ee(5)</a> <a href='/blog/categories/jms' style='font-size: 102.4%'>jms(1)</a> <a href='/blog/categories/jmx' style='font-size: 102.4%'>JMX(1)</a> <a href='/blog/categories/joda' style='font-size: 102.4%'>joda(1)</a> <a href='/blog/categories/jpa' style='font-size: 102.4%'>jpa(1)</a> <a href='/blog/categories/jquery' style='font-size: 102.4%'>jquery(1)</a> <a href='/blog/categories/jsp' style='font-size: 104.8%'>jsp(2)</a> <a href='/blog/categories/junit' style='font-size: 102.4%'>junit(1)</a> <a href='/blog/categories/jvm' style='font-size: 104.8%'>jvm(2)</a> <a href='/blog/categories/kohana' style='font-size: 102.4%'>kohana(1)</a> <a href='/blog/categories/l10n' style='font-size: 102.4%'>l10n(1)</a> <a href='/blog/categories/layout' style='font-size: 102.4%'>layout(1)</a> <a href='/blog/categories/linux' style='font-size: 126.4%'>linux(11)</a> <a href='/blog/categories/listview' style='font-size: 104.8%'>listview(2)</a> <a href='/blog/categories/logger' style='font-size: 102.4%'>logger(1)</a> <a href='/blog/categories/m2eclilpse' style='font-size: 102.4%'>m2eclilpse(1)</a> <a href='/blog/categories/mac' style='font-size: 107.2%'>mac(3)</a> <a href='/blog/categories/mat' style='font-size: 102.4%'>mat(1)</a> <a href='/blog/categories/maven' style='font-size: 112.0%'>maven(5)</a> <a href='/blog/categories/memory' style='font-size: 102.4%'>memory(1)</a> <a href='/blog/categories/menu' style='font-size: 102.4%'>menu(1)</a> <a href='/blog/categories/mindmap' style='font-size: 104.8%'>mindmap(2)</a> <a href='/blog/categories/misc' style='font-size: 102.4%'>misc(1)</a> <a href='/blog/categories/mysql' style='font-size: 116.8%'>mysql(7)</a> <a href='/blog/categories/nio' style='font-size: 102.4%'>nio(1)</a> <a href='/blog/categories/octopress' style='font-size: 102.4%'>octopress(1)</a> <a href='/blog/categories/oracle' style='font-size: 102.4%'>oracle(1)</a> <a href='/blog/categories/osgi' style='font-size: 107.2%'>osgi(3)</a> <a href='/blog/categories/pdf' style='font-size: 104.8%'>pdf(2)</a> <a href='/blog/categories/pdt' style='font-size: 112.0%'>pdt(5)</a> <a href='/blog/categories/pear' style='font-size: 104.8%'>pear(2)</a> <a href='/blog/categories/performace' style='font-size: 102.4%'>performace(1)</a> <a href='/blog/categories/pgsql' style='font-size: 102.4%'>pgsql(1)</a> <a href='/blog/categories/php' style='font-size: 114.4%'>php(6)</a> <a href='/blog/categories/play-framework' style='font-size: 102.4%'>play_framework(1)</a> <a href='/blog/categories/pm' style='font-size: 112.0%'>pm(5)</a> <a href='/blog/categories/postgresql' style='font-size: 104.8%'>postgresql(2)</a> <a href='/blog/categories/profile' style='font-size: 102.4%'>profile(1)</a> <a href='/blog/categories/programming' style='font-size: 128.8%'>programming(12)</a> <a href='/blog/categories/python' style='font-size: 104.8%'>python(2)</a> <a href='/blog/categories/re' style='font-size: 102.4%'>re(1)</a> <a href='/blog/categories/refactory' style='font-size: 102.4%'>refactory(1)</a> <a href='/blog/categories/rest' style='font-size: 116.8%'>rest(7)</a> <a href='/blog/categories/roboguice' style='font-size: 102.4%'>roboguice(1)</a> <a href='/blog/categories/sbt' style='font-size: 102.4%'>sbt(1)</a> <a href='/blog/categories/scala' style='font-size: 109.6%'>scala(4)</a> <a href='/blog/categories/security' style='font-size: 104.8%'>security(2)</a> <a href='/blog/categories/service' style='font-size: 104.8%'>service(2)</a> <a href='/blog/categories/shiro' style='font-size: 102.4%'>shiro(1)</a> <a href='/blog/categories/shortchut' style='font-size: 102.4%'>shortchut(1)</a> <a href='/blog/categories/smarty' style='font-size: 107.2%'>smarty(3)</a> <a href='/blog/categories/spring' style='font-size: 104.8%'>spring(2)</a> <a href='/blog/categories/sql' style='font-size: 102.4%'>sql(1)</a> <a href='/blog/categories/style' style='font-size: 102.4%'>style(1)</a> <a href='/blog/categories/tdd' style='font-size: 102.4%'>tdd(1)</a> <a href='/blog/categories/testing' style='font-size: 124.0%'>testing(10)</a> <a href='/blog/categories/theme' style='font-size: 102.4%'>theme(1)</a> <a href='/blog/categories/tips' style='font-size: 104.8%'>tips(2)</a> <a href='/blog/categories/tomcat' style='font-size: 102.4%'>tomcat(1)</a> <a href='/blog/categories/ubuntu' style='font-size: 119.2%'>ubuntu(8)</a> <a href='/blog/categories/ui' style='font-size: 104.8%'>ui(2)</a> <a href='/blog/categories/vim' style='font-size: 104.8%'>vim(2)</a> <a href='/blog/categories/web' style='font-size: 104.8%'>web(2)</a> <a href='/blog/categories/windows' style='font-size: 102.4%'>windows(1)</a> <a href='/blog/categories/xampp' style='font-size: 102.4%'>xampp(1)</a> <a href='/blog/categories/xml' style='font-size: 104.8%'>xml(2)</a> </span>
+    <span id="tag-cloud"><a href='/blog/categories/actionbar' style='font-size: 102.4%'>actionbar(1)</a> <a href='/blog/categories/android' style='font-size: 160.0%'>android(25)</a> <a href='/blog/categories/apache' style='font-size: 116.8%'>apache(7)</a> <a href='/blog/categories/authentication' style='font-size: 102.4%'>authentication(1)</a> <a href='/blog/categories/authorization' style='font-size: 102.4%'>authorization(1)</a> <a href='/blog/categories/bash' style='font-size: 109.6%'>bash(4)</a> <a href='/blog/categories/best-practice' style='font-size: 102.4%'>best_practice(1)</a> <a href='/blog/categories/book' style='font-size: 102.4%'>book(1)</a> <a href='/blog/categories/broadcast-receiver' style='font-size: 104.8%'>broadcast_receiver(2)</a> <a href='/blog/categories/cdi' style='font-size: 104.8%'>cdi(2)</a> <a href='/blog/categories/centos' style='font-size: 112.0%'>centos(5)</a> <a href='/blog/categories/clean-code' style='font-size: 102.4%'>clean code(1)</a> <a href='/blog/categories/clojure' style='font-size: 102.4%'>clojure(1)</a> <a href='/blog/categories/command' style='font-size: 112.0%'>command(5)</a> <a href='/blog/categories/concurrency' style='font-size: 102.4%'>concurrency(1)</a> <a href='/blog/categories/curl' style='font-size: 102.4%'>curl(1)</a> <a href='/blog/categories/database' style='font-size: 114.4%'>database(6)</a> <a href='/blog/categories/datetime' style='font-size: 102.4%'>datetime(1)</a> <a href='/blog/categories/di' style='font-size: 104.8%'>di(2)</a> <a href='/blog/categories/drawable' style='font-size: 102.4%'>drawable(1)</a> <a href='/blog/categories/ec' style='font-size: 102.4%'>ec(1)</a> <a href='/blog/categories/eclipse' style='font-size: 102.4%'>eclipse(1)</a> <a href='/blog/categories/ecshop' style='font-size: 116.8%'>ecshop(7)</a> <a href='/blog/categories/editor' style='font-size: 102.4%'>editor(1)</a> <a href='/blog/categories/emulator' style='font-size: 102.4%'>emulator(1)</a> <a href='/blog/categories/encoding' style='font-size: 102.4%'>encoding(1)</a> <a href='/blog/categories/english' style='font-size: 133.6%'>english(14)</a> <a href='/blog/categories/excel' style='font-size: 104.8%'>excel(2)</a> <a href='/blog/categories/extjs' style='font-size: 104.8%'>extjs(2)</a> <a href='/blog/categories/functional-programming' style='font-size: 102.4%'>functional programming(1)</a> <a href='/blog/categories/gesture' style='font-size: 102.4%'>gesture(1)</a> <a href='/blog/categories/git' style='font-size: 109.6%'>git(4)</a> <a href='/blog/categories/git-flow' style='font-size: 102.4%'>git-flow(1)</a> <a href='/blog/categories/guava' style='font-size: 104.8%'>guava(2)</a> <a href='/blog/categories/guice' style='font-size: 102.4%'>guice(1)</a> <a href='/blog/categories/hamcrest' style='font-size: 102.4%'>hamcrest(1)</a> <a href='/blog/categories/i18n' style='font-size: 102.4%'>i18n(1)</a> <a href='/blog/categories/ide' style='font-size: 102.4%'>IDE(1)</a> <a href='/blog/categories/idea' style='font-size: 104.8%'>IDEA(2)</a> <a href='/blog/categories/imgur' style='font-size: 102.4%'>imgur(1)</a> <a href='/blog/categories/injection' style='font-size: 102.4%'>injection(1)</a> <a href='/blog/categories/intent' style='font-size: 102.4%'>intent(1)</a> <a href='/blog/categories/ireport' style='font-size: 104.8%'>ireport(2)</a> <a href='/blog/categories/jasterreport' style='font-size: 104.8%'>jasterreport(2)</a> <a href='/blog/categories/java' style='font-size: 152.8%'>java(22)</a> <a href='/blog/categories/java8' style='font-size: 104.8%'>java8(2)</a> <a href='/blog/categories/java-ee' style='font-size: 112.0%'>java_ee(5)</a> <a href='/blog/categories/jms' style='font-size: 102.4%'>jms(1)</a> <a href='/blog/categories/jmx' style='font-size: 102.4%'>JMX(1)</a> <a href='/blog/categories/joda' style='font-size: 102.4%'>joda(1)</a> <a href='/blog/categories/jpa' style='font-size: 102.4%'>jpa(1)</a> <a href='/blog/categories/jquery' style='font-size: 102.4%'>jquery(1)</a> <a href='/blog/categories/jsp' style='font-size: 104.8%'>jsp(2)</a> <a href='/blog/categories/junit' style='font-size: 102.4%'>junit(1)</a> <a href='/blog/categories/jvm' style='font-size: 104.8%'>jvm(2)</a> <a href='/blog/categories/kohana' style='font-size: 102.4%'>kohana(1)</a> <a href='/blog/categories/l10n' style='font-size: 102.4%'>l10n(1)</a> <a href='/blog/categories/lambda' style='font-size: 102.4%'>lambda(1)</a> <a href='/blog/categories/layout' style='font-size: 102.4%'>layout(1)</a> <a href='/blog/categories/linux' style='font-size: 126.4%'>linux(11)</a> <a href='/blog/categories/listview' style='font-size: 104.8%'>listview(2)</a> <a href='/blog/categories/logger' style='font-size: 102.4%'>logger(1)</a> <a href='/blog/categories/m2eclilpse' style='font-size: 102.4%'>m2eclilpse(1)</a> <a href='/blog/categories/mac' style='font-size: 107.2%'>mac(3)</a> <a href='/blog/categories/mat' style='font-size: 102.4%'>mat(1)</a> <a href='/blog/categories/maven' style='font-size: 112.0%'>maven(5)</a> <a href='/blog/categories/memory' style='font-size: 102.4%'>memory(1)</a> <a href='/blog/categories/menu' style='font-size: 102.4%'>menu(1)</a> <a href='/blog/categories/mindmap' style='font-size: 104.8%'>mindmap(2)</a> <a href='/blog/categories/misc' style='font-size: 102.4%'>misc(1)</a> <a href='/blog/categories/mysql' style='font-size: 116.8%'>mysql(7)</a> <a href='/blog/categories/nio' style='font-size: 102.4%'>nio(1)</a> <a href='/blog/categories/octopress' style='font-size: 102.4%'>octopress(1)</a> <a href='/blog/categories/oracle' style='font-size: 102.4%'>oracle(1)</a> <a href='/blog/categories/osgi' style='font-size: 107.2%'>osgi(3)</a> <a href='/blog/categories/pdf' style='font-size: 104.8%'>pdf(2)</a> <a href='/blog/categories/pdt' style='font-size: 112.0%'>pdt(5)</a> <a href='/blog/categories/pear' style='font-size: 104.8%'>pear(2)</a> <a href='/blog/categories/performace' style='font-size: 102.4%'>performace(1)</a> <a href='/blog/categories/pgsql' style='font-size: 102.4%'>pgsql(1)</a> <a href='/blog/categories/php' style='font-size: 114.4%'>php(6)</a> <a href='/blog/categories/play-framework' style='font-size: 102.4%'>play_framework(1)</a> <a href='/blog/categories/pm' style='font-size: 112.0%'>pm(5)</a> <a href='/blog/categories/postgresql' style='font-size: 104.8%'>postgresql(2)</a> <a href='/blog/categories/profile' style='font-size: 102.4%'>profile(1)</a> <a href='/blog/categories/programming' style='font-size: 128.8%'>programming(12)</a> <a href='/blog/categories/python' style='font-size: 104.8%'>python(2)</a> <a href='/blog/categories/re' style='font-size: 102.4%'>re(1)</a> <a href='/blog/categories/refactory' style='font-size: 102.4%'>refactory(1)</a> <a href='/blog/categories/rest' style='font-size: 116.8%'>rest(7)</a> <a href='/blog/categories/roboguice' style='font-size: 102.4%'>roboguice(1)</a> <a href='/blog/categories/sbt' style='font-size: 102.4%'>sbt(1)</a> <a href='/blog/categories/scala' style='font-size: 109.6%'>scala(4)</a> <a href='/blog/categories/security' style='font-size: 104.8%'>security(2)</a> <a href='/blog/categories/sequence-diagram' style='font-size: 102.4%'>sequence_diagram(1)</a> <a href='/blog/categories/service' style='font-size: 104.8%'>service(2)</a> <a href='/blog/categories/shiro' style='font-size: 102.4%'>shiro(1)</a> <a href='/blog/categories/shortchut' style='font-size: 102.4%'>shortchut(1)</a> <a href='/blog/categories/smarty' style='font-size: 107.2%'>smarty(3)</a> <a href='/blog/categories/spring' style='font-size: 104.8%'>spring(2)</a> <a href='/blog/categories/sql' style='font-size: 102.4%'>sql(1)</a> <a href='/blog/categories/style' style='font-size: 102.4%'>style(1)</a> <a href='/blog/categories/tdd' style='font-size: 102.4%'>tdd(1)</a> <a href='/blog/categories/testing' style='font-size: 124.0%'>testing(10)</a> <a href='/blog/categories/theme' style='font-size: 102.4%'>theme(1)</a> <a href='/blog/categories/tips' style='font-size: 104.8%'>tips(2)</a> <a href='/blog/categories/tomcat' style='font-size: 102.4%'>tomcat(1)</a> <a href='/blog/categories/ubuntu' style='font-size: 119.2%'>ubuntu(8)</a> <a href='/blog/categories/ui' style='font-size: 104.8%'>ui(2)</a> <a href='/blog/categories/uml' style='font-size: 102.4%'>uml(1)</a> <a href='/blog/categories/umlet' style='font-size: 102.4%'>umlet(1)</a> <a href='/blog/categories/vim' style='font-size: 104.8%'>vim(2)</a> <a href='/blog/categories/web' style='font-size: 104.8%'>web(2)</a> <a href='/blog/categories/windows' style='font-size: 102.4%'>windows(1)</a> <a href='/blog/categories/xampp' style='font-size: 102.4%'>xampp(1)</a> <a href='/blog/categories/xml' style='font-size: 104.8%'>xml(2)</a> </span>
 </section>
 <section>
   <h1>Categories</h1>
-    <ul id="category-list"><li><a href='/blog/categories/actionbar'>actionbar (1)</a></li><li><a href='/blog/categories/android'>android (25)</a></li><li><a href='/blog/categories/apache'>apache (7)</a></li><li><a href='/blog/categories/authentication'>authentication (1)</a></li><li><a href='/blog/categories/authorization'>authorization (1)</a></li><li><a href='/blog/categories/bash'>bash (4)</a></li><li><a href='/blog/categories/best-practice'>best_practice (1)</a></li><li><a href='/blog/categories/book'>book (1)</a></li><li><a href='/blog/categories/broadcast-receiver'>broadcast_receiver (2)</a></li><li><a href='/blog/categories/cdi'>cdi (2)</a></li><li><a href='/blog/categories/centos'>centos (5)</a></li><li><a href='/blog/categories/clean-code'>clean code (1)</a></li><li><a href='/blog/categories/command'>command (5)</a></li><li><a href='/blog/categories/concurrency'>concurrency (1)</a></li><li><a href='/blog/categories/curl'>curl (1)</a></li><li><a href='/blog/categories/database'>database (6)</a></li><li><a href='/blog/categories/datetime'>datetime (1)</a></li><li><a href='/blog/categories/di'>di (2)</a></li><li><a href='/blog/categories/drawable'>drawable (1)</a></li><li><a href='/blog/categories/ec'>ec (1)</a></li><li><a href='/blog/categories/eclipse'>eclipse (1)</a></li><li><a href='/blog/categories/ecshop'>ecshop (7)</a></li><li><a href='/blog/categories/editor'>editor (1)</a></li><li><a href='/blog/categories/emulator'>emulator (1)</a></li><li><a href='/blog/categories/encoding'>encoding (1)</a></li><li><a href='/blog/categories/english'>english (14)</a></li><li><a href='/blog/categories/excel'>excel (2)</a></li><li><a href='/blog/categories/extjs'>extjs (2)</a></li><li><a href='/blog/categories/gesture'>gesture (1)</a></li><li><a href='/blog/categories/git'>git (4)</a></li><li><a href='/blog/categories/git-flow'>git-flow (1)</a></li><li><a href='/blog/categories/guava'>guava (2)</a></li><li><a href='/blog/categories/guice'>guice (1)</a></li><li><a href='/blog/categories/hamcrest'>hamcrest (1)</a></li><li><a href='/blog/categories/i18n'>i18n (1)</a></li><li><a href='/blog/categories/ide'>IDE (1)</a></li><li><a href='/blog/categories/idea'>IDEA (2)</a></li><li><a href='/blog/categories/imgur'>imgur (1)</a></li><li><a href='/blog/categories/injection'>injection (1)</a></li><li><a href='/blog/categories/intent'>intent (1)</a></li><li><a href='/blog/categories/ireport'>ireport (2)</a></li><li><a href='/blog/categories/jasterreport'>jasterreport (2)</a></li><li><a href='/blog/categories/java'>java (22)</a></li><li><a href='/blog/categories/java-ee'>java_ee (5)</a></li><li><a href='/blog/categories/jms'>jms (1)</a></li><li><a href='/blog/categories/jmx'>JMX (1)</a></li><li><a href='/blog/categories/joda'>joda (1)</a></li><li><a href='/blog/categories/jpa'>jpa (1)</a></li><li><a href='/blog/categories/jquery'>jquery (1)</a></li><li><a href='/blog/categories/jsp'>jsp (2)</a></li><li><a href='/blog/categories/junit'>junit (1)</a></li><li><a href='/blog/categories/jvm'>jvm (2)</a></li><li><a href='/blog/categories/kohana'>kohana (1)</a></li><li><a href='/blog/categories/l10n'>l10n (1)</a></li><li><a href='/blog/categories/layout'>layout (1)</a></li><li><a href='/blog/categories/linux'>linux (11)</a></li><li><a href='/blog/categories/listview'>listview (2)</a></li><li><a href='/blog/categories/logger'>logger (1)</a></li><li><a href='/blog/categories/m2eclilpse'>m2eclilpse (1)</a></li><li><a href='/blog/categories/mac'>mac (3)</a></li><li><a href='/blog/categories/mat'>mat (1)</a></li><li><a href='/blog/categories/maven'>maven (5)</a></li><li><a href='/blog/categories/memory'>memory (1)</a></li><li><a href='/blog/categories/menu'>menu (1)</a></li><li><a href='/blog/categories/mindmap'>mindmap (2)</a></li><li><a href='/blog/categories/misc'>misc (1)</a></li><li><a href='/blog/categories/mysql'>mysql (7)</a></li><li><a href='/blog/categories/nio'>nio (1)</a></li><li><a href='/blog/categories/octopress'>octopress (1)</a></li><li><a href='/blog/categories/oracle'>oracle (1)</a></li><li><a href='/blog/categories/osgi'>osgi (3)</a></li><li><a href='/blog/categories/pdf'>pdf (2)</a></li><li><a href='/blog/categories/pdt'>pdt (5)</a></li><li><a href='/blog/categories/pear'>pear (2)</a></li><li><a href='/blog/categories/performace'>performace (1)</a></li><li><a href='/blog/categories/pgsql'>pgsql (1)</a></li><li><a href='/blog/categories/php'>php (6)</a></li><li><a href='/blog/categories/play-framework'>play_framework (1)</a></li><li><a href='/blog/categories/pm'>pm (5)</a></li><li><a href='/blog/categories/postgresql'>postgresql (2)</a></li><li><a href='/blog/categories/profile'>profile (1)</a></li><li><a href='/blog/categories/programming'>programming (12)</a></li><li><a href='/blog/categories/python'>python (2)</a></li><li><a href='/blog/categories/re'>re (1)</a></li><li><a href='/blog/categories/refactory'>refactory (1)</a></li><li><a href='/blog/categories/rest'>rest (7)</a></li><li><a href='/blog/categories/roboguice'>roboguice (1)</a></li><li><a href='/blog/categories/sbt'>sbt (1)</a></li><li><a href='/blog/categories/scala'>scala (4)</a></li><li><a href='/blog/categories/security'>security (2)</a></li><li><a href='/blog/categories/service'>service (2)</a></li><li><a href='/blog/categories/shiro'>shiro (1)</a></li><li><a href='/blog/categories/shortchut'>shortchut (1)</a></li><li><a href='/blog/categories/smarty'>smarty (3)</a></li><li><a href='/blog/categories/spring'>spring (2)</a></li><li><a href='/blog/categories/sql'>sql (1)</a></li><li><a href='/blog/categories/style'>style (1)</a></li><li><a href='/blog/categories/tdd'>tdd (1)</a></li><li><a href='/blog/categories/testing'>testing (10)</a></li><li><a href='/blog/categories/theme'>theme (1)</a></li><li><a href='/blog/categories/tips'>tips (2)</a></li><li><a href='/blog/categories/tomcat'>tomcat (1)</a></li><li><a href='/blog/categories/ubuntu'>ubuntu (8)</a></li><li><a href='/blog/categories/ui'>ui (2)</a></li><li><a href='/blog/categories/vim'>vim (2)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/windows'>windows (1)</a></li><li><a href='/blog/categories/xampp'>xampp (1)</a></li><li><a href='/blog/categories/xml'>xml (2)</a></li></ul>
+    <ul id="category-list"><li><a href='/blog/categories/actionbar'>actionbar (1)</a></li><li><a href='/blog/categories/android'>android (25)</a></li><li><a href='/blog/categories/apache'>apache (7)</a></li><li><a href='/blog/categories/authentication'>authentication (1)</a></li><li><a href='/blog/categories/authorization'>authorization (1)</a></li><li><a href='/blog/categories/bash'>bash (4)</a></li><li><a href='/blog/categories/best-practice'>best_practice (1)</a></li><li><a href='/blog/categories/book'>book (1)</a></li><li><a href='/blog/categories/broadcast-receiver'>broadcast_receiver (2)</a></li><li><a href='/blog/categories/cdi'>cdi (2)</a></li><li><a href='/blog/categories/centos'>centos (5)</a></li><li><a href='/blog/categories/clean-code'>clean code (1)</a></li><li><a href='/blog/categories/clojure'>clojure (1)</a></li><li><a href='/blog/categories/command'>command (5)</a></li><li><a href='/blog/categories/concurrency'>concurrency (1)</a></li><li><a href='/blog/categories/curl'>curl (1)</a></li><li><a href='/blog/categories/database'>database (6)</a></li><li><a href='/blog/categories/datetime'>datetime (1)</a></li><li><a href='/blog/categories/di'>di (2)</a></li><li><a href='/blog/categories/drawable'>drawable (1)</a></li><li><a href='/blog/categories/ec'>ec (1)</a></li><li><a href='/blog/categories/eclipse'>eclipse (1)</a></li><li><a href='/blog/categories/ecshop'>ecshop (7)</a></li><li><a href='/blog/categories/editor'>editor (1)</a></li><li><a href='/blog/categories/emulator'>emulator (1)</a></li><li><a href='/blog/categories/encoding'>encoding (1)</a></li><li><a href='/blog/categories/english'>english (14)</a></li><li><a href='/blog/categories/excel'>excel (2)</a></li><li><a href='/blog/categories/extjs'>extjs (2)</a></li><li><a href='/blog/categories/functional-programming'>functional programming (1)</a></li><li><a href='/blog/categories/gesture'>gesture (1)</a></li><li><a href='/blog/categories/git'>git (4)</a></li><li><a href='/blog/categories/git-flow'>git-flow (1)</a></li><li><a href='/blog/categories/guava'>guava (2)</a></li><li><a href='/blog/categories/guice'>guice (1)</a></li><li><a href='/blog/categories/hamcrest'>hamcrest (1)</a></li><li><a href='/blog/categories/i18n'>i18n (1)</a></li><li><a href='/blog/categories/ide'>IDE (1)</a></li><li><a href='/blog/categories/idea'>IDEA (2)</a></li><li><a href='/blog/categories/imgur'>imgur (1)</a></li><li><a href='/blog/categories/injection'>injection (1)</a></li><li><a href='/blog/categories/intent'>intent (1)</a></li><li><a href='/blog/categories/ireport'>ireport (2)</a></li><li><a href='/blog/categories/jasterreport'>jasterreport (2)</a></li><li><a href='/blog/categories/java'>java (22)</a></li><li><a href='/blog/categories/java8'>java8 (2)</a></li><li><a href='/blog/categories/java-ee'>java_ee (5)</a></li><li><a href='/blog/categories/jms'>jms (1)</a></li><li><a href='/blog/categories/jmx'>JMX (1)</a></li><li><a href='/blog/categories/joda'>joda (1)</a></li><li><a href='/blog/categories/jpa'>jpa (1)</a></li><li><a href='/blog/categories/jquery'>jquery (1)</a></li><li><a href='/blog/categories/jsp'>jsp (2)</a></li><li><a href='/blog/categories/junit'>junit (1)</a></li><li><a href='/blog/categories/jvm'>jvm (2)</a></li><li><a href='/blog/categories/kohana'>kohana (1)</a></li><li><a href='/blog/categories/l10n'>l10n (1)</a></li><li><a href='/blog/categories/lambda'>lambda (1)</a></li><li><a href='/blog/categories/layout'>layout (1)</a></li><li><a href='/blog/categories/linux'>linux (11)</a></li><li><a href='/blog/categories/listview'>listview (2)</a></li><li><a href='/blog/categories/logger'>logger (1)</a></li><li><a href='/blog/categories/m2eclilpse'>m2eclilpse (1)</a></li><li><a href='/blog/categories/mac'>mac (3)</a></li><li><a href='/blog/categories/mat'>mat (1)</a></li><li><a href='/blog/categories/maven'>maven (5)</a></li><li><a href='/blog/categories/memory'>memory (1)</a></li><li><a href='/blog/categories/menu'>menu (1)</a></li><li><a href='/blog/categories/mindmap'>mindmap (2)</a></li><li><a href='/blog/categories/misc'>misc (1)</a></li><li><a href='/blog/categories/mysql'>mysql (7)</a></li><li><a href='/blog/categories/nio'>nio (1)</a></li><li><a href='/blog/categories/octopress'>octopress (1)</a></li><li><a href='/blog/categories/oracle'>oracle (1)</a></li><li><a href='/blog/categories/osgi'>osgi (3)</a></li><li><a href='/blog/categories/pdf'>pdf (2)</a></li><li><a href='/blog/categories/pdt'>pdt (5)</a></li><li><a href='/blog/categories/pear'>pear (2)</a></li><li><a href='/blog/categories/performace'>performace (1)</a></li><li><a href='/blog/categories/pgsql'>pgsql (1)</a></li><li><a href='/blog/categories/php'>php (6)</a></li><li><a href='/blog/categories/play-framework'>play_framework (1)</a></li><li><a href='/blog/categories/pm'>pm (5)</a></li><li><a href='/blog/categories/postgresql'>postgresql (2)</a></li><li><a href='/blog/categories/profile'>profile (1)</a></li><li><a href='/blog/categories/programming'>programming (12)</a></li><li><a href='/blog/categories/python'>python (2)</a></li><li><a href='/blog/categories/re'>re (1)</a></li><li><a href='/blog/categories/refactory'>refactory (1)</a></li><li><a href='/blog/categories/rest'>rest (7)</a></li><li><a href='/blog/categories/roboguice'>roboguice (1)</a></li><li><a href='/blog/categories/sbt'>sbt (1)</a></li><li><a href='/blog/categories/scala'>scala (4)</a></li><li><a href='/blog/categories/security'>security (2)</a></li><li><a href='/blog/categories/sequence-diagram'>sequence_diagram (1)</a></li><li><a href='/blog/categories/service'>service (2)</a></li><li><a href='/blog/categories/shiro'>shiro (1)</a></li><li><a href='/blog/categories/shortchut'>shortchut (1)</a></li><li><a href='/blog/categories/smarty'>smarty (3)</a></li><li><a href='/blog/categories/spring'>spring (2)</a></li><li><a href='/blog/categories/sql'>sql (1)</a></li><li><a href='/blog/categories/style'>style (1)</a></li><li><a href='/blog/categories/tdd'>tdd (1)</a></li><li><a href='/blog/categories/testing'>testing (10)</a></li><li><a href='/blog/categories/theme'>theme (1)</a></li><li><a href='/blog/categories/tips'>tips (2)</a></li><li><a href='/blog/categories/tomcat'>tomcat (1)</a></li><li><a href='/blog/categories/ubuntu'>ubuntu (8)</a></li><li><a href='/blog/categories/ui'>ui (2)</a></li><li><a href='/blog/categories/uml'>uml (1)</a></li><li><a href='/blog/categories/umlet'>umlet (1)</a></li><li><a href='/blog/categories/vim'>vim (2)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/windows'>windows (1)</a></li><li><a href='/blog/categories/xampp'>xampp (1)</a></li><li><a href='/blog/categories/xml'>xml (2)</a></li></ul>
 </section>
 
   

@@ -9,7 +9,10 @@
   <meta name="author" content="Kent">
 
   
-  <meta name="description" content="Method POST : 操作是 nont-idempotent(非幕等) GET, PUT, DELETE : 操作是 idempotent(幕等) idempotent 是指執行的結果不依賴於執行的次數，ex: count=1+2 是 idempotent，因為不管執行幾次，都不會影響到結果 &hellip;">
+  <meta name="description" content="Restful Web Service 常用的保全方式有： session and cookies
+HTTP 標準認證/摘要驗證(digest authentication)
+API key 各有各的優缺點:
+採用 session 記錄 user 的認證的方式，有違 rest stateless &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +80,447 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/07/29/restful-web-security/">Restful Web Security</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-29T10:36:00+08:00" pubdate data-updated="true">Jul 29<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/07/29/restful-web-security/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Restful Web Service 常用的保全方式有：</p>
+
+<ol>
+<li>session and cookies</li>
+<li>HTTP 標準認證/摘要驗證(digest authentication)</li>
+<li>API key</li>
+</ol>
+
+
+<p>各有各的優缺點:
+採用 session 記錄 user 的認證的方式，有違 rest stateless 的特性, cookies 只有 http 能用，而且測試上沒header來的方便。而 http 認證，是透過跳出的一認證的視窗的方式，也不是很適合在沒有browser下做操作，所以比較好的方式是採用 API key的方式來處理認證及保全(security)的問題。</p>
+
+<p>API key是指，由server產生一個包含 username password跟相關資料的 token，然後在<em>每個</em> request的 parameter 或 header 中置入這個 token 讓 server 判斷 request 是否合法。</p>
+
+<blockquote><p>token 放在 query string(request parameter)的方式
+這種方式的優點是方便，直覺，容易測試，但缺點是每個url裡都會多出一堆資訊在url，而且會有安全跟cache的問題
+建議 token 放header會比較好</p></blockquote>
+
+<p>要做權限管控，必須先了解需要管控的資源 (target resources) 有那些, 可要管控的等級，管控等級通常取決於登入時的角色，管控的等級大概如下:</p>
+
+<ol>
+<li>Application Level : 是否存取資源, ex: login user 才能存取或 anonymous 就可存取 (authentication &amp; authorization)</li>
+<li>Module Level      : 是否以進入某個功能模組,底下可能會有許多子功能模組</li>
+<li>Function Level    : 是否能使用對某個表單或單一功能, ex: 使用者管理</li>
+<li>Instance Level    : 特定資料列的存取權限, ex: 系統中有10個使用者，但只有對其中 3 個有存取權限</li>
+<li>Field Level       : 只針對特定欄位, ex: 使用者資料表中的敏感欄位(ex: 薪資) 只有特定人員可以存取</li>
+</ol>
+
+
+<p>1 ~ 3 是屬於功能性的權限管控</p>
+
+<p>4 ~ 5 是屬於資料的權限管控</p>
+
+<p>選定了要採用要在每個 header 置入 token 的方式後，再來就是設計要放入什麼樣的 token 在 header 當作辨識的依據()，以及採用什麼方式保護及驗証 toekn 的安全性及有效性。</p>
+
+<p>keyed-HMAC</p>
+
+<h2>Resources</h2>
+
+<ul>
+<li><a href="http://docs.aws.amazon.com/AmazonS3/latest/dev/RESTAuthentication.html">http://docs.aws.amazon.com/AmazonS3/latest/dev/RESTAuthentication.html</a></li>
+<li><a href="http://devcenter.kinvey.com/rest/guides/security">http://devcenter.kinvey.com/rest/guides/security</a></li>
+<li><a href="http://www.infoq.com/cn/news/2010/01/rest-api-authentication-schemes">http://www.infoq.com/cn/news/2010/01/rest-api-authentication-schemes</a></li>
+<li><p><a href="http://www.baeldung.com/security-spring">http://www.baeldung.com/security-spring</a></p>
+
+<h4>deprecate</h4></li>
+<li><p><a href="http://appsandsecurity.blogspot.tw/2011/04/rest-and-stateless-session-ids.html">http://appsandsecurity.blogspot.tw/2011/04/rest-and-stateless-session-ids.html</a></p></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/07/15/mac-os-x-keyboard-shortcuts-for-terminal/">Mac OS X Keyboard Shortcuts for Terminal</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-15T16:53:00+08:00" pubdate data-updated="true">Jul 15<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/07/15/mac-os-x-keyboard-shortcuts-for-terminal/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Mac OS X 的 terminal 是 BASH, 以下是 BASH 的快捷鍵:</p>
+
+<pre><code>Ctrl + A    回行首
+Ctrl + E    去行尾
+Ctrl + L    清劃面
+Ctrl + U    清掉游標前的文字
+Ctrl + H    刪一個字元
+Ctrl + R    找執行過的指令 (好用)
+Ctrl + C    中斷執行
+Ctrl + D    跳出目前的shell
+Ctrl + Z    把目前執行的指令設到背影.要回到前景可透過 fg 指令
+Ctrl + W    刪除游標之前的字
+Ctrl + K    清除游標之後所有內容
+Ctrl + T    交換字元
+Esc + T     交換"字"
+Alt + F     往前移一個字
+Alt + B     往後移一個字
+Tab         自動完成
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/07/07/python-101/">Python 101</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-07T12:10:00+08:00" pubdate data-updated="true">Jul 7<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/07/07/python-101/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>本文是初學 Python 遇到的一些問題留下的筆記:</p>
+
+<p>一開始進入 Python 的世界，除了程式語言本身外還有許多基本的工具要先了解:</p>
+
+<ul>
+<li>Python 2 V.S Python 3 : python 語言的版本</li>
+<li>easy_install V.S PIP : 套件安裝工具</li>
+<li>virtualenv            : 虛擬工作環境</li>
+</ul>
+
+
+<h4>Python 2 V.S Python 3</h4>
+
+<p>剛進行 Python 的世界，一開始就要面臨的抉擇，就是要用 Python 2 或 Python 3，因為是初學者，沒有任何包袱，當然是選 Python 3。 (也有人建議一律用2.7的語法撰寫，這樣可以同時相容於2跟3)</p>
+
+<blockquote><p>Mac Os 10.8 (mountain lion)預裝的是 Python 2.7.2，要自行昇級成 Python 3.x (目前 2013/07/07 3.3.2是 release 版)
+可以透過在 Mac OS 的terminal 下執行 <code>python -V</code> 取得版號</p></blockquote>
+
+<h4>Easy_install V.S PIP</h4>
+
+<p>一般的 lib 會提供 <code>python setup.py install</code></p>
+
+<p>easy_install 跟 <a href="http://www.pip-installer.org/">pip</a> 兩者都是套件安裝工具， easy_install 沒有反安裝套件的功能，而 pip 有反安裝套件的功能，所以建議是裝pip</p>
+
+<p>Mac Os 10.8 (mountain lion) 只有預裝 easy_install，要使用 pip，可以透過 easy_install 來安裝 pip
+安裝 pip 的指令如下 <code>$ easy_install pip</code>，如果無法安裝的話，可以直接抓 source 下來裝
+下載的url為 :</p>
+
+<p>必須先安裝<a href="http://pythonhosted.org/setuptools/">setuptools</a></p>
+
+<pre><code>$ curl -O https://bitbucket.org/pypa/setuptools/raw/0.8/ez_setup.py
+$ python ez_setup.py --user 
+</code></pre>
+
+<p>才能再裝 pip</p>
+
+<pre><code>$ curl -O https://pypi.python.org/packages/source/p/pip/pip-1.3.tar.gz
+$ tar xzf pip-1.3.tar.gz
+$ cd pip-1.3
+$ sudo python setup.py install
+</code></pre>
+
+<p>裝完後檢查一下執行一下 <code>pip</code> 指令，如果不能執行，可能是Path沒設好,Path變數是在 <code>~/.bash_profile</code> 如果沒這個檔，可以自已新增一個</p>
+
+<pre><code>export PATH=/System/Library/Frameworks/Python.framework/Versions/3.3/bin:/Users/kent/Library/Python/3.3/bin:$PATH
+</code></pre>
+
+<p>pip 的使用方式</p>
+
+<pre><code>pip list   列出目前安裝的lib
+pip search 搜尋lib
+pip install 安裝lib   
+</code></pre>
+
+<p>ex:</p>
+
+<pre><code>sudo pip install beautifulsoup4   # 安裝 beautifulsoup lib (一個 html parser)   
+</code></pre>
+
+<h4>Testing</h4>
+
+<p>python的 test framework有好幾套，可以自行選擇適合的</p>
+
+<ul>
+<li>unittest 內建的，不用另外再抓lib</li>
+<li>nosetest 可獨立執行某個 test method 或一整個 test suite 的功能</li>
+<li>doctest  測試 python doc 的邏輯</li>
+</ul>
+
+
+<h4>初學者必備技能</h4>
+
+<ul>
+<li><p>python Interpreter (直譯器)
+直譯式語言的優點就是會有直譯器可以用，在直譯器執行程式，可以立即得到執行的結果，在不了解API的用法時，我通常會在執譯器上先做測試，或者直接用 unittest 寫<em>Learning Test</em>。
+平常沒事也可以掛著查 API doc</p></li>
+<li><p>help([object])<br/>
+列出說明，會說明該 object 有那些 methods 及使用方式</p></li>
+<li>type(variable)
+取得 object 的型別，撰寫弱型別語言最大的痛苦就是不知道變數是什麼型別，這 type 至少可以在runtime取得變數的型別</li>
+<li>dir() 列出 object 內所有的 methods</li>
+<li>pprint() 列出物件結構</li>
+</ul>
+
+
+<h2>Python Language</h2>
+
+<h4>連算子</h4>
+
+<ul>
+<li>沒有增量 <code>++</code>，減量 <code>--</code> 運算子</li>
+<li>+=，-= 這是合法的運算子</li>
+<li>除法用<code>/</code> , 整數除法用 <code>//</code></li>
+<li>一個<code>*</code>是乘，兩個<code>*</code>是幂(次方)英文為<em>power</em> <code>2 * 3 =6</code> , <code>2 ** 3 = 8</code></li>
+</ul>
+
+
+<h4>字串</h4>
+
+<ul>
+<li>字串可用單引號或雙引號，單引號較常用</li>
+<li>字串前面加 <code>r</code> 表示為 raw string, ex: raw = r&#8217;this is a \t\n raw string&#8217;</li>
+<li>字串前面加 <code>u</code> 表示為 unicode string, ex: ustring = u&#8217;A unicode \u018e string \xf1&#8217;</li>
+</ul>
+
+
+<h4>條件式結構</h4>
+
+<pre><code> if speed &gt;= 80:
+    print 'License and registration please'
+    if mood == 'terrible' or speed &gt;= 100:
+      print 'You have the right to remain silent.'
+    elif mood == 'bad' or speed &gt;= 90:
+      print "I'm going to have to write you a ticket."
+      write_ticket()
+    else:
+      print "Let's try to keep it under 80 ok?"
+</code></pre>
+
+<p>較簡潔的語法</p>
+
+<pre><code>if speed &gt;= 80: print 'You are so busted'
+else: print 'Have a nice day'         
+</code></pre>
+
+<ul>
+<li>python不是用 {}，也不是用begin/end，而是用縮排跟冒號<code>:</code>來做為區塊結構的範圍</li>
+<li>不是用 <code>else if</code> 而是 <code>elif</code></li>
+</ul>
+
+
+<h4>List, Tuple, Dictionary</h4>
+
+<pre><code>a = [ 1, 3.4, 'hello' ] # A list
+b = ( 10, 20, 30 )      # A tuple   c = { 'a': 3, 'b': 42 } # A dictionary
+</code></pre>
+
+<p>list 可視為 array，語法如下</p>
+
+<p>list = [&#8216;larry&#8217;, &#8216;curly&#8217;, &#8216;moe&#8217;]
+list = [1, 2, 3.4, &#8216;hello&#8217;, &#8216;word&#8217;] # 可以放不同類型的內容</p>
+
+<p>list 還有一個很特別的一點是可以直接在 list 裡執行 expression，叫 List Comprehensions,
+語法為 [expr for var in list ]</p>
+
+<p>範例:</p>
+
+<pre><code>nums = [1, 2, 3, 4]
+squares = [ n * n for n in nums ]   ## [1, 4, 9, 16]
+</code></pre>
+
+<p>tuple 很像 list，但tuple是不可變的，語法如下 <code>tuple = (1, 2, 'hi')</code></p>
+
+<pre><code>a = ()      # 0-tuple (empty tuple) b = (item,) # 1-tuple (note the trailing comma) c = item,   # 1-tuple (note the trailing comma)tuple裡的值，可以容易再被獨立指派成變數，ex:
+full_name = ('kent','chiu')
+first_name, last_name = full_name # 把full_name的兩個值指派給 first_name, last_name
+print(first_name)                 # kent
+print(last_name)                  # chiu
+</code></pre>
+
+<h4>TBD</h4>
+
+<ul>
+<li>yield</li>
+<li>decorator (@staticmethod)</li>
+<li>list Ellipsis</li>
+<li>class method (<code>__xxx__</code>)</li>
+</ul>
+
+
+<h2>學習資源</h2>
+
+<ul>
+<li><a href="https://developers.google.com/edu/python/">https://developers.google.com/edu/python/</a>  - Google Python Course</li>
+<li><a href="http://getpython3.com/diveintopython3">http://getpython3.com/diveintopython3</a> - Dive Into Python 3 免費電子書</li>
+<li><a href="http://chimera.labs.oreilly.com/books/1234000000754/index.html">http://chimera.labs.oreilly.com/books/1234000000754/index.html</a> - Test-Driven Web Development with Python</li>
+<li><a href="http://chimera.labs.oreilly.com/books/1230000000393/index.html">http://chimera.labs.oreilly.com/books/1230000000393/index.html</a> - orally python cookbook (<em>問題-解法</em>導向線上電子書)</li>
+<li><a href="http://docs.python.org/2/library/">http://docs.python.org/2/library/</a> - python 標準函式庫文件</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/06/25/url-encoding/">URL Encoding</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-25T11:01:00+08:00" pubdate data-updated="true">Jun 25<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/06/25/url-encoding/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><code>https://bob:bobby@www.lunatech.com:8080/file;p=1?q=2#third</code></p>
+
+<ul>
+<li>Scheme           : https</li>
+<li>User             : bob</li>
+<li>Password         :bobby</li>
+<li>Host address     : www.lunatech.com</li>
+<li>Port             : 8080</li>
+<li>Path             : /file</li>
+<li>Path parameters  : p=1</li>
+<li>Query parameters : q=2</li>
+<li>Fragment         : third</li>
+</ul>
+
+
+<h6>Path parameters</h6>
+
+<p>Path parameters 又叫 Matrix Parameters, 每個 <em>path segment</em> 可以有自已的 Matrix Parameters，這在 Restful style 的設計上有時會很有用。</p>
+
+<h6>Fragment</h6>
+
+<p>Fragment 是用來指出整份 URL resrouce 的某一特定部份，在網頁設計上是用來做定位用的錨點 (anchor)</p>
+
+<h4>保留字處理</h4>
+
+<p>path 跟 query string 對保留字的處理方式不一樣，所以，在做編解碼時，要分開處理</p>
+
+<p>ex:
+空白字元在 path 會被編成 %20 , &#8216;+&#8217; 會被編成 &#8216;_&#8217; ,但在 query string 空白字元會被編成 &#8216;+&#8217; or &#8216;%20&#8217;, &#8216;+&#8217; 會被編成 &#8216;%2B&#8217;</p>
+
+<p>所以，如果有一個<code>blue+light blue</code>同時放在 path 跟 query string，那結果會是這樣</p>
+
+<pre><code>http://example.com/blue+light%20blue?blue%2Blight+blue
+</code></pre>
+
+<h4>編碼、中文與 Unicode</h4>
+
+<p>RFC 1738 並沒有規定要用什麼樣的編碼，所以，一般會在 HTTP header 指定 encoding 或採用 HTML page encoding</p>
+
+<h2>Resource</h2>
+
+<ul>
+<li><a href="http://blog.lunatech.com/2009/02/03/what-every-web-developer-must-know-about-url-encoding">http://blog.lunatech.com/2009/02/03/what-every-web-developer-must-know-about-url-encoding</a> - What every web developer must know about URL encoding</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1097,420 +1541,6 @@ extract 出去成為另一個獨立的 class， 這樣對兩個 classes 來說�
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/03/14/install-git-flow-on-windows/">在 Windwos OS 上安裝git Flow</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-03-14T21:48:00+08:00" pubdate data-updated="true">Mar 14<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/03/14/install-git-flow-on-windows/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>git-flow on windows主要是參考這篇文章
-https://github.com/nvie/gitflow/wiki/Windows</p>
-
-<h2>下載相關檔案</h2>
-
-<p>git官網下載的git是屬於MSysGit版的，所以，要按照MSysGit的安裝步驟進行git flow的安裝</p>
-
-<p>首先要先安裝<code>util-linux-ng for Windows</code>,<code>util-linux-ng for Windows</code>可以到
-http://gnuwin32.sourceforge.net/packages/util-linux-ng.htm 下載，點選下圖紅框的檔案連結下次二進制文件的zip檔</p>
-
-<p><img src="http://blog.kent-chiu.com/images/2013-03-14/2013-03-14-install-git-flow-on-windows-001.png" alt="2013-03-14-install-git-flow-on-windows-001.png" /></p>
-
-<p>需一併下載上圖中下方紅框的<code>libintl</code>，libintl的連結會進入另一個網頁 http://gnuwin32.sourceforge.net/packages/libintl.htm，一樣下載Binaries的zip檔即可</p>
-
-<p>再來需要確定一下git安裝的路徑，如果是32位元的os會是在 <code>C:\Program Files\Git</code>, 64位元的os會是在 <code>C:\Program Files (x86)\Git</code> (<strong>以下的步驟以64位元的os的git安裝目錄為例</strong>)</p>
-
-<p>下載後的 util-linux-ng-2.14.1-bin.zip 解壓，可以在<code>util-linux-ng-2.14.1-bin\bin</code>找到 getopt.exe
-下載後的libintl-0.14.4-bin.zip解壓，可以在<code>libintl-0.14.4-bin\bin</code>找到 libintl3.dll</p>
-
-<p>將getopt.exe跟 libintl3.dll copy到git安裝目錄 <code>C:\Program Files (x86)\Git</code></p>
-
-<h2>clone git flow</h2>
-
-<p>clone github上的gitflow到臨時性的工作目錄 <code>c:\gitflow</code> (<em>這個目錄做完安裝後可以刪除</em>)</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>git clone --recursive git://github.com/nvie/gitflow.git c:\gitflow</span></code></pre></td></tr></table></div></figure>
-
-
-<p>clone完成後，到 c:\gitflow\contrib 執行</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>C:\gitflow\contrib&gt;msysgit-install.cmd "C:\Program Files (x86)\Git"</span></code></pre></td></tr></table></div></figure>
-
-
-<p>執行後，會看到一些檔案被複制到git安裝目錄</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>C:\gitflow\git-flow -&gt; C:\Program Files (x86)\Git\bin\git-flow
-</span><span class='line'>C:\gitflow\git-flow-feature -&gt; C:\Program Files (x86)\Git\bin\git-flow-feature
-</span><span class='line'>C:\gitflow\git-flow-hotfix -&gt; C:\Program Files (x86)\Git\bin\git-flow-hotfix
-</span><span class='line'>C:\gitflow\git-flow-init -&gt; C:\Program Files (x86)\Git\bin\git-flow-init
-</span><span class='line'>C:\gitflow\git-flow-release -&gt; C:\Program Files (x86)\Git\bin\git-flow-release
-</span><span class='line'>C:\gitflow\git-flow-support -&gt; C:\Program Files (x86)\Git\bin\git-flow-support
-</span><span class='line'>C:\gitflow\git-flow-version -&gt; C:\Program Files (x86)\Git\bin\git-flow-version
-</span><span class='line'>已複製 7 個檔案
-</span><span class='line'>C:\gitflow\gitflow-common -&gt; C:\Program Files (x86)\Git\bin\gitflow-common
-</span><span class='line'>C:\gitflow\gitflow-shFlags -&gt; C:\Program Files (x86)\Git\bin\gitflow-shFlags
-</span><span class='line'>已複製 2 個檔案
-</span><span class='line'>C:\gitflow\shFlags\src\shflags -&gt; C:\Program Files (x86)\Git\bin\gitflow-shFlags
-</span><span class='line'>已複製 1 個檔案</span></code></pre></td></tr></table></div></figure>
-
-
-<p>這樣整個安裝步驟就全部完成了</p>
-
-<h2>試車</h2>
-
-<p>可以在windows的command  windows裡打git flow，如果有看到類似以下的訊息就ok了</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>C:\gitflow\contrib&gt;git flow
-</span><span class='line'>usage: git flow &lt;subcommand&gt;
-</span><span class='line'>
-</span><span class='line'>Available subcommands are:
-</span><span class='line'>   init      Initialize a new git repo with suppo
-</span><span class='line'>   feature   Manage your feature branches.
-</span><span class='line'>   release   Manage your release branches.
-</span><span class='line'>   hotfix    Manage your hotfix branches.
-</span><span class='line'>   support   Manage your support branches.
-</span><span class='line'>   version   Shows version information.
-</span><span class='line'>
-</span><span class='line'>Try 'git flow &lt;subcommand&gt; help' for details.</span></code></pre></td></tr></table></div></figure>
-
-
-<p>到這裡都ok的話，之前的臨時性的工作目錄 <code>c:\gitflow</code>可以刪了它</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/03/10/file-upload-and-download-in-spring-rest-mvc/">Spring Rest檔案上傳及下載</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-03-10T14:27:00+08:00" pubdate data-updated="true">Mar 10<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/03/10/file-upload-and-download-in-spring-rest-mvc/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>File upload</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>@RequestMapping(value = "/foobar/upload", method = RequestMethod.POST)
-</span><span class='line'>public @ResponseBody
-</span><span class='line'>String upload(@RequestParam("file") MultipartFile file, @RequestParam("fileId") String fileId) {
-</span><span class='line'>  logger.info("save import file {} to {}", file.getOriginalFilename(), fileId);
-</span><span class='line'>
-</span><span class='line'>  File resultHome = getWorkingDir();
-</span><span class='line'>  File temp = new File(resultHome, fileId);
-</span><span class='line'>  try {
-</span><span class='line'>      IOUtils.copy(file.getInputStream(), new FileOutputStream(temp));
-</span><span class='line'>      return "{success: true}";
-</span><span class='line'>  } catch (FileNotFoundException e) {
-</span><span class='line'>      logger.error("upload file fail", e);
-</span><span class='line'>  } catch (IOException e) {
-</span><span class='line'>      logger.error("upload file fail", e);
-</span><span class='line'>  }
-</span><span class='line'>  return "{success: false}";
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>File Download</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>@RequestMapping(value = "/forbar/export", method = RequestMethod.GET)
-</span><span class='line'>public HttpEntity&lt;byte[]&gt; excelExcel() throws IOException {
-</span><span class='line'>  File file = new File("myexcel.xls");
-</span><span class='line'>  byte[] body = FileUtils.readFileToByteArray(file);
-</span><span class='line'>  HttpHeaders header = new HttpHeaders();
-</span><span class='line'>  header.setContentType(new MediaType("application", "xls"));
-</span><span class='line'>  header.set("Content-Disposition", "attachment; filename=" + "foobar.xls");
-</span><span class='line'>  header.setContentLength(body.length);
-</span><span class='line'>  return new HttpEntity&lt;byte[]&gt;(body, header);
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/03/04/octopress-configuration/">Octopress配置</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-03-04T00:31:00+08:00" pubdate data-updated="true">Mar 4<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/03/04/octopress-configuration/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>配置檔說明在 : https://github.com/mojombo/jekyll/wiki/Configuration</p>
-
-<p>plugins : https://github.com/imathis/octopress/wiki/3rd-party-plugins</p>
-
-<p>小抄: http://dreamrunner.org/wiki/public_html/docs/Web/octopress.html</p>
-
-<hr />
-
-<h4>加快generate的速度</h4>
-
-<p>文章數不到200篇，但在i7的cpu上generate已經要需近一分鐘的時間，還好octopress提供了一個快速generate的指令<code>rake isolate</code>
-，動作原理就是開一個暫存的目錄<code>_stash</code>要generate前會把<code>_post</code>裡的所有檔案copy到暫存的目錄<code>_stash</code>下，等要
-deploy時，再透過指令<code>rake integrate</code>將檔案copy回<code>_post</code></p>
-
-<p>使用範例如下</p>
-
-<p><code>source/_post</code>有10篇文章，其中有一篇檔名為<code>2013-03-04-foo-bar.md</code>是這次要編輯的</p>
-
-<p>透過<code>rake isolate</code>來隔離<code>2013-03-04-foo-bar.md</code>之外的文章</p>
-
-<pre><code> rake isolate[foo-bar]
-</code></pre>
-
-<p>檔名要去掉日期的部份及副檔名, 下完指令後<code>_post</code>目錄下只剩<code>2013-03-04-foo-bar.md</code>這個檔案</p>
-
-<pre><code>rake generate
-</code></pre>
-
-<p>只剩一個檔案，generate速度當然飛快</p>
-
-<p>文章編輯完成，準備發佈前記得透過<code>rake integrate</code>把其他檔案從<code>_stage</code>目錄copy回來</p>
-
-<pre><code>rake integrate
-</code></pre>
-
-<p>此時，所有的檔案已經都回到<code>_post</code>目錄，這時必須再對所有內容<code>generate</code>一次，就可以進行發佈<code>rake deploy</code>了</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/12/28/android_emulator_101/">Android 模擬器 101</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-12-28T00:00:00+08:00" pubdate data-updated="true">Dec 28<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/12/28/android_emulator_101/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Android Emulator是
-QEMU-based的應用程式，主要功能是在PC上建立一個虛擬的Android平台環境，並提供一個GUI的仿手機介面以供操作。
-Android
-Emulator可以模擬任何Android平台的任何功能，可以模擬手機應用程式執行情形，也可以模擬Native
-Code的功能。
-模擬器有可客制化功能，可以在runtime時選定要用那一種角析度的LCD，要支援什麼樣的硬體設備(攝影機、錄音功能、簡訊、GPS…)</p>
-
-<h3>啟動</h3>
-
-<p>可以透過EclipseADT啟動，也可以直接從Command Line啟動</p>
-
-<h4>透過Eclipse ADT啟動</h4>
-
-<p><img src="http://blog.kent-chiu.com/images/2012-12-28/android_emulator_101_01.png" alt="android_emulator_101_01.png" /></p>
-
-<p>你可以加入許多<a href="http://developer.android.com/guide/developing/tools/emulator.html#startup-options" title="http://developer.android.com/guide/developing/tools/emulator.html#startup-options">啟動參數</a>來設定啟動後的環境，
-比如說是否啟用debug mode，是否套用特定的skin等。</p>
-
-<p>在Eclipse ADT中加入啟動參數的方法是在menu > Run Configuration > Target
-tab</p>
-
-<p><img src="http://blog.kent-chiu.com/images/2012-12-28/android_emulator_101_03.png" alt="android_emulator_101_03.png" /></p>
-
-<h4>從Command Line啟動</h4>
-
-<p>透過command line啟動的方式如下：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>emulator -avd AVD2</span></code></pre></td></tr></table></div></figure>
-
-
-<p>AVD2是上圖的ADV Name，那個是建立<strong>A</strong>ndroid <strong>V</strong>irtual
-<strong>D</strong>evice建，其中一個步驟要求輸入的內容</p>
-
-<h5>啟動後的畫面</h5>
-
-<p>啟動時需要幾秒到幾分鐘的時間(一個完整的OS在VM中啟動，當然要花些時間)，啟動後，你可以一直讓模擬器維持開啟狀況，不必隨著你的程式的關閉而關閉。</p>
-
-<p><img src="http://blog.kent-chiu.com/images/2012-12-28/android_emulator_101_02.png" alt="android_emulator_101_02.png" /></p>
-
-<h1>解析度</h1>
-
-<ul>
-<li>QVGA 320×240, 120dpi, 3.3</li>
-<li>WQVGA432 432×240, 120dpi, 3.9</li>
-<li>HVGA 480×320, 160dpi, 3.6</li>
-<li>WVGA800 800×480, 240dpi, 3.9</li>
-<li>WVGA854 854×480, 240dpi, 4.1</li>
-</ul>
-
-
-<p><img src="http://cdn3.techbang.com.tw/system/images/23074/original/ex_1_wv1.jpg" alt="" /></p>
-
-<p>圖片來源
-<a href="http://www.techbang.com.tw/posts/3053-search-text-to-explain-words-wvga-high-resolution-handheld-devices-necessary?utm_source=feedburner&amp;utm_medium=feed&amp;utm_campaign=Feed%3A+techbang+%28T%E5%AE%A2%E9%82%A6+%E6%9C%80%E6%96%B0%E6%96%87%E7%AB%A0%29&amp;utm_content=Google+Reader" title="http://www.techbang.com.tw/posts/3053-search-text-to-explain-words-wvga-high-resolution-handheld-devices-necessary?utm_source=feedburner&amp;utm_medium=feed&amp;utm_campaign=Feed%3A+techbang+%28T%E5%AE%A2%E9%82%A6+%E6%9C%80%E6%96%B0%E6%96%87%E7%AB%A0%29&amp;utm_content=Google+Reader">T客邦</a></p>
-
-<p>在啟動模擬器前，還有一個啟動選項(Launch Options)畫面，將scale to real
-size勾選，可以讓模擬器瑩幕的大小跟實際在手機上看到比較接近。
-這樣可以確定實際按鍵的大小，比較容易評量會不會因為按鍵太小而不容易操作。</p>
-
-<p><img src="http://blog.kent-chiu.com/images/2012-12-28/android_emulator_101_004.png" alt="android_emulator_101_004.png" /></p>
-
-<h1>Resources</h1>
-
-<ul>
-<li><a href="http://developer.android.com/guide/developing/tools/emulator.html" title="http://developer.android.com/guide/developing/tools/emulator.html">Android Emulator</a></li>
-<li><a href="http://developer.android.com/guide/developing/tools/avd.html" title="http://developer.android.com/guide/developing/tools/avd.html">Android Virtual Devices</a></li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -1528,34 +1558,34 @@ size勾選，可以讓模擬器瑩幕的大小跟實際在手機上看到比較�
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/03/14/umlet-sequence-diagram/">UMLet Sequence Diagram</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/03/14/java-8-lambda/">Java 8 Lambda</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/03/14/java-8-utility-object/">Java 8 好用工具箱</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/03/14/java-8-date-and-time-api/">Java 8 時間、日期 API</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/12/28/python-type-hint-in-idea/">Python Type Hint in IDEA</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/12/28/mac-dev-setup/">“Mac開發環境設定”</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/11/16/reload-tomcat-web-application-by-jmx/">透過JMX重新載入Tomcat上的Web Application</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/08/31/access-imgur-with-api/">Access Imgur With API</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/08/30/spring-reference-reading-notes/">Spring Reference Reading Notes</a>
       </li>
     
   </ul>
 </section>
 <section>
   <h1>Category Cloud</h1>
-    <span id="tag-cloud"><a href='/blog/categories/actionbar' style='font-size: 102.4%'>actionbar(1)</a> <a href='/blog/categories/android' style='font-size: 160.0%'>android(25)</a> <a href='/blog/categories/apache' style='font-size: 116.8%'>apache(7)</a> <a href='/blog/categories/authentication' style='font-size: 102.4%'>authentication(1)</a> <a href='/blog/categories/authorization' style='font-size: 102.4%'>authorization(1)</a> <a href='/blog/categories/bash' style='font-size: 109.6%'>bash(4)</a> <a href='/blog/categories/best-practice' style='font-size: 102.4%'>best_practice(1)</a> <a href='/blog/categories/book' style='font-size: 102.4%'>book(1)</a> <a href='/blog/categories/broadcast-receiver' style='font-size: 104.8%'>broadcast_receiver(2)</a> <a href='/blog/categories/cdi' style='font-size: 104.8%'>cdi(2)</a> <a href='/blog/categories/centos' style='font-size: 112.0%'>centos(5)</a> <a href='/blog/categories/clean-code' style='font-size: 102.4%'>clean code(1)</a> <a href='/blog/categories/command' style='font-size: 112.0%'>command(5)</a> <a href='/blog/categories/concurrency' style='font-size: 102.4%'>concurrency(1)</a> <a href='/blog/categories/curl' style='font-size: 102.4%'>curl(1)</a> <a href='/blog/categories/database' style='font-size: 114.4%'>database(6)</a> <a href='/blog/categories/datetime' style='font-size: 102.4%'>datetime(1)</a> <a href='/blog/categories/di' style='font-size: 104.8%'>di(2)</a> <a href='/blog/categories/drawable' style='font-size: 102.4%'>drawable(1)</a> <a href='/blog/categories/ec' style='font-size: 102.4%'>ec(1)</a> <a href='/blog/categories/eclipse' style='font-size: 102.4%'>eclipse(1)</a> <a href='/blog/categories/ecshop' style='font-size: 116.8%'>ecshop(7)</a> <a href='/blog/categories/editor' style='font-size: 102.4%'>editor(1)</a> <a href='/blog/categories/emulator' style='font-size: 102.4%'>emulator(1)</a> <a href='/blog/categories/encoding' style='font-size: 102.4%'>encoding(1)</a> <a href='/blog/categories/english' style='font-size: 133.6%'>english(14)</a> <a href='/blog/categories/excel' style='font-size: 104.8%'>excel(2)</a> <a href='/blog/categories/extjs' style='font-size: 104.8%'>extjs(2)</a> <a href='/blog/categories/gesture' style='font-size: 102.4%'>gesture(1)</a> <a href='/blog/categories/git' style='font-size: 109.6%'>git(4)</a> <a href='/blog/categories/git-flow' style='font-size: 102.4%'>git-flow(1)</a> <a href='/blog/categories/guava' style='font-size: 104.8%'>guava(2)</a> <a href='/blog/categories/guice' style='font-size: 102.4%'>guice(1)</a> <a href='/blog/categories/hamcrest' style='font-size: 102.4%'>hamcrest(1)</a> <a href='/blog/categories/i18n' style='font-size: 102.4%'>i18n(1)</a> <a href='/blog/categories/ide' style='font-size: 102.4%'>IDE(1)</a> <a href='/blog/categories/idea' style='font-size: 104.8%'>IDEA(2)</a> <a href='/blog/categories/imgur' style='font-size: 102.4%'>imgur(1)</a> <a href='/blog/categories/injection' style='font-size: 102.4%'>injection(1)</a> <a href='/blog/categories/intent' style='font-size: 102.4%'>intent(1)</a> <a href='/blog/categories/ireport' style='font-size: 104.8%'>ireport(2)</a> <a href='/blog/categories/jasterreport' style='font-size: 104.8%'>jasterreport(2)</a> <a href='/blog/categories/java' style='font-size: 152.8%'>java(22)</a> <a href='/blog/categories/java-ee' style='font-size: 112.0%'>java_ee(5)</a> <a href='/blog/categories/jms' style='font-size: 102.4%'>jms(1)</a> <a href='/blog/categories/jmx' style='font-size: 102.4%'>JMX(1)</a> <a href='/blog/categories/joda' style='font-size: 102.4%'>joda(1)</a> <a href='/blog/categories/jpa' style='font-size: 102.4%'>jpa(1)</a> <a href='/blog/categories/jquery' style='font-size: 102.4%'>jquery(1)</a> <a href='/blog/categories/jsp' style='font-size: 104.8%'>jsp(2)</a> <a href='/blog/categories/junit' style='font-size: 102.4%'>junit(1)</a> <a href='/blog/categories/jvm' style='font-size: 104.8%'>jvm(2)</a> <a href='/blog/categories/kohana' style='font-size: 102.4%'>kohana(1)</a> <a href='/blog/categories/l10n' style='font-size: 102.4%'>l10n(1)</a> <a href='/blog/categories/layout' style='font-size: 102.4%'>layout(1)</a> <a href='/blog/categories/linux' style='font-size: 126.4%'>linux(11)</a> <a href='/blog/categories/listview' style='font-size: 104.8%'>listview(2)</a> <a href='/blog/categories/logger' style='font-size: 102.4%'>logger(1)</a> <a href='/blog/categories/m2eclilpse' style='font-size: 102.4%'>m2eclilpse(1)</a> <a href='/blog/categories/mac' style='font-size: 107.2%'>mac(3)</a> <a href='/blog/categories/mat' style='font-size: 102.4%'>mat(1)</a> <a href='/blog/categories/maven' style='font-size: 112.0%'>maven(5)</a> <a href='/blog/categories/memory' style='font-size: 102.4%'>memory(1)</a> <a href='/blog/categories/menu' style='font-size: 102.4%'>menu(1)</a> <a href='/blog/categories/mindmap' style='font-size: 104.8%'>mindmap(2)</a> <a href='/blog/categories/misc' style='font-size: 102.4%'>misc(1)</a> <a href='/blog/categories/mysql' style='font-size: 116.8%'>mysql(7)</a> <a href='/blog/categories/nio' style='font-size: 102.4%'>nio(1)</a> <a href='/blog/categories/octopress' style='font-size: 102.4%'>octopress(1)</a> <a href='/blog/categories/oracle' style='font-size: 102.4%'>oracle(1)</a> <a href='/blog/categories/osgi' style='font-size: 107.2%'>osgi(3)</a> <a href='/blog/categories/pdf' style='font-size: 104.8%'>pdf(2)</a> <a href='/blog/categories/pdt' style='font-size: 112.0%'>pdt(5)</a> <a href='/blog/categories/pear' style='font-size: 104.8%'>pear(2)</a> <a href='/blog/categories/performace' style='font-size: 102.4%'>performace(1)</a> <a href='/blog/categories/pgsql' style='font-size: 102.4%'>pgsql(1)</a> <a href='/blog/categories/php' style='font-size: 114.4%'>php(6)</a> <a href='/blog/categories/play-framework' style='font-size: 102.4%'>play_framework(1)</a> <a href='/blog/categories/pm' style='font-size: 112.0%'>pm(5)</a> <a href='/blog/categories/postgresql' style='font-size: 104.8%'>postgresql(2)</a> <a href='/blog/categories/profile' style='font-size: 102.4%'>profile(1)</a> <a href='/blog/categories/programming' style='font-size: 128.8%'>programming(12)</a> <a href='/blog/categories/python' style='font-size: 104.8%'>python(2)</a> <a href='/blog/categories/re' style='font-size: 102.4%'>re(1)</a> <a href='/blog/categories/refactory' style='font-size: 102.4%'>refactory(1)</a> <a href='/blog/categories/rest' style='font-size: 116.8%'>rest(7)</a> <a href='/blog/categories/roboguice' style='font-size: 102.4%'>roboguice(1)</a> <a href='/blog/categories/sbt' style='font-size: 102.4%'>sbt(1)</a> <a href='/blog/categories/scala' style='font-size: 109.6%'>scala(4)</a> <a href='/blog/categories/security' style='font-size: 104.8%'>security(2)</a> <a href='/blog/categories/service' style='font-size: 104.8%'>service(2)</a> <a href='/blog/categories/shiro' style='font-size: 102.4%'>shiro(1)</a> <a href='/blog/categories/shortchut' style='font-size: 102.4%'>shortchut(1)</a> <a href='/blog/categories/smarty' style='font-size: 107.2%'>smarty(3)</a> <a href='/blog/categories/spring' style='font-size: 104.8%'>spring(2)</a> <a href='/blog/categories/sql' style='font-size: 102.4%'>sql(1)</a> <a href='/blog/categories/style' style='font-size: 102.4%'>style(1)</a> <a href='/blog/categories/tdd' style='font-size: 102.4%'>tdd(1)</a> <a href='/blog/categories/testing' style='font-size: 124.0%'>testing(10)</a> <a href='/blog/categories/theme' style='font-size: 102.4%'>theme(1)</a> <a href='/blog/categories/tips' style='font-size: 104.8%'>tips(2)</a> <a href='/blog/categories/tomcat' style='font-size: 102.4%'>tomcat(1)</a> <a href='/blog/categories/ubuntu' style='font-size: 119.2%'>ubuntu(8)</a> <a href='/blog/categories/ui' style='font-size: 104.8%'>ui(2)</a> <a href='/blog/categories/vim' style='font-size: 104.8%'>vim(2)</a> <a href='/blog/categories/web' style='font-size: 104.8%'>web(2)</a> <a href='/blog/categories/windows' style='font-size: 102.4%'>windows(1)</a> <a href='/blog/categories/xampp' style='font-size: 102.4%'>xampp(1)</a> <a href='/blog/categories/xml' style='font-size: 104.8%'>xml(2)</a> </span>
+    <span id="tag-cloud"><a href='/blog/categories/actionbar' style='font-size: 102.4%'>actionbar(1)</a> <a href='/blog/categories/android' style='font-size: 160.0%'>android(25)</a> <a href='/blog/categories/apache' style='font-size: 116.8%'>apache(7)</a> <a href='/blog/categories/authentication' style='font-size: 102.4%'>authentication(1)</a> <a href='/blog/categories/authorization' style='font-size: 102.4%'>authorization(1)</a> <a href='/blog/categories/bash' style='font-size: 109.6%'>bash(4)</a> <a href='/blog/categories/best-practice' style='font-size: 102.4%'>best_practice(1)</a> <a href='/blog/categories/book' style='font-size: 102.4%'>book(1)</a> <a href='/blog/categories/broadcast-receiver' style='font-size: 104.8%'>broadcast_receiver(2)</a> <a href='/blog/categories/cdi' style='font-size: 104.8%'>cdi(2)</a> <a href='/blog/categories/centos' style='font-size: 112.0%'>centos(5)</a> <a href='/blog/categories/clean-code' style='font-size: 102.4%'>clean code(1)</a> <a href='/blog/categories/clojure' style='font-size: 102.4%'>clojure(1)</a> <a href='/blog/categories/command' style='font-size: 112.0%'>command(5)</a> <a href='/blog/categories/concurrency' style='font-size: 102.4%'>concurrency(1)</a> <a href='/blog/categories/curl' style='font-size: 102.4%'>curl(1)</a> <a href='/blog/categories/database' style='font-size: 114.4%'>database(6)</a> <a href='/blog/categories/datetime' style='font-size: 102.4%'>datetime(1)</a> <a href='/blog/categories/di' style='font-size: 104.8%'>di(2)</a> <a href='/blog/categories/drawable' style='font-size: 102.4%'>drawable(1)</a> <a href='/blog/categories/ec' style='font-size: 102.4%'>ec(1)</a> <a href='/blog/categories/eclipse' style='font-size: 102.4%'>eclipse(1)</a> <a href='/blog/categories/ecshop' style='font-size: 116.8%'>ecshop(7)</a> <a href='/blog/categories/editor' style='font-size: 102.4%'>editor(1)</a> <a href='/blog/categories/emulator' style='font-size: 102.4%'>emulator(1)</a> <a href='/blog/categories/encoding' style='font-size: 102.4%'>encoding(1)</a> <a href='/blog/categories/english' style='font-size: 133.6%'>english(14)</a> <a href='/blog/categories/excel' style='font-size: 104.8%'>excel(2)</a> <a href='/blog/categories/extjs' style='font-size: 104.8%'>extjs(2)</a> <a href='/blog/categories/functional-programming' style='font-size: 102.4%'>functional programming(1)</a> <a href='/blog/categories/gesture' style='font-size: 102.4%'>gesture(1)</a> <a href='/blog/categories/git' style='font-size: 109.6%'>git(4)</a> <a href='/blog/categories/git-flow' style='font-size: 102.4%'>git-flow(1)</a> <a href='/blog/categories/guava' style='font-size: 104.8%'>guava(2)</a> <a href='/blog/categories/guice' style='font-size: 102.4%'>guice(1)</a> <a href='/blog/categories/hamcrest' style='font-size: 102.4%'>hamcrest(1)</a> <a href='/blog/categories/i18n' style='font-size: 102.4%'>i18n(1)</a> <a href='/blog/categories/ide' style='font-size: 102.4%'>IDE(1)</a> <a href='/blog/categories/idea' style='font-size: 104.8%'>IDEA(2)</a> <a href='/blog/categories/imgur' style='font-size: 102.4%'>imgur(1)</a> <a href='/blog/categories/injection' style='font-size: 102.4%'>injection(1)</a> <a href='/blog/categories/intent' style='font-size: 102.4%'>intent(1)</a> <a href='/blog/categories/ireport' style='font-size: 104.8%'>ireport(2)</a> <a href='/blog/categories/jasterreport' style='font-size: 104.8%'>jasterreport(2)</a> <a href='/blog/categories/java' style='font-size: 152.8%'>java(22)</a> <a href='/blog/categories/java8' style='font-size: 104.8%'>java8(2)</a> <a href='/blog/categories/java-ee' style='font-size: 112.0%'>java_ee(5)</a> <a href='/blog/categories/jms' style='font-size: 102.4%'>jms(1)</a> <a href='/blog/categories/jmx' style='font-size: 102.4%'>JMX(1)</a> <a href='/blog/categories/joda' style='font-size: 102.4%'>joda(1)</a> <a href='/blog/categories/jpa' style='font-size: 102.4%'>jpa(1)</a> <a href='/blog/categories/jquery' style='font-size: 102.4%'>jquery(1)</a> <a href='/blog/categories/jsp' style='font-size: 104.8%'>jsp(2)</a> <a href='/blog/categories/junit' style='font-size: 102.4%'>junit(1)</a> <a href='/blog/categories/jvm' style='font-size: 104.8%'>jvm(2)</a> <a href='/blog/categories/kohana' style='font-size: 102.4%'>kohana(1)</a> <a href='/blog/categories/l10n' style='font-size: 102.4%'>l10n(1)</a> <a href='/blog/categories/lambda' style='font-size: 102.4%'>lambda(1)</a> <a href='/blog/categories/layout' style='font-size: 102.4%'>layout(1)</a> <a href='/blog/categories/linux' style='font-size: 126.4%'>linux(11)</a> <a href='/blog/categories/listview' style='font-size: 104.8%'>listview(2)</a> <a href='/blog/categories/logger' style='font-size: 102.4%'>logger(1)</a> <a href='/blog/categories/m2eclilpse' style='font-size: 102.4%'>m2eclilpse(1)</a> <a href='/blog/categories/mac' style='font-size: 107.2%'>mac(3)</a> <a href='/blog/categories/mat' style='font-size: 102.4%'>mat(1)</a> <a href='/blog/categories/maven' style='font-size: 112.0%'>maven(5)</a> <a href='/blog/categories/memory' style='font-size: 102.4%'>memory(1)</a> <a href='/blog/categories/menu' style='font-size: 102.4%'>menu(1)</a> <a href='/blog/categories/mindmap' style='font-size: 104.8%'>mindmap(2)</a> <a href='/blog/categories/misc' style='font-size: 102.4%'>misc(1)</a> <a href='/blog/categories/mysql' style='font-size: 116.8%'>mysql(7)</a> <a href='/blog/categories/nio' style='font-size: 102.4%'>nio(1)</a> <a href='/blog/categories/octopress' style='font-size: 102.4%'>octopress(1)</a> <a href='/blog/categories/oracle' style='font-size: 102.4%'>oracle(1)</a> <a href='/blog/categories/osgi' style='font-size: 107.2%'>osgi(3)</a> <a href='/blog/categories/pdf' style='font-size: 104.8%'>pdf(2)</a> <a href='/blog/categories/pdt' style='font-size: 112.0%'>pdt(5)</a> <a href='/blog/categories/pear' style='font-size: 104.8%'>pear(2)</a> <a href='/blog/categories/performace' style='font-size: 102.4%'>performace(1)</a> <a href='/blog/categories/pgsql' style='font-size: 102.4%'>pgsql(1)</a> <a href='/blog/categories/php' style='font-size: 114.4%'>php(6)</a> <a href='/blog/categories/play-framework' style='font-size: 102.4%'>play_framework(1)</a> <a href='/blog/categories/pm' style='font-size: 112.0%'>pm(5)</a> <a href='/blog/categories/postgresql' style='font-size: 104.8%'>postgresql(2)</a> <a href='/blog/categories/profile' style='font-size: 102.4%'>profile(1)</a> <a href='/blog/categories/programming' style='font-size: 128.8%'>programming(12)</a> <a href='/blog/categories/python' style='font-size: 104.8%'>python(2)</a> <a href='/blog/categories/re' style='font-size: 102.4%'>re(1)</a> <a href='/blog/categories/refactory' style='font-size: 102.4%'>refactory(1)</a> <a href='/blog/categories/rest' style='font-size: 116.8%'>rest(7)</a> <a href='/blog/categories/roboguice' style='font-size: 102.4%'>roboguice(1)</a> <a href='/blog/categories/sbt' style='font-size: 102.4%'>sbt(1)</a> <a href='/blog/categories/scala' style='font-size: 109.6%'>scala(4)</a> <a href='/blog/categories/security' style='font-size: 104.8%'>security(2)</a> <a href='/blog/categories/sequence-diagram' style='font-size: 102.4%'>sequence_diagram(1)</a> <a href='/blog/categories/service' style='font-size: 104.8%'>service(2)</a> <a href='/blog/categories/shiro' style='font-size: 102.4%'>shiro(1)</a> <a href='/blog/categories/shortchut' style='font-size: 102.4%'>shortchut(1)</a> <a href='/blog/categories/smarty' style='font-size: 107.2%'>smarty(3)</a> <a href='/blog/categories/spring' style='font-size: 104.8%'>spring(2)</a> <a href='/blog/categories/sql' style='font-size: 102.4%'>sql(1)</a> <a href='/blog/categories/style' style='font-size: 102.4%'>style(1)</a> <a href='/blog/categories/tdd' style='font-size: 102.4%'>tdd(1)</a> <a href='/blog/categories/testing' style='font-size: 124.0%'>testing(10)</a> <a href='/blog/categories/theme' style='font-size: 102.4%'>theme(1)</a> <a href='/blog/categories/tips' style='font-size: 104.8%'>tips(2)</a> <a href='/blog/categories/tomcat' style='font-size: 102.4%'>tomcat(1)</a> <a href='/blog/categories/ubuntu' style='font-size: 119.2%'>ubuntu(8)</a> <a href='/blog/categories/ui' style='font-size: 104.8%'>ui(2)</a> <a href='/blog/categories/uml' style='font-size: 102.4%'>uml(1)</a> <a href='/blog/categories/umlet' style='font-size: 102.4%'>umlet(1)</a> <a href='/blog/categories/vim' style='font-size: 104.8%'>vim(2)</a> <a href='/blog/categories/web' style='font-size: 104.8%'>web(2)</a> <a href='/blog/categories/windows' style='font-size: 102.4%'>windows(1)</a> <a href='/blog/categories/xampp' style='font-size: 102.4%'>xampp(1)</a> <a href='/blog/categories/xml' style='font-size: 104.8%'>xml(2)</a> </span>
 </section>
 <section>
   <h1>Categories</h1>
-    <ul id="category-list"><li><a href='/blog/categories/actionbar'>actionbar (1)</a></li><li><a href='/blog/categories/android'>android (25)</a></li><li><a href='/blog/categories/apache'>apache (7)</a></li><li><a href='/blog/categories/authentication'>authentication (1)</a></li><li><a href='/blog/categories/authorization'>authorization (1)</a></li><li><a href='/blog/categories/bash'>bash (4)</a></li><li><a href='/blog/categories/best-practice'>best_practice (1)</a></li><li><a href='/blog/categories/book'>book (1)</a></li><li><a href='/blog/categories/broadcast-receiver'>broadcast_receiver (2)</a></li><li><a href='/blog/categories/cdi'>cdi (2)</a></li><li><a href='/blog/categories/centos'>centos (5)</a></li><li><a href='/blog/categories/clean-code'>clean code (1)</a></li><li><a href='/blog/categories/command'>command (5)</a></li><li><a href='/blog/categories/concurrency'>concurrency (1)</a></li><li><a href='/blog/categories/curl'>curl (1)</a></li><li><a href='/blog/categories/database'>database (6)</a></li><li><a href='/blog/categories/datetime'>datetime (1)</a></li><li><a href='/blog/categories/di'>di (2)</a></li><li><a href='/blog/categories/drawable'>drawable (1)</a></li><li><a href='/blog/categories/ec'>ec (1)</a></li><li><a href='/blog/categories/eclipse'>eclipse (1)</a></li><li><a href='/blog/categories/ecshop'>ecshop (7)</a></li><li><a href='/blog/categories/editor'>editor (1)</a></li><li><a href='/blog/categories/emulator'>emulator (1)</a></li><li><a href='/blog/categories/encoding'>encoding (1)</a></li><li><a href='/blog/categories/english'>english (14)</a></li><li><a href='/blog/categories/excel'>excel (2)</a></li><li><a href='/blog/categories/extjs'>extjs (2)</a></li><li><a href='/blog/categories/gesture'>gesture (1)</a></li><li><a href='/blog/categories/git'>git (4)</a></li><li><a href='/blog/categories/git-flow'>git-flow (1)</a></li><li><a href='/blog/categories/guava'>guava (2)</a></li><li><a href='/blog/categories/guice'>guice (1)</a></li><li><a href='/blog/categories/hamcrest'>hamcrest (1)</a></li><li><a href='/blog/categories/i18n'>i18n (1)</a></li><li><a href='/blog/categories/ide'>IDE (1)</a></li><li><a href='/blog/categories/idea'>IDEA (2)</a></li><li><a href='/blog/categories/imgur'>imgur (1)</a></li><li><a href='/blog/categories/injection'>injection (1)</a></li><li><a href='/blog/categories/intent'>intent (1)</a></li><li><a href='/blog/categories/ireport'>ireport (2)</a></li><li><a href='/blog/categories/jasterreport'>jasterreport (2)</a></li><li><a href='/blog/categories/java'>java (22)</a></li><li><a href='/blog/categories/java-ee'>java_ee (5)</a></li><li><a href='/blog/categories/jms'>jms (1)</a></li><li><a href='/blog/categories/jmx'>JMX (1)</a></li><li><a href='/blog/categories/joda'>joda (1)</a></li><li><a href='/blog/categories/jpa'>jpa (1)</a></li><li><a href='/blog/categories/jquery'>jquery (1)</a></li><li><a href='/blog/categories/jsp'>jsp (2)</a></li><li><a href='/blog/categories/junit'>junit (1)</a></li><li><a href='/blog/categories/jvm'>jvm (2)</a></li><li><a href='/blog/categories/kohana'>kohana (1)</a></li><li><a href='/blog/categories/l10n'>l10n (1)</a></li><li><a href='/blog/categories/layout'>layout (1)</a></li><li><a href='/blog/categories/linux'>linux (11)</a></li><li><a href='/blog/categories/listview'>listview (2)</a></li><li><a href='/blog/categories/logger'>logger (1)</a></li><li><a href='/blog/categories/m2eclilpse'>m2eclilpse (1)</a></li><li><a href='/blog/categories/mac'>mac (3)</a></li><li><a href='/blog/categories/mat'>mat (1)</a></li><li><a href='/blog/categories/maven'>maven (5)</a></li><li><a href='/blog/categories/memory'>memory (1)</a></li><li><a href='/blog/categories/menu'>menu (1)</a></li><li><a href='/blog/categories/mindmap'>mindmap (2)</a></li><li><a href='/blog/categories/misc'>misc (1)</a></li><li><a href='/blog/categories/mysql'>mysql (7)</a></li><li><a href='/blog/categories/nio'>nio (1)</a></li><li><a href='/blog/categories/octopress'>octopress (1)</a></li><li><a href='/blog/categories/oracle'>oracle (1)</a></li><li><a href='/blog/categories/osgi'>osgi (3)</a></li><li><a href='/blog/categories/pdf'>pdf (2)</a></li><li><a href='/blog/categories/pdt'>pdt (5)</a></li><li><a href='/blog/categories/pear'>pear (2)</a></li><li><a href='/blog/categories/performace'>performace (1)</a></li><li><a href='/blog/categories/pgsql'>pgsql (1)</a></li><li><a href='/blog/categories/php'>php (6)</a></li><li><a href='/blog/categories/play-framework'>play_framework (1)</a></li><li><a href='/blog/categories/pm'>pm (5)</a></li><li><a href='/blog/categories/postgresql'>postgresql (2)</a></li><li><a href='/blog/categories/profile'>profile (1)</a></li><li><a href='/blog/categories/programming'>programming (12)</a></li><li><a href='/blog/categories/python'>python (2)</a></li><li><a href='/blog/categories/re'>re (1)</a></li><li><a href='/blog/categories/refactory'>refactory (1)</a></li><li><a href='/blog/categories/rest'>rest (7)</a></li><li><a href='/blog/categories/roboguice'>roboguice (1)</a></li><li><a href='/blog/categories/sbt'>sbt (1)</a></li><li><a href='/blog/categories/scala'>scala (4)</a></li><li><a href='/blog/categories/security'>security (2)</a></li><li><a href='/blog/categories/service'>service (2)</a></li><li><a href='/blog/categories/shiro'>shiro (1)</a></li><li><a href='/blog/categories/shortchut'>shortchut (1)</a></li><li><a href='/blog/categories/smarty'>smarty (3)</a></li><li><a href='/blog/categories/spring'>spring (2)</a></li><li><a href='/blog/categories/sql'>sql (1)</a></li><li><a href='/blog/categories/style'>style (1)</a></li><li><a href='/blog/categories/tdd'>tdd (1)</a></li><li><a href='/blog/categories/testing'>testing (10)</a></li><li><a href='/blog/categories/theme'>theme (1)</a></li><li><a href='/blog/categories/tips'>tips (2)</a></li><li><a href='/blog/categories/tomcat'>tomcat (1)</a></li><li><a href='/blog/categories/ubuntu'>ubuntu (8)</a></li><li><a href='/blog/categories/ui'>ui (2)</a></li><li><a href='/blog/categories/vim'>vim (2)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/windows'>windows (1)</a></li><li><a href='/blog/categories/xampp'>xampp (1)</a></li><li><a href='/blog/categories/xml'>xml (2)</a></li></ul>
+    <ul id="category-list"><li><a href='/blog/categories/actionbar'>actionbar (1)</a></li><li><a href='/blog/categories/android'>android (25)</a></li><li><a href='/blog/categories/apache'>apache (7)</a></li><li><a href='/blog/categories/authentication'>authentication (1)</a></li><li><a href='/blog/categories/authorization'>authorization (1)</a></li><li><a href='/blog/categories/bash'>bash (4)</a></li><li><a href='/blog/categories/best-practice'>best_practice (1)</a></li><li><a href='/blog/categories/book'>book (1)</a></li><li><a href='/blog/categories/broadcast-receiver'>broadcast_receiver (2)</a></li><li><a href='/blog/categories/cdi'>cdi (2)</a></li><li><a href='/blog/categories/centos'>centos (5)</a></li><li><a href='/blog/categories/clean-code'>clean code (1)</a></li><li><a href='/blog/categories/clojure'>clojure (1)</a></li><li><a href='/blog/categories/command'>command (5)</a></li><li><a href='/blog/categories/concurrency'>concurrency (1)</a></li><li><a href='/blog/categories/curl'>curl (1)</a></li><li><a href='/blog/categories/database'>database (6)</a></li><li><a href='/blog/categories/datetime'>datetime (1)</a></li><li><a href='/blog/categories/di'>di (2)</a></li><li><a href='/blog/categories/drawable'>drawable (1)</a></li><li><a href='/blog/categories/ec'>ec (1)</a></li><li><a href='/blog/categories/eclipse'>eclipse (1)</a></li><li><a href='/blog/categories/ecshop'>ecshop (7)</a></li><li><a href='/blog/categories/editor'>editor (1)</a></li><li><a href='/blog/categories/emulator'>emulator (1)</a></li><li><a href='/blog/categories/encoding'>encoding (1)</a></li><li><a href='/blog/categories/english'>english (14)</a></li><li><a href='/blog/categories/excel'>excel (2)</a></li><li><a href='/blog/categories/extjs'>extjs (2)</a></li><li><a href='/blog/categories/functional-programming'>functional programming (1)</a></li><li><a href='/blog/categories/gesture'>gesture (1)</a></li><li><a href='/blog/categories/git'>git (4)</a></li><li><a href='/blog/categories/git-flow'>git-flow (1)</a></li><li><a href='/blog/categories/guava'>guava (2)</a></li><li><a href='/blog/categories/guice'>guice (1)</a></li><li><a href='/blog/categories/hamcrest'>hamcrest (1)</a></li><li><a href='/blog/categories/i18n'>i18n (1)</a></li><li><a href='/blog/categories/ide'>IDE (1)</a></li><li><a href='/blog/categories/idea'>IDEA (2)</a></li><li><a href='/blog/categories/imgur'>imgur (1)</a></li><li><a href='/blog/categories/injection'>injection (1)</a></li><li><a href='/blog/categories/intent'>intent (1)</a></li><li><a href='/blog/categories/ireport'>ireport (2)</a></li><li><a href='/blog/categories/jasterreport'>jasterreport (2)</a></li><li><a href='/blog/categories/java'>java (22)</a></li><li><a href='/blog/categories/java8'>java8 (2)</a></li><li><a href='/blog/categories/java-ee'>java_ee (5)</a></li><li><a href='/blog/categories/jms'>jms (1)</a></li><li><a href='/blog/categories/jmx'>JMX (1)</a></li><li><a href='/blog/categories/joda'>joda (1)</a></li><li><a href='/blog/categories/jpa'>jpa (1)</a></li><li><a href='/blog/categories/jquery'>jquery (1)</a></li><li><a href='/blog/categories/jsp'>jsp (2)</a></li><li><a href='/blog/categories/junit'>junit (1)</a></li><li><a href='/blog/categories/jvm'>jvm (2)</a></li><li><a href='/blog/categories/kohana'>kohana (1)</a></li><li><a href='/blog/categories/l10n'>l10n (1)</a></li><li><a href='/blog/categories/lambda'>lambda (1)</a></li><li><a href='/blog/categories/layout'>layout (1)</a></li><li><a href='/blog/categories/linux'>linux (11)</a></li><li><a href='/blog/categories/listview'>listview (2)</a></li><li><a href='/blog/categories/logger'>logger (1)</a></li><li><a href='/blog/categories/m2eclilpse'>m2eclilpse (1)</a></li><li><a href='/blog/categories/mac'>mac (3)</a></li><li><a href='/blog/categories/mat'>mat (1)</a></li><li><a href='/blog/categories/maven'>maven (5)</a></li><li><a href='/blog/categories/memory'>memory (1)</a></li><li><a href='/blog/categories/menu'>menu (1)</a></li><li><a href='/blog/categories/mindmap'>mindmap (2)</a></li><li><a href='/blog/categories/misc'>misc (1)</a></li><li><a href='/blog/categories/mysql'>mysql (7)</a></li><li><a href='/blog/categories/nio'>nio (1)</a></li><li><a href='/blog/categories/octopress'>octopress (1)</a></li><li><a href='/blog/categories/oracle'>oracle (1)</a></li><li><a href='/blog/categories/osgi'>osgi (3)</a></li><li><a href='/blog/categories/pdf'>pdf (2)</a></li><li><a href='/blog/categories/pdt'>pdt (5)</a></li><li><a href='/blog/categories/pear'>pear (2)</a></li><li><a href='/blog/categories/performace'>performace (1)</a></li><li><a href='/blog/categories/pgsql'>pgsql (1)</a></li><li><a href='/blog/categories/php'>php (6)</a></li><li><a href='/blog/categories/play-framework'>play_framework (1)</a></li><li><a href='/blog/categories/pm'>pm (5)</a></li><li><a href='/blog/categories/postgresql'>postgresql (2)</a></li><li><a href='/blog/categories/profile'>profile (1)</a></li><li><a href='/blog/categories/programming'>programming (12)</a></li><li><a href='/blog/categories/python'>python (2)</a></li><li><a href='/blog/categories/re'>re (1)</a></li><li><a href='/blog/categories/refactory'>refactory (1)</a></li><li><a href='/blog/categories/rest'>rest (7)</a></li><li><a href='/blog/categories/roboguice'>roboguice (1)</a></li><li><a href='/blog/categories/sbt'>sbt (1)</a></li><li><a href='/blog/categories/scala'>scala (4)</a></li><li><a href='/blog/categories/security'>security (2)</a></li><li><a href='/blog/categories/sequence-diagram'>sequence_diagram (1)</a></li><li><a href='/blog/categories/service'>service (2)</a></li><li><a href='/blog/categories/shiro'>shiro (1)</a></li><li><a href='/blog/categories/shortchut'>shortchut (1)</a></li><li><a href='/blog/categories/smarty'>smarty (3)</a></li><li><a href='/blog/categories/spring'>spring (2)</a></li><li><a href='/blog/categories/sql'>sql (1)</a></li><li><a href='/blog/categories/style'>style (1)</a></li><li><a href='/blog/categories/tdd'>tdd (1)</a></li><li><a href='/blog/categories/testing'>testing (10)</a></li><li><a href='/blog/categories/theme'>theme (1)</a></li><li><a href='/blog/categories/tips'>tips (2)</a></li><li><a href='/blog/categories/tomcat'>tomcat (1)</a></li><li><a href='/blog/categories/ubuntu'>ubuntu (8)</a></li><li><a href='/blog/categories/ui'>ui (2)</a></li><li><a href='/blog/categories/uml'>uml (1)</a></li><li><a href='/blog/categories/umlet'>umlet (1)</a></li><li><a href='/blog/categories/vim'>vim (2)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/windows'>windows (1)</a></li><li><a href='/blog/categories/xampp'>xampp (1)</a></li><li><a href='/blog/categories/xml'>xml (2)</a></li></ul>
 </section>
 
   

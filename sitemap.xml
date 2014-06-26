@@ -102,7 +102,7 @@
     </url>
     <url>
         <loc>http://blog.kent-chiu.com/blog/2011/10/17/git_101/</loc>
-        <lastmod>2013-09-15T11:37:06+08:00</lastmod>
+        <lastmod>2014-06-25T16:24:29+08:00</lastmod>
     </url>
     <url>
         <loc>http://blog.kent-chiu.com/blog/2011/10/17/grammer/</loc>
@@ -715,12 +715,28 @@
         <lastmod>2014-01-01T17:32:28+08:00</lastmod>
     </url>
     <url>
+        <loc>http://blog.kent-chiu.com/blog/2014/03/14/java-8-date-and-time-api/</loc>
+        <lastmod>2014-06-26T23:46:06+08:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.kent-chiu.com/blog/2014/03/14/java-8-utility-object/</loc>
+        <lastmod>2014-06-21T15:59:02+08:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.kent-chiu.com/blog/2014/03/14/java-8-lambda/</loc>
+        <lastmod>2014-06-21T15:58:52+08:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.kent-chiu.com/blog/2015/03/14/umlet-sequence-diagram/</loc>
+        <lastmod>2014-05-30T12:44:54+08:00</lastmod>
+    </url>
+    <url>
         <loc>http://blog.kent-chiu.com/blog/archives/</loc>
-        <lastmod>2014-05-29T12:21:27+08:00</lastmod>
+        <lastmod>2014-06-26T23:46:06+08:00</lastmod>
     </url>
     <url>
         <loc>http://blog.kent-chiu.com/</loc>
-        <lastmod>2014-05-29T12:21:27+08:00</lastmod>
+        <lastmod>2014-06-26T23:46:06+08:00</lastmod>
     </url>
     <url>
         <loc>http://blog.kent-chiu.com/robots.txt</loc>

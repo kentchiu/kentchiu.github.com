@@ -4,7 +4,7 @@
   <title><![CDATA[Kent's Blog]]></title>
   <link href="http://blog.kent-chiu.com/atom.xml" rel="self"/>
   <link href="http://blog.kent-chiu.com/"/>
-  <updated>2014-05-29T12:26:05+08:00</updated>
+  <updated>2014-06-27T00:01:08+08:00</updated>
   <id>http://blog.kent-chiu.com/</id>
   <author>
     <name><![CDATA[Kent]]></name>
@@ -12,6 +12,399 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[UMLet Sequence Diagram]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2015/03/14/umlet-sequence-diagram/"/>
+    <updated>2015-03-14T12:05:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2015/03/14/umlet-sequence-diagram</id>
+    <content type="html"><![CDATA[<p><img src="http://blog.kent-chiu.com/images/2014-05-14/umlet-sequence-diagram_001.jpg" alt="img_001" /></p>
+
+<pre><code>title: sample
+_alpha:A~id1_|_beta:B~id2_|_gamma:G~id3_
+id1-&gt;&gt;id2:id1,id2
+id2-/&gt;id1:async Msg.
+id3-&gt;&gt;&gt;id1:id1,id3
+id1.&gt;id3:id1,id3:async return Msg
+id1-&gt;id1:id1:self
+// this comment will not be render
+iframe{:interaction frame
+id2-&gt;id3:id1,id3:async Msg.
+iframe}
+</code></pre>
+
+<p><code>title</code> : 圖左上方的標題</p>
+
+<h2>Life Cycle</h2>
+
+<p><code>_alpha:A~id1_</code> : alpha 是instance name, A: 是class name, id1 是識別用的id，用來當作其他圖示的reference，加上 <code>_</code> 則會出現下畫線</p>
+
+<h2>Message</h2>
+
+<p>訊息流向的基本格式為: <code>line:active:name</code> ，可以分成三段</p>
+
+<ol>
+<li><p>第一段是訊息的線條
+訊息的線條又可分為</p>
+
+<ul>
+<li><code>-&gt;&gt;</code> 同步，空心箭頭</li>
+<li><code>-/&gt;</code> 非同步，單邊箭頭</li>
+<li>&#8217;->>>&#8217; 同步，實心箭頭</li>
+<li>&#8217;.>&#8217; 非同步，虛線</li>
+<li>&#8217;->&#8217; 同步</li>
+</ul>
+</li>
+<li><p>第二段是訊息是否活動中
+如果是活動中的訊息，會出現 execution specification (或者是 activation)</p></li>
+<li><p>第三段是訊息的名稱，可省略</p></li>
+</ol>
+
+
+<p>ex:</p>
+
+<p><code>id1-&gt;&gt;id2:id1,id2</code> :  <code>-&gt;&gt;</code> 表示同步訊息，從id1到id2
+<code>id2-/&gt;id1:async Msg</code> : <code>-/&gt;</code> 表示非同步訊息，<code>async Msg</code>是訊息名稱
+<code>3-&gt;&gt;&gt;1:1,3</code> : <code>-&gt;&gt;&gt;</code> 表示</p>
+
+<h2>Interaction Fragment</h2>
+
+<p>在 iframe 包來的範圍是 interaction fragment</p>
+
+<h2>Resource</h2>
+
+<ul>
+<li><a href="http://www.uml-diagrams.org/sequence-diagrams.html">http://www.uml-diagrams.org/sequence-diagrams.html</a> uml圖示說明</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Java 8 lambda]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2014/03/14/java-8-lambda/"/>
+    <updated>2014-03-14T12:47:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2014/03/14/java-8-lambda</id>
+    <content type="html"><![CDATA[<p>基本語法:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'>    <span class="o">(</span><span class="n">parameters</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">expression</span>
+</span><span class='line'><span class="n">or</span>
+</span><span class='line'>    <span class="o">(</span><span class="n">parameters</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span> <span class="n">statements</span><span class="o">;</span> <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">(</span><span class="n">parameters</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">expression</span>
+</span><span class='line'><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="o">;</span>    <span class="c1">// 計算 x + y 的結果</span>
+</span><span class='line'><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Hi! &quot;</span> <span class="o">+</span> <span class="n">name</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">(</span><span class="n">parameters</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span> <span class="n">statements</span><span class="o">;</span> <span class="o">}</span>
+</span><span class='line'><span class="n">x</span> <span class="o">-&gt;</span> <span class="o">{</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="o">;</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">2</span><span class="o">;</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">3</span><span class="o">;</span> <span class="k">return</span> <span class="n">x</span><span class="o">;</span> <span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>參數的型別如果沒有指定的，會進行類型推斷(type infer)</p>
+
+<h4>functional interface</h4>
+
+<p>只有定義一個抽象方法的interface叫&#8221;functional interface&#8221;，functional interface主要的用途是做 lambda expression.</p>
+
+<p>在對lambda的使用還不熟悉時，可以先用anonymous class來一步一步轉換成lambda</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="c1">// Stream裡filter method的宣告，filter method需要傳入一個Predicate的interface</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Stream</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="kd">extends</span> <span class="n">BaseStream</span><span class="o">&lt;</span><span class="n">T</span><span class="o">,</span> <span class="n">Stream</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;&gt;</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">Stream</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="nf">filter</span><span class="o">(</span><span class="n">Predicate</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="n">T</span><span class="o">&gt;</span> <span class="n">predicate</span><span class="o">);</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Predicate主要是透過test這個method來解決結果是true，或false </span>
+</span><span class='line'><span class="nd">@FunctionalInterface</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Predicate</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="o">{</span>
+</span><span class='line'>    <span class="cm">/**</span>
+</span><span class='line'><span class="cm">     * Evaluates this predicate on the given argument.</span>
+</span><span class='line'><span class="cm">     *</span>
+</span><span class='line'><span class="cm">     * @param t the input argument</span>
+</span><span class='line'><span class="cm">     * @return {@code true} if the input argument matches the predicate,</span>
+</span><span class='line'><span class="cm">     * otherwise {@code false}</span>
+</span><span class='line'><span class="cm">     */</span>
+</span><span class='line'>    <span class="kt">boolean</span> <span class="nf">test</span><span class="o">(</span><span class="n">T</span> <span class="n">t</span><span class="o">);</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>sample:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'>    <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">list</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+</span><span class='line'>    <span class="n">list</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+</span><span class='line'>    <span class="n">list</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="mi">2</span><span class="o">);</span>
+</span><span class='line'>    <span class="n">list</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="mi">3</span><span class="o">);</span>
+</span><span class='line'>    <span class="n">list</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="mi">4</span><span class="o">);</span>
+</span><span class='line'>    <span class="n">list</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="mi">5</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// 先用anonymous實作，這邊就可以看出來，如果Predicate有超過一個的abstract method，</span>
+</span><span class='line'>    <span class="n">Predicate</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">predicate</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Predicate</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;()</span> <span class="o">{</span>
+</span><span class='line'>        <span class="nd">@Override</span>
+</span><span class='line'>        <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">test</span><span class="o">(</span><span class="n">Integer</span> <span class="n">i</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="o">;</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>    <span class="o">};</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// 執行後，results會只包含list中大於3的數，所以為4,5這兩個數字    </span>
+</span><span class='line'>    <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">results</span> <span class="o">=</span> <span class="n">list</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">filter</span><span class="o">(</span><span class="n">predicate</span><span class="o">).</span><span class="na">collect</span><span class="o">(</span><span class="n">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">());</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// 傳成lambda時，因為Predicate是function interface，只有一個abstract method，</span>
+</span><span class='line'>    <span class="c1">// 所以，我們可以很清楚的知道，我們要實作的method是`public boolean test(Integer i)`</span>
+</span><span class='line'>    <span class="c1">// 傳入的參數為Integer, 而實作的logic為判斷參數是否大於3</span>
+</span><span class='line'>    <span class="n">Predicate</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">predicate</span> <span class="o">=</span> <span class="o">(</span><span class="n">Integer</span> <span class="n">i</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span><span class="k">return</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="o">;};</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// java8的compier類型推斷(type infer)能力變強了，可以compiler可以由程式的上下文(context)猜出正確的型別，</span>
+</span><span class='line'>    <span class="c1">// lambda expression可以再簡化如下</span>
+</span><span class='line'>    <span class="n">Predicate</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">predicate</span> <span class="o">=</span> <span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span><span class="k">return</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="o">;};</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// 再把冗餘的括號點去掉，lambda expression預設會return最後一行的值，所以，return也可以去掉    </span>
+</span><span class='line'>    <span class="n">Predicate</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">predicate</span> <span class="o">=</span> <span class="n">i</span> <span class="o">-&gt;</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// 在filter中套上predicate</span>
+</span><span class='line'>    <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">results</span> <span class="o">=</span> <span class="n">list</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">filter</span><span class="o">(</span><span class="n">predicate</span><span class="o">).</span><span class="na">collect</span><span class="o">(</span><span class="n">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">());</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// 對predicate執行 inline variable的refactory</span>
+</span><span class='line'>    <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">results</span> <span class="o">=</span> <span class="n">list</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">filter</span><span class="o">(</span><span class="n">i</span> <span class="o">-&gt;</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="o">).</span><span class="na">collect</span><span class="o">(</span><span class="n">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">());</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在Predicate中，還有幾個default method，主要是用來輔助Predicate的使用，例如我們想取出上面相反的結果(不是大於3的值)，
+直覺的方式，就是判斷的邏輯 <code>i&gt;3</code> 改寫成 <code>!(i &gt; 3)</code>，而Predicate.negate()這個default method就是在做這件事</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'>    <span class="n">Predicate</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">predicate</span> <span class="o">=</span> <span class="n">i</span> <span class="o">-&gt;</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="o">;</span>  <span class="c1">// 先把lambda express從filter method中extract出來</span>
+</span><span class='line'>    <span class="n">Predicate</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">negate</span> <span class="o">=</span> <span class="n">predicate</span><span class="o">.</span><span class="na">negate</span><span class="o">();</span> <span class="c1">// 取反向的值 </span>
+</span><span class='line'>    <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">results</span> <span class="o">=</span> <span class="n">list</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">filter</span><span class="o">(</span><span class="n">negate</span><span class="o">).</span><span class="na">collect</span><span class="o">(</span><span class="n">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">());</span> <span class="c1">// 得到的results為 1, 2, 3</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>可以看到，我們用<code>predicate.negate()</code>就不用直接改寫原來的邏輯，只要直接對predicate做negate的運算即可。</p>
+
+<p>Predicate還有幾個default methods都是在做Predicate運算時常會用到的，功用跟<a href="http://docs.guava-libraries.googlecode.com/git/javadoc/com/google/common/base/Predicates.html">guava lib中的Predicats</a>類型，
+Predicate function interface 的完整程式如下</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'>    <span class="nd">@FunctionalInterface</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Predicate</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="o">{</span>
+</span><span class='line'>        <span class="kt">boolean</span> <span class="nf">test</span><span class="o">(</span><span class="n">T</span> <span class="n">t</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">default</span> <span class="n">Predicate</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="nf">and</span><span class="o">(</span><span class="n">Predicate</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="n">T</span><span class="o">&gt;</span> <span class="n">other</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>            <span class="n">Objects</span><span class="o">.</span><span class="na">requireNonNull</span><span class="o">(</span><span class="n">other</span><span class="o">);</span>
+</span><span class='line'>            <span class="k">return</span> <span class="o">(</span><span class="n">t</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">test</span><span class="o">(</span><span class="n">t</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="n">other</span><span class="o">.</span><span class="na">test</span><span class="o">(</span><span class="n">t</span><span class="o">);</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">default</span> <span class="n">Predicate</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="nf">negate</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="o">(</span><span class="n">t</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">!</span><span class="n">test</span><span class="o">(</span><span class="n">t</span><span class="o">);</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">default</span> <span class="n">Predicate</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="nf">or</span><span class="o">(</span><span class="n">Predicate</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="n">T</span><span class="o">&gt;</span> <span class="n">other</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>            <span class="n">Objects</span><span class="o">.</span><span class="na">requireNonNull</span><span class="o">(</span><span class="n">other</span><span class="o">);</span>
+</span><span class='line'>            <span class="k">return</span> <span class="o">(</span><span class="n">t</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">test</span><span class="o">(</span><span class="n">t</span><span class="o">)</span> <span class="o">||</span> <span class="n">other</span><span class="o">.</span><span class="na">test</span><span class="o">(</span><span class="n">t</span><span class="o">);</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>        <span class="kd">static</span> <span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">Predicate</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">isEqual</span><span class="o">(</span><span class="n">Object</span> <span class="n">targetRef</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="o">(</span><span class="kc">null</span> <span class="o">==</span> <span class="n">targetRef</span><span class="o">)</span>
+</span><span class='line'>                    <span class="o">?</span> <span class="nl">Objects:</span><span class="o">:</span><span class="n">isNull</span>
+</span><span class='line'>                    <span class="o">:</span> <span class="n">object</span> <span class="o">-&gt;</span> <span class="n">targetRef</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">object</span><span class="o">);</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>    <span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>lambda expression</h4>
+
+<p>A lambda expression is an instance of a functional interface</p>
+
+<h1>RESOURCE</h1>
+
+<ul>
+<li>http://www.techempower.com/blog/2013/03/26/everything-about-java-8/</li>
+<li>http://winterbe.com/posts/2014/03/16/java-8-tutorial/</li>
+<li>http://docs.oracle.com/javase/tutorial/collections/streams/reduction.html - reduce</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Java 8 好用工具箱]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2014/03/14/java-8-utility-object/"/>
+    <updated>2014-03-14T12:43:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2014/03/14/java-8-utility-object</id>
+    <content type="html"><![CDATA[<p>java 8 多了不少好用的工具類class，例如: 字串處理，null處理…之前透常是透過<a href="https://code.google.com/p/guava-libraries/">google guava</a>，或<a href="http://commons.apache.org/proper/commons-lang/">apache common lang</a>來處理，現在java 8 就有內建了。</p>
+
+<ul>
+<li><a href="http://download.java.net/jdk8/docs/api/java/util/Optional.html">Optional</a> 更安全、方便處理NULL的物件</li>
+<li>Objects</li>
+<li>StringJoin</li>
+</ul>
+
+
+<h4>Objects</h4>
+
+<ul>
+<li>requireNonNull(T obj) 如果傳入的obj為空，會丟出<code>NullPointerException</code>異常</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Java 8 時間、日期 API]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2014/03/14/java-8-date-and-time-api/"/>
+    <updated>2014-03-14T12:35:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2014/03/14/java-8-date-and-time-api</id>
+    <content type="html"><![CDATA[<p>在做java 8 time轉換傳統的 java.util.Date時，要記住一個大原則，就是java 8的 LocalXXX是沒時區的，所以，要想辦法補上時區之後，之後再轉成Instant，就很容易轉換到Date(雖然整個過程實在說不上<strong>容易</strong>)</p>
+
+<ul>
+<li>Date -> LocalDate</li>
+<li>Date -> LocalTime</li>
+<li>Date -> LocalDateTime</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="c1">// 先轉成 Instant</span>
+</span><span class='line'><span class="n">Instant</span> <span class="n">instant</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Date</span><span class="o">().</span><span class="na">toInstant</span><span class="o">();</span>
+</span><span class='line'><span class="c1">// LocalDateTime 有提供 ofInstant 的factory method</span>
+</span><span class='line'><span class="n">LocalDateTime</span> <span class="n">localDateTime</span> <span class="o">=</span> <span class="n">LocalDateTime</span><span class="o">.</span><span class="na">ofInstant</span><span class="o">(</span><span class="n">instant</span><span class="o">,</span> <span class="n">ZoneId</span><span class="o">.</span><span class="na">systemDefault</span><span class="o">());</span>  <span class="c1">//2014-06-06T00:41:19.550 </span>
+</span><span class='line'><span class="c1">// LocalDate,LocalTime 沒有提供 ofInstant，需先轉成 LocalDateTime 後再 toLocalDate() 或 toLocalTime()</span>
+</span><span class='line'><span class="n">LocalDate</span> <span class="n">localDate</span>  <span class="o">=</span> <span class="n">localDateTime</span><span class="o">.</span><span class="na">toLocalDate</span><span class="o">();</span> <span class="c1">//00:41:19.550</span>
+</span><span class='line'><span class="n">LocalTime</span> <span class="n">localTime</span> <span class="o">=</span> <span class="n">localDateTime</span><span class="o">.</span><span class="na">toLocalTime</span><span class="o">();</span> <span class="c1">//2014-06-06</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>LocalDate -> Date</li>
+<li>LocalTime -> Date</li>
+<li>LocalDateTime -> Date</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">LocalDateTime</span> <span class="n">localDateTime</span> <span class="o">=</span> <span class="n">LocalDateTime</span><span class="o">.</span><span class="na">now</span><span class="o">();</span>
+</span><span class='line'><span class="n">Instant</span> <span class="n">instant</span> <span class="o">=</span> <span class="n">localDateTime</span><span class="o">.</span><span class="na">toInstant</span><span class="o">(</span><span class="n">ZoneOffset</span><span class="o">.</span><span class="na">UTC</span><span class="o">);</span>
+</span><span class='line'><span class="n">Date</span> <span class="n">date</span> <span class="o">=</span> <span class="n">Date</span><span class="o">.</span><span class="na">from</span><span class="o">(</span><span class="n">instant</span><span class="o">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>日期格式</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">LocalDateTime</span><span class="o">.</span><span class="na">now</span><span class="o">().</span><span class="na">format</span><span class="o">(</span><span class="n">DateTimeFormatter</span><span class="o">.</span><span class="na">ofPattern</span><span class="o">(</span><span class="s">&quot;yyyy-MM-dd HH:mm&quot;</span><span class="o">));</span> <span class="c1">//2014-06-06 00:52</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>LocalDateTime 是沒有時區資訊的，所以，如果要轉成 epoch (unix time)，就必需要加入時區資訊，沒有加入時區，就無法直接轉換。</p>
+
+<p>LocalDateTime 對人來說，是使用上比較直覺的，不管在世界上任何一個地方 &#8216;2014-1-1 12:00:00&#8217; 都是指2014年第一天的中午12點，不用去管時區，但，如果把這個時間轉成格林威治時間(GMT)，或世界協調時間(UTC)，就必需加上時區的資料，才會正確，美國紐約的 &#8216;2014-1-1 12:00:00&#8217;跟台灣的&#8217;2014-1-1 12:00:00&#8217;, 一定是不一樣的，美國紐約是GMT - 4:00，台灣是GMT + 8:00</p>
+
+<p>java的 getMillis() 的是採 unix timesamp(epoch)的設計，所以，如果要轉成 MILL</p>
+
+<blockquote><p><a href="http://www.computerhope.com/jargon/e/epoch.htm">epoch</a>通常是指從1970/1/1 開始增加至今的秒數，最多可到2038-1-19 03:14:07 (32位元有號數最大值: 2,147,483,647)
+<img src="http://en.wikipedia.org/wiki/Year_2038_problem#mediaviewer/File:Year_2038_problem.gif" alt="img" /></p></blockquote>
+
+<h2>Resource</h2>
+
+<ul>
+<li><a href="http://docs.oracle.com/javase/tutorial/datetime/iso/legacy.html">http://docs.oracle.com/javase/tutorial/datetime/iso/legacy.html</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Python type hint in IDEA]]></title>
@@ -2267,304 +2660,6 @@ extract 出去成為另一個獨立的 class， 這樣對兩個 classes 來說�
 
 <ul>
 <li>planetgeek.ch 整理的clean code cheetsheet <a href="http://www.planetgeek.ch/2013/06/05/clean-code-cheat-sheet/">http://www.planetgeek.ch/2013/06/05/clean-code-cheat-sheet/</a> , <a href='http://blog.kent-chiu.com/images/blog/2013-04-22/Clean-Code-V2.2.pdf'>備份檔</a></li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[在 Windwos OS 上安裝git flow]]></title>
-    <link href="http://blog.kent-chiu.com/blog/2013/03/14/install-git-flow-on-windows/"/>
-    <updated>2013-03-14T21:48:00+08:00</updated>
-    <id>http://blog.kent-chiu.com/blog/2013/03/14/install-git-flow-on-windows</id>
-    <content type="html"><![CDATA[<p>git-flow on windows主要是參考這篇文章
-https://github.com/nvie/gitflow/wiki/Windows</p>
-
-<h2>下載相關檔案</h2>
-
-<p>git官網下載的git是屬於MSysGit版的，所以，要按照MSysGit的安裝步驟進行git flow的安裝</p>
-
-<p>首先要先安裝<code>util-linux-ng for Windows</code>,<code>util-linux-ng for Windows</code>可以到
-http://gnuwin32.sourceforge.net/packages/util-linux-ng.htm 下載，點選下圖紅框的檔案連結下次二進制文件的zip檔</p>
-
-<p><img src="http://blog.kent-chiu.com/images/2013-03-14/2013-03-14-install-git-flow-on-windows-001.png" alt="2013-03-14-install-git-flow-on-windows-001.png" /></p>
-
-<p>需一併下載上圖中下方紅框的<code>libintl</code>，libintl的連結會進入另一個網頁 http://gnuwin32.sourceforge.net/packages/libintl.htm，一樣下載Binaries的zip檔即可</p>
-
-<p>再來需要確定一下git安裝的路徑，如果是32位元的os會是在 <code>C:\Program Files\Git</code>, 64位元的os會是在 <code>C:\Program Files (x86)\Git</code> (<strong>以下的步驟以64位元的os的git安裝目錄為例</strong>)</p>
-
-<p>下載後的 util-linux-ng-2.14.1-bin.zip 解壓，可以在<code>util-linux-ng-2.14.1-bin\bin</code>找到 getopt.exe
-下載後的libintl-0.14.4-bin.zip解壓，可以在<code>libintl-0.14.4-bin\bin</code>找到 libintl3.dll</p>
-
-<p>將getopt.exe跟 libintl3.dll copy到git安裝目錄 <code>C:\Program Files (x86)\Git</code></p>
-
-<h2>clone git flow</h2>
-
-<p>clone github上的gitflow到臨時性的工作目錄 <code>c:\gitflow</code> (<em>這個目錄做完安裝後可以刪除</em>)</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>git clone --recursive git://github.com/nvie/gitflow.git c:\gitflow</span></code></pre></td></tr></table></div></figure>
-
-
-<p>clone完成後，到 c:\gitflow\contrib 執行</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>C:\gitflow\contrib&gt;msysgit-install.cmd "C:\Program Files (x86)\Git"</span></code></pre></td></tr></table></div></figure>
-
-
-<p>執行後，會看到一些檔案被複制到git安裝目錄</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>C:\gitflow\git-flow -&gt; C:\Program Files (x86)\Git\bin\git-flow
-</span><span class='line'>C:\gitflow\git-flow-feature -&gt; C:\Program Files (x86)\Git\bin\git-flow-feature
-</span><span class='line'>C:\gitflow\git-flow-hotfix -&gt; C:\Program Files (x86)\Git\bin\git-flow-hotfix
-</span><span class='line'>C:\gitflow\git-flow-init -&gt; C:\Program Files (x86)\Git\bin\git-flow-init
-</span><span class='line'>C:\gitflow\git-flow-release -&gt; C:\Program Files (x86)\Git\bin\git-flow-release
-</span><span class='line'>C:\gitflow\git-flow-support -&gt; C:\Program Files (x86)\Git\bin\git-flow-support
-</span><span class='line'>C:\gitflow\git-flow-version -&gt; C:\Program Files (x86)\Git\bin\git-flow-version
-</span><span class='line'>已複製 7 個檔案
-</span><span class='line'>C:\gitflow\gitflow-common -&gt; C:\Program Files (x86)\Git\bin\gitflow-common
-</span><span class='line'>C:\gitflow\gitflow-shFlags -&gt; C:\Program Files (x86)\Git\bin\gitflow-shFlags
-</span><span class='line'>已複製 2 個檔案
-</span><span class='line'>C:\gitflow\shFlags\src\shflags -&gt; C:\Program Files (x86)\Git\bin\gitflow-shFlags
-</span><span class='line'>已複製 1 個檔案</span></code></pre></td></tr></table></div></figure>
-
-
-<p>這樣整個安裝步驟就全部完成了</p>
-
-<h2>試車</h2>
-
-<p>可以在windows的command  windows裡打git flow，如果有看到類似以下的訊息就ok了</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>C:\gitflow\contrib&gt;git flow
-</span><span class='line'>usage: git flow &lt;subcommand&gt;
-</span><span class='line'>
-</span><span class='line'>Available subcommands are:
-</span><span class='line'>   init      Initialize a new git repo with suppo
-</span><span class='line'>   feature   Manage your feature branches.
-</span><span class='line'>   release   Manage your release branches.
-</span><span class='line'>   hotfix    Manage your hotfix branches.
-</span><span class='line'>   support   Manage your support branches.
-</span><span class='line'>   version   Shows version information.
-</span><span class='line'>
-</span><span class='line'>Try 'git flow &lt;subcommand&gt; help' for details.</span></code></pre></td></tr></table></div></figure>
-
-
-<p>到這裡都ok的話，之前的臨時性的工作目錄 <code>c:\gitflow</code>可以刪了它</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Spring Rest檔案上傳及下載]]></title>
-    <link href="http://blog.kent-chiu.com/blog/2013/03/10/file-upload-and-download-in-spring-rest-mvc/"/>
-    <updated>2013-03-10T14:27:00+08:00</updated>
-    <id>http://blog.kent-chiu.com/blog/2013/03/10/file-upload-and-download-in-spring-rest-mvc</id>
-    <content type="html"><![CDATA[<p>File upload</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>@RequestMapping(value = "/foobar/upload", method = RequestMethod.POST)
-</span><span class='line'>public @ResponseBody
-</span><span class='line'>String upload(@RequestParam("file") MultipartFile file, @RequestParam("fileId") String fileId) {
-</span><span class='line'>  logger.info("save import file {} to {}", file.getOriginalFilename(), fileId);
-</span><span class='line'>
-</span><span class='line'>  File resultHome = getWorkingDir();
-</span><span class='line'>  File temp = new File(resultHome, fileId);
-</span><span class='line'>  try {
-</span><span class='line'>      IOUtils.copy(file.getInputStream(), new FileOutputStream(temp));
-</span><span class='line'>      return "{success: true}";
-</span><span class='line'>  } catch (FileNotFoundException e) {
-</span><span class='line'>      logger.error("upload file fail", e);
-</span><span class='line'>  } catch (IOException e) {
-</span><span class='line'>      logger.error("upload file fail", e);
-</span><span class='line'>  }
-</span><span class='line'>  return "{success: false}";
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>File Download</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>@RequestMapping(value = "/forbar/export", method = RequestMethod.GET)
-</span><span class='line'>public HttpEntity&lt;byte[]&gt; excelExcel() throws IOException {
-</span><span class='line'>  File file = new File("myexcel.xls");
-</span><span class='line'>  byte[] body = FileUtils.readFileToByteArray(file);
-</span><span class='line'>  HttpHeaders header = new HttpHeaders();
-</span><span class='line'>  header.setContentType(new MediaType("application", "xls"));
-</span><span class='line'>  header.set("Content-Disposition", "attachment; filename=" + "foobar.xls");
-</span><span class='line'>  header.setContentLength(body.length);
-</span><span class='line'>  return new HttpEntity&lt;byte[]&gt;(body, header);
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Octopress配置]]></title>
-    <link href="http://blog.kent-chiu.com/blog/2013/03/04/octopress-configuration/"/>
-    <updated>2013-03-04T00:31:00+08:00</updated>
-    <id>http://blog.kent-chiu.com/blog/2013/03/04/octopress-configuration</id>
-    <content type="html"><![CDATA[<p>配置檔說明在 : https://github.com/mojombo/jekyll/wiki/Configuration</p>
-
-<p>plugins : https://github.com/imathis/octopress/wiki/3rd-party-plugins</p>
-
-<p>小抄: http://dreamrunner.org/wiki/public_html/docs/Web/octopress.html</p>
-
-<hr />
-
-<h4>加快generate的速度</h4>
-
-<p>文章數不到200篇，但在i7的cpu上generate已經要需近一分鐘的時間，還好octopress提供了一個快速generate的指令<code>rake isolate</code>
-，動作原理就是開一個暫存的目錄<code>_stash</code>要generate前會把<code>_post</code>裡的所有檔案copy到暫存的目錄<code>_stash</code>下，等要
-deploy時，再透過指令<code>rake integrate</code>將檔案copy回<code>_post</code></p>
-
-<p>使用範例如下</p>
-
-<p><code>source/_post</code>有10篇文章，其中有一篇檔名為<code>2013-03-04-foo-bar.md</code>是這次要編輯的</p>
-
-<p>透過<code>rake isolate</code>來隔離<code>2013-03-04-foo-bar.md</code>之外的文章</p>
-
-<pre><code> rake isolate[foo-bar]
-</code></pre>
-
-<p>檔名要去掉日期的部份及副檔名, 下完指令後<code>_post</code>目錄下只剩<code>2013-03-04-foo-bar.md</code>這個檔案</p>
-
-<pre><code>rake generate
-</code></pre>
-
-<p>只剩一個檔案，generate速度當然飛快</p>
-
-<p>文章編輯完成，準備發佈前記得透過<code>rake integrate</code>把其他檔案從<code>_stage</code>目錄copy回來</p>
-
-<pre><code>rake integrate
-</code></pre>
-
-<p>此時，所有的檔案已經都回到<code>_post</code>目錄，這時必須再對所有內容<code>generate</code>一次，就可以進行發佈<code>rake deploy</code>了</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Android 模擬器 101]]></title>
-    <link href="http://blog.kent-chiu.com/blog/2012/12/28/android_emulator_101/"/>
-    <updated>2012-12-28T00:00:00+08:00</updated>
-    <id>http://blog.kent-chiu.com/blog/2012/12/28/android_emulator_101</id>
-    <content type="html"><![CDATA[<p>Android Emulator是
-QEMU-based的應用程式，主要功能是在PC上建立一個虛擬的Android平台環境，並提供一個GUI的仿手機介面以供操作。
-Android
-Emulator可以模擬任何Android平台的任何功能，可以模擬手機應用程式執行情形，也可以模擬Native
-Code的功能。
-模擬器有可客制化功能，可以在runtime時選定要用那一種角析度的LCD，要支援什麼樣的硬體設備(攝影機、錄音功能、簡訊、GPS…)</p>
-
-<h3>啟動</h3>
-
-<p>可以透過EclipseADT啟動，也可以直接從Command Line啟動</p>
-
-<h4>透過Eclipse ADT啟動</h4>
-
-<p><img src="http://blog.kent-chiu.com/images/2012-12-28/android_emulator_101_01.png" alt="android_emulator_101_01.png" /></p>
-
-<p>你可以加入許多<a href="http://developer.android.com/guide/developing/tools/emulator.html#startup-options" title="http://developer.android.com/guide/developing/tools/emulator.html#startup-options">啟動參數</a>來設定啟動後的環境，
-比如說是否啟用debug mode，是否套用特定的skin等。</p>
-
-<p>在Eclipse ADT中加入啟動參數的方法是在menu > Run Configuration > Target
-tab</p>
-
-<p><img src="http://blog.kent-chiu.com/images/2012-12-28/android_emulator_101_03.png" alt="android_emulator_101_03.png" /></p>
-
-<h4>從Command Line啟動</h4>
-
-<p>透過command line啟動的方式如下：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>emulator -avd AVD2</span></code></pre></td></tr></table></div></figure>
-
-
-<p>AVD2是上圖的ADV Name，那個是建立<strong>A</strong>ndroid <strong>V</strong>irtual
-<strong>D</strong>evice建，其中一個步驟要求輸入的內容</p>
-
-<h5>啟動後的畫面</h5>
-
-<p>啟動時需要幾秒到幾分鐘的時間(一個完整的OS在VM中啟動，當然要花些時間)，啟動後，你可以一直讓模擬器維持開啟狀況，不必隨著你的程式的關閉而關閉。</p>
-
-<p><img src="http://blog.kent-chiu.com/images/2012-12-28/android_emulator_101_02.png" alt="android_emulator_101_02.png" /></p>
-
-<h1>解析度</h1>
-
-<ul>
-<li>QVGA 320×240, 120dpi, 3.3</li>
-<li>WQVGA432 432×240, 120dpi, 3.9</li>
-<li>HVGA 480×320, 160dpi, 3.6</li>
-<li>WVGA800 800×480, 240dpi, 3.9</li>
-<li>WVGA854 854×480, 240dpi, 4.1</li>
-</ul>
-
-
-<p><img src="http://cdn3.techbang.com.tw/system/images/23074/original/ex_1_wv1.jpg" alt="" /></p>
-
-<p>圖片來源
-<a href="http://www.techbang.com.tw/posts/3053-search-text-to-explain-words-wvga-high-resolution-handheld-devices-necessary?utm_source=feedburner&amp;utm_medium=feed&amp;utm_campaign=Feed%3A+techbang+%28T%E5%AE%A2%E9%82%A6+%E6%9C%80%E6%96%B0%E6%96%87%E7%AB%A0%29&amp;utm_content=Google+Reader" title="http://www.techbang.com.tw/posts/3053-search-text-to-explain-words-wvga-high-resolution-handheld-devices-necessary?utm_source=feedburner&amp;utm_medium=feed&amp;utm_campaign=Feed%3A+techbang+%28T%E5%AE%A2%E9%82%A6+%E6%9C%80%E6%96%B0%E6%96%87%E7%AB%A0%29&amp;utm_content=Google+Reader">T客邦</a></p>
-
-<p>在啟動模擬器前，還有一個啟動選項(Launch Options)畫面，將scale to real
-size勾選，可以讓模擬器瑩幕的大小跟實際在手機上看到比較接近。
-這樣可以確定實際按鍵的大小，比較容易評量會不會因為按鍵太小而不容易操作。</p>
-
-<p><img src="http://blog.kent-chiu.com/images/2012-12-28/android_emulator_101_004.png" alt="android_emulator_101_004.png" /></p>
-
-<h1>Resources</h1>
-
-<ul>
-<li><a href="http://developer.android.com/guide/developing/tools/emulator.html" title="http://developer.android.com/guide/developing/tools/emulator.html">Android Emulator</a></li>
-<li><a href="http://developer.android.com/guide/developing/tools/avd.html" title="http://developer.android.com/guide/developing/tools/avd.html">Android Virtual Devices</a></li>
 </ul>
 
 ]]></content>

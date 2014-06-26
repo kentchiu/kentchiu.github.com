@@ -9,7 +9,26 @@
   <meta name="author" content="Kent">
 
   
-  <meta name="description" content="設計網站時，常會用到許多小小的icon檔(任何圖檔格式)，如果每個小小的icon都是獨立的檔案，這樣會比較不好管理。 解決的方式是先將數個小圖檔給組合成一個單一的圖檔，然後用css定位跟指定大小的方式來顯示需要的icon。 以上面的圖檔來說，我們若只需要x這個icons， &hellip;">
+  <meta name="description" content="Installation download uncompressed version
+JQuery.js
+includes in html file 1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+&lt;html&gt;
+&lt;head&gt;
+&lt;script &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +96,812 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/jquery_101/">JQuery 101</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/jquery_101/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>Installation</h1>
+
+<ul>
+<li>download uncompressed version
+<a href="http://docs.jquery.com/Downloading_jQuery" title="http://docs.jquery.com/Downloading_jQuery">JQuery.js</a></li>
+<li>includes in html file</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;html&gt;
+</span><span class='line'>&lt;head&gt;
+</span><span class='line'>&lt;script type="text/javascript" src="../js/jquery.js"&gt;&lt;/script&gt;
+</span><span class='line'>&lt;script type="text/javascript"&gt;
+</span><span class='line'>     $(document).ready(function(){
+</span><span class='line'>       $("a").click(function(event){
+</span><span class='line'>         alert("Hello JQuery!");
+</span><span class='line'>       });
+</span><span class='line'>     });
+</span><span class='line'>&lt;/script&gt;
+</span><span class='line'>&lt;/head&gt;
+</span><span class='line'>&lt;body&gt;
+</span><span class='line'>&lt;a href="http://jquery.com/"&gt;jQuery&lt;/a&gt;
+</span><span class='line'>&lt;/body&gt;
+</span><span class='line'>&lt;/html&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>&lt;box round 80% red | document.ready() v.s document.onload()> why we
+using ready() event rather than onload() event. Because the onload()
+event is fired after all elements in page loading finished.Eventually
+all image files. But the ready() event only have been waiting until all
+elements in page expect image files. &lt;/box></p>
+
+<p>if you can see the &#8216;Hello JQuery&#8217; message poped up after page load, this
+means, the JQuery lib is installed well. if not, please check src
+attribute of
+<code>&lt;script type=“text/javascript” src=”../js/jquery.js”&gt;&lt;/script&gt;</code>.</p>
+
+<h4>shorthand format</h4>
+
+<p>The doucment.ready function in above example can be rewrote as this
+style</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;script type="text/javascript"&gt;
+</span><span class='line'>     $(function(){
+</span><span class='line'>       $("a").click(function(event){
+</span><span class='line'>         alert("Hello JQuery!");
+</span><span class='line'>       });
+</span><span class='line'>     });
+</span><span class='line'>&lt;/script&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Callbacks and Functions</h4>
+
+<h5>Callback without arguments</h5>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$.get('myhtmlpage.html', myCallBack);</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>Callback with arguments</h5>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$.get('myhtmlpage.html', function(){
+</span><span class='line'>  myCallBack(param1, param2);
+</span><span class='line'>});</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Why not just <code>$.get('myhtmlpage.html', myCallBack(param1, param2));</code>,
+becuase regading the JavaScript interpretor, the sub-expression
+<code>myCallBack(param1, param2)</code> is evaluated before being passed as a
+function, so that why we need to use anonymous function.</p>
+
+<h2>Using Selectors</h2>
+
+<p>jQuery provides two approaches to select elements. The first uses a
+combination of CSS and XPath selectors passed as a string to the jQuery
+constructor (eg. \$(“div > ul a”)). The second uses several methods of
+the jQuery object. Both approaches can be combined.</p>
+
+<p>list of all available expressions can be found
+<a href="http://docs.jquery.com/Selectors" title="http://docs.jquery.com/Selectors">here</a>.</p>
+
+<h4>Using child Selector</h4>
+
+<p><strong>Following Example comes from JQuery in Action</strong></p>
+
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/jquery_101_01.png" alt="jquery_101_01.png" /></p>
+
+<p>in above figure, if we want to select this link</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;a href="http://jquery.com"&gt;jQuery supports&lt;/a&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>we may use this syntax</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ul.myList  li  a</span></code></pre></td></tr></table></div></figure>
+
+
+<p>but it will selects all links inside <code>&lt;ul class=“myList”&gt;</code></p>
+
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/jquery_101_02.png" alt="jquery_101_02.png" /></p>
+
+<p>is this situation, we need to use child selector, it will only selects
+only child of li</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ul.myList &gt; li &gt; a</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="http://blog.kent-chiu.com/images/2011-10-17/jquery_101_03.png" alt="jquery_101_03.png" /></p>
+
+<h4>:nth-child(Xn+Y)</h4>
+
+<p><code>:nth-child(Xn + Y)</code>，其中，X後面那個n可以解釋為<strong>每n個</strong>，因為它會以n為單位做iterate，
+而如果再加上<strong>Y</strong>, 可以解釋為以n為一個重覆的第Y個</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>e1 e2 e3 e4 e5 e6 e7 e8 e9</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果是<code>nth-child(3)</code>，那麼只有e3會被選到，如果是<code>nth-child(3n)</code>，那麼e3,
+e6, e9會被選到 如果是<code>nth-child(3n + 2)</code>，那麼e2, e5,
+e8會被選到(以三個elements為一個單位，選擇其中的第2個)</p>
+
+<h4>extend JQuery</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$("form#myForm input.special").disable();</span></code></pre></td></tr></table></div></figure>
+
+
+<p>there is no function to disable all element in a form, but we can create
+one.</p>
+
+<p>Regarding the function we need as above, we can create a function
+implementation like this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$.fn.disable = function() {
+</span><span class='line'>  return this.each(function() {
+</span><span class='line'>    if (typeof this.disabled != "undefined") this.disabled = true;
+</span><span class='line'>  });
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>Selectors</h1>
+
+<h2>Basic CSS Selectors</h2>
+
+<p>  Syntax     Description</p>
+
+<hr />
+
+<p>  *         Matches any element.
+  E          Matches all elements with tag name E.
+  E F        Matches all elements with tag name F that are descendants of E.
+  E>F       Matches all elements with tag name F that are direct children of E.
+  E+F        Matches all elements with tag name F that are immediately preceded by a sibling of tag name E.
+  E\~F       Matches all elements with tag name F that are preceded by any sibling of tag name E.
+  E:has(F)   Matches all elements with tag name E that have at least one descendant with tag name F.
+  E.c        Matches all elements E that possess a class name of c. Omitting E is identical to *.c.
+  E#i       Matches all elements E that possess an id value of i. Omitting E is identical to *#i.
+  E[a]       Matches all elements E that posses an attribute a of any value.
+  E[a=v]     Matches all elements E that posses an attribute a whose value is exactly v.
+  E[a^=v]   Matches all elements E that posses an attribute a whose value starts with v.
+  E[a\$=v]   Matches all elements E that posses an attribute a whose value ends with v.
+  E[a*=v]   Matches all elements E that posses an attribute a whose value contains v.</p>
+
+<h4>Examples</h4>
+
+<ul>
+<li>\$(&#8216;div&#8217;) selects all &lt;div> elements</li>
+<li>\$(&#8216;fieldset a&#8217;) selects all &lt;a> elements within &lt;fieldset>
+elements</li>
+<li>\$(&#8216;li>p&#8217;) selects all &lt;p> elements that are direct children of
+&lt;li> elements</li>
+<li>\$(&#8216;div\~p&#8217;) selects all &lt;div> elements that are preceded by a
+&lt;p> element</li>
+<li>\$(&#8216;p:has(b)&#8217;) selects all &lt;p> elements that contain a &lt;b>
+element</li>
+<li>\$(&#8216;div.someClass&#8217;) selects all &lt;div> elements with a class name
+of someClass</li>
+<li>\$(&#8216;.someClass&#8217;) selects all elements with class name someClass</li>
+<li>\$(&#8216;#testButton&#8217;) selects the element with the id value of
+testButton</li>
+<li>\$(&#8216;img[alt]&#8217;) selects all &lt;img> elements that possess an alt
+attribute</li>
+<li>\$(&#8216;a[href\$=.pdf]&#8217;) selects all &lt;a> elements that possess an href
+attribute that ends in .pdf</li>
+<li>\$(&#8216;button[id*=test]&#8217;) selects all buttons whose id attributes
+contain test</li>
+</ul>
+
+
+<h2>Positional Selectors</h2>
+
+<p>  Syntax                  Description</p>
+
+<hr />
+
+<p>  B:first                 Selects the first element on the page matching the base selector B.
+  B:last                  Selects the last element on the page matching the base selector B.
+  B:first-child           Selects all elements from B that are first children.
+  B:last-child            Selects all elements from B that are last children.
+  B:only-child            Selects all elements from B that are only children.
+  B:nth-child(n)          Selects all elements from B that are n-th ordinal children. Starts at 1.
+  B:nth-child(odd|even)   Selects all elements from B that are even or odd ordinal children. The first child is considered odd (ordinal 1).
+  B:nth-child(Xn+Y)       Selects all elements from B that match the formula. X denotes an ordinal multiplier, while Y denotes an offset. Y may be omitted if 0. See the following examples.
+  B:even                  Selects the even elements within the set of elementsdefined by B.
+  B:odd                   Selects the odd elements within the set of elements defined by B.
+  B:eq(n)                 Selects the n-th element within the set of elements defined by B. Starts at 0.
+  B:gt(n)                 Selects elements within the set of elements defined by B that follow the n-th element (exclusive). Starts at 0.
+  B:lt(n)                 Selects elements within the set of elements defined by B that precede the n-th element (exclusive). Starts at 0.</p>
+
+<h4>Examples</h4>
+
+<ul>
+<li>\$(&#8216;p:first&#8217;) selects the first &lt;p> element on the page</li>
+<li>\$(&#8216;img[src\$=.png]:first&#8217;) selects the first &lt;img> element on the
+page that has a src attribute ending in .png</li>
+<li>\$(&#8216;button.small:last&#8217;) selects the last &lt;button> element on the
+page that has a class name of small</li>
+<li>\$(&#8216;li:first-child&#8217;) selects all &lt;li> elements that are first
+children within their lists</li>
+<li>\$(&#8216;a:only-child&#8217;) selects all &lt;a> elements that are the only
+element within their parent</li>
+<li>\$(&#8216;li:nth-child(2)&#8217;) selects all &lt;li> elements that are the
+second item within their lists</li>
+<li>\$(&#8216;tr:nth-child(odd)&#8217;) selects all odd &lt;tr> elements within a
+table</li>
+<li>\$(&#8216;div:nth-child(5n)&#8217;) selects every 5th &lt;div> element</li>
+<li>\$(&#8216;div:nth-child(5n+1)&#8217;) selects the element after every 5th
+&lt;div> element</li>
+<li>\$(&#8216;.someClass:eq(1)&#8217;) selects the second element with a class name
+of someClass</li>
+<li>\$(&#8216;.someClass:gt(1)&#8217;) selects all but the first two elements with a
+class name of someClass</li>
+<li>\$(&#8216;.someClass:lt(4)&#8217;) selects the first four elements with a class
+name of someClass</li>
+</ul>
+
+
+<h2>jQuery Custom Selectors</h2>
+
+<p>  Syntax       Description</p>
+
+<hr />
+
+<p>  B:animated   Selects elements from the base set B that are currently under animated control via one of the jQuery animation methods.
+  B:button     Selects elements of B that are of any button type; that is: button, input[type=submit], input[type=reset] or input[type=button].
+  B:checkbox   Selects elements of B that are of type input[type=checkbox].
+  B:enabled    Selects form elements from B that are in enabled state.
+  B:file       Selects elements of B that are of type input[type=file].
+  B:header     Selects elements from B that are of the header types: that is &lt;h1> through &lt;h6>.
+  B:hidden     Selects elements of B that are hidden.
+  B:image      Selects elements of B that are of type input[type=image].
+  B:input      Selects form input elements from B; that is, &lt;input>, &lt;select>, &lt;textarea> and &lt;button> elements.
+  B:not(f)     Selects elements of B that do not match the filter selector specified by f. A filter selector is any selector beginning with : (colon), A base set B cannot be specified as part of f.
+  B:parent     Selects elements of B that are parents of non-empty element children.
+  B:password   Selects elements of B that are of type input[type=password].
+  B:radio      Selects elements of B that are of type input[type=radio].
+  B:reset      Selects elements of B that are of type input[type=reset] or button[type=reset].
+  B:selected   Selects elements of B that are in selected state. Only &lt;option> elements posses this state.
+  B:submit     Selects elements of B that are of type input[type=submit] or button[type=submit].
+  B:text       Selects elements of B that are of type input[type=text].
+  B:visible    Selects form elements from B that are not hidden.</p>
+
+<h4>Examples</h4>
+
+<ul>
+<li>\$(&#8216;img:animated&#8217;) selects all &lt;img> elements that are undergoing
+animation</li>
+<li>\$(&#8216;:button:hidden&#8217;) selects all button type elements that are
+hidden</li>
+<li>\$(&#8216;input[name=myRadioGroup]:radio:checked&#8217;) selects all radio
+elements with the name attribute value of myRadioGroup that are
+checked</li>
+<li>\$(&#8216;:text:disabled&#8217;) selects all text fields that are disabled</li>
+<li>\$(&#8216;#xyz p :header&#8217;) selects all header type elements within &lt;p>
+elements that are within an element with an id value of xyz. Note
+the space before :header that prevents it from binding directly to
+the p.</li>
+<li>\$(&#8216;option:not(:selected)&#8217;) selects all unselected &lt;option>
+elements</li>
+<li>\$(&#8216;#myForm button:not(.someClass)&#8217;) selects all buttons from the
+&lt;form> with the id of myForm that do not possess the class name
+someClass.</li>
+<li>\$(&#8216;select[name=choices] :selected&#8217;) selects the selected &lt;option>
+elements within the &lt;select> element named choices.</li>
+<li>\$(&#8216;p:contains(coffee)&#8217;) selects all &lt;p> elements that contain the
+text coffee</li>
+</ul>
+
+
+<h1>MISC</h1>
+
+<h5>Check a radio button</h5>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># check first button of radio 
+</span><span class='line'>$(":radio[name='aName']:eq(0)").attr("checked",'checked');
+</span><span class='line'># check second button of radio 
+</span><span class='line'>$(":radio[name='aName']:eq(1)").attr("checked",'checked');</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/install_web_server/">PHP Web Server Instruction</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/install_web_server/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>For Windows Platform</h2>
+
+<h3>All in one package</h3>
+
+<ul>
+<li><p><a href="http://vertrigo.sourceforge.net/" title="http://vertrigo.sourceforge.net/">vertrigo</a></p>
+
+<ol>
+<li>apache server</li>
+<li>PHP</li>
+<li>MySQL</li>
+<li>PHPmyAdmin</li>
+<li>SQLite</li>
+<li>SQLiteManager</li>
+<li>zend optimizer</li>
+<li>smarty</li>
+</ol>
+</li>
+<li><p><a href="http://www.wampserver.com/" title="http://www.wampserver.com/">WAMP</a></p>
+
+<ol>
+<li>apache server</li>
+<li>PHP</li>
+<li>MySQL</li>
+<li>PHPmyAdmin</li>
+<li>SQLite</li>
+<li>SQLiteManager</li>
+<li>zend optimizer</li>
+<li>smarty</li>
+</ol>
+</li>
+</ul>
+
+
+<h2>For Ubuntu(Linux) Platform</h2>
+
+<p>apt-get will give you the whole world.!</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/ibus_with_liu/">在ibus下使用無蝦米</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/ibus_with_liu/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>ibus取得表格檔</h2>
+
+<ul>
+<li><a href="http://wiki.kent-chiu.com/lib/exe/fetch.php?media=ubuntu:liu-ibus.zip" title="ubuntu:liu-ibus.zip">liu-ibus</a>
+表格檔部份源自李果正的<a href="http://edt1023.sayya.org/gcin/noseeing-12.tar.gz" title="http://edt1023.sayya.org/gcin/noseeing-12.tar.gz">noseeing
+table</a>
+，ICON來自GCIN</li>
+</ul>
+
+
+<h3>轉換成ibus用的表格檔格式</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ibus-table-createdb -s noseeing*scimtxt</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>copy 表格檔跟icons到ibus目錄</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo cp noseeing.db /usr/share/ibus-table/tables/
+</span><span class='line'>sudo cp noseeing.png /usr/sha*e/*bus/icons/noseeing.png</span></code></pre></td></tr></table></div></figure>
+
+
+<p>登出/登入 測試</p>
+
+<h3>設定</h3>
+
+<p>參考這裡<a href="http://boshiamy.com/member_download.php" title="http://boshiamy.com/member_download.php">http://boshiamy.com/member_download.php</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/17/htaceess_101/">Htaccess 101</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/17/htaceess_101/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><code>.htaccess</code> is a configuration file of apache, it privoides way for us
+to custome some behavious of apache.</p>
+
+<p>.htaccess files provide a way to make configuration changes on a
+per-directory basis.</p>
+
+<p>if you need to create a whole new <code>.htaccess</code> file in windows, you need
+save as <code>”.htaccess”</code> with quots</p>
+
+<p>In general, you should never use .htaccess files unless you don&#8217;t have
+access to the main server configuration file.</p>
+
+<h1>functions</h1>
+
+<ol>
+<li><a href="#custom_error_pages" title="apache:htaceess_101">Custom Error Pages</a></li>
+<li><a href="#disabled_directory_listing" title="apache:htaceess_101">Disabled Directory
+Listing</a></li>
+<li><a href="#denyallow_certian_ip_addresses" title="apache:htaceess_101">Deny/Allow Certian IP
+Addresses</a></li>
+<li><a href="#redirection" title="apache:htaceess_101">Redirection</a></li>
+<li><a href="#password_protection" title="apache:htaceess_101">Password Protection</a></li>
+<li><a href="#mime_type_settings" title="apache:htaceess_101">MIME Type Settings</a></li>
+<li><a href="#index_pages_settings" title="apache:htaceess_101">Index Pages
+Settings</a></li>
+<li><a href="#url_rewrite" title="apache:htaceess_101">URL Rewrite</a></li>
+<li><a href="#default_pages" title="apache:htaceess_101">Default Pages</a></li>
+</ol>
+
+
+<h2>Custom Error Pages</h2>
+
+<h4>Using Redirect Pages</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ErrorDocument 400 404.html
+</span><span class='line'>ErrorDocument 401 401.html
+</span><span class='line'>ErrorDocument 402 402.html</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Using inline html</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ErrorDocument 404 "&lt;html&gt;&lt;body&gt;找不到&lt;/body&gt;&lt;/html&gt;"</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Using URL</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ErrorDocument 500 http://www.xxx.com/xxx</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Disabled Directory Listing</h2>
+
+<h4>Deny all access to files (Recommended)</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;Files ~ "^.(htaccess|htpasswd)$"&gt;
+</span><span class='line'>deny from all
+</span><span class='line'>&lt;/Files&gt;
+</span><span class='line'>Options Indexes
+</span><span class='line'>order deny,allow</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Allow access to files (NOT Recommended)</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;Files ~ "^.(htaccess|htpasswd)$"&gt;
+</span><span class='line'>deny from all
+</span><span class='line'>&lt;/Files&gt;
+</span><span class='line'>Options -Indexes
+</span><span class='line'>order deny,allow</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Access restrictions</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>deny from all
+</span><span class='line'>allow from all
+</span><span class='line'>deny from  192.168.1.1
+</span><span class='line'>deny from  192.168.1.1</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Deny/Allow Certian IP Addresses</h2>
+
+<h2>Redirection</h2>
+
+<p>what&#8217;s difference between <strong>Moved Permanently</strong> and <strong>Moved
+Temporarily</strong></p>
+
+<h4>301 Moved Permanently</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Redirect permanent old1 new1
+</span><span class='line'>Redirect permanent /path/old2 /path/new2
+</span><span class='line'>Redirect permanent /path/old3.html /path/old3.php</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>302 Moved Temporarily</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Redirect temp old1 new1
+</span><span class='line'>Redirect temp /path/old2 /path/new2
+</span><span class='line'>Redirect temp /path/old3.html /path/old3.php</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Password Protection</h2>
+
+<h3>Basic authentication</h3>
+
+<ul>
+<li>STEP 1 Create your .htpasswd</li>
+<li>STEP 2 Point the path to the .htpasswd file</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;Files ~ "^.(htaccess|htpasswd)$"&gt;
+</span><span class='line'>deny from all
+</span><span class='line'>&lt;/Files&gt;
+</span><span class='line'>Options -Indexes
+</span><span class='line'>AuthUserFile /home/foo/bar/.htpasswd
+</span><span class='line'>AuthGroupFile /dev/null
+</span><span class='line'>AuthName "Please enter your ID and password"
+</span><span class='line'>AuthType Basic
+</span><span class='line'>require valid-user
+</span><span class='line'>order deny,allow</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>MIME Type Settings</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>```
+</span><span class='line'>
+</span><span class='line'>Index Pages Settings
+</span><span class='line'>--------------------
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>DirectoryIndex index.html index.htm index.cgi</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>
+</span><span class='line'>URL Rewrite
+</span><span class='line'>-----------
+</span><span class='line'>
+</span><span class='line'>### Setup WWW
+</span><span class='line'>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<pre><code>RewriteEngine on
+RewriteCond %{HTTP_HOST} ^(mydomain\.com)(:80)? [NC]
+RewriteRule ^(.*) http://www.mydomain.com/$1 [R=301,L]
+</code></pre>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>
+</span><span class='line'>Examples
+</span><span class='line'>========
+</span><span class='line'>
+</span><span class='line'>Anti HotLinks (protecting others take your impages)
+</span><span class='line'>---------------------------------------------------
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>RewriteEngine on
+RewriteCond %{HTTP_REFERER} !^http://www.domain.com/.<em>$ [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.domain.com$ [NC]
+RewriteRule .</em>.(*)$ /content/no_hotlink.png [R,NC]</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>
+</span><span class='line'>`RewriteRule .*\.(*)$ /content/no_hotlink.png [R,NC]` this means if
+</span><span class='line'>somebody try to hot linking you resource, he will redirect to
+</span><span class='line'>`/content/no_hotlink.png`
+</span><span class='line'>
+</span><span class='line'>Default Pages
+</span><span class='line'>-------------
+</span><span class='line'>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<pre><code>DirectoryIndex index.php mypage.html
+</code></pre>
+
+<p>&#8220;`</p>
+
+<h1>Resources</h1>
+
+<ul>
+<li><a href="http://www.htaccesseditor.com/tc.shtml" title="http://www.htaccesseditor.com/tc.shtml">htaccess
+editor</a>
+
+<ul>
+<li>a web program to help writing htaccess file.</li>
+</ul>
+</li>
+<li><a href="http://httpd.apache.org/docs/2.2/rewrite/" title="http://httpd.apache.org/docs/2.2/rewrite/">apache rewrite
+mod</a></li>
+<li><a href="http://www.widexl.com/tutorials/mod_rewrite.html" title="http://www.widexl.com/tutorials/mod_rewrite.html">http://www.widexl.com/tutorials/mod_rewrite.html</a>
+
+<ul>
+<li>Module Rewrite - URL Rewriting Guide</li>
+</ul>
+</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1040,890 +1865,6 @@ paragraph.centered();</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/10/17/high_performance_mysql_study_notes/">High Performance MySQL Study Notes</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
-        
-         | <a href="/blog/2011/10/17/high_performance_mysql_study_notes/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>Lock Control</h2>
-
-<h3>Table Locks</h3>
-
-<ul>
-<li>最基本的鎖定略策略</li>
-<li>成本最低</li>
-<li>效能較佳</li>
-</ul>
-
-
-<h4>動作方式</h4>
-
-<p>When a client wishes to write to a table (insert, delete,update, etc.),
-it acquires a write lock. This keeps all other read and write operations
-at bay. When nobody is writing, readers can obtain read locks, which
-don’t conflictwith other read locks.</p>
-
-<p>Table locks have variations for good performance in specific situations.
-For example, READ LOCAL table locks allow some types of concurrent write
-operations. <strong>Write locks also have a higher priority than read locks</strong>,
-so a request for a write lock will advance to the front of the lock
-queue even if readers are already in the queue (write locks can advance
-past read locks in the queue, but read locks cannot advance past write
-locks).</p>
-
-<h3>Row Locks</h3>
-
-<ul>
-<li>最佳的concurrency control</li>
-<li>花費較高的resources</li>
-<li>需使用InnoDB and Falcon storage engines</li>
-</ul>
-
-
-<h3>Implicit and explicit locking</h3>
-
-<p>InnoDB會依isolation level自動處理鎖定，但是也可以用SQL Commands來控制</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># method 1
-</span><span class='line'>SELECT ... LOCK IN SHARE MODE
-</span><span class='line'># method 2
-</span><span class='line'>SELECT ... FOR UPDATE</span></code></pre></td></tr></table></div></figure>
-
-
-<p>雖然MySQL有提供lock table的指令，但能不用就不要用，不論使用何種 storage
-engine，除了在transaction中而且autocommit是disabled的，不然不要使用lock
-table的指令，因為lock跟transaction的交互是相當的複雜的</p>
-
-<h2>Isolation Levels</h2>
-
-<ul>
-<li><a href="#read_uncommitted" title="mysql:high_performance_mysql_study_notes ↵">READ
-UNCOMMITTED</a></li>
-<li><a href="#read_committed" title="mysql:high_performance_mysql_study_notes ↵">READ
-COMMITTED</a></li>
-<li><a href="#repeatable_read" title="mysql:high_performance_mysql_study_notes ↵">REPEATABLE
-READ</a></li>
-<li><a href="#serializable" title="mysql:high_performance_mysql_study_notes ↵">SERIALIZABLE</a></li>
-</ul>
-
-
-<p>nonrepeatable read : running the same statement twice and see different
-data.</p>
-
-<p>phantom reads : when you select some range of rows, another transaction
-inserts a new row into the range, and then you select the same range
-<strong>again</strong>; <strong>you will then see the new “phantom” row.</strong></p>
-
-<h4>READ UNCOMMITTED</h4>
-
-<ul>
-<li>transactions can view the results of uncommitted transactions.</li>
-<li>a.k.a dirty read</li>
-<li>實務應用上用少使用</li>
-<li>效能也並末比其他的level好很多</li>
-</ul>
-
-
-<h4>READ COMMITTED</h4>
-
-<ul>
-<li>許多資料庫系統預設的level<strong>(但不包含MySQL)</strong></li>
-<li>transaction只會看到其他transactions已經commited的資料</li>
-</ul>
-
-
-<h4>REPEATABLE READ</h4>
-
-<ul>
-<li>MySQL預設的level</li>
-<li>解決<a href="#read_uncommitted" title="mysql:high_performance_mysql_study_notes ↵">READ
-UNCOMMITTED</a>的問題</li>
-<li>但還是有可能發會phantom reads的問題</li>
-<li>InnoDB and Falcon solve the phantom read problem with multiversion
-concurrency control.</li>
-</ul>
-
-
-<h4>SERIALIZABLE</h4>
-
-<ul>
-<li>解決phantom read problem問題</li>
-<li>容易發生timeout跟鎖定衝突等問題</li>
-<li>實務上也比較少用</li>
-<li>等高等級的Isolation Levels(最耗資源)</li>
-</ul>
-
-
-<h3>ANSI SQL isolation levels</h3>
-
-<p>Isolation level</p>
-
-<p>Dirty reads possible</p>
-
-<p>Nonrepeatable reads possible</p>
-
-<p>Phantom reads possible</p>
-
-<p>Locking reads READ</p>
-
-<p>UNCOMMITTED</p>
-
-<p>Yes</p>
-
-<p>Yes</p>
-
-<p>Yes</p>
-
-<p>No</p>
-
-<p>READ COMMITTED</p>
-
-<p>No</p>
-
-<p>Yes</p>
-
-<p>Yes</p>
-
-<p>No</p>
-
-<p>REPEATABLE READ</p>
-
-<p>No</p>
-
-<p>No</p>
-
-<p>Yes</p>
-
-<p>No</p>
-
-<p>SERIALIZABLE</p>
-
-<p>No</p>
-
-<p>No</p>
-
-<p>No</p>
-
-<p>Yes</p>
-
-<h2>Uncategory</h2>
-
-<h4>Transactional Tables</h4>
-
-<ol>
-<li>InnoDB</li>
-<li>Falcon</li>
-<li>PBXT</li>
-</ol>
-
-
-<h4>Non-Transactional Tables</h4>
-
-<ol>
-<li>MyISAM table</li>
-<li>Memory table</li>
-</ol>
-
-
-<p>non-transactional
-table還是可以在transaction中使用，但rollback時無法正常回復</p>
-
-<h4>Storage Engines</h4>
-
-<ol>
-<li>InnoDB</li>
-<li>NDB Cluster</li>
-<li>Falcon</li>
-</ol>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/10/17/grimm_s_law/">格林法則(Grimm&#8217;s Law)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
-        
-         | <a href="/blog/2011/10/17/grimm_s_law/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>格林法則指的是發音部位相近的聲可以互換：</p>
-
-<h5>字音</h5>
-
-<ul>
-<li>ｂ,ｐ,ｍ,ｆ,ｖ</li>
-<li>ｄ,ｔ,ｎ,ｌ,ｒ　</li>
-<li>ｇ,ｋ,ｈ,ｃ,ｓ,ｚ,ｔｈ,ｘ</li>
-<li>ｍ,ｎ</li>
-<li>ｗ,ｕ,ｖ</li>
-</ul>
-
-
-<p><img src="http://blog.kent-chiu.com/images/2011-10-17/pronounce.jpg" alt="pronounce.jpg" /></p>
-
-<p>(圖片來自<a href="http://www.christabelle.idv.tw/archives/459">Christabelle的藝想世界</a></p>
-
-<h5>母音</h5>
-
-<ul>
-<li>ａ,ｅ,ｉ,ｏ,ｕ　</li>
-</ul>
-
-
-<h5>例子</h5>
-
-<p>以companion來說 pan(麵包)來自 bun(麵包) ｂ=ｐ、ａ=ｕ母音互換</p>
-
-<p>com pan　ion 一起　麵包　名詞字尾 companion = 一起吃麵包的人 = 同伴</p>
-
-<p>所以，以後看到字根的時候，可以想套用這個law，應該是對理解會有幫助。</p>
-
-<blockquote><ul>
-<li>用你的嘴巴看穿英語字根1 <a href="http://www.christabelle.idv.tw/archives/459">http://www.christabelle.idv.tw/archives/459</a></li>
-<li>用你的嘴巴看穿英語字根2 <a href="http://www.christabelle.idv.tw/archives/509">http://www.christabelle.idv.tw/archives/509</a></li>
-</ul>
-</blockquote>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/10/17/grammer/">English Grammer MindMap</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
-        
-         | <a href="/blog/2011/10/17/grammer/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><img src="http://blog.kent-chiu.com/images/2011-10-17/grammer.png" alt="grammer.png" /></p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/10/17/git_101/">GIT 101</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2011</time>
-        
-         | <a href="/blog/2011/10/17/git_101/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>NOTICE: The most data in this page is come from <a href="http://progit.org/book/" title="http://progit.org/book/">Pro
-Git</a>.</p>
-
-<h2>Basic</h2>
-
-<h3>The Three States</h3>
-
-<ol>
-<li>committed - the data is safely stored in your local database</li>
-<li>modified - file is changed but have not committed</li>
-<li>staged - marked a modified file in its current version to go into
-your next commit snapshot.</li>
-</ol>
-
-
-<p><img src="http://blog.kent-chiu.com/images/2011-10-17/git_101_001.png" alt="git_101_001.png" /></p>
-
-<ul>
-<li>The Git directory is where Git stores the metadata and object
-database for your project</li>
-<li>The working directory is a single checkout of one version of the
-project.</li>
-<li>The staging area is a simple file, generally contained in your Git
-directory, that stores information about what will go into your next
-commit. It’s sometimes referred to as the index, but it’s becoming
-standard to refer to it as the staging area.</li>
-</ul>
-
-
-<h4>Basic Git workflow</h4>
-
-<ol>
-<li>You modify files in your working directory.</li>
-<li>You stage the files, adding snapshots of them to your staging area.</li>
-<li>You do a commit, which takes the files as they are in the staging
-area and stores that snapshot permanently to your Git directory.</li>
-</ol>
-
-
-<h4>Install Git</h4>
-
-<h5>Windows</h5>
-
-<p>download <a href="http://code.google.com/p/msysgit">msysgit</a> and install it.</p>
-
-<h5>Linux</h5>
-
-<pre><code>$ yum install git-core
-
-
-$ apt-get install git-core
-</code></pre>
-
-<h4>Terms</h4>
-
-<ul>
-<li>HEAD : 一個特殊的指標(pointer)，它指向current branch.</li>
-<li>master : 預設的branch</li>
-<li>origin : 預設遠端的master branch</li>
-<li>remote : 遠端 repository</li>
-<li>tracking branch: 從遠端fetch到local端的branch</li>
-<li>rebase :
-將原先branch出來的時間點(版本)向前或向後移動，這樣可以讓該branch移除或加入功能別的branch的功能</li>
-<li><p>cherry pick commit : 只挑選同一branch的部份commits做merge</p>
-
-<pre><code>A - B - C - D - E   master
-  \ - X - Y  - Z   branch 1
-</code></pre></li>
-</ul>
-
-
-<h5>rebase</h5>
-
-<p>本來branch 1不包含B特性，可以透過rebase將B包含進去</p>
-
-<pre><code>A - B - C - D - E   master
-      \ - X - Y  - Z   branch 1
-</code></pre>
-
-<h5>cherry pick commit</h5>
-
-<p>如果將branch 1 merge 回master，會包含X,Y,Z特性，但可以透過cherry pick
-commit，則可以選擇merge時不包含X,或X,Y</p>
-
-<pre><code>A - B - C - D - E    master
-  \ - X - Y  - Z   branch 1
-</code></pre>
-
-<h4>Tracking Branches</h4>
-
-<p>跟遠端repository的branch有對應關係的local branch，叫tracking branch，如果branch是一個tracking branch
-那麼push時，會自動push到遠端的對應的branch，如果不是tracking branch，就需要特別指定要push到遠端的那一個branch</p>
-
-<p>像這樣 <code>git push origin master</code>，我們在init git repository後，第一次的push需要下這個commit，就是
-因為一開始local的(master) barnch 沒有跟遠端的關聯，所以我們要跟git說要push到遠端(預設遠端的名字叫origin,當然，
-你也可以取其他的名稱ex: github，bitbucket或mycompany)的master上</p>
-
-<h2>Command</h2>
-
-<p>從遠端fetch到local端的branch是無法直接更改的，想要更改必須在建立自已新的branch</p>
-
-<pre><code>checkout -b branch1  remote_server/branch1
-checkout -b feature/peak --track origin/feature/peak
-</code></pre>
-
-<h4>config</h4>
-
-<p>config有三個等級，由小到大分別為</p>
-
-<ol>
-<li>庫等級(repository裡)，只會單一的repository有影響</li>
-<li>全局(global)，放在user home，對user會存取的庫有影響</li>
-<li>系統等級(system),放在系統的配置目錄下(ex: /etc),對所有的user有影響</li>
-</ol>
-
-
-<p>而優先權則相反，以repository的為主，再來是global的，最後才是system的，很直覺也很合理</p>
-
-<h5>list config</h5>
-
-<pre><code>$ git config --list
-user.name=Scott Chacon
-user.email=schacon@gmail.com
-color.status=auto
-color.branch=auto
-color.interactive=auto
-color.diff=auto
-...
-</code></pre>
-
-<p>config是git跟svn最大不同的地方，git必需要正確定user info後，操作會才正常</p>
-
-<h5>config user name and email</h5>
-
-<pre><code>$ git config --global user.name "Kent Chiu"
-$ git config --global user.email kent.chiu@example.com
-</code></pre>
-
-<h5>clone from windows local</h5>
-
-<pre><code>file:///d:/PATH/PROJECT_HOME
-</code></pre>
-
-<h4>add</h4>
-
-<p>add是個多功能的指令，它可以</p>
-
-<ul>
-<li>把untrack file變成tracked file</li>
-<li>把modified file變成staged file</li>
-</ul>
-
-
-<p>或commit時同時做add的動作(不建議)</p>
-
-<pre><code>$ git add -a -m 'comment'
-</code></pre>
-
-<h4>commit</h4>
-
-<pre><code>$ git add *.c
-$ git add README
-# files need be staged before commit
-$ git commit -m 'initial project version'
-</code></pre>
-
-<p>提交所有控版下的檔案</p>
-
-<pre><code>$ git commit -a -m 'comment'
-# 也可以把 a (all) m (message)合在一起用 
-$ git commit -am 'comment'
-</code></pre>
-
-<p>如果對前一次提交的訊息不滿意，可以透過<code>amend</code>做修改</p>
-
-<pre><code>$ git commit --amend -m 'modify comment'
-</code></pre>
-
-<h4>rm</h4>
-
-<p>remove files. 如果是直接從file system刪檔，而沒透過git指令，那該檔案的狀態會變成 <strong>Changed but not updated</strong> (unstaged)</p>
-
-<blockquote><p>上面的<code>add</code> command並不會把檔案刪除的動作加到stage裡</p></blockquote>
-
-<h5>remove file and delete it</h5>
-
-<pre><code>$git rm myfile.txt
-</code></pre>
-
-<h5>remove files from staged</h5>
-
-<p>untracking files but keep in file system.
-這個指定通常用在想把版控的檔案變成非版控</p>
-
-<pre><code>$git rm --staged myfile.txt
-</code></pre>
-
-<h5>清除untracked files</h5>
-
-<p>如果想快速的清除還沒有加到 index 的 file ，可以用以下的指令</p>
-
-<pre><code>$git clean -f -d
-</code></pre>
-
-<p>參數 <code>-d</code> 是指連 untracked 的目錄一併清除</p>
-
-<h4>mv</h4>
-
-<p>搬移/更名</p>
-
-<pre><code>$ git  README README.txt
-</code></pre>
-
-<h4>status</h4>
-
-<p>顯示異動檔案狀態</p>
-
-<h4>log</h4>
-
-<p>顯示異動檔案細節</p>
-
-<pre><code>$ git log
-</code></pre>
-
-<h5>常用參數</h5>
-
-<ul>
-<li>-p 列出細節</li>
-<li>-n n表數字，列出最新的幾個</li>
-<li>–graph 祖譜圖</li>
-<li>–pretty 改變預設的輸出格式</li>
-<li>–pretty:format自定輸出格式 <code>$ git log --pretty=format:"%h - %an, %ar : %s"</code></li>
-</ul>
-
-
-<h5>過濾(limit by commit attributes)</h5>
-
-<pre><code>$ git log --author=kent
-$ git log --committer=kent 
-$ git log --grep="commit .*message"
-</code></pre>
-
-<h5>search for a change</h5>
-
-<pre><code>$ git log -S"Some code change"
-$ git log --pickaxe-regex -S "some.*text"
-</code></pre>
-
-<h5>limit by changes to specific path</h5>
-
-<pre><code>git lot -- some/file
-</code></pre>
-
-<h4>遠端相關的指令</h4>
-
-<h5>show remote repositories</h5>
-
-<pre><code>$ git remote -v
-origin  git://github.com/schacon/ticgit.git
-</code></pre>
-
-<h5>adding remote repositories</h5>
-
-<pre><code>$ git remote add pb git://github.com/paulboone/ticgit.git
-$ git remote -v
-origin  git://github.com/schacon/ticgit.git
-pb  git://github.com/paulboone/ticgit.git
-</code></pre>
-
-<h4>gitk</h4>
-
-<p>Using a GUI to Visualize History.</p>
-
-<h4>mergetool</h4>
-
-<p>Calling merge tool.</p>
-
-<h4>reset</h4>
-
-<p>將檔案unsatged</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>  工作區         暫存區          HEAD
-</span><span class='line'>    | &lt;---------- |                       git reset         重置加入暫存區的動作(也就是取消 git add) 
-</span><span class='line'>                  | &lt;---------- |         git reset --soft  重置加入版本庫的動作(也就是取消commited)，但commmit過的檔案會保留在工作區                
-</span><span class='line'>    | &lt;---------- | &lt;---------- |         git reset --hard  完整的取消整個commit，工作區會的檔案會被恢復到送個版本</span></code></pre></td></tr></table></div></figure>
-
-
-<blockquote><p><code>git reset</code>, <code>git reset HEAD</code>, <code>git reset --mixed</code>這三個指令做的是一樣的事
-<code>git reset --hard</code> 使用上要小心，commit的歷史記錄會不見</p></blockquote>
-
-<p>使用時機</p>
-
-<ul>
-<li><code>git reset</code>          不小心加入不想加入暫存取(index)的檔案，可用這個取消</li>
-<li><code>git reset --soft</code>   想重新修正某一次的commit (<code>git commit --amend</code>就是透過這個指令完成的)</li>
-<li><code>git reset --hard</code>   回到某個版本，就像完做過異動一樣，merge失敗時，也常用這個來恢復到merged前的狀態</li>
-</ul>
-
-
-<blockquote><p><code>git reset --hard</code> 只會退回到上一個commit，如果要退更多，就要直接指定commit id <code>git reset --hard &lt;commit id&gt;</code></p></blockquote>
-
-<h4>diff</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>  工作區         暫存區          HEAD
-</span><span class='line'>     
-</span><span class='line'>    | &lt;---------&gt; |                       git diff                  比對工作區跟暫存區的差異
-</span><span class='line'>                  | &lt;---------&gt; |         git diff --staged         比對HEAD跟暫存區的差異
-</span><span class='line'>    | &lt;-----------------------&gt; |         git diff HEAD             比對HEAD跟工作區的差異
-</span><span class='line'>                            ┌-&gt; |
-</span><span class='line'>                            |   |         git diff $commit $commit  比對兩個commits間的差異
-</span><span class='line'>                            └-&gt; |</span></code></pre></td></tr></table></div></figure>
-
-
-<blockquote><p>如果是要比對某個檔在在不同的 commits 間的差異，可使用以下指令
-<code>git diff $commit $commit -- path/file</code></p></blockquote>
-
-<h4>解讀diff</h4>
-
-<pre><code>@@ -3,7 +3,7 @@
- &lt;h1&gt;Tag Colud&lt;/h1&gt;
- &lt;ul&gt;
-   &lt;li&gt;&lt;a href='/blog/categories/actionbar'&gt;Actionbar (1)&lt;/a&gt;&lt;/li&gt;
--  &lt;li&gt;&lt;a href='/blog/categories/android'&gt;Android (26)&lt;/a&gt;&lt;/li&gt;
-+  &lt;li&gt;&lt;a href='/blog/categories/android'&gt;Android (24)&lt;/a&gt;&lt;/li&gt;
-   &lt;li&gt;&lt;a href='/blog/categories/apache'&gt;Apache (8)&lt;/a&gt;&lt;/li&gt;
-   &lt;li&gt;&lt;a href='/blog/categories/broadcast-receiver'&gt;Broadcast_receiver (2)&lt;/a&gt;&lt;
-   &lt;li&gt;&lt;a href='/blog/categories/cdi'&gt;Cdi (2)&lt;/a&gt;&lt;/li&gt;
-</code></pre>
-
-<p>diff中的資訊包含兩部份，第一部份是異動概要 <code>@@ -3,7 +3,7 @@</code>，第二部份是異動細節
-第一部份的是資訊 <code>@@ -3,7 +3,7 @@</code>是說原始文件從第3行開始，後面的7行(也就是第3~10行)異動成為新文件的第3行到第7行(也是第3~10行)，本例中因為是調整了某一行的內容，所以異動範圍都是七行，如果新的文件的範圍可能更大(ex:加了幾行)，或更小(刪了幾行)。</p>
-
-<blockquote><p>上述的異動範為7行，是指相關的上下文共有七行，而不是這七行都有改到</p></blockquote>
-
-<p>第二部份比較直覺，就上例中的第六行</p>
-
-<pre><code>-  &lt;li&gt;&lt;a href='/blog/categories/android'&gt;Android (26)&lt;/a&gt;&lt;/li&gt;
-</code></pre>
-
-<p>及第七行</p>
-
-<pre><code>+  &lt;li&gt;&lt;a href='/blog/categories/android'&gt;Android (24)&lt;/a&gt;&lt;/li&gt;
-</code></pre>
-
-<p>代表著第六行的內容被異動成第七行</p>
-
-<h4>show</h4>
-
-<h5>review last commit</h5>
-
-<pre><code>$ git show
- 
-### output ###
- 
-commit b8d5b1e2944d1785a3e8ca15979f9c462eb611c9
-Author: Kent Chiu &lt;kent.chiu@techmore.com.tw&gt;
-Date:   Thu Feb 18 13:07:49 2010 +0800
- 
-    foo
- 
-diff --git a/dir/foo b/dir/foo
-new file mode 100644
-index 0000000..257cc56
---- /dev/null
-+++ b/dir/foo
-@@ -0,0 +1 @@
-+foo
-</code></pre>
-
-<h5>show the stats</h5>
-
-<pre><code>$ git show --stat
- 
-### output ###
- 
-commit b8d5b1e2944d1785a3e8ca15979f9c462eb611c9
-Author: Kent Chiu &lt;kent.chiu@techmore.com.tw&gt;
-Date:   Thu Feb 18 13:07:49 2010 +0800
- 
-    foo
- 
- dir/foo |    1 +
- 1 files changed, 1 insertions(+), 0 deletions(-)
-</code></pre>
-
-<h5>show SVN style status</h5>
-
-<pre><code>$ git show --name-status
- 
-### output ###
- 
-commit b8d5b1e2944d1785a3e8ca15979f9c462eb611c9
-Author: Kent Chiu &lt;kent.chiu@techmore.com.tw&gt;
-Date:   Thu Feb 18 13:07:49 2010 +0800
- 
-    foo
- 
-A       dir/foo
-</code></pre>
-
-<h4>push</h4>
-
-<h5>deleting remote branches</h5>
-
-<pre><code>$ git push origin :serverfix
-To git@github.com:schacon/simplegit.git
- - [deleted]         serverfix
-</code></pre>
-
-<p>This is called by</p>
-
-<pre><code>$ git push [remotename] [localbranch]:[remotebranch]
-$ git push origin                    :serverfix 
-</code></pre>
-
-<p>let localbranch blank means deleted it.</p>
-
-<blockquote><p>git 1.7之後提供這個指令可以刪遠端server <code>git push origin --delete &lt;branchName&gt;</code></p></blockquote>
-
-<h4>git 全域設定檔</h4>
-
-<p>ini git configuration</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[user]
-</span><span class='line'>  name = kent
-</span><span class='line'>  email = kent@mail.com
-</span><span class='line'>
-</span><span class='line'>[alias]
-</span><span class='line'>  st = status
-</span><span class='line'>    ci = commit
-</span><span class='line'>    co = checkout
-</span><span class='line'>    br = branch
-</span><span class='line'>
-</span><span class='line'>[color]
-</span><span class='line'>  ui = true
-</span><span class='line'>  diff = auto
-</span><span class='line'>  status = auto
-</span><span class='line'>  branch = auto</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>常用指令</h2>
-
-<h4>檢視 fetch 下來但尚未被 merged 的資料</h4>
-
-<p>從遠端 fetch 新資料下來，如果想先在做 merge 前先查看資料的異動狀況，可以透過 log 跟 diff，log 可以查看 commits 的記錄，而 diff 可以對檔案內容做比對</p>
-
-<p>查看 fetch 下來，等著被 merged 的 commits</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git fetch                 # 或者是用 git remote update 來 fetch 所有 branches
-</span><span class='line'>$ git log HEAD..origin      # 在pull (也就是 merge ) 前，可以先用這個指令查看那些 commits 會被 merged
-</span><span class='line'>$ git diff HEAD...origin    # 在pull (也就是 merge ) 前，可以先用這個指令查看那些 diffs 會被 merged</span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
-
-<blockquote><p>執行 fetch 是把 server 上的 branch 更新到 local repository 的 remote branch
-所以需要進行差異性檢視的內容是 HEAD 到 origin</p></blockquote>
-
-<h4>checkout 新的 remote branch 並 tracking</h4>
-
-<p>之前常會發生 checkout 每個 branch後，要 push 遠端server時，卻都只是 push 到 local，這是因為預設的 checkout 指令是不會去 tracking remote branch
-所以，如果要 checkout 後能夠讓 branch 成為 track branch，就要加上 <code>--track</code> 的參數</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ checkout -b new_branch --track origin/branch_name </span></code></pre></td></tr></table></div></figure>
-
-
-<h1>Resource</h1>
-
-<ul>
-<li>幾種merge的手法 <a href="http://eclipsesource.com/blogs/2011/05/30/merging-branches-in-eclipse-git-egit/">http://eclipsesource.com/blogs/2011/05/30/merging-branches-in-eclipse-git-egit/</a></li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/16/">&larr; Older</a>
@@ -1941,34 +1882,34 @@ $ git push origin                    :serverfix
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/03/14/umlet-sequence-diagram/">UMLet Sequence Diagram</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/03/14/java-8-lambda/">Java 8 Lambda</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/03/14/java-8-utility-object/">Java 8 好用工具箱</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/03/14/java-8-date-and-time-api/">Java 8 時間、日期 API</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/12/28/python-type-hint-in-idea/">Python Type Hint in IDEA</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/12/28/mac-dev-setup/">“Mac開發環境設定”</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/11/16/reload-tomcat-web-application-by-jmx/">透過JMX重新載入Tomcat上的Web Application</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/08/31/access-imgur-with-api/">Access Imgur With API</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/08/30/spring-reference-reading-notes/">Spring Reference Reading Notes</a>
       </li>
     
   </ul>
 </section>
 <section>
   <h1>Category Cloud</h1>
-    <span id="tag-cloud"><a href='/blog/categories/actionbar' style='font-size: 102.4%'>actionbar(1)</a> <a href='/blog/categories/android' style='font-size: 160.0%'>android(25)</a> <a href='/blog/categories/apache' style='font-size: 116.8%'>apache(7)</a> <a href='/blog/categories/authentication' style='font-size: 102.4%'>authentication(1)</a> <a href='/blog/categories/authorization' style='font-size: 102.4%'>authorization(1)</a> <a href='/blog/categories/bash' style='font-size: 109.6%'>bash(4)</a> <a href='/blog/categories/best-practice' style='font-size: 102.4%'>best_practice(1)</a> <a href='/blog/categories/book' style='font-size: 102.4%'>book(1)</a> <a href='/blog/categories/broadcast-receiver' style='font-size: 104.8%'>broadcast_receiver(2)</a> <a href='/blog/categories/cdi' style='font-size: 104.8%'>cdi(2)</a> <a href='/blog/categories/centos' style='font-size: 112.0%'>centos(5)</a> <a href='/blog/categories/clean-code' style='font-size: 102.4%'>clean code(1)</a> <a href='/blog/categories/command' style='font-size: 112.0%'>command(5)</a> <a href='/blog/categories/concurrency' style='font-size: 102.4%'>concurrency(1)</a> <a href='/blog/categories/curl' style='font-size: 102.4%'>curl(1)</a> <a href='/blog/categories/database' style='font-size: 114.4%'>database(6)</a> <a href='/blog/categories/datetime' style='font-size: 102.4%'>datetime(1)</a> <a href='/blog/categories/di' style='font-size: 104.8%'>di(2)</a> <a href='/blog/categories/drawable' style='font-size: 102.4%'>drawable(1)</a> <a href='/blog/categories/ec' style='font-size: 102.4%'>ec(1)</a> <a href='/blog/categories/eclipse' style='font-size: 102.4%'>eclipse(1)</a> <a href='/blog/categories/ecshop' style='font-size: 116.8%'>ecshop(7)</a> <a href='/blog/categories/editor' style='font-size: 102.4%'>editor(1)</a> <a href='/blog/categories/emulator' style='font-size: 102.4%'>emulator(1)</a> <a href='/blog/categories/encoding' style='font-size: 102.4%'>encoding(1)</a> <a href='/blog/categories/english' style='font-size: 133.6%'>english(14)</a> <a href='/blog/categories/excel' style='font-size: 104.8%'>excel(2)</a> <a href='/blog/categories/extjs' style='font-size: 104.8%'>extjs(2)</a> <a href='/blog/categories/gesture' style='font-size: 102.4%'>gesture(1)</a> <a href='/blog/categories/git' style='font-size: 109.6%'>git(4)</a> <a href='/blog/categories/git-flow' style='font-size: 102.4%'>git-flow(1)</a> <a href='/blog/categories/guava' style='font-size: 104.8%'>guava(2)</a> <a href='/blog/categories/guice' style='font-size: 102.4%'>guice(1)</a> <a href='/blog/categories/hamcrest' style='font-size: 102.4%'>hamcrest(1)</a> <a href='/blog/categories/i18n' style='font-size: 102.4%'>i18n(1)</a> <a href='/blog/categories/ide' style='font-size: 102.4%'>IDE(1)</a> <a href='/blog/categories/idea' style='font-size: 104.8%'>IDEA(2)</a> <a href='/blog/categories/imgur' style='font-size: 102.4%'>imgur(1)</a> <a href='/blog/categories/injection' style='font-size: 102.4%'>injection(1)</a> <a href='/blog/categories/intent' style='font-size: 102.4%'>intent(1)</a> <a href='/blog/categories/ireport' style='font-size: 104.8%'>ireport(2)</a> <a href='/blog/categories/jasterreport' style='font-size: 104.8%'>jasterreport(2)</a> <a href='/blog/categories/java' style='font-size: 152.8%'>java(22)</a> <a href='/blog/categories/java-ee' style='font-size: 112.0%'>java_ee(5)</a> <a href='/blog/categories/jms' style='font-size: 102.4%'>jms(1)</a> <a href='/blog/categories/jmx' style='font-size: 102.4%'>JMX(1)</a> <a href='/blog/categories/joda' style='font-size: 102.4%'>joda(1)</a> <a href='/blog/categories/jpa' style='font-size: 102.4%'>jpa(1)</a> <a href='/blog/categories/jquery' style='font-size: 102.4%'>jquery(1)</a> <a href='/blog/categories/jsp' style='font-size: 104.8%'>jsp(2)</a> <a href='/blog/categories/junit' style='font-size: 102.4%'>junit(1)</a> <a href='/blog/categories/jvm' style='font-size: 104.8%'>jvm(2)</a> <a href='/blog/categories/kohana' style='font-size: 102.4%'>kohana(1)</a> <a href='/blog/categories/l10n' style='font-size: 102.4%'>l10n(1)</a> <a href='/blog/categories/layout' style='font-size: 102.4%'>layout(1)</a> <a href='/blog/categories/linux' style='font-size: 126.4%'>linux(11)</a> <a href='/blog/categories/listview' style='font-size: 104.8%'>listview(2)</a> <a href='/blog/categories/logger' style='font-size: 102.4%'>logger(1)</a> <a href='/blog/categories/m2eclilpse' style='font-size: 102.4%'>m2eclilpse(1)</a> <a href='/blog/categories/mac' style='font-size: 107.2%'>mac(3)</a> <a href='/blog/categories/mat' style='font-size: 102.4%'>mat(1)</a> <a href='/blog/categories/maven' style='font-size: 112.0%'>maven(5)</a> <a href='/blog/categories/memory' style='font-size: 102.4%'>memory(1)</a> <a href='/blog/categories/menu' style='font-size: 102.4%'>menu(1)</a> <a href='/blog/categories/mindmap' style='font-size: 104.8%'>mindmap(2)</a> <a href='/blog/categories/misc' style='font-size: 102.4%'>misc(1)</a> <a href='/blog/categories/mysql' style='font-size: 116.8%'>mysql(7)</a> <a href='/blog/categories/nio' style='font-size: 102.4%'>nio(1)</a> <a href='/blog/categories/octopress' style='font-size: 102.4%'>octopress(1)</a> <a href='/blog/categories/oracle' style='font-size: 102.4%'>oracle(1)</a> <a href='/blog/categories/osgi' style='font-size: 107.2%'>osgi(3)</a> <a href='/blog/categories/pdf' style='font-size: 104.8%'>pdf(2)</a> <a href='/blog/categories/pdt' style='font-size: 112.0%'>pdt(5)</a> <a href='/blog/categories/pear' style='font-size: 104.8%'>pear(2)</a> <a href='/blog/categories/performace' style='font-size: 102.4%'>performace(1)</a> <a href='/blog/categories/pgsql' style='font-size: 102.4%'>pgsql(1)</a> <a href='/blog/categories/php' style='font-size: 114.4%'>php(6)</a> <a href='/blog/categories/play-framework' style='font-size: 102.4%'>play_framework(1)</a> <a href='/blog/categories/pm' style='font-size: 112.0%'>pm(5)</a> <a href='/blog/categories/postgresql' style='font-size: 104.8%'>postgresql(2)</a> <a href='/blog/categories/profile' style='font-size: 102.4%'>profile(1)</a> <a href='/blog/categories/programming' style='font-size: 128.8%'>programming(12)</a> <a href='/blog/categories/python' style='font-size: 104.8%'>python(2)</a> <a href='/blog/categories/re' style='font-size: 102.4%'>re(1)</a> <a href='/blog/categories/refactory' style='font-size: 102.4%'>refactory(1)</a> <a href='/blog/categories/rest' style='font-size: 116.8%'>rest(7)</a> <a href='/blog/categories/roboguice' style='font-size: 102.4%'>roboguice(1)</a> <a href='/blog/categories/sbt' style='font-size: 102.4%'>sbt(1)</a> <a href='/blog/categories/scala' style='font-size: 109.6%'>scala(4)</a> <a href='/blog/categories/security' style='font-size: 104.8%'>security(2)</a> <a href='/blog/categories/service' style='font-size: 104.8%'>service(2)</a> <a href='/blog/categories/shiro' style='font-size: 102.4%'>shiro(1)</a> <a href='/blog/categories/shortchut' style='font-size: 102.4%'>shortchut(1)</a> <a href='/blog/categories/smarty' style='font-size: 107.2%'>smarty(3)</a> <a href='/blog/categories/spring' style='font-size: 104.8%'>spring(2)</a> <a href='/blog/categories/sql' style='font-size: 102.4%'>sql(1)</a> <a href='/blog/categories/style' style='font-size: 102.4%'>style(1)</a> <a href='/blog/categories/tdd' style='font-size: 102.4%'>tdd(1)</a> <a href='/blog/categories/testing' style='font-size: 124.0%'>testing(10)</a> <a href='/blog/categories/theme' style='font-size: 102.4%'>theme(1)</a> <a href='/blog/categories/tips' style='font-size: 104.8%'>tips(2)</a> <a href='/blog/categories/tomcat' style='font-size: 102.4%'>tomcat(1)</a> <a href='/blog/categories/ubuntu' style='font-size: 119.2%'>ubuntu(8)</a> <a href='/blog/categories/ui' style='font-size: 104.8%'>ui(2)</a> <a href='/blog/categories/vim' style='font-size: 104.8%'>vim(2)</a> <a href='/blog/categories/web' style='font-size: 104.8%'>web(2)</a> <a href='/blog/categories/windows' style='font-size: 102.4%'>windows(1)</a> <a href='/blog/categories/xampp' style='font-size: 102.4%'>xampp(1)</a> <a href='/blog/categories/xml' style='font-size: 104.8%'>xml(2)</a> </span>
+    <span id="tag-cloud"><a href='/blog/categories/actionbar' style='font-size: 102.4%'>actionbar(1)</a> <a href='/blog/categories/android' style='font-size: 160.0%'>android(25)</a> <a href='/blog/categories/apache' style='font-size: 116.8%'>apache(7)</a> <a href='/blog/categories/authentication' style='font-size: 102.4%'>authentication(1)</a> <a href='/blog/categories/authorization' style='font-size: 102.4%'>authorization(1)</a> <a href='/blog/categories/bash' style='font-size: 109.6%'>bash(4)</a> <a href='/blog/categories/best-practice' style='font-size: 102.4%'>best_practice(1)</a> <a href='/blog/categories/book' style='font-size: 102.4%'>book(1)</a> <a href='/blog/categories/broadcast-receiver' style='font-size: 104.8%'>broadcast_receiver(2)</a> <a href='/blog/categories/cdi' style='font-size: 104.8%'>cdi(2)</a> <a href='/blog/categories/centos' style='font-size: 112.0%'>centos(5)</a> <a href='/blog/categories/clean-code' style='font-size: 102.4%'>clean code(1)</a> <a href='/blog/categories/clojure' style='font-size: 102.4%'>clojure(1)</a> <a href='/blog/categories/command' style='font-size: 112.0%'>command(5)</a> <a href='/blog/categories/concurrency' style='font-size: 102.4%'>concurrency(1)</a> <a href='/blog/categories/curl' style='font-size: 102.4%'>curl(1)</a> <a href='/blog/categories/database' style='font-size: 114.4%'>database(6)</a> <a href='/blog/categories/datetime' style='font-size: 102.4%'>datetime(1)</a> <a href='/blog/categories/di' style='font-size: 104.8%'>di(2)</a> <a href='/blog/categories/drawable' style='font-size: 102.4%'>drawable(1)</a> <a href='/blog/categories/ec' style='font-size: 102.4%'>ec(1)</a> <a href='/blog/categories/eclipse' style='font-size: 102.4%'>eclipse(1)</a> <a href='/blog/categories/ecshop' style='font-size: 116.8%'>ecshop(7)</a> <a href='/blog/categories/editor' style='font-size: 102.4%'>editor(1)</a> <a href='/blog/categories/emulator' style='font-size: 102.4%'>emulator(1)</a> <a href='/blog/categories/encoding' style='font-size: 102.4%'>encoding(1)</a> <a href='/blog/categories/english' style='font-size: 133.6%'>english(14)</a> <a href='/blog/categories/excel' style='font-size: 104.8%'>excel(2)</a> <a href='/blog/categories/extjs' style='font-size: 104.8%'>extjs(2)</a> <a href='/blog/categories/functional-programming' style='font-size: 102.4%'>functional programming(1)</a> <a href='/blog/categories/gesture' style='font-size: 102.4%'>gesture(1)</a> <a href='/blog/categories/git' style='font-size: 109.6%'>git(4)</a> <a href='/blog/categories/git-flow' style='font-size: 102.4%'>git-flow(1)</a> <a href='/blog/categories/guava' style='font-size: 104.8%'>guava(2)</a> <a href='/blog/categories/guice' style='font-size: 102.4%'>guice(1)</a> <a href='/blog/categories/hamcrest' style='font-size: 102.4%'>hamcrest(1)</a> <a href='/blog/categories/i18n' style='font-size: 102.4%'>i18n(1)</a> <a href='/blog/categories/ide' style='font-size: 102.4%'>IDE(1)</a> <a href='/blog/categories/idea' style='font-size: 104.8%'>IDEA(2)</a> <a href='/blog/categories/imgur' style='font-size: 102.4%'>imgur(1)</a> <a href='/blog/categories/injection' style='font-size: 102.4%'>injection(1)</a> <a href='/blog/categories/intent' style='font-size: 102.4%'>intent(1)</a> <a href='/blog/categories/ireport' style='font-size: 104.8%'>ireport(2)</a> <a href='/blog/categories/jasterreport' style='font-size: 104.8%'>jasterreport(2)</a> <a href='/blog/categories/java' style='font-size: 152.8%'>java(22)</a> <a href='/blog/categories/java8' style='font-size: 104.8%'>java8(2)</a> <a href='/blog/categories/java-ee' style='font-size: 112.0%'>java_ee(5)</a> <a href='/blog/categories/jms' style='font-size: 102.4%'>jms(1)</a> <a href='/blog/categories/jmx' style='font-size: 102.4%'>JMX(1)</a> <a href='/blog/categories/joda' style='font-size: 102.4%'>joda(1)</a> <a href='/blog/categories/jpa' style='font-size: 102.4%'>jpa(1)</a> <a href='/blog/categories/jquery' style='font-size: 102.4%'>jquery(1)</a> <a href='/blog/categories/jsp' style='font-size: 104.8%'>jsp(2)</a> <a href='/blog/categories/junit' style='font-size: 102.4%'>junit(1)</a> <a href='/blog/categories/jvm' style='font-size: 104.8%'>jvm(2)</a> <a href='/blog/categories/kohana' style='font-size: 102.4%'>kohana(1)</a> <a href='/blog/categories/l10n' style='font-size: 102.4%'>l10n(1)</a> <a href='/blog/categories/lambda' style='font-size: 102.4%'>lambda(1)</a> <a href='/blog/categories/layout' style='font-size: 102.4%'>layout(1)</a> <a href='/blog/categories/linux' style='font-size: 126.4%'>linux(11)</a> <a href='/blog/categories/listview' style='font-size: 104.8%'>listview(2)</a> <a href='/blog/categories/logger' style='font-size: 102.4%'>logger(1)</a> <a href='/blog/categories/m2eclilpse' style='font-size: 102.4%'>m2eclilpse(1)</a> <a href='/blog/categories/mac' style='font-size: 107.2%'>mac(3)</a> <a href='/blog/categories/mat' style='font-size: 102.4%'>mat(1)</a> <a href='/blog/categories/maven' style='font-size: 112.0%'>maven(5)</a> <a href='/blog/categories/memory' style='font-size: 102.4%'>memory(1)</a> <a href='/blog/categories/menu' style='font-size: 102.4%'>menu(1)</a> <a href='/blog/categories/mindmap' style='font-size: 104.8%'>mindmap(2)</a> <a href='/blog/categories/misc' style='font-size: 102.4%'>misc(1)</a> <a href='/blog/categories/mysql' style='font-size: 116.8%'>mysql(7)</a> <a href='/blog/categories/nio' style='font-size: 102.4%'>nio(1)</a> <a href='/blog/categories/octopress' style='font-size: 102.4%'>octopress(1)</a> <a href='/blog/categories/oracle' style='font-size: 102.4%'>oracle(1)</a> <a href='/blog/categories/osgi' style='font-size: 107.2%'>osgi(3)</a> <a href='/blog/categories/pdf' style='font-size: 104.8%'>pdf(2)</a> <a href='/blog/categories/pdt' style='font-size: 112.0%'>pdt(5)</a> <a href='/blog/categories/pear' style='font-size: 104.8%'>pear(2)</a> <a href='/blog/categories/performace' style='font-size: 102.4%'>performace(1)</a> <a href='/blog/categories/pgsql' style='font-size: 102.4%'>pgsql(1)</a> <a href='/blog/categories/php' style='font-size: 114.4%'>php(6)</a> <a href='/blog/categories/play-framework' style='font-size: 102.4%'>play_framework(1)</a> <a href='/blog/categories/pm' style='font-size: 112.0%'>pm(5)</a> <a href='/blog/categories/postgresql' style='font-size: 104.8%'>postgresql(2)</a> <a href='/blog/categories/profile' style='font-size: 102.4%'>profile(1)</a> <a href='/blog/categories/programming' style='font-size: 128.8%'>programming(12)</a> <a href='/blog/categories/python' style='font-size: 104.8%'>python(2)</a> <a href='/blog/categories/re' style='font-size: 102.4%'>re(1)</a> <a href='/blog/categories/refactory' style='font-size: 102.4%'>refactory(1)</a> <a href='/blog/categories/rest' style='font-size: 116.8%'>rest(7)</a> <a href='/blog/categories/roboguice' style='font-size: 102.4%'>roboguice(1)</a> <a href='/blog/categories/sbt' style='font-size: 102.4%'>sbt(1)</a> <a href='/blog/categories/scala' style='font-size: 109.6%'>scala(4)</a> <a href='/blog/categories/security' style='font-size: 104.8%'>security(2)</a> <a href='/blog/categories/sequence-diagram' style='font-size: 102.4%'>sequence_diagram(1)</a> <a href='/blog/categories/service' style='font-size: 104.8%'>service(2)</a> <a href='/blog/categories/shiro' style='font-size: 102.4%'>shiro(1)</a> <a href='/blog/categories/shortchut' style='font-size: 102.4%'>shortchut(1)</a> <a href='/blog/categories/smarty' style='font-size: 107.2%'>smarty(3)</a> <a href='/blog/categories/spring' style='font-size: 104.8%'>spring(2)</a> <a href='/blog/categories/sql' style='font-size: 102.4%'>sql(1)</a> <a href='/blog/categories/style' style='font-size: 102.4%'>style(1)</a> <a href='/blog/categories/tdd' style='font-size: 102.4%'>tdd(1)</a> <a href='/blog/categories/testing' style='font-size: 124.0%'>testing(10)</a> <a href='/blog/categories/theme' style='font-size: 102.4%'>theme(1)</a> <a href='/blog/categories/tips' style='font-size: 104.8%'>tips(2)</a> <a href='/blog/categories/tomcat' style='font-size: 102.4%'>tomcat(1)</a> <a href='/blog/categories/ubuntu' style='font-size: 119.2%'>ubuntu(8)</a> <a href='/blog/categories/ui' style='font-size: 104.8%'>ui(2)</a> <a href='/blog/categories/uml' style='font-size: 102.4%'>uml(1)</a> <a href='/blog/categories/umlet' style='font-size: 102.4%'>umlet(1)</a> <a href='/blog/categories/vim' style='font-size: 104.8%'>vim(2)</a> <a href='/blog/categories/web' style='font-size: 104.8%'>web(2)</a> <a href='/blog/categories/windows' style='font-size: 102.4%'>windows(1)</a> <a href='/blog/categories/xampp' style='font-size: 102.4%'>xampp(1)</a> <a href='/blog/categories/xml' style='font-size: 104.8%'>xml(2)</a> </span>
 </section>
 <section>
   <h1>Categories</h1>
-    <ul id="category-list"><li><a href='/blog/categories/actionbar'>actionbar (1)</a></li><li><a href='/blog/categories/android'>android (25)</a></li><li><a href='/blog/categories/apache'>apache (7)</a></li><li><a href='/blog/categories/authentication'>authentication (1)</a></li><li><a href='/blog/categories/authorization'>authorization (1)</a></li><li><a href='/blog/categories/bash'>bash (4)</a></li><li><a href='/blog/categories/best-practice'>best_practice (1)</a></li><li><a href='/blog/categories/book'>book (1)</a></li><li><a href='/blog/categories/broadcast-receiver'>broadcast_receiver (2)</a></li><li><a href='/blog/categories/cdi'>cdi (2)</a></li><li><a href='/blog/categories/centos'>centos (5)</a></li><li><a href='/blog/categories/clean-code'>clean code (1)</a></li><li><a href='/blog/categories/command'>command (5)</a></li><li><a href='/blog/categories/concurrency'>concurrency (1)</a></li><li><a href='/blog/categories/curl'>curl (1)</a></li><li><a href='/blog/categories/database'>database (6)</a></li><li><a href='/blog/categories/datetime'>datetime (1)</a></li><li><a href='/blog/categories/di'>di (2)</a></li><li><a href='/blog/categories/drawable'>drawable (1)</a></li><li><a href='/blog/categories/ec'>ec (1)</a></li><li><a href='/blog/categories/eclipse'>eclipse (1)</a></li><li><a href='/blog/categories/ecshop'>ecshop (7)</a></li><li><a href='/blog/categories/editor'>editor (1)</a></li><li><a href='/blog/categories/emulator'>emulator (1)</a></li><li><a href='/blog/categories/encoding'>encoding (1)</a></li><li><a href='/blog/categories/english'>english (14)</a></li><li><a href='/blog/categories/excel'>excel (2)</a></li><li><a href='/blog/categories/extjs'>extjs (2)</a></li><li><a href='/blog/categories/gesture'>gesture (1)</a></li><li><a href='/blog/categories/git'>git (4)</a></li><li><a href='/blog/categories/git-flow'>git-flow (1)</a></li><li><a href='/blog/categories/guava'>guava (2)</a></li><li><a href='/blog/categories/guice'>guice (1)</a></li><li><a href='/blog/categories/hamcrest'>hamcrest (1)</a></li><li><a href='/blog/categories/i18n'>i18n (1)</a></li><li><a href='/blog/categories/ide'>IDE (1)</a></li><li><a href='/blog/categories/idea'>IDEA (2)</a></li><li><a href='/blog/categories/imgur'>imgur (1)</a></li><li><a href='/blog/categories/injection'>injection (1)</a></li><li><a href='/blog/categories/intent'>intent (1)</a></li><li><a href='/blog/categories/ireport'>ireport (2)</a></li><li><a href='/blog/categories/jasterreport'>jasterreport (2)</a></li><li><a href='/blog/categories/java'>java (22)</a></li><li><a href='/blog/categories/java-ee'>java_ee (5)</a></li><li><a href='/blog/categories/jms'>jms (1)</a></li><li><a href='/blog/categories/jmx'>JMX (1)</a></li><li><a href='/blog/categories/joda'>joda (1)</a></li><li><a href='/blog/categories/jpa'>jpa (1)</a></li><li><a href='/blog/categories/jquery'>jquery (1)</a></li><li><a href='/blog/categories/jsp'>jsp (2)</a></li><li><a href='/blog/categories/junit'>junit (1)</a></li><li><a href='/blog/categories/jvm'>jvm (2)</a></li><li><a href='/blog/categories/kohana'>kohana (1)</a></li><li><a href='/blog/categories/l10n'>l10n (1)</a></li><li><a href='/blog/categories/layout'>layout (1)</a></li><li><a href='/blog/categories/linux'>linux (11)</a></li><li><a href='/blog/categories/listview'>listview (2)</a></li><li><a href='/blog/categories/logger'>logger (1)</a></li><li><a href='/blog/categories/m2eclilpse'>m2eclilpse (1)</a></li><li><a href='/blog/categories/mac'>mac (3)</a></li><li><a href='/blog/categories/mat'>mat (1)</a></li><li><a href='/blog/categories/maven'>maven (5)</a></li><li><a href='/blog/categories/memory'>memory (1)</a></li><li><a href='/blog/categories/menu'>menu (1)</a></li><li><a href='/blog/categories/mindmap'>mindmap (2)</a></li><li><a href='/blog/categories/misc'>misc (1)</a></li><li><a href='/blog/categories/mysql'>mysql (7)</a></li><li><a href='/blog/categories/nio'>nio (1)</a></li><li><a href='/blog/categories/octopress'>octopress (1)</a></li><li><a href='/blog/categories/oracle'>oracle (1)</a></li><li><a href='/blog/categories/osgi'>osgi (3)</a></li><li><a href='/blog/categories/pdf'>pdf (2)</a></li><li><a href='/blog/categories/pdt'>pdt (5)</a></li><li><a href='/blog/categories/pear'>pear (2)</a></li><li><a href='/blog/categories/performace'>performace (1)</a></li><li><a href='/blog/categories/pgsql'>pgsql (1)</a></li><li><a href='/blog/categories/php'>php (6)</a></li><li><a href='/blog/categories/play-framework'>play_framework (1)</a></li><li><a href='/blog/categories/pm'>pm (5)</a></li><li><a href='/blog/categories/postgresql'>postgresql (2)</a></li><li><a href='/blog/categories/profile'>profile (1)</a></li><li><a href='/blog/categories/programming'>programming (12)</a></li><li><a href='/blog/categories/python'>python (2)</a></li><li><a href='/blog/categories/re'>re (1)</a></li><li><a href='/blog/categories/refactory'>refactory (1)</a></li><li><a href='/blog/categories/rest'>rest (7)</a></li><li><a href='/blog/categories/roboguice'>roboguice (1)</a></li><li><a href='/blog/categories/sbt'>sbt (1)</a></li><li><a href='/blog/categories/scala'>scala (4)</a></li><li><a href='/blog/categories/security'>security (2)</a></li><li><a href='/blog/categories/service'>service (2)</a></li><li><a href='/blog/categories/shiro'>shiro (1)</a></li><li><a href='/blog/categories/shortchut'>shortchut (1)</a></li><li><a href='/blog/categories/smarty'>smarty (3)</a></li><li><a href='/blog/categories/spring'>spring (2)</a></li><li><a href='/blog/categories/sql'>sql (1)</a></li><li><a href='/blog/categories/style'>style (1)</a></li><li><a href='/blog/categories/tdd'>tdd (1)</a></li><li><a href='/blog/categories/testing'>testing (10)</a></li><li><a href='/blog/categories/theme'>theme (1)</a></li><li><a href='/blog/categories/tips'>tips (2)</a></li><li><a href='/blog/categories/tomcat'>tomcat (1)</a></li><li><a href='/blog/categories/ubuntu'>ubuntu (8)</a></li><li><a href='/blog/categories/ui'>ui (2)</a></li><li><a href='/blog/categories/vim'>vim (2)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/windows'>windows (1)</a></li><li><a href='/blog/categories/xampp'>xampp (1)</a></li><li><a href='/blog/categories/xml'>xml (2)</a></li></ul>
+    <ul id="category-list"><li><a href='/blog/categories/actionbar'>actionbar (1)</a></li><li><a href='/blog/categories/android'>android (25)</a></li><li><a href='/blog/categories/apache'>apache (7)</a></li><li><a href='/blog/categories/authentication'>authentication (1)</a></li><li><a href='/blog/categories/authorization'>authorization (1)</a></li><li><a href='/blog/categories/bash'>bash (4)</a></li><li><a href='/blog/categories/best-practice'>best_practice (1)</a></li><li><a href='/blog/categories/book'>book (1)</a></li><li><a href='/blog/categories/broadcast-receiver'>broadcast_receiver (2)</a></li><li><a href='/blog/categories/cdi'>cdi (2)</a></li><li><a href='/blog/categories/centos'>centos (5)</a></li><li><a href='/blog/categories/clean-code'>clean code (1)</a></li><li><a href='/blog/categories/clojure'>clojure (1)</a></li><li><a href='/blog/categories/command'>command (5)</a></li><li><a href='/blog/categories/concurrency'>concurrency (1)</a></li><li><a href='/blog/categories/curl'>curl (1)</a></li><li><a href='/blog/categories/database'>database (6)</a></li><li><a href='/blog/categories/datetime'>datetime (1)</a></li><li><a href='/blog/categories/di'>di (2)</a></li><li><a href='/blog/categories/drawable'>drawable (1)</a></li><li><a href='/blog/categories/ec'>ec (1)</a></li><li><a href='/blog/categories/eclipse'>eclipse (1)</a></li><li><a href='/blog/categories/ecshop'>ecshop (7)</a></li><li><a href='/blog/categories/editor'>editor (1)</a></li><li><a href='/blog/categories/emulator'>emulator (1)</a></li><li><a href='/blog/categories/encoding'>encoding (1)</a></li><li><a href='/blog/categories/english'>english (14)</a></li><li><a href='/blog/categories/excel'>excel (2)</a></li><li><a href='/blog/categories/extjs'>extjs (2)</a></li><li><a href='/blog/categories/functional-programming'>functional programming (1)</a></li><li><a href='/blog/categories/gesture'>gesture (1)</a></li><li><a href='/blog/categories/git'>git (4)</a></li><li><a href='/blog/categories/git-flow'>git-flow (1)</a></li><li><a href='/blog/categories/guava'>guava (2)</a></li><li><a href='/blog/categories/guice'>guice (1)</a></li><li><a href='/blog/categories/hamcrest'>hamcrest (1)</a></li><li><a href='/blog/categories/i18n'>i18n (1)</a></li><li><a href='/blog/categories/ide'>IDE (1)</a></li><li><a href='/blog/categories/idea'>IDEA (2)</a></li><li><a href='/blog/categories/imgur'>imgur (1)</a></li><li><a href='/blog/categories/injection'>injection (1)</a></li><li><a href='/blog/categories/intent'>intent (1)</a></li><li><a href='/blog/categories/ireport'>ireport (2)</a></li><li><a href='/blog/categories/jasterreport'>jasterreport (2)</a></li><li><a href='/blog/categories/java'>java (22)</a></li><li><a href='/blog/categories/java8'>java8 (2)</a></li><li><a href='/blog/categories/java-ee'>java_ee (5)</a></li><li><a href='/blog/categories/jms'>jms (1)</a></li><li><a href='/blog/categories/jmx'>JMX (1)</a></li><li><a href='/blog/categories/joda'>joda (1)</a></li><li><a href='/blog/categories/jpa'>jpa (1)</a></li><li><a href='/blog/categories/jquery'>jquery (1)</a></li><li><a href='/blog/categories/jsp'>jsp (2)</a></li><li><a href='/blog/categories/junit'>junit (1)</a></li><li><a href='/blog/categories/jvm'>jvm (2)</a></li><li><a href='/blog/categories/kohana'>kohana (1)</a></li><li><a href='/blog/categories/l10n'>l10n (1)</a></li><li><a href='/blog/categories/lambda'>lambda (1)</a></li><li><a href='/blog/categories/layout'>layout (1)</a></li><li><a href='/blog/categories/linux'>linux (11)</a></li><li><a href='/blog/categories/listview'>listview (2)</a></li><li><a href='/blog/categories/logger'>logger (1)</a></li><li><a href='/blog/categories/m2eclilpse'>m2eclilpse (1)</a></li><li><a href='/blog/categories/mac'>mac (3)</a></li><li><a href='/blog/categories/mat'>mat (1)</a></li><li><a href='/blog/categories/maven'>maven (5)</a></li><li><a href='/blog/categories/memory'>memory (1)</a></li><li><a href='/blog/categories/menu'>menu (1)</a></li><li><a href='/blog/categories/mindmap'>mindmap (2)</a></li><li><a href='/blog/categories/misc'>misc (1)</a></li><li><a href='/blog/categories/mysql'>mysql (7)</a></li><li><a href='/blog/categories/nio'>nio (1)</a></li><li><a href='/blog/categories/octopress'>octopress (1)</a></li><li><a href='/blog/categories/oracle'>oracle (1)</a></li><li><a href='/blog/categories/osgi'>osgi (3)</a></li><li><a href='/blog/categories/pdf'>pdf (2)</a></li><li><a href='/blog/categories/pdt'>pdt (5)</a></li><li><a href='/blog/categories/pear'>pear (2)</a></li><li><a href='/blog/categories/performace'>performace (1)</a></li><li><a href='/blog/categories/pgsql'>pgsql (1)</a></li><li><a href='/blog/categories/php'>php (6)</a></li><li><a href='/blog/categories/play-framework'>play_framework (1)</a></li><li><a href='/blog/categories/pm'>pm (5)</a></li><li><a href='/blog/categories/postgresql'>postgresql (2)</a></li><li><a href='/blog/categories/profile'>profile (1)</a></li><li><a href='/blog/categories/programming'>programming (12)</a></li><li><a href='/blog/categories/python'>python (2)</a></li><li><a href='/blog/categories/re'>re (1)</a></li><li><a href='/blog/categories/refactory'>refactory (1)</a></li><li><a href='/blog/categories/rest'>rest (7)</a></li><li><a href='/blog/categories/roboguice'>roboguice (1)</a></li><li><a href='/blog/categories/sbt'>sbt (1)</a></li><li><a href='/blog/categories/scala'>scala (4)</a></li><li><a href='/blog/categories/security'>security (2)</a></li><li><a href='/blog/categories/sequence-diagram'>sequence_diagram (1)</a></li><li><a href='/blog/categories/service'>service (2)</a></li><li><a href='/blog/categories/shiro'>shiro (1)</a></li><li><a href='/blog/categories/shortchut'>shortchut (1)</a></li><li><a href='/blog/categories/smarty'>smarty (3)</a></li><li><a href='/blog/categories/spring'>spring (2)</a></li><li><a href='/blog/categories/sql'>sql (1)</a></li><li><a href='/blog/categories/style'>style (1)</a></li><li><a href='/blog/categories/tdd'>tdd (1)</a></li><li><a href='/blog/categories/testing'>testing (10)</a></li><li><a href='/blog/categories/theme'>theme (1)</a></li><li><a href='/blog/categories/tips'>tips (2)</a></li><li><a href='/blog/categories/tomcat'>tomcat (1)</a></li><li><a href='/blog/categories/ubuntu'>ubuntu (8)</a></li><li><a href='/blog/categories/ui'>ui (2)</a></li><li><a href='/blog/categories/uml'>uml (1)</a></li><li><a href='/blog/categories/umlet'>umlet (1)</a></li><li><a href='/blog/categories/vim'>vim (2)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/windows'>windows (1)</a></li><li><a href='/blog/categories/xampp'>xampp (1)</a></li><li><a href='/blog/categories/xml'>xml (2)</a></li></ul>
 </section>
 
   
