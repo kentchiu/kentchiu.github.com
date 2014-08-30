@@ -1,5 +1,5 @@
 ---
-published: false
+published: true
 author: Kent Chiu
 layout: post
 title: “Mac開發環境設定”
@@ -13,8 +13,8 @@ categories:
 
 mac os重裝，重裝後開發需要用到的工具及相關設定方式如下:
 
-- JDK 1.7
-- Apache Maven 3.1.1
+- JDK 1.8
+- Apache Maven 3.2.1
 - ruby
 - python
 - homebrew
@@ -27,29 +27,36 @@ mac os重裝，重裝後開發需要用到的工具及相關設定方式如下:
 為了保證不管透過遠端登入或在登入後另外開shell都會執行設定環境的動作，可以在`.bashfile`加入環境變數的設定，
 但linux下的習慣以’.bashrc’為主，因為在linux環境下，反而是’.bashrc’會保證被執行到
 
-為了保持跟linux的一致，以`.bashrc`為主要的設定檔，可以`.bash_profile`加入這段，讓它去執行`.bashrc`
+`vi ~/.bash_profile`
 
-	# ~/.bash_profile
-	if [ -f ~/.bashrc ]; then
-    		source ~/.bashrc
-	fi
 
-這樣就可以跟linux一樣，所有的設定放`.bashrc`即可
+	function setjdk() {
+	  if [ $# -ne 0 ]; then
+	   removeFromPath '/System/Library/Frameworks/JavaVM.framework/Home/bin'
+	   if [ -n "${JAVA_HOME+x}" ]; then
+	    removeFromPath $JAVA_HOME
+	   fi
+	   export JAVA_HOME=`/usr/libexec/java_home -v $@`
+	   export PATH=$JAVA_HOME/bin:$PATH
+	  fi
+	 }
+	 function removeFromPath() {
+	  export PATH=$(echo $PATH | sed -E -e "s;:$1;;" -e "s;$1:?;;")
+	 }
+	setjdk 1.8
 
-	# 設定 JAVA_HOME 
-	export JAVA_HOME=`/usr/libexec/java_home -v 1.7`
+	export MAVEN_HOME=/Users/kent/dev/apache-maven-3.2.1
+	export M2_HOME=$MAVEN_HOME
+	export CATALINA_HOME=/Users/kent/dev/apache-tomcat-8.0.5
+	export GRADLE_HOME=/Users/kent/dev/gradle-1.10
 
-	# 設定 MAVEN_HOME
-	export MAVEN_HOME=/Users/kent/dev/idcview/toolchain/apache-maven-3.1.1
+	export PATH=$MAVEN_HOME/bin:$GRADLE_HOME/bin:$PATH
 
-	# 輸出路徑
-	export PATH=$JAVA_HOME\bin:$MAVEN_HOME\bin:$PATH
-
-完成後，記得執行一下 `source ~/.bashrc`看看有沒有錯誤，然後便可以`echo $JAVA_HOME`看看java的部徑有沒有設定進去，
+完成後，記得執行一下 `source ~/.bash_profile`看看有沒有錯誤，然後便可以`echo $JAVA_HOME`看看java的部徑有沒有設定進去，
 如果都ok，可以執行一下`java -version` 跟 'mvn -v'看一下java跟maven的版號
 
 
-#### Eclipse找不到jdk
+#### Eclipse找不到jdk (JDK 7 only)
 Oracle沒有定義jvm 1.7的相容性，所以在gui環境eclipse會找不到jdk
 解決的方式如下
 

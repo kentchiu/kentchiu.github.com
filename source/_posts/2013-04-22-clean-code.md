@@ -49,7 +49,7 @@ checkin / checkout 時就順手整理。
 
 也不用特意在命名時加上型別， ex: NameString, CustomerObject 因為在 IDE 幫助下，已經可以很方便的知道物件的型號了，不需要特別去加上類別資訊
 
-###### 採用技術性的命名方式，而已領域性的命名方式
+###### 採用技術性的命名方式，而非領域性的命名方式
 
 會去看代碼的，大多是 programmer ，所以應該是用技術性的名字，像是 JobQuery, AccountVisitor 來取名字，而不是領域上的專業術語，如果一定要用到領域上的術語
 ，那務必讓術語的名字與領域術語能一致。
@@ -105,7 +105,7 @@ checkin / checkout 時就順手整理。
 
 > 我試著去翻出 Kent Beck 最早期的 junit (3.4) 大多的 function 也都相當的短 (10行以下)， 也有少數比較長的，但也沒超過50行
 > 不過，讓每個 function 都小到了極致，那勢必會產生更多的 fucntions 或 classes 而造成 *Divergent Change（發散式變化* 或 *Shotgun Surgery（霰彈式修改)*
-> 這部份要如果解決，有待確認
+> 這部份，可透過package或class的重新組織，並秉持著single responsibility principle (單一職責原則)，通常就不會有太大的問題 
 
 - functon 內的實作抽像等級應該要一致，不要同一個 function 內，有很高階的實作，又有很低階的實作
   高階，低階是指實作的抽象性，像 getHtml() 就是比較高階，而字串相加，就是屬於比較低階的實作
