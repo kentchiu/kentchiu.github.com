@@ -4,7 +4,7 @@
   <title><![CDATA[Category: refactory | Kent's Blog]]></title>
   <link href="http://blog.kent-chiu.com/blog/categories/refactory/atom.xml" rel="self"/>
   <link href="http://blog.kent-chiu.com/"/>
-  <updated>2014-08-30T16:29:07+08:00</updated>
+  <updated>2014-08-30T16:30:59+08:00</updated>
   <id>http://blog.kent-chiu.com/</id>
   <author>
     <name><![CDATA[Kent]]></name>
@@ -12,6 +12,562 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Liquibase 筆記]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2014/05/30/liquibase-101/"/>
+    <updated>2014-05-30T12:44:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2014/05/30/liquibase-101</id>
+    <content type="html"><![CDATA[<!-- MarkdownTOC depth=0 -->
+
+
+<ul>
+<li>執行Liquibase指令的方式
+
+<ul>
+<li>maven goals:</li>
+</ul>
+</li>
+<li>同步到xml到db
+
+<ul>
+<li>建立user table</li>
+<li>加入額外的欄位</li>
+<li>insert data</li>
+<li>版控說明</li>
+<li>完整的 db.changelog-master.xml</li>
+</ul>
+</li>
+<li>從資料庫產生changelog.xml
+
+<ul>
+<li>只產生data</li>
+<li>同時產生schema + data</li>
+</ul>
+</li>
+<li>完整的pom.xml</li>
+<li>個人心得</li>
+<li>resource</li>
+</ul>
+
+
+<!-- /MarkdownTOC -->
+
+
+<p><a href="http://www.liquibase.org/">Liquibase</a>是資料庫版本管理工具，設定的概念是把資料庫schema的異動(table的建立，column的異動，index的異動…)及資料內容的異動(insert，update，delete)用Liquibase定義的語法寫成xml格式change log，然後在資料庫裡多建立一個名為databasechangelog的table(如下)，用來記錄db更新了那些change log，當xml新增了更多的change log後，跟db裡的版號一比對，就可得知未同步的change log有那些，下次同步時，就會同步這些未同步過的change log。概念上跟 git 滿像的。</p>
+
+<p>liquibase會在管理的database中加入databasechangelog table，用來記錄與xml同步的狀態
+<code>sql
+mydb=# select * from databasechangelog;
+-[ RECORD 1 ]-+--------------------------------------------------------------------------------------------------
+id            | 1
+author        | bob
+filename      | /Users/kent/dev/liquibase-exercise/src/main/resources/db.changelog-master.xml
+dateexecuted  | 2014-08-30 10:28:35.235724
+orderexecuted | 1
+exectype      | EXECUTED
+md5sum        | 7:17a94fcdd73aa8852c1f53e4d06ee651
+description   | createTable
+comments      |
+tag           |
+liquibase     | 3.2.2
+</code></p>
+
+<blockquote><p>需特別注意，change log設定檔，一旦同步過後，如果設定檔中的id，檔案路徑等tag有改到，就會被當成新的change log，再次被同步到db中</p></blockquote>
+
+<h4>執行Liquibase指令的方式</h4>
+
+<p>要執行Liquibase指令，可透過command line，ant，maven，或API呼叫，本文採用maven的方式。</p>
+
+<p>``` xml</p>
+
+<pre><code>        &lt;plugin&gt;
+            &lt;groupId&gt;org.liquibase&lt;/groupId&gt;
+            &lt;artifactId&gt;liquibase-maven-plugin&lt;/artifactId&gt;
+            &lt;version&gt;3.2.2&lt;/version&gt;
+            &lt;configuration&gt;
+                &lt;changeLogFile&gt;${basedir}/src/main/resources/db.changelog-master.xml&lt;/changeLogFile&gt;
+                &lt;outputChangeLogFile&gt;${basedir}/src/main/resources/output.xml&lt;/outputChangeLogFile&gt;
+                &lt;driver&gt;org.postgresql.Driver&lt;/driver&gt;
+                &lt;url&gt;jdbc:postgresql://localhost:5432/mydb&lt;/url&gt;
+                &lt;username&gt;postgres&lt;/username&gt;
+                &lt;password&gt;postgres&lt;/password&gt;
+                &lt;promptOnNonLocalDatabase&gt;false&lt;/promptOnNonLocalDatabase&gt;
+            &lt;/configuration&gt;
+        &lt;/plugin&gt;
+</code></pre>
+
+<p>```</p>
+
+<ul>
+<li>changeLogFile : 記錄要套用到db的xml檔(xml -> db)，執行update指令時，會依changeLogFile的內容異動資料庫schema</li>
+<li>outputChangeLogFile: 從資料庫匯出xml時，會匯出到outputChangeLogFile (db -> xml)</li>
+</ul>
+
+
+<h4>maven goals:</h4>
+
+<ul>
+<li>changelogSync : 將changelog中未套用至db的change logs標示成已同步</li>
+<li>changelogSyncSQL : 同<code>changelogSync</code>，但只產生sql，而不執行同步到db</li>
+<li>generateChangeLog : 將目前資料庫的shcema(預設不含資料內容)匯出成 xml</li>
+<li>dbDoc : 產生像java doc的文件</li>
+<li>diff : 比對兩個資料庫間的差異</li>
+<li>status : 顯示目前change set有那些change log會被套用到db</li>
+<li>tag : 在liquibase產生在db的管理用table打上tag，之後可以當作rollback用</li>
+<li>update : 更新未套用過的change set至db(xml -> db)</li>
+<li>updateSQL : 同update，但產生更新的sql語法，不會真正同步db</li>
+</ul>
+
+
+<p>以下的指令沒用過，不太清楚實際的動作情形:</p>
+
+<ul>
+<li>clearCheckSums :Clears all checksums in the current changelog, so they will be recalculatednext update.</li>
+<li>dropAll :
+Drops all database objects owned by the user. Note that functions, procedures
+and packages are not dropped.</li>
+<li>futureRollbackSQL :
+Generates the SQL that is required to rollback the database to current state
+after the next update.</li>
+<li>listLocks :
+Lists all Liquibase updater locks on the current database.</li>
+<li>releaseLocks :
+Removes any Liquibase updater locks from the current database.</li>
+<li>rollback :
+Invokes Liquibase rollbacks on a database.</li>
+<li>rollbackSQL :
+Generates the SQL that is required to rollback the database to the specified
+pointing attributes 'rollbackCount', 'rollbackTag'</li>
+<li>updateTestingRollback :
+Applies the DatabaseChangeLogs to the database, testing rollback. This is done
+by updating the database, rolling it back then updating it again.</li>
+</ul>
+
+
+<p>像 changelogSync，changelogSyncSQL，或 update，updateSQL，做的事情是差不多的，而有<em>SQL</em>後綴的版本，是會把要執行的SQL語法輸出到stdout，而不進行db的更新。</p>
+
+<p>在使用上，新的database，一開始就用changelog的xml管理，所有的異動都透過xml管理，然後使用<code>mvn liquibase:update</code>，就會將plugin中的<code>changeLogFile</code>指定的
+change log檔更新到db，如果是legcy的專案原本就有db的，可以用<code>mvn liquibase:generateChangeLog</code>把db匯成change log檔案至<code>outputChangeLogFile</code>指定的檔案中，之後再以產生出來的change log為基礎，做資料庫版本的管理。</p>
+
+<h2>同步到xml到db</h2>
+
+<h4>建立user table</h4>
+
+<p>src/main/resources/db.changelog-master.xml
+```
+&lt;?xml version="1.0" encoding="UTF-8"?></p>
+
+<p>&lt;databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog</p>
+
+<pre><code>     http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd"&gt;
+</code></pre>
+
+<p>  <!-- 建立 uesr table --></p>
+
+<pre><code>&lt;changeSet id="create-user-table" author="kent"&gt;
+    &lt;createTable tableName="user"&gt;
+        &lt;column name="first_name" type="varchar(50)"&gt;
+            &lt;constraints nullable="false"/&gt;
+        &lt;/column&gt;
+        &lt;column name="last_name" type="varchar(50)"&gt;
+        &lt;/column&gt;
+    &lt;/createTable&gt;
+&lt;/changeSet&gt;
+</code></pre>
+
+<p></databaseChangeLog>
+```</p>
+
+<p>第一次執行<code>mvn liquibase:update</code>執行後，原本完全沒有table的db多了三個table，</p>
+
+<ul>
+<li>databasechangelog是記錄同步用的，</li>
+<li>databasechangeloglock是做locking的</li>
+</ul>
+
+
+<p>上面兩個都是直接由liquibase管理，不用去管它。</p>
+
+<ul>
+<li>user 則是上面的change log中的<code>&lt;createTable&gt;</code>建立的</li>
+</ul>
+
+
+<p>```</p>
+
+<pre><code>             List of relations
+</code></pre>
+
+<p> Schema |         Name          | Type  |  Owner <br/>
+--------+-----------------------+-------+----------
+ public | databasechangelog     | table | postgres
+ public | databasechangeloglock | table | postgres
+ public | user                  | table | postgres
+```</p>
+
+<p>user跟change log中定義的結構是一致的
+```</p>
+
+<pre><code>          Table "public.user"
+</code></pre>
+
+<p>   Column   |         Type          | Modifiers
+------------+-----------------------+-----------
+ first_name | character varying(50) | not null
+ last_name  | character varying(50) |
+```</p>
+
+<h4>加入額外的欄位</h4>
+
+<p>src/main/resources/db.changelog-master.xml
+``` xml
+&lt;?xml version="1.0" encoding="UTF-8"?></p>
+
+<p>&lt;databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog</p>
+
+<pre><code>     http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd"&gt;
+</code></pre>
+
+<p>   ...(略)</p>
+
+<pre><code>&lt;!-- 在user table加入 address column --&gt;
+&lt;changeSet id="addColumn-example" author="kent"&gt;
+    &lt;addColumn catalogName="mydb" schemaName="public" tableName="user"&gt;
+        &lt;column name="address" type="varchar(255)"/&gt;
+    &lt;/addColumn&gt;
+&lt;/changeSet&gt;  
+</code></pre>
+
+<p></databaseChangeLog>
+```</p>
+
+<p>改完changelog的xml檔，再次執行<code>mvn liquibase:update</code>後，user table就會多出address column，這次執行，因為databasechangelog中已有記錄<code>&lt;changeSet id="create-user-table" author="kent"&gt;</code>已經被執行過了，所以不會再次被執行。</p>
+
+<p>```</p>
+
+<pre><code>           Table "public.user"
+</code></pre>
+
+<p>   Column   |          Type          | Modifiers
+------------+------------------------+-----------
+ first_name | character varying(50)  | not null
+ last_name  | character varying(50)  |
+ address    | character varying(255) |
+```</p>
+
+<h4>insert data</h4>
+
+<p>src/main/resources/db.changelog-master.xml
+``` xml
+&lt;?xml version="1.0" encoding="UTF-8"?></p>
+
+<p>&lt;databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog</p>
+
+<pre><code>     http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd"&gt;
+</code></pre>
+
+<p>   ...(略)</p>
+
+<pre><code>&lt;!-- insert兩筆測試資料 --&gt;
+&lt;changeSet id="insert-example" author="kent" &gt;
+    &lt;insert catalogName="mydb" schemaName="public" tableName="user"&gt;
+        &lt;column name="first_name" value="kent"/&gt; 
+        &lt;column name="last_name" value="chiu"/&gt; 
+    &lt;/insert&gt;
+    &lt;insert catalogName="mydb" schemaName="public" tableName="user"&gt;
+        &lt;column name="first_name" value="cindy"/&gt; 
+        &lt;column name="last_name" value="chiu"/&gt; 
+    &lt;/insert&gt;
+&lt;/changeSet&gt;
+</code></pre>
+
+<p></databaseChangeLog>
+```</p>
+
+<p>改完changelog的xml檔，執行<code>mvn liquibase:update</code>執行後，user table就會多出兩筆資料</p>
+
+<p><code>
+ first_name | last_name | address
+------------+-----------+---------
+ kent       | chiu      |
+ cindy      | chiu      |
+</code></p>
+
+<h4>版控說明</h4>
+
+<p>在實務上，只要是db的schema有要做異動，就一律從change log的設定檔改，如果是資料內容的異動，則視需求看要不要從change log異動。必要的預設資料可以在change log裡，透過insert tag來建立，可以省去每次重建table都還要另外建立預設資料的步驟。</p>
+
+<p>搭配其他指令，還可以讓資料庫回到特一個特定的版本(change set)，這樣在開發時，就不用怕弄亂資料庫了。</p>
+
+<h4>完整的 db.changelog-master.xml</h4>
+
+<p>``` xml
+&lt;?xml version="1.0" encoding="UTF-8"?></p>
+
+<p>&lt;databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog</p>
+
+<pre><code>     http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd"&gt;
+
+&lt;!-- 建立 uesr table --&gt;
+&lt;changeSet id="create-user-table" author="kent"&gt;
+    &lt;createTable tableName="user"&gt;
+        &lt;column name="first_name" type="varchar(50)"&gt;
+            &lt;constraints nullable="false"/&gt;
+        &lt;/column&gt;
+        &lt;column name="last_name" type="varchar(50)"&gt;
+        &lt;/column&gt;
+    &lt;/createTable&gt;
+&lt;/changeSet&gt;
+
+&lt;!-- 在user table加入 address column --&gt;
+&lt;changeSet id="addColumn-example" author="kent"&gt;
+    &lt;addColumn catalogName="mydb" schemaName="public" tableName="user"&gt;
+        &lt;column name="address" type="varchar(255)"/&gt;
+    &lt;/addColumn&gt;
+&lt;/changeSet&gt;
+
+&lt;!-- insert兩筆測試資料 --&gt;
+&lt;changeSet id="insert-example" author="kent" &gt;
+    &lt;insert catalogName="mydb" schemaName="public" tableName="user"&gt;
+        &lt;column name="first_name" value="kent"/&gt; 
+        &lt;column name="last_name" value="chiu"/&gt; 
+    &lt;/insert&gt;
+    &lt;insert catalogName="mydb" schemaName="public" tableName="user"&gt;
+        &lt;column name="first_name" value="cindy"/&gt; 
+        &lt;column name="last_name" value="chiu"/&gt; 
+    &lt;/insert&gt;
+&lt;/changeSet&gt;
+</code></pre>
+
+<p></databaseChangeLog>
+```</p>
+
+<h2>從資料庫產生changelog.xml</h2>
+
+<p>對於即有的database，可以透過<code>generateChangeLog</code>從資料庫產生change log，再以這個change log檔為基礎，之後的異動，再透過liquibase管理(xml -> db)</p>
+
+<p>使用<code>generateChangeLog</code>進行匯出時，預設是只有schema(tables, views, columns, indexs,foreignkeys, primarykeys, uniqueconstraints)，如果要產
+生資料，要在<code>diffTypes</code>中加入<strong>data</strong>這個type。</p>
+
+<p><code>bash
+kent@Kents-MacBook-Pro:~/dev/liquibase-exercise$ mvn liquibase:generateChangeLog
+[INFO] Scanning for projects...
+[INFO]
+[INFO] Using the builder org.apache.maven.lifecycle.internal.builder.singlethreaded.SingleThreadedBuilder with a thread count of 1
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building liquibase-exercise 1.1.0-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO]
+[INFO] --- liquibase-maven-plugin:3.2.2:generateChangeLog (default-cli) @ liquibase-exercise ---
+[INFO] ------------------------------------------------------------------------
+[INFO] Executing on Database: jdbc:postgresql://localhost:5432/mydb
+[INFO] Generating Change Log from database postgres @ jdbc:postgresql://localhost:5432/mydb (Default Schema: public)
+INFO 8/30/14 12:30 PM: liquibase: /Users/kent/dev/liquibase-exercise/src/main/resources/output.xml does not exist, creating
+[INFO] Output written to Change Log file, /Users/kent/dev/liquibase-exercise/src/main/resources/output.xml
+[INFO] ------------------------------------------------------------------------
+[INFO]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 2.087 s
+[INFO] Finished at: 2014-08-30T12:31:00+08:00
+[INFO] Final Memory: 8M/61M
+[INFO] ------------------------------------------------------------------------
+</code></p>
+
+<p>執行完<code>generateChangeLog</code>可以看到change log產生到我們plugin的設定中指定的位置<code>src/main/resources/output.xml</code></p>
+
+<p>如果沒有特別指定<code>diffTypes</code>參數，那只會產生'tables, views, columns, indexs,foreignkeys, primarykeys, uniqueconstraints'
+``` xml
+&lt;?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd"></p>
+
+<pre><code>&lt;changeSet author="kent (generated)" id="1409373059484-1"&gt;
+    &lt;insert tableName="user"&gt;
+        &lt;column name="first_name" value="kent"/&gt;
+        &lt;column name="last_name" value="chiu"/&gt;
+        &lt;column name="address"/&gt;
+    &lt;/insert&gt;
+    &lt;insert tableName="user"&gt;
+        &lt;column name="first_name" value="cindy"/&gt;
+        &lt;column name="last_name" value="chiu"/&gt;
+        &lt;column name="address"/&gt;
+    &lt;/insert&gt;
+&lt;/changeSet&gt;
+&lt;changeSet author="kent (generated)" id="1409373299327-1"&gt;
+    &lt;createTable tableName="user"&gt;
+        &lt;column name="first_name" type="VARCHAR(50)"&gt;
+            &lt;constraints nullable="false"/&gt;
+        &lt;/column&gt;
+        &lt;column name="last_name" type="VARCHAR(50)"/&gt;
+        &lt;column name="address" type="VARCHAR(255)"/&gt;
+    &lt;/createTable&gt;
+&lt;/changeSet&gt;
+</code></pre>
+
+<p></databaseChangeLog>
+```</p>
+
+<h4>只產生data</h4>
+
+<p>指定<code>diffTypes=data</code>，就會只產生資料，不會有schema的資訊，如果有需要，也可以直接將資料匯出成csv檔</p>
+
+<p><code>bash
+mvn liquibase:generateChangeLog -Dliquibase.diffTypes=data
+</code></p>
+
+<p>產生的xml如下
+``` xml
+&lt;?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd"></p>
+
+<pre><code>&lt;changeSet author="kent (generated)" id="1409373576402-1"&gt;
+    &lt;insert tableName="user"&gt;
+        &lt;column name="first_name" value="kent"/&gt;
+        &lt;column name="last_name" value="chiu"/&gt;
+        &lt;column name="address"/&gt;
+    &lt;/insert&gt;
+    &lt;insert tableName="user"&gt;
+        &lt;column name="first_name" value="cindy"/&gt;
+        &lt;column name="last_name" value="chiu"/&gt;
+        &lt;column name="address"/&gt;
+    &lt;/insert&gt;
+&lt;/changeSet&gt;
+</code></pre>
+
+<p></databaseChangeLog></p>
+
+<p>```</p>
+
+<h4>同時產生schema + data</h4>
+
+<p>如果要產生的xml如下，那<code>diffTypes</code>就要設定為<code>tables,views,columns,indexs,foreignkeys,primarykeys,uniqueconstraints,data</code>
+<code>bash
+mvn liquibase:generateChangeLog -Dliquibase.diffTypes=tables,views,columns,indexs,foreignkeys,primarykeys,uniqueconstraints,data
+</code></p>
+
+<p>產生的xml如下
+```
+&lt;?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd"></p>
+
+<pre><code>&lt;changeSet author="kent (generated)" id="1409373576402-1"&gt;
+    &lt;insert tableName="user"&gt;
+        &lt;column name="first_name" value="kent"/&gt;
+        &lt;column name="last_name" value="chiu"/&gt;
+        &lt;column name="address"/&gt;
+    &lt;/insert&gt;
+    &lt;insert tableName="user"&gt;
+        &lt;column name="first_name" value="cindy"/&gt;
+        &lt;column name="last_name" value="chiu"/&gt;
+        &lt;column name="address"/&gt;
+    &lt;/insert&gt;
+&lt;/changeSet&gt;
+&lt;changeSet author="kent (generated)" id="1409373769747-1"&gt;
+    &lt;createTable tableName="user"&gt;
+        &lt;column name="first_name" type="VARCHAR(50)"&gt;
+            &lt;constraints nullable="false"/&gt;
+        &lt;/column&gt;
+        &lt;column name="last_name" type="VARCHAR(50)"/&gt;
+        &lt;column name="address" type="VARCHAR(255)"/&gt;
+    &lt;/createTable&gt;
+&lt;/changeSet&gt;
+&lt;changeSet author="kent (generated)" id="1409373769747-2"&gt;
+    &lt;insert tableName="user"&gt;
+        &lt;column name="first_name" value="kent"/&gt;
+        &lt;column name="last_name" value="chiu"/&gt;
+        &lt;column name="address"/&gt;
+    &lt;/insert&gt;
+    &lt;insert tableName="user"&gt;
+        &lt;column name="first_name" value="cindy"/&gt;
+        &lt;column name="last_name" value="chiu"/&gt;
+        &lt;column name="address"/&gt;
+    &lt;/insert&gt;
+&lt;/changeSet&gt;
+</code></pre>
+
+<p></databaseChangeLog></p>
+
+<p>```</p>
+
+<h2>完整的pom.xml</h2>
+
+<p>``` xml
+&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"</p>
+
+<pre><code>     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"&gt;
+&lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+&lt;groupId&gt;com.kent&lt;/groupId&gt;
+&lt;artifactId&gt;liquibase-exercise&lt;/artifactId&gt;
+&lt;version&gt;1.1.0-SNAPSHOT&lt;/version&gt;
+
+&lt;dependencies&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.postgresql&lt;/groupId&gt;
+        &lt;artifactId&gt;postgresql&lt;/artifactId&gt;
+        &lt;version&gt;9.3-1101-jdbc41&lt;/version&gt;
+    &lt;/dependency&gt;
+&lt;/dependencies&gt;
+&lt;build&gt;
+    &lt;plugins&gt;
+        &lt;plugin&gt;
+            &lt;groupId&gt;org.liquibase&lt;/groupId&gt;
+            &lt;artifactId&gt;liquibase-maven-plugin&lt;/artifactId&gt;
+            &lt;version&gt;3.2.2&lt;/version&gt;
+            &lt;configuration&gt;
+                &lt;changeLogFile&gt;${basedir}/src/main/resources/db.changelog-master.xml&lt;/changeLogFile&gt;
+                &lt;outputChangeLogFile&gt;${basedir}/src/main/resources/output.xml&lt;/outputChangeLogFile&gt;
+                &lt;driver&gt;org.postgresql.Driver&lt;/driver&gt;
+                &lt;url&gt;jdbc:postgresql://localhost:5432/mydb&lt;/url&gt;
+                &lt;username&gt;postgres&lt;/username&gt;
+                &lt;password&gt;postgres&lt;/password&gt;
+                &lt;promptOnNonLocalDatabase&gt;false&lt;/promptOnNonLocalDatabase&gt;
+                &lt;!-- 同時產生資料跟schema --&gt;
+                &lt;!--
+                &lt;diffTypes&gt;tables, views, columns, indexs,foreignkeys, primarykeys, uniqueconstraints, data&lt;/diffTypes&gt;
+                --&gt;
+            &lt;/configuration&gt;
+        &lt;/plugin&gt;
+    &lt;/plugins&gt;
+&lt;/build&gt;        
+</code></pre>
+
+<p></project>                   <br/>
+```</p>
+
+<h2>個人心得</h2>
+
+<p>會接觸liquibase，主要是因為維護的專案，是屬於產品類型的，一但delivery給客戶後，要昇級程式，常不可避免的會動到db的結構或資料。
+新增table跟column通常都不太會有問題，但是如果是要做delete或rename，甚至是對即有資料內容做一些格式的調整或轉換，一些簡單的sql指令(ddl或dml)就有點使不上力了，可能就要寫一些sql的funciton來處理，如果邏輯更複雜時就需要用程式處理，</p>
+
+<p>在當時並沒有比較適合的solution，於是採用了類似Ruby On Rails管資料庫版本的方式做了一套，大部份的異動，都還是希望透過
+sql script就能處理，但有些最基本的判斷，像column存不存在，不存在就建立，或column的rename，這些透過sql也不是很好處理，通常都要透過自製的sql function來處理，如果比較複雜的，就寫一個小程式來取代原來的sql script，使用上並不方便，而且
+維護成本也不小，光每次測試sql patch，所以這次斷然決定換成用liquibase來管理，看看會不會有顯著的改善，目前看來使用經
+驗算是不錯。</p>
+
+<h2>resource</h2>
+
+<ul>
+<li><a href="http://www.liquibase.org/documentation/maven/index.html">http://www.liquibase.org/documentation/maven/index.html</a> - liquibase maven plugin</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Code Smell]]></title>

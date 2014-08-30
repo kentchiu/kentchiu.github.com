@@ -9,13 +9,8 @@
   <meta name="author" content="Kent">
 
   
-  <meta name="description" content="JVM記憶體相關參數 Xmx : 記憶體使用上限
-Xms : 記憶體使用下限(啟始值)
-Xss : stack
-server :
-client :
-XX:PermSize : Perm for Permanent:編譯後的class，或固定的資料結構會佔用這一個值
-XX: &hellip;">
+  <meta name="description" content="WebView 讓WebView的內容符合手機的畫面 webview常常需要去存取現在的網頁，但大部份的網頁沒有針對moible特別做處理，所以用手機去瀏灠網頁時(透過webview)，通常需要左右的捲動才要辦法看到完整的內容。
+解決的方式為 WebView webview = new &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -83,6 +78,202 @@ XX: &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/05/14/tips_and_tricks/">Android Tips & Tricks</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-05-14T00:00:00+08:00" pubdate data-updated="true">May 14<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/05/14/tips_and_tricks/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>WebView</h3>
+
+<h5>讓WebView的內容符合手機的畫面</h5>
+
+<p>webview常常需要去存取現在的網頁，但大部份的網頁沒有針對moible特別做處理，所以用手機去瀏灠網頁時(透過webview)，通常需要左右的捲動才要辦法看到完整的內容。
+解決的方式為</p>
+
+<pre><code>WebView webview = new WebView(getContext());
+webview.getSettings().setLoadWithOverviewMode(true);
+webview.getSettings().setUseWideViewPort(true);
+</code></pre>
+
+<h5>防止webview開成新的瀏灠器</h5>
+
+<p>通常採用webview時，會希望webview
+embbeded在客制的APP裡面，但預設的webview開啟url時，會開啟成新的完整的瀏灠器(含url
+bar)，可以透過以下的code來防止這個行為。</p>
+
+<pre><code>WebView webview = new WebView(getContext());
+webview.setWebViewClient(new WebViewClient());
+</code></pre>
+
+<h5>防止Rotate後webview reload</h5>
+
+<p>手機在直放改成橫放(或橫放改直放)時，activity會呼叫onCreate()重新建立activity，如果activity裡面webview元件，會造成weview的內容消失。
+，可以在AndroidManifest.xml加入如下的設定來避免這種情現</p>
+
+<pre><code>    &lt;activity android:name=".MyActivity" 
+              android:label="@string/app_name" 
+              android:configChanges="orientation|keyboard|keyboardHidden"&gt; 
+</code></pre>
+
+<h3>Storage</h3>
+
+<h5>Internal Memory</h5>
+
+<pre><code>Context.getFilesDir: /data/data/package_name/files
+Context.getDir: /data/data/package_name/app_
+Context.getCacheDir(): /data/data/package_name/cache
+Environment.getDataDirectory(): /data
+Environment.getDownloadCacheDirectory(): /cache
+</code></pre>
+
+<h5>SDCard</h5>
+
+<pre><code>Environment.getExternalStoragePublicDirectory(): /mnt/sdcard
+</code></pre>
+
+<h3>Activity</h3>
+
+<h4>Launch Mode</h4>
+
+<p>Activity Launch Mode是<a href="http://developer.android.com/guide/topics/fundamentals/tasks-and-back-stack.html" title="http://developer.android.com/guide/topics/fundamentals/tasks-and-back-stack.html">current
+task</a>怎麼去啟動的Activity的方式。
+可以透過manifest或programming的方式來設定，但有些設定值，只有manifest有提供，沒辦法在runtime設定。</p>
+
+<ol>
+<li>standard
+預設模組，一個activity可以有多個實體，每個實體分屬不同的task，一個task內也可存在多個實體</li>
+<li>singleTop
+如果有四個activies啟動在task內是<code>A→B→C→D</code>，D在最上面，一般模式下再啟動一次D會變<code>A→B→C→D→D</code>，但如果D是singleTop，不論啟動多少次D，都只會是<code>A→B→C→D</code></li>
+<li>singleTask
+如果不存在任何task中時，會建新另一個新的task，如果存在task中時，會呼叫其他task中的activity，並讓它成為top</li>
+<li>singleInstance
+永遠會建立最新的，但如果目前該activity已經是top，那就不會再建立</li>
+</ol>
+
+
+<h4>Handling Runtime Changes</h4>
+
+<p>手機翻轉時，會重建整個Activity以便loading最新的配置內容，但有時，我們會希望可以保持Activity的部份狀態，要達到這個目的，可以透以下幾種機制</p>
+
+<ol>
+<li>透過 onSaveInstanceState()</li>
+<li>透過 onRetainNonConfigurationInstance()</li>
+<li>透過修改配置檔disable掉config change的事件</li>
+</ol>
+
+
+<h5>透過 onSaveInstanceState</h5>
+
+<p>這個方式適用到保持可以序列化的值，像原生型別(數值，字串…)
+主要是在onSaveInstanceState()被觸發時，把狀態保持在Intent，然後再onCreate()取得原本的狀態</p>
+
+<h5>透過 onRetainNonConfigurationInstance</h5>
+
+<p>onSaveInstanceState會有一個明顯的限制，就是不能處理太複雜或太大的資料，因為會做序列化，不但耗時，而且會佔不少記憶體空間。
+如果要保留比較複雜的資料，可以透過onRetainNonConfigurationInstance()把物件的reference
+hold住，之後，可以下次activity
+restart時，透過getLastNonConfigurationInstance()取出</p>
+
+<pre><code>@Override
+public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+ 
+    final MyDataObject data = (MyDataObject) getLastNonConfigurationInstance();
+    if (data == null) {
+        data = loadMyData();
+    }
+    ...
+}
+</code></pre>
+
+<p>要被hold住的物件不能跟context有任何關係，不然不旦會造成錯誤，還會造成memory
+leaking</p>
+
+<h5>透過修改配置檔disable掉config change的事件</h5>
+
+<p>這種方式，是直接告訴activty要忽略某些configuration change</p>
+
+<pre><code>&lt;activity
+ android:configChanges="orientation|keyboardHidden"
+</code></pre>
+
+<p>一個簡單的翻轉動作，可能同時會觸發多次onConfigurationChanged()，所以，要把相關的設定都關掉，才不會有問題</p>
+
+<h3>List View</h3>
+
+<h5>下拉後更新 (Pull to refresh)</h5>
+
+<p>在許多listview的應用裡可以見到這樣的應用</p>
+
+<p><img src="http://blog.kent-chiu.com/images/2012-05-14/android-pull-to-refresh.png" alt="android-pull-to-refresh.png" /></p>
+
+<p>這個效果的做法的基本原理，是在listview的header放一個layout，在偵測到listview的scroll事件後，讓layout進行動畫播放，再callback一個AsyncTask去取得資料再更新listview。</p>
+
+<p>GitHub上有兩個這樣的library可用</p>
+
+<ol>
+<li><a href="https://github.com/johannilsson/android-pulltorefresh" title="https://github.com/johannilsson/android-pulltorefresh">https://github.com/johannilsson/android-pulltorefresh</a>
+
+<ul>
+<li>基本的list view pull to refresh</li>
+</ul>
+</li>
+<li><a href="https://github.com/chrisbanes/Android-PullToRefresh" title="https://github.com/chrisbanes/Android-PullToRefresh">https://github.com/chrisbanes/Android-PullToRefresh</a>
+
+<ul>
+<li>這個專案目前比較活躍，另外也提供WebView, GridView,
+PullToRefreshExpandableListView的下拉後更新，程式結構也比較清晰</li>
+</ul>
+</li>
+</ol>
+
+
+<h3>TextEdit</h3>
+
+<h5>讓edit text不會一開始就彈出軟體鍵盤</h5>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;activity android:name="MyActivity"
+</span><span class='line'>          android:windowSoftInputMode="adjustUnspecified|stateHidden"
+</span><span class='line'>          android:configChanges="orientation|keyboardHidden"/&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -3049,594 +3240,6 @@ binding到多個實作上面，而且不需要recompile，可以透過config檔�
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/03/23/commands/">Linux Commands</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-03-23T00:00:00+08:00" pubdate data-updated="true">Mar 23<span>rd</span>, 2012</time>
-        
-         | <a href="/blog/2012/03/23/commands/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>Processes</h2>
-
-<p>查看Run Level</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>runlevel</span></code></pre></td></tr></table></div></figure>
-
-
-<p>關機</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Shutdown -h now
-</span><span class='line'>init 0 </span></code></pre></td></tr></table></div></figure>
-
-
-<p>如果文字模式下無法正常關機，可以用<code>init 0</code>試試</p>
-
-<h5>背景執行 &amp;</h5>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># ./myService.sh &</span></code></pre></td></tr></table></div></figure>
-
-
-<p>但是，這樣登出後，myService.sh的process還是會被kill掉，如果process不想在user登出後被kill，可用
-<strong>nohup</strong></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#nohup ./myService.sh & </span></code></pre></td></tr></table></div></figure>
-
-
-<h5>文字模式下的多session模式</h5>
-
-<p>使用screen可以在一個登入下，變成多個session操作，有點像視窗模式中的分頁功能</p>
-
-<p>ref:<a href="http://blog.roodo.com/albertarea/archives/3358957.html" title="http://blog.roodo.com/albertarea/archives/3358957.html">http://blog.roodo.com/albertarea/archives/3358957.html</a></p>
-
-<h2>執行過的指令歷史</h2>
-
-<p>History是執行過的指令的歷史，簡單的狀況下，可以用上/下鍵來找出之前執行過的指令，但有時，其他的方式會更適合</p>
-
-<h4>history</h4>
-
-<p>history會依序列出執行過的指令</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># history
-</span><span class='line'>  1 cd
-</span><span class='line'>  2 ls
-</span><span class='line'>  3 ps</span></code></pre></td></tr></table></div></figure>
-
-
-<p><code>history -c</code>可以清掉歷史</p>
-
-<h5>!num</h5>
-
-<p>使用<code>! + 數字</code>可以執行history相對的號碼的指令</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># history
-</span><span class='line'>  1 cd
-</span><span class='line'>  2 ls
-</span><span class='line'>  3 ps
-</span><span class='line'>#!3  </span></code></pre></td></tr></table></div></figure>
-
-
-<p><code>!3</code>會執行<code>ps</code></p>
-
-<h5>!command</h5>
-
-<p>使用<code>! + command</code>可以執行history相對應的指令，比如說，之前執行過<code>ps aux | grep test</code>
-可以使用<code>!ps</code>，這樣會再執行完整的<code>ps aux | grep test</code></p>
-
-<h5>ctrl + r</h5>
-
-<p>ctrl +
-r可以用來快速搜尋hitory中的指令列表，當按下<code>ctrl + r</code>會出現<strong>(reverse-i-search)</strong>，之後可以打要搜尋的指令</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#
-</span><span class='line'>(reverse-i-search)</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>User Management</h2>
-
-<h2>File Management</h2>
-
-<p>檔案列表</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ls </span></code></pre></td></tr></table></div></figure>
-
-
-<p>更新locate資訊</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sudo updatedb</span></code></pre></td></tr></table></div></figure>
-
-
-<p>找檔</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>locate [filename]</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>cd -</h4>
-
-<p>在兩個目錄間切換</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>/user/home/dir1#cd /user/home/dir2
-</span><span class='line'>/user/home/dir2#cd -
-</span><span class='line'>/user/home/dir1#cd -
-</span><span class='line'>/user/home/dir2#</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Packages</h2>
-
-<h2>文本处理命令</h2>
-
-<h4>cat</h4>
-
-<ul>
-<li><strong>功能說明</strong>: 用于從文件頭到文件尾方向滾屏顯示文本文件內容</li>
-<li><strong>命令格式</strong>: <code>cat [參數] [&lt;文件&gt; …]</code></li>
-<li><p><strong>常用參數</strong>:</p>
-
-<ul>
-<li><strong>-n</strong> : 由 1 開始對所有輸出的行進行編號</li>
-<li><strong>-b</strong> : 和 -n 相似，只不過對于空行不編號</li>
-<li><strong>-s</strong> : 當遇到有連續兩行以上的空行時，使用一個空行代替</li>
-</ul>
-</li>
-<li><p><strong>使用舉例</strong>:</p></li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ cat file
-</span><span class='line'>$ cat -n file</span></code></pre></td></tr></table></div></figure>
-
-
-<ol>
-<li>系統還提供了一個 tac 命令，用于從文件尾到文件頭顯示文件內容。</li>
-<li>系統還提供了一個 rev 命令，與 tac
-不同，它并不反轉行序，而是把每行的內容反轉。</li>
-<li>可以使用cat命令連接多個文本文件，如：</li>
-</ol>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ cat file1 file2 &gt; files</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>more</h4>
-
-<ul>
-<li><strong>功能說明</strong>: 從文件頭到文件尾分屏顯示文本文件內容</li>
-<li><strong>命令格式</strong>: <code>more [參數] [&lt;文件&gt; …]</code></li>
-<li><p><strong>常用參數</strong>:</p>
-
-<ul>
-<li><strong>-d</strong> : 顯示提示信息“[Press space to continue, &#8216;q&#8217; to quit.]”</li>
-<li><strong>-s</strong> : 當遇到有連續兩行以上的空行時，使用一個空行代替</li>
-<li><strong>+num</strong> : 從第 num 行開始顯示</li>
-</ul>
-</li>
-<li><p><strong>使用舉例</strong>:</p></li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ more file
-</span><span class='line'>$ more +10 file</span></code></pre></td></tr></table></div></figure>
-
-
-<ol>
-<li>系統還提供了一個 less 命令，用于雙向顯示分屏顯示文本文件內容。</li>
-<li>less 的功能比 more 豐富的多，可以使用如下命令查看其內置功能</li>
-</ol>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ less --help</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>head</h4>
-
-<ul>
-<li><strong>功能說明</strong>: 顯示文本文件的前部的若干行</li>
-<li><strong>命令格式</strong>: <code>head [參數] [&lt;文件&gt; …]</code></li>
-<li><p><strong>常用參數</strong>:</p>
-
-<ul>
-<li><strong>-n</strong> : 顯示前 n 行，不指定此參數顯示前 10 行</li>
-</ul>
-</li>
-<li><p><strong>使用舉例</strong>:</p></li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ head file
-</span><span class='line'>$ head -5 file</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>tail</h4>
-
-<ul>
-<li><strong>功能說明</strong>: 顯示文本文件的后部的若干行</li>
-<li><strong>命令格式</strong>: <code>tail [參數] [&lt;文件&gt; …]</code></li>
-<li><p><strong>常用參數</strong>:</p>
-
-<ul>
-<li><strong>-n</strong> : 顯示后 n 行，不指定此參數顯示后 10 行</li>
-<li><strong>+n</strong> : 從第 n 行顯示到文件尾</li>
-<li><strong>-F</strong> :
-用于跟蹤顯示不斷增長的文件結尾內容（通常用于顯示日志文件）</li>
-</ul>
-</li>
-<li><p><strong>使用舉例</strong>:</p></li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ tail file
-</span><span class='line'>$ tail -5 file
-</span><span class='line'>$ tail +5 file
-</span><span class='line'>$ tail -F /var/log/messages</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>cut</h4>
-
-<ul>
-<li><strong>功能說明</strong>: 縱向切割出文本指定的部分并寫到標準輸出</li>
-<li><strong>命令格式</strong>: <code>cut [參數] [&lt;文件&gt; …]</code></li>
-<li><strong>常用參數</strong>:
-
-<ul>
-<li><strong>-b&lt;LIST></strong> : 只列出&lt;LIST>指定的字節</li>
-<li><strong>-c&lt;LIST></strong> : 只列出&lt;LIST>指定的字符</li>
-<li><strong>-f&lt;LIST></strong> :
-只列出&lt;LIST>指定的字段；并打印所有不包含分界符的行，除非 -s
-選項被指定</li>
-<li><strong>-s</strong> : 不打印沒有包含分界符的行</li>
-<li><strong>-d&lt;DELIM></strong> :
-DELIM是分界符，使用指定&lt;DELIM>代替制表符作為區域分界</li>
-<li><strong>–complement</strong> : 補足選中的字節、字符或字段的占位</li>
-<li><strong>–output-delimiter=&lt;STRING></strong> :
-使用指定&lt;STRING>作為輸出分界符默認時采用輸入的分界符</li>
-</ul>
-</li>
-</ul>
-
-
-<p><strong>LIST 的語法</strong></p>
-
-<p>選用 -b、-c 或 -f
-中一個或若干個選項時，每個&lt;LIST>都由一個范圍域或是由逗號分隔開的多個范圍域組成。被選中的輸入會被按照和讀入時相同的次序寫到屏幕，每個輸入只會被輸出一次。
-每個范圍域可以是以下中的任何一種：</p>
-
-<ul>
-<li><strong>N</strong> : 第N個字節、字符或字段，從 1 開始計數</li>
-<li><strong>N-</strong> : 從第N個字節、字符或字段，直到行尾</li>
-<li><strong>N-M</strong> : 從第N個到第M個已包含的字符、字符或字段</li>
-<li><p><strong>-M</strong> : 從第一個到第M個字節、字符或字段</p></li>
-<li><p><strong>使用舉例</strong>:</p></li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ cut -b-10 file
-</span><span class='line'>$ cut -c5- file
-</span><span class='line'>$ cut -c5-10,15-20 file
-</span><span class='line'>$ cut -f1,3,5 file
-</span><span class='line'>$ cut -f2-4 file
-</span><span class='line'>$ cut -f2-4 -d' ' file
-</span><span class='line'>$ cut -f1,2-4,6 -d' ' -s file</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>paste</h4>
-
-<ul>
-<li><strong>功能說明</strong>: 縱向合并多個文本并寫到標準輸出</li>
-<li><strong>命令格式</strong>: <code>paste [參數] [&lt;文件&gt; …]</code></li>
-<li><p><strong>常用參數</strong>:</p>
-
-<ul>
-<li><strong>-d&lt;DELIM></strong> :
-DELIM是分界符，使用指定&lt;DELIM>代替制表符作為區域分界</li>
-<li><strong>-s</strong> : 不使用平行的行目輸出模式，而是每個文件占用一行</li>
-</ul>
-</li>
-<li><p><strong>使用舉例</strong>:</p></li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ paste file1 file2
-</span><span class='line'>$ paste -s file1 file2
-</span><span class='line'>$ paste -d' ' file1 file2</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>sort</h4>
-
-<ul>
-<li><strong>功能說明</strong>: 以行為單位對文件進行排序</li>
-<li><strong>命令格式</strong>: <code>sort [參數] [&lt;文件&gt; …]</code></li>
-<li><p><strong>常用參數</strong>:</p>
-
-<ul>
-<li><strong>-b</strong> : 忽略前導的空格</li>
-<li><strong>-d</strong> : 只考慮空格,字母,數字</li>
-<li><strong>-f</strong> : 忽略字母的大小寫</li>
-<li><strong>-i</strong> : 只考慮可打印字符</li>
-<li><strong>-M</strong> : 排序月份，(未知詞)&lt;“JAN”&lt; … &lt;“DEC”</li>
-<li><strong>-n</strong> : 根據字符串的數值進行排序</li>
-<li><strong>-r</strong> : 逆向排序</li>
-<li><strong>-u</strong> : 對相同的行只輸出一行</li>
-<li><strong>+n</strong> : n 為數字,對指定的列進行排序,+0 表示第1列,
-以空格或制表符作為列的間隔符</li>
-</ul>
-</li>
-<li><p><strong>使用舉例</strong>:</p></li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ sort file
-</span><span class='line'>$ sort -bd file
-</span><span class='line'>$ sort -bn file
-</span><span class='line'>$ sort -r file
-</span><span class='line'>$ sort -u file
-</span><span class='line'>$ sort +5 file
-</span><span class='line'>$ sort +5 -rb file
-</span><span class='line'>$ sort file1 file2
-</span><span class='line'>$ sort -br file1 file2</span></code></pre></td></tr></table></div></figure>
-
-
-<ol>
-<li>本地環境變量會影響排序結果。</li>
-<li>如果希望以字節的自然值獲得最傳統的排序結果，請設定 LC_ALL=C。</li>
-</ol>
-
-
-<h4>uniq</h4>
-
-<ul>
-<li><strong>功能說明</strong>: 刪除文本文件中相鄰的重復的行并寫到標準輸出</li>
-<li><strong>命令格式</strong>: <code>uniq [參數] [&lt;輸入文件&gt; [&lt;輸出文件&gt;]]</code></li>
-<li><p><strong>常用參數</strong>:</p>
-
-<ul>
-<li><strong>-c</strong> : 在每行前加上表示相應行目出現次數的前綴編號</li>
-<li><strong>-d</strong> : 只顯示重復的行</li>
-<li><strong>-i</strong> : 略大小寫差異</li>
-<li><strong>-u</strong> : 只顯示出現一次的行</li>
-<li><strong>-s&lt;N></strong> : &lt;N> 為數字，對各行前&lt;N>個字符不作比較</li>
-<li><strong>-w&lt;N></strong> : &lt;N>
-為數字，對各行第&lt;N>個字符以后的內容不作比較</li>
-</ul>
-</li>
-<li><p><strong>使用舉例</strong>:</p></li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ uniq file
-</span><span class='line'>$ uniq -i file
-</span><span class='line'>$ uniq -cd file
-</span><span class='line'>$ uniq -u file</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>wc</h4>
-
-<ul>
-<li><strong>功能說明</strong>: 統計指定文本文件的行數、字數、字符數</li>
-<li><strong>命令格式</strong>: <code>wc [參數] [&lt;文件&gt; …]</code></li>
-<li><p><strong>常用參數</strong>:</p>
-
-<ul>
-<li><strong>-c</strong> : 輸出字節數統計</li>
-<li><strong>-l</strong> : 輸出行數統計</li>
-<li><strong>-L</strong> : 輸出最長一行的長度</li>
-<li><strong>-w</strong> : 輸出單詞數統計</li>
-</ul>
-</li>
-<li><p><strong>使用舉例</strong>:</p></li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ wc file
-</span><span class='line'>$ wc -l file
-</span><span class='line'>$ wc -w file
-</span><span class='line'>$ wc -c file
-</span><span class='line'>$ wc -L file</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>expand</h4>
-
-<ul>
-<li><strong>功能說明</strong>: 將文件中的制表符轉換為空格，寫到標準輸出</li>
-<li><strong>命令格式</strong>: <code>expand [參數] [&lt;文件&gt; …]</code></li>
-<li><p><strong>常用參數</strong>:</p>
-
-<ul>
-<li><strong>-i</strong> : 不轉換非空格后的制表符</li>
-<li><strong>-t&lt;N></strong> : 設定每個制表符為指定&lt;N>的寬度，而不是默認的 8</li>
-</ul>
-</li>
-<li><p><strong>使用舉例</strong>:</p></li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ expand file
-</span><span class='line'>$ expand -t4 file</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>unexpand</h4>
-
-<ul>
-<li><strong>功能說明</strong>: 將文件中的空格轉換為制表符，寫到標準輸出</li>
-<li><strong>命令格式</strong>: <code>unexpand [參數] [&lt;文件&gt; …]</code></li>
-<li><p><strong>常用參數</strong>:</p>
-
-<ul>
-<li><strong>-a</strong> : 轉換所有空格字符而不僅僅是字母首部的空格</li>
-<li><strong>–first-only</strong> : 只轉換首部的空格字符序列 (覆蓋 -a 選項)</li>
-<li><strong>-t&lt;N></strong> : 設定每個制表符為指定&lt;N>的寬度，而不是默認的 8
-(激活 -a 選項)</li>
-</ul>
-</li>
-<li><p><strong>使用舉例</strong>:</p></li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ unexpand file
-</span><span class='line'>$ unexpand -t4 file</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>iconv</h4>
-
-<ul>
-<li><strong>功能說明</strong>: 將文件從一種編碼轉換成另一種編碼</li>
-<li><strong>命令格式</strong>: <code>iconv [參數] &lt;輸入文件&gt;</code></li>
-<li><p><strong>常用參數</strong>:</p>
-
-<ul>
-<li><strong>-f &lt;encoding></strong> : 指定原始文本編碼</li>
-<li><strong>-t &lt;encoding></strong> : 指定要轉換的編碼</li>
-<li><strong>-l</strong> : 列出所有已知編碼字符集</li>
-<li><strong>-c</strong> : 忽略輸出中的無效字符</li>
-<li><strong>-o &lt;output file></strong> : 指定輸出文件，而不是在標準輸出上顯示</li>
-</ul>
-</li>
-<li><p><strong>使用舉例</strong>:</p></li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ iconv -l
-</span><span class='line'>$ iconv -f ISO-8859-1 -t UTF-8 -o outputfile inputfile
-</span><span class='line'>$ iconv -f GB2312 -t UTF-8 -o outputfile inputfile
-</span><span class='line'>$ iconv -f GBK -t UTF-8 -o outputfile inputfile
-</span><span class='line'>$ iconv -f BIG5 -t UTF-8 -o outputfile inputfile
-</span><span class='line'>$ iconv -f UTF-8 -t GB2312 -o outputfile inputfile</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>dos2unix</h4>
-
-<ul>
-<li><strong>功能說明</strong>: 將DOS格式的文本文件轉換成UNIX格式的文本文件</li>
-<li><strong>命令格式</strong>: <code>dos2unix [參數] &lt;文件&gt; [&lt;輸出文件&gt;]</code></li>
-<li><p><strong>常用參數</strong>:</p>
-
-<ul>
-<li><strong>-k</strong> : 不改變文件的時間戳</li>
-<li><strong>-n</strong> :
-新文件模式，即不改變原文件將轉換結果保存到指定的輸出文件</li>
-</ul>
-</li>
-<li><p><strong>使用舉例</strong>:</p></li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ dos2unix dosfile
-</span><span class='line'>$ dos2unix -n dosfile linuxfile
-</span><span class='line'>$ dos2unix -k *
-</span><span class='line'>$ dos2unix -k -n dosfile linuxfile</span></code></pre></td></tr></table></div></figure>
-
-
-<ol>
-<li>系統還提供了一個 unix2dos
-命令，用于將UNIX格式的文本文件轉換成DOS格式的文本文件。使用方法與
-dos2unix 命令一樣。</li>
-</ol>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/6/">&larr; Older</a>
@@ -3658,6 +3261,10 @@ dos2unix 命令一樣。</li>
       </li>
     
       <li class="post">
+        <a href="/blog/2014/05/30/liquibase-101/">Liquibase 筆記</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/03/14/java-8-lambda/">Java 8 Lambda</a>
       </li>
     
@@ -3669,19 +3276,15 @@ dos2unix 命令一樣。</li>
         <a href="/blog/2014/03/14/java-8-date-and-time-api/">Java 8 時間、日期 API</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2014/03/14/umlet-sequence-diagram/">UMLet Sequence Diagram</a>
-      </li>
-    
   </ul>
 </section>
 <section>
   <h1>Category Cloud</h1>
-    <span id="tag-cloud"><a href='/blog/categories/actionbar' style='font-size: 102.4%'>actionbar(1)</a> <a href='/blog/categories/android' style='font-size: 160.0%'>android(25)</a> <a href='/blog/categories/apache' style='font-size: 116.8%'>apache(7)</a> <a href='/blog/categories/authentication' style='font-size: 102.4%'>authentication(1)</a> <a href='/blog/categories/authorization' style='font-size: 102.4%'>authorization(1)</a> <a href='/blog/categories/bash' style='font-size: 109.6%'>bash(4)</a> <a href='/blog/categories/best-practice' style='font-size: 102.4%'>best_practice(1)</a> <a href='/blog/categories/book' style='font-size: 102.4%'>book(1)</a> <a href='/blog/categories/broadcast-receiver' style='font-size: 104.8%'>broadcast_receiver(2)</a> <a href='/blog/categories/cdi' style='font-size: 104.8%'>cdi(2)</a> <a href='/blog/categories/centos' style='font-size: 112.0%'>centos(5)</a> <a href='/blog/categories/clean-code' style='font-size: 102.4%'>clean code(1)</a> <a href='/blog/categories/clojure' style='font-size: 102.4%'>clojure(1)</a> <a href='/blog/categories/command' style='font-size: 112.0%'>command(5)</a> <a href='/blog/categories/concurrency' style='font-size: 102.4%'>concurrency(1)</a> <a href='/blog/categories/curl' style='font-size: 102.4%'>curl(1)</a> <a href='/blog/categories/database' style='font-size: 114.4%'>database(6)</a> <a href='/blog/categories/datetime' style='font-size: 102.4%'>datetime(1)</a> <a href='/blog/categories/di' style='font-size: 104.8%'>di(2)</a> <a href='/blog/categories/drawable' style='font-size: 102.4%'>drawable(1)</a> <a href='/blog/categories/ec' style='font-size: 102.4%'>ec(1)</a> <a href='/blog/categories/eclipse' style='font-size: 102.4%'>eclipse(1)</a> <a href='/blog/categories/ecshop' style='font-size: 116.8%'>ecshop(7)</a> <a href='/blog/categories/editor' style='font-size: 102.4%'>editor(1)</a> <a href='/blog/categories/emulator' style='font-size: 102.4%'>emulator(1)</a> <a href='/blog/categories/encoding' style='font-size: 102.4%'>encoding(1)</a> <a href='/blog/categories/english' style='font-size: 133.6%'>english(14)</a> <a href='/blog/categories/excel' style='font-size: 104.8%'>excel(2)</a> <a href='/blog/categories/extjs' style='font-size: 104.8%'>extjs(2)</a> <a href='/blog/categories/functional-programming' style='font-size: 102.4%'>functional programming(1)</a> <a href='/blog/categories/gesture' style='font-size: 102.4%'>gesture(1)</a> <a href='/blog/categories/git' style='font-size: 109.6%'>git(4)</a> <a href='/blog/categories/git-flow' style='font-size: 102.4%'>git-flow(1)</a> <a href='/blog/categories/guava' style='font-size: 104.8%'>guava(2)</a> <a href='/blog/categories/guice' style='font-size: 102.4%'>guice(1)</a> <a href='/blog/categories/hamcrest' style='font-size: 102.4%'>hamcrest(1)</a> <a href='/blog/categories/i18n' style='font-size: 102.4%'>i18n(1)</a> <a href='/blog/categories/ide' style='font-size: 102.4%'>IDE(1)</a> <a href='/blog/categories/idea' style='font-size: 104.8%'>IDEA(2)</a> <a href='/blog/categories/imgur' style='font-size: 102.4%'>imgur(1)</a> <a href='/blog/categories/injection' style='font-size: 102.4%'>injection(1)</a> <a href='/blog/categories/intent' style='font-size: 102.4%'>intent(1)</a> <a href='/blog/categories/ireport' style='font-size: 104.8%'>ireport(2)</a> <a href='/blog/categories/jasterreport' style='font-size: 104.8%'>jasterreport(2)</a> <a href='/blog/categories/java' style='font-size: 152.8%'>java(22)</a> <a href='/blog/categories/java8' style='font-size: 104.8%'>java8(2)</a> <a href='/blog/categories/java-ee' style='font-size: 112.0%'>java_ee(5)</a> <a href='/blog/categories/jms' style='font-size: 102.4%'>jms(1)</a> <a href='/blog/categories/jmx' style='font-size: 102.4%'>JMX(1)</a> <a href='/blog/categories/joda' style='font-size: 102.4%'>joda(1)</a> <a href='/blog/categories/jpa' style='font-size: 102.4%'>jpa(1)</a> <a href='/blog/categories/jquery' style='font-size: 102.4%'>jquery(1)</a> <a href='/blog/categories/jsp' style='font-size: 104.8%'>jsp(2)</a> <a href='/blog/categories/junit' style='font-size: 102.4%'>junit(1)</a> <a href='/blog/categories/jvm' style='font-size: 104.8%'>jvm(2)</a> <a href='/blog/categories/kohana' style='font-size: 102.4%'>kohana(1)</a> <a href='/blog/categories/l10n' style='font-size: 102.4%'>l10n(1)</a> <a href='/blog/categories/lambda' style='font-size: 102.4%'>lambda(1)</a> <a href='/blog/categories/layout' style='font-size: 102.4%'>layout(1)</a> <a href='/blog/categories/linux' style='font-size: 126.4%'>linux(11)</a> <a href='/blog/categories/listview' style='font-size: 104.8%'>listview(2)</a> <a href='/blog/categories/logger' style='font-size: 102.4%'>logger(1)</a> <a href='/blog/categories/m2eclilpse' style='font-size: 102.4%'>m2eclilpse(1)</a> <a href='/blog/categories/mac' style='font-size: 107.2%'>mac(3)</a> <a href='/blog/categories/mat' style='font-size: 102.4%'>mat(1)</a> <a href='/blog/categories/maven' style='font-size: 112.0%'>maven(5)</a> <a href='/blog/categories/memory' style='font-size: 102.4%'>memory(1)</a> <a href='/blog/categories/menu' style='font-size: 102.4%'>menu(1)</a> <a href='/blog/categories/mindmap' style='font-size: 104.8%'>mindmap(2)</a> <a href='/blog/categories/misc' style='font-size: 102.4%'>misc(1)</a> <a href='/blog/categories/mysql' style='font-size: 116.8%'>mysql(7)</a> <a href='/blog/categories/nio' style='font-size: 102.4%'>nio(1)</a> <a href='/blog/categories/octopress' style='font-size: 102.4%'>octopress(1)</a> <a href='/blog/categories/oracle' style='font-size: 102.4%'>oracle(1)</a> <a href='/blog/categories/osgi' style='font-size: 107.2%'>osgi(3)</a> <a href='/blog/categories/pdf' style='font-size: 104.8%'>pdf(2)</a> <a href='/blog/categories/pdt' style='font-size: 112.0%'>pdt(5)</a> <a href='/blog/categories/pear' style='font-size: 104.8%'>pear(2)</a> <a href='/blog/categories/performace' style='font-size: 102.4%'>performace(1)</a> <a href='/blog/categories/pgsql' style='font-size: 102.4%'>pgsql(1)</a> <a href='/blog/categories/php' style='font-size: 114.4%'>php(6)</a> <a href='/blog/categories/play-framework' style='font-size: 102.4%'>play_framework(1)</a> <a href='/blog/categories/pm' style='font-size: 112.0%'>pm(5)</a> <a href='/blog/categories/postgresql' style='font-size: 104.8%'>postgresql(2)</a> <a href='/blog/categories/profile' style='font-size: 102.4%'>profile(1)</a> <a href='/blog/categories/programming' style='font-size: 128.8%'>programming(12)</a> <a href='/blog/categories/python' style='font-size: 104.8%'>python(2)</a> <a href='/blog/categories/re' style='font-size: 102.4%'>re(1)</a> <a href='/blog/categories/refactory' style='font-size: 102.4%'>refactory(1)</a> <a href='/blog/categories/rest' style='font-size: 116.8%'>rest(7)</a> <a href='/blog/categories/roboguice' style='font-size: 102.4%'>roboguice(1)</a> <a href='/blog/categories/sbt' style='font-size: 102.4%'>sbt(1)</a> <a href='/blog/categories/scala' style='font-size: 109.6%'>scala(4)</a> <a href='/blog/categories/security' style='font-size: 104.8%'>security(2)</a> <a href='/blog/categories/sequence-diagram' style='font-size: 102.4%'>sequence_diagram(1)</a> <a href='/blog/categories/service' style='font-size: 104.8%'>service(2)</a> <a href='/blog/categories/shiro' style='font-size: 102.4%'>shiro(1)</a> <a href='/blog/categories/shortchut' style='font-size: 102.4%'>shortchut(1)</a> <a href='/blog/categories/smarty' style='font-size: 107.2%'>smarty(3)</a> <a href='/blog/categories/spring' style='font-size: 107.2%'>spring(3)</a> <a href='/blog/categories/spring-boot' style='font-size: 102.4%'>spring-boot(1)</a> <a href='/blog/categories/sql' style='font-size: 102.4%'>sql(1)</a> <a href='/blog/categories/style' style='font-size: 102.4%'>style(1)</a> <a href='/blog/categories/tdd' style='font-size: 102.4%'>tdd(1)</a> <a href='/blog/categories/testing' style='font-size: 124.0%'>testing(10)</a> <a href='/blog/categories/theme' style='font-size: 102.4%'>theme(1)</a> <a href='/blog/categories/tips' style='font-size: 104.8%'>tips(2)</a> <a href='/blog/categories/tomcat' style='font-size: 102.4%'>tomcat(1)</a> <a href='/blog/categories/ubuntu' style='font-size: 119.2%'>ubuntu(8)</a> <a href='/blog/categories/ui' style='font-size: 104.8%'>ui(2)</a> <a href='/blog/categories/uml' style='font-size: 102.4%'>uml(1)</a> <a href='/blog/categories/umlet' style='font-size: 102.4%'>umlet(1)</a> <a href='/blog/categories/vim' style='font-size: 104.8%'>vim(2)</a> <a href='/blog/categories/web' style='font-size: 104.8%'>web(2)</a> <a href='/blog/categories/windows' style='font-size: 102.4%'>windows(1)</a> <a href='/blog/categories/xampp' style='font-size: 102.4%'>xampp(1)</a> <a href='/blog/categories/xml' style='font-size: 104.8%'>xml(2)</a> </span>
+    <span id="tag-cloud"><a href='/blog/categories/actionbar' style='font-size: 102.4%'>actionbar(1)</a> <a href='/blog/categories/android' style='font-size: 160.0%'>android(25)</a> <a href='/blog/categories/apache' style='font-size: 116.8%'>apache(7)</a> <a href='/blog/categories/authentication' style='font-size: 102.4%'>authentication(1)</a> <a href='/blog/categories/authorization' style='font-size: 102.4%'>authorization(1)</a> <a href='/blog/categories/bash' style='font-size: 109.6%'>bash(4)</a> <a href='/blog/categories/best-practice' style='font-size: 102.4%'>best_practice(1)</a> <a href='/blog/categories/book' style='font-size: 102.4%'>book(1)</a> <a href='/blog/categories/broadcast-receiver' style='font-size: 104.8%'>broadcast_receiver(2)</a> <a href='/blog/categories/cdi' style='font-size: 104.8%'>cdi(2)</a> <a href='/blog/categories/centos' style='font-size: 112.0%'>centos(5)</a> <a href='/blog/categories/clean-code' style='font-size: 102.4%'>clean code(1)</a> <a href='/blog/categories/clojure' style='font-size: 102.4%'>clojure(1)</a> <a href='/blog/categories/command' style='font-size: 112.0%'>command(5)</a> <a href='/blog/categories/concurrency' style='font-size: 102.4%'>concurrency(1)</a> <a href='/blog/categories/curl' style='font-size: 102.4%'>curl(1)</a> <a href='/blog/categories/database' style='font-size: 116.8%'>database(7)</a> <a href='/blog/categories/datetime' style='font-size: 102.4%'>datetime(1)</a> <a href='/blog/categories/di' style='font-size: 104.8%'>di(2)</a> <a href='/blog/categories/drawable' style='font-size: 102.4%'>drawable(1)</a> <a href='/blog/categories/ec' style='font-size: 102.4%'>ec(1)</a> <a href='/blog/categories/eclipse' style='font-size: 102.4%'>eclipse(1)</a> <a href='/blog/categories/ecshop' style='font-size: 116.8%'>ecshop(7)</a> <a href='/blog/categories/editor' style='font-size: 102.4%'>editor(1)</a> <a href='/blog/categories/emulator' style='font-size: 102.4%'>emulator(1)</a> <a href='/blog/categories/encoding' style='font-size: 102.4%'>encoding(1)</a> <a href='/blog/categories/english' style='font-size: 133.6%'>english(14)</a> <a href='/blog/categories/excel' style='font-size: 104.8%'>excel(2)</a> <a href='/blog/categories/extjs' style='font-size: 104.8%'>extjs(2)</a> <a href='/blog/categories/functional-programming' style='font-size: 102.4%'>functional programming(1)</a> <a href='/blog/categories/gesture' style='font-size: 102.4%'>gesture(1)</a> <a href='/blog/categories/git' style='font-size: 109.6%'>git(4)</a> <a href='/blog/categories/git-flow' style='font-size: 102.4%'>git-flow(1)</a> <a href='/blog/categories/guava' style='font-size: 104.8%'>guava(2)</a> <a href='/blog/categories/guice' style='font-size: 102.4%'>guice(1)</a> <a href='/blog/categories/hamcrest' style='font-size: 102.4%'>hamcrest(1)</a> <a href='/blog/categories/i18n' style='font-size: 102.4%'>i18n(1)</a> <a href='/blog/categories/ide' style='font-size: 102.4%'>IDE(1)</a> <a href='/blog/categories/idea' style='font-size: 104.8%'>IDEA(2)</a> <a href='/blog/categories/imgur' style='font-size: 102.4%'>imgur(1)</a> <a href='/blog/categories/injection' style='font-size: 102.4%'>injection(1)</a> <a href='/blog/categories/intent' style='font-size: 102.4%'>intent(1)</a> <a href='/blog/categories/ireport' style='font-size: 104.8%'>ireport(2)</a> <a href='/blog/categories/jasterreport' style='font-size: 104.8%'>jasterreport(2)</a> <a href='/blog/categories/java' style='font-size: 152.8%'>java(22)</a> <a href='/blog/categories/java8' style='font-size: 104.8%'>java8(2)</a> <a href='/blog/categories/java-ee' style='font-size: 112.0%'>java_ee(5)</a> <a href='/blog/categories/jms' style='font-size: 102.4%'>jms(1)</a> <a href='/blog/categories/jmx' style='font-size: 102.4%'>JMX(1)</a> <a href='/blog/categories/joda' style='font-size: 102.4%'>joda(1)</a> <a href='/blog/categories/jpa' style='font-size: 102.4%'>jpa(1)</a> <a href='/blog/categories/jquery' style='font-size: 102.4%'>jquery(1)</a> <a href='/blog/categories/jsp' style='font-size: 104.8%'>jsp(2)</a> <a href='/blog/categories/junit' style='font-size: 102.4%'>junit(1)</a> <a href='/blog/categories/jvm' style='font-size: 104.8%'>jvm(2)</a> <a href='/blog/categories/kohana' style='font-size: 102.4%'>kohana(1)</a> <a href='/blog/categories/l10n' style='font-size: 102.4%'>l10n(1)</a> <a href='/blog/categories/lambda' style='font-size: 102.4%'>lambda(1)</a> <a href='/blog/categories/layout' style='font-size: 102.4%'>layout(1)</a> <a href='/blog/categories/linux' style='font-size: 126.4%'>linux(11)</a> <a href='/blog/categories/liquibase' style='font-size: 102.4%'>liquibase(1)</a> <a href='/blog/categories/listview' style='font-size: 104.8%'>listview(2)</a> <a href='/blog/categories/logger' style='font-size: 102.4%'>logger(1)</a> <a href='/blog/categories/m2eclilpse' style='font-size: 102.4%'>m2eclilpse(1)</a> <a href='/blog/categories/mac' style='font-size: 107.2%'>mac(3)</a> <a href='/blog/categories/mat' style='font-size: 102.4%'>mat(1)</a> <a href='/blog/categories/maven' style='font-size: 112.0%'>maven(5)</a> <a href='/blog/categories/memory' style='font-size: 102.4%'>memory(1)</a> <a href='/blog/categories/menu' style='font-size: 102.4%'>menu(1)</a> <a href='/blog/categories/mindmap' style='font-size: 104.8%'>mindmap(2)</a> <a href='/blog/categories/misc' style='font-size: 102.4%'>misc(1)</a> <a href='/blog/categories/mysql' style='font-size: 116.8%'>mysql(7)</a> <a href='/blog/categories/nio' style='font-size: 102.4%'>nio(1)</a> <a href='/blog/categories/octopress' style='font-size: 102.4%'>octopress(1)</a> <a href='/blog/categories/oracle' style='font-size: 102.4%'>oracle(1)</a> <a href='/blog/categories/osgi' style='font-size: 107.2%'>osgi(3)</a> <a href='/blog/categories/pdf' style='font-size: 104.8%'>pdf(2)</a> <a href='/blog/categories/pdt' style='font-size: 112.0%'>pdt(5)</a> <a href='/blog/categories/pear' style='font-size: 104.8%'>pear(2)</a> <a href='/blog/categories/performace' style='font-size: 102.4%'>performace(1)</a> <a href='/blog/categories/pgsql' style='font-size: 102.4%'>pgsql(1)</a> <a href='/blog/categories/php' style='font-size: 114.4%'>php(6)</a> <a href='/blog/categories/play-framework' style='font-size: 102.4%'>play_framework(1)</a> <a href='/blog/categories/pm' style='font-size: 112.0%'>pm(5)</a> <a href='/blog/categories/postgresql' style='font-size: 104.8%'>postgresql(2)</a> <a href='/blog/categories/profile' style='font-size: 102.4%'>profile(1)</a> <a href='/blog/categories/programming' style='font-size: 128.8%'>programming(12)</a> <a href='/blog/categories/python' style='font-size: 104.8%'>python(2)</a> <a href='/blog/categories/re' style='font-size: 102.4%'>re(1)</a> <a href='/blog/categories/refactory' style='font-size: 104.8%'>refactory(2)</a> <a href='/blog/categories/rest' style='font-size: 116.8%'>rest(7)</a> <a href='/blog/categories/roboguice' style='font-size: 102.4%'>roboguice(1)</a> <a href='/blog/categories/sbt' style='font-size: 102.4%'>sbt(1)</a> <a href='/blog/categories/scala' style='font-size: 109.6%'>scala(4)</a> <a href='/blog/categories/security' style='font-size: 104.8%'>security(2)</a> <a href='/blog/categories/sequence-diagram' style='font-size: 102.4%'>sequence_diagram(1)</a> <a href='/blog/categories/service' style='font-size: 104.8%'>service(2)</a> <a href='/blog/categories/shiro' style='font-size: 102.4%'>shiro(1)</a> <a href='/blog/categories/shortchut' style='font-size: 102.4%'>shortchut(1)</a> <a href='/blog/categories/smarty' style='font-size: 107.2%'>smarty(3)</a> <a href='/blog/categories/spring' style='font-size: 107.2%'>spring(3)</a> <a href='/blog/categories/spring-boot' style='font-size: 102.4%'>spring-boot(1)</a> <a href='/blog/categories/sql' style='font-size: 102.4%'>sql(1)</a> <a href='/blog/categories/style' style='font-size: 102.4%'>style(1)</a> <a href='/blog/categories/tdd' style='font-size: 102.4%'>tdd(1)</a> <a href='/blog/categories/testing' style='font-size: 124.0%'>testing(10)</a> <a href='/blog/categories/theme' style='font-size: 102.4%'>theme(1)</a> <a href='/blog/categories/tips' style='font-size: 104.8%'>tips(2)</a> <a href='/blog/categories/tomcat' style='font-size: 102.4%'>tomcat(1)</a> <a href='/blog/categories/ubuntu' style='font-size: 119.2%'>ubuntu(8)</a> <a href='/blog/categories/ui' style='font-size: 104.8%'>ui(2)</a> <a href='/blog/categories/uml' style='font-size: 102.4%'>uml(1)</a> <a href='/blog/categories/umlet' style='font-size: 102.4%'>umlet(1)</a> <a href='/blog/categories/vim' style='font-size: 104.8%'>vim(2)</a> <a href='/blog/categories/web' style='font-size: 104.8%'>web(2)</a> <a href='/blog/categories/windows' style='font-size: 102.4%'>windows(1)</a> <a href='/blog/categories/xampp' style='font-size: 102.4%'>xampp(1)</a> <a href='/blog/categories/xml' style='font-size: 104.8%'>xml(2)</a> </span>
 </section>
 <section>
   <h1>Categories</h1>
-    <ul id="category-list"><li><a href='/blog/categories/actionbar'>actionbar (1)</a></li><li><a href='/blog/categories/android'>android (25)</a></li><li><a href='/blog/categories/apache'>apache (7)</a></li><li><a href='/blog/categories/authentication'>authentication (1)</a></li><li><a href='/blog/categories/authorization'>authorization (1)</a></li><li><a href='/blog/categories/bash'>bash (4)</a></li><li><a href='/blog/categories/best-practice'>best_practice (1)</a></li><li><a href='/blog/categories/book'>book (1)</a></li><li><a href='/blog/categories/broadcast-receiver'>broadcast_receiver (2)</a></li><li><a href='/blog/categories/cdi'>cdi (2)</a></li><li><a href='/blog/categories/centos'>centos (5)</a></li><li><a href='/blog/categories/clean-code'>clean code (1)</a></li><li><a href='/blog/categories/clojure'>clojure (1)</a></li><li><a href='/blog/categories/command'>command (5)</a></li><li><a href='/blog/categories/concurrency'>concurrency (1)</a></li><li><a href='/blog/categories/curl'>curl (1)</a></li><li><a href='/blog/categories/database'>database (6)</a></li><li><a href='/blog/categories/datetime'>datetime (1)</a></li><li><a href='/blog/categories/di'>di (2)</a></li><li><a href='/blog/categories/drawable'>drawable (1)</a></li><li><a href='/blog/categories/ec'>ec (1)</a></li><li><a href='/blog/categories/eclipse'>eclipse (1)</a></li><li><a href='/blog/categories/ecshop'>ecshop (7)</a></li><li><a href='/blog/categories/editor'>editor (1)</a></li><li><a href='/blog/categories/emulator'>emulator (1)</a></li><li><a href='/blog/categories/encoding'>encoding (1)</a></li><li><a href='/blog/categories/english'>english (14)</a></li><li><a href='/blog/categories/excel'>excel (2)</a></li><li><a href='/blog/categories/extjs'>extjs (2)</a></li><li><a href='/blog/categories/functional-programming'>functional programming (1)</a></li><li><a href='/blog/categories/gesture'>gesture (1)</a></li><li><a href='/blog/categories/git'>git (4)</a></li><li><a href='/blog/categories/git-flow'>git-flow (1)</a></li><li><a href='/blog/categories/guava'>guava (2)</a></li><li><a href='/blog/categories/guice'>guice (1)</a></li><li><a href='/blog/categories/hamcrest'>hamcrest (1)</a></li><li><a href='/blog/categories/i18n'>i18n (1)</a></li><li><a href='/blog/categories/ide'>IDE (1)</a></li><li><a href='/blog/categories/idea'>IDEA (2)</a></li><li><a href='/blog/categories/imgur'>imgur (1)</a></li><li><a href='/blog/categories/injection'>injection (1)</a></li><li><a href='/blog/categories/intent'>intent (1)</a></li><li><a href='/blog/categories/ireport'>ireport (2)</a></li><li><a href='/blog/categories/jasterreport'>jasterreport (2)</a></li><li><a href='/blog/categories/java'>java (22)</a></li><li><a href='/blog/categories/java8'>java8 (2)</a></li><li><a href='/blog/categories/java-ee'>java_ee (5)</a></li><li><a href='/blog/categories/jms'>jms (1)</a></li><li><a href='/blog/categories/jmx'>JMX (1)</a></li><li><a href='/blog/categories/joda'>joda (1)</a></li><li><a href='/blog/categories/jpa'>jpa (1)</a></li><li><a href='/blog/categories/jquery'>jquery (1)</a></li><li><a href='/blog/categories/jsp'>jsp (2)</a></li><li><a href='/blog/categories/junit'>junit (1)</a></li><li><a href='/blog/categories/jvm'>jvm (2)</a></li><li><a href='/blog/categories/kohana'>kohana (1)</a></li><li><a href='/blog/categories/l10n'>l10n (1)</a></li><li><a href='/blog/categories/lambda'>lambda (1)</a></li><li><a href='/blog/categories/layout'>layout (1)</a></li><li><a href='/blog/categories/linux'>linux (11)</a></li><li><a href='/blog/categories/listview'>listview (2)</a></li><li><a href='/blog/categories/logger'>logger (1)</a></li><li><a href='/blog/categories/m2eclilpse'>m2eclilpse (1)</a></li><li><a href='/blog/categories/mac'>mac (3)</a></li><li><a href='/blog/categories/mat'>mat (1)</a></li><li><a href='/blog/categories/maven'>maven (5)</a></li><li><a href='/blog/categories/memory'>memory (1)</a></li><li><a href='/blog/categories/menu'>menu (1)</a></li><li><a href='/blog/categories/mindmap'>mindmap (2)</a></li><li><a href='/blog/categories/misc'>misc (1)</a></li><li><a href='/blog/categories/mysql'>mysql (7)</a></li><li><a href='/blog/categories/nio'>nio (1)</a></li><li><a href='/blog/categories/octopress'>octopress (1)</a></li><li><a href='/blog/categories/oracle'>oracle (1)</a></li><li><a href='/blog/categories/osgi'>osgi (3)</a></li><li><a href='/blog/categories/pdf'>pdf (2)</a></li><li><a href='/blog/categories/pdt'>pdt (5)</a></li><li><a href='/blog/categories/pear'>pear (2)</a></li><li><a href='/blog/categories/performace'>performace (1)</a></li><li><a href='/blog/categories/pgsql'>pgsql (1)</a></li><li><a href='/blog/categories/php'>php (6)</a></li><li><a href='/blog/categories/play-framework'>play_framework (1)</a></li><li><a href='/blog/categories/pm'>pm (5)</a></li><li><a href='/blog/categories/postgresql'>postgresql (2)</a></li><li><a href='/blog/categories/profile'>profile (1)</a></li><li><a href='/blog/categories/programming'>programming (12)</a></li><li><a href='/blog/categories/python'>python (2)</a></li><li><a href='/blog/categories/re'>re (1)</a></li><li><a href='/blog/categories/refactory'>refactory (1)</a></li><li><a href='/blog/categories/rest'>rest (7)</a></li><li><a href='/blog/categories/roboguice'>roboguice (1)</a></li><li><a href='/blog/categories/sbt'>sbt (1)</a></li><li><a href='/blog/categories/scala'>scala (4)</a></li><li><a href='/blog/categories/security'>security (2)</a></li><li><a href='/blog/categories/sequence-diagram'>sequence_diagram (1)</a></li><li><a href='/blog/categories/service'>service (2)</a></li><li><a href='/blog/categories/shiro'>shiro (1)</a></li><li><a href='/blog/categories/shortchut'>shortchut (1)</a></li><li><a href='/blog/categories/smarty'>smarty (3)</a></li><li><a href='/blog/categories/spring'>spring (3)</a></li><li><a href='/blog/categories/spring-boot'>spring-boot (1)</a></li><li><a href='/blog/categories/sql'>sql (1)</a></li><li><a href='/blog/categories/style'>style (1)</a></li><li><a href='/blog/categories/tdd'>tdd (1)</a></li><li><a href='/blog/categories/testing'>testing (10)</a></li><li><a href='/blog/categories/theme'>theme (1)</a></li><li><a href='/blog/categories/tips'>tips (2)</a></li><li><a href='/blog/categories/tomcat'>tomcat (1)</a></li><li><a href='/blog/categories/ubuntu'>ubuntu (8)</a></li><li><a href='/blog/categories/ui'>ui (2)</a></li><li><a href='/blog/categories/uml'>uml (1)</a></li><li><a href='/blog/categories/umlet'>umlet (1)</a></li><li><a href='/blog/categories/vim'>vim (2)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/windows'>windows (1)</a></li><li><a href='/blog/categories/xampp'>xampp (1)</a></li><li><a href='/blog/categories/xml'>xml (2)</a></li></ul>
+    <ul id="category-list"><li><a href='/blog/categories/actionbar'>actionbar (1)</a></li><li><a href='/blog/categories/android'>android (25)</a></li><li><a href='/blog/categories/apache'>apache (7)</a></li><li><a href='/blog/categories/authentication'>authentication (1)</a></li><li><a href='/blog/categories/authorization'>authorization (1)</a></li><li><a href='/blog/categories/bash'>bash (4)</a></li><li><a href='/blog/categories/best-practice'>best_practice (1)</a></li><li><a href='/blog/categories/book'>book (1)</a></li><li><a href='/blog/categories/broadcast-receiver'>broadcast_receiver (2)</a></li><li><a href='/blog/categories/cdi'>cdi (2)</a></li><li><a href='/blog/categories/centos'>centos (5)</a></li><li><a href='/blog/categories/clean-code'>clean code (1)</a></li><li><a href='/blog/categories/clojure'>clojure (1)</a></li><li><a href='/blog/categories/command'>command (5)</a></li><li><a href='/blog/categories/concurrency'>concurrency (1)</a></li><li><a href='/blog/categories/curl'>curl (1)</a></li><li><a href='/blog/categories/database'>database (7)</a></li><li><a href='/blog/categories/datetime'>datetime (1)</a></li><li><a href='/blog/categories/di'>di (2)</a></li><li><a href='/blog/categories/drawable'>drawable (1)</a></li><li><a href='/blog/categories/ec'>ec (1)</a></li><li><a href='/blog/categories/eclipse'>eclipse (1)</a></li><li><a href='/blog/categories/ecshop'>ecshop (7)</a></li><li><a href='/blog/categories/editor'>editor (1)</a></li><li><a href='/blog/categories/emulator'>emulator (1)</a></li><li><a href='/blog/categories/encoding'>encoding (1)</a></li><li><a href='/blog/categories/english'>english (14)</a></li><li><a href='/blog/categories/excel'>excel (2)</a></li><li><a href='/blog/categories/extjs'>extjs (2)</a></li><li><a href='/blog/categories/functional-programming'>functional programming (1)</a></li><li><a href='/blog/categories/gesture'>gesture (1)</a></li><li><a href='/blog/categories/git'>git (4)</a></li><li><a href='/blog/categories/git-flow'>git-flow (1)</a></li><li><a href='/blog/categories/guava'>guava (2)</a></li><li><a href='/blog/categories/guice'>guice (1)</a></li><li><a href='/blog/categories/hamcrest'>hamcrest (1)</a></li><li><a href='/blog/categories/i18n'>i18n (1)</a></li><li><a href='/blog/categories/ide'>IDE (1)</a></li><li><a href='/blog/categories/idea'>IDEA (2)</a></li><li><a href='/blog/categories/imgur'>imgur (1)</a></li><li><a href='/blog/categories/injection'>injection (1)</a></li><li><a href='/blog/categories/intent'>intent (1)</a></li><li><a href='/blog/categories/ireport'>ireport (2)</a></li><li><a href='/blog/categories/jasterreport'>jasterreport (2)</a></li><li><a href='/blog/categories/java'>java (22)</a></li><li><a href='/blog/categories/java8'>java8 (2)</a></li><li><a href='/blog/categories/java-ee'>java_ee (5)</a></li><li><a href='/blog/categories/jms'>jms (1)</a></li><li><a href='/blog/categories/jmx'>JMX (1)</a></li><li><a href='/blog/categories/joda'>joda (1)</a></li><li><a href='/blog/categories/jpa'>jpa (1)</a></li><li><a href='/blog/categories/jquery'>jquery (1)</a></li><li><a href='/blog/categories/jsp'>jsp (2)</a></li><li><a href='/blog/categories/junit'>junit (1)</a></li><li><a href='/blog/categories/jvm'>jvm (2)</a></li><li><a href='/blog/categories/kohana'>kohana (1)</a></li><li><a href='/blog/categories/l10n'>l10n (1)</a></li><li><a href='/blog/categories/lambda'>lambda (1)</a></li><li><a href='/blog/categories/layout'>layout (1)</a></li><li><a href='/blog/categories/linux'>linux (11)</a></li><li><a href='/blog/categories/liquibase'>liquibase (1)</a></li><li><a href='/blog/categories/listview'>listview (2)</a></li><li><a href='/blog/categories/logger'>logger (1)</a></li><li><a href='/blog/categories/m2eclilpse'>m2eclilpse (1)</a></li><li><a href='/blog/categories/mac'>mac (3)</a></li><li><a href='/blog/categories/mat'>mat (1)</a></li><li><a href='/blog/categories/maven'>maven (5)</a></li><li><a href='/blog/categories/memory'>memory (1)</a></li><li><a href='/blog/categories/menu'>menu (1)</a></li><li><a href='/blog/categories/mindmap'>mindmap (2)</a></li><li><a href='/blog/categories/misc'>misc (1)</a></li><li><a href='/blog/categories/mysql'>mysql (7)</a></li><li><a href='/blog/categories/nio'>nio (1)</a></li><li><a href='/blog/categories/octopress'>octopress (1)</a></li><li><a href='/blog/categories/oracle'>oracle (1)</a></li><li><a href='/blog/categories/osgi'>osgi (3)</a></li><li><a href='/blog/categories/pdf'>pdf (2)</a></li><li><a href='/blog/categories/pdt'>pdt (5)</a></li><li><a href='/blog/categories/pear'>pear (2)</a></li><li><a href='/blog/categories/performace'>performace (1)</a></li><li><a href='/blog/categories/pgsql'>pgsql (1)</a></li><li><a href='/blog/categories/php'>php (6)</a></li><li><a href='/blog/categories/play-framework'>play_framework (1)</a></li><li><a href='/blog/categories/pm'>pm (5)</a></li><li><a href='/blog/categories/postgresql'>postgresql (2)</a></li><li><a href='/blog/categories/profile'>profile (1)</a></li><li><a href='/blog/categories/programming'>programming (12)</a></li><li><a href='/blog/categories/python'>python (2)</a></li><li><a href='/blog/categories/re'>re (1)</a></li><li><a href='/blog/categories/refactory'>refactory (2)</a></li><li><a href='/blog/categories/rest'>rest (7)</a></li><li><a href='/blog/categories/roboguice'>roboguice (1)</a></li><li><a href='/blog/categories/sbt'>sbt (1)</a></li><li><a href='/blog/categories/scala'>scala (4)</a></li><li><a href='/blog/categories/security'>security (2)</a></li><li><a href='/blog/categories/sequence-diagram'>sequence_diagram (1)</a></li><li><a href='/blog/categories/service'>service (2)</a></li><li><a href='/blog/categories/shiro'>shiro (1)</a></li><li><a href='/blog/categories/shortchut'>shortchut (1)</a></li><li><a href='/blog/categories/smarty'>smarty (3)</a></li><li><a href='/blog/categories/spring'>spring (3)</a></li><li><a href='/blog/categories/spring-boot'>spring-boot (1)</a></li><li><a href='/blog/categories/sql'>sql (1)</a></li><li><a href='/blog/categories/style'>style (1)</a></li><li><a href='/blog/categories/tdd'>tdd (1)</a></li><li><a href='/blog/categories/testing'>testing (10)</a></li><li><a href='/blog/categories/theme'>theme (1)</a></li><li><a href='/blog/categories/tips'>tips (2)</a></li><li><a href='/blog/categories/tomcat'>tomcat (1)</a></li><li><a href='/blog/categories/ubuntu'>ubuntu (8)</a></li><li><a href='/blog/categories/ui'>ui (2)</a></li><li><a href='/blog/categories/uml'>uml (1)</a></li><li><a href='/blog/categories/umlet'>umlet (1)</a></li><li><a href='/blog/categories/vim'>vim (2)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/windows'>windows (1)</a></li><li><a href='/blog/categories/xampp'>xampp (1)</a></li><li><a href='/blog/categories/xml'>xml (2)</a></li></ul>
 </section>
 
   
