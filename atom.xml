@@ -4,7 +4,7 @@
   <title><![CDATA[Kent's Blog]]></title>
   <link href="http://blog.kent-chiu.com/atom.xml" rel="self"/>
   <link href="http://blog.kent-chiu.com/"/>
-  <updated>2014-08-30T16:30:59+08:00</updated>
+  <updated>2014-08-30T16:40:09+08:00</updated>
   <id>http://blog.kent-chiu.com/</id>
   <author>
     <name><![CDATA[Kent]]></name>
@@ -14,309 +14,10 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Spring Boot筆記]]></title>
-    <link href="http://blog.kent-chiu.com/blog/2014/05/30/spring-boot-101/"/>
-    <updated>2014-05-30T12:44:00+08:00</updated>
-    <id>http://blog.kent-chiu.com/blog/2014/05/30/spring-boot-101</id>
-    <content type="html"><![CDATA[<p>pom.xml</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
-</span><span class='line'><span class="nt">&lt;project</span> <span class="na">xmlns=</span><span class="s">&quot;http://maven.apache.org/POM/4.0.0&quot;</span> <span class="na">xmlns:xsi=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
-</span><span class='line'>    <span class="na">xsi:schemaLocation=</span><span class="s">&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;</span><span class="nt">&gt;</span>
-</span><span class='line'>    <span class="nt">&lt;modelVersion&gt;</span>4.0.0<span class="nt">&lt;/modelVersion&gt;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="nt">&lt;groupId&gt;</span>com.example<span class="nt">&lt;/groupId&gt;</span>
-</span><span class='line'>    <span class="nt">&lt;artifactId&gt;</span>myproject<span class="nt">&lt;/artifactId&gt;</span>
-</span><span class='line'>    <span class="nt">&lt;version&gt;</span>0.0.1-SNAPSHOT<span class="nt">&lt;/version&gt;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="nt">&lt;parent&gt;</span>
-</span><span class='line'>        <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
-</span><span class='line'>        <span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-parent<span class="nt">&lt;/artifactId&gt;</span>
-</span><span class='line'>        <span class="nt">&lt;version&gt;</span>1.1.0.M2<span class="nt">&lt;/version&gt;</span>
-</span><span class='line'>    <span class="nt">&lt;/parent&gt;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c">&lt;!-- Additional lines to be added here... --&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="nt">&lt;/project&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>maven設定檔是透過<code>&lt;parent&gt;</code> tag繼承 spring-boot預先定義好的 parent pom，在parent的pom檔中，有許多預設的dependencies，所以，引用到 parent pom裡已預先定義好的 dependency 時，就不需再定義該 <code>&lt;dependency&gt;</code> tag下的 <code>&lt;version&gt;</code> tag。在本文章中的 <code>&lt;dependency&gt;</code>  只要是沒加 <code>&lt;version&gt;</code> tag的，都是因為 parent pom 已有預先定義好的 dependencies.</p>
-
-<p>建議可以調 parent 的 pom.xml 出來看看，會比較清楚 spring boot 的 building 機制，eclipse 跟 intelliJ 都支援 link 到 parent pom 的功能。</p>
-
-<p>Spring Boot Hello World:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="nd">@Controller</span>
-</span><span class='line'><span class="nd">@EnableAutoConfiguration</span>
-</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Application</span> <span class="o">{</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="nd">@RequestMapping</span><span class="o">(</span><span class="s">&quot;/&quot;</span><span class="o">)</span>
-</span><span class='line'>    <span class="nd">@ResponseBody</span>
-</span><span class='line'>    <span class="n">String</span> <span class="nf">home</span><span class="o">()</span> <span class="o">{</span>
-</span><span class='line'>        <span class="k">return</span> <span class="s">&quot;Hello World!&quot;</span><span class="o">;</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>        <span class="n">ApplicationContext</span> <span class="n">ctx</span> <span class="o">=</span> <span class="n">SpringApplication</span><span class="o">.</span><span class="na">run</span><span class="o">(</span><span class="n">Application</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">args</span><span class="o">);</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Let&#39;s inspect the beans provided by Spring Boot:&quot;</span><span class="o">);</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="n">String</span><span class="o">[]</span> <span class="n">beanNames</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="na">getBeanDefinitionNames</span><span class="o">();</span>
-</span><span class='line'>        <span class="n">Arrays</span><span class="o">.</span><span class="na">sort</span><span class="o">(</span><span class="n">beanNames</span><span class="o">);</span>
-</span><span class='line'>        <span class="c1">// 表列出引用到的 beans</span>
-</span><span class='line'>        <span class="k">for</span> <span class="o">(</span><span class="n">String</span> <span class="n">beanName</span> <span class="o">:</span> <span class="n">beanNames</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">beanName</span><span class="o">);</span>
-</span><span class='line'>        <span class="o">}</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>比起傳統的 Spring RESTful 程式，spring boot簡單許多。</p>
-
-<p>spring-boot-maven-plugin主要的功能是 build 出 war 檔或可執行的 jar 檔</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="nt">&lt;build&gt;</span>
-</span><span class='line'>    <span class="nt">&lt;plugins&gt;</span>
-</span><span class='line'>        <span class="nt">&lt;plugin&gt;</span>
-</span><span class='line'>            <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
-</span><span class='line'>            <span class="nt">&lt;artifactId&gt;</span>spring-boot-maven-plugin<span class="nt">&lt;/artifactId&gt;</span>
-</span><span class='line'>        <span class="nt">&lt;/plugin&gt;</span>
-</span><span class='line'>    <span class="nt">&lt;/plugins&gt;</span>
-</span><span class='line'><span class="nt">&lt;/build&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>執行 <code>mvn spring-boot:run</code> ， 加入 <code>--debug</code> 參數可以dump auto config 的細節， 方便除錯 <code>mvn spring-boot:run --debug</code>，如果是在IDE執行成 Application，那把<code>--debug</code>加到program argument即可，或者是直接寫到<code>SpringApplicationBuilder</code></p>
-
-<p><code>new SpringApplicationBuilder(MyConfig.class).run(new String[]{"--debug"});</code></p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="o">=========================</span>
-</span><span class='line'>AUTO-CONFIGURATION <span class="nv">REPORT</span>
-</span><span class='line'><span class="o">=========================</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>Positive matches:
-</span><span class='line'>-----------------
-</span><span class='line'>
-</span><span class='line'>   AuditAutoConfiguration.AuditEventRepositoryConfiguration
-</span><span class='line'>      - @ConditionalOnMissingBean <span class="o">(</span>types: org.springframework.boot.actuate.audit.AuditEventRepository; SearchStrategy: all<span class="o">)</span> found no beans <span class="o">(</span>OnBeanCondition<span class="o">)</span>
-</span><span class='line'>
-</span><span class='line'>   EndpointAutoConfiguration#autoConfigurationAuditEndpoint
-</span><span class='line'>      - @ConditionalOnBean <span class="o">(</span>types: org.springframework.boot.autoconfigure.condition.ConditionEvaluationReport; SearchStrategy: all<span class="o">)</span> found the following <span class="o">[</span>autoConfigurationReport<span class="o">]</span> @ConditionalOnMissingBean <span class="o">(</span>types: org.springframework.boot.actuate.endpoint.AutoConfigurationReportEndpoint; SearchStrategy: current<span class="o">)</span> found no beans <span class="o">(</span>OnBeanCondition<span class="o">)</span>
-</span><span class='line'>
-</span><span class='line'>   EndpointAutoConfiguration#beansEndpoint
-</span><span class='line'>      - @ConditionalOnMissingBean <span class="o">(</span>types: org.springframework.boot.actuate.endpoint.BeansEndpoint; SearchStrategy: all<span class="o">)</span> found no beans <span class="o">(</span>OnBeanCondition<span class="o">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>如果想要抓到Application傳進來的參數，可以implement <code>CommandLineRunner</code></p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kn">import</span> <span class="nn">org.springframework.boot.*</span>
-</span><span class='line'><span class="kn">import</span> <span class="nn">org.springframework.stereotype.*</span>
-</span><span class='line'>
-</span><span class='line'><span class="nd">@Component</span>
-</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyBean</span> <span class="kd">implements</span> <span class="n">CommandLineRunner</span> <span class="o">{</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">(</span><span class="n">String</span><span class="o">...</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>        <span class="c1">// Do something...</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Properties</h2>
-
-<p>屬性檔預設預案是在 classpath下的 application.properties或 application-{profile}.properties</p>
-
-<p>屬性中可以用亂數產生器,因為使用了<code>RandomValuePropertySource</code></p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='properties'><span class='line'><span class="na">my.secret</span><span class="o">=</span><span class="s">${random.value}</span>
-</span><span class='line'><span class="na">my.number</span><span class="o">=</span><span class="s">${random.int}</span>
-</span><span class='line'><span class="na">my.bignumber</span><span class="o">=</span><span class="s">${random.long}</span>
-</span><span class='line'><span class="na">my.number.less.than.ten</span><span class="o">=</span><span class="s">${random.int(10)}</span>
-</span><span class='line'><span class="na">my.number.in.range</span><span class="o">=</span><span class="s">${random.int[1024,65536]}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>在屬性檔的屬性可以透過<code>@Value</code>及<code>@ConfigurationProperties</code> binding 到程式， 也可以jsr-303的 bean validation 進行驗證。</p>
-
-<h2>JPA</h2>
-
-<p>要在 spring boot 中啟用 JPA也相當簡單， 只要加入 <code>spring-boot-starter-data-jpa</code> 跟 database driver即可，其他的設定像 hibernate.dialect 等 spring boot 會依照使用的資料庫選擇適合的設定。</p>
-
-<p>使用 hsqldb 當 database</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='xml'><span class='line'>    <span class="nt">&lt;dependency&gt;</span>
-</span><span class='line'>        <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
-</span><span class='line'>        <span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-data-jpa<span class="nt">&lt;/artifactId&gt;</span>
-</span><span class='line'>    <span class="nt">&lt;/dependency&gt;</span>
-</span><span class='line'>    <span class="nt">&lt;dependency&gt;</span>
-</span><span class='line'>        <span class="nt">&lt;groupId&gt;</span>org.hsqldb<span class="nt">&lt;/groupId&gt;</span>
-</span><span class='line'>        <span class="nt">&lt;artifactId&gt;</span>hsqldb<span class="nt">&lt;/artifactId&gt;</span>
-</span><span class='line'>    <span class="nt">&lt;/dependency&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>使用 mysql 當 database</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='xml'><span class='line'>    <span class="nt">&lt;dependency&gt;</span>
-</span><span class='line'>        <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
-</span><span class='line'>        <span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-data-jpa<span class="nt">&lt;/artifactId&gt;</span>
-</span><span class='line'>    <span class="nt">&lt;/dependency&gt;</span>
-</span><span class='line'>    <span class="nt">&lt;dependency&gt;</span>
-</span><span class='line'>        <span class="nt">&lt;groupId&gt;</span>mysql<span class="nt">&lt;/groupId&gt;</span>
-</span><span class='line'>        <span class="nt">&lt;artifactId&gt;</span>mysql-connector-java<span class="nt">&lt;/artifactId&gt;</span>
-</span><span class='line'>    <span class="nt">&lt;/dependency&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>如果用 in-memory database，像hsqldb，h2，derby … 當db，jpa會自動建立 entity 對應的table，如果是其他 database，則需自行建立，或者也可以透過 application.properties 設定檔來改寫預設的行為。</p>
-
-<h2>Testing</h2>
-
-<h4>Unit Test</h4>
-
-<p>spring一向強調測試的重要性，在spring寫測試比起在其它 framework 下會愉快許多。spring boot 在測試上，在基於 spring 本身的基礎上，又加了一些方便的配置。</p>
-
-<p>在繼承 parent pom之後，unit test常用的三板斧，就會被配置在 test scope了(不會被 deploy 成product)，這三板斧是:</p>
-
-<ol>
-<li>Junit - 單元測試lib</li>
-<li>Hamcrest - 斷言工具 (assertion)，搭配 <code>assertThat</code> 用的(不要再 <code>assertEquals</code>，請一律<code>assertThat</code>吧)</li>
-<li>Mockito - 目前java最流行的 mock framework</li>
-</ol>
-
-
-<h4>Database Test</h4>
-
-<p>如果要做的測試跟db有關，建議採用in-memory database，不要mock，但如果沒有採用像 jpa 這種會自動依 dialect 轉換 sql 語法的 framework時，可能就要對測試方式做調整。在資料庫的測試，我通常是採用 hsqldb + dbunit，而production的database，即依專案需求而決定，使用jpa時，單元測試時在 hsqldb，真正執行時在其他db ex: mysql， postgresql，…，都沒遇過太大的問題。</p>
-
-<p>但是如果沒辦法使用jpa時(通常會換成 JdbcTemplate)，而且又使用到許多特定資料庫特有的功能時，就會採用 dbunit + rollback base的測試，這一類的測試，在測試程式的撰寫上，通常需要花比較多的心力。</p>
-
-<h4>Web Test</h4>
-
-<p>web test，spring 本來就有提供 MockMvc 的 mock object，4.x 版後以的 spring mvc test 都改用 fluent api 來寫測試了。</p>
-
-<h4>Spring Boot Application Test</h4>
-
-<h4>unsorted</h4>
-
-<ul>
-<li><del>在專案中所有的 classes 都會被 <code>@ComponentScan</code> 掃描</del> ﹣》 只有base package</li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
     <title type="html"><![CDATA[Liquibase 筆記]]></title>
-    <link href="http://blog.kent-chiu.com/blog/2014/05/30/liquibase-101/"/>
-    <updated>2014-05-30T12:44:00+08:00</updated>
-    <id>http://blog.kent-chiu.com/blog/2014/05/30/liquibase-101</id>
+    <link href="http://blog.kent-chiu.com/blog/2014/08/30/liquibase-101/"/>
+    <updated>2014-08-30T12:44:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2014/08/30/liquibase-101</id>
     <content type="html"><![CDATA[<!-- MarkdownTOC depth=0 -->
 
 
@@ -1117,6 +818,305 @@ sql script就能處理，但有些最基本的判斷，像column存不存在，�
 
 <ul>
 <li><a href="http://www.liquibase.org/documentation/maven/index.html">http://www.liquibase.org/documentation/maven/index.html</a> - liquibase maven plugin</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Spring Boot筆記]]></title>
+    <link href="http://blog.kent-chiu.com/blog/2014/05/30/spring-boot-101/"/>
+    <updated>2014-05-30T12:44:00+08:00</updated>
+    <id>http://blog.kent-chiu.com/blog/2014/05/30/spring-boot-101</id>
+    <content type="html"><![CDATA[<p>pom.xml</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+</span><span class='line'><span class="nt">&lt;project</span> <span class="na">xmlns=</span><span class="s">&quot;http://maven.apache.org/POM/4.0.0&quot;</span> <span class="na">xmlns:xsi=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
+</span><span class='line'>    <span class="na">xsi:schemaLocation=</span><span class="s">&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;modelVersion&gt;</span>4.0.0<span class="nt">&lt;/modelVersion&gt;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nt">&lt;groupId&gt;</span>com.example<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;artifactId&gt;</span>myproject<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;version&gt;</span>0.0.1-SNAPSHOT<span class="nt">&lt;/version&gt;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nt">&lt;parent&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-parent<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;version&gt;</span>1.1.0.M2<span class="nt">&lt;/version&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/parent&gt;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c">&lt;!-- Additional lines to be added here... --&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;/project&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>maven設定檔是透過<code>&lt;parent&gt;</code> tag繼承 spring-boot預先定義好的 parent pom，在parent的pom檔中，有許多預設的dependencies，所以，引用到 parent pom裡已預先定義好的 dependency 時，就不需再定義該 <code>&lt;dependency&gt;</code> tag下的 <code>&lt;version&gt;</code> tag。在本文章中的 <code>&lt;dependency&gt;</code>  只要是沒加 <code>&lt;version&gt;</code> tag的，都是因為 parent pom 已有預先定義好的 dependencies.</p>
+
+<p>建議可以調 parent 的 pom.xml 出來看看，會比較清楚 spring boot 的 building 機制，eclipse 跟 intelliJ 都支援 link 到 parent pom 的功能。</p>
+
+<p>Spring Boot Hello World:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="nd">@Controller</span>
+</span><span class='line'><span class="nd">@EnableAutoConfiguration</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Application</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@RequestMapping</span><span class="o">(</span><span class="s">&quot;/&quot;</span><span class="o">)</span>
+</span><span class='line'>    <span class="nd">@ResponseBody</span>
+</span><span class='line'>    <span class="n">String</span> <span class="nf">home</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="s">&quot;Hello World!&quot;</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="n">ApplicationContext</span> <span class="n">ctx</span> <span class="o">=</span> <span class="n">SpringApplication</span><span class="o">.</span><span class="na">run</span><span class="o">(</span><span class="n">Application</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">args</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Let&#39;s inspect the beans provided by Spring Boot:&quot;</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">String</span><span class="o">[]</span> <span class="n">beanNames</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="na">getBeanDefinitionNames</span><span class="o">();</span>
+</span><span class='line'>        <span class="n">Arrays</span><span class="o">.</span><span class="na">sort</span><span class="o">(</span><span class="n">beanNames</span><span class="o">);</span>
+</span><span class='line'>        <span class="c1">// 表列出引用到的 beans</span>
+</span><span class='line'>        <span class="k">for</span> <span class="o">(</span><span class="n">String</span> <span class="n">beanName</span> <span class="o">:</span> <span class="n">beanNames</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">beanName</span><span class="o">);</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>比起傳統的 Spring RESTful 程式，spring boot簡單許多。</p>
+
+<p>spring-boot-maven-plugin主要的功能是 build 出 war 檔或可執行的 jar 檔</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="nt">&lt;build&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;plugins&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;plugin&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;artifactId&gt;</span>spring-boot-maven-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;/plugin&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/plugins&gt;</span>
+</span><span class='line'><span class="nt">&lt;/build&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>執行 <code>mvn spring-boot:run</code> ， 加入 <code>--debug</code> 參數可以dump auto config 的細節， 方便除錯 <code>mvn spring-boot:run --debug</code>，如果是在IDE執行成 Application，那把<code>--debug</code>加到program argument即可，或者是直接寫到<code>SpringApplicationBuilder</code></p>
+
+<p><code>new SpringApplicationBuilder(MyConfig.class).run(new String[]{"--debug"});</code></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="o">=========================</span>
+</span><span class='line'>AUTO-CONFIGURATION <span class="nv">REPORT</span>
+</span><span class='line'><span class="o">=========================</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>Positive matches:
+</span><span class='line'>-----------------
+</span><span class='line'>
+</span><span class='line'>   AuditAutoConfiguration.AuditEventRepositoryConfiguration
+</span><span class='line'>      - @ConditionalOnMissingBean <span class="o">(</span>types: org.springframework.boot.actuate.audit.AuditEventRepository; SearchStrategy: all<span class="o">)</span> found no beans <span class="o">(</span>OnBeanCondition<span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'>   EndpointAutoConfiguration#autoConfigurationAuditEndpoint
+</span><span class='line'>      - @ConditionalOnBean <span class="o">(</span>types: org.springframework.boot.autoconfigure.condition.ConditionEvaluationReport; SearchStrategy: all<span class="o">)</span> found the following <span class="o">[</span>autoConfigurationReport<span class="o">]</span> @ConditionalOnMissingBean <span class="o">(</span>types: org.springframework.boot.actuate.endpoint.AutoConfigurationReportEndpoint; SearchStrategy: current<span class="o">)</span> found no beans <span class="o">(</span>OnBeanCondition<span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'>   EndpointAutoConfiguration#beansEndpoint
+</span><span class='line'>      - @ConditionalOnMissingBean <span class="o">(</span>types: org.springframework.boot.actuate.endpoint.BeansEndpoint; SearchStrategy: all<span class="o">)</span> found no beans <span class="o">(</span>OnBeanCondition<span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果想要抓到Application傳進來的參數，可以implement <code>CommandLineRunner</code></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kn">import</span> <span class="nn">org.springframework.boot.*</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">org.springframework.stereotype.*</span>
+</span><span class='line'>
+</span><span class='line'><span class="nd">@Component</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyBean</span> <span class="kd">implements</span> <span class="n">CommandLineRunner</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">(</span><span class="n">String</span><span class="o">...</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="c1">// Do something...</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Properties</h2>
+
+<p>屬性檔預設預案是在 classpath下的 application.properties或 application-{profile}.properties</p>
+
+<p>屬性中可以用亂數產生器,因為使用了<code>RandomValuePropertySource</code></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='properties'><span class='line'><span class="na">my.secret</span><span class="o">=</span><span class="s">${random.value}</span>
+</span><span class='line'><span class="na">my.number</span><span class="o">=</span><span class="s">${random.int}</span>
+</span><span class='line'><span class="na">my.bignumber</span><span class="o">=</span><span class="s">${random.long}</span>
+</span><span class='line'><span class="na">my.number.less.than.ten</span><span class="o">=</span><span class="s">${random.int(10)}</span>
+</span><span class='line'><span class="na">my.number.in.range</span><span class="o">=</span><span class="s">${random.int[1024,65536]}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在屬性檔的屬性可以透過<code>@Value</code>及<code>@ConfigurationProperties</code> binding 到程式， 也可以jsr-303的 bean validation 進行驗證。</p>
+
+<h2>JPA</h2>
+
+<p>要在 spring boot 中啟用 JPA也相當簡單， 只要加入 <code>spring-boot-starter-data-jpa</code> 跟 database driver即可，其他的設定像 hibernate.dialect 等 spring boot 會依照使用的資料庫選擇適合的設定。</p>
+
+<p>使用 hsqldb 當 database</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'>    <span class="nt">&lt;dependency&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-data-jpa<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/dependency&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;dependency&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;groupId&gt;</span>org.hsqldb<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;artifactId&gt;</span>hsqldb<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/dependency&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>使用 mysql 當 database</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'>    <span class="nt">&lt;dependency&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-data-jpa<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/dependency&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;dependency&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;groupId&gt;</span>mysql<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;artifactId&gt;</span>mysql-connector-java<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/dependency&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果用 in-memory database，像hsqldb，h2，derby … 當db，jpa會自動建立 entity 對應的table，如果是其他 database，則需自行建立，或者也可以透過 application.properties 設定檔來改寫預設的行為。</p>
+
+<h2>Testing</h2>
+
+<h4>Unit Test</h4>
+
+<p>spring一向強調測試的重要性，在spring寫測試比起在其它 framework 下會愉快許多。spring boot 在測試上，在基於 spring 本身的基礎上，又加了一些方便的配置。</p>
+
+<p>在繼承 parent pom之後，unit test常用的三板斧，就會被配置在 test scope了(不會被 deploy 成product)，這三板斧是:</p>
+
+<ol>
+<li>Junit - 單元測試lib</li>
+<li>Hamcrest - 斷言工具 (assertion)，搭配 <code>assertThat</code> 用的(不要再 <code>assertEquals</code>，請一律<code>assertThat</code>吧)</li>
+<li>Mockito - 目前java最流行的 mock framework</li>
+</ol>
+
+
+<h4>Database Test</h4>
+
+<p>如果要做的測試跟db有關，建議採用in-memory database，不要mock，但如果沒有採用像 jpa 這種會自動依 dialect 轉換 sql 語法的 framework時，可能就要對測試方式做調整。在資料庫的測試，我通常是採用 hsqldb + dbunit，而production的database，即依專案需求而決定，使用jpa時，單元測試時在 hsqldb，真正執行時在其他db ex: mysql， postgresql，…，都沒遇過太大的問題。</p>
+
+<p>但是如果沒辦法使用jpa時(通常會換成 JdbcTemplate)，而且又使用到許多特定資料庫特有的功能時，就會採用 dbunit + rollback base的測試，這一類的測試，在測試程式的撰寫上，通常需要花比較多的心力。</p>
+
+<h4>Web Test</h4>
+
+<p>web test，spring 本來就有提供 MockMvc 的 mock object，4.x 版後以的 spring mvc test 都改用 fluent api 來寫測試了。</p>
+
+<h4>Spring Boot Application Test</h4>
+
+<h4>unsorted</h4>
+
+<ul>
+<li><del>在專案中所有的 classes 都會被 <code>@ComponentScan</code> 掃描</del> ﹣》 只有base package</li>
 </ul>
 
 ]]></content>
