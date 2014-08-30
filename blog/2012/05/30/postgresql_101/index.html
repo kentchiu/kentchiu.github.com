@@ -274,6 +274,42 @@ Indexes:
     "auth_sn_key" UNIQUE, btree (sn)    
 </code></pre>
 
+<h4>expanded mode (將資料顯示的方式轉90度)</h4>
+
+<p><code>-x</code> : Turn on the expanded table formatting mode</p>
+
+<p>正常的情況下查詢出來的資料，欄位是以水平方式排列</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="n">mydb</span><span class="o">=#</span> <span class="k">select</span> <span class="n">id</span><span class="p">,</span><span class="n">author</span> <span class="k">from</span> <span class="n">databasechangelog</span><span class="p">;</span>
+</span><span class='line'> <span class="n">id</span> <span class="o">|</span> <span class="n">author</span>
+</span><span class='line'><span class="c1">----+--------</span>
+</span><span class='line'> <span class="mi">1</span>  <span class="o">|</span> <span class="n">bob</span>
+</span><span class='line'><span class="p">(</span><span class="mi">1</span> <span class="k">row</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>透過<code>\x</code>參數可以把讓資料顯示方式變成<strong>垂直排列</strong>，這對於資料欄位較多或資料較長時，layout會亂掉，如果用<em>expanded mode</em>就可以有比較好的效果</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="n">mydb</span><span class="o">=#</span> <span class="err">\</span><span class="n">x</span>
+</span><span class='line'><span class="n">Expanded</span> <span class="n">display</span> <span class="k">is</span> <span class="k">on</span><span class="p">.</span>
+</span><span class='line'><span class="n">mydb</span><span class="o">=#</span> <span class="k">select</span> <span class="n">id</span><span class="p">,</span><span class="n">author</span> <span class="k">from</span> <span class="n">databasechangelog</span><span class="p">;</span>
+</span><span class='line'><span class="o">-</span><span class="p">[</span> <span class="n">RECORD</span> <span class="mi">1</span> <span class="p">]</span>
+</span><span class='line'><span class="n">id</span>     <span class="o">|</span> <span class="mi">1</span>
+</span><span class='line'><span class="n">author</span> <span class="o">|</span> <span class="n">bob</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
 <h1>Sequence (AUTO INCREMENT)</h1>
 
 <p>PostgreSQL<del>並沒有自增型欄位型態</del>(AUTO
@@ -286,61 +322,68 @@ INCREMENT</strong>的效果</p>
 
 <h5>讓table的某一column套用sequence</h5>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>CREATE TABLE tablename (
-</span><span class='line'>    colname SERIAL
-</span><span class='line'>);</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">tablename</span> <span class="p">(</span>
+</span><span class='line'>    <span class="n">colname</span> <span class="nb">SERIAL</span>
+</span><span class='line'><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>上面的語法等效於</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>CREATE SEQUENCE tablename_colname_seq;
-</span><span class='line'>CREATE TABLE tablename (
-</span><span class='line'>    colname integer DEFAULT NEXTVAL('tablename_colname_seq') NOT NULL
-</span><span class='line'>);</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">CREATE</span> <span class="n">SEQUENCE</span> <span class="n">tablename_colname_seq</span><span class="p">;</span>
+</span><span class='line'><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">tablename</span> <span class="p">(</span>
+</span><span class='line'>    <span class="n">colname</span> <span class="nb">integer</span> <span class="k">DEFAULT</span> <span class="n">NEXTVAL</span><span class="p">(</span><span class="s1">&#39;tablename_colname_seq&#39;</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span>
+</span><span class='line'><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h5>建立sequence</h5>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>create sequence seq start 100;</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">create</span> <span class="n">sequence</span> <span class="n">seq</span> <span class="k">start</span> <span class="mi">100</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>以上語法會建立一個名為<code>seq</code>的sequence，啟始值為100 (從100起跳)</p>
 
 <h5>取得目前sequence的值</h5>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>select currval('seq');</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">select</span> <span class="n">currval</span><span class="p">(</span><span class="s1">&#39;seq&#39;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h5>取得下一個sequence的值</h5>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>select nextval('seq');</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">select</span> <span class="n">nextval</span><span class="p">(</span><span class="s1">&#39;seq&#39;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h5>重新設定sequence值</h5>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>select setval('seq',9)</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">select</span> <span class="n">setval</span><span class="p">(</span><span class="s1">&#39;seq&#39;</span><span class="p">,</span><span class="mi">9</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h5>重新設定sequence值(建議)</h5>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>select setval('seq', max(id)) FROM myTable;</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">select</span> <span class="n">setval</span><span class="p">(</span><span class="s1">&#39;seq&#39;</span><span class="p">,</span> <span class="k">max</span><span class="p">(</span><span class="n">id</span><span class="p">))</span> <span class="k">FROM</span> <span class="n">myTable</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h3>Drop all tables script</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -362,33 +405,34 @@ INCREMENT</strong>的效果</p>
 <span class='line-number'>20</span>
 <span class='line-number'>21</span>
 <span class='line-number'>22</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>/* create a function for drop all tables */
-</span><span class='line'>CREATE OR REPLACE FUNCTION drop_all_table() RETURNS SETOF RECORD   AS $$
-</span><span class='line'>DECLARE
-</span><span class='line'>  stmt RECORD;
-</span><span class='line'>BEGIN
-</span><span class='line'>    FOR stmt IN
-</span><span class='line'>        /* select table */
-</span><span class='line'>       SELECT c.relname FROM pg_catalog.pg_class AS c LEFT JOIN
-</span><span class='line'>    pg_catalog.pg_namespace AS n ON n.oid = c.relnamespace WHERE relkind =
-</span><span class='line'>    'r' AND n.nspname NOT IN ('pg_catalog', 'pg_toast') AND
-</span><span class='line'>    pg_catalog.pg_table_is_visible(c.oid)
-</span><span class='line'>     LOOP
-</span><span class='line'>        /* drop table one by one */
-</span><span class='line'>        EXECUTE 'drop table ' || quote_ident(stmt.relname) || ';';
-</span><span class='line'>    END LOOP;
-</span><span class='line'>END;
-</span><span class='line'>$$ LANGUAGE plpgsql STRICT;
-</span><span class='line'> 
-</span><span class='line'>begin;
-</span><span class='line'>/* execute the function */
-</span><span class='line'>SELECT drop_all_table();
-</span><span class='line'>commit;</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="cm">/* create a function for drop all tables */</span>
+</span><span class='line'><span class="k">CREATE</span> <span class="k">OR</span> <span class="k">REPLACE</span> <span class="k">FUNCTION</span> <span class="n">drop_all_table</span><span class="p">()</span> <span class="k">RETURNS</span> <span class="k">SETOF</span> <span class="n">RECORD</span>   <span class="k">AS</span> <span class="err">$$</span>
+</span><span class='line'><span class="k">DECLARE</span>
+</span><span class='line'>  <span class="n">stmt</span> <span class="n">RECORD</span><span class="p">;</span>
+</span><span class='line'><span class="k">BEGIN</span>
+</span><span class='line'>    <span class="k">FOR</span> <span class="n">stmt</span> <span class="k">IN</span>
+</span><span class='line'>        <span class="cm">/* select table */</span>
+</span><span class='line'>       <span class="k">SELECT</span> <span class="k">c</span><span class="p">.</span><span class="n">relname</span> <span class="k">FROM</span> <span class="n">pg_catalog</span><span class="p">.</span><span class="n">pg_class</span> <span class="k">AS</span> <span class="k">c</span> <span class="k">LEFT</span> <span class="k">JOIN</span>
+</span><span class='line'>    <span class="n">pg_catalog</span><span class="p">.</span><span class="n">pg_namespace</span> <span class="k">AS</span> <span class="n">n</span> <span class="k">ON</span> <span class="n">n</span><span class="p">.</span><span class="n">oid</span> <span class="o">=</span> <span class="k">c</span><span class="p">.</span><span class="n">relnamespace</span> <span class="k">WHERE</span> <span class="n">relkind</span> <span class="o">=</span>
+</span><span class='line'>    <span class="s1">&#39;r&#39;</span> <span class="k">AND</span> <span class="n">n</span><span class="p">.</span><span class="n">nspname</span> <span class="k">NOT</span> <span class="k">IN</span> <span class="p">(</span><span class="s1">&#39;pg_catalog&#39;</span><span class="p">,</span> <span class="s1">&#39;pg_toast&#39;</span><span class="p">)</span> <span class="k">AND</span>
+</span><span class='line'>    <span class="n">pg_catalog</span><span class="p">.</span><span class="n">pg_table_is_visible</span><span class="p">(</span><span class="k">c</span><span class="p">.</span><span class="n">oid</span><span class="p">)</span>
+</span><span class='line'>     <span class="n">LOOP</span>
+</span><span class='line'>        <span class="cm">/* drop table one by one */</span>
+</span><span class='line'>        <span class="k">EXECUTE</span> <span class="s1">&#39;drop table &#39;</span> <span class="o">||</span> <span class="n">quote_ident</span><span class="p">(</span><span class="n">stmt</span><span class="p">.</span><span class="n">relname</span><span class="p">)</span> <span class="o">||</span> <span class="s1">&#39;;&#39;</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">END</span> <span class="n">LOOP</span><span class="p">;</span>
+</span><span class='line'><span class="k">END</span><span class="p">;</span>
+</span><span class='line'><span class="err">$$</span> <span class="k">LANGUAGE</span> <span class="n">plpgsql</span> <span class="k">STRICT</span><span class="p">;</span>
+</span><span class='line'><span class="err"> </span>
+</span><span class='line'><span class="k">begin</span><span class="p">;</span>
+</span><span class='line'><span class="cm">/* execute the function */</span>
+</span><span class='line'><span class="k">SELECT</span> <span class="n">drop_all_table</span><span class="p">();</span>
+</span><span class='line'><span class="k">commit</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h3>Truncate all tables script</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -410,34 +454,36 @@ INCREMENT</strong>的效果</p>
 <span class='line-number'>20</span>
 <span class='line-number'>21</span>
 <span class='line-number'>22</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>/* create a function for drop all tables */
-</span><span class='line'>CREATE OR REPLACE FUNCTION truncate_all_table() RETURNS SETOF RECORD   AS $$
-</span><span class='line'>DECLARE
-</span><span class='line'>  stmt RECORD;
-</span><span class='line'>BEGIN
-</span><span class='line'>    FOR stmt IN
-</span><span class='line'>        /* select table */
-</span><span class='line'>       SELECT c.relname FROM pg_catalog.pg_class AS c LEFT JOIN
-</span><span class='line'>    pg_catalog.pg_namespace AS n ON n.oid = c.relnamespace WHERE relkind =
-</span><span class='line'>    'r' AND n.nspname NOT IN ('pg_catalog', 'pg_toast') AND
-</span><span class='line'>    pg_catalog.pg_table_is_visible(c.oid)
-</span><span class='line'>     LOOP
-</span><span class='line'>        /* truncate table one by one */
-</span><span class='line'>        EXECUTE 'truncate table ' || quote_ident(stmt.relname) || ';';
-</span><span class='line'>    END LOOP;
-</span><span class='line'>END;
-</span><span class='line'>$$ LANGUAGE plpgsql STRICT;
-</span><span class='line'> 
-</span><span class='line'>begin;
-</span><span class='line'>/* execute the function */
-</span><span class='line'>SELECT  truncate_all_table();
-</span><span class='line'>commit;</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="cm">/* create a function for drop all tables */</span>
+</span><span class='line'><span class="k">CREATE</span> <span class="k">OR</span> <span class="k">REPLACE</span> <span class="k">FUNCTION</span> <span class="n">truncate_all_table</span><span class="p">()</span> <span class="k">RETURNS</span> <span class="k">SETOF</span> <span class="n">RECORD</span>   <span class="k">AS</span> <span class="err">$$</span>
+</span><span class='line'><span class="k">DECLARE</span>
+</span><span class='line'>  <span class="n">stmt</span> <span class="n">RECORD</span><span class="p">;</span>
+</span><span class='line'><span class="k">BEGIN</span>
+</span><span class='line'>    <span class="k">FOR</span> <span class="n">stmt</span> <span class="k">IN</span>
+</span><span class='line'>        <span class="cm">/* select table */</span>
+</span><span class='line'>       <span class="k">SELECT</span> <span class="k">c</span><span class="p">.</span><span class="n">relname</span> <span class="k">FROM</span> <span class="n">pg_catalog</span><span class="p">.</span><span class="n">pg_class</span> <span class="k">AS</span> <span class="k">c</span> <span class="k">LEFT</span> <span class="k">JOIN</span>
+</span><span class='line'>    <span class="n">pg_catalog</span><span class="p">.</span><span class="n">pg_namespace</span> <span class="k">AS</span> <span class="n">n</span> <span class="k">ON</span> <span class="n">n</span><span class="p">.</span><span class="n">oid</span> <span class="o">=</span> <span class="k">c</span><span class="p">.</span><span class="n">relnamespace</span> <span class="k">WHERE</span> <span class="n">relkind</span> <span class="o">=</span>
+</span><span class='line'>    <span class="s1">&#39;r&#39;</span> <span class="k">AND</span> <span class="n">n</span><span class="p">.</span><span class="n">nspname</span> <span class="k">NOT</span> <span class="k">IN</span> <span class="p">(</span><span class="s1">&#39;pg_catalog&#39;</span><span class="p">,</span> <span class="s1">&#39;pg_toast&#39;</span><span class="p">)</span> <span class="k">AND</span>
+</span><span class='line'>    <span class="n">pg_catalog</span><span class="p">.</span><span class="n">pg_table_is_visible</span><span class="p">(</span><span class="k">c</span><span class="p">.</span><span class="n">oid</span><span class="p">)</span>
+</span><span class='line'>     <span class="n">LOOP</span>
+</span><span class='line'>        <span class="cm">/* truncate table one by one */</span>
+</span><span class='line'>        <span class="k">EXECUTE</span> <span class="s1">&#39;truncate table &#39;</span> <span class="o">||</span> <span class="n">quote_ident</span><span class="p">(</span><span class="n">stmt</span><span class="p">.</span><span class="n">relname</span><span class="p">)</span> <span class="o">||</span> <span class="s1">&#39;;&#39;</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">END</span> <span class="n">LOOP</span><span class="p">;</span>
+</span><span class='line'><span class="k">END</span><span class="p">;</span>
+</span><span class='line'><span class="err">$$</span> <span class="k">LANGUAGE</span> <span class="n">plpgsql</span> <span class="k">STRICT</span><span class="p">;</span>
+</span><span class='line'><span class="err"> </span>
+</span><span class='line'><span class="k">begin</span><span class="p">;</span>
+</span><span class='line'><span class="cm">/* execute the function */</span>
+</span><span class='line'><span class="k">SELECT</span>  <span class="n">truncate_all_table</span><span class="p">();</span>
+</span><span class='line'><span class="k">commit</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>如果遇到建立script時<code>language “plpgsql” does not exist</code>(通常在linux下才會),可透過createlang命令，安裝plpgsql到指定的db</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>createlang -d &lt;dbname&gt; plpgsql</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="n">createlang</span> <span class="o">-</span><span class="n">d</span> <span class="o">&lt;</span><span class="n">dbname</span><span class="o">&gt;</span> <span class="n">plpgsql</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h1>建立全新的Database</h1>
@@ -459,20 +505,21 @@ INCREMENT</strong>的效果</p>
 
 <h5>列出目前活動</h5>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>select * from pg_stat_activity ;
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">pg_stat_activity</span> <span class="p">;</span>
 </span><span class='line'>
-</span><span class='line'> datid | datname | procpid | usesysid | usename | current_query
-</span><span class='line'>-------+---------+---------+----------+---------+---------------
-</span><span class='line'> 16976 | simpydb |   31008 |      100 | otis    |
-</span><span class='line'> 16976 | simpydb |   26126 |      100 | otis    |
-</span><span class='line'>(2 rows)</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'> <span class="n">datid</span> <span class="o">|</span> <span class="n">datname</span> <span class="o">|</span> <span class="n">procpid</span> <span class="o">|</span> <span class="n">usesysid</span> <span class="o">|</span> <span class="n">usename</span> <span class="o">|</span> <span class="n">current_query</span>
+</span><span class='line'><span class="c1">-------+---------+---------+----------+---------+---------------</span>
+</span><span class='line'> <span class="mi">16976</span> <span class="o">|</span> <span class="n">simpydb</span> <span class="o">|</span>   <span class="mi">31008</span> <span class="o">|</span>      <span class="mi">100</span> <span class="o">|</span> <span class="n">otis</span>    <span class="o">|</span>
+</span><span class='line'> <span class="mi">16976</span> <span class="o">|</span> <span class="n">simpydb</span> <span class="o">|</span>   <span class="mi">26126</span> <span class="o">|</span>      <span class="mi">100</span> <span class="o">|</span> <span class="n">otis</span>    <span class="o">|</span>
+</span><span class='line'><span class="p">(</span><span class="mi">2</span> <span class="k">rows</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h1>Resource</h1>
@@ -560,11 +607,7 @@ type</a></li>
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2015/05/30/spring-boot-101/">Spring Boot筆記</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/03/14/umlet-sequence-diagram/">UMLet Sequence Diagram</a>
+        <a href="/blog/2014/05/30/spring-boot-101/">Spring Boot筆記</a>
       </li>
     
       <li class="post">
@@ -577,6 +620,10 @@ type</a></li>
     
       <li class="post">
         <a href="/blog/2014/03/14/java-8-date-and-time-api/">Java 8 時間、日期 API</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/03/14/umlet-sequence-diagram/">UMLet Sequence Diagram</a>
       </li>
     
   </ul>

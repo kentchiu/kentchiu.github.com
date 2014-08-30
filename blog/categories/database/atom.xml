@@ -4,7 +4,7 @@
   <title><![CDATA[Category: database | Kent's Blog]]></title>
   <link href="http://blog.kent-chiu.com/blog/categories/database/atom.xml" rel="self"/>
   <link href="http://blog.kent-chiu.com/"/>
-  <updated>2014-06-27T09:37:56+08:00</updated>
+  <updated>2014-08-30T16:29:07+08:00</updated>
   <id>http://blog.kent-chiu.com/</id>
   <author>
     <name><![CDATA[Kent]]></name>
@@ -186,6 +186,30 @@ Indexes:
     "auth_pkey" PRIMARY KEY, btree (id)
     "auth_sn_key" UNIQUE, btree (sn)    
 </code></pre>
+
+<h4>expanded mode (將資料顯示的方式轉90度)</h4>
+
+<p><code>-x</code> : Turn on the expanded table formatting mode</p>
+
+<p>正常的情況下查詢出來的資料，欄位是以水平方式排列</p>
+
+<p><code>sql
+mydb=# select id,author from databasechangelog;
+ id | author
+----+--------
+ 1  | bob
+(1 row)
+</code></p>
+
+<p>透過<code>\x</code>參數可以把讓資料顯示方式變成<strong>垂直排列</strong>，這對於資料欄位較多或資料較長時，layout會亂掉，如果用<em>expanded mode</em>就可以有比較好的效果
+<code>sql
+mydb=# \x
+Expanded display is on.
+mydb=# select id,author from databasechangelog;
+-[ RECORD 1 ]
+id     | 1
+author | bob
+</code></p>
 
 <h1>Sequence (AUTO INCREMENT)</h1>
 

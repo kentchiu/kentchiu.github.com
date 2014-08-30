@@ -4,7 +4,7 @@
   <title><![CDATA[Category: rest | Kent's Blog]]></title>
   <link href="http://blog.kent-chiu.com/blog/categories/rest/atom.xml" rel="self"/>
   <link href="http://blog.kent-chiu.com/"/>
-  <updated>2014-06-27T09:37:56+08:00</updated>
+  <updated>2014-08-30T16:29:07+08:00</updated>
   <id>http://blog.kent-chiu.com/</id>
   <author>
     <name><![CDATA[Kent]]></name>
@@ -639,6 +639,7 @@ POST                http://www.example.com/orders
 件</li>
 <li><a href="http://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api?hn#snake-vs-camel">http://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api?hn#snake-vs-camel</a> - 設計Restful API 相當不錯的參考資料，內容很全面，方方面面都有提到</li>
 <li><a href="http://codeplanet.io/principles-good-restful-api-design/">http://codeplanet.io/principles-good-restful-api-design/</a> - Principles of good RESTful API Design, 譂述如何設計優質的API</li>
+<li><a href="http://www.ruanyifeng.com/blog/2014/05/restful_api.html">http://www.ruanyifeng.com/blog/2014/05/restful_api.html</a> - RESTful API 设计指南(阮一峰)</li>
 <li>一些流行的 Rest API
 
 <ol>
