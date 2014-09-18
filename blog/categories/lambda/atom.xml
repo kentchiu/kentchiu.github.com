@@ -4,7 +4,7 @@
   <title><![CDATA[Category: lambda | Kent's Blog]]></title>
   <link href="http://blog.kent-chiu.com/blog/categories/lambda/atom.xml" rel="self"/>
   <link href="http://blog.kent-chiu.com/"/>
-  <updated>2014-08-30T16:40:09+08:00</updated>
+  <updated>2014-09-18T16:50:57+08:00</updated>
   <id>http://blog.kent-chiu.com/</id>
   <author>
     <name><![CDATA[Kent]]></name>
@@ -186,9 +186,10 @@ ex: 經function運算後，影響輸入的結果(副作用)</li>
 <h1>RESOURCE</h1>
 
 <ul>
-<li>http://www.techempower.com/blog/2013/03/26/everything-about-java-8/</li>
-<li>http://winterbe.com/posts/2014/03/16/java-8-tutorial/</li>
-<li>http://docs.oracle.com/javase/tutorial/collections/streams/reduction.html - reduce</li>
+<li><a href="http://www.techempower.com/blog/2013/03/26/everything-about-java-8/">http://www.techempower.com/blog/2013/03/26/everything-about-java-8/</a></li>
+<li><a href="http://winterbe.com/posts/2014/03/16/java-8-tutorial/">http://winterbe.com/posts/2014/03/16/java-8-tutorial/</a></li>
+<li><a href="http://docs.oracle.com/javase/tutorial/collections/streams/reduction.html">http://docs.oracle.com/javase/tutorial/collections/streams/reduction.html</a> - reduce</li>
+<li><a href="http://www.ibm.com/developerworks/cn/java/j-lo-java8streamapi/index.html">http://www.ibm.com/developerworks/cn/java/j-lo-java8streamapi/index.html</a> - Java 8 中的 Streams API 详解</li>
 </ul>
 
 ]]></content>

@@ -150,14 +150,14 @@ console出現求要使用jdk不要使用jre的訊息時，可以透過以-vm指�
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>mvn dependency:sources
+</pre></td><td class='code'><pre><code class=''><span class='line'>mvn dependency:resolve -Dclassifier=sources
 </span><span class='line'>mvn dependency:resolve -Dclassifier=javadoc</span></code></pre></td></tr></table></div></figure>
 
 
 <h3>版本檢查，java source下載</h3>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>versions:display-dependency-updates versions:display-plugin-updates versions:display-property-updates   dependency:sources dependency:resolve -Dclassifier=javadoc</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>versions:display-dependency-updates versions:display-plugin-updates versions:display-property-updates  dependency:resolve -Dclassifier=javadoc -Dclassifier=sources</span></code></pre></td></tr></table></div></figure>
 
 
 
