@@ -168,9 +168,10 @@ A lambda expression is an instance of a functional interface
 
 RESOURCE
 ======
-- http://www.techempower.com/blog/2013/03/26/everything-about-java-8/
-- http://winterbe.com/posts/2014/03/16/java-8-tutorial/
-- http://docs.oracle.com/javase/tutorial/collections/streams/reduction.html - reduce  
+- <http://www.techempower.com/blog/2013/03/26/everything-about-java-8/>
+- <http://winterbe.com/posts/2014/03/16/java-8-tutorial/>
+- <http://docs.oracle.com/javase/tutorial/collections/streams/reduction.html> - reduce  
+- <http://www.ibm.com/developerworks/cn/java/j-lo-java8streamapi/index.html> - Java 8 中的 Streams API 详解
 
 
 

@@ -211,3 +211,6 @@ setJustification(CENTERED);
 
 1 is better then 2.
 
+Resource
+-----------
+1. <http://www.javacodegeeks.com/2014/09/typical-mistakes-in-java-code.html>
