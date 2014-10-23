@@ -43,7 +43,7 @@ use database_name
 create database
 
 ```
-CREATE DATABASE forum;
+CREATE DATABASE database_name;
 ```
 
 Table
@@ -344,3 +344,8 @@ zcat 透過 stdin 送到 mysql 這個程式，並且利用 debian.cnf
 zcat backup.sql.gz | sudo mysql \ --defaults-extra-file=/etc/mysql/debian.cnf    
 ```
 
+import database
+
+``` bash
+mysql -u root -p dm < file.sql
+```
