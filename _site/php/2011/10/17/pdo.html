@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width initial-scale=1">
+
+  <title>PHP Data Object (PDO)</title>
+  <meta name="description" content="Table of contents">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://blog.kent-chiu.com//php/2011/10/17/pdo.html">
+  <link rel="alternate" type="application/atom+xml" title="Kent's Blog" href="http://blog.kent-chiu.com//feed.xml" />
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/">Kent's Blog</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          
+          <a class="page-link" href="/about/">About</a>
+          
+        
+          
+        
+          
+        
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">PHP Data Object (PDO)</h1>
+    <p class="post-meta">Oct 17, 2011 • Kent Chiu</p>
+  </header>
+
+  <article class="post-content">
+    <h1 class="no_toc" id="table-of-contents">Table of contents</h1>
+
+<ul id="markdown-toc">
+  <li><a href="#what-can-it-do">What can it do?</a></li>
+  <li><a href="#connecting">Connecting</a></li>
+  <li><a href="#dsns">DSNs</a></li>
+  <li><a href="#connection-management">Connection Management</a></li>
+  <li><a href="#error-handling">Error Handling</a>    <ul>
+      <li><a href="#pdoerrmodesilent">PDO::ERRMODE_SILENT</a></li>
+      <li><a href="#pdoerrmodewarning">PDO::ERRMODE_WARNING</a></li>
+      <li><a href="#pdoerrmodeexception">PDO::ERRMODE_EXCEPTION</a></li>
+    </ul>
+  </li>
+  <li><a href="#get-data">Get Data</a></li>
+  <li><a href="#forward-only-cursors">Forward-only cursors</a></li>
+  <li><a href="#buffered-queries">Buffered Queries</a></li>
+  <li><a href="#fetch-modes">Fetch modes</a></li>
+  <li><a href="#iterators">Iterators</a></li>
+  <li><a href="#changing-data">Changing data</a></li>
+  <li><a href="#autonumbersequences">Autonumber/sequences</a></li>
+  <li><a href="#prepared-statements">Prepared Statements</a></li>
+  <li><a href="#prepared-statements-1">Prepared Statements</a></li>
+  <li><a href="#db-quote">$db-&gt;quote()</a></li>
+  <li><a href="#transactions">Transactions</a></li>
+  <li><a href="#stored-procedures">Stored Procedures</a></li>
+  <li><a href="#out-parameters">OUT parameters</a></li>
+  <li><a href="#inout-parameters">IN/OUT parameters</a></li>
+  <li><a href="#multi-rowset-queries">Multi-rowset queries</a></li>
+  <li><a href="#binding-columns">Binding columns</a></li>
+  <li><a href="#oracle-style-nulls">Oracle style NULLs</a></li>
+  <li><a href="#lobs">LOBs</a></li>
+  <li><a href="#fetching-an-image">Fetching an image</a></li>
+  <li><a href="#uploading-an-image">Uploading an image</a></li>
+  <li><a href="#scrollable-cursors">Scrollable Cursors</a></li>
+  <li><a href="#positioned-updates">Positioned updates</a></li>
+</ul>
+
+<hr />
+
+<h2 id="what-can-it-do">What can it do?</h2>
+
+<ul>
+  <li>Prepare/execute, bound parameters</li>
+  <li>Transactions</li>
+  <li>LOBS</li>
+  <li>SQLSTATE standard error codes, flexible error handling</li>
+  <li>Portability attributes to smooth over database specific nuances</li>
+</ul>
+
+<h2 id="connecting">Connecting</h2>
+
+<pre><code>    try {
+    $dbh = new PDO($dsn, $user,
+                   $password, $options);
+    } catch (PDOException $e) {
+    die("Failed to connect:" .
+        $e-&gt;getMessage();
+    }
+
+</code></pre>
+
+<h2 id="dsns">DSNs</h2>
+
+<ul>
+  <li>mysql:host=name;dbname=dbname</li>
+  <li>pgsql:host=name dbname=dbname</li>
+  <li>odbc:odbc_dsn</li>
+  <li>oci:dbname=dbname;charset=charset</li>
+  <li>sqlite:/path/to/file</li>
+</ul>
+
+<h2 id="connection-management">Connection Management</h2>
+
+<pre><code>    try {
+    $dbh = new PDO($dsn, $user, $pw);
+    // use the database here
+    // ...
+    // done; release
+    $dbh = null;
+    } catch (PDOException $e) {
+    die($e-&gt;getMessage();
+    }
+
+</code></pre>
+
+<h2 id="error-handling">Error Handling</h2>
+
+<ul>
+  <li>Maps error codes to ANSI SQLSTATE (5 character text string)
+    <ul>
+      <li>also provides the native db error information</li>
+    </ul>
+  </li>
+  <li>Three error handling strategies
+    <ul>
+      <li>silent (default)</li>
+      <li>warning</li>
+      <li>exception</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="pdoerrmodesilent">PDO::ERRMODE_SILENT</h3>
+
+<pre><code>    // The default mode
+    if (!dbh-&gt;query($sql)) {
+      echo $dbh-&gt;errorCode(), "&lt;br&gt;";
+      $info = $dbh-&gt;errorInfo();
+      // $info[0] == $dbh-&gt;errorCode()
+      //             SQLSTATE error code
+      // $info[1] is driver specific err code
+      // $info[2] is driver specific
+      //             error message
+    }
+
+</code></pre>
+
+<h3 id="pdoerrmodewarning">PDO::ERRMODE_WARNING</h3>
+
+<pre><code>    $dbh-&gt;setAttribute(PDO::ATTR_ERRMODE,
+                       PDO::ERRMODE_WARNING);
+
+</code></pre>
+
+<ul>
+  <li>Behaves the same as silent mode</li>
+  <li>Raises an E_WARNING as errors are detected</li>
+  <li>Can suppress with @ operator as usual</li>
+</ul>
+
+<h3 id="pdoerrmodeexception">PDO::ERRMODE_EXCEPTION</h3>
+
+<pre><code>    $dbh-&gt;setAttribute(PDO::ATTR_ERRMODE,
+                       PDO::ERRMODE_EXCEPTION);
+    try {
+      $dbh-&gt;exec($sql);
+    } catch (PDOException $e) {
+      // display warning message
+      print $e-&gt;getMessage();
+      $info = $e-&gt;errorInfo;
+      // $info[0] == $e-&gt;code
+      //             SQLSTATE error code
+      // $info[1] driver specific error code
+      // $info[2] driver specific error string
+    }
+
+</code></pre>
+
+<h2 id="get-data">Get Data</h2>
+
+<pre><code>    $dbh = new PDO($dsn);
+    $stmt = $dbh-&gt;prepare(
+                     "SELECT * FROM FOO");
+    $stmt-&gt;execute();
+    while ($row = $stmt-&gt;fetch()) {
+      print_r($row);
+    }
+    $stmt = null;
+
+</code></pre>
+
+<h2 id="forward-only-cursors">Forward-only cursors</h2>
+
+<ul>
+  <li>a.k.a. “unbuffered” queries in mysql parlance</li>
+  <li>They are the default cursor type</li>
+  <li>rowCount() doesn’t have meaning</li>
+  <li>FAST!</li>
+  <li>Other queries are likely to block</li>
+  <li>You must fetch all remaining data before launching another query</li>
+  <li>$stmt→closeCursor();</li>
+</ul>
+
+<h2 id="buffered-queries">Buffered Queries</h2>
+
+<pre><code>    $dbh = new PDO($dsn);
+    $stmt = $dbh-&gt;query("SELECT * FROM FOO");
+    $rows = $stmt-&gt;fetchAll();
+    $count = count($rows);
+    foreach ($rows as $row) {
+      print_r($row);
+    }
+
+</code></pre>
+
+<h2 id="fetch-modes">Fetch modes</h2>
+
+<ul>
+  <li>$stmt→fetch(PDO::FETCH_BOTH);
+    <ol>
+      <li>Array with numeric and string keys</li>
+      <li>default option</li>
+    </ol>
+  </li>
+  <li>PDO::FETCH_NUM
+    <ol>
+      <li>numeric keys only</li>
+    </ol>
+  </li>
+  <li>PDO::FETCH_ASSOC
+    <ol>
+      <li>string keys only</li>
+    </ol>
+  </li>
+  <li>PDO::FETCH_OBJ
+    <ol>
+      <li>stdClass object</li>
+      <li>$obj→name == ‘name’ column</li>
+    </ol>
+  </li>
+  <li>PDO::FETCH_CLASS
+    <ol>
+      <li>You choose the class</li>
+    </ol>
+  </li>
+  <li>PDO::FETCH_INTO
+    <ol>
+      <li>You provide the object</li>
+    </ol>
+  </li>
+  <li>PDO::FETCH_COLUMN
+    <ol>
+      <li>Fetches a column (example later)</li>
+    </ol>
+  </li>
+  <li>PDO::FETCH_BOUND
+    <ol>
+      <li>Only fetches into bound variables</li>
+    </ol>
+  </li>
+  <li>PDO::FETCH_FUNC
+    <ol>
+      <li>Returns the result filtered through a callback</li>
+    </ol>
+  </li>
+  <li>see the manual for more</li>
+</ul>
+
+<h2 id="iterators">Iterators</h2>
+
+<pre><code>    $dbh = new PDO($dsn);
+    $stmt = $dbh-&gt;query(
+               "SELECT name FROM FOO",
+               PDO::FETCH_COLUMN, 0);
+    foreach ($stmt as $name) {
+      echo "Name: $name\n";
+    }
+    $stmt = null;
+
+</code></pre>
+
+<h2 id="changing-data">Changing data</h2>
+
+<pre><code>    $deleted = $dbh-&gt;exec( "DELETE FROM FOO WHERE 1");
+    $changes = $dbh-&gt;exec(
+      "UPDATE FOO SET active=1 "
+     ."WHERE NAME LIKE '%joe%'");
+
+</code></pre>
+
+<h2 id="autonumbersequences">Autonumber/sequences</h2>
+
+<pre><code>    $dbh-&gt;exec( "insert into foo values (...)");
+    echo $dbh-&gt;lastInsertId();
+    $dbh-&gt;exec( "insert into foo values (...)");
+    echo $dbh-&gt;lastInsertId("seqname");
+
+</code></pre>
+
+<p>Its up to you to call the right one for your db!</p>
+
+<h2 id="prepared-statements">Prepared Statements</h2>
+
+<pre><code>    // No need to manually quote data here
+    $stmt = $dbh-&gt;prepare(
+       "INSERT INTO CREDITS (extension, name)"
+      ."VALUES (:extension, :name)");
+    $stmt-&gt;execute(array(
+       'extension' =&gt; 'xdebug',
+       'name'      =&gt; 'Derick Rethans'
+    ));
+
+</code></pre>
+
+<h2 id="prepared-statements-1">Prepared Statements</h2>
+
+<pre><code>    // No need to manually quote data here
+    $stmt = $dbh-&gt;prepare(
+       "INSERT INTO CREDITS (extension, name)"
+      ."VALUES (?, ?)");
+    $stmt-&gt;execute(array(
+                      'xdebug',
+                      'Derick Rethans'
+    ));
+
+</code></pre>
+
+<h2 id="db-quote">$db-&gt;quote()</h2>
+
+<ul>
+  <li>If you really must quote things “by-hand”</li>
+  <li>$db→quote() adds quotes and proper escaping as needed</li>
+  <li>But doesn’t do anything in the ODBC driver!</li>
+  <li>Best to use prepared statements</li>
+</ul>
+
+<h2 id="transactions">Transactions</h2>
+
+<pre><code>    $dbh-&gt;beginTransaction();
+    try {
+      $dbh-&gt;query("UPDATE ...");
+      $dbh-&gt;query("UPDATE ...");
+      $dbh-&gt;commit();
+    } catch (PDOException $e) {
+      $dbh-&gt;rollBack();
+    }
+
+</code></pre>
+
+<h2 id="stored-procedures">Stored Procedures</h2>
+
+<pre><code>    $stmt = $dbh-&gt;prepare( "CALL sp_set_string(?)");
+    $stmt-&gt;execute(array('foo'));
+    $stmt = $dbh-&gt;prepare( "CALL sp_set_string(?)");
+    $stmt-&gt;bindValue(1, 'foo');
+    $stmt-&gt;execute();
+
+</code></pre>
+
+<h2 id="out-parameters">OUT parameters</h2>
+
+<pre><code>    $stmt = $dbh-&gt;prepare( "CALL sp_get_string(?)");
+    $stmt-&gt;bindParam(1, $ret, PDO::PARAM_STR, 4000);
+    if ($stmt-&gt;execute()) {
+      echo "Got $ret\n";
+    }
+
+</code></pre>
+
+<h2 id="inout-parameters">IN/OUT parameters</h2>
+
+<pre><code>    $stmt = $dbh-&gt;prepare(
+               "call @sp_inout(?)");
+    $val = "My input data";
+    $stmt-&gt;bindParam(1, $val,
+                     PDO::PARAM_STR|
+                     PDO::PARAM_INPUT_OUTPUT,
+                     4000);
+    if ($stmt-&gt;execute()) {
+      echo "Got $val\n";
+    }
+
+</code></pre>
+
+<h2 id="multi-rowset-queries">Multi-rowset queries</h2>
+
+<pre><code>    $stmt = $dbh-&gt;query("call sp_multi_results()");
+    do {
+      while ($row = $stmt-&gt;fetch()) {
+        print_r($row);
+      }
+    } while ($stmt-&gt;nextRowset());
+
+</code></pre>
+
+<h2 id="binding-columns">Binding columns</h2>
+
+<pre><code>    $stmt = $dbh-&gt;prepare(
+       "SELECT extension, name from CREDITS");
+    if ($stmt-&gt;execute()) {
+      $stmt-&gt;bindColumn('extension', $ext);
+      $stmt-&gt;bindColumn('name', $name);
+      while ($stmt-&gt;fetch(PDO::FETCH_BOUND)) {
+        echo "Extension: $ext\n";
+        echo "Author:    $name\n";
+      }
+    }
+
+</code></pre>
+
+<h2 id="oracle-style-nulls">Oracle style NULLs</h2>
+
+<ul>
+  <li>Oracle translates empty strings into NULLs
+    <ul>
+      <li>$dbh→setAttribute(PDO::ATTR_ORACLE_NULLS, true)</li>
+    </ul>
+  </li>
+  <li>Translates empty strings into NULLs when fetching data</li>
+  <li>But won’t change them on insert</li>
+</ul>
+
+<h2 id="lobs">LOBs</h2>
+
+<ul>
+  <li>Large objects are usually &gt;4kb in size</li>
+  <li>Nice to avoid fetching them until you need them</li>
+  <li>Mature RDBMS offer LOB APIs for this</li>
+  <li>PDO exposes LOBs as Streams</li>
+</ul>
+
+<h2 id="fetching-an-image">Fetching an image</h2>
+
+<pre><code>    $stmt = $dbh-&gt;prepare(
+       "select contenttype, imagedata"
+      ." from images where id=?");
+    $stmt-&gt;execute(array($_GET['id']));
+    $stmt-&gt;bindColumn(1, $type,
+                      PDO::PARAM_STR, 256);
+    $stmt-&gt;bindColumn(2, $lob,
+                      PDO::PARAM_LOB);
+    $stmt-&gt;fetch(PDO::FETCH_BOUND);
+    header("Content-Type: $type");
+    fpassthru($lob);
+
+</code></pre>
+
+<h2 id="uploading-an-image">Uploading an image</h2>
+
+<pre><code>    $stmt = $db-&gt;prepare("insert into images "
+       . "(id, contenttype, imagedata)"
+       . " values (?,?,?)");
+    $id = get_new_id();
+    $fp = fopen($_FILES['file']['tmp_name'],'rb');
+    $stmt-&gt;bindParam(1, $id);
+    $stmt-&gt;bindParam(2, $_FILES['file']['type']);
+    $stmt-&gt;bindParam(3, $fp, PDO::PARAM_LOB);
+    $stmt-&gt;execute();
+
+</code></pre>
+
+<h2 id="scrollable-cursors">Scrollable Cursors</h2>
+
+<ul>
+  <li>Allow random access to a rowset</li>
+  <li>Higher resource usage than forward-only cursors</li>
+  <li>Can be used for positioned updates (more useful for CLI/GUI apps)</li>
+</ul>
+
+<h2 id="positioned-updates">Positioned updates</h2>
+
+<ul>
+  <li>An open (scrollable) cursor can be used to target a row for another<br />
+query</li>
+  <li>Name your cursor by setting PDO::ATTR_CURSOR_NAME during prepare()</li>
+  <li>UPDATE foo set bar = ? WHERE CURRENT OF cursor_name</li>
+</ul>
+
+
+  </article>
+
+</div>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Kent's Blog</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col  footer-col-1">
+        <ul class="contact-list">
+          <li>Kent's Blog</li>
+          <li><a href="mailto:kent.cwg@gmail.com">kent.cwg@gmail.com</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col  footer-col-2">
+        <ul class="social-media-list">
+          
+          <li>
+            <a href="https://github.com/kentchiu">
+              <span class="icon  icon--github">
+                <svg viewBox="0 0 16 16">
+                  <path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/>
+                </svg>
+              </span>
+
+              <span class="username">kentchiu</span>
+            </a>
+          </li>
+          
+
+          
+          <li>
+            <a href="https://twitter.com/kentchiu">
+              <span class="icon  icon--twitter">
+                <svg viewBox="0 0 16 16">
+                  <path fill="#828282" d="M15.969,3.058c-0.586,0.26-1.217,0.436-1.878,0.515c0.675-0.405,1.194-1.045,1.438-1.809
+                  c-0.632,0.375-1.332,0.647-2.076,0.793c-0.596-0.636-1.446-1.033-2.387-1.033c-1.806,0-3.27,1.464-3.27,3.27 c0,0.256,0.029,0.506,0.085,0.745C5.163,5.404,2.753,4.102,1.14,2.124C0.859,2.607,0.698,3.168,0.698,3.767 c0,1.134,0.577,2.135,1.455,2.722C1.616,6.472,1.112,6.325,0.671,6.08c0,0.014,0,0.027,0,0.041c0,1.584,1.127,2.906,2.623,3.206 C3.02,9.402,2.731,9.442,2.433,9.442c-0.211,0-0.416-0.021-0.615-0.059c0.416,1.299,1.624,2.245,3.055,2.271 c-1.119,0.877-2.529,1.4-4.061,1.4c-0.264,0-0.524-0.015-0.78-0.046c1.447,0.928,3.166,1.469,5.013,1.469 c6.015,0,9.304-4.983,9.304-9.304c0-0.142-0.003-0.283-0.009-0.423C14.976,4.29,15.531,3.714,15.969,3.058z"/>
+                </svg>
+              </span>
+
+              <span class="username">kentchiu</span>
+            </a>
+          </li>
+          
+        </ul>
+      </div>
+
+      <div class="footer-col  footer-col-3">
+        <p class="text">Kent的學習筆記</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>

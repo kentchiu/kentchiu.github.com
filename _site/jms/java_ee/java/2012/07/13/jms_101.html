@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width initial-scale=1">
+
+  <title>JMS 101</title>
+  <meta name="description" content="Table of contents">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://blog.kent-chiu.com//jms/java_ee/java/2012/07/13/jms_101.html">
+  <link rel="alternate" type="application/atom+xml" title="Kent's Blog" href="http://blog.kent-chiu.com//feed.xml" />
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/">Kent's Blog</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          
+          <a class="page-link" href="/about/">About</a>
+          
+        
+          
+        
+          
+        
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">JMS 101</h1>
+    <p class="post-meta">Jul 13, 2012 • Kent Chiu</p>
+  </header>
+
+  <article class="post-content">
+    <h1 class="no_toc" id="table-of-contents">Table of contents</h1>
+
+<ul id="markdown-toc">
+  <li><a href="#section">基本觀念</a>    <ul>
+      <li><a href="#jms-">JMS 基本元素</a></li>
+      <li><a href="#messaging-domains">Messaging Domains</a>        <ul>
+          <li><a href="#point-to-point-messaging-domain-ptp">Point-to-Point Messaging Domain （PTP）</a></li>
+          <li><a href="#publishsubscribe-messaging-domain-pubsub">Publish/Subscribe Messaging Domain (pub/sub)</a></li>
+        </ul>
+      </li>
+      <li><a href="#jms-api">JMS API</a></li>
+    </ul>
+  </li>
+  <li><a href="#connectionsession">建立Connection/Session的流程</a>    <ul>
+      <li><a href="#message-server">與Message Server建立連線</a>        <ul>
+          <li><a href="#activemqactivemqconnectionfactoryconnection">由ActiveMQ提供的ActiveMQConnectionFactory建立connection</a></li>
+          <li><a href="#jndiconnection">用JNDI的方式建立connection</a></li>
+        </ul>
+      </li>
+      <li><a href="#session">建立Session</a>        <ul>
+          <li><a href="#session-1">用傳統的方式建立Session</a></li>
+          <li><a href="#annotationconnection">用Annotation的方式建立connection</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><a href="#hello-jms">Hello JMS</a>    <ul>
+      <li><a href="#ptp">傳送訊息 (PTP)</a></li>
+      <li><a href="#ptp-1">取得訊息 (PTP)</a></li>
+      <li><a href="#topic-pubsub">建立Topic (Pub/Sub)</a></li>
+      <li><a href="#topic-pubsub-1">建立Topic並發佈訊息 (Pub/Sub)</a></li>
+      <li><a href="#topic">訂閱Topic</a></li>
+    </ul>
+  </li>
+  <li><a href="#jms-api-1">JMS API使用說明</a>    <ul>
+      <li><a href="#destination">Destination</a></li>
+      <li><a href="#ptp-model">PTP model</a>        <ul>
+          <li><a href="#producing--consuming-message">Producing / Consuming Message</a></li>
+          <li><a href="#queue-browsers">Queue Browsers</a></li>
+        </ul>
+      </li>
+      <li><a href="#pubsub-model">Pub/Sub model</a></li>
+      <li><a href="#message">Message</a>        <ul>
+          <li><a href="#message-header">Message Header</a>            <ul>
+              <li><a href="#jmscorrelationid">JMSCorrelationID</a></li>
+              <li><a href="#message-type">Message Type</a></li>
+            </ul>
+          </li>
+          <li><a href="#message-property">Message Property</a>            <ul>
+              <li><a href="#jms-defined-properties--provider-specific-properties">JMS-Defined Properties &amp; Provider-Specific Properties</a></li>
+            </ul>
+          </li>
+          <li><a href="#message-selectors">Message Selectors</a></li>
+          <li><a href="#message-persistent">Message Persistent</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><a href="#acknowledge-mode">Acknowledge Mode</a>    <ul>
+      <li><a href="#autoacknowledge">AUTO_ACKNOWLEDGE</a></li>
+      <li><a href="#clientacknowledge">CLIENT_ACKNOWLEDGE</a></li>
+      <li><a href="#dupsokacknowledge">DUPS_OK_ACKNOWLEDGE</a></li>
+    </ul>
+  </li>
+  <li><a href="#transactions">Transactions</a></li>
+  <li><a href="#transport-connectors-activemq">Transport Connectors (ActiveMQ)</a>    <ul>
+      <li><a href="#section-1">連線格式</a>        <ul>
+          <li><a href="#protocol">Protocol</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><a href="#activemq">遠端監控ActiveMQ</a></li>
+  <li><a href="#resources">Resources</a></li>
+</ul>
+
+<hr />
+
+<p>本文中內容，主要以<a href="http://activemq.apache.org/" title="http://activemq.apache.org/">ActiveMQ<br />
+5.4</a>為主，若不是此版本，程式碼不一定可以執行</p>
+
+<blockquote>
+  <p>JMS 2 於2013年Q1 release,使用者更會簡單，也內建訊息延遲發送功能(目前每一個使用方式都不一樣)，如果沒有相容性問題，建議採 JMS 2.0</p>
+</blockquote>
+
+<h1 id="section">基本觀念</h1>
+
+<h3 id="jms-">JMS 基本元素</h3>
+
+<ul>
+  <li>provider :</li>
+  <li>client : 產出(傳送)或消費(接收)訊息</li>
+  <li>consumer : 消費(接收)訊息</li>
+  <li>message : 在client間被傳遞的訊息物件</li>
+  <li>destination : 信息的目的或<strong>來源</strong>
+    <ol>
+      <li>queue : 訊息佇列,destination在PTP叫queue</li>
+      <li>topic :<br />
+一個散佈訊息給多個訂閱者的機制,destination在pub/sub叫topic</li>
+    </ol>
+  </li>
+  <li>session : thread context，用來producing/consuming messages</li>
+  <li>Administered Objects</li>
+</ul>
+
+<h3 id="messaging-domains">Messaging Domains</h3>
+
+<h5 id="point-to-point-messaging-domain-ptp">Point-to-Point Messaging Domain （PTP）</h5>
+
+<ul>
+  <li>基於queues, senders, and receivers的模型</li>
+  <li>每一個message<strong>同時只有一個</strong>Consumer</li>
+  <li>Consumer跟Producer沒有時間的依賴性，Producer發送訊息後，Consumer可以隨時上去接收</li>
+  <li>Consumer回應訊息處理狀態</li>
+</ul>
+
+<p><img src="http://blog.kent-chiu.com/images/2012-07-13/jms_101_001.gif" alt="jms_101_001.gif" /></p>
+
+<h5 id="publishsubscribe-messaging-domain-pubsub">Publish/Subscribe Messaging Domain (pub/sub)</h5>
+
+<ul>
+  <li>主要就三個要素
+    <ol>
+      <li>Publisher 發佈者:發佈訊息</li>
+      <li>Subscriber 訂閱者: 訂閱訊息</li>
+      <li>Topic 訊息的閱者，為發佈者或訂閱者之間的channel</li>
+    </ol>
+  </li>
+  <li>Broadcast型的結構</li>
+  <li>每一個Topic<strong>可以多個</strong>Subscribers</li>
+  <li>Subscriber跟Publisher<strong>有</strong>時間的依賴性，Subscriber可以必須先進行訂閱後，才會收到Producer發佈的Topic</li>
+  <li>Subscriber 依連線方式可以分為
+    <ol>
+      <li>Nondurable Subscribers : 必須一直保持在接收狀態^<a href="#fn__1">1)</a>^</li>
+      <li>Durable Subscribers :<br />
+建立後，如以inactive，當active後，會將累積的訊息一起收下來</li>
+    </ol>
+  </li>
+  <li>Subscriber 依建立方式可分為
+    <ol>
+      <li>Dynamic Subscribers : 程式動態建立</li>
+      <li>Administered Subscribers : 由provider (server)建立</li>
+    </ol>
+  </li>
+</ul>
+
+<p><img src="http://blog.kent-chiu.com/images/2012-07-13/jms_101_002.gif" alt="jms_101_002.gif" /></p>
+
+<h3 id="jms-api">JMS API</h3>
+
+<p>在JMS裡，上述的觀念，主要是透過JMS API來定義的，JMS<br />
+API只是定義規格(類似於JDBC)，至於實作會由其他實作的vendors提供，JMS<br />
+API主要的類似如下：</p>
+
+<ul>
+  <li>ConnectionFactory</li>
+  <li>Destination</li>
+  <li>Connection</li>
+  <li>Session</li>
+  <li>Message</li>
+  <li>MessageProducer</li>
+  <li>MessageConsumer</li>
+</ul>
+
+<h1 id="connectionsession">建立Connection/Session的流程</h1>
+
+<p>不論是PTP或是pub/sub模組，要跟MessageQuery<br />
+Server溝通的流程是差不多的，流程如下</p>
+
+<p><img src="http://blog.kent-chiu.com/images/2012-07-13/jms_101_003.gif" alt="jms_101_003.gif" /></p>
+
+<ol>
+  <li>建立ConnectionFactory</li>
+  <li>由ConnectionFactory建立Connection</li>
+  <li>由Connection建立Session</li>
+  <li>由Session建立訊息(包含訊息內容，目的(Destination)，模型，…)</li>
+</ol>
+
+<h3 id="message-server">與Message Server建立連線</h3>
+
+<h4 id="activemqactivemqconnectionfactoryconnection">由ActiveMQ提供的ActiveMQConnectionFactory建立connection</h4>
+
+<pre><code>    // ActiveMQConnectionFactory是ActiveMQ專屬寫法，會有平台跟lib依賴性，可用jndi來解決這個問題
+    factory = new ActiveMQConnectionFactory("tcp://localhost:61616");
+    connection = factory.createConnection();
+    connection.start(); 
+
+</code></pre>
+
+<p>剛建立好後的connection是在停止狀態的，必需先啟動才有辦法使用，一般啟動後，不用特別去stop，因為stop也會一併停止接受來自mq<br />
+server的訊息，但是如果不希望connection一直連著，可以把他close掉</p>
+
+<h4 id="jndiconnection">用JNDI的方式建立connection</h4>
+
+<p>這種方式比較通用，不會依賴特定平台的API</p>
+
+<pre><code>    Properties env = new Properties();
+    env.put(Context.SECURITY_PRINCIPAL, "system");
+    env.put(Context.SECURITY_CREDENTIALS, "manager");
+    env.put(Context.INITIAL_CONTEXT_FACTORY,"org.apache.activemq.jndi.ActiveMQInitialContextFactory");
+    env.put(Context.PROVIDER_URL, "tcp://localhost:61616");
+    InitialContext ctx = new InitialContext(env);
+    TopicConnectionFactory conFactory = (TopicConnectionFactory)ctx.lookup(topicFactory);
+
+</code></pre>
+
+<h3 id="session">建立Session</h3>
+
+<h4 id="session-1">用傳統的方式建立Session</h4>
+
+<pre><code>connection = factory.createConnection();
+connection.start();
+session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+
+</code></pre>
+
+<h4 id="annotationconnection">用Annotation的方式建立connection</h4>
+
+<p>這種方式，需要DI Container的支援</p>
+
+<pre><code>    @Resource(lookup = "jms/Queue")
+    private static Queue queue;
+     
+    @Resource(lookup = "jms/Topic")
+    private static Topic topic;
+
+</code></pre>
+
+<h1 id="hello-jms">Hello JMS</h1>
+
+<p>以下是幾個比較完整(可執行)的範例，可以在ActiveMQ的web admin(ex:<br />
+<a href="http://localhost:8161/admin/queues.jsp" title="http://localhost:8161/admin/queues.jsp">http://localhost:8161/admin/queues.jsp</a><br />
+)畫面上看到息的狀態</p>
+
+<h3 id="ptp">傳送訊息 (PTP)</h3>
+
+<pre><code>    @Test
+    public void sendMessagePTP() throws JMSException {
+        ActiveMQConnectionFactory factory = new ActiveMQConnectionFactory("tcp://localhost:61616"); // 記得先確定61616 port的service有enabled
+        Connection connection = factory.createConnection();
+        connection.start();
+        Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+        Destination destination = session.createQueue("queue1"); // 建立PTP message,Destination為"queue1"
+        MessageProducer sender = session.createProducer(destination);
+        TextMessage message = session.createTextMessage("Hello World!");
+        sender.send(message);
+    }
+
+</code></pre>
+
+<p>執行後可以在ActiveMQ的”Queue”看到”queue1”的message</p>
+
+<p><img src="http://blog.kent-chiu.com/images/2012-07-13/jms_101_005.png" alt="jms_101_005.png" /></p>
+
+<ul>
+  <li>Number Of Pending Messages: 在queue等待處理的訊息的數量</li>
+  <li>Number Of Consumers:<br />
+連線中，正在等待訊息的Consumers的數量(正在listening的client的數量)</li>
+  <li>Messages Enqueued : 進入佇列的訊息數量</li>
+  <li>Messages Dequeued : 離開佇列的訊息數量</li>
+</ul>
+
+<h3 id="ptp-1">取得訊息 (PTP)</h3>
+
+<pre><code>    @Test
+    public void retrieveMessagePTP() throws Exception {
+        ActiveMQConnectionFactory factory = new ActiveMQConnectionFactory("tcp://localhost:61616"); // 記得先確定61616 port的service有enabled
+        Connection connection = factory.createConnection();
+        connection.start();
+        Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+        Destination destination = session.createQueue("queue1"); // 建立PTP message,Destination為"queue1"
+        MessageConsumer consumer = session.createConsumer(destination);
+        System.out.println(consumer.receive());
+        // 取回的訊息如下(內容會依執行環境的不同而不同)
+        // ActiveMQTextMessage {commandId = 5, responseRequired = true, messageId = ID:kent-PC-4384-1294370677008-0:0:1:1:1, originalDestination = null, originalTransactionId = null, producerId = ID:kent-PC-4384-1294370677008-0:0:1:1, destination = queue://queue1, transactionId = null, expiration = 0, timestamp = 1294370677215, arrival = 0, brokerInTime = 1294370677215, brokerOutTime = 1294370677264, correlationId = null, replyTo = null, persistent = true, type = null, priority = 4, groupID = null, groupSequence = 0, targetConsumerId = null, compressed = false, userID = null, content = null, marshalledProperties = null, dataStructure = null, redeliveryCounter = 0, size = 0, properties = null, readOnlyProperties = true, readOnlyBody = true, droppable = false, text = Hello World!}
+    }
+
+</code></pre>
+
+<h3 id="topic-pubsub">建立Topic (Pub/Sub)</h3>
+
+<pre><code>    @Test
+    public void createTopic() throws Exception {
+        ActiveMQConnectionFactory factory = new ActiveMQConnectionFactory("tcp://localhost:61616");
+        TopicConnection connection = factory.createTopicConnection();
+        connection.start();
+        TopicSession session = connection.createTopicSession(false, Session.AUTO_ACKNOWLEDGE);
+        Topic topic = session.createTopic("MyTopic");
+        TopicPublisher publisher = session.createPublisher(topic);
+    }
+
+</code></pre>
+
+<p>執行後可以在ActiveMQ的”Topic”看到”MyTopic”</p>
+
+<p><img src="http://blog.kent-chiu.com/images/2012-07-13/jms_101_006.png" alt="jms_101_006.png" /></p>
+
+<h3 id="topic-pubsub-1">建立Topic並發佈訊息 (Pub/Sub)</h3>
+
+<pre><code>    @Test
+    public void createTopicAndPublishMessage() throws Exception {
+        ActiveMQConnectionFactory factory = new ActiveMQConnectionFactory("tcp://localhost:61616");
+        TopicConnection connection = factory.createTopicConnection();
+        connection.start();
+        TopicSession session = connection.createTopicSession(false, Session.AUTO_ACKNOWLEDGE);
+        Topic topic = session.createTopic("MyTopic2");
+        TopicPublisher publisher = session.createPublisher(topic);
+        TextMessage message = session.createTextMessage("MyTopic2 Message Body");
+        publisher.publish(message);
+    }
+
+</code></pre>
+
+<p>執行後可以在ActiveMQ的”Topic”看到”MyTopic2”，”Messages Enqueued”會加1</p>
+
+<p><img src="http://blog.kent-chiu.com/images/2012-07-13/jms_101_006.png" alt="jms_101_006.png" /></p>
+
+<h3 id="topic">訂閱Topic</h3>
+
+<pre><code>    @Test
+    public void subscribeMessage() throws Exception {
+        ActiveMQConnectionFactory factory = new ActiveMQConnectionFactory("tcp://localhost:61616");
+        TopicConnection connection = factory.createTopicConnection();
+        connection.start();
+        TopicSession session = connection.createTopicSession(false, Session.AUTO_ACKNOWLEDGE);
+        Topic topic = session.createTopic("MyTopic2");
+        TopicSubscriber subscriber = session.createSubscriber(topic);
+        System.out.println(subscriber.receive()); // 執行後，會停在這一行，直到有訊息被取回
+        // result
+        // ActiveMQTextMessage {commandId = 7, responseRequired = false, messageId = ID:kent-PC-2524-1294364408121-4:5:1:1:3, originalDestination = null, originalTransactionId = null, producerId = ID:kent-PC-2524-1294364408121-4:5:1:1, destination = topic://MyTopic2, transactionId = null, expiration = 0, timestamp = 1294375382476, arrival = 0, brokerInTime = 1294375382477, brokerOutTime = 1294375382478, correlationId = , replyTo = null, persistent = false, type = , priority = 0, groupID = null, groupSequence = 0, targetConsumerId = null, compressed = false, userID = null, content = null, marshalledProperties = null, dataStructure = null, redeliveryCounter = 0, size = 0, properties = null, readOnlyProperties = true, readOnlyBody = true, droppable = false, text = MyMessage}
+     
+        // 也可以設定timeout，如果timeout前都沒有取到訊息，會傳回null
+        // System.out.println(subscriber.receive(10 * 1000)); // 執行後，會停在這一行，直到有訊息被取回或10秒後timeout，並傳回null
+        // result
+        // null
+    }
+
+</code></pre>
+
+<p>以上面的例子來說，如果是同步接受的，一收完訊息，程式會馬上往下執行，並結速，這樣便無法一直接到MQ<br />
+Server的訊息，<br />
+如果想持續一直收到MQ的訊息，可以recive()後加一個無限迴圈，讓程式不會結束，即可以一直收到訊息</p>
+
+<pre><code>TopicSubscriber subscriber = session.createSubscriber(topic);
+subscriber.recive();
+connection.start();
+while (true) {
+    // prevent main thread stop 
+}
+
+</code></pre>
+
+<p>執行後可以在ActiveMQ的”Topic”看到”MyTopic2”，”Number Of Consumers”會加1</p>
+
+<p><img src="http://blog.kent-chiu.com/images/2012-07-13/jms_101_007.png" alt="jms_101_007.png" /></p>
+
+<p>程式會一直hold住(如果沒設timeout的話)，此時，可以透過”Send<br />
+To”的hyperlink，讓”MyTopic2”發佈一個訊息，這樣”subscriber.receive()“就會取得”MyTopic2”發佈的訊息了.</p>
+
+<p><img src="http://blog.kent-chiu.com/images/2012-07-13/jms_101_008.png" alt="jms_101_008.png" /></p>
+
+<h1 id="jms-api-1">JMS API使用說明</h1>
+
+<h2 id="destination">Destination</h2>
+
+<p>Destination的結構如下</p>
+
+<p><img src="http://blog.kent-chiu.com/images/2012-07-13/jms_101_004.png" alt="jms_101_004.png" /></p>
+
+<p>Destination本身是一個空的Interface，它主要是要標明，Destination的概念，底下有Queue(用在PTP)跟Topic(用在Pub/Sub)兩個介面繼承自Destination</p>
+
+<pre><code>package javax.jms;
+ 
+public interface Destination {
+}
+
+</code></pre>
+
+<h2 id="ptp-model">PTP model</h2>
+
+<h4 id="producing--consuming-message">Producing / Consuming Message</h4>
+
+<pre><code>    MessageConsumer consumer = session.createConsumer(dest);
+    MessageConsumer consumer = session.createConsumer(queue);
+    MessageConsumer consumer = session.createConsumer(topic);
+     
+    connection.start();
+    Message m = consumer.receive();
+    connection.start();
+    Message m = consumer.receive(1000); // time out after a second
+
+</code></pre>
+
+<h4 id="queue-browsers">Queue Browsers</h4>
+
+<pre><code>QueueBrowser browser = session.createBrowser(queue);
+
+</code></pre>
+
+<h2 id="pubsub-model">Pub/Sub model</h2>
+
+<h2 id="message">Message</h2>
+
+<h3 id="message-header">Message Header</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Header Field</th>
+      <th>Set By</th>
+      <th>description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>JMSDestination</td>
+      <td>send or publish method</td>
+      <td>訊息的目的地</td>
+    </tr>
+    <tr>
+      <td>JMSDeliveryMode</td>
+      <td>send or publish method</td>
+      <td>DeliveryMode.NON_PERSISTENT (不存到DB) or DeliveryMode.PERSISTENT (存到DB)</td>
+    </tr>
+    <tr>
+      <td>JMSExpiration</td>
+      <td>send or publish method</td>
+      <td>訊息過期的時間</td>
+    </tr>
+    <tr>
+      <td>JMSPriority</td>
+      <td>send or publish method</td>
+      <td>0-9的值(9最高)，0-4是一般,5-9是 “加急”</td>
+    </tr>
+    <tr>
+      <td>JMSMessageID</td>
+      <td>send or publish method</td>
+      <td>一個唯一的訊息id字串</td>
+    </tr>
+    <tr>
+      <td>JMSTimestamp</td>
+      <td>send or publish method</td>
+      <td>訊息傳送的時間</td>
+    </tr>
+    <tr>
+      <td>JMSCorrelationID</td>
+      <td>Client</td>
+      <td>相關的id (參閱<a href="#jmscorrelationid" title="java:jms_101 ↵">下面</a>的說明)</td>
+    </tr>
+    <tr>
+      <td>JMSReplyTo</td>
+      <td>Client</td>
+      <td>讓client知道，要”回信”給誰</td>
+    </tr>
+    <tr>
+      <td>JMSType</td>
+      <td>Client</td>
+      <td><a href="#message_type" title="java:jms_101 ↵">Message Type</a></td>
+    </tr>
+    <tr>
+      <td>JMSRedelivered</td>
+      <td>JMS provider</td>
+      <td>值為true或false，指明message之前是否沒有被consumer成功取回</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>只有 Set By<br />
+Client的header需要進行設定，其他的大部份是由send或publish的method設定.</p>
+
+<h5 id="jmscorrelationid">JMSCorrelationID</h5>
+
+<p>在大多數的情況下，JMSCorrelationID會是指回應那一個JMSMessageID，但JMSCorrelationID可以是任何的值，不見得要是JMSMessageID.<br />
+一般也會被拿來放Application-specific ID.</p>
+
+<h5 id="message-type">Message Type</h5>
+
+<table>
+  <thead>
+    <tr>
+      <th>Message Type</th>
+      <th>Body Contains</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>TextMessage</td>
+      <td>A java.lang.String object (for example, the contents of an XML file).</td>
+    </tr>
+    <tr>
+      <td>MapMessage</td>
+      <td>A set of name-value pairs, with names as String objects and values as primitive types in the Java programming language. The entries can be accessed sequentially by enumerator or randomly by name. The order of the entries is undefined.</td>
+    </tr>
+    <tr>
+      <td>BytesMessage</td>
+      <td>A stream of uninterpreted bytes. This message type is for literally encoding a body to match an existing message format.</td>
+    </tr>
+    <tr>
+      <td>StreamMessage</td>
+      <td>A stream of primitive values in the Java programming language, filled and read sequentially.</td>
+    </tr>
+    <tr>
+      <td>ObjectMessage</td>
+      <td>A Serializable object in the Java programming language.</td>
+    </tr>
+    <tr>
+      <td>Message</td>
+      <td>Nothing. Composed of header fields and properties only. This message type is useful when a message body is not required.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="message-property">Message Property</h3>
+
+<p>Property像是message的metadata，可以放入一些特定的屬性，之後可以透過<a href="#message_selectors" title="java:jms_101 ↵">Message<br />
+Selectors</a>的功能來做查詢。^<a href="#fn__2">2)</a>^</p>
+
+<pre><code>    TextMessage message = pubSession.createTextMessage();
+    message.setText(text);
+    message.setStringProperty("username",username);
+    publisher.publish(message);
+
+</code></pre>
+
+<h5 id="jms-defined-properties--provider-specific-properties">JMS-Defined Properties &amp; Provider-Specific Properties</h5>
+
+<p>另外，還會有JMS訂義的JMS-Defined Properties及Provider-Specific<br />
+Properties</p>
+
+<p>JMS-Defined Properties</p>
+
+<ol>
+  <li>JMSXUserID</li>
+  <li>JMSXAppID</li>
+  <li>JMSXProducerTXID</li>
+  <li>JMSXConsumerTXID</li>
+  <li>JMSXRcvTimestamp</li>
+  <li>JMSXDeliveryCount</li>
+  <li>JMSXState</li>
+  <li>JMSXGroupID</li>
+  <li>JMSXGroupSeq</li>
+</ol>
+
+<h3 id="message-selectors">Message Selectors</h3>
+
+<p>Message<br />
+Selectors的功能，是在Messages中過濾出需要的部份，Messages只對針對property進行過濾，不能針對message<br />
+body做過濾，但可以透過簡單的expression來操作properties.</p>
+
+<pre><code>String filter = "(currentRate - newRate) &gt;= 1.0";
+TopicSubscriber subscriber = session.createSubscriber(topic, filter, true);
+
+</code></pre>
+
+<p>currentRate範例中的<code>currentRate</code>跟<code>newRate</code>是message的User定義的<a href="#message_property" title="java:jms_101 ↵">properties</a></p>
+
+<p>Message Selectors的語法是SQL 92的子集，可以用許多SQL<br />
+92的運算符來作為expression的一部份，ex:</p>
+
+<pre><code>Shares &gt; 1000.0 AND Symbol LIKE 'A%C'
+
+</code></pre>
+
+<p><strong>Message Filtering approach VS Multiple Destination approach</strong></p>
+
+<p>在設計時，可以採用Message Filtering或Multiple<br />
+Destination的方式進行訊息的分類</p>
+
+<p>Message Filtering approach<br />
+:是所有的訊息進到同一個Destination後透過selector進行分類選取。</p>
+
+<p>Multiple Destination<br />
+approach:是不同類的訊息，一開始就分派到不同的Destination。</p>
+
+<h3 id="message-persistent">Message Persistent</h3>
+
+<p>Message可以選擇Persistent或Nonpersistent,Persistent的訊息是存在db或file，Nonpersistent只是放在memory<br />
+所以Nonpersistent的訊息，在server重啟後就不見了，如果是Persistent，server重啟後，還是會存在。</p>
+
+<p>Persistent或Nonpersistent是由JMSDeliveryMode決定。</p>
+
+<h1 id="acknowledge-mode">Acknowledge Mode</h1>
+
+<p>Acknowledge<br />
+Mode是用來確定訊息傳遞的可靠性的，需要做Acknowledge(回應，確認)的是在傳送或接收(發佈或訂閱)訊息時，client用來回應provider訊息有確實收到的機制</p>
+
+<p>Acknowledge Mode是在建立session時決定的。</p>
+
+<pre><code>    Session = Connect.createTopicSession(false, Session.CLIENT_ACKNOWLEDGE);
+    Session = Connect.createQueueSession(false, Session.DUPS_OK_ACKNOWLEDGE);
+
+</code></pre>
+
+<p>Acknowledge Mode有以下幾種</p>
+
+<ol>
+  <li><a href="#auto_acknowledge" title="java:jms_101 ↵">AUTO_ACKNOWLEDGE</a> 自動回應</li>
+  <li><a href="#client_acknowledge" title="java:jms_101 ↵">CLIENT_ACKNOWLEDGE</a><br />
+由客戶端自行回應</li>
+  <li><a href="#dups_ok_acknowledge" title="java:jms_101 ↵">DUPS_OK_ACKNOWLEDGE</a><br />
+可重覆的回應</li>
+</ol>
+
+<h4 id="autoacknowledge">AUTO_ACKNOWLEDGE</h4>
+
+<p>只要訊息成功被傳送或接收，就會產生回應，而且最多只會回應一次(once-and-only-once)</p>
+
+<h4 id="clientacknowledge">CLIENT_ACKNOWLEDGE</h4>
+
+<p>如果客戶端需在傳送時接受訊息後，先進行一些額外的處理，等這些額外的處理直正的成功後，才進行回應，如果失敗的話(或沒回應的話)，訊息就不會被產生出來(或消化掉)</p>
+
+<h4 id="dupsokacknowledge">DUPS_OK_ACKNOWLEDGE</h4>
+
+<p>如果不介意訊息被重覆的傳送或接收，可以用這個模式，<strong>DUPS_OK_ACKNOWLEDGE</strong><br />
+mode，其最大的特色就是效能會有顯著的提昇。 要使用這個模式，需要把<br />
+<code>JMSRedelivered</code>屬性設為<code>true</code></p>
+
+<h1 id="transactions">Transactions</h1>
+
+<p>Transactions是用來做批量messages的處理，用來保證所有的messages都有被成功的同時送出或取回。</p>
+
+<p>Transactions的啟用方式是將createSession的第一個參數設為true，第二個參數將會被忽略，當所以有訊息被處理後，可以透過<code>session.commit()</code>提交或<code>session.rollback()</code>取消。</p>
+
+<pre><code>Session session = connection.createSession(true, Session.SESSION_TRANSACTED);;
+
+</code></pre>
+
+<h1 id="transport-connectors-activemq">Transport Connectors (ActiveMQ)</h1>
+
+<p>ActiveMQ提供許多連線的Protocol叫Transport Connectors,Transport<br />
+Connectors所使用的ports是透過ActiveMQ_HOME/conf/activemq.xml進行設定。</p>
+
+<pre><code>&lt;!-- The transport connectors ActiveMQ will listen to --&gt;
+&lt;transportConnectors&gt;
+&lt;transportConnector name="openwire" uri="tcp://localhost:61616"
+discoveryUri="multicast://default"/&gt;
+&lt;transportConnector name="ssl" uri="ssl://localhost:61617"/&gt;
+&lt;transportConnector name="stomp" uri="stomp://localhost:61613"/&gt;
+&lt;transportConnector name="xmpp" uri="xmpp://localhost:61222"/&gt;
+&lt;/transportConnectors&gt;
+
+</code></pre>
+
+<h3 id="section-1">連線格式</h3>
+
+<p>JMS是透過URIs當做連線格式</p>
+
+<pre><code>&lt;scheme&gt;:&lt;scheme-specific-part&gt;
+&lt;scheme&gt;://&lt;authority&gt;&lt;path&gt;&lt;?query&gt;
+
+</code></pre>
+
+<p>ex:</p>
+
+<pre><code>tcp://localhost:61616
+tcp://hostname:port?key=value&amp;key=value
+
+</code></pre>
+
+<p>特別需要注意的是 JMS 亦提供composite URIs</p>
+
+<pre><code>static://(tcp://host1:61616, tcp://host2:61616)
+
+</code></pre>
+
+<h5 id="protocol">Protocol</h5>
+
+<ol>
+  <li>tcp</li>
+  <li>nio</li>
+  <li>ssl (需要認證)</li>
+  <li>http/https (80 port)</li>
+  <li>VM (with other JVM)</li>
+</ol>
+
+<p>如果有許多clients需要連線到MQ，<br />
+連線數可能會受到OS限制，這時可以採用NIO的protocol</p>
+
+<pre><code>nio://hostname:port?key=value
+
+</code></pre>
+
+<h1 id="activemq">遠端監控ActiveMQ</h1>
+
+<p>有時需要取得MQ上面的連線資訊或管理MQ<br />
+Server，此時可以透過JMX的功能進行監控。 要進行JMX前，可以需先開啟設定</p>
+
+<pre><code>    &lt;managementContext&gt;
+        &lt;managementContext createConnector="true"/&gt; 
+    &lt;/managementContext&gt;
+
+</code></pre>
+
+<p>把managementContext/managementContext的createConnector屬性設成true即可</p>
+
+<p>完成後，重新啟動mq，然後，可以先用jdk內建的jconsole(jdk/bin/jconsole.exe)做連線測試</p>
+
+<p>啟動jconsole後，remote process填入</p>
+
+<pre><code>service:jmx:rmi:///jndi/rmi://localhost:1099/jmxrmi
+
+</code></pre>
+
+<p>填入後，按連線即可(本例中，mq跟jconsole在同一台，所以用localhost，如果不同一台，需先確認1099的port沒被防火牆擋住)，<br />
+連線成功後，即可取得MQ的相關資訊，需要的內容會在MBeans的tab頁上</p>
+
+<p><img src="http://blog.kent-chiu.com/images/2012-07-13/jms_101_009.png" alt="jms_101_009.png" /></p>
+
+<p>確定可以用jconsole連線後，便可以使用程式取得連線資訊</p>
+
+<pre><code>RemoteJMXBrokerFacade createConnector = new RemoteJMXBrokerFacade();
+System.setProperty("webconsole.jmx.url", "service:jmx:rmi:///jndi/rmi://localhost:1099/jmxrmi");
+SystemPropertiesConfiguration configuration = new SystemPropertiesConfiguration();
+createConnector.setConfiguration(configuration);
+// 可透過brokerAdmin取得broker上的資訊
+BrokerViewMBean brokerAdmin = createConnector.getBrokerAdmin();
+String brokerName = brokerAdmin.getBrokerName();
+brokerAdmin.getTotalConsumerCount();  
+brokerAdmin.getTotalMessageCount();
+
+</code></pre>
+
+<h1 id="resources">Resources</h1>
+
+<ul>
+  <li><a href="http://download.oracle.com/javaee/6/tutorial/doc/bncdr.html" title="http://download.oracle.com/javaee/6/tutorial/doc/bncdr.html">Java Message Service Concepts - The Java EE 6<br />
+Tutorial</a>
+    <ul>
+      <li>文章圖片來源大多來自這裡</li>
+    </ul>
+  </li>
+  <li><a href="http://wenku.baidu.com/view/f90394aad1f34693daef3ee8.html" title="http://wenku.baidu.com/view/f90394aad1f34693daef3ee8.html">ActiveMQ in<br />
+action</a></li>
+  <li><a href="http://wenku.baidu.com/view/a7a05927a5e9856a5612609a.html" title="http://wenku.baidu.com/view/a7a05927a5e9856a5612609a.html">ActiveMQ in<br />
+action(中文)</a></li>
+</ul>
+
+<p>[java</p>
+
+<p>^<a href="#fnt__1">1)</a>^ Durable Subscribe可以不用一直保持連線狀態</p>
+
+<p>^<a href="#fnt__2">2)</a>^ message body本身是沒辦法做查詢的</p>
+
+
+  </article>
+
+</div>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Kent's Blog</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col  footer-col-1">
+        <ul class="contact-list">
+          <li>Kent's Blog</li>
+          <li><a href="mailto:kent.cwg@gmail.com">kent.cwg@gmail.com</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col  footer-col-2">
+        <ul class="social-media-list">
+          
+          <li>
+            <a href="https://github.com/kentchiu">
+              <span class="icon  icon--github">
+                <svg viewBox="0 0 16 16">
+                  <path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/>
+                </svg>
+              </span>
+
+              <span class="username">kentchiu</span>
+            </a>
+          </li>
+          
+
+          
+          <li>
+            <a href="https://twitter.com/kentchiu">
+              <span class="icon  icon--twitter">
+                <svg viewBox="0 0 16 16">
+                  <path fill="#828282" d="M15.969,3.058c-0.586,0.26-1.217,0.436-1.878,0.515c0.675-0.405,1.194-1.045,1.438-1.809
+                  c-0.632,0.375-1.332,0.647-2.076,0.793c-0.596-0.636-1.446-1.033-2.387-1.033c-1.806,0-3.27,1.464-3.27,3.27 c0,0.256,0.029,0.506,0.085,0.745C5.163,5.404,2.753,4.102,1.14,2.124C0.859,2.607,0.698,3.168,0.698,3.767 c0,1.134,0.577,2.135,1.455,2.722C1.616,6.472,1.112,6.325,0.671,6.08c0,0.014,0,0.027,0,0.041c0,1.584,1.127,2.906,2.623,3.206 C3.02,9.402,2.731,9.442,2.433,9.442c-0.211,0-0.416-0.021-0.615-0.059c0.416,1.299,1.624,2.245,3.055,2.271 c-1.119,0.877-2.529,1.4-4.061,1.4c-0.264,0-0.524-0.015-0.78-0.046c1.447,0.928,3.166,1.469,5.013,1.469 c6.015,0,9.304-4.983,9.304-9.304c0-0.142-0.003-0.283-0.009-0.423C14.976,4.29,15.531,3.714,15.969,3.058z"/>
+                </svg>
+              </span>
+
+              <span class="username">kentchiu</span>
+            </a>
+          </li>
+          
+        </ul>
+      </div>
+
+      <div class="footer-col  footer-col-3">
+        <p class="text">Kent的學習筆記</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>

@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width initial-scale=1">
+
+  <title>Google Guava 101</title>
+  <meta name="description" content="Table of contents">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://blog.kent-chiu.com//guava/java/2012/04/30/google_guava_101.html">
+  <link rel="alternate" type="application/atom+xml" title="Kent's Blog" href="http://blog.kent-chiu.com//feed.xml" />
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/">Kent's Blog</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          
+          <a class="page-link" href="/about/">About</a>
+          
+        
+          
+        
+          
+        
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Google Guava 101</h1>
+    <p class="post-meta">Apr 30, 2012 • Kent Chiu</p>
+  </header>
+
+  <article class="post-content">
+    <h1 class="no_toc" id="table-of-contents">Table of contents</h1>
+
+<ul id="markdown-toc">
+  <li><a href="#strings">Strings</a>    <ul>
+      <li><a href="#charmatcher">CharMatcher</a></li>
+      <li><a href="#joiner">Joiner</a></li>
+      <li><a href="#splitter">Splitter</a></li>
+    </ul>
+  </li>
+  <li><a href="#basic-utilities">Basic Utilities</a>    <ul>
+      <li><a href="#optional-null">Optional (Null處理)</a></li>
+      <li><a href="#preconditions">Preconditions</a></li>
+      <li><a href="#ordering">Ordering</a></li>
+      <li><a href="#object-methods">Object methods</a></li>
+      <li><a href="#throwables">Throwables</a></li>
+    </ul>
+  </li>
+  <li><a href="#caches">Caches</a>    <ul>
+      <li><a href="#cacheloadercache">CacheLoader是在開始時就建立好cache的資料</a></li>
+      <li><a href="#callablecache">Callable是取不到資料時就建立cache</a></li>
+    </ul>
+  </li>
+  <li><a href="#concurrency">Concurrency</a></li>
+  <li><a href="#primitives">Primitives</a></li>
+  <li><a href="#ranges">Ranges</a></li>
+  <li><a href="#eventbus">EventBus</a>    <ul>
+      <li><a href="#reference">Reference</a></li>
+    </ul>
+  </li>
+  <li><a href="#math">Math</a></li>
+  <li><a href="#resources">Resources</a></li>
+</ul>
+
+<hr />
+
+<p>Guava是google的一個開源項目，目的在提供常用工具類的API，字串處理，caching，primitives型別處理，I/O，併行(concurrnecy)處理，<br />
+還有超級好用的Collections處理。</p>
+
+<p>本篇主要著重於<a href="http://wiki.kent-chiu.com/doku.php?id=java:google_guava_-_collection_101" title="java:google_guava_-_collection_101">Collection</a>以外相關的使用介紹，Collection的使用介紹在<a href="http://wiki.kent-chiu.com/doku.php?id=java:google_guava_-_collection_101" title="java:google_guava_-_collection_101">另一篇</a></p>
+
+<ol>
+  <li><a href="#strings" title="java:google_guava_101 ↵">Strings</a>
+    <ol>
+      <li><a href="#joiner" title="java:google_guava_101 ↵">Joiner</a></li>
+      <li><a href="#splitter" title="java:google_guava_101 ↵">Splitter</a></li>
+      <li><a href="#charmatcher" title="java:google_guava_101 ↵">CharMatcher</a></li>
+    </ol>
+  </li>
+  <li><a href="#basic_utilities" title="java:google_guava_101 ↵">Basic Utilities</a></li>
+  <li><a href="#caches" title="java:google_guava_101 ↵">Caches</a></li>
+  <li><a href="#concurrency" title="java:google_guava_101 ↵">Concurrency</a></li>
+  <li><a href="#primitives" title="java:google_guava_101 ↵">Primitives</a></li>
+  <li><a href="#ranges" title="java:google_guava_101 ↵">Ranges</a></li>
+  <li><a href="#hashing" title="java:google_guava_101 ↵">Hashing</a></li>
+  <li><a href="#eventbus" title="java:google_guava_101 ↵">EventBus</a></li>
+  <li><a href="#math" title="java:google_guava_101 ↵">Math</a></li>
+</ol>
+
+<h1 id="strings">Strings</h1>
+
+<ul>
+  <li><a href="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/base/CaseFormat.html" title="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/base/CaseFormat.html">CaseFormat</a></li>
+  <li><a href="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/base/CharMatcher.html" title="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/base/CharMatcher.html">CharMatcher</a></li>
+  <li><a href="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/base/Charsets.html" title="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/base/Charsets.html">Charsets</a></li>
+  <li><a href="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/base/Joiner.html" title="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/base/Joiner.html">Joiner</a></li>
+  <li><a href="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/base/Splitter.html" title="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/base/Splitter.html">Splitter</a></li>
+  <li><a href="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/base/Strings.html" title="http://guava-libraries.googlecode.com/svn/trunk/javadoc/com/google/common/base/Strings.html">Strings</a></li>
+</ul>
+
+<h5 id="charmatcher">CharMatcher</h5>
+
+<pre><code>CharMatcher.is('.').replaceFrom(aStr, '_');                                       // 將字串中的'.'換成'_'
+CharMatcher.DIGIT.matchesAllOf("1231212");                                        // true
+CharMatcher.DIGIT.matchesAnyOf("1231 aa212");                                     // true
+CharMatcher.DIGIT.retainFrom("Hello 1234 567");                                   // "1234567";
+CharMatcher.DIGIT.or(CharMatcher.WHITESPACE).retainFrom("Hello 1234 567");        // " 1234 567"
+CharMatcher.inRange('3', '6').removeFrom("Hello 1234 567");                       // "Hello 12 7";
+CharMatcher.is('$').trimFrom("$$$ This is a $ sign $$$");                         // " This is a $ sign "
+CharMatcher.is('$').or(CharMatcher.is(' ')).trimFrom("$$$ This is a $ sign $$$"); // "This is a $ sign"
+
+</code></pre>
+
+<h5 id="joiner">Joiner</h5>
+
+<p>字串相加</p>
+
+<pre><code>Joiner joiner = Joiner.on("; ").skipNulls();
+return joiner.join("Harry", null, "Ron", "Hermione"); // "Harry; Ron; Hermione"
+ 
+numbersWords.put(1, "one");
+numbersWords.put(2, "two");
+numbersWords.put(3, null);
+numbersWords.put(4, "four");
+Joiner.on(" | ").withKeyValueSeparator(" -&gt; ")
+    .useForNull("Unknown").join(numbersWords)); // 1 -&gt; one | 2 -&gt; two | 3 -&gt; Unknown | 4 -&gt; four"
+
+</code></pre>
+
+<h5 id="splitter">Splitter</h5>
+
+<p>字串分割</p>
+
+<pre><code>Splitter.on(',')
+       .trimResults()
+       .omitEmptyStrings()
+       .split("foo,bar,,   qux");
+
+</code></pre>
+
+<h1 id="basic-utilities">Basic Utilities</h1>
+
+<h3 id="optional-null">Optional (Null處理)</h3>
+
+<p>java對null的處理不是很友善，所以常常需要去對null值特別處理，而Optional就是用來處理null問題的利器。</p>
+
+<pre><code>// 是否是常看到這樣的code
+if (foo == null) {
+  // do something
+} else {
+  // do something
+}
+ 
+// servlet總會遇到這個
+String username;
+if (request.getParameter("username") == null) {
+    username = "Stranger";
+} else {
+   username = request.getParameter("username");
+}
+ 
+// 或者
+String username = request.getParameter("username") == null ? "Stranger" : request.getParameter("username");
+
+</code></pre>
+
+<p>如果改用Optional的話</p>
+
+<pre><code>Optional.of(request.getParameter("username")).or("default");
+
+</code></pre>
+
+<p>這個class我個人滿少用的，它的一些延伸用法不是很直覺</p>
+
+<h3 id="preconditions">Preconditions</h3>
+
+<p>前置條件檢查，通常會在在method的最前面，用來保證參數或變數在一定的狀態，如果不在預期的狀況，就拋出異常。</p>
+
+<ol>
+  <li>checkArgument(boolean) : 用來檢查method的參數，不為true則拋出<br />
+IllegalArgumentException</li>
+  <li>checkNotNull(T) : 如果是 null 拋出 NullPointerException</li>
+  <li>checkState(boolean) :<br />
+跟checkArgument(boolean)很像，但用來檢查非參數的變數，如果不為true，拋出<br />
+IllegalStateException</li>
+  <li>checkElementIndex(int index, int size) :<br />
+用來檢查List,Array或字串index的合法性，不合法就拋出<br />
+IndexOutOfBoundsException</li>
+  <li>checkPositionIndex(int index, int size) :<br />
+用來檢查List,Array或字串index的合法性，不合法就拋出<br />
+IndexOutOfBoundsException</li>
+  <li>checkPositionIndexes(int start, int end, int size) :<br />
+用來檢查List,Array或字串index的合法性，不合法就拋出<br />
+IndexOutOfBoundsException</li>
+</ol>
+
+<p>checkElementIndex,checkPositionIndex,checkPositionIndexes用法比較特別，它不需要傳入List,Array或字串本身，只需傳入List,Array或字串的index，size，或start，end</p>
+
+<h3 id="ordering">Ordering</h3>
+
+<p>排序用，如果要被排序的元素本身已有<a href="http://wiki.kent-chiu.com/doku.php?id=java:google_guava_101" title="java:google_guava_101">Comparator</a>的話，可以直做透過Ordering做排序,<br />
+如果沒有，也可以extends Ordering達到排序的效果。</p>
+
+<h3 id="object-methods">Object methods</h3>
+
+<p>傳統的Comparable實作方式很煩人，而且容易出錯</p>
+
+<pre><code>class Person implements Comparable&lt;Person&gt; {
+  private String lastName;
+  private String firstName;
+  private int zipCode;
+ 
+  public int compareTo(Person other) {
+    int cmp = lastName.compareTo(other.lastName);
+    if (cmp != 0) {
+      return cmp;
+    }
+    cmp = firstName.compareTo(other.firstName);
+    if (cmp != 0) {
+      return cmp;
+    }
+    return Integer.compare(zipCode, other.zipCode);
+  }
+}
+
+</code></pre>
+
+<p>Guava提供ComparisonChain簡化Comparable.</p>
+
+<pre><code>   public int compareTo(Foo that) {
+     return ComparisonChain.start()
+         .compare(this.aString, that.aString)
+         .compare(this.anInt, that.anInt)
+         .compare(this.anEnum, that.anEnum, Ordering.natural().nullsLast())
+         .result();
+   }
+
+</code></pre>
+
+<h3 id="throwables">Throwables</h3>
+
+<pre><code> try {
+     someMethodThatCouldThrowAnything();
+   } catch (IKnowWhatToDoWithThisException e) {
+     handle(e);
+   } catch (Throwable t) {
+     Throwables.propagateIfInstanceOf(t, IOException.class);
+     Throwables.propagateIfInstanceOf(t, SQLException.class);
+     throw Throwables.propagate(t);
+   }
+
+</code></pre>
+
+<h1 id="caches">Caches</h1>
+
+<p>Guava Cache很像Map，但在使用上跟行為上還是跟Map有許多不同之類。Guava<br />
+Cache只會暫存在Memory(RAM)，不會儲存 在local file system.</p>
+
+<p>建立cache有兩種方式，一種是一開始就load所需要的資料，另一種是如果資料不存在就建立，否則就直接取cache內的資料</p>
+
+<h5 id="cacheloadercache">CacheLoader是在開始時就建立好cache的資料</h5>
+
+<pre><code>LoadingCache&lt;Key, Graph&gt; graphs = CacheBuilder.newBuilder()
+        .maximumSize(10000)
+        .expireAfterWrite(10, TimeUnit.MINUTES)
+        .removalListener(MY_LISTENER)
+        .build(
+            new CacheLoader&lt;Key, Graph&gt;() {
+                public Graph load(Key key) throws AnyException {
+                return createExpensiveGraph(key);
+            }
+        });
+
+</code></pre>
+
+<h5 id="callablecache">Callable是取不到資料時就建立cache</h5>
+
+<p>當執行cache.get，如果有cache就會從cache取，如果沒有cache就會建立一份到cache中</p>
+
+<pre><code>Cache&lt;Key, Value&gt; cache = CacheBuilder.newBuilder()
+    .maximumSize(1000)
+    .build(); // look Ma, no CacheLoader
+...
+try {
+  // If the key wasn't in the "easy to compute" group, we need to
+  // do things the hard way.
+  cache.get(key, new Callable&lt;Value&gt;() {
+    @Override
+    public Value call() throws AnyException {
+      return doThingsTheHardWay(key);
+    }
+  };
+} catch (ExecutionException e) {
+  throw new OtherException(e.getCause());
+}
+
+</code></pre>
+
+<h1 id="concurrency">Concurrency</h1>
+
+<p>ListenableFuture Service Using Implementations Monitor</p>
+
+<h1 id="primitives">Primitives</h1>
+
+<p>Primitive arrays General utilities Byte conversion Unsigned support</p>
+
+<h1 id="ranges">Ranges</h1>
+
+<p>用來處理一個範圍內class，主要是透過<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html" title="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html">Comparable</a>來做範圍的運算，<br />
+所以不一定是要數值型的class才能做Range，像有實作Comparable的日期也是可以做範圍處理。</p>
+
+<p>可透過Ranges類別來建立Range</p>
+
+<pre><code>Ranges.closed(1,10);
+
+</code></pre>
+
+<h1 id="eventbus">EventBus</h1>
+
+<p>EventBus是guava的事件處理，但不像傳統的Event-Listener那樣需要implement<br />
+xxxListener那樣(結果就是產生了一堆inner class或anonymous inner class)<br />
+而是透過@Annotation的方式處理。</p>
+
+<pre><code>// Class is typically registered by the container.
+class EventBusChangeRecorder {
+  @Subscribe void recordCustomerChange(ChangeEvent e) {
+    recordChange(e.getChange());
+  }
+}
+// somewhere during initialization
+eventBus.register(new EventBusChangeRecorder());
+// much later
+public void changeCustomer() {
+  ChangeEvent event = getChangeEvent();
+  eventBus.post(event);
+}
+
+</code></pre>
+
+<h4 id="reference">Reference</h4>
+
+<ol>
+  <li><a href="http://codingjunkie.net/guava-eventbus/" title="http://codingjunkie.net/guava-eventbus/">http://codingjunkie.net/guava-eventbus/</a></li>
+  <li><a href="http://tomaszdziurko.pl/2012/01/google-guava-eventbus-easy-elegant-publisher-subscriber-cases/" title="http://tomaszdziurko.pl/2012/01/google-guava-eventbus-easy-elegant-publisher-subscriber-cases/">http://tomaszdziurko.pl/2012/01/google-guava-eventbus-easy-elegant-publisher-subscriber-cases/</a></li>
+</ol>
+
+<h1 id="math">Math</h1>
+
+<p>TBD</p>
+
+<h1 id="resources">Resources</h1>
+
+<ul>
+  <li><a href="http://code.google.com/p/guava-libraries/" title="http://code.google.com/p/guava-libraries/">Guava<br />
+Home</a></li>
+  <li><a href="http://code.google.com/p/guava-libraries/wiki/ExplainedContents" title="http://code.google.com/p/guava-libraries/wiki/ExplainedContents">各功能的使用介紹</a><br />
+(推薦)</li>
+  <li><a href="http://jnb.ociweb.com/jnb/jnbApr2010.html" title="http://jnb.ociweb.com/jnb/jnbApr2010.html">Examples</a></li>
+  <li><a href="http://jnb.ociweb.com/jnb/jnbFeb2009.html" title="http://jnb.ociweb.com/jnb/jnbFeb2009.html">Google<br />
+Collections</a></li>
+  <li><a href="http://www.copperykeenclaws.com/googles-guava-java-the-easy-parts/" title="http://www.copperykeenclaws.com/googles-guava-java-the-easy-parts/">Google’s guava java: the easy<br />
+parts</a></li>
+  <li><a href="http://stackoverflow.com/questions/tagged/guava" title="http://stackoverflow.com/questions/tagged/guava">guava on<br />
+stackoverflow</a></li>
+  <li>Using the Google Collections Library for Java<br />
+<a href="http://www.youtube.com/watch?v=ZeO_J2OcHYM" title="http://www.youtube.com/watch?v=ZeO_J2OcHYM">part1</a><br />
+<a href="http://www.youtube.com/watch?v=9ni_KEkHfto" title="http://www.youtube.com/watch?v=9ni_KEkHfto">part2</a></li>
+  <li>带你领略 Google Collections <a href="http://jubin2002.javaeye.com/blog/471661" title="http://jubin2002.javaeye.com/blog/471661">part<br />
+1</a><br />
+<a href="http://jubin2002.javaeye.com/blog/471698" title="http://jubin2002.javaeye.com/blog/471698">part<br />
+2</a></li>
+  <li>MapMaker Usage<br />
+<a href="http://norther.javaeye.com/blog/670414" title="http://norther.javaeye.com/blog/670414">http://norther.javaeye.com/blog/670414</a></li>
+  <li><a href="http://www.ibm.com/developerworks/cn/java/j-lo-googlecollection/index.html?ca=drs-" title="http://www.ibm.com/developerworks/cn/java/j-lo-googlecollection/index.html?ca=drs-">Google Guava Collections<br />
+使用介绍</a>
+    <ul>
+      <li>IBM 中國上介紹guava的文章</li>
+    </ul>
+  </li>
+  <li><a href="http://www.tfnico.com/presentations/google-guava" title="http://www.tfnico.com/presentations/google-guava">一些guava使用上的介紹</a></li>
+</ul>
+
+
+  </article>
+
+</div>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Kent's Blog</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col  footer-col-1">
+        <ul class="contact-list">
+          <li>Kent's Blog</li>
+          <li><a href="mailto:kent.cwg@gmail.com">kent.cwg@gmail.com</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col  footer-col-2">
+        <ul class="social-media-list">
+          
+          <li>
+            <a href="https://github.com/kentchiu">
+              <span class="icon  icon--github">
+                <svg viewBox="0 0 16 16">
+                  <path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/>
+                </svg>
+              </span>
+
+              <span class="username">kentchiu</span>
+            </a>
+          </li>
+          
+
+          
+          <li>
+            <a href="https://twitter.com/kentchiu">
+              <span class="icon  icon--twitter">
+                <svg viewBox="0 0 16 16">
+                  <path fill="#828282" d="M15.969,3.058c-0.586,0.26-1.217,0.436-1.878,0.515c0.675-0.405,1.194-1.045,1.438-1.809
+                  c-0.632,0.375-1.332,0.647-2.076,0.793c-0.596-0.636-1.446-1.033-2.387-1.033c-1.806,0-3.27,1.464-3.27,3.27 c0,0.256,0.029,0.506,0.085,0.745C5.163,5.404,2.753,4.102,1.14,2.124C0.859,2.607,0.698,3.168,0.698,3.767 c0,1.134,0.577,2.135,1.455,2.722C1.616,6.472,1.112,6.325,0.671,6.08c0,0.014,0,0.027,0,0.041c0,1.584,1.127,2.906,2.623,3.206 C3.02,9.402,2.731,9.442,2.433,9.442c-0.211,0-0.416-0.021-0.615-0.059c0.416,1.299,1.624,2.245,3.055,2.271 c-1.119,0.877-2.529,1.4-4.061,1.4c-0.264,0-0.524-0.015-0.78-0.046c1.447,0.928,3.166,1.469,5.013,1.469 c6.015,0,9.304-4.983,9.304-9.304c0-0.142-0.003-0.283-0.009-0.423C14.976,4.29,15.531,3.714,15.969,3.058z"/>
+                </svg>
+              </span>
+
+              <span class="username">kentchiu</span>
+            </a>
+          </li>
+          
+        </ul>
+      </div>
+
+      <div class="footer-col  footer-col-3">
+        <p class="text">Kent的學習筆記</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>

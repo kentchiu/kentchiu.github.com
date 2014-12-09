@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width initial-scale=1">
+
+  <title>JPA 101</title>
+  <meta name="description" content="Table of contents">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://blog.kent-chiu.com//java_ee/jpa/2012/07/12/jpa_101.html">
+  <link rel="alternate" type="application/atom+xml" title="Kent's Blog" href="http://blog.kent-chiu.com//feed.xml" />
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/">Kent's Blog</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          
+          <a class="page-link" href="/about/">About</a>
+          
+        
+          
+        
+          
+        
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">JPA 101</h1>
+    <p class="post-meta">Jul 12, 2012 • Kent Chiu</p>
+  </header>
+
+  <article class="post-content">
+    <h1 class="no_toc" id="table-of-contents">Table of contents</h1>
+
+<ul id="markdown-toc">
+  <li><a href="#where-to-put-the-persistencexml">Where to put the persistence.xml</a></li>
+  <li><a href="#presitencexml">presitence.xml</a>    <ul>
+      <li><a href="#hibernate">Hibernate</a></li>
+      <li><a href="#eclipselink---mysql">EclipseLink - MySQL</a></li>
+      <li><a href="#eclipselink---hsql">EclipseLink - HSQL</a></li>
+    </ul>
+  </li>
+  <li><a href="#properties">Properties</a></li>
+  <li><a href="#crud">CRUD</a>    <ul>
+      <li><a href="#create">Create</a></li>
+      <li><a href="#read">Read</a></li>
+      <li><a href="#update">Update</a></li>
+      <li><a href="#delete">Delete</a></li>
+      <li><a href="#bulk-update--delete">Bulk Update / Delete</a>        <ul>
+          <li><a href="#bulk-update">Bulk Update</a></li>
+          <li><a href="#bulk-delete">Bulk Delete</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><a href="#tips">Tips</a></li>
+  <li><a href="#fk-constraint-violation">FK constraint violation</a></li>
+  <li><a href="#jpa-query">JPA Query</a>    <ul>
+      <li><a href="#is-not-empty">IS [NOT] EMPTY</a></li>
+      <li><a href="#join-fetch">Join Fetch</a></li>
+      <li><a href="#local-manager-transaction">Local Manager Transaction</a></li>
+      <li><a href="#joins-and-fetches">Joins and Fetches</a></li>
+    </ul>
+  </li>
+  <li><a href="#expressions">Expressions</a>    <ul>
+      <li><a href="#member-of">member of</a></li>
+      <li><a href="#coalesce">coalesce</a></li>
+      <li><a href="#any-some-all-exists-in">any, some, all, exists, in</a></li>
+      <li><a href="#index">index</a></li>
+      <li><a href="#keyvalue">KEY(),VALUE()</a></li>
+    </ul>
+  </li>
+  <li><a href="#implementation-restrictions">Implementation Restrictions</a></li>
+  <li><a href="#architecture">Architecture</a>    <ul>
+      <li><a href="#entitymanagerfactory">EntityManagerFactory</a></li>
+      <li><a href="#entitymanager">EntityManager</a></li>
+    </ul>
+  </li>
+  <li><a href="#annotations">Annotations</a></li>
+  <li><a href="#resources">Resources</a></li>
+</ul>
+
+<hr />
+
+<p>Java Persistence API(JPA)</p>
+
+<h1 id="where-to-put-the-persistencexml">Where to put the persistence.xml</h1>
+
+<ul>
+  <li>for web application → WEB-INF/classes/META-INF/persistence.xml</li>
+  <li>for jar →</li>
+  <li>for maven main folder → src/main/resource/META-INF/persistence.xml</li>
+  <li>for maven test folder → src/test/resource/META-INF/persistence.xml</li>
+</ul>
+
+<p>If uses maven structure in Eclipse IDE, main resource and test resource<br />
+would complied to same directory(the build directory), we should avoid<br />
+using the same <strong>persistence-unit</strong> name in test and main resources</p>
+
+<h1 id="presitencexml">presitence.xml</h1>
+
+<h3 id="hibernate">Hibernate</h3>
+
+<pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;persistence version="1.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"&gt;
+    &lt;persistence-unit name="entity" transaction-type="RESOURCE_LOCAL"&gt;
+        &lt;provider&gt;org.hibernate.ejb.HibernatePersistence&lt;/provider&gt;
+        &lt;class&gt;com.kent.MyClass&lt;/class&gt;
+        &lt;properties&gt;
+            &lt;property name="hibernate.hbm2ddl.auto" value="update" /&gt;
+            &lt;property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" /&gt;
+            &lt;property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver" /&gt;
+            &lt;property name="hibernate.connection.url" value="jdbc:mysql://localhost/database_name" /&gt;
+            &lt;property name="hibernate.connection.username" value="root" /&gt;
+            &lt;property name="hibernate.connection.password" value="" /&gt;
+                        &lt;property name="hibernate.show_sql" value="true" /&gt;
+        &lt;/properties&gt;
+    &lt;/persistence-unit&gt;
+&lt;/persistence&gt;
+
+</code></pre>
+
+<p>set property bernate.show_sql to true to output HSQL → SQL in console.</p>
+
+<pre><code>    &lt;property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" /&gt;
+    &lt;property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver" /&gt;
+    &lt;property name="hibernate.connection.url" value="jdbc:mysql://localhost/database_name" /&gt;
+
+</code></pre>
+
+<pre><code>    &lt;property name="hibernate.connection.url" value="jdbc:hsqldb:mem:database_name"/&gt;
+    &lt;property name="hibernate.connection.driver_class" value="org.hsqldb.jdbcDriver"/&gt;
+    &lt;property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect"/&gt;
+
+</code></pre>
+
+<pre><code>    &lt;property name="hibernate.connection.url" value="jdbc:derby:memory:database_name"/&gt;
+    &lt;property name="hibernate.connection.driver_class" value="org.apache.derby.jdbc.EmbeddedDriver"/&gt;
+    &lt;property name="hibernate.dialect" value="org.hibernate.dialect.DerbyDialect"/&gt;
+
+</code></pre>
+
+<pre><code>    &lt;property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5432/databaseName"/&gt;
+    &lt;property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/&gt;
+    &lt;property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/&gt;
+
+</code></pre>
+
+<p>MySQL encoding issue. If you encountered encoding issue when result set<br />
+contains CJK code, you can add this property to url connection string.<br />
+<code>?useUnicode=true&amp;amp;characterEncoding=UTF-8</code> ex:</p>
+
+<pre><code>  jdbc:mysql://localhost/database_name?useUnicode=true&amp;amp;characterEncoding=UTF-8
+
+</code></pre>
+
+<h3 id="eclipselink---mysql">EclipseLink - MySQL</h3>
+
+<pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;persistence version="1.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"&gt;
+    &lt;persistence-unit name="entity" transaction-type="RESOURCE_LOCAL"&gt;
+    &lt;provider&gt;org.eclipse.persistence.jpa.PersistenceProvider&lt;/provider&gt;
+        &lt;class&gt;com.kent.MyClass&lt;/class&gt;
+        &lt;properties&gt;
+            &lt;property name="eclipselink.target-database" value="MYSQL"/&gt;
+            &lt;property name="eclipselink.jdbc.url" value="jdbc:mysql://localhost/database_name"/&gt;
+            &lt;property name="eclipselink.jdbc.driver" value="com.mysql.jdbc.Driver"/&gt;
+            &lt;property name="eclipselink.jdbc.user" value="root"/&gt;
+            &lt;property name="eclipselink.jdbc.password" value=""/&gt;
+            &lt;property name="eclipselink.ddl-generation" value="update-tables"/&gt;
+            &lt;property name="eclipselink.logging.level" value="SEVERE"/&gt;
+        &lt;/properties&gt;
+    &lt;/persistence-unit&gt;
+&lt;/persistence&gt;
+
+</code></pre>
+
+<h3 id="eclipselink---hsql">EclipseLink - HSQL</h3>
+
+<pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;persistence version="1.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"&gt;
+    &lt;persistence-unit name="entity" transaction-type="RESOURCE_LOCAL"&gt;
+    &lt;provider&gt;org.eclipse.persistence.jpa.PersistenceProvider&lt;/provider&gt;
+        &lt;class&gt;com.kent.MyClass&lt;/class&gt;
+        &lt;properties&gt;
+            &lt;property name="eclipselink.target-database" value="HSQL"/&gt;
+            &lt;property name="eclipselink.jdbc.url" value="jdbc:hsqldb:mem:database_name"/&gt;
+            &lt;property name="eclipselink.jdbc.driver" value="org.hsqldb.jdbcDriver"/&gt;
+            &lt;property name="eclipselink.jdbc.user" value="sa"/&gt;
+            &lt;property name="eclipselink.jdbc.password" value=""/&gt;
+            &lt;property name="eclipselink.ddl-generation" value="create-tables"/&gt;
+            &lt;property name="eclipselink.logging.level" value="SEVERE"/&gt;
+        &lt;/properties&gt;
+    &lt;/persistence-unit&gt;
+&lt;/persistence&gt;
+
+</code></pre>
+
+<h1 id="properties">Properties</h1>
+
+<p>EclipseLink does NOT support the property <code>show sql</code> like hibernate, but<br />
+we can turn the logging system to <code>FINE</code> level<br />
+(<code>&lt;property name=“eclipselink.logging.level” value=“FINE”/&gt;</code>), the<br />
+interpret SQL would be dumped.</p>
+
+<h1 id="crud">CRUD</h1>
+
+<p><strong>C</strong>reate, <strong>R</strong>ead, <strong>U</strong>pdate, <strong>D</strong>elete operations in JPA</p>
+
+<p>Read類型的methods像find(), getReference(), refresh(), detach() and read<br />
+queries，可以在transaction外執行(沒有tx.begin()/tx.commit()的包覆).</p>
+
+<h4 id="create">Create</h4>
+
+<pre><code>entityManager.getTransaction().begin();
+Employee newEmployee = new Employee(5);
+entityManager.persist(newEmployee);
+entityManager.getTransaction().commit();
+
+</code></pre>
+
+<h4 id="read">Read</h4>
+
+<pre><code>entityManager.find(Employee.class, 1);
+// lazy load (as same as hibernate load() method)
+entityManager.getReference(Employee.class, 1);
+entityManager.createQuery("select employee from Employee employee");
+
+</code></pre>
+
+<ul>
+  <li>for single result uses <code>query.getSingleResult()</code>;</li>
+  <li>for multiple results (result set) uses <code>query.getResultList()</code>;</li>
+</ul>
+
+<h4 id="update">Update</h4>
+
+<pre><code>entityManager.getTransaction().begin();
+Employee existingEmployee = entityManager.find(Employee.class, 5);
+existingEmployee.setLastName("NewLastName");
+entityManager.getTransaction().commit();
+
+</code></pre>
+
+<p>or</p>
+
+<pre><code>Employee existingEmployee = entityManager.find(Employee.class, 5);
+existingEmployee.setLastName("NewLastName");
+ 
+entityManager.getTransaction().begin();
+entityManager.getTransaction().commit();
+
+</code></pre>
+
+<h4 id="delete">Delete</h4>
+
+<pre><code>entityManager.getTransaction().begin();
+Employee existingEmployee = entityManager.find(Employee.class, 5);
+entityManager.remove(existingEmployee);
+entityManager.getTransaction().commit();
+
+</code></pre>
+
+<h3 id="bulk-update--delete">Bulk Update / Delete</h3>
+
+<h4 id="bulk-update">Bulk Update</h4>
+
+<pre><code>EntityManager entityManager = entityManagerFactory.createEntityManager();
+entityManager.getTransaction().begin();
+String jpqlUpdate = "update Customer set name = :newName where name = :oldName"
+int updatedEntities = entityManager.createQuery( jpqlUpdate )
+                            .setParameter( "newName", newName )
+                            .setParameter( "oldName", oldName )
+                            .executeUpdate();
+entityManager.getTransaction().commit();
+entityManager.close();
+
+</code></pre>
+
+<h4 id="bulk-delete">Bulk Delete</h4>
+
+<pre><code>EntityManager entityManager = entityManagerFactory.createEntityManager();
+entityManager.getTransaction().begin();
+String hqlDelete = "delete Customer where name = :oldName";
+int deletedEntities = entityManager.createQuery( hqlDelete )
+                            .setParameter( "oldName", oldName )
+                            .executeUpdate();
+entityManager.getTransaction().commit();
+entityManager.close();
+
+</code></pre>
+
+<h1 id="tips">Tips</h1>
+
+<ul>
+  <li>Using wrapper type rather than primitive type to avoid <a href="http://stackoverflow.com/questions/2565352/whats-difference-between-primitive-and-wrapper-class-in-jpa-hibernate-column-m" title="http://stackoverflow.com/questions/2565352/whats-difference-between-primitive-and-wrapper-class-in-jpa-hibernate-column-m">null<br />
+assinged<br />
+issue</a>.</li>
+</ul>
+
+<h1 id="fk-constraint-violation">FK constraint violation</h1>
+
+<p>Sometime the forgine key constraint that export by DDL tools would be a<br />
+problem when doing unit testing. But there is no way to disable<br />
+hibernate FK constraints exports. In the situation we can rewrite the<br />
+Dialect to prevent FK constraints exported.</p>
+
+<p>In this case, we created our own H2Dialet (for <a href="http://www.h2database.com/html/main.html" title="http://www.h2database.com/html/main.html">H2<br />
+database</a>)<br />
+and let <code>getAddForeignKeyConstraintString()</code> method empty. Which will<br />
+disable the original <code>org.hibernate.dialect.H2Dialect</code> constraint<br />
+generating statement.</p>
+
+<pre><code>package com.kent.hibernate.dialect;
+
+public class H2Dialect extends org.hibernate.dialect.H2Dialect {
+    @Override
+    public String getAddForeignKeyConstraintString(String constraintName, String[] foreignKey, String referencedTable, String[] primaryKey, boolean referencesPrimaryKey) {
+        return "";
+    }
+}
+
+</code></pre>
+
+<p>Once we have the Dialect, we need apply it our persistence.xml, after<br />
+done, when the schema be generated, the schema will not include any FK<br />
+constraint.</p>
+
+<pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;persistence version="1.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"&gt;
+    &lt;persistence-unit name="entity-test" transaction-type="RESOURCE_LOCAL"&gt;
+        &lt;provider&gt;org.hibernate.ejb.HibernatePersistence&lt;/provider&gt;
+                 ...
+        &lt;properties&gt;
+            ...
+            &lt;property name="hibernate.hbm2ddl.auto" value="create-drop" /&gt;
+                        &lt;property name="hibernate.dialect" value="com.kent.hibernate.dialect.H2Dialect"/&gt;
+            ...
+        &lt;/properties&gt;
+    &lt;/persistence-unit&gt;
+&lt;/persistence&gt;
+
+</code></pre>
+
+<h1 id="jpa-query">JPA Query</h1>
+
+<p>JPA Query supports</p>
+
+<ol>
+  <li>query</li>
+  <li><strong>update</strong></li>
+  <li><strong>delete</strong></li>
+</ol>
+
+<p>function to retrieves, modify, remove data from database.</p>
+
+<h5 id="is-not-empty">IS [NOT] EMPTY</h5>
+
+<p>JPA provides a <strong>empty</strong> to test a collection empty or not:</p>
+
+<pre><code>select book from Book book where book.chapters is not empty
+
+</code></pre>
+
+<h5 id="join-fetch">Join Fetch</h5>
+
+<p>JPA tries to fetch any entity as LAZY as possible whatever uses JPA QL<br />
+or get by API.</p>
+
+<p>Fetch lazy or eager is by JPA vendor implementation, not all field type<br />
+can fetch as LAZY</p>
+
+<h3 id="local-manager-transaction">Local Manager Transaction</h3>
+
+<p>In a non-managed environment, an EntityManagerFactory is usually<br />
+responsible for its own database connection pool. The application<br />
+developer has to manually set transaction boundaries, in other words,<br />
+begin, commit, or rollback database transactions itself</p>
+
+<p>If using local manager transaction, better to apply this template in<br />
+code.</p>
+
+<pre><code>// Non-managed environment idiom
+EntityManager em = emf.createEntityManager();
+EntityTransaction tx = null;
+try {
+    tx = em.getTransaction();
+    tx.begin();
+    // do some work
+    ...
+    tx.commit();
+} catch (RuntimeException e) {
+    if ( tx != null &amp;&amp; tx.isActive() ) tx.rollback();
+    throw e; // or display error message
+} finally {
+    em.close(); // make sure you always close and never outside of guaranteed finally block
+}
+
+</code></pre>
+
+<h3 id="joins-and-fetches">Joins and Fetches</h3>
+
+<ol>
+  <li>inner join = join</li>
+  <li>left out join = left join</li>
+  <li>fetch = 用一個select把屬性或集合一次取回</li>
+  <li>fetch all = 如果有lazy properties，可用fetch all去init all lazy</li>
+</ol>
+
+<h1 id="expressions">Expressions</h1>
+
+<ul>
+  <li>is empty, is not empty</li>
+  <li>member of, not member of 僅適用於embedded object</li>
+  <li>elements 測試某個element是否在elements中</li>
+  <li>minimum, maximum, minindex, maxindex 可用於 array, list, map</li>
+  <li>KEY() and VALUE() 可用於map</li>
+  <li>any, some, all, exists, in 這幾個可以和elements,minimum, maximum,<br />
+minindex, maxinde 搭配使用</li>
+  <li>current_date(), current_time(), current_timestamp()</li>
+  <li>second(…), minute(…), hour(…), day(…), month(…), year(…), (specific<br />
+to HQL)</li>
+  <li>coalesce() and nullif() coalesce（） 取回第一個非NULL的值</li>
+  <li>TYPE … in …</li>
+  <li>cast(… as …)</li>
+  <li>Java public static final constants eg.Color.TABBY</li>
+</ul>
+
+<h5 id="member-of">member of</h5>
+
+<pre><code>'867-5309' MEMBER OF p.phoneNumbers
+
+</code></pre>
+
+<h5 id="coalesce">coalesce</h5>
+
+<pre><code>SELECT COALESCE( NULL, 34, 13, 0 )
+// return 34
+
+</code></pre>
+
+<h5 id="any-some-all-exists-in">any, some, all, exists, in</h5>
+
+<p><a href="http://twpug.net/docs/postgresql-doc-8.0-zh_TW/functions-subquery.html" title="http://twpug.net/docs/postgresql-doc-8.0-zh_TW/functions-subquery.html">any, some, all, exists,<br />
+in</a>在SQL-92中的定義</p>
+
+<pre><code>select mother from Cat as mother, Cat as kit
+where kit in elements(foo.kittens)
+
+</code></pre>
+
+<pre><code>select p from NameList list, Person p where p.name = some elements(list.names)
+
+</code></pre>
+
+<pre><code>select cat from Cat cat where exists elements(cat.kittens)
+
+</code></pre>
+
+<pre><code>select cat from Player p where 3 &gt; all elements(p.scores)
+
+</code></pre>
+
+<pre><code>select cat from Show show where 'fizard' in indices(show.acts)
+
+</code></pre>
+
+<h5 id="index">index</h5>
+
+<pre><code>select order from Order order where order.items[0].id = 1234
+
+</code></pre>
+
+<h5 id="keyvalue">KEY(),VALUE()</h5>
+
+<pre><code>select i.name, VALUE(p) FROM Item i JOIN i.photos p WHERE KEY(p) LIKE ‘%egret’
+
+</code></pre>
+
+<p>Data in collection</p>
+
+<pre><code>public List&lt;Role&gt; listRolesByPermissions(Set&lt;String&gt; permissions) {
+  String ql = "select role from Role role left join role.permissions p where p in (:perms)";
+  Query q = entityManager.createQuery(ql).setParameter("perms", permissions);
+  return q.getResultList();
+}
+
+</code></pre>
+
+<p>上面的例子採用naming parameter可以正常動作，但下面採用position<br />
+parameter的方式卻不行？</p>
+
+<pre><code>public List&lt;Role&gt; listRolesByPermissions(Set&lt;String&gt; permissions) {
+  String ql = "select role from Role role left join role.permissions p where p in (?)";
+  Query q = entityManager.createQuery(ql).setParameter(1, permissions);
+  return q.getResultList();
+}
+
+</code></pre>
+
+<h1 id="implementation-restrictions">Implementation Restrictions</h1>
+
+<p>To avoid conflicts with the original database operation that fires the<br />
+entity lifecycle event (which is still in progress) callback methods<br />
+should not call <code>EntityManager</code> or <code>Query</code> methods and should not access<br />
+other entity objects.</p>
+
+<p>If a callback method throws an exception within an active transaction,<br />
+the transaction is marked for rollback and no more callback methods are<br />
+invoked for that operation.</p>
+
+<h1 id="architecture">Architecture</h1>
+
+<h4 id="entitymanagerfactory">EntityManagerFactory</h4>
+
+<p>建立時會比較耗時耗資源，所以應隨server啟動而啟動，關閉而關閉.</p>
+
+<h4 id="entitymanager">EntityManager</h4>
+
+<p>The EntityManager API is used to access a database in a particular unit<br />
+of work. 正常來說，EntityManager的life cycle應該是一個database<br />
+transaction(也就是說，應隨著transaction committed而close),<br />
+但也可以跨多個database<br />
+transactions(跟hibernate的session一樣，可以跟多個transaction).<br />
+如果發生任何例外的話，應該要立即呼叫<code>EntityManager.close() </code>，並且棄用EntityManager<br />
+instance.</p>
+
+<h1 id="annotations">Annotations</h1>
+
+<p>如果需要讓boolean有預設值，可透過<code>@Column</code>的<code>columnDefinition</code>屬性</p>
+
+<pre><code>@Column(columnDefinition = "bool default false")
+private boolean   boolField;
+
+</code></pre>
+
+<p>如果要讓欄位接受null，要宣告成物件型別(Object<br />
+type)而非原生型別(primitive type)</p>
+
+<h1 id="resources">Resources</h1>
+
+<ul>
+  <li><a href="http://wiki.eclipse.org/Using_EclipseLink_JPA_Extensions_%28ELUG%29" title="http://wiki.eclipse.org/Using_EclipseLink_JPA_Extensions_%28ELUG%29">EclipseLink<br />
+properties</a></li>
+  <li><a href="http://docs.jboss.org/hibernate/stable/annotations/reference/en/html_single/" title="http://docs.jboss.org/hibernate/stable/annotations/reference/en/html_single/">hibernate annotations reference<br />
+manual</a></li>
+  <li><a href="http://docs.jboss.org/hibernate/stable/entitymanager/reference/en/html/index.html" title="http://docs.jboss.org/hibernate/stable/entitymanager/reference/en/html/index.html">hibernate Entity Manager reference<br />
+manual</a></li>
+  <li><a href="http://en.wikibooks.org/wiki/Java_Persistence" title="http://en.wikibooks.org/wiki/Java_Persistence">JPA 2 on<br />
+wikibook</a></li>
+  <li><a href="http://wiki.kent-chiu.com/lib/exe/fetch.php?media=java:jpa_mapping.pdf" title="java:jpa_mapping.pdf">A JavaTM Persistence API Mapping Magical Mystery<br />
+Tour</a>
+    <ul>
+      <li>相當清晰的MAPPING介紹</li>
+    </ul>
+  </li>
+  <li><a href="http://uaihebert.com/?p=1274" title="http://uaihebert.com/?p=1274">JPA Queries and<br />
+Tips</a> -<br />
+JPA的使用實例，有不到best practices的使用</li>
+</ul>
+
+<p>[java</p>
+
+
+  </article>
+
+</div>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Kent's Blog</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col  footer-col-1">
+        <ul class="contact-list">
+          <li>Kent's Blog</li>
+          <li><a href="mailto:kent.cwg@gmail.com">kent.cwg@gmail.com</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col  footer-col-2">
+        <ul class="social-media-list">
+          
+          <li>
+            <a href="https://github.com/kentchiu">
+              <span class="icon  icon--github">
+                <svg viewBox="0 0 16 16">
+                  <path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/>
+                </svg>
+              </span>
+
+              <span class="username">kentchiu</span>
+            </a>
+          </li>
+          
+
+          
+          <li>
+            <a href="https://twitter.com/kentchiu">
+              <span class="icon  icon--twitter">
+                <svg viewBox="0 0 16 16">
+                  <path fill="#828282" d="M15.969,3.058c-0.586,0.26-1.217,0.436-1.878,0.515c0.675-0.405,1.194-1.045,1.438-1.809
+                  c-0.632,0.375-1.332,0.647-2.076,0.793c-0.596-0.636-1.446-1.033-2.387-1.033c-1.806,0-3.27,1.464-3.27,3.27 c0,0.256,0.029,0.506,0.085,0.745C5.163,5.404,2.753,4.102,1.14,2.124C0.859,2.607,0.698,3.168,0.698,3.767 c0,1.134,0.577,2.135,1.455,2.722C1.616,6.472,1.112,6.325,0.671,6.08c0,0.014,0,0.027,0,0.041c0,1.584,1.127,2.906,2.623,3.206 C3.02,9.402,2.731,9.442,2.433,9.442c-0.211,0-0.416-0.021-0.615-0.059c0.416,1.299,1.624,2.245,3.055,2.271 c-1.119,0.877-2.529,1.4-4.061,1.4c-0.264,0-0.524-0.015-0.78-0.046c1.447,0.928,3.166,1.469,5.013,1.469 c6.015,0,9.304-4.983,9.304-9.304c0-0.142-0.003-0.283-0.009-0.423C14.976,4.29,15.531,3.714,15.969,3.058z"/>
+                </svg>
+              </span>
+
+              <span class="username">kentchiu</span>
+            </a>
+          </li>
+          
+        </ul>
+      </div>
+
+      <div class="footer-col  footer-col-3">
+        <p class="text">Kent的學習筆記</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>

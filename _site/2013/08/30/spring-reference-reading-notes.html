@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width initial-scale=1">
+
+  <title>Spring Reference Reading Notes</title>
+  <meta name="description" content="Table of contents">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://blog.kent-chiu.com//2013/08/30/spring-reference-reading-notes.html">
+  <link rel="alternate" type="application/atom+xml" title="Kent's Blog" href="http://blog.kent-chiu.com//feed.xml" />
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/">Kent's Blog</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          
+          <a class="page-link" href="/about/">About</a>
+          
+        
+          
+        
+          
+        
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Spring Reference Reading Notes</h1>
+    <p class="post-meta">Aug 30, 2013 • Kent Chiu</p>
+  </header>
+
+  <article class="post-content">
+    <h1 class="no_toc" id="table-of-contents">Table of contents</h1>
+
+<ul id="markdown-toc">
+  <li><a href="#ioc-container">IoC container</a>    <ul>
+      <li><a href="#lifecycle">lifecycle</a></li>
+      <li><a href="#container-extension-points">Container Extension Points</a>        <ul>
+          <li><a href="#beanpostprocessor">BeanPostProcessor</a></li>
+          <li><a href="#beanfactorypostprocessor">BeanFactoryPostProcessor</a></li>
+          <li><a href="#factorybean">FactoryBean</a></li>
+        </ul>
+      </li>
+      <li><a href="#annontation">Annontation</a></li>
+      <li><a href="#resource">Resource</a></li>
+      <li><a href="#validation">Validation</a></li>
+      <li><a href="#type-conversion">Type Conversion</a></li>
+      <li><a href="#orm">ORM</a>        <ul>
+          <li><a href="#exception-translation">exception translation</a></li>
+          <li><a href="#entitymanger">EntityManger</a></li>
+          <li><a href="#jpadialect">JpaDialect</a></li>
+        </ul>
+      </li>
+      <li><a href="#jms">JMS</a></li>
+      <li><a href="#testing">Testing</a>        <ul>
+          <li><a href="#context-management-and-caching">Context management and caching</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<h1 id="ioc-container">IoC container</h1>
+
+<p>Spring 建議使用Setter Injection，Setter Injection有以下的優點<br />
+-	不會造成一堆constructor或長長的constructor parameters<br />
+-	可以避免 Circular Dependencies的引發exception問題；Bean A 依賴 Bean B, Bean B又依賴 Bean A(雞生蛋，蛋生雞問題)，這在 constructor 跟 field injection 會引發 exception，但在 setter injection不會<br />
+-	使用setter 或 constructor inject的方式會比較容易測試，因為不需要其他service locator (IOC container本身就是一種 service locator)</p>
+
+<p>設定檔的路徑，應該要用絕對路徑，而非相對路徑</p>
+
+<blockquote>
+  <p>spring 有些機制是透過參數名稱來做對應，這個是利用 complie 時有加入 debug flag，如果debug flag關掉了，這個功能就無效了<br />
+ex: </p>
+
+  <pre><code>	&lt;bean id="exampleBean" class="examples.ExampleBean"&gt;
+		&lt;constructor-arg name="years" value="7500000"/&gt;
+		&lt;constructor-arg name="ultimateanswer" value="42"/&gt;
+	&lt;/bean&gt;
+</code></pre>
+
+  <p><code>years</code>跟<code>ultimateanswer</code> 兩個是java class constructor的參數名稱，spring可以透過 complied 後的 debug info正確的把值派給對應的參數</p>
+</blockquote>
+
+<h4 id="lifecycle">lifecycle</h4>
+
+<p>bean的初始化跟解構有三種方式</p>
+
+<ol>
+  <li>InitializingBean,DisposableBean<br />
+傳統的方式，實作這兩個介面spring就會調用 callback method</li>
+  <li>@PostConstruct and @PreDestroy<br />
+JSR250 的做法，可以跟spring解耦，建議採用這種方式</li>
+  <li>自行定義init method (ex: start(), stop())<br />
+常用於整合即有的code，又不能改source的情況下，可用此方式</li>
+</ol>
+
+<p>上面這三種方式，也可以混在一起用，混在一起用時，調用的順序如下</p>
+
+<ul>
+  <li>初始化 : @PostConstruct -&gt; InitializingBean.afterPropertiesSet() -&gt; custom configured init() </li>
+  <li>解構: PreDestroy -&gt; DisposableBean.destroy() -&gt; custom configured destroy()</li>
+</ul>
+
+<p>如果要知道 container 的啟動，停止，refresh 發生的時機，可以實作以下介面</p>
+
+ 	// container 啟動，停止<br />
+<pre><code>public interface Lifecycle {
+
+  void start();
+
+  void stop();
+
+  boolean isRunning();
+
+}	
+
+// 重整，關閉
+public interface LifecycleProcessor extends Lifecycle {
+
+  void onRefresh();
+
+  void onClose();
+
+}
+
+// phase用來決定啟動或停止順序的值，愈小的愈先啟動，愈晚停止
+// 可以用來決定那個 object 要在那個 object 之後啟動，停止
+public interface Phased {
+
+  int getPhase();
+
+}
+
+
+public interface SmartLifecycle extends Lifecycle, Phased {
+
+  boolean isAutoStartup();
+
+  void stop(Runnable callback);
+
+}
+</code></pre>
+
+<p>此外，spring還提供一堆感知(xxx-Aware)的call back method，用來感知一些context的事件</p>
+
+<ul>
+  <li>ApplicationContextAware         </li>
+  <li>ApplicationEventPublisherAware</li>
+  <li>BeanClassLoaderAware</li>
+  <li>BeanFactoryAware</li>
+  <li>BeanNameAware</li>
+  <li>BootstrapContextAware</li>
+  <li>EmbeddedValueResolverAware</li>
+  <li>EnvironmentAware</li>
+  <li>LoadTimeWeaverAware</li>
+  <li>MessageSourceAware</li>
+  <li>NotificationPublisherAware</li>
+  <li>PortletConfigAware</li>
+  <li>PortletContextAware</li>
+  <li>ResourceLoaderAware</li>
+  <li>ServletConfigAware</li>
+  <li>ServletContextAware</li>
+</ul>
+
+<p>看 class name 大概就可以見文思義，知道有那些合用的call back method可以用。基本原則就是，如果需要知道 spring 在什麼時間做了什麼事的需求，就可以在<code>org.springframework.context</code> 這個 package 找找看有沒有合用的 class</p>
+
+<h4 id="container-extension-points">Container Extension Points</h4>
+
+<h5 id="beanpostprocessor">BeanPostProcessor</h5>
+
+<p>如果需要對特些特殊類似的 bean做處理，可以利用<code>BeanPostProcessor</code>做bean建立前，或建立後的處理,比如說，<br />
+我們可以所有的<code>@Schedule</code>的bean加上做排程。</p>
+
+<pre><code>public interface BeanPostProcessor {
+
+	Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException;
+
+	Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException;
+
+}
+</code></pre>
+
+<h5 id="beanfactorypostprocessor">BeanFactoryPostProcessor</h5>
+
+<p><code>BeanPostProcessor</code>做bean建立前，或建立後的處理，而<code>BeanFactoryPostProcessor</code>則是做bean definition(meta data)做修改，例如<code>PropertyPlaceholderConfigurer</code>就是把bean的定義裡的placeholder換成真正的屬性值</p>
+
+<pre><code>public interface BeanFactoryPostProcessor {
+
+	void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException;
+
+}
+</code></pre>
+
+<h5 id="factorybean">FactoryBean</h5>
+
+<p>如果建立bean的過程比較複雜，可以使用<code>FactoryBean</code>來建立bean</p>
+
+<h4 id="annontation">Annontation</h4>
+<ul>
+  <li>@Required   舊的，不要用了<code>@Autowired</code>裡required屬性具有相同的效果</li>
+  <li>@Autowired  使用後會依型別自動做DI</li>
+  <li>@Qualifier  spring會依型別做auto wried，但常會遇過一個interface，有一個以上的實作，或者有子類別，子子類別，這時，可以用<code>@Qualifier</code>來指定要bind到那一個特定的 implementation</li>
+  <li>@Scope instance scope</li>
+  <li>@Value 通常用來跟屬性值 (property做binding)</li>
+  <li>@Lazy bean lazily initialized</li>
+</ul>
+
+<p>stereotype type</p>
+
+<ul>
+  <li>@Component 主要是標明為spring的元件，在auto scan時會被spring處理</li>
+  <li>@Repository 同<code>@Component</code>，用在DAO上，JPA遇到@Repository時還會做ExceptionTranslation</li>
+  <li>@Service  同<code>@Component</code>，用在service上</li>
+  <li>@Controler 同<code>@Component</code>，但多用於 web controller，搭配<code>RequestMapping</code>使用 </li>
+</ul>
+
+<p>@JSR250</p>
+
+<ul>
+  <li>@Resource injected by name 而不是 by type</li>
+  <li>@PostConstruct 在bean建立後被call back</li>
+  <li>@PreDestroy 在bean destroy 前被 call back</li>
+</ul>
+
+<p>JSR 330有另一套Annotations(javax.inject.*)，可以對應到spring，但功能上會比spring專用的annotations有些許限制，如果沒有特別考慮移植性，建議採用spring版的，較能善用spring的功能</p>
+
+<p><a href="http://static.springsource.org/spring/docs/current/spring-framework-reference/htmlsingle/#beans-standard-annotations">http://static.springsource.org/spring/docs/current/spring-framework-reference/htmlsingle/#beans-standard-annotations</a></p>
+
+<p><code>@Bean</code> annotation 也可以使用在 @Component 中，但跟使用在 @Configuration 中會有不同的處理流程</p>
+
+<pre><code>@Component
+public class FactoryMethodComponent {
+
+  private static int i;
+
+  @Bean @Qualifier("public")
+  public TestBean publicInstance() {
+      return new TestBean("publicInstance");
+  }
+
+  // use of a custom qualifier and autowiring of method parameters
+
+  @Bean
+  protected TestBean protectedInstance(@Qualifier("public") TestBean spouse,
+                                       @Value("#{privateInstance.age}") String country) {
+      TestBean tb = new TestBean("protectedInstance", 1);
+      tb.setSpouse(tb);
+      tb.setCountry(country);
+      return tb;
+  }
+
+  @Bean @Scope(BeanDefinition.SCOPE_SINGLETON)
+  private TestBean privateInstance() {
+      return new TestBean("privateInstance", i++);
+  }
+
+  @Bean @Scope(value = WebApplicationContext.SCOPE_SESSION,
+               proxyMode = ScopedProxyMode.TARGET_CLASS)
+  public TestBean requestScopedInstance() {
+      return new TestBean("requestScopedInstance", 3);
+  }
+}
+</code></pre>
+
+<h2 id="resource">Resource</h2>
+
+<p>注入 resource 時如果沒有指定 prefix (class path, file, http,…)時，會依 context 使用適合的 resource loading 方式，如果有指定 prefix ，就會以 prefix 指定的方式loading resource</p>
+
+<p>不指定 prefix </p>
+
+<pre><code>&lt;bean id="myBean" class="..."&gt;
+  &lt;property name="template" value="some/resource/path/myTemplate.txt"/&gt;
+&lt;/bean&gt;
+</code></pre>
+
+<p>指定 prefix</p>
+
+<pre><code>&lt;property name="template" value="classpath:some/resource/path/myTemplate.txt"&gt;
+&lt;property name="template" value="file:/some/resource/path/myTemplate.txt"/&gt;
+</code></pre>
+
+<p>resource path 可採用 ant-style的 wildcards</p>
+
+<pre><code> /WEB-INF/*-context.xml
+ com/mycompany/**/applicationContext.xml
+ file:C:/some/path/*-context.xml
+ classpath:com/mycompany/**/applicationContext.xml
+</code></pre>
+
+<blockquote>
+  <p><code>classpath*:</code> 與 <code>classpath:</code>的區別<br />
+ <code>classpath*:</code> 會在 class path 中找出所有符合條件的 resources<br />
+ <code>claspath</code>: 只會在 class path 中找出第一個符合條件的 resource</p>
+</blockquote>
+
+<h2 id="validation">Validation</h2>
+
+<p>對於非簡單型別的屬性，可以在 Validator 中另外套用其它的 Validator<br />
+ex: Customer物件中，基本屬性用CustomerValidator，而 address屬性，不是簡單的資料型別而是物件，可以在CustomerValidator.validate 再套用 address validator</p>
+
+<pre><code>public class CustomerValidator implements Validator {
+
+    private final Validator addressValidator;
+
+    public CustomerValidator(Validator addressValidator) {
+        if (addressValidator == null) {
+            throw new IllegalArgumentException(
+              "The supplied [Validator] is required and must not be null.");
+        }
+        if (!addressValidator.supports(Address.class)) {
+            throw new IllegalArgumentException(
+              "The supplied [Validator] must support the validation of [Address] instances.");
+        }
+        this.addressValidator = addressValidator;
+    }
+
+    /**
+    * This Validator validates Customer instances, and any subclasses of Customer too
+    */
+    public boolean supports(Class clazz) {
+        return Customer.class.isAssignableFrom(clazz);
+    }
+
+    public void validate(Object target, Errors errors) {
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "firstName", "field.required");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "surname", "field.required");
+        Customer customer = (Customer) target;
+        try {
+            errors.pushNestedPath("address");
+            ValidationUtils.invokeValidator(this.addressValidator, customer.getAddress(), errors);
+        } finally {
+            errors.popNestedPath();
+        }
+    }
+}
+</code></pre>
+
+<h2 id="type-conversion">Type Conversion</h2>
+<p>Type Conversion是指格式轉換，通常，常web進來的值，因為都是基於http，所以通常都會用純文字的方式送到後端，<br />
+type conversion就是負責把純文字轉成適點的型別或格式。</p>
+
+<p>ex:</p>
+
+<pre><code>http://locallost/example/user?name=kent&amp;age=10&amp;sex=MALE
+
+class User {
+	private String name;
+	private int age;
+	Sex   sex;
+}
+
+enum Sex {MALE, FEMALE}
+</code></pre>
+
+<p>前端進來的是純字串，name=”kent”，age=”1”，sex=”MALE”，但user物件的屬性，age 是int，sex 是enum型別。<br />
+type conversion 就是將字串”1”轉成 int 1, 字串 “MALE” 轉成 enum Sex.MALE，當然也可以適用在非字串轉非字串的格式。</p>
+
+<p>spring 提供二種方式可以做type conversion<br />
+1. 	PropertyEditors : 這是從java bean那邊借過來的功能，swing也有不少地方用到這個功能<br />
+2. 	Conversion SPI  : spring 3後引入的功能，基於泛型(generic)的，所以型別資訊會比較豐富</p>
+
+<p>另外，spring還有 Formatter SPI, 可以做格式化的功能，常用的formatter有</p>
+
+<ul>
+  <li>CurrencyFormatter (org.springframework.format.number)</li>
+  <li>NumberFormatter (org.springframework.format.number)</li>
+  <li>PercentFormatter (org.springframework.format.number)</li>
+  <li>DateFormatter (org.springframework.format.datetime)</li>
+</ul>
+
+<p>或者用 format annotation </p>
+
+<ul>
+  <li>@DateTimeFormat</li>
+  <li>@NumberFormat</li>
+</ul>
+
+<p>如果使用srping mvc的話，可以設定全局性的validator跟controller專用的validator</p>
+
+<p>global validator </p>
+
+<pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd"&gt;
+
+    &lt;mvc:annotation-driven validator="globalValidator"/&gt;
+
+&lt;/beans&gt;
+</code></pre>
+
+<p>controller validator</p>
+
+<pre><code>@Controller
+public class MyController {
+
+    @InitBinder
+    protected void initBinder(WebDataBinder binder) {
+        binder.setValidator(new FooValidator());
+    }
+
+    @RequestMapping("/foo", method=RequestMethod.POST)
+    public void processFoo(@Valid Foo foo) { ... }
+
+}
+</code></pre>
+
+<p>@Valid 會觸發 controller 進行 validate 的動作</p>
+
+<h2 id="orm">ORM</h2>
+
+<h4 id="exception-translation">exception translation</h4>
+
+<p>exception translation 是將各個 ORM Framework 的 exception 轉換成 Spring 的 DataAccessException ，這樣做的好處是可以在各種不同的 ORM Framework ，各種不同的Database中使用相同的Exception。</p>
+
+<p>宣告成 <code>@Repository</code> 就會自動套用 exception translation</p>
+
+<pre><code>@Repository
+public class ProductDaoImpl implements ProductDao {
+
+    // class body here...
+
+}
+</code></pre>
+
+<p>有三種方式可以設定EntityManagerFacotry, EntityManagerFacotry是用來在程式裡取得EitityManager。</p>
+
+<ol>
+  <li>LocalEntityManagerFactoryBean 用在簡單的佈署環境(獨立的應該程式)或整合測試，使用上有不少限制，請<a href="http://static.springsource.org/spring/docs/current/javadoc-api/">參閱文件</a></li>
+  <li>JNDI - JAVA EE 環境下使用</li>
+  <li>LocalContainerEntityManagerFactoryBean 使用這個就有完成的JPA功能，可用在像tomcat，或整合測試環境，但在JAVA EE環境下可能會有一些衝突(JAVA EE會自動找META-INFO下的persistence.xml，但採用LocalContainerEntityManagerFactoryBean可以完全不用使用persistence.xml)</li>
+</ol>
+
+<blockquote>
+  <p>load time weaver<br />
+spring使用load time weaving在load time時用aop的技術來改善entity的結構，像把entity 1對多關係改成lazy loading<br />
+但有的orm framework (ex: hibernate) 本身就有這個機制了</p>
+</blockquote>
+
+<h4 id="entitymanger">EntityManger</h4>
+
+<blockquote>
+  <p>EntityManger V.S. EntityManagerFactory<br />
+在使用時要inject EntityManagerFactory or EntityManager? EntityManagerFactory 是thread-safe而EntityManager不是，但如果在spring使用，會保證每個EntityManager的instance是新的(shared EntityManager Proxy)，所以直接inject EntityManager，code會比較簡單(如果使用PersistenceContextType.EXTENDED，那entity manage就不是 thread-safe)<br />
+如果inject的是EntityManagerFactory，要用<code>@PersistenceUnit</code>而如果是EntityManager，就用<code>@PersistenceContext</code></p>
+</blockquote>
+
+<h4 id="jpadialect">JpaDialect</h4>
+<p>使用JpaDialect可以enable一些vendor-specific的進階功能，預設的DefaultJpaDialect沒有提供特別的功能</p>
+
+<h2 id="jms">JMS</h2>
+<p><code>javax.jms.Exception</code>是Checked Exception, 使用Spring JmsTemplate則會轉成UncheckedException</p>
+
+<p>spring有提供訊息轉換的功能，可以方便的把java object轉成jms格式的訊息</p>
+
+<p>配值檔</p>
+
+<pre><code>@Configuration
+public class JmsConfig {
+	@Bean
+	public JmsTemplate jmsTemplate() {
+		final JmsTemplate jmsTemplate = new JmsTemplate(jmsConnectionFactory());
+		// jmsTemplate會往名稱為`"my queue`的queue送訊息
+		jmsTemplate.setDefaultDestination(new ActiveMQQueue("my queue"));  
+		return jmsTemplate;
+	}
+
+	@Bean
+	public ConnectionFactory jmsConnectionFactory() {
+		final ActiveMQConnectionFactory factory = new ActiveMQConnectionFactory();
+		factory.setBrokerURL("tcp://localhot:61616"); // mq server ip
+		return factory;
+	}
+
+
+	@Bean
+	public AbstractJmsListeningContainer jmsContainer() {
+		final DefaultMessageListenerContainer container = new DefaultMessageListenerContainer();
+		container.setConnectionFactory(jmsConnectionFactory());
+		// 當 "my topic" 做訊息發佈時，MyMessageListenerServiceImpl會收到訊息通知
+		container.setDestination(new ActiveMQTopic("my topic"));
+		//container.setSessionTransacted(true);
+		container.setConcurrentConsumers(5);
+		container.setReceiveTimeout(10000);
+		container.setMessageListener(deviceEventListener());
+		return container;
+	}
+
+
+	@Bean
+	public MessageListener deviceEventListener() {
+		return new MyMessageListenerServiceImpl();
+	}
+}
+</code></pre>
+
+<p>收/發訊息</p>
+
+<p>收/發訊息會以上面配置檔設定的目的收/發訊息</p>
+
+<pre><code>@Service
+public class MyMessageListenerImpl implements MessageListener {
+
+	private JmsTemplate jmsTemplate;
+	@Autowired
+	public void setJmsTemplate(JmsTemplate jmsTemplate) {
+		this.jmsTemplate = jmsTemplate;
+	}
+
+	@Test
+	public void jsmSend() throws Exception {
+		// 往`my queue`發送訊息
+		jmsTemplate.convertAndSend("test");
+	}
+
+	/**
+	 * Message Queue上的名稱為"my topic"的topic做publish時會觸發這個method
+	 *
+	 * @param message
+	 */
+	@Override
+	public void onMessage(Message message) {
+		System.out.println(message);
+	}
+}
+</code></pre>
+
+<h2 id="testing">Testing</h2>
+
+<ul>
+  <li>org.springframework.test.util.ReflectionTestUtils 提供對private的屬性進行取值、設值的功能以輔助測試</li>
+  <li>org.springframework.test.jdbc.JdbcTestUtils 可以有計算 table 內資料筆數的方便的 methods 可以使用</li>
+</ul>
+
+<h4 id="context-management-and-caching">Context management and caching</h4>
+<p>spring test context 會進行 caching 以加速測試的速度，cache 是以一個 test suite 為單位，在同一個 jvm 一起執行的所有 test cases 算是同一個 test suite，如果 test suite 被污染時，必須 reload context</p>
+
+<p><code>@DirtiesContext</code> 會把 context 標記為 dirty，被標記為 dirty 後，該 context 會被移出 cache區</p>
+
+  </article>
+
+</div>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Kent's Blog</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col  footer-col-1">
+        <ul class="contact-list">
+          <li>Kent's Blog</li>
+          <li><a href="mailto:kent.cwg@gmail.com">kent.cwg@gmail.com</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col  footer-col-2">
+        <ul class="social-media-list">
+          
+          <li>
+            <a href="https://github.com/kentchiu">
+              <span class="icon  icon--github">
+                <svg viewBox="0 0 16 16">
+                  <path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/>
+                </svg>
+              </span>
+
+              <span class="username">kentchiu</span>
+            </a>
+          </li>
+          
+
+          
+          <li>
+            <a href="https://twitter.com/kentchiu">
+              <span class="icon  icon--twitter">
+                <svg viewBox="0 0 16 16">
+                  <path fill="#828282" d="M15.969,3.058c-0.586,0.26-1.217,0.436-1.878,0.515c0.675-0.405,1.194-1.045,1.438-1.809
+                  c-0.632,0.375-1.332,0.647-2.076,0.793c-0.596-0.636-1.446-1.033-2.387-1.033c-1.806,0-3.27,1.464-3.27,3.27 c0,0.256,0.029,0.506,0.085,0.745C5.163,5.404,2.753,4.102,1.14,2.124C0.859,2.607,0.698,3.168,0.698,3.767 c0,1.134,0.577,2.135,1.455,2.722C1.616,6.472,1.112,6.325,0.671,6.08c0,0.014,0,0.027,0,0.041c0,1.584,1.127,2.906,2.623,3.206 C3.02,9.402,2.731,9.442,2.433,9.442c-0.211,0-0.416-0.021-0.615-0.059c0.416,1.299,1.624,2.245,3.055,2.271 c-1.119,0.877-2.529,1.4-4.061,1.4c-0.264,0-0.524-0.015-0.78-0.046c1.447,0.928,3.166,1.469,5.013,1.469 c6.015,0,9.304-4.983,9.304-9.304c0-0.142-0.003-0.283-0.009-0.423C14.976,4.29,15.531,3.714,15.969,3.058z"/>
+                </svg>
+              </span>
+
+              <span class="username">kentchiu</span>
+            </a>
+          </li>
+          
+        </ul>
+      </div>
+
+      <div class="footer-col  footer-col-3">
+        <p class="text">Kent的學習筆記</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>

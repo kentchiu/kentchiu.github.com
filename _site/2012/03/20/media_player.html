@@ -1,0 +1,247 @@
+<hr />
+<p>author: Kent Chiu<br />
+published: true<br />
+layout: post<br />
+title: “Android Media Player”<br />
+date: 2012-03-20<br />
+comments: true<br />
+external-url:<br />
+sharing: true<br />
+footer: true<br />
+categories:<br />
+  - android<br />
+  - media_player<br />
+ –</p>
+
+<h1 class="no_toc" id="table-of-contents">Table of contents</h1>
+
+<ul id="markdown-toc">
+  <li><a href="#androidmainfestxml">AndroidMainfest.xml</a></li>
+  <li><a href="#section">使用流程</a>    <ul>
+      <li><a href="#state-diagram">State Diagram</a></li>
+    </ul>
+  </li>
+  <li><a href="#section-1">音訊來源</a>    <ul>
+      <li><a href="#resource-id">播放程式內*有resource id)的音訊檔</a></li>
+      <li><a href="#section-2">播放手機內部音訊檔</a></li>
+      <li><a href="#section-3">播放網路上的音訊檔</a></li>
+    </ul>
+  </li>
+  <li><a href="#preparation">Preparation</a>    <ul>
+      <li><a href="#asynchronous-preparation">Asynchronous Preparation</a></li>
+    </ul>
+  </li>
+  <li><a href="#section-4">同步播放進度</a>    <ul>
+      <li><a href="#threadprocessbar">透過thread同步ProcessBar</a></li>
+      <li><a href="#handlerrecursiveprocessbar">透過Handler的recursive同步ProcessBar</a></li>
+    </ul>
+  </li>
+  <li><a href="#resource">Resource</a></li>
+</ul>
+
+<hr />
+
+<h5 id="androidmainfestxml">AndroidMainfest.xml</h5>
+
+<p>如果需要從網路下載音訊檔，需要開放<code>android.permission.INTERNET</code>權限</p>
+
+<pre><code>&lt;uses-permission android:name="android.permission.INTERNET" /&gt;
+</code></pre>
+
+<h3 id="section">使用流程</h3>
+
+<h5 id="state-diagram">State Diagram</h5>
+
+<p>狀態對<a href="http://developer.android.com/reference/android/media/MediaPlayer.html" title="http://developer.android.com/reference/android/media/MediaPlayer.html">MediaPlayer</a>來說是相當重要的，<br />
+在不適當的狀態下呼叫不適當的method會導致MediaPlay丟出例常。</p>
+
+<p><img src="http://developer.android.com/images/mediaplayer_state_diagram.gif" alt="image" /></p>
+
+<p>基本上的使用流程如下</p>
+
+<ol>
+  <li>透過<code>create()</code>建立(idle狀態)</li>
+  <li>透過<code>setDataSource()</code>初始化MediaPlayer (initialized狀態)</li>
+  <li>透過<code>prepare()</code>預備播放 (preparing and prepared狀態)</li>
+  <li>透過<code>start()</code>播放 (started狀態)</li>
+  <li>之後可以進行播放相關的控制</li>
+  <li>透過<code>stop()</code>停止播放 (stop狀態) </li>
+  <li><strong>沒有要用MediaPlayer時，記得呼叫release()釋放資源</strong> (end狀態)</li>
+</ol>
+
+<h3 id="section-1">音訊來源</h3>
+
+<p>要播放的訊息檔可以來自</p>
+
+<ol>
+  <li>Local resources (放程式/raw目錄的檔案，有resource id的)</li>
+  <li>Internal URIs (內部uri是指可以透過Content Resolver取存的)</li>
+  <li>External URLs (外部url大多是指網路上的檔案，只能以streaming讀取)</li>
+</ol>
+
+<p>streaming需要先下載到buffer後再進行播放，未下載的部份，無法做位置控制(forward，reverse，seeking)<br />
+，用串流播放時，前端通常會實作兩段式的progress<br />
+bar，第一段是目前播放的進度，另一段是已下載到buffer的進度。</p>
+
+<h5 id="resource-id">播放程式內*有resource id)的音訊檔</h5>
+
+<p>這種方式通常是用來播放跟程式中預先定義好的音效，音樂…</p>
+
+<pre><code>MediaPlayer mediaPlayer = MediaPlayer.create(context, R.raw.sound_file_1);
+mediaPlayer.start(); // no need to call prepare(); create() does that for you
+</code></pre>
+
+<p>讀取resource是透過create時指定resource<br />
+id，這種方式不用自已呼叫prepare(),create()內會自行呼叫prepare()。</p>
+
+<h5 id="section-2">播放手機內部音訊檔</h5>
+
+<p>這種方式是透過Content URI取得內部的音訊資源</p>
+
+<pre><code>Uri myUri = ....; // initialize Uri here
+MediaPlayer mediaPlayer = new MediaPlayer();
+mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+mediaPlayer.setDataSource(getApplicationContext(), myUri);
+mediaPlayer.prepare();
+mediaPlayer.start();
+</code></pre>
+
+<h5 id="section-3">播放網路上的音訊檔</h5>
+
+<p>這種方式是透過標準的url來播放網路上的音訊檔</p>
+
+<pre><code>String url = "http://........"; // your URL here
+MediaPlayer mediaPlayer = new MediaPlayer();
+mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+mediaPlayer.setDataSource(url);
+mediaPlayer.prepare(); // might take long! (for buffering, etc)
+mediaPlayer.start();
+</code></pre>
+
+<h3 id="preparation">Preparation</h3>
+
+<p>MediaPlayer要能開始播放，必須先進入Prepared狀態。</p>
+
+<h5 id="asynchronous-preparation">Asynchronous Preparation</h5>
+
+<p>進入Prepared狀態會花掉一些時間，因為prepare可能需要抓取及解碼音訊檔(可能需幾秒)，如果Prepared是在main<br />
+thread呼叫，會把ui給block住，這樣會影響操作性。<br />
+所以MediaPlayer有提供非同步的Preparation方式，也就是在work<br />
+thread進行preparing的動作，可以讓block情況減緩一些。</p>
+
+<p>透過prepareAsync()可以進行非同步的preparing，因為是非同步的，所以如果要知道何時會prepared完成，那就必須透過<code>MediaPlayer.OnPreparedListener</code></p>
+
+<pre><code>	public class MyService extends Service implements MediaPlayer.OnPreparedListener {
+	    private static final ACTION_PLAY = "com.example.action.PLAY";
+	    MediaPlayer mMediaPlayer = null;
+	 
+	    public int onStartCommand(Intent intent, int flags, int startId) {
+	        ...
+	        if (intent.getAction().equals(ACTION_PLAY)) {
+	            mMediaPlayer = ... // initialize it here
+	            mMediaPlayer.setOnPreparedListener(this);
+	            mMediaPlayer.prepareAsync(); // prepare async to not block main thread
+	        }
+	    }
+	 
+	    /** Called when MediaPlayer is ready */
+	    public void onPrepared(MediaPlayer player) {
+	        player.start();
+	    }
+	}
+
+</code></pre>
+
+<h3 id="section-4">同步播放進度</h3>
+
+<p>MediaPlayer本身並不包含UI相關的component，如果要控制MediaPlayer的播放動作，可以透過Button去呼叫播放的API。<br />
+其中，有一個比較麻煩的是顯示播放進度的ProgressBar(或SeekBar)，因為progress<br />
+bar需要一直不斷跟MediaPlayer進行同步<br />
+最直接的方式是寫一個thread，然後透過Handler(WorkerThread不能直接存取UI元件)去取得MediaPlayer目前播放進度的資料，並持續的設定到ProgressBar上。</p>
+
+<h5 id="threadprocessbar">透過thread同步ProcessBar</h5>
+
+<p>像下面code的這樣，但是，實際使用上，發現效能不是很好，progress<br />
+bar不管怎麼調，都沒Android內建的<a href="http://developer.android.com/reference/android/widget/MediaController.html" title="http://developer.android.com/reference/android/widget/MediaController.html">MediaController</a>好。<br />
+去查了一下MediaController的source發現他是用<strong>recursive(遞歸)的方法</strong>處理的。</p>
+
+<pre><code>	Thread syncSeekBarThread = new Thread(new Runnable() {
+	    @Override
+	    public void run() {
+	        int currentPosition = 0;
+	        while (player != null &amp;&amp; currentPosition &lt; total) {
+	            int currentPosition = mPlayer.getCurrentPosition();
+	            Message msg = new Message();
+	            msg.what = currentPosition;
+	            threadHandler.sendMessage(msg);
+	            Thread.sleep(1000);
+	        }
+	    }
+	});
+	 
+	syncSeekBarThread.start(); // start synchronizing
+	 
+	 
+	private Handler threadHandler = new Handler(){
+	    public void handleMessage(Message msg){
+	        seekBar.setProgress(msg.what);
+	    }
+	};
+
+</code></pre>
+
+<h5 id="handlerrecursiveprocessbar">透過Handler的recursive同步ProcessBar</h5>
+
+<p>主要的重點有</p>
+
+<ol>
+  <li>要找一個觸發recursive的好地點，播放器上的play button是一個不錯的位置</li>
+  <li>handleMessage一但開始接到Message後，就會不斷的送Message給自已</li>
+  <li>用sendMessageDelayed來計算下次的觸發時間</li>
+</ol>
+
+<p>相當巧妙的解法，難怪大家都建議多看Android的source，改成這樣後，ProgressBar果然有比較平順。</p>
+
+<pre><code>	private class SyncHandler extends Handler {
+	    @Override
+	    public void handleMessage(Message msg) {
+	        int current = msg.what;
+	        seekBar.setProgress(current);
+	        if (!seekbarChangeListener.isDragging()) {
+	            Message m = obtainMessage();
+	            m.what = player.getCurrentPosition();
+	            // Send meesage to Handler itself will fire handleMessage() again with new Message.
+	            sendMessageDelayed(m, 1000 - player.getCurrentPosition() % 1000);
+	        }
+	    }
+	}
+	 
+	private Handler    handler = new SyncHandler();
+	 
+	/**
+	  * strt
+	  *
+	  */
+	public void PlayButtonOnClick() {
+	    handler.sendEmptyMessage(player.getCurrentPosition());
+	}
+
+</code></pre>
+
+<h1 id="resource">Resource</h1>
+
+<ul>
+  <li><a href="http://developer.android.com/guide/topics/media/mediaplayer.html" title="http://developer.android.com/guide/topics/media/mediaplayer.html">官網文件</a></li>
+  <li><a href="http://developer.android.com/reference/android/media/MediaPlayer.html" title="http://developer.android.com/reference/android/media/MediaPlayer.html">API</a></li>
+  <li><a href="http://developer.android.com/guide/topics/media/mediaplayer.html#wakelocks" title="http://developer.android.com/guide/topics/media/mediaplayer.html#wakelocks">Wake  locks</a>
+    <ul>
+      <li>如果要必免待機時，播放器被停掉，可以設定wake mode</li>
+    </ul>
+  </li>
+  <li><a href="http://developer.android.com/guide/topics/media/mediaplayer.html#audiofocus" title="http://developer.android.com/guide/topics/media/mediaplayer.html#audiofocus">Audio  focus</a>
+    <ul>
+      <li>如果要處理接到電話或其他事件時，把播放器暫停，可以透過audio focus(2.2+)</li>
+    </ul>
+  </li>
+</ul>
+

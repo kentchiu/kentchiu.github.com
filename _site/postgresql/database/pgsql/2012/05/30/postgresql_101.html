@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width initial-scale=1">
+
+  <title>PostgreSQL 101</title>
+  <meta name="description" content="Table of contents">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://blog.kent-chiu.com//postgresql/database/pgsql/2012/05/30/postgresql_101.html">
+  <link rel="alternate" type="application/atom+xml" title="Kent's Blog" href="http://blog.kent-chiu.com//feed.xml" />
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/">Kent's Blog</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          
+          <a class="page-link" href="/about/">About</a>
+          
+        
+          
+        
+          
+        
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">PostgreSQL 101</h1>
+    <p class="post-meta">May 30, 2012 • Kent Chiu</p>
+  </header>
+
+  <article class="post-content">
+    <h1 class="no_toc" id="table-of-contents">Table of contents</h1>
+
+<ul id="markdown-toc">
+  <li><a href="#command-line">Command Line</a>    <ul>
+      <li><a href="#database-tables">列出目前所在的database的所有 tables</a></li>
+      <li><a href="#tableviewindexschema">顯示某個table，view，index的schema</a></li>
+      <li><a href="#expanded-mode-90">expanded mode (將資料顯示的方式轉90度)</a></li>
+    </ul>
+  </li>
+  <li><a href="#sequence-auto-increment">Sequence (AUTO INCREMENT)</a>    <ul>
+      <li><a href="#section">使用方式</a>        <ul>
+          <li><a href="#tablecolumnsequence">讓table的某一column套用sequence</a></li>
+          <li><a href="#sequence">建立sequence</a></li>
+          <li><a href="#sequence-1">取得目前sequence的值</a></li>
+          <li><a href="#sequence-2">取得下一個sequence的值</a></li>
+          <li><a href="#sequence-3">重新設定sequence值</a></li>
+          <li><a href="#sequence-4">重新設定sequence值(建議)</a></li>
+        </ul>
+      </li>
+      <li><a href="#drop-all-tables-script">Drop all tables script</a></li>
+      <li><a href="#truncate-all-tables-script">Truncate all tables script</a></li>
+    </ul>
+  </li>
+  <li><a href="#database">建立全新的Database</a></li>
+  <li><a href="#section-1">管理</a>    <ul>
+      <li><a href="#section-2">列出目前活動</a></li>
+    </ul>
+  </li>
+  <li><a href="#resource">Resource</a></li>
+</ul>
+
+<hr />
+
+<h1 id="command-line">Command Line</h1>
+
+<p>用使用者帳號<code>username</code>登入指定的databalse</p>
+
+<pre><code>$ psql -U username -W -d database
+
+Welcome to psql 8.3.21, the PostgreSQL interactive terminal.
+
+Type:  \copyright for distribution terms
+       \h for help with SQL commands
+       \? for help with psql commands
+       \g or terminate with semicolon to execute query
+       \q to quit
+</code></pre>
+
+<ul>
+  <li><code>\q</code> 離開psql指令模式</li>
+  <li><code>\h</code> SQL 指令的 help</li>
+  <li><code>\?</code> psql 指令的 help </li>
+</ul>
+
+<p>進入後，提示符號會變成<code>資料庫名稱 + -#</code> ,ex : <code>mydb-#</code>，後面的提示符如果是在 <code>mydb-#</code> 表示已進入 psql command mode環境</p>
+
+<pre><code>mydb-# \?
+
+General
+  \list 列出所有的database
+  # 重新連線到特定的db (目前在"mydb")	
+  \c[onnect] [DBNAME|- USER|- HOST|- PORT|-]
+                 connect to new database (currently "mydb")
+  \cd [DIR]      change the current working directory
+  \copyright     show PostgreSQL usage and distribution terms
+  \encoding [ENCODING]
+                 show or set client encoding
+  \h [NAME]      help on syntax of SQL commands, * for all commands
+  \prompt [TEXT] NAME
+                 prompt user to set internal variable
+  \password [USERNAME]
+                 securely change the password for a user
+  \q             quit psql
+  \set [NAME [VALUE]]
+                 set internal variable, or list all if no parameters
+  \timing        toggle timing of commands (currently off)
+  \unset NAME    unset (delete) internal variable
+  \! [COMMAND]   execute command in shell or start interactive shell
+
+Query Buffer
+  \e [FILE]      edit the query buffer (or file) with external editor
+  \g [FILE]      send query buffer to server (and results to file or |pipe)
+  \p             show the contents of the query buffer
+  \r             reset (clear) the query buffer
+  \w FILE        write query buffer to file
+
+Input/Output
+  \echo [STRING] write string to standard output
+  \i FILE        execute commands from file
+  \o [FILE]      send all query results to file or |pipe
+  \qecho [STRING]
+                 write string to query output stream (see \o)
+
+Informational
+  # 顯示schema
+  \d [NAME]      describe table, index, sequence, or view
+  # \dt 列出目前db所有的tables
+  # \di 列出目前db所有的indexs
+  # \ds 列出目前db所有的sequences
+  # \dv 列出目前db所有的views
+  # \dS 列出目前db所有的system tables
+  \d{t|i|s|v|S} [PATTERN] (add "+" for more detail)
+                 list tables/indexes/sequences/views/system tables
+  \da [PATTERN]  list aggregate functions
+  \db [PATTERN]  list tablespaces (add "+" for more detail)
+  \dc [PATTERN]  list conversions
+  \dC            list casts
+  \dd [PATTERN]  show comment for object
+  \dD [PATTERN]  list domains
+  \df [PATTERN]  list functions (add "+" for more detail)
+  \dF [PATTERN]  list text search configurations (add "+" for more detail)
+  \dFd [PATTERN] list text search dictionaries (add "+" for more detail)
+  \dFt [PATTERN] list text search templates
+  \dFp [PATTERN] list text search parsers (add "+" for more detail)
+  \dg [PATTERN]  list groups
+  \dn [PATTERN]  list schemas (add "+" for more detail)
+  \do [NAME]     list operators
+  \dl            list large objects, same as \lo_list
+  \dp [PATTERN]  list table, view, and sequence access privileges
+  \dT [PATTERN]  list data types (add "+" for more detail)
+  \du [PATTERN]  list users
+  \l             list all databases (add "+" for more detail)
+  \z [PATTERN]   list table, view, and sequence access privileges (same as \dp)
+
+Formatting
+  \a             toggle between unaligned and aligned output mode
+  \C [STRING]    set table title, or unset if none
+  \f [STRING]    show or set field separator for unaligned query output
+  \H             toggle HTML output mode (currently off)
+  \pset NAME [VALUE]
+                 set table output option
+                 (NAME := {format|border|expanded|fieldsep|footer|null|
+                 numericlocale|recordsep|tuples_only|title|tableattr|pager})
+  \t             show only rows (currently off)
+  \T [STRING]    set HTML &lt;table&gt; tag attributes, or unset if none
+  \x             toggle expanded output (currently off)
+
+Copy, Large Object
+  \copy ...      perform SQL COPY with data stream to the client host
+  \lo_export LOBOID FILE
+  \lo_import FILE [COMMENT]
+  \lo_list
+  \lo_unlink LOBOID    large object operations	
+</code></pre>
+
+<h4 id="database-tables">列出目前所在的database的所有 tables</h4>
+
+<table>
+  <tbody>
+    <tr>
+      <td>\d{t</td>
+      <td>i</td>
+      <td>s</td>
+      <td>v</td>
+      <td>S} [PATTERN] (add “+” for more detail)</td>
+    </tr>
+  </tbody>
+</table>
+
+<ul>
+  <li>\dt 列出目前db所有的tables</li>
+  <li>\di 列出目前db所有的indexs</li>
+  <li>\ds 列出目前db所有的sequences</li>
+  <li>\dv 列出目前db所有的views</li>
+  <li>\dS 列出目前db所有的system tables</li>
+</ul>
+
+<p>ex:</p>
+
+<pre><code>mydb-# \dt
+
+           List of relations
+ Schema |     Name      | Type  | Owner
+--------+---------------+-------+-------
+ public | auth          | table | admin
+ public | match_history | table | admin
+ public | usr           | table | admin
+(3 rows)
+</code></pre>
+
+<h4 id="tableviewindexschema">顯示某個table，view，index的schema</h4>
+
+<p>\d [NAME]      describe table, index, sequence, or view</p>
+
+<p>ex:</p>
+
+<pre><code>mydb-# \d auth
+                                      Table "public.auth"
+   Column    |            Type             |                     Modifiers
+-------------+-----------------------------+---------------------------------------------------
+ id          | integer                     | not null default nextval('auth_id_seq'::regclass)
+ create_date | timestamp without time zone |
+ enabled     | boolean                     | not null
+ expire_date | timestamp without time zone |
+ feature_id  | integer                     |
+ hwid        | character varying(255)      |
+ match_date  | timestamp without time zone |
+ matchable   | boolean                     | not null
+ max_device  | integer                     |
+ printed     | boolean                     | not null
+ sn          | character varying(255)      | not null
+ trial       | boolean                     | not null
+ agent_id    | integer                     |
+ user_id     | integer                     |
+ version     | character varying(20)       | not null default 1
+ edition     | character varying(255)      |
+Indexes:
+    "auth_pkey" PRIMARY KEY, btree (id)
+    "auth_sn_key" UNIQUE, btree (sn)	
+</code></pre>
+
+<h4 id="expanded-mode-90">expanded mode (將資料顯示的方式轉90度)</h4>
+<p><code>-x</code> : Turn on the expanded table formatting mode</p>
+
+<p>正常的情況下查詢出來的資料，欄位是以水平方式排列</p>
+
+<pre><code class="language-sql">mydb=# select id,author from databasechangelog;
+ id | author 
+----+--------
+ 1  | bob
+(1 row)
+
+</code></pre>
+
+<p>透過<code>\x</code>參數可以把讓資料顯示方式變成<strong>垂直排列</strong>，這對於資料欄位較多或資料較長時，layout會亂掉，如果用<em>expanded mode</em>就可以有比較好的效果</p>
+
+<pre><code class="language-sql">mydb=# \x
+Expanded display is on.
+mydb=# select id,author from databasechangelog;
+-[ RECORD 1 ]
+id     | 1
+author | bob
+
+</code></pre>
+
+<h1 id="sequence-auto-increment">Sequence (AUTO INCREMENT)</h1>
+
+<p>PostgreSQL<del>並沒有自增型欄位型態</del>(AUTO<br />
+INCREMENT)，但是有提供Sequence機制，這部份，與<a href="http://wiki.kent-chiu.com/doku.php?id=database:oracle_101#auto_increment" title="database:oracle_101">oracle</a>比較類似，但PostgreSQL可以透過建立table時的自訂語法來自動套用Sequence，讓其動作比較接近<strong>AUTO<br />
+INCREMENT</strong>的效果</p>
+
+<blockquote>
+  <p>更新: 型態選用<code>serial</code>即可有 auto increment 的功能，在執行不指定id欄位的insert後，每個資料列會自動填入 +1 的序號值，不需額外的處理</p>
+</blockquote>
+
+<h3 id="section">使用方式</h3>
+
+<h5 id="tablecolumnsequence">讓table的某一column套用sequence</h5>
+
+<pre><code>CREATE TABLE tablename (
+    colname SERIAL
+);
+
+</code></pre>
+
+<p>上面的語法等效於</p>
+
+<pre><code>CREATE SEQUENCE tablename_colname_seq;
+CREATE TABLE tablename (
+    colname integer DEFAULT NEXTVAL('tablename_colname_seq') NOT NULL
+);
+
+</code></pre>
+
+<h5 id="sequence">建立sequence</h5>
+
+<pre><code>create sequence seq start 100;
+
+</code></pre>
+
+<p>以上語法會建立一個名為<code>seq</code>的sequence，啟始值為100 (從100起跳)</p>
+
+<h5 id="sequence-1">取得目前sequence的值</h5>
+
+<pre><code>select currval('seq');
+
+</code></pre>
+
+<h5 id="sequence-2">取得下一個sequence的值</h5>
+
+<pre><code>select nextval('seq');
+
+</code></pre>
+
+<h5 id="sequence-3">重新設定sequence值</h5>
+
+<pre><code>select setval('seq',9)
+
+</code></pre>
+
+<h5 id="sequence-4">重新設定sequence值(建議)</h5>
+
+<pre><code>select setval('seq', max(id)) FROM myTable;
+
+</code></pre>
+
+<h3 id="drop-all-tables-script">Drop all tables script</h3>
+
+<pre><code>/* create a function for drop all tables */
+CREATE OR REPLACE FUNCTION drop_all_table() RETURNS SETOF RECORD   AS $$
+DECLARE
+  stmt RECORD;
+BEGIN
+    FOR stmt IN
+        /* select table */
+       SELECT c.relname FROM pg_catalog.pg_class AS c LEFT JOIN
+    pg_catalog.pg_namespace AS n ON n.oid = c.relnamespace WHERE relkind =
+    'r' AND n.nspname NOT IN ('pg_catalog', 'pg_toast') AND
+    pg_catalog.pg_table_is_visible(c.oid)
+     LOOP
+        /* drop table one by one */
+        EXECUTE 'drop table ' || quote_ident(stmt.relname) || ';';
+    END LOOP;
+END;
+$$ LANGUAGE plpgsql STRICT;
+ 
+begin;
+/* execute the function */
+SELECT drop_all_table();
+commit;
+
+</code></pre>
+
+<h3 id="truncate-all-tables-script">Truncate all tables script</h3>
+
+<pre><code>/* create a function for drop all tables */
+CREATE OR REPLACE FUNCTION truncate_all_table() RETURNS SETOF RECORD   AS $$
+DECLARE
+  stmt RECORD;
+BEGIN
+    FOR stmt IN
+        /* select table */
+       SELECT c.relname FROM pg_catalog.pg_class AS c LEFT JOIN
+    pg_catalog.pg_namespace AS n ON n.oid = c.relnamespace WHERE relkind =
+    'r' AND n.nspname NOT IN ('pg_catalog', 'pg_toast') AND
+    pg_catalog.pg_table_is_visible(c.oid)
+     LOOP
+        /* truncate table one by one */
+        EXECUTE 'truncate table ' || quote_ident(stmt.relname) || ';';
+    END LOOP;
+END;
+$$ LANGUAGE plpgsql STRICT;
+ 
+begin;
+/* execute the function */
+SELECT  truncate_all_table();
+commit;
+
+</code></pre>
+
+<p>如果遇到建立script時<code>language “plpgsql” does not exist</code>(通常在linux下才會),可透過createlang命令，安裝plpgsql到指定的db</p>
+
+<pre><code>createlang -d &lt;dbname&gt; plpgsql
+
+</code></pre>
+
+<h1 id="database">建立全新的Database</h1>
+
+<p>從完全沒有db開始建立的流程如下</p>
+
+<ul>
+  <li>pgsql/bin/initdb.exe -D <em>path</em></li>
+  <li><em>path</em>pg_hba.conf<br />
+設定local可以不用密碼登入(暫時性的，等設定完成記得改回來)</li>
+  <li>用os的帳號登入新的db<br />
+(通常是administrator)，因為上面已設定不用密碼了，所以只要os的帳號即可登入</li>
+  <li>登入後再建立新的database跟user</li>
+  <li>把<em>path</em>pg_hba.conf改回需認證才能登入</li>
+</ul>
+
+<h1 id="section-1">管理</h1>
+
+<h5 id="section-2">列出目前活動</h5>
+
+<pre><code>select * from pg_stat_activity ;
+
+ datid | datname | procpid | usesysid | usename | current_query
+-------+---------+---------+----------+---------+---------------
+ 16976 | simpydb |   31008 |      100 | otis    |
+ 16976 | simpydb |   26126 |      100 | otis    |
+(2 rows)
+
+</code></pre>
+
+<h1 id="resource">Resource</h1>
+
+<ul>
+  <li><a href="http://www.postgresql.org/docs/8.1/static/sql-createsequence.html" title="http://www.postgresql.org/docs/8.1/static/sql-createsequence.html">CREATE SEQUENCE</a></li>
+  <li><a href="http://www.postgresql.org/docs/8.1/static/functions-sequence.html" title="http://www.postgresql.org/docs/8.1/static/functions-sequence.html">Sequence Manipulation<br />
+Functions</a></li>
+  <li><a href="http://www.postgresql.org/docs/8.0/interactive/datatype.html#DATATYPE-SERIAL" title="http://www.postgresql.org/docs/8.0/interactive/datatype.html#DATATYPE-SERIAL">PostgreSQL serial data<br />
+type</a></li>
+  <li><a href="http://wiki.kent-chiu.com/doku.php?id=database:oracle_101" title="database:oracle_101">Oracle 101</a></li>
+  <li><a href="http://www.postgresql.org/docs/9.1/static/errcodes-appendix.html">postgresql error code</a></li>
+</ul>
+
+
+  </article>
+
+</div>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Kent's Blog</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col  footer-col-1">
+        <ul class="contact-list">
+          <li>Kent's Blog</li>
+          <li><a href="mailto:kent.cwg@gmail.com">kent.cwg@gmail.com</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col  footer-col-2">
+        <ul class="social-media-list">
+          
+          <li>
+            <a href="https://github.com/kentchiu">
+              <span class="icon  icon--github">
+                <svg viewBox="0 0 16 16">
+                  <path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/>
+                </svg>
+              </span>
+
+              <span class="username">kentchiu</span>
+            </a>
+          </li>
+          
+
+          
+          <li>
+            <a href="https://twitter.com/kentchiu">
+              <span class="icon  icon--twitter">
+                <svg viewBox="0 0 16 16">
+                  <path fill="#828282" d="M15.969,3.058c-0.586,0.26-1.217,0.436-1.878,0.515c0.675-0.405,1.194-1.045,1.438-1.809
+                  c-0.632,0.375-1.332,0.647-2.076,0.793c-0.596-0.636-1.446-1.033-2.387-1.033c-1.806,0-3.27,1.464-3.27,3.27 c0,0.256,0.029,0.506,0.085,0.745C5.163,5.404,2.753,4.102,1.14,2.124C0.859,2.607,0.698,3.168,0.698,3.767 c0,1.134,0.577,2.135,1.455,2.722C1.616,6.472,1.112,6.325,0.671,6.08c0,0.014,0,0.027,0,0.041c0,1.584,1.127,2.906,2.623,3.206 C3.02,9.402,2.731,9.442,2.433,9.442c-0.211,0-0.416-0.021-0.615-0.059c0.416,1.299,1.624,2.245,3.055,2.271 c-1.119,0.877-2.529,1.4-4.061,1.4c-0.264,0-0.524-0.015-0.78-0.046c1.447,0.928,3.166,1.469,5.013,1.469 c6.015,0,9.304-4.983,9.304-9.304c0-0.142-0.003-0.283-0.009-0.423C14.976,4.29,15.531,3.714,15.969,3.058z"/>
+                </svg>
+              </span>
+
+              <span class="username">kentchiu</span>
+            </a>
+          </li>
+          
+        </ul>
+      </div>
+
+      <div class="footer-col  footer-col-3">
+        <p class="text">Kent的學習筆記</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>

@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width initial-scale=1">
+
+  <title>RESTful API Design</title>
+  <meta name="description" content="Table of contents">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://blog.kent-chiu.com//rest/2013/06/04/restful-api-design.html">
+  <link rel="alternate" type="application/atom+xml" title="Kent's Blog" href="http://blog.kent-chiu.com//feed.xml" />
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/">Kent's Blog</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          
+          <a class="page-link" href="/about/">About</a>
+          
+        
+          
+        
+          
+        
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">RESTful API Design</h1>
+    <p class="post-meta">Jun 4, 2013 • Kent Chiu</p>
+  </header>
+
+  <article class="post-content">
+    <h1 class="no_toc" id="table-of-contents">Table of contents</h1>
+
+<ul id="markdown-toc">
+  <li><a href="#method">Method</a></li>
+  <li><a href="#get">GET</a>    <ul>
+      <li><a href="#status-code">status code</a></li>
+      <li><a href="#post">POST</a>        <ul>
+          <li><a href="#status-code-1">status code</a></li>
+        </ul>
+      </li>
+      <li><a href="#put">PUT</a>        <ul>
+          <li><a href="#status-code-2">status code</a></li>
+        </ul>
+      </li>
+      <li><a href="#delete">DELETE</a>        <ul>
+          <li><a href="#status-code-3">status code</a></li>
+          <li><a href="#section">命名規則</a></li>
+          <li><a href="#section-1">輔助用字</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><a href="#resource">Resource</a></li>
+</ul>
+
+<hr />
+
+<h2 id="method">Method</h2>
+
+<p>POST : 操作是 nont-idempotent(非幕等)</p>
+
+<p>GET, PUT, DELETE  : 操作是 idempotent(幕等)</p>
+
+<p>idempotent 是指執行的結果不依賴於執行的次數，ex: <code>count=1+2</code> 是 idempotent，因為不管執行幾次，都不會影響到結果，但 <code>count++</code> 就是 nont-idempotent，因為執行的次數會影響結果。通常，GET是idempotent，POST是non-idemptent這沒什麼爭議，但PUT的操作是幕等，就常常令人感到疑惑，<br />
+目前看到最好的解釋是，PUT是用來建立或取代資源(PUT不是只用於update，也可以create)<br />
+ex: <code>PUT www.api.com/blogs/blog-123</code> 這個操作不管執行幾次，應該都是用來建立或更新 id 為<em>blog-123</em> 的blog<br />
+相對於<code>POST www.api.com/blogs</code>，則是每次執行都會產生一篇新的blog。</p>
+
+<p>另外DELETE操作是idempotent是指，不論執行幾次，都可以執行刪除的動作，所以就算資源不存在，也不應丟出異常，以避免前端double submit時，第二個submit造成失敗</p>
+
+<h2 id="get">GET</h2>
+
+<p>GET method用來取得一筆或多的資源，如果是多筆資源，還可以加入分頁，過濾等資訊，也可在header傳入分頁的links，ex:’first’, ‘last’, ‘next’ and ‘prev’</p>
+
+<ul>
+  <li>GET 	http://www.example.com/orders			  				取得多筆訂單</li>
+  <li>GET 	http://www.example.com/orders/12345       				取得訂單編號為 12345 的訂單</li>
+  <li>GET 	http://www.example.com/orders/12345/items      			取得訂單編號為 12345 的訂單下的所有訂單項目</li>
+  <li>GET 	http://www.example.com/orders/12345/oitems/678      	取得訂單編號為 12345 的訂單下的訂單項目 678</li>
+  <li>GET 	http://www.example.com/orders?customer=kent    			取得客戶 kent 的所有訂單</li>
+</ul>
+
+<h5 id="status-code">status code</h5>
+
+<ul>
+  <li>200 (OK) 			順利取得資源</li>
+  <li>400 (BAD REQUEST) 	無法順利取得資訊，通常是參數有問題或某個查詢條件失效</li>
+  <li>404 (Not Found) 	資源不存在</li>
+</ul>
+
+<h3 id="post">POST</h3>
+
+<p>POST method用來建立新資源，建立完成資源後，通常是回應 201(CREATED) 的狀態碼，而且建立的新資源的 uri link 會放在 HEAD (不是response body)</p>
+
+<pre><code>POST http://www.example.com/order
+</code></pre>
+
+<p>response<br />
+	200 OK<br />
+	Content-Type: application/json<br />
+	Location: http://www.example.com/order/123	</p>
+
+<blockquote>
+  <p>POST, PUT, PATCH 出去的資料應該儘量採用json，而不是Request Parameter(form submit)的格式<br />
+而且header必須加上 <code>application/json</code> 否則就要丟出 HTTP 405 Unsupported Media Type的error</p>
+</blockquote>
+
+<h5 id="status-code-1">status code</h5>
+
+<ul>
+  <li>201 (CREATED) 		成功建立新資源</li>
+  <li>404 (Not Found) 	資源不存在</li>
+</ul>
+
+<h3 id="put">PUT</h3>
+<p>POST method 用來更新資源，</p>
+
+<p>如果 resource 的 id，是由前端決定，而不是後端，那麼此時 PUT 也可以拿用做建立新資源的動作</p>
+
+<h5 id="status-code-2">status code</h5>
+
+<ul>
+  <li>200 (OK) 			更新成功，如果使用這個status code，response裡會有異動後的內容</li>
+  <li>201 (CREATED) 		成功建立新資源</li>
+  <li>204 (No Content)    更新成功，如果使用這個status code，response裡沒有任何內容</li>
+  <li>404 (Not Found) 	資源不存在</li>
+</ul>
+
+<h3 id="delete">DELETE</h3>
+
+<h5 id="status-code-3">status code</h5>
+
+<ul>
+  <li>200 (OK) 			更新成功，如果使用這個 status code，response裡會有異動後的內容</li>
+  <li>204 (No Content)    更新成功，如果使用這個 status code，response裡沒有任何內容</li>
+  <li>404 (Not Found) 	資源不存在，連續呼叫兩次相同的 delete，會傳回 404</li>
+</ul>
+
+<h4 id="section">命名規則</h4>
+
+<p>資源命名應為<strong>複數名詞</strong>，不論是 GET, POST, PUT, DELETE 應該都要用<strong>複數名詞</strong>來命名，如果是要取得單筆資訊，<br />
+則是在<strong>複數名詞</strong>的資源後接上該資源的indentity</p>
+
+<p>如果是複合字，應該用<code>-</code>隔開，而不是用 camel style : ex: 採用 <code>hello-world</code> 而非 <code>helloWorld</code></p>
+
+<ul>
+  <li>GET 	http://www.example.com/orders			  取得多筆訂單</li>
+  <li>GET 	http://www.example.com/orders/12345       取得訂單編號為 12345 的訂單</li>
+  <li>GET 	http://www.example.com/users?name=kent    取得使用者 kent 的資訊</li>
+  <li>PUT 	http://www.example.com/users/kent         更新使用者 kent</li>
+  <li>POST 	http://www.example.com/users/kent         新增使用者 kent</li>
+  <li>DELETE	http://www.example.com/users/kent         刪除使用者 kent</li>
+</ul>
+
+<p>所以，一般來說，只有兩種 url 的定義方式</p>
+
+<pre><code>GET | PUT | DELETE 	http://www.example.com/orders/{id}
+POST 				http://www.example.com/orders
+</code></pre>
+
+<blockquote>
+  <p>資源 id 當識別會比用name來的好，因為名稱可能會異動，如果要用名稱，應該是類似查詢參數的用法 /users?name=kent<br />
+另外，用id也可以避免名稱衝突ex: orders/new 如果這邊是採用名稱，就不易辨識這個new是指新的order，還是有張order名稱為<em>new</em></p>
+</blockquote>
+
+<h4 id="section-1">輔助用字</h4>
+<ul>
+  <li>search 搜尋，如果有時就是做搜尋當resource最直覺，就用吧，以名詞命規的規格，還是可以有例外的</li>
+  <li>filter 過濾用</li>
+  <li>page   分頁用</li>
+  <li>sort   排序用，可以用<code>-</code>表示昇冪, ex: sort=-age 由大到小排序，sort=age 由小到大排序</li>
+  <li>fields 用來指定後端只傳合那些欄位  ex: fields=id,name,address</li>
+  <li>embed  用來指定後端傳合的部份是不是包含 detail，有些資料是master/detail的關係，用embed可以決定要不要傳回 detail</li>
+</ul>
+
+<h2 id="resource">Resource</h2>
+
+<ul>
+  <li><a href="http://zh.wikipedia.org/zh-tw/HTTP%E7%8A%B6%E6%80%81%E7%A0%81">http://zh.wikipedia.org/zh-tw/HTTP%E7%8A%B6%E6%80%81%E7%A0%81</a> - HTTP 狀態碼</li>
+  <li><a href="http://www.restapitutorial.com/lessons/httpmethods.html">http://www.restapitutorial.com/lessons/httpmethods.html</a>  - RESTful Tutorial</li>
+  <li><a href="http://blog.2partsmagic.com/restful-uri-design/">http://blog.2partsmagic.com/restful-uri-design/</a> - rest 命名規格</li>
+  <li><a href="http://stackoverflow.com/questions/1619152/how-to-create-rest-urls-without-verbs">http://stackoverflow.com/questions/1619152/how-to-create-rest-urls-without-verbs</a> - 如何避免用動詞命名<br />
+件</li>
+  <li><a href="http://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api?hn#snake-vs-camel">http://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api?hn#snake-vs-camel</a> - 設計Restful API 相當不錯的參考資料，內容很全面，方方面面都有提到</li>
+  <li><a href="http://codeplanet.io/principles-good-restful-api-design/">http://codeplanet.io/principles-good-restful-api-design/</a> - Principles of good RESTful API Design, 譂述如何設計優質的API</li>
+  <li><a href="http://www.ruanyifeng.com/blog/2014/05/restful_api.html">http://www.ruanyifeng.com/blog/2014/05/restful_api.html</a> - RESTful API 设计指南(阮一峰)</li>
+  <li>一些流行的 Rest API
+    <ol>
+      <li><a href="http://docs.aws.amazon.com/AmazonS3/latest/API/APIRest.html">http://docs.aws.amazon.com/AmazonS3/latest/API/APIRest.html</a> - Amazon 的 REST API文件</li>
+      <li><a href="https://dev.twitter.com/docs/api/1.1/get/lists/list">https://dev.twitter.com/docs/api/1.1/get/lists/list</a> - twitter 的 REST API文件</li>
+      <li><a href="https://developers.facebook.com/docs/reference/api/">https://developers.facebook.com/docs/reference/api/</a> - FaceBook 的 REST API文件</li>
+      <li><a href="https://developer.linkedin.com/apis">https://developer.linkedin.com/apis</a> - linkedin 的 REST API文件</li>
+      <li><a href="https://developer.paypal.com/webapps/developer/docs/api/">https://developer.paypal.com/webapps/developer/docs/api/</a> - paypal  的 REST API文</li>
+    </ol>
+  </li>
+  <li><a href="http://www.thebuzzmedia.com/designing-a-secure-rest-api-without-oauth-authentication/">http://www.thebuzzmedia.com/designing-a-secure-rest-api-without-oauth-authentication/</a> - auth token的設計	</li>
+</ul>
+
+  </article>
+
+</div>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Kent's Blog</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col  footer-col-1">
+        <ul class="contact-list">
+          <li>Kent's Blog</li>
+          <li><a href="mailto:kent.cwg@gmail.com">kent.cwg@gmail.com</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col  footer-col-2">
+        <ul class="social-media-list">
+          
+          <li>
+            <a href="https://github.com/kentchiu">
+              <span class="icon  icon--github">
+                <svg viewBox="0 0 16 16">
+                  <path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/>
+                </svg>
+              </span>
+
+              <span class="username">kentchiu</span>
+            </a>
+          </li>
+          
+
+          
+          <li>
+            <a href="https://twitter.com/kentchiu">
+              <span class="icon  icon--twitter">
+                <svg viewBox="0 0 16 16">
+                  <path fill="#828282" d="M15.969,3.058c-0.586,0.26-1.217,0.436-1.878,0.515c0.675-0.405,1.194-1.045,1.438-1.809
+                  c-0.632,0.375-1.332,0.647-2.076,0.793c-0.596-0.636-1.446-1.033-2.387-1.033c-1.806,0-3.27,1.464-3.27,3.27 c0,0.256,0.029,0.506,0.085,0.745C5.163,5.404,2.753,4.102,1.14,2.124C0.859,2.607,0.698,3.168,0.698,3.767 c0,1.134,0.577,2.135,1.455,2.722C1.616,6.472,1.112,6.325,0.671,6.08c0,0.014,0,0.027,0,0.041c0,1.584,1.127,2.906,2.623,3.206 C3.02,9.402,2.731,9.442,2.433,9.442c-0.211,0-0.416-0.021-0.615-0.059c0.416,1.299,1.624,2.245,3.055,2.271 c-1.119,0.877-2.529,1.4-4.061,1.4c-0.264,0-0.524-0.015-0.78-0.046c1.447,0.928,3.166,1.469,5.013,1.469 c6.015,0,9.304-4.983,9.304-9.304c0-0.142-0.003-0.283-0.009-0.423C14.976,4.29,15.531,3.714,15.969,3.058z"/>
+                </svg>
+              </span>
+
+              <span class="username">kentchiu</span>
+            </a>
+          </li>
+          
+        </ul>
+      </div>
+
+      <div class="footer-col  footer-col-3">
+        <p class="text">Kent的學習筆記</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>

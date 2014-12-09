@@ -1,0 +1,18 @@
+# Site settings
+title: Kent's Blog
+email: kent.cwg@gmail.com
+description: Kent的學習筆記
+baseurl: "" # the subpath of your site, e.g. /blog/
+url: "http://blog.kent-chiu.com/" # the base hostname & protocol for your site
+twitter_username: kentchiu
+github_username:  kentchiu
+
+# Build settings
+markdown: kramdown
+
+
+kramdown:
+   input: GFM
+   toc_levels:    1..6
+#   use_coderay:   true  
+

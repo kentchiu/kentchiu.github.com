@@ -1,0 +1,1936 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width initial-scale=1">
+
+  <title>Smarty 101</title>
+  <meta name="description" content="Table of contents">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://blog.kent-chiu.com//smarty/2011/10/17/smarty_101.html">
+  <link rel="alternate" type="application/atom+xml" title="Kent's Blog" href="http://blog.kent-chiu.com//feed.xml" />
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/">Kent's Blog</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          
+          <a class="page-link" href="/about/">About</a>
+          
+        
+          
+        
+          
+        
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Smarty 101</h1>
+    <p class="post-meta">Oct 17, 2011 • Kent Chiu</p>
+  </header>
+
+  <article class="post-content">
+    <h1 class="no_toc" id="table-of-contents">Table of contents</h1>
+
+<ul id="markdown-toc">
+  <li><a href="#smarty-note">Smarty Note</a>    <ul>
+      <li><a href="#using-array-veriable-in-smarty">Using array veriable in smarty</a></li>
+      <li><a href="#using-object-veriable-in-smarty">Using object veriable in smarty</a></li>
+      <li><a href="#function-in-smarty">Function in Smarty</a></li>
+      <li><a href="#attributes">attributes</a></li>
+    </ul>
+  </li>
+  <li><a href="#variables">variables</a>    <ul>
+      <li><a href="#variables-assigned-from-php">variables assigned from php</a>        <ul>
+          <li><a href="#associative-arrays-by--period-symbol">Associative arrays by ‘.’ (period) symbol</a></li>
+          <li><a href="#array-indexes-by--symbol">Array indexes by ‘[]’ symbol</a></li>
+          <li><a href="#objects-by--">Objects by ‘-&gt;’</a></li>
+        </ul>
+      </li>
+      <li><a href="#variables-loaded-from-config-files">variables loaded from config files</a>        <ul>
+          <li><a href="#enclose-by-">enclose by #</a></li>
+          <li><a href="#with-smarty-variable">with smarty variable</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><a href="#smarty-reserved-variable">{$smarty} reserved variable</a>    <ul>
+      <li><a href="#request-variables">Request variables</a></li>
+      <li><a href="#smartynow">{$smarty.now}</a></li>
+      <li><a href="#smartyconst">{$smarty.const}</a></li>
+      <li><a href="#smartycapture">{$smarty.capture}</a></li>
+      <li><a href="#smartyconfig">{$smarty.config}</a></li>
+      <li><a href="#smartysection-smartyforeach">{$smarty.section}, {$smarty.foreach}</a></li>
+      <li><a href="#smartytemplate">{$smarty.template}</a></li>
+    </ul>
+  </li>
+  <li><a href="#variable-modifiers">Variable Modifiers</a>    <ul>
+      <li><a href="#dateformat">date_format</a>        <ul>
+          <li><a href="#the-formatting-control-char">the formatting control char</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><a href="#built-in-functions">Built-in Functions</a>    <ul>
+      <li><a href="#capture">{capture}</a></li>
+      <li><a href="#configload">{config_load}</a></li>
+      <li><a href="#foreachforeachelse">{foreach},{foreachelse}</a>        <ul>
+          <li><a href="#demonstrates-the-item-attributes">Demonstrates the item attributes</a></li>
+          <li><a href="#demonstrates-the-item-and-key-attributes">Demonstrates the item and key attributes</a></li>
+          <li><a href="#database-example-with-foreachelse">Database example with {foreachelse}</a></li>
+        </ul>
+      </li>
+      <li><a href="#ifelseifelse">{if},{elseif},{else}</a></li>
+      <li><a href="#include">{include}</a></li>
+      <li><a href="#includephp">{include_php}</a></li>
+      <li><a href="#insert">{insert}</a></li>
+      <li><a href="#ldelimrdelim">{ldelim},{rdelim}</a></li>
+      <li><a href="#literal">{literal}</a></li>
+      <li><a href="#php">{php}</a></li>
+      <li><a href="#sectionsectionelse">{section},{sectionelse}</a>        <ul>
+          <li><a href="#nested-section">Nested {section}</a></li>
+          <li><a href="#database-sample-with-sectionelse">Database sample with {sectionelse}</a></li>
+          <li><a href="#index-indexprev-indexnext">.index, .index_prev, .index_next</a></li>
+          <li><a href="#show">.show</a></li>
+        </ul>
+      </li>
+      <li><a href="#strip">{strip}</a></li>
+    </ul>
+  </li>
+  <li><a href="#custom-functions">Custom Functions</a>    <ul>
+      <li><a href="#assign">{assign}</a></li>
+      <li><a href="#counter">{counter}</a></li>
+      <li><a href="#cycle">{cycle}</a></li>
+      <li><a href="#debug">{debug}</a></li>
+      <li><a href="#eval">{eval}</a></li>
+      <li><a href="#fetch">{fetch}</a></li>
+      <li><a href="#htmlcheckboxes">{html_checkboxes}</a></li>
+      <li><a href="#htmlimage">{html_image}</a></li>
+      <li><a href="#htmloptions">{html_options}</a></li>
+      <li><a href="#htmlradios">{html_radios}</a></li>
+      <li><a href="#htmlselectdate">{html_select_date}</a></li>
+      <li><a href="#htmlselecttime">{html_select_time}</a></li>
+      <li><a href="#htmltable">{html_table}</a></li>
+      <li><a href="#mailto">{mailto}</a></li>
+      <li><a href="#math">{math}</a></li>
+      <li><a href="#popup">{popup}</a></li>
+      <li><a href="#popupinit">{popup_init}</a></li>
+      <li><a href="#textformat">{textformat}</a></li>
+    </ul>
+  </li>
+  <li><a href="#debug-in-smarty">debug in smarty</a></li>
+  <li><a href="#constants">Constants</a></li>
+  <li><a href="#smarty-class-variables">Smarty Class Variables</a></li>
+  <li><a href="#smarty-class-methods">Smarty Class Methods</a></li>
+  <li><a href="#caching">Caching</a>    <ul>
+      <li><a href="#iscached">is_cached()</a></li>
+    </ul>
+  </li>
+  <li><a href="#push-objects-to-page">push objects to page</a></li>
+  <li><a href="#filters">Filters</a>    <ul>
+      <li><a href="#prefilters">prefilters</a></li>
+      <li><a href="#postfilters">postfilters</a></li>
+      <li><a href="#output-filters">output filters</a></li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<p>the smarty is a template engine of php. there are some features of<br />
+smarty listed blow:</p>
+
+<ul>
+  <li>split any UI control in smarty, php only provides the data source</li>
+  <li>if ‹ and &gt; can’t parsed as well, we can use $left_delimiter and<br />
+$right_delimiter instend.</li>
+  <li>function name is case-<strong>in</strong>sensitive but variable is case-sensitive</li>
+</ul>
+
+<h2 id="smarty-note">Smarty Note</h2>
+
+<h3 id="using-array-veriable-in-smarty">Using array veriable in smarty</h3>
+
+<pre><code>&lt;?php
+$user = array("firstname" =&gt; "Kent", "lastname" =&gt; "Chiu", "email" =&gt; "kent.chiu@mail.com");
+$tpl-&gt;assign("user", $user);
+?&gt;
+
+</code></pre>
+
+<pre><code>{$user.firstname}
+{$user.lastname}
+{$user.email}
+
+</code></pre>
+
+<h3 id="using-object-veriable-in-smarty">Using object veriable in smarty</h3>
+
+<pre><code>$obj = new UserObject();
+$tpl-&gt;assign("obj", $obj);
+
+</code></pre>
+
+<pre><code>{$obj-&gt;firstname}
+{$obj-&gt;lastname}
+{$obj-&gt;method()}
+
+</code></pre>
+
+<h3 id="function-in-smarty">Function in Smarty</h3>
+
+<pre><code>{$var|function}
+{$var|function:"argument(option)"}
+
+</code></pre>
+
+<h3 id="attributes">attributes</h3>
+
+<ul>
+  <li>static values don’t have to be enclosed in quotes</li>
+  <li>it is recommended for literal strings</li>
+  <li>variables should not be in quotes.</li>
+  <li>boolean value can be specified as true, on, and yes, or false, off,<br />
+and no</li>
+</ul>
+
+<pre><code>{include file="header.tpl"}
+ 
+{include file=$includeFile}
+ 
+{include file=#includeFile#}
+ 
+{html_select_date display_days=yes}
+ 
+&lt;SELECT name=company&gt;
+{html_options values=$vals selected=$selected output=$output}
+&lt;/SELECT&gt;
+
+</code></pre>
+
+<h2 id="variables">variables</h2>
+
+<p>Smarty has several different types of variables. The type of the<br />
+variable depends on what symbol it is prefixed with (or enclosed<br />
+within).</p>
+
+<h3 id="variables-assigned-from-php">variables assigned from php</h3>
+
+<ul>
+  <li>using the sign’$’</li>
+  <li>Associative arrays by ‘.’ (period) symbol</li>
+  <li>Array indexes by ‘[]’ symbol</li>
+  <li>Objects by ‘→’</li>
+</ul>
+
+<h4 id="associative-arrays-by--period-symbol">Associative arrays by ‘.’ (period) symbol</h4>
+
+<pre><code>    $smarty = new Smarty;
+    $smarty-&gt;assign('Contacts',
+     array('fax' =&gt; '555-222-9876',
+     'email' =&gt; 'zaphod@slartibartfast.com',
+     'phone' =&gt; array('home' =&gt; '555-444-3333',
+     'cell' =&gt; '555-111-1234')));
+    $smarty-&gt;display('index.tpl');
+
+</code></pre>
+
+<pre><code>    {$Contacts.fax}&lt;br&gt;
+    {$Contacts.email}&lt;br&gt;
+    {* you can print arrays of arrays as well *}
+    {$Contacts.phone.home}&lt;br&gt;
+    {$Contacts.phone.cell}&lt;br&gt;
+
+</code></pre>
+
+<h4 id="array-indexes-by--symbol">Array indexes by ‘[]’ symbol</h4>
+
+<pre><code>    $smarty = new Smarty;
+    $smarty-&gt;assign('Contacts', 
+                     array('555-222-9876',  'zaphod@slartibartfast.com',  
+                           array('555-444-3333', '555-111-1234')));
+    $smarty-&gt;display('index.tpl');
+
+</code></pre>
+
+<pre><code>    {$Contacts[0]}&lt;br&gt;
+    {$Contacts[1]}&lt;br&gt;
+    {* you can print arrays of arrays as well *}
+    {$Contacts[2][0]}&lt;br&gt;
+    {$Contacts[2][1]}&lt;br&gt;
+
+</code></pre>
+
+<pre><code>    555-222-9876&lt;br&gt;
+    zaphod@slartibartfast.com&lt;br&gt;
+    555-444-3333&lt;br&gt;
+    555-111-1234&lt;br&gt;
+
+</code></pre>
+
+<h4 id="objects-by--">Objects by ‘-&gt;’</h4>
+
+<pre><code>    name: {$person-&gt;name}&lt;br&gt;
+    email: {$person-&gt;email}&lt;br&gt;
+
+</code></pre>
+
+<h3 id="variables-loaded-from-config-files">variables loaded from config files</h3>
+
+<p>there are two syntaxes for accessing variables assigned from config<br />
+files.</p>
+
+<ol>
+  <li>enclosed with double ‘#‘(sharp mark) , ex: #config#</li>
+  <li>with smarty variable , ex $smarty.config</li>
+</ol>
+
+<pre><code>    pageTitle = "This is mine"
+    bodyBgColor = "#eeeeee"
+    tableBorderSize = "3"
+    tableBgColor = "#bbbbbb"
+    rowBgColor = "#cccccc"
+
+</code></pre>
+
+<h4 id="enclose-by-">enclose by #</h4>
+
+<pre><code>    config_load file="foo.conf"}
+    &lt;html&gt;
+    &lt;title&gt;{#pageTitle#}&lt;/title&gt;
+    &lt;body bgcolor="{#bodyBgColor#}"&gt;
+    &lt;table border="{#tableBorderSize#}" bgcolor="{#tableBgColor#}"&gt;
+    &lt;tr bgcolor="{#rowBgColor#}"&gt;
+        &lt;td&gt;First&lt;/td&gt;
+        &lt;td&gt;Last&lt;/td&gt;
+        &lt;td&gt;Address&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;/table&gt;
+    &lt;/body&gt;
+    &lt;/html&gt;
+
+</code></pre>
+
+<h4 id="with-smarty-variable">with smarty variable</h4>
+
+<pre><code>    {config_load file="foo.conf"}
+    &lt;html&gt;
+    &lt;title&gt;{$smarty.config.pageTitle}&lt;/title&gt;
+    &lt;body bgcolor="{$smarty.config.bodyBgColor}"&gt;
+    &lt;table border="{$smarty.config.tableBorderSize}" bgcolor="{$smarty.config.tableBgColor}"&gt;
+    &lt;tr bgcolor="{$smarty.config.rowBgColor}"&gt;
+        &lt;td&gt;First&lt;/td&gt;
+        &lt;td&gt;Last&lt;/td&gt;
+        &lt;td&gt;Address&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;/table&gt;
+    &lt;/body&gt;
+    &lt;/html&gt;
+
+</code></pre>
+
+<h2 id="smarty-reserved-variable">{$smarty} reserved variable</h2>
+
+<ol>
+  <li>Request variables(get,post,server,session, … etc)</li>
+  <li>{$smarty.now}</li>
+  <li>{$smarty.const}</li>
+  <li>{$smarty.capture}</li>
+  <li>{$smarty.config}</li>
+  <li>{$smarty.section}, {$smarty.foreach}</li>
+  <li>{$smarty.template}</li>
+</ol>
+
+<h3 id="request-variables">Request variables</h3>
+
+<pre><code>    {* display value of page from URL (GET) http://www.domain.com/index.php?page=foo *}
+    {$smarty.get.page}
+     
+    {* display the variable "page" from a form (POST) *}
+    {$smarty.post.page}
+     
+    {* display the value of the cookie "username" *}
+    {$smarty.cookies.username}
+     
+    {* display the server variable "SERVER_NAME" *}
+    {$smarty.server.SERVER_NAME}
+     
+    {* display the system environment variable "PATH" *}
+    {$smarty.env.PATH}
+     
+    {* display the php session variable "id" *}
+    {$smarty.session.id}
+     
+    {* display the variable "username" from merged get/post/cookies/server/env *}
+    {$smarty.request.username}
+
+</code></pre>
+
+<h3 id="smartynow">{$smarty.now}</h3>
+
+<pre><code>    {* use the date_format modifier to show current date and time *}
+    {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
+
+</code></pre>
+
+<h3 id="smartyconst">{$smarty.const}</h3>
+
+<pre><code>    {$smarty.const._MY_CONST_VAL}
+
+</code></pre>
+
+<h3 id="smartycapture">{$smarty.capture}</h3>
+
+<p>The output captured via {capture}..{/capture} construct can be accessed<br />
+using {$smarty} variable reference to the<br />
+<a href="#capture" title="php:smarty:smarty_101 ↵">capture</a> function for more detail.</p>
+
+<h3 id="smartyconfig">{$smarty.config}</h3>
+
+<pre><code>    {$smarty} variable can be used to refer to loaded config variables. 
+
+</code></pre>
+
+<p>reference to the <a href="#config_load" title="php:smarty:smarty_101 ↵">config_load</a><br />
+for more detail.</p>
+
+<h3 id="smartysection-smartyforeach">{$smarty.section}, {$smarty.foreach}</h3>
+
+<p>{$smarty} variable can be used to refer to ‘section’ and ‘foreach’ loop<br />
+properties. See docs for<br />
+<a href="#section_sectionelse" title="php:smarty:smarty_101 ↵">section</a> and<br />
+<a href="#foreach_foreachelse" title="php:smarty:smarty_101 ↵">foreach</a>.</p>
+
+<h3 id="smartytemplate">{$smarty.template}</h3>
+
+<p>current template name</p>
+
+<pre><code>    {$smarty.template};
+    {* output myTemplate.tpl *}
+
+</code></pre>
+
+<h2 id="variable-modifiers">Variable Modifiers</h2>
+
+<ul>
+  <li>applied to
+    <ol>
+      <li>variables</li>
+      <li>custom functions</li>
+      <li>strings</li>
+      <li>all php-functions (has two little pitfalls)</li>
+    </ol>
+  </li>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td>applied a modifier by</td>
+          <td>(pipe)</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li>additional parameters by :(colon)</li>
+  <li>apply to array have to using ‘@’ or it will apply to all elements of<br />
+array.</li>
+</ul>
+
+<pre><code>    {* apply modifier to a variable *}
+    {$title|upper}
+     
+    {* modifier with parameters *}
+    {$title|truncate:40:'...'}
+     
+    {* apply modifier to a function parameter *}
+    {html_table loop=$myvar|upper}
+     
+    {* with parameters *}
+    {html_table loop=$myvar|truncate:40:'...'}
+     
+    {* apply modifier to literal string *}
+    {'foobar'|upper}
+     
+    {* using date_format to format the current date *}
+    {$smarty.now|date_format:"%Y/%m/%d"}
+     
+    {* apply modifier to a custom function *}
+    {mailto|upper address='smarty@example.com'}
+     
+    {* using  php's str_repeat *}
+    {'='|str_repeat:80}
+     
+    {* php's count *}
+    {$myArray|@count}
+     
+    {* php's shuffle on servers's ip *}
+    {$smarty.server.SERVER_ADDR|shuffle}
+     
+    (* this will uppercase and truncate the whole array *}
+    &lt;select name="name_id"&gt;
+    {html_options output=$myArray|upper|truncate:20}
+    &lt;/select&gt;
+
+</code></pre>
+
+<h3 id="dateformat">date_format</h3>
+
+<pre><code>    &lt;?php
+     
+    $config['date'] = '%I:%M %p';
+    $config['time'] = '%H:%M:%S';
+    $smarty-&gt;assign('config', $config);
+    $smarty-&gt;assign('yesterday', strtotime('-1 day'));
+     
+    ?&gt; 
+
+</code></pre>
+
+<pre><code>    {$smarty.now|date_format}
+    {$smarty.now|date_format:"%A, %B %e, %Y"}
+    {$smarty.now|date_format:"%H:%M:%S"}
+    {$yesterday|date_format}
+    {$yesterday|date_format:"%A, %B %e, %Y"}
+    {$yesterday|date_format:"%H:%M:%S"}
+    &lt;/ocde&gt;
+     
+    &lt;code |h output&gt;
+    Jan 1, 2022
+    01/01/22
+    02:33 pm
+    Dec 31, 2021
+    Monday, December 1, 2021
+    14:33:00
+
+</code></pre>
+
+<h4 id="the-formatting-control-char">the formatting control char</h4>
+
+<ul>
+  <li>%a - abbreviated weekday name according to the current locale</li>
+  <li>%A - full weekday name according to the current locale</li>
+  <li>%b - abbreviated month name according to the current locale</li>
+  <li>%B - full month name according to the current locale</li>
+  <li>%c - preferred date and time representation for the current locale</li>
+  <li>%C - century number (the year divided by 100 and truncated to an<br />
+integer, range 00 to 99)</li>
+  <li>%d - day of the month as a decimal number (range 01 to 31)</li>
+  <li>%D - same as %m/%d/%y</li>
+  <li>%e - day of the month as a decimal number, a single digit is<br />
+preceded by a space (range 1 to 31)</li>
+  <li>%g - Week-based year within century [00,99]</li>
+  <li>%G - Week-based year, including the century [0000,9999]</li>
+  <li>%h - same as %b</li>
+  <li>%H - hour as a decimal number using a 24-hour clock (range 00 to 23)</li>
+  <li>%I - hour as a decimal number using a 12-hour clock (range 01 to 12)</li>
+  <li>%j - day of the year as a decimal number (range 001 to 366)</li>
+  <li>%k - Hour (24-hour clock) single digits are preceded by a blank.<br />
+(range 0 to 23)</li>
+  <li>%l - hour as a decimal number using a 12-hour clock, single digits<br />
+preceeded by a space (range 1 to 12)</li>
+  <li>%m - month as a decimal number (range 01 to 12)</li>
+  <li>%M - minute as a decimal number</li>
+  <li>%n - newline character</li>
+  <li>%p - either `am’ or `pm’ according to the given time value, or the<br />
+corresponding strings for the current locale</li>
+  <li>%r - time in a.m. and p.m. notation</li>
+  <li>%R - time in 24 hour notation</li>
+  <li>%S - second as a decimal number</li>
+  <li>%t - tab character</li>
+  <li>%T - current time, equal to %H:%M:%S</li>
+  <li>%u - weekday as a decimal number [1,7], with 1 representing Monday</li>
+  <li>%U - week number of the current year as a decimal number, starting<br />
+with the first Sunday as the first day of the first week</li>
+  <li>%V - The ISO 8601:1988 week number of the current year as a decimal<br />
+number, range 01 to 53, where week 1 is the first week that has at<br />
+least 4 days in the current year, and with Monday as the first day<br />
+of the week.</li>
+  <li>%w - day of the week as a decimal, Sunday being 0</li>
+  <li>%W - week number of the current year as a decimal number, starting<br />
+with the first Monday as the first day of the first week</li>
+  <li>%x - preferred date representation for the current locale without<br />
+the time</li>
+  <li>%X - preferred time representation for the current locale without<br />
+the date</li>
+  <li>%y - year as a decimal number without a century (range 00 to 99)</li>
+  <li>%Y - year as a decimal number including the century</li>
+  <li>%Z - time zone or name or abbreviation</li>
+  <li>%% - a literal `%’ character</li>
+</ul>
+
+<h2 id="built-in-functions">Built-in Functions</h2>
+
+<ul>
+  <li>{capture}</li>
+  <li>{config_load}</li>
+  <li>{foreach},{foreachelse}</li>
+  <li>{if},{elseif},{else}</li>
+  <li>{include}</li>
+  <li>{include_php}</li>
+  <li>{insert}</li>
+  <li>{ldelim},{rdelim}</li>
+  <li>{literal}</li>
+  <li>{php}</li>
+  <li>{section},{sectionelse}</li>
+  <li>{strip}</li>
+</ul>
+
+<h3 id="capture">{capture}</h3>
+
+<pre><code>    {* we don't want to print a div tag unless content is displayed *}
+    {capture name=banner}
+      {include file='get_banner.tpl'}
+    {/capture}
+     
+    {if $smarty.capture.banner ne ''}
+    &lt;div id="banner"&gt;{$smarty.capture.banner}&lt;/div&gt;
+    {/if}
+
+</code></pre>
+
+<pre><code>    {capture name=some_content assign=popText}
+    The server is {$smarty.server.SERVER_NAME|upper} at {$smarty.server.SERVER_ADDR}&lt;br&gt;
+    Your ip is {$smarty.server.REMOTE_ADDR}.
+    {/capture}
+    &lt;a href="#" {popup caption='Server Info' text=$popText}&gt;help&lt;/a&gt;
+
+</code></pre>
+
+<h3 id="configload">{config_load}</h3>
+
+<pre><code>    #this is config file comment
+     
+    # global variables
+    pageTitle = "Main Menu"
+    bodyBgColor = #000000
+    tableBgColor = #000000
+    rowBgColor = #00ff00
+     
+    #customer variables section
+    [Customer]
+    pageTitle = "Customer Info"
+
+</code></pre>
+
+<pre><code>    {config_load file="example.conf"}
+     
+    &lt;html&gt;
+    &lt;title&gt;{#pageTitle#|default:"No title"}&lt;/title&gt;
+    &lt;body bgcolor="{#bodyBgColor#}"&gt;
+    &lt;table border="{#tableBorderSize#}" bgcolor="{#tableBgColor#}"&gt;
+       &lt;tr bgcolor="{#rowBgColor#}"&gt;
+          &lt;td&gt;First&lt;/td&gt;
+          &lt;td&gt;Last&lt;/td&gt;
+          &lt;td&gt;Address&lt;/td&gt;
+       &lt;/tr&gt;
+    &lt;/table&gt;
+    &lt;/body&gt;
+    &lt;/html&gt;
+
+</code></pre>
+
+<pre><code>    {config_load file='example.conf' section='Customer'}
+     
+    &lt;html&gt;
+    &lt;title&gt;{#pageTitle#}&lt;/title&gt;
+    &lt;body bgcolor="{#bodyBgColor#}"&gt;
+    &lt;table border="{#tableBorderSize#}" bgcolor="{#tableBgColor#}"&gt;
+       &lt;tr bgcolor="{#rowBgColor#}"&gt;
+          &lt;td&gt;First&lt;/td&gt;
+          &lt;td&gt;Last&lt;/td&gt;
+          &lt;td&gt;Address&lt;/td&gt;
+       &lt;/tr&gt;
+    &lt;/table&gt;
+    &lt;/body&gt;
+    &lt;/html&gt;
+
+</code></pre>
+
+<h3 id="foreachforeachelse">{foreach},{foreachelse}</h3>
+
+<p>{foreach} properties are</p>
+
+<ol>
+  <li>index</li>
+  <li>iteration</li>
+  <li>first</li>
+  <li>last</li>
+  <li>show</li>
+  <li>total</li>
+</ol>
+
+<h4 id="demonstrates-the-item-attributes">Demonstrates the item attributes</h4>
+
+<pre><code>    &lt;?php
+    $arr = array(1000, 1001, 1002);
+    $smarty-&gt;assign('myArray', $arr);
+    ?&gt; 
+
+</code></pre>
+
+<pre><code>    &lt;ul&gt;
+    {foreach from=$myArray item=foo}
+        &lt;li&gt;{$foo}&lt;/li&gt;
+    {/foreach}
+    &lt;/ul&gt;
+
+</code></pre>
+
+<pre><code>    &lt;ul&gt;
+        &lt;li&gt;1000&lt;/li&gt;
+        &lt;li&gt;1001&lt;/li&gt;
+        &lt;li&gt;1002&lt;/li&gt;
+    &lt;/ul&gt;
+
+</code></pre>
+
+<h4 id="demonstrates-the-item-and-key-attributes">Demonstrates the item and key attributes</h4>
+
+<pre><code>    &lt;?php
+    $arr = array(9 =&gt; 'Tennis', 3 =&gt; 'Swimming', 8 =&gt; 'Coding');
+    $smarty-&gt;assign('myArray', $arr);
+    ?&gt; 
+
+</code></pre>
+
+<pre><code>    &lt;ul&gt;
+    {foreach from=$myArray key=k item=v}
+       &lt;li&gt;{$k}: {$v}&lt;/li&gt;
+    {/foreach}
+    &lt;/ul&gt;
+
+</code></pre>
+
+<pre><code>    &lt;ul&gt;
+        &lt;li&gt;9: Tennis&lt;/li&gt;
+        &lt;li&gt;3: Swimming&lt;/li&gt;
+        &lt;li&gt;8: Coding&lt;/li&gt;
+    &lt;/ul&gt;
+
+</code></pre>
+
+<h4 id="database-example-with-foreachelse">Database example with {foreachelse}</h4>
+
+<pre><code>    &lt;?php
+      $search_condition = "where name like '$foo%' ";
+      $sql = 'select contact_id, name, nick from contacts '.$search_condition.' order by name';
+      $smarty-&gt;assign('results', $db-&gt;getAssoc($sql) );
+    ?&gt; 
+
+</code></pre>
+
+<pre><code>    {foreach key=cid item=con from=$results}
+        &lt;a href="contact.php?contact_id={$cid}"&gt;{$con.name} - {$con.nick}&lt;/a&gt;&lt;br /&gt;
+    {foreachelse}
+        No items were found in the search
+    {/foreach}
+
+</code></pre>
+
+<h3 id="ifelseifelse">{if},{elseif},{else}</h3>
+
+<p>Qualifier          Alternates   Syntax Example           Meaning                        PHP Equivalent<br />
+  —————— ———— ———————— —————————— ———————-<br />
+  ==                 eq           $a eq $b               equals                         ==<br />
+  !=                 ne, neq      $a neq $b              not equals                     !=<br />
+  &gt;                 gt           $a gt $b               greater than                   &gt;<br />
+  &lt;                 lt           $a lt $b               less than                      &lt;<br />
+  &gt;=                gte, ge      $a ge $b               greater than or equal          &gt;=<br />
+  ⇐                  lte, le      $a le $b               less than or equal             ⇐<br />
+  ===                             $a === 0                check for identity             ===<br />
+  !                  not          not $a                  negation (unary)               !<br />
+  %                  mod          $a mod $b              modulous                       %<br />
+  is [not] div by                 $a is not div by 4      divisible by                   $a % $b == 0<br />
+  is [not] even                   $a is not even          [not] an even number (unary)   $a % 2 == 0<br />
+  is [not] even by                $a is not even by $b   grouping level [not] even      ($a / $b) % 2 == 0<br />
+  is [not] odd                    $a is not odd           [not] an odd number (unary)    $a % 2 != 0<br />
+  is [not] odd by                 $a is not odd by $b    [not] an odd grouping          ($a / $b) % 2 != 0</p>
+
+<pre><code>    {if $name eq 'Fred'}
+        Welcome Sir.
+    {elseif $name eq 'Wilma'}
+        Welcome Ma'am.
+    {else}
+        Welcome, whatever you are.
+    {/if}
+
+</code></pre>
+
+<h3 id="include">{include}</h3>
+
+<pre><code>    {include file="header.tpl" title="Main Menu" table_bgcolor="#c0c0c0" links=$link_array}
+     
+    {* body of template goes here *}
+     
+    {include file="footer.tpl" logo="http://my.domain.com/logo.gif"}
+
+</code></pre>
+
+<h3 id="includephp">{include_php}</h3>
+
+<p>{include_php} is pretty much deprecated from Smarty, you can accomplish<br />
+the same functionality via a custom template function.</p>
+
+<h3 id="insert">{insert}</h3>
+
+<p>{insert} tags work much like {include} tags, except that {insert} tags<br />
+are NOT cached when template caching is enabled. They will be executed<br />
+on every invocation of the template.</p>
+
+<p>this function is usful for some content we don’t want to cache, like AD<br />
+banner or something else.</p>
+
+<h3 id="ldelimrdelim">{ldelim},{rdelim}</h3>
+
+<p>Used to output ‘{‘ and ‘}’</p>
+
+<h3 id="literal">{literal}</h3>
+
+<p>any context with in the {literal}{/literal} will not interpreted.</p>
+
+<pre><code>    {literal}
+    &lt;script language=javascript&gt;
+    &lt;!--
+    function isblank(field) {
+      if (field.value == '') { 
+        return false; 
+      } else {
+        document.loginform.submit();
+        return true;
+      }
+    }
+    // --&gt;
+    &lt;/script&gt;
+    {/literal}
+
+</code></pre>
+
+<h3 id="php">{php}</h3>
+
+<p>The {php} tags allow PHP code to be embedded directly into the template.<br />
+They will not be escaped, regardless of the $php_handling setting.<br />
+This is for advanced users only, not normally needed and <strong>not<br />
+recommended</strong>.</p>
+
+<pre><code>{* this template includes a {php} block that assign's the variable $varX *}
+{php}
+   global $foo, $bar;
+   if($foo == $bar){
+     echo 'This will be sent to browser';
+   }
+  // assign a variable to Smarty
+  $this-&gt;assign('varX','Toffee');
+{/php}
+{* output the variable *}
+&lt;strong&gt;{$varX}&lt;/strong&gt; is my fav ice cream :-)
+
+</code></pre>
+
+<h3 id="sectionsectionelse">{section},{sectionelse}</h3>
+
+<p>A {section} is for looping over arrays of data, unlike {foreach} which<br />
+is used to loop over a single associative array. Every {section} tag<br />
+must be paired with a closing {/section} tag.</p>
+
+<p>{section} properties are</p>
+
+<ol>
+  <li>index</li>
+  <li>index_prev</li>
+  <li>index_next</li>
+  <li>iteration</li>
+  <li>first</li>
+  <li>last</li>
+  <li>rownum</li>
+  <li>loop</li>
+  <li>show</li>
+  <li>total.</li>
+</ol>
+
+<h4 id="nested-section">Nested {section}</h4>
+
+<pre><code>    &lt;?php
+     
+    $id = array(1001,1002,1003);
+    $smarty-&gt;assign('custid',$id);
+     
+    $fullnames = array('John Smith','Jack Jones','Jane Munson');
+    $smarty-&gt;assign('name',$fullnames);
+     
+    $addr = array('253 N 45th', '417 Mulberry ln', '5605 apple st');
+    $smarty-&gt;assign('address',$addr);
+     
+    $types = array(
+               array( 'home phone', 'cell phone', 'e-mail'),
+               array( 'home phone', 'web'),
+               array( 'cell phone')
+             );
+    $smarty-&gt;assign('contact_type', $types);
+     
+    $info = array(
+               array('555-555-5555', '666-555-5555', 'john@myexample.com'),
+               array( '123-456-4', 'www.example.com'),
+               array( '0457878')
+            );
+    $smarty-&gt;assign('contact_info', $info);
+     
+    ?&gt; 
+
+</code></pre>
+
+<pre><code>    {section name=customer loop=$custid}
+    &lt;hr&gt;
+      id: {$custid[customer]}&lt;br /&gt;
+      name: {$name[customer]}&lt;br /&gt;
+      address: {$address[customer]}&lt;br /&gt;
+      {section name=contact loop=$contact_type[customer]}
+        {$contact_type[customer][contact]}: {$contact_info[customer][contact]}&lt;br /&gt;
+      {/section}
+    {/section}
+
+</code></pre>
+
+<pre><code>    &lt;hr&gt;
+      id: 1000&lt;br /&gt;
+      name: John Smith&lt;br /&gt;
+      address: 253 N 45th&lt;br /&gt;
+        home phone: 555-555-5555&lt;br /&gt;
+        cell phone: 666-555-5555&lt;br /&gt;
+        e-mail: john@myexample.com&lt;br /&gt;
+    &lt;hr&gt;
+      id: 1001&lt;br /&gt;
+      name: Jack Jones&lt;br /&gt;
+      address: 417 Mulberry ln&lt;br /&gt;
+        home phone: 123-456-4&lt;br /&gt;
+        web: www.example.com&lt;br /&gt;
+    &lt;hr&gt;
+      id: 1002&lt;br /&gt;
+      name: Jane Munson&lt;br /&gt;
+      address: 5605 apple st&lt;br /&gt;
+        cell phone: 0457878&lt;br /&gt;
+
+</code></pre>
+
+<h4 id="database-sample-with-sectionelse">Database sample with {sectionelse}</h4>
+
+<pre><code>    &lt;?php
+    $sql = 'select id, name, home, cell, email from contacts '
+          ."where name like '$foo%' ";
+    $smarty-&gt;assign('contacts', $db-&gt;getAll($sql));
+    ?&gt; 
+
+</code></pre>
+
+<pre><code>    &lt;table&gt;
+    &lt;tr&gt;&lt;th&gt;&amp;nbsp;&lt;/th&gt;&lt;th&gt;Name&gt;&lt;/th&gt;&lt;th&gt;Home&lt;/th&gt;&lt;th&gt;Cell&lt;/th&gt;&lt;th&gt;Email&lt;/th&gt;&lt;/tr&gt;
+    {section name=co loop=$contacts}
+      &lt;tr&gt;
+        &lt;td&gt;&lt;a href="view.php?id={$contacts[co].id}"&gt;view&lt;a&gt;&lt;/td&gt;
+        &lt;td&gt;{$contacts[co].name}&lt;/td&gt;
+        &lt;td&gt;{$contacts[co].home}&lt;/td&gt;
+        &lt;td&gt;{$contacts[co].cell}&lt;/td&gt;
+        &lt;td&gt;{$contacts[co].email}&lt;/td&gt;
+      &lt;tr&gt;
+    {sectionelse}
+      &lt;tr&gt;&lt;td colspan="5"&gt;No items found&lt;/td&gt;&lt;/tr&gt;
+    {/section}
+    &lt;/table&gt;
+
+</code></pre>
+
+<h4 id="index-indexprev-indexnext">.index, .index_prev, .index_next</h4>
+
+<pre><code>    &lt;?php
+    $data = array(1001,1002,1003,1004,1005);
+    $smarty-&gt;assign('rows',$data);
+    ?&gt; 
+
+</code></pre>
+
+<pre><code>    {* $rows[row.index] and $rows[row] are identical in meaning *}
+    &lt;table&gt;
+      &lt;tr&gt;
+        &lt;th&gt;index&lt;/th&gt;&lt;th&gt;id&lt;/th&gt;
+        &lt;th&gt;index_prev&lt;/th&gt;&lt;th&gt;prev_id&lt;/th&gt;
+        &lt;th&gt;index_next&lt;/th&gt;&lt;th&gt;next_id&lt;/th&gt;
+      &lt;/tr&gt;
+    {section name=row loop=$rows}
+      &lt;tr&gt;
+        &lt;td&gt;{$smarty.section.row.index}&lt;/td&gt;&lt;td&gt;{$rows[row]}&lt;/td&gt;
+        &lt;td&gt;{$smarty.section.row.index_prev}&lt;/td&gt;&lt;td&gt;{$rows[row.index_prev]}&lt;/td&gt;
+        &lt;td&gt;{$smarty.section.row.index_next}&lt;/td&gt;&lt;td&gt;{$rows[row.index_next]}&lt;/td&gt;
+      &lt;/tr&gt;
+    {/section}
+    &lt;/table&gt;
+
+</code></pre>
+
+<pre><code>    index  id    index_prev prev_id index_next next_id
+    0      1001  -1                 1          1002
+    1      1002  0          1001    2          1003
+    2      1003  1          1002    3          1004
+    3      1004  2          1003    4          1005
+    4      1005  3          1004    5
+
+</code></pre>
+
+<h4 id="show">.show</h4>
+
+<p>show is used as a parameter to section and is a boolean value. If FALSE,<br />
+the section will not be displayed. If there is a {sectionelse} present,<br />
+that will be alternately displayed.</p>
+
+<pre><code>    {section name=customer loop=$customers show=$show_customer_info}
+      {$smarty.section.customer.rownum} id: {$customers[customer]}&lt;br /&gt;
+    {/section}
+     
+    {if $smarty.section.customer.show}
+      the section was shown.
+    {else}
+      the section was not shown.
+    {/if}
+
+</code></pre>
+
+<pre><code>    1 id: 1000&lt;br /&gt;
+    2 id: 1001&lt;br /&gt;
+    3 id: 1002&lt;br /&gt;
+     
+    the section was shown.
+
+</code></pre>
+
+<h3 id="strip">{strip}</h3>
+
+<p>Many times web designers run into the issue where white space and<br />
+carriage returns affect the output of the rendered HTML (browser<br />
+“features”), so you must run all your tags together in the template to<br />
+get the desired results. This usually ends up in unreadable or<br />
+unmanageable templates. Anything within {strip}{/strip} tags are<br />
+stripped of the extra spaces or carriage returns at the beginnings and<br />
+ends of the lines before they are displayed. This way you can keep your<br />
+templates readable, and not worry about extra white space causing<br />
+problems.</p>
+
+<pre><code>{* the following will be all run into one line upon output *}
+{strip}
+&lt;table border='0'&gt;
+ &lt;tr&gt;
+  &lt;td&gt;
+   &lt;a href="{$url}"&gt;
+    &lt;font color="red"&gt;This is a test&lt;/font&gt;
+   &lt;/a&gt;
+  &lt;/td&gt;
+ &lt;/tr&gt;
+&lt;/table&gt;
+{/strip}
+
+</code></pre>
+
+<pre><code>    &lt;table border='0'&gt;&lt;tr&gt;&lt;td&gt;&lt;a href="http://. snipped...&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+
+</code></pre>
+
+<p>if any white space or ‘CR’ charachter affect web layout, we could use<br />
+{srip} to avoid it</p>
+
+<h2 id="custom-functions">Custom Functions</h2>
+
+<p>Smarty comes with several custom functions that you can use in the<br />
+templates.</p>
+
+<ul>
+  <li>{assign}</li>
+  <li>{counter}</li>
+  <li>{cycle}</li>
+  <li>{debug}</li>
+  <li>{eval}</li>
+  <li>{fetch}</li>
+  <li>{html_checkboxes}</li>
+  <li>{html_image}</li>
+  <li>{html_options}</li>
+  <li>{html_radios}</li>
+  <li>{html_select_date}</li>
+  <li>{html_select_time}</li>
+  <li>{html_table}</li>
+  <li>{mailto}</li>
+  <li>{math}</li>
+  <li>{popup}</li>
+  <li>{popup_init}</li>
+  <li>{textformat}</li>
+</ul>
+
+<h3 id="assign">{assign}</h3>
+
+<pre><code>    {assign var='name' value='Bob'}
+    The value of $name is {$name}.
+
+</code></pre>
+
+<pre><code>    The value of $name is Bob.
+
+</code></pre>
+
+<p>examples 2:</p>
+
+<pre><code>    {assign var=running_total value=`$running_total+$some_array[row].some_value`}
+
+</code></pre>
+
+<h3 id="counter">{counter}</h3>
+
+<p>{counter} will remember the count on each iteration.</p>
+
+<pre><code>    {* initialize the count *}
+    {counter start=0 skip=2}&lt;br /&gt;
+    {counter}&lt;br /&gt;
+    {counter}&lt;br /&gt;
+    {counter}&lt;br /&gt;
+
+</code></pre>
+
+<pre><code>    0&lt;br /&gt;
+    2&lt;br /&gt;
+    4&lt;br /&gt;
+    6&lt;br /&gt;
+
+</code></pre>
+
+<h3 id="cycle">{cycle}</h3>
+
+<p>{cycle} is used to alternate a set of values. This makes it easy to for<br />
+example, alternate between two or more colors in a table, or cycle<br />
+through an array of values.</p>
+
+<ul>
+  <li>the advance attribute is used to repeat a value. When set to FALSE,<br />
+the next call to {cycle} will print the same value.</li>
+</ul>
+
+<pre><code>    {section name=rows loop=$data}
+    &lt;tr bgcolor="{cycle values="#eeeeee,#d0d0d0"}"&gt;
+       &lt;td&gt;{$data[rows]}&lt;/td&gt;
+    &lt;/tr&gt;
+    {/section}
+
+</code></pre>
+
+<pre><code>    &lt;tr bgcolor="#eeeeee"&gt;
+       &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr bgcolor="#d0d0d0"&gt;
+       &lt;td&gt;2&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr bgcolor="#eeeeee"&gt;
+       &lt;td&gt;3&lt;/td&gt;
+    &lt;/tr&gt;
+
+</code></pre>
+
+<h3 id="debug">{debug}</h3>
+
+<p>{debug} dumps the debug console to the page. This works regardless of<br />
+the debug settings in the php script.</p>
+
+<h3 id="eval">{eval}</h3>
+
+<pre><code>    emphstart = &lt;strong&gt;
+    emphend = &lt;/strong&gt;
+    title = Welcome to {$company}'s home page!
+    ErrorCity = You must supply a {#emphstart#}city{#emphend#}.
+    ErrorState = You must supply a {#emphstart#}state{#emphend#}
+
+</code></pre>
+
+<pre><code>    {config_load file='setup.conf'}
+     
+    {eval var=$foo}
+    {eval var=#title#}
+    {eval var=#ErrorCity#}
+    {eval var=#ErrorState# assign='state_error'}
+    {$state_error}
+
+</code></pre>
+
+<pre><code>    This is the contents of foo.
+    Welcome to Foobar Pub &amp; Grill's home page!
+    You must supply a &lt;strong&gt;city&lt;/strong&gt;.
+    You must supply a &lt;strong&gt;state&lt;/strong&gt;.
+
+</code></pre>
+
+<h3 id="fetch">{fetch}</h3>
+
+<p>{fetch} is used to retrieve files from the local file system, http, or<br />
+ftp and display the contents.</p>
+
+<pre><code>    {* include some javascript in your template *}
+    {fetch file='/export/httpd/www.example.com/docs/navbar.js'}
+     
+    {* embed some weather text in your template from another web site *}
+    {fetch file='http://www.myweather.com/68502/'}
+     
+    {* fetch a news headline file via ftp *}
+    {fetch file='ftp://user:password@ftp.example.com/path/to/currentheadlines.txt'}
+    {* as above but with variables *}
+    {fetch file="ftp://`$user`:`$password`@`$server`/`$path`"}
+     
+    {* assign the fetched contents to a template variable *}
+    {fetch file='http://www.myweather.com/68502/' assign='weather'}
+    {if $weather ne ''}
+      &lt;div id="weather"&gt;{$weather}&lt;/div&gt;
+    {/if}
+
+</code></pre>
+
+<h3 id="htmlcheckboxes">{html_checkboxes}</h3>
+
+<pre><code>    &lt;?php
+     
+    $smarty-&gt;assign('cust_ids', array(1000,1001,1002,1003));
+    $smarty-&gt;assign('cust_names', array(
+                                    'Joe Schmoe',
+                                    'Jack Smith',
+                                    'Jane Johnson',
+                                    'Charlie Brown')
+                                  );
+    $smarty-&gt;assign('customer_id', 1001);
+     
+    ?&gt; 
+
+</code></pre>
+
+<pre><code>    {html_checkboxes name='id' values=$cust_ids output=$cust_names 
+       selected=$customer_id  separator='&lt;br /&gt;'}
+
+</code></pre>
+
+<pre><code>    &lt;label&gt;&lt;input type="checkbox" name="id[]" value="1000" /&gt;Joe Schmoe&lt;/label&gt;&lt;br /&gt;
+    &lt;label&gt;&lt;input type="checkbox" name="id[]" value="1001" checked="checked" /&gt;Jack Smith&lt;/label&gt;
+    &lt;br /&gt;
+    &lt;label&gt;&lt;input type="checkbox" name="id[]" value="1002" /&gt;Jane Johnson&lt;/label&gt;&lt;br /&gt;
+    &lt;label&gt;&lt;input type="checkbox" name="id[]" value="1003" /&gt;Charlie Brown&lt;/label&gt;&lt;br /&gt;
+
+</code></pre>
+
+<h3 id="htmlimage">{html_image}</h3>
+
+<pre><code>    {html_image file='pumpkin.jpg'}
+    {html_image file='/path/from/docroot/pumpkin.jpg'}
+    {html_image file='../path/relative/to/currdir/pumpkin.jpg'}
+
+</code></pre>
+
+<pre><code>    &lt;img src="pumpkin.jpg" alt="" width="44" height="68" /&gt;
+    &lt;img src="/path/from/docroot/pumpkin.jpg" alt="" width="44" height="68" /&gt;
+    &lt;img src="../path/relative/to/currdir/pumpkin.jpg" alt="" width="44" height="68" /&gt;
+
+</code></pre>
+
+<p>Technical Note: {html_image} requires a hit to the disk to read the<br />
+image and calculate the height and width. If you don’t use template<br />
+caching, it is generally better to avoid {html_image} and leave image<br />
+tags static for optimal performance.</p>
+
+<h3 id="htmloptions">{html_options}</h3>
+
+<pre><code>    &lt;?php
+    $smarty-&gt;assign('myOptions', array(
+                                    1800 =&gt; 'Joe Schmoe',
+                                    9904 =&gt; 'Jack Smith',
+                                    2003 =&gt; 'Charlie Brown')
+                                    );
+    $smarty-&gt;assign('mySelect', 9904);
+    ?&gt; 
+
+</code></pre>
+
+<pre><code>    {html_options name=foo options=$myOptions selected=$mySelect}
+
+</code></pre>
+
+<pre><code>    &lt;select name="foo"&gt;
+    &lt;option label="Joe Schmoe" value="1800"&gt;Joe Schmoe&lt;/option&gt;
+    &lt;option label="Jack Smith" value="9904" selected="selected"&gt;Jack Smith&lt;/option&gt;
+    &lt;option label="Charlie Brown" value="2003"&gt;Charlie Brown&lt;/option&gt;
+    &lt;/select&gt;
+
+</code></pre>
+
+<h3 id="htmlradios">{html_radios}</h3>
+
+<pre><code>    &lt;?php
+     
+    $smarty-&gt;assign('cust_ids', array(1000,1001,1002,1003));
+    $smarty-&gt;assign('cust_names', array(
+                                  'Joe Schmoe',
+                                  'Jack Smith',
+                                  'Jane Johnson',
+                                  'Charlie Brown')
+                                  );
+    $smarty-&gt;assign('customer_id', 1001);
+     
+    ?&gt; 
+
+</code></pre>
+
+<pre><code>    {html_radios name='id' values=$cust_ids output=$cust_names
+           selected=$customer_id separator='&lt;br /&gt;'}
+
+</code></pre>
+
+<pre><code>    &lt;label for="id_1000"&gt;
+    &lt;input type="radio" name="id" value="1000" id="id_1000" /&gt;Joe Schmoe&lt;/label&gt;&lt;br /&gt;
+    &lt;label for="id_1001"&gt;&lt;input type="radio" name="id" value="1001" id="id_1001" checked="checked" /&gt;Jack Smith&lt;/label&gt;&lt;br /&gt;
+    &lt;label for="id_1002"&gt;&lt;input type="radio" name="id" value="1002" id="id_1002" /&gt;Jane Johnson&lt;/label&gt;&lt;br /&gt;
+    &lt;label for="id_1003"&gt;&lt;input type="radio" name="id" value="1003" id="id_1003" /&gt;Charlie Brown&lt;/label&gt;&lt;br /&gt;
+
+</code></pre>
+
+<h3 id="htmlselectdate">{html_select_date}</h3>
+
+<pre><code>    {html_select_date}
+
+</code></pre>
+
+<pre><code>    &lt;select name="Date_Month"&gt;
+    &lt;option value="1"&gt;January&lt;/option&gt;
+    &lt;option value="2"&gt;February&lt;/option&gt;
+    &lt;option value="3"&gt;March&lt;/option&gt;
+      ..... snipped .....
+    &lt;option value="10"&gt;October&lt;/option&gt;
+    &lt;option value="11"&gt;November&lt;/option&gt;
+    &lt;option value="12" selected="selected"&gt;December&lt;/option&gt;
+    &lt;/select&gt;
+    &lt;select name="Date_Day"&gt;
+    &lt;option value="1"&gt;01&lt;/option&gt;
+    &lt;option value="2"&gt;02&lt;/option&gt;
+    &lt;option value="3"&gt;03&lt;/option&gt;
+      ..... snipped .....
+    &lt;option value="11"&gt;11&lt;/option&gt;
+    &lt;option value="12"&gt;12&lt;/option&gt;
+    &lt;option value="13" selected="selected"&gt;13&lt;/option&gt;
+    &lt;option value="14"&gt;14&lt;/option&gt;
+    &lt;option value="15"&gt;15&lt;/option&gt;
+      ..... snipped .....
+    &lt;option value="29"&gt;29&lt;/option&gt;
+    &lt;option value="30"&gt;30&lt;/option&gt;
+    &lt;option value="31"&gt;31&lt;/option&gt;
+    &lt;/select&gt;
+    &lt;select name="Date_Year"&gt;
+    &lt;option value="2006" selected="selected"&gt;2006&lt;/option&gt;
+    &lt;/select&gt;
+
+</code></pre>
+
+<h3 id="htmlselecttime">{html_select_time}</h3>
+
+<pre><code>    {html_select_time use_24_hours=true}
+
+</code></pre>
+
+<pre><code>    &lt;select name="Time_Hour"&gt;
+    &lt;option value="00"&gt;00&lt;/option&gt;
+    &lt;option value="01"&gt;01&lt;/option&gt;
+    ... snipped ....
+    &lt;option value="08"&gt;08&lt;/option&gt;
+    &lt;option value="09" selected&gt;09&lt;/option&gt;
+    &lt;option value="10"&gt;10&lt;/option&gt;
+    ... snipped ....
+    &lt;option value="22"&gt;22&lt;/option&gt;
+    &lt;option value="23"&gt;23&lt;/option&gt;
+    &lt;/select&gt;
+    &lt;select name="Time_Minute"&gt;
+    &lt;option value="00"&gt;00&lt;/option&gt;
+    &lt;option value="01"&gt;01&lt;/option&gt;
+    ... snipped ....
+    &lt;option value="19"&gt;19&lt;/option&gt;
+    &lt;option value="20" selected&gt;20&lt;/option&gt;
+    &lt;option value="21"&gt;21&lt;/option&gt;
+    ... snipped ....
+    &lt;option value="58"&gt;58&lt;/option&gt;
+    &lt;option value="59"&gt;59&lt;/option&gt;
+    &lt;/select&gt;
+    &lt;select name="Time_Second"&gt;
+    &lt;option value="00"&gt;00&lt;/option&gt;
+    &lt;option value="01"&gt;01&lt;/option&gt;
+    ... snipped ....
+    &lt;option value="22"&gt;22&lt;/option&gt;
+    &lt;option value="23" selected&gt;23&lt;/option&gt;
+    &lt;option value="24"&gt;24&lt;/option&gt;
+    ... snipped ....
+    &lt;option value="58"&gt;58&lt;/option&gt;
+    &lt;option value="59"&gt;59&lt;/option&gt;
+    &lt;/select&gt;
+    &lt;select name="Time_Meridian"&gt;
+    &lt;option value="am" selected&gt;AM&lt;/option&gt;
+    &lt;option value="pm"&gt;PM&lt;/option&gt;
+    &lt;/select&gt;
+
+</code></pre>
+
+<h3 id="htmltable">{html_table}</h3>
+
+<pre><code>    &lt;?php
+    $smarty-&gt;assign( 'data', array(1,2,3,4,5,6,7,8,9) );
+    $smarty-&gt;assign( 'tr', array('bgcolor="#eeeeee"','bgcolor="#dddddd"') );
+    $smarty-&gt;display('index.tpl');
+    ?&gt; 
+
+</code></pre>
+
+<pre><code>    {**** Example One ****}
+    {html_table loop=$data}
+     
+    {**** Example Two ****}
+    {html_table loop=$data cols=4 table_attr='border="0"'}
+     
+    {**** Example Three ****}
+    {html_table loop=$data cols="first,second,third,fourth" tr_attr=$tr}
+
+</code></pre>
+
+<pre><code>    &lt;!-- example One output --&gt;
+    &lt;table border="1"&gt;
+    &lt;tbody&gt;
+    &lt;tr&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;2&lt;/td&gt;&lt;td&gt;3&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;4&lt;/td&gt;&lt;td&gt;5&lt;/td&gt;&lt;td&gt;6&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;7&lt;/td&gt;&lt;td&gt;8&lt;/td&gt;&lt;td&gt;9&lt;/td&gt;&lt;/tr&gt;
+    &lt;/tbody&gt;
+    &lt;/table&gt;
+     
+     
+     
+    &lt;!-- example Two output --&gt;
+    &lt;table border="0"&gt;
+    &lt;tbody&gt;
+    &lt;tr&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;2&lt;/td&gt;&lt;td&gt;3&lt;/td&gt;&lt;td&gt;4&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;5&lt;/td&gt;&lt;td&gt;6&lt;/td&gt;&lt;td&gt;7&lt;/td&gt;&lt;td&gt;8&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;9&lt;/td&gt;&lt;td&gt;&amp;nbsp;&lt;/td&gt;&lt;td&gt;&amp;nbsp;&lt;/td&gt;&lt;td&gt;&amp;nbsp;&lt;/td&gt;&lt;/tr&gt;
+    &lt;/tbody&gt;
+    &lt;/table&gt;
+     
+    &lt;!-- example Three output --&gt;
+    &lt;table border="1"&gt;
+    &lt;thead&gt;
+    &lt;tr&gt;
+    &lt;th&gt;first&lt;/th&gt;&lt;th&gt;second&lt;/th&gt;&lt;th&gt;third&lt;/th&gt;&lt;th&gt;fourth&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+    &lt;tr bgcolor="#eeeeee"&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;2&lt;/td&gt;&lt;td&gt;3&lt;/td&gt;&lt;td&gt;4&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr bgcolor="#dddddd"&gt;&lt;td&gt;5&lt;/td&gt;&lt;td&gt;6&lt;/td&gt;&lt;td&gt;7&lt;/td&gt;&lt;td&gt;8&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr bgcolor="#eeeeee"&gt;&lt;td&gt;9&lt;/td&gt;&lt;td&gt;&amp;nbsp;&lt;/td&gt;&lt;td&gt;&amp;nbsp;&lt;/td&gt;&lt;td&gt;&amp;nbsp;&lt;/td&gt;&lt;/tr&gt;
+    &lt;/tbody&gt;
+    &lt;/table&gt;
+
+</code></pre>
+
+<h3 id="mailto">{mailto}</h3>
+
+<pre><code>    {mailto address="me@example.com"}
+    &lt;a href="mailto:me@example.com" &gt;me@example.com&lt;/a&gt;
+     
+    {mailto address="me@example.com" text="send me some mail"}
+    &lt;a href="mailto:me@example.com" &gt;send me some mail&lt;/a&gt;
+     
+    {mailto address="me@example.com" encode="javascript"}
+    &lt;script type="text/javascript" language="javascript"&gt;
+       eval(unescape('%64%6f% ... snipped ...%61%3e%27%29%3b'))
+    &lt;/script&gt;
+     
+    {mailto address="me@example.com" encode="hex"}
+    &lt;a href="mailto:%6d%65.. snipped..3%6f%6d"&gt;&amp;#x6d;&amp;..snipped...#x6f;&amp;#x6d;&lt;/a&gt;
+     
+    {mailto address="me@example.com" subject="Hello to you!"}
+    &lt;a href="mailto:me@example.com?subject=Hello%20to%20you%21" &gt;me@example.com&lt;/a&gt;
+     
+    {mailto address="me@example.com" cc="you@example.com,they@example.com"}
+    &lt;a href="mailto:me@example.com?cc=you@example.com%2Cthey@example.com" &gt;me@example.com&lt;/a&gt;
+     
+    {mailto address="me@example.com" extra='class="email"'}
+    &lt;a href="mailto:me@example.com" class="email"&gt;me@example.com&lt;/a&gt;
+     
+    {mailto address="me@example.com" encode="javascript_charcode"}
+    &lt;script type="text/javascript" language="javascript"&gt;
+        &lt;!--
+        {document.write(String.fromCharCode(60,97, ... snipped ....60,47,97,62))}
+        //--&gt;
+    &lt;/script&gt;
+
+</code></pre>
+
+<h3 id="math">{math}</h3>
+
+<pre><code>    {* ====== example a =====   *}
+    {* $height=4, $width=5 *}
+    {math equation="x + y" x=$height y=$width}
+     
+    {* output is 9 *}
+     
+    {* ====== example b =====   *}
+    {* $row_height = 10, $row_width = 20, #col_div# = 2, assigned in template *}
+     
+    {math equation="height * width / division"
+      height=$row_height
+      width=$row_width
+      division=#col_div#}
+     
+    {* output is 100 *}
+     
+    {* ====== example c =====   *}
+    {* you can use parenthesis *}
+    {math equation="(( x + y ) / z )" x=2 y=10 z=2}
+     
+    {* output is 6 *}
+     
+    {* ====== example d =====   *}
+    {* you can supply a format parameter in sprintf format *}
+     
+    {math equation="x + y" x=4.4444 y=5.0000 format="%.2f"}
+    {* output is 9.44 *}
+
+</code></pre>
+
+<h3 id="popup">{popup}</h3>
+
+<pre><code>    {* popup_init must be called once at the top of the page *}
+    {popup_init src='/javascripts/overlib.js'}
+     
+    {* create a link with a popup window when you move your mouse over *}
+    &lt;a href="mypage.html" {popup text='This link takes you to my page!'}&gt;mypage&lt;/a&gt;
+     
+    {* you can use html, links, etc in your popup text *}
+    &lt;a href="mypage.html" {popup sticky=true caption='mypage contents'
+    text="&lt;ul&gt;&lt;li&gt;links&lt;/li&gt;&lt;li&gt;pages&lt;/li&gt;&lt;li&gt;images&lt;/li&gt;&lt;/ul&gt;"
+    snapx=10 snapy=10 trigger='onClick'}&gt;mypage&lt;/a&gt;
+     
+    {* a popup  over a table cell *}
+    &lt;tr&gt;&lt;td {popup caption='Part details' text=$part_long_description}&gt;{$part_number}&lt;/td&gt;&lt;/tr&gt;
+
+</code></pre>
+
+<h3 id="popupinit">{popup_init}</h3>
+
+<p>{popup} is an integration of overLib, a library used for popup windows.<br />
+These are used for context sensitive information, such as help windows<br />
+or tooltips.</p>
+
+<pre><code>    &lt;head&gt;
+    {* popup_init must be called once at the top of the page *}
+    {popup_init src='javascripts/overlib/overlib.js'}
+     
+    {* fully qualified url example *}
+    {popup_init src='http://myserver.org/my_js_libs/overlib/overlib.js'}
+    &lt;/head&gt;
+     
+    // the first example will output
+    &lt;head&gt;
+    &lt;div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;"&gt;&lt;/div&gt;
+    &lt;script type="text/javascript" language="JavaScript" src="javascripts/overlib/overlib.js"&gt;&lt;/script&gt;
+    &lt;/head&gt;
+
+</code></pre>
+
+<h3 id="textformat">{textformat}</h3>
+
+<pre><code>    {textformat wrap=40 indent=4}
+     
+       This is foo.
+       This is foo.
+       This is foo.
+       This is foo.
+       This is foo.
+       This is foo.
+     
+       This is bar.
+     
+       bar foo bar foo     foo.
+       bar foo bar foo     foo.
+       bar foo bar foo     foo.
+       bar foo bar foo     foo.
+       bar foo bar foo     foo.
+       bar foo bar foo     foo.
+       bar foo bar foo     foo.
+     
+    {/textformat}
+
+</code></pre>
+
+<pre><code>    This is foo. This is foo. This
+       is foo. This is foo. This is foo.
+       This is foo.
+     
+       This is bar.
+     
+       bar foo bar foo foo. bar foo bar
+       foo foo. bar foo bar foo foo. bar
+       foo bar foo foo. bar foo bar foo
+       foo. bar foo bar foo foo. bar foo
+       bar foo foo.
+
+</code></pre>
+
+<h2 id="debug-in-smarty">debug in smarty</h2>
+
+<p>Expect to use <a href="#debug" title="php:smarty:smarty_101 ↵">{debug}</a>, an other way<br />
+is enabled smarty debugger will pop a windows and display all useful<br />
+information within it (a.k.a <a href="http://www.smarty.net/manual/en/chapter.debugging.console.php" title="http://www.smarty.net/manual/en/chapter.debugging.console.php">debuging<br />
+console</a>).</p>
+
+<pre><code>    $smarty-&gt;debugging = true;
+    $smarty-&gt;debug_tpl = SMARTY_DIR . "debug.tpl";
+
+</code></pre>
+
+<p>you can also combine the<br />
+<a href="http://www.php-debug.com/www/index.php" title="http://www.php-debug.com/www/index.php">PHP_Debug</a><br />
+with smarty debugger page, check<br />
+<a href="http://www.phpinsider.com/smarty-forum/viewtopic.php?t=11125" title="http://www.phpinsider.com/smarty-forum/viewtopic.php?t=11125">here</a><br />
+to get more details.</p>
+
+<h2 id="constants">Constants</h2>
+
+<ul>
+  <li>SMARTY_DIR - full system path</li>
+  <li>SMARTY_CORE_DIR - full system path to the location of the Smarty<br />
+core files</li>
+</ul>
+
+<h2 id="smarty-class-variables">Smarty Class Variables</h2>
+
+<ul>
+  <li>$template_dir</li>
+  <li>$compile_dir</li>
+  <li>$config_dir</li>
+  <li>$plugins_dir</li>
+  <li>$debugging</li>
+  <li>$debug_tpl</li>
+  <li>$debugging_ctrl</li>
+  <li>$autoload_filters</li>
+  <li>$compile_check</li>
+  <li>$force_compile</li>
+  <li>$caching</li>
+  <li>$cache_dir</li>
+  <li>$cache_lifetime</li>
+  <li>$cache_handler_func</li>
+  <li>$cache_modified_check</li>
+  <li>$config_overwrite</li>
+  <li>$config_booleanize</li>
+  <li>$config_read_hidden</li>
+  <li>$config_fix_newlines</li>
+  <li>$default_template_handler_func</li>
+  <li>$php_handling</li>
+  <li>$security</li>
+  <li>$secure_dir</li>
+  <li>$security_settings</li>
+  <li>$trusted_dir-</li>
+  <li>$left_delimiter</li>
+  <li>$right_delimiter</li>
+  <li>$compiler_class</li>
+  <li>$request_vars_order</li>
+  <li>$request_use_auto_globals</li>
+  <li>$error_reporting</li>
+  <li>$compile_id</li>
+  <li>$use_sub_dirs</li>
+  <li>$default_modifiers</li>
+  <li>$default_resource_type</li>
+</ul>
+
+<h2 id="smarty-class-methods">Smarty Class Methods</h2>
+
+<ul>
+  <li>append() – append an element to an assigned array</li>
+  <li>append_by_ref() – append values by reference</li>
+  <li>assign() – assign values to the templates</li>
+  <li>assign_by_ref() – assign values by reference</li>
+  <li>clear_all_assign() – clears the values of all assigned variables</li>
+  <li>clear_all_cache() – clears the entire template cache</li>
+  <li>clear_assign() – clears the value of an assigned variable</li>
+  <li>clear_cache() – clears the cache for a specific template</li>
+  <li>clear_compiled_tpl() – clears the compiled version of the<br />
+specified template resource</li>
+  <li>clear_config() – clears assigned config variables</li>
+  <li>config_load() – loads config file data and assigns it to the<br />
+template</li>
+  <li>display() – displays the template</li>
+  <li>fetch() – returns the template output</li>
+  <li>get_config_vars() – returns the given loaded config variable value</li>
+  <li>get_registered_object() – returns a reference to a registered<br />
+object</li>
+  <li>get_template_vars() – returns assigned variable value(s)</li>
+  <li>is_cached() – returns true if there is a valid cache for this<br />
+template</li>
+  <li>load_filter() – load a filter plugin</li>
+  <li>register_block() – dynamically register block functions plugins</li>
+  <li>register_compiler_function() – dynamically register a compiler<br />
+function plugin</li>
+  <li>register_function() – dynamically register template function<br />
+plugins</li>
+  <li>register_modifier() – dynamically register modifier plugin</li>
+  <li>register_object() – register an object for use in the templates</li>
+  <li>register_outputfilter() – dynamically register outputfilters</li>
+  <li>register_postfilter() – dynamically register postfilters</li>
+  <li>register_prefilter() – dynamically register prefilters</li>
+  <li>register_resource() – dynamically register resources</li>
+  <li>trigger_error() – output an error message</li>
+  <li>template_exists() – checks whether the specified template exists</li>
+  <li>unregister_block() – dynamically unregister block function plugins</li>
+  <li>unregister_compiler_function() – dynamically unregister a compiler<br />
+function</li>
+  <li>unregister_function – dynamically unregister template function<br />
+plugin</li>
+  <li>unregister_modifier() – dynamically unregister modifier plugin</li>
+  <li>unregister_object() – dynamically unregister an object</li>
+  <li>unregister_outputfilter() – dynamically unregister an output filter</li>
+  <li>unregister_postfilter() – dynamically unregister a postfilter</li>
+  <li>unregister_prefilter() – dynamically unregister a prefilter</li>
+  <li>unregister_resource() – dynamically unregister a resource plugin</li>
+</ul>
+
+<h2 id="caching">Caching</h2>
+
+<pre><code>    &lt;?php
+    require('Smarty.class.php');
+    $smarty = new Smarty;
+     
+    $smarty-&gt;caching = 1;
+     
+    $smarty-&gt;display('index.tpl');
+    ?&gt; 
+
+</code></pre>
+
+<h3 id="iscached">is_cached()</h3>
+
+<p>The is_cached() function can be used to test if a template has a valid<br />
+cache or not. If you have a cached template that requires something like<br />
+a database fetch, you can use this to skip that process.</p>
+
+<p>WYou can keep parts of a page dynamic with the {insert} template<br />
+function. Let’s say the whole page can be cached except for a banner<br />
+that is displayed down the side of the page. By using the {insert}<br />
+function for the banner, you can keep this element dynamic within the<br />
+cached content.</p>
+
+<pre><code>    &lt;?php
+    require('Smarty.class.php');
+    $smarty = new Smarty;
+     
+    $smarty-&gt;caching = 1;
+     
+    if(!$smarty-&gt;is_cached('index.tpl')) {
+        // No cache available, do variable assignments here.
+        $contents = get_database_contents();
+        $smarty-&gt;assign($contents);
+    }
+     
+    $smarty-&gt;display('index.tpl');
+    ?&gt; 
+
+</code></pre>
+
+<h2 id="push-objects-to-page">push objects to page</h2>
+
+<ol>
+  <li>register objects to the template. (<strong>RECOMMANDED</strong>)</li>
+  <li>assign() or assign_by_ref() function.</li>
+</ol>
+
+<pre><code>    &lt;?php
+    // the object
+     
+    class My_Object {
+        function meth1($params, &amp;$smarty_obj) {
+            return 'this is my meth1';
+        }
+    }
+     
+    $myobj = new My_Object;
+     
+    // registering the object (will be by reference)
+    $smarty-&gt;register_object('foobar',$myobj);
+     
+    // if we want to restrict access to certain methods or properties, list them
+    $smarty-&gt;register_object('foobar',$myobj,array('meth1','meth2','prop1'));
+     
+    // if you want to use the traditional object parameter format, pass a boolean of false
+    $smarty-&gt;register_object('foobar',$myobj,null,false);
+     
+    // We can also assign objects. assign_by_ref when possible.
+    $smarty-&gt;assign_by_ref('myobj', $myobj);
+     
+    $smarty-&gt;display('index.tpl');
+    ?&gt; 
+
+</code></pre>
+
+<pre><code>    {* access our registered object *}
+    {foobar-&gt;meth1 p1='foo' p2=$bar}
+     
+    {* you can also assign the output *}
+    {foobar-&gt;meth1 p1='foo' p2=$bar assign='output'}
+    the output was {$output}
+     
+    {* access our assigned object *}
+    {$myobj-&gt;meth1('foo',$bar)}
+
+</code></pre>
+
+<h2 id="filters">Filters</h2>
+
+<ol>
+  <li>prefilters - activated before templates complied</li>
+  <li>postfilters - activated after templates complied</li>
+  <li>output filters - invoked by display() or fetch()</li>
+</ol>
+
+<h3 id="prefilters">prefilters</h3>
+
+<p>Can be used for filter out some information that should not output to<br />
+browser, ex: comment</p>
+
+<pre><code>    &lt;?php
+    // put this in your application
+    function remove_dw_comments($tpl_source, &amp;$smarty)
+    {
+        return preg_replace("/&lt;!--#.*--&gt;/U",'',$tpl_source);
+    }
+     
+    // register the prefilter
+    $smarty-&gt;register_prefilter('remove_dw_comments');
+    $smarty-&gt;display('index.tpl');
+    ?&gt; 
+
+</code></pre>
+
+<h3 id="postfilters">postfilters</h3>
+
+<p>it is useful if want to add some content to all templates.</p>
+
+<pre><code>    &lt;?php
+    // put this in your application
+    function add_header_comment($tpl_source, &amp;$smarty)
+    {
+        return "&lt;?php echo \"&lt;!-- Created by Smarty! --&gt;\n\"; ?&gt;\n".$tpl_source;
+    }
+     
+    // register the postfilter
+    $smarty-&gt;register_postfilter('add_header_comment');
+    $smarty-&gt;display('index.tpl');
+    ?&gt; 
+
+</code></pre>
+
+<p>the postfilter above will make the compiled Smarty template index.tpl<br />
+look like:</p>
+
+<pre><code>    &lt;!-- Created by Smarty! --&gt;
+    {* rest of template content... *}
+
+</code></pre>
+
+<h3 id="output-filters">output filters</h3>
+
+<p><strong>TBD</strong></p>
+
+
+  </article>
+
+</div>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Kent's Blog</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col  footer-col-1">
+        <ul class="contact-list">
+          <li>Kent's Blog</li>
+          <li><a href="mailto:kent.cwg@gmail.com">kent.cwg@gmail.com</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col  footer-col-2">
+        <ul class="social-media-list">
+          
+          <li>
+            <a href="https://github.com/kentchiu">
+              <span class="icon  icon--github">
+                <svg viewBox="0 0 16 16">
+                  <path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/>
+                </svg>
+              </span>
+
+              <span class="username">kentchiu</span>
+            </a>
+          </li>
+          
+
+          
+          <li>
+            <a href="https://twitter.com/kentchiu">
+              <span class="icon  icon--twitter">
+                <svg viewBox="0 0 16 16">
+                  <path fill="#828282" d="M15.969,3.058c-0.586,0.26-1.217,0.436-1.878,0.515c0.675-0.405,1.194-1.045,1.438-1.809
+                  c-0.632,0.375-1.332,0.647-2.076,0.793c-0.596-0.636-1.446-1.033-2.387-1.033c-1.806,0-3.27,1.464-3.27,3.27 c0,0.256,0.029,0.506,0.085,0.745C5.163,5.404,2.753,4.102,1.14,2.124C0.859,2.607,0.698,3.168,0.698,3.767 c0,1.134,0.577,2.135,1.455,2.722C1.616,6.472,1.112,6.325,0.671,6.08c0,0.014,0,0.027,0,0.041c0,1.584,1.127,2.906,2.623,3.206 C3.02,9.402,2.731,9.442,2.433,9.442c-0.211,0-0.416-0.021-0.615-0.059c0.416,1.299,1.624,2.245,3.055,2.271 c-1.119,0.877-2.529,1.4-4.061,1.4c-0.264,0-0.524-0.015-0.78-0.046c1.447,0.928,3.166,1.469,5.013,1.469 c6.015,0,9.304-4.983,9.304-9.304c0-0.142-0.003-0.283-0.009-0.423C14.976,4.29,15.531,3.714,15.969,3.058z"/>
+                </svg>
+              </span>
+
+              <span class="username">kentchiu</span>
+            </a>
+          </li>
+          
+        </ul>
+      </div>
+
+      <div class="footer-col  footer-col-3">
+        <p class="text">Kent的學習筆記</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>
