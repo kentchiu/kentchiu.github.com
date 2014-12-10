@@ -7,7 +7,7 @@ date: 2013-08-31 12:08
 comments: true
 sharing: true
 footer: true
-categories: 
+tags: 
 - python
 ---
 

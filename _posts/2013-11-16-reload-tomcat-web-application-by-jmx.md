@@ -7,7 +7,7 @@ date: 2013-11-16 15:45
 comments: true
 sharing: true
 footer: true
-categories: 
+tags: 
 - JMX
 - spring
 - tomcat

@@ -3,7 +3,7 @@ layout: post
 title: "Mac OS X keyboard shortcuts for terminal"
 date: 2013-07-15 16:53
 comments: true
-categories:
+tags:
 - mac
 - linux
 - bash 

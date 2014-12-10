@@ -7,7 +7,7 @@ date: 2014-03-14 12:05
 comments: true
 sharing: true
 footer: true
-categories: 
+tags: 
 - uml
 - umlet
 - sequence_diagram 

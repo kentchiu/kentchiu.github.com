@@ -8,7 +8,7 @@ comments: true
 external-url:
 sharing: true
 footer: true
-categories:
+tags:
 ---
 
 

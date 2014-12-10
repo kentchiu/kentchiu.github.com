@@ -7,7 +7,7 @@ date: 2014-03-14 12:47
 comments: true
 sharing: true
 footer: true
-categories: 
+tags: 
 - java8
 - lambda
 - clojure

@@ -7,7 +7,7 @@ date: 2013-08-30 11:37
 comments: true
 sharing: true
 footer: true
-categories: 
+tags: 
 ---
 
 # Table of contents

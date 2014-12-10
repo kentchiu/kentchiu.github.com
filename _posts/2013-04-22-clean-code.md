@@ -6,7 +6,7 @@ date: 2013-04-22 10:06
 comments: true
 sharing: true
 footer: true
-categories: 
+tags: 
   - programming
   - book
   - clean code

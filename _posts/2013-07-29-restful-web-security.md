@@ -7,7 +7,7 @@ date: 2013-07-29 10:36
 comments: true
 sharing: true
 footer: true
-categories: 
+tags: 
 - rest
 - authentication
 - authorization

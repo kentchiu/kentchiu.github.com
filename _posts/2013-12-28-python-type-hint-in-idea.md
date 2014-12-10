@@ -7,7 +7,7 @@ date: 2013-12-28 12:09
 comments: true
 sharing: true
 footer: true
-categories: 
+tags: 
 - IDEA
 - python
 ---

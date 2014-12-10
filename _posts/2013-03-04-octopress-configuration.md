@@ -7,7 +7,7 @@ date: 2013-03-04 00:31
 comments: true
 sharing: true
 footer: true
-categories:
+tags:
   - octopress 
 ---
 

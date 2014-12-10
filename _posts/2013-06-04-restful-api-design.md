@@ -7,7 +7,7 @@ date: 2013-06-04 09:58
 comments: true
 sharing: true
 footer: true
-categories: 
+tags: 
 - rest 
 ---
 

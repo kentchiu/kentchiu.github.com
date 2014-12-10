@@ -5,8 +5,8 @@
     <description>Kent的學習筆記</description>
     <link>http://blog.kent-chiu.com//</link>
     <atom:link href="http://blog.kent-chiu.com//feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 09 Dec 2014 13:08:58 +0800</pubDate>
-    <lastBuildDate>Tue, 09 Dec 2014 13:08:58 +0800</lastBuildDate>
+    <pubDate>Wed, 10 Dec 2014 21:29:02 +0800</pubDate>
+    <lastBuildDate>Wed, 10 Dec 2014 21:29:02 +0800</lastBuildDate>
     <generator>Jekyll v2.5.2</generator>
     
       <item>
@@ -66,13 +66,13 @@
 &lt;/ul&gt;
 </description>
         <pubDate>Mon, 06 Oct 2014 01:20:00 +0800</pubDate>
-        <link>http://blog.kent-chiu.com//rest/markdown/2014/10/06/api-blueprint.html</link>
-        <guid isPermaLink="true">http://blog.kent-chiu.com//rest/markdown/2014/10/06/api-blueprint.html</guid>
-        
+        <link>http://blog.kent-chiu.com//2014/10/06/api-blueprint.html</link>
+        <guid isPermaLink="true">http://blog.kent-chiu.com//2014/10/06/api-blueprint.html</guid>
         
         <category>rest</category>
         
         <category>markdown</category>
+        
         
       </item>
     
@@ -158,15 +158,15 @@ increment(7) // increment是function 型號，使用方式是傳入Int，然後�
 
 </description>
         <pubDate>Sat, 20 Sep 2014 12:44:00 +0800</pubDate>
-        <link>http://blog.kent-chiu.com//apple/swift/101/2014/09/20/swift-101.html</link>
-        <guid isPermaLink="true">http://blog.kent-chiu.com//apple/swift/101/2014/09/20/swift-101.html</guid>
-        
+        <link>http://blog.kent-chiu.com//2014/09/20/swift-101.html</link>
+        <guid isPermaLink="true">http://blog.kent-chiu.com//2014/09/20/swift-101.html</guid>
         
         <category>apple</category>
         
         <category>swift</category>
         
         <category>101</category>
+        
         
       </item>
     
@@ -675,15 +675,15 @@ sql script就能處理，但有些最基本的判斷，像column存不存在，�
 
 </description>
         <pubDate>Sat, 30 Aug 2014 12:44:00 +0800</pubDate>
-        <link>http://blog.kent-chiu.com//liquibase/database/refactory/2014/08/30/liquibase-101.html</link>
-        <guid isPermaLink="true">http://blog.kent-chiu.com//liquibase/database/refactory/2014/08/30/liquibase-101.html</guid>
-        
+        <link>http://blog.kent-chiu.com//2014/08/30/liquibase-101.html</link>
+        <guid isPermaLink="true">http://blog.kent-chiu.com//2014/08/30/liquibase-101.html</guid>
         
         <category>liquibase</category>
         
         <category>database</category>
         
         <category>refactory</category>
+        
         
       </item>
     
@@ -897,13 +897,13 @@ my.number.in.range=${random.int[1024,65536]}
 &lt;/ul&gt;
 </description>
         <pubDate>Fri, 30 May 2014 12:44:00 +0800</pubDate>
-        <link>http://blog.kent-chiu.com//spring/spring-boot/2014/05/30/spring-boot-101.html</link>
-        <guid isPermaLink="true">http://blog.kent-chiu.com//spring/spring-boot/2014/05/30/spring-boot-101.html</guid>
-        
+        <link>http://blog.kent-chiu.com//2014/05/30/spring-boot-101.html</link>
+        <guid isPermaLink="true">http://blog.kent-chiu.com//2014/05/30/spring-boot-101.html</guid>
         
         <category>spring</category>
         
         <category>spring-boot</category>
+        
         
       </item>
     
@@ -1076,9 +1076,8 @@ ex: 經function運算後，影響輸入的結果(副作用)&lt;/li&gt;
 
 </description>
         <pubDate>Fri, 14 Mar 2014 12:47:00 +0800</pubDate>
-        <link>http://blog.kent-chiu.com//java8/lambda/clojure/functional%20programming/2014/03/14/java-8-lambda.html</link>
-        <guid isPermaLink="true">http://blog.kent-chiu.com//java8/lambda/clojure/functional%20programming/2014/03/14/java-8-lambda.html</guid>
-        
+        <link>http://blog.kent-chiu.com//2014/03/14/java-8-lambda.html</link>
+        <guid isPermaLink="true">http://blog.kent-chiu.com//2014/03/14/java-8-lambda.html</guid>
         
         <category>java8</category>
         
@@ -1087,6 +1086,7 @@ ex: 經function運算後，影響輸入的結果(副作用)&lt;/li&gt;
         <category>clojure</category>
         
         <category>functional programming</category>
+        
         
       </item>
     
@@ -1106,11 +1106,11 @@ ex: 經function運算後，影響輸入的結果(副作用)&lt;/li&gt;
 &lt;/ul&gt;
 </description>
         <pubDate>Fri, 14 Mar 2014 12:43:00 +0800</pubDate>
-        <link>http://blog.kent-chiu.com//java8/2014/03/14/java-8-utility-object.html</link>
-        <guid isPermaLink="true">http://blog.kent-chiu.com//java8/2014/03/14/java-8-utility-object.html</guid>
-        
+        <link>http://blog.kent-chiu.com//2014/03/14/java-8-utility-object.html</link>
+        <guid isPermaLink="true">http://blog.kent-chiu.com//2014/03/14/java-8-utility-object.html</guid>
         
         <category>java8</category>
+        
         
       </item>
     
@@ -1258,15 +1258,15 @@ iframe}
 
 </description>
         <pubDate>Fri, 14 Mar 2014 12:05:00 +0800</pubDate>
-        <link>http://blog.kent-chiu.com//uml/umlet/sequence_diagram/2014/03/14/umlet-sequence-diagram.html</link>
-        <guid isPermaLink="true">http://blog.kent-chiu.com//uml/umlet/sequence_diagram/2014/03/14/umlet-sequence-diagram.html</guid>
-        
+        <link>http://blog.kent-chiu.com//2014/03/14/umlet-sequence-diagram.html</link>
+        <guid isPermaLink="true">http://blog.kent-chiu.com//2014/03/14/umlet-sequence-diagram.html</guid>
         
         <category>uml</category>
         
         <category>umlet</category>
         
         <category>sequence_diagram</category>
+        
         
       </item>
     
@@ -1349,13 +1349,13 @@ submissions = subreddit.get_new()
 
 </description>
         <pubDate>Sat, 28 Dec 2013 12:09:00 +0800</pubDate>
-        <link>http://blog.kent-chiu.com//idea/python/2013/12/28/python-type-hint-in-idea.html</link>
-        <guid isPermaLink="true">http://blog.kent-chiu.com//idea/python/2013/12/28/python-type-hint-in-idea.html</guid>
+        <link>http://blog.kent-chiu.com//2013/12/28/python-type-hint-in-idea.html</link>
+        <guid isPermaLink="true">http://blog.kent-chiu.com//2013/12/28/python-type-hint-in-idea.html</guid>
         
-        
-        <category>idea</category>
+        <category>IDEA</category>
         
         <category>python</category>
+        
         
       </item>
     
@@ -1449,11 +1449,11 @@ cp /Library/Java/JavaVirtualMachines/jdk.1.7.&amp;lt;…&amp;gt;/Contents/Info.p
 
 </description>
         <pubDate>Sat, 28 Dec 2013 12:09:00 +0800</pubDate>
-        <link>http://blog.kent-chiu.com//mac/2013/12/28/mac-dev-setup.html</link>
-        <guid isPermaLink="true">http://blog.kent-chiu.com//mac/2013/12/28/mac-dev-setup.html</guid>
-        
+        <link>http://blog.kent-chiu.com//2013/12/28/mac-dev-setup.html</link>
+        <guid isPermaLink="true">http://blog.kent-chiu.com//2013/12/28/mac-dev-setup.html</guid>
         
         <category>mac</category>
+        
         
       </item>
     

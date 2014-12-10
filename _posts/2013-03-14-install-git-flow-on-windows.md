@@ -7,7 +7,7 @@ date: 2013-03-14 21:48
 comments: true
 sharing: true
 footer: true
-categories: 
+tags: 
   - git
   - git-flow
 ---

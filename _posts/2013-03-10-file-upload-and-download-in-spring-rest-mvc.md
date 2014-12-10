@@ -6,7 +6,7 @@ date: 2013-03-10 14:27
 comments: true
 sharing: true
 footer: true
-categories:
+tags:
   - spring
   - rest
 ---

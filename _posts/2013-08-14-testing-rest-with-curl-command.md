@@ -7,7 +7,7 @@ date: 2013-08-14 11:26
 comments: true
 sharing: true
 footer: true
-categories: 
+tags: 
 - curl
 - bash
 - command

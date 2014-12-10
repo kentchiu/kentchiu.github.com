@@ -6,7 +6,7 @@ date: 2013-05-17 11:03
 comments: true
 sharing: true
 footer: true
-categories: 
+tags: 
 - IDE
 - IDEA
 ---

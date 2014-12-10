@@ -6,7 +6,7 @@ date: 2013-05-12 00:49
 comments: true
 sharing: true
 footer: true
-categories: 
+tags: 
 - jasterreport
 - ireport
 - pdf
