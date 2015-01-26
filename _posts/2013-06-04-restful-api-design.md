@@ -145,6 +145,8 @@ POST method 用來更新資源，
 - 	<http://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api?hn#snake-vs-camel> - 設計Restful API 相當不錯的參考資料，內容很全面，方方面面都有提到
 -   <http://codeplanet.io/principles-good-restful-api-design/> - Principles of good RESTful API Design, 譂述如何設計優質的API
 -   <http://www.ruanyifeng.com/blog/2014/05/restful_api.html> - RESTful API 设计指南(阮一峰)
+-   <https://github.com/interagent/http-api-design> - HTTP API Design Guide (heroku) 
+-   <https://github.com/interagent/http-api-design/issues> -  設計上的討論(why and how)
 - 	一些流行的 Rest API
 	1.   <http://docs.aws.amazon.com/AmazonS3/latest/API/APIRest.html> - Amazon 的 REST API文件
 	2.   <https://dev.twitter.com/docs/api/1.1/get/lists/list> - twitter 的 REST API文件
