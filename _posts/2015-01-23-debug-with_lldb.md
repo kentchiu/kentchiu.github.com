@@ -1,5 +1,5 @@
 ---
-published: false
+published: true
 author: Kent Chiu
 layout: post
 title: "利用LLDB debugging SWFIT 程式"

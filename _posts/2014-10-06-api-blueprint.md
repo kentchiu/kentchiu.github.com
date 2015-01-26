@@ -12,7 +12,6 @@ tags:
 - markdown
 ---
 
-
 # Table of contents
 {:.no_toc}
 

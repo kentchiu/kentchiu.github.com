@@ -1,5 +1,5 @@
 ---
-published: false
+published: true
 author: Kent Chiu
 layout: post
 title: "設定讓unit test 可以使用Cocoapods的dependency"
