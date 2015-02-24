@@ -89,9 +89,17 @@ POST method 用來更新資源，
 * 	204 (No Content)    更新成功，如果使用這個status code，response裡沒有任何內容
 *	404 (Not Found) 	資源不存在
 
+### PATCH
 
+局部更新資源
+
+ > PUT V.S. PATCH
+ > PUT replaces an entire record. Fields not supplied will be replaced with null. PATCH can be used to update a subset of items.
 
 ### DELETE
+
+刪除資源
+
 
 
 
@@ -153,4 +161,7 @@ POST method 用來更新資源，
 	3.   <https://developers.facebook.com/docs/reference/api/> - FaceBook 的 REST API文件
 	4.   <https://developer.linkedin.com/apis> - linkedin 的 REST API文件
 	5.   <https://developer.paypal.com/webapps/developer/docs/api/> - paypal  的 REST API文
-- 	<http://www.thebuzzmedia.com/designing-a-secure-rest-api-without-oauth-authentication/> - auth token的設計	
+- 	<http://www.thebuzzmedia.com/designing-a-secure-rest-api-without-oauth-authentication/> - auth token的設計
+- <http://www.infoq.com/articles/webber-rest-workflow> - 用Starbucks買咖啡的流程來說明HATEOAS
+- 
+
