@@ -27,7 +27,7 @@ tags:
 
 custom view 套用這個範本後即可在 storyboard 裡面 live rendering.
 
-'''swift
+''' swift
    override init(frame: CGRect) {
         // 1. setup any properties here
         

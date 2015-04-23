@@ -57,7 +57,28 @@ tags:
 5. sumlime text有[plugin](https://sublime.wbond.net/packages/API%20Blueprint)可以把文件parse成API Blueprint的語法樹(AST)
 6. 目前的版本(Format 1A revision 7) request跟response的屬性沒辦法像parameter那樣說明每個json的屬性，但之後的版本會有，可以先用 markdown的table語法來寫，或用schema section
 
+## 缺點
 
+- model只能向前引用，如果是用其他的model，ex:在Book的resource中，使用到`[][Author]`，那Author的resource定義一定要寫在book前，這個在實際運用上是比較不合理的
+
+  solution: 不要用`[][Author]`的語法，把所有`[][Author]`的內容直接inline 成原來的json，但文件會容易變的更肥大，下面有提供解法方式
+ 
+- request跟respose的json內容，**目前(version 1A7)**沒有標準的語法可以描述
+
+  solution: 下一版會有 Parameter like的語法可以使用
+
+- 無法計對不同的query parameter宣告成不同的api，ex: '/books{?published}','/books{?author}'，如果這兩個是差異性很大的api，通常會分成兩個獨立的api，兩個response的結果也可以差異性很大，但文件上卻要寫成`/books{?published,author}`才不會出現語法警告
+  
+  solution: 暫無
+
+- response的json內容在開發期變動性高，而且容易讓文件變的肥大
+
+  solution: 造成文件肥大的原因為主要有兩個
+
+  1. api過多 -> 把 markdown拆成多分，之後再用`cat`的指令把所有的markdown檔接成一個，再進行render成html
+
+  2. 整份文件request,response的內容可以佔了快一半以上，所以，目前是採用讓測試程式自動產生 request/reponse的json(inspired by)
+  
 # resource
 - [API Blueprint 規格書](https://github.com/apiaryio/api-blueprint/blob/master/API%20Blueprint%20Specification.md) - 建議仔細讀過，只看tutorail上是不夠的
 - <https://github.com/danielgtaylor/aglio> - 把API Blueprint轉成html的工具，轉出來的html需放在server上才有辦法正常render

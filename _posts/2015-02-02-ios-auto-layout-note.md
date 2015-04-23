@@ -19,3 +19,8 @@ tags:
 - 先弄出可以適用於所有 devices 的通用 layout, 在針對特定的layout調整, 如果能不用到 size class 就不要用
 - font 的設定是全局的, 一旦設定就會影響到 base layout，如果要為特定的layout 設定專用的font, 必須為該layout新增一特定的font
 - constraint 跟其他的 UI 元件一樣,也是可以透過 `@IBOutelet` 用程式控制
+
+
+## Resource
+
+- <http://xuexuefeng.com/autolayout/> - 詳細的auto layout說明(簡體中文)
