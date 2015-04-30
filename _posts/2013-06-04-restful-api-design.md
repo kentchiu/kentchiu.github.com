@@ -163,5 +163,5 @@ POST method 用來更新資源，
 	5.   <https://developer.paypal.com/webapps/developer/docs/api/> - paypal  的 REST API文
 - 	<http://www.thebuzzmedia.com/designing-a-secure-rest-api-without-oauth-authentication/> - auth token的設計
 - <http://www.infoq.com/articles/webber-rest-workflow> - 用Starbucks買咖啡的流程來說明HATEOAS
-- 
+- <https://github.com/bolasblack/http-api-guide> - HTTP 接口设计指北
 
