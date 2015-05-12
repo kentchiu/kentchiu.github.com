@@ -3,7 +3,7 @@ published: true
 author: Kent Chiu
 layout: post
 title: "Spring hateoas"
-date: 2015-02-02 09:11
+date: 2015-02-21 09:11
 tags: 
 - restful
 - spring

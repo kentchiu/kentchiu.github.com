@@ -3,7 +3,7 @@ published: true
 author: Kent Chiu
 layout: post
 title: "用spring restdocs為spring restful專案加上文件"
-date: 2015-02-02 09:11
+date: 2015-02-20 09:11
 tags: 
 - spring
 - restful

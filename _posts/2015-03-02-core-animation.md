@@ -3,7 +3,7 @@ published: true
 author: Kent Chiu
 layout: post
 title: "IOS Core Animation"
-date: 2015-02-24 18:20
+date: 2015-03-02 18:20
 comments: true
 sharing: true
 footer: true
@@ -27,4 +27,3 @@ tags:
 - http://www.paintcodeapp.com/  animation -> code (swift, obj-c)
 - http://www.coreanimator.com/#animatecode  animation -> code (swift, obj-c)
 - http://bohemiancoding.com/sketch/  向量圖繪制
-- 
