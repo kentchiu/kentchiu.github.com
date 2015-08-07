@@ -1,5 +1,5 @@
 ---
-published: false
+published: true
 author: Kent Chiu
 layout: post
 title: "IDEA Python type hint"
