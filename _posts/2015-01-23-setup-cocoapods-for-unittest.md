@@ -24,13 +24,28 @@ pod 'Alamofire', '~> 1.1'
 pod 'SwiftyJSON', '~> 2.1'
 ```
 
-目前(2015/01/23)`Alamofire-SwiftyJSON`還沒進到cocoapods的repository，但專案本身有cocoapods的spec檔，所以使用上格式不太一樣
+**Update**
 
-link_with 'App', 'AppTests' 的部份是指 MyApp, MyAppTest 這兩個target都可以吃到cocoapods的dependency，MyApp是 product target(通常就是專案名稱)，MyAppTest是 unit test的target
+在XCode7 Beta 6中要換成這樣
+
+```
+source 'https://github.com/CocoaPods/Specs.git'
+platform :ios, '8.0'
+use_frameworks!
 
 
+pod 'Alamofire', :git => 'https://github.com/Alamofire/Alamofire.git', :branch => 'swift-2.0'
 
-執行`pod install`後，開啟workspec檔，如可以在product code跟unit test code用lib了
+
+target 'IndustryOneTests' do
+  pod 'Alamofire', :git => 'https://github.com/Alamofire/Alamofire.git', :branch => 'swift-2.0'
+end
+```
+
+> `Alamofire` for swift 2.0 版沒有在master branch，而是在 `swift-2.0` branch, 所以，要換成這樣的寫法
+
+
+執行`pod install`後，開啟workspace檔，如可以在product code跟unit test code用lib了
 
 
 把下面的code加入unit test執行看看
