@@ -22,13 +22,23 @@ tags:
 * Will be replaced with the ToC, excluding the "Contents" header
 {:toc}
 
+### 使用方式
+
+1. 建立 XIB
+2. 建立 swift class 繼承自 UIView ()
+3. 設定 XIB 的 File's Onwer 為上述的 class (特別注意: XIB上的view的class 需是UIView 而不是 subclass view(MyView in this class),否則啟動會出錯
+
 
 ----------------------------------------------------------------
 
 custom view 套用這個範本後即可在 storyboard 裡面 live rendering.
 
 ''' swift
-   override init(frame: CGRect) {
+class MyView: UIView {
+
+    var view: UIView!
+
+    override init(frame: CGRect) {
         // 1. setup any properties here
         
         // 2. call super.init(frame:)
@@ -38,7 +48,7 @@ custom view 套用這個範本後即可在 storyboard 裡面 live rendering.
         xibSetup()
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         // 1. setup any properties here
         
         // 2. call super.init(coder:)
@@ -55,18 +65,18 @@ custom view 套用這個範本後即可在 storyboard 裡面 live rendering.
         view.frame = bounds
         
         // Make the view stretch with containing view
-        view.autoresizingMask = UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleHeight
+        view.autoresizingMask = [UIViewAutoresizing.FlexibleWidth , UIViewAutoresizing.FlexibleHeight]
         
         // Adding custom subview on top of our view (over any custom drawing > see note below)
         addSubview(view)
     }
     
     func loadViewFromNib() -> UIView {
-        let bundle = NSBundle(forClass: self.dynamicType)
-        let nib = UINib(nibName: "ChangeToYouViewName", bundle: bundle)
         
-        // Assumes UIView is top level and only object in CustomView.xib file
-        let view = nib.instantiateWithOwner(self, options: nil)[0] as UIView
+        let bundle = NSBundle(forClass: self.dynamicType)
+        let nib = UINib(nibName: "banner", bundle: bundle)
+        let view = nib.instantiateWithOwner(self, options: nil)[0] as! UIView
+        
         return view
     }
 
@@ -76,12 +86,18 @@ custom view 套用這個範本後即可在 storyboard 裡面 live rendering.
     override func drawRect(rect: CGRect) {
     
     // If you add custom drawing, it'll be behind any view loaded from XIB
-    
-    
     }
     */
-    
+
+}   
 '''
+
+### 將上面的元件應用到storyboard上
+
+拖拉一個 uiview，把class設成上面的cass即可
+
+
+
 site: <http://iphonedev.tv/blog/2014/12/15/create-an-ibdesignable-uiview-subclass-with-code-from-an-xib-file-in-xcode-6>
 
 # Resource
