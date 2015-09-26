@@ -83,12 +83,30 @@ tags:
 
 ```
 
-### TIP
+### Tips
 
-- 儘可能的用stack view，然後有需時再用 constraint
+- 儘可能的用stack view，然後有需時再用 constraint (stackview 的一堆屬性是無效的，ex: backgroundColor)
 - 不要 add/remove constraint，改用 activate / deactivate
 - **絕對不要** deactivate self.view.constraints
-- table view 的 size可以自動記算，但constraint要設好 : see also [Mysteries of Auto Layout Part1](https://developer.apple.com/videos/wwdc/2015/?id=218) 
+- table view 的 size 可以自動記算，但 constraint 要設好 : see also [Mysteries of Auto Layout Part1](https://developer.apple.com/videos/wwdc/2015/?id=218) 
+- 加入 layout identity 對 debuging layout 問題很有幫助
+- layout的效果不如預期的原因是 constraints 不足或是 priority 衝突
+- call `UIView.hasAmbiguosLayout` to diagnosis
+
+## Stack View
+
+
+#### Aligment
+
+![](http://blog.kent-chiu.com/images/2015-09-22/layout-constraint-001.png)
+
+![](http://blog.kent-chiu.com/images/2015-09-22/layout-constraint-002.png)
+
+#### Distribution
+
+![](http://blog.kent-chiu.com/images/2015-09-22/layout-constraint-003.png)
+
+### Resources
 
 - <http://www.jianshu.com/p/a4b8e0c8e68d>
 - <http://stackoverflow.com/questions/15850417/cocoa-autolayout-content-hugging-vs-content-compression-resistance-priority>
