@@ -43,6 +43,9 @@ tags:
         titleLabel.rightAnchor.constraintEqualToAnchor(margin.rightAnchor).active=true
 ```
 
+#### layout guide and layout margin
+
+![](http://blog.kent-chiu.com/images/2015-09-22/layout-constraint-004.png)
 
 #### content hugging and compression resistance (CHCR) priorities
 
