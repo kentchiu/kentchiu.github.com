@@ -45,7 +45,7 @@ tags:
 
 #### layout guide and layout margin
 
-![](http://blog.kent-chiu.com/images/2015-09-22/layout-constraint-004.png)
+![](http://blog.kent-chiu.com/images/2015-09-22/layout-constraint-004.jpg)
 
 #### content hugging and compression resistance (CHCR) priorities
 
