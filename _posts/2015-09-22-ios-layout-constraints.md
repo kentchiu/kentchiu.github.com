@@ -132,6 +132,6 @@ tags:
 - <http://www.jianshu.com/p/a4b8e0c8e68d>
 - <http://stackoverflow.com/questions/15850417/cocoa-autolayout-content-hugging-vs-content-compression-resistance-priority>
 - WWDC 2015 影片: Mysteries of Auto Layout [Part1](https://developer.apple.com/videos/wwdc/2015/?id=218),[Part2](https://developer.apple.com/videos/wwdc/2015/?id=219)
-
+- stack view : <http://www.devtalking.com/articles/uistackview/>
 
 
