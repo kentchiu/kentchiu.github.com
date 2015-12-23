@@ -16,37 +16,38 @@ tags:<br />
 <h1 class="no_toc" id="table-of-contents">Table of contents</h1>
 
 <ul id="markdown-toc">
-  <li><a href="#androidmainfestxml">AndroidMainfest.xml</a></li>
-  <li><a href="#section">使用流程</a>    <ul>
-      <li><a href="#state-diagram">State Diagram</a></li>
+  <li><a href="#androidmainfestxml" id="markdown-toc-androidmainfestxml">AndroidMainfest.xml</a></li>
+  <li><a href="#section" id="markdown-toc-section">使用流程</a>    <ul>
+      <li><a href="#state-diagram" id="markdown-toc-state-diagram">State Diagram</a></li>
     </ul>
   </li>
-  <li><a href="#section-1">音訊來源</a>    <ul>
-      <li><a href="#resource-id">播放程式內*有resource id)的音訊檔</a></li>
-      <li><a href="#section-2">播放手機內部音訊檔</a></li>
-      <li><a href="#section-3">播放網路上的音訊檔</a></li>
+  <li><a href="#section-1" id="markdown-toc-section-1">音訊來源</a>    <ul>
+      <li><a href="#resource-id" id="markdown-toc-resource-id">播放程式內*有resource id)的音訊檔</a></li>
+      <li><a href="#section-2" id="markdown-toc-section-2">播放手機內部音訊檔</a></li>
+      <li><a href="#section-3" id="markdown-toc-section-3">播放網路上的音訊檔</a></li>
     </ul>
   </li>
-  <li><a href="#preparation">Preparation</a>    <ul>
-      <li><a href="#asynchronous-preparation">Asynchronous Preparation</a></li>
+  <li><a href="#preparation" id="markdown-toc-preparation">Preparation</a>    <ul>
+      <li><a href="#asynchronous-preparation" id="markdown-toc-asynchronous-preparation">Asynchronous Preparation</a></li>
     </ul>
   </li>
-  <li><a href="#section-4">同步播放進度</a>    <ul>
-      <li><a href="#threadprocessbar">透過thread同步ProcessBar</a></li>
-      <li><a href="#handlerrecursiveprocessbar">透過Handler的recursive同步ProcessBar</a></li>
+  <li><a href="#section-4" id="markdown-toc-section-4">同步播放進度</a>    <ul>
+      <li><a href="#threadprocessbar" id="markdown-toc-threadprocessbar">透過thread同步ProcessBar</a></li>
+      <li><a href="#handlerrecursiveprocessbar" id="markdown-toc-handlerrecursiveprocessbar">透過Handler的recursive同步ProcessBar</a></li>
     </ul>
   </li>
-  <li><a href="#resource">Resource</a></li>
+  <li><a href="#resource" id="markdown-toc-resource">Resource</a></li>
 </ul>
 
 <hr />
 
 <h5 id="androidmainfestxml">AndroidMainfest.xml</h5>
 
-<p>如果需要從網路下載音訊檔，需要開放<code>android.permission.INTERNET</code>權限</p>
+<p>如果需要從網路下載音訊檔，需要開放<code class="highlighter-rouge">android.permission.INTERNET</code>權限</p>
 
-<pre><code>&lt;uses-permission android:name="android.permission.INTERNET" /&gt;
+<div class="highlighter-rouge"><pre class="highlight"><code>&lt;uses-permission android:name="android.permission.INTERNET" /&gt;
 </code></pre>
+</div>
 
 <h3 id="section">使用流程</h3>
 
@@ -60,12 +61,12 @@ tags:<br />
 <p>基本上的使用流程如下</p>
 
 <ol>
-  <li>透過<code>create()</code>建立(idle狀態)</li>
-  <li>透過<code>setDataSource()</code>初始化MediaPlayer (initialized狀態)</li>
-  <li>透過<code>prepare()</code>預備播放 (preparing and prepared狀態)</li>
-  <li>透過<code>start()</code>播放 (started狀態)</li>
+  <li>透過<code class="highlighter-rouge">create()</code>建立(idle狀態)</li>
+  <li>透過<code class="highlighter-rouge">setDataSource()</code>初始化MediaPlayer (initialized狀態)</li>
+  <li>透過<code class="highlighter-rouge">prepare()</code>預備播放 (preparing and prepared狀態)</li>
+  <li>透過<code class="highlighter-rouge">start()</code>播放 (started狀態)</li>
   <li>之後可以進行播放相關的控制</li>
-  <li>透過<code>stop()</code>停止播放 (stop狀態) </li>
+  <li>透過<code class="highlighter-rouge">stop()</code>停止播放 (stop狀態)</li>
   <li><strong>沒有要用MediaPlayer時，記得呼叫release()釋放資源</strong> (end狀態)</li>
 </ol>
 
@@ -87,9 +88,10 @@ bar，第一段是目前播放的進度，另一段是已下載到buffer的進�
 
 <p>這種方式通常是用來播放跟程式中預先定義好的音效，音樂…</p>
 
-<pre><code>MediaPlayer mediaPlayer = MediaPlayer.create(context, R.raw.sound_file_1);
+<div class="highlighter-rouge"><pre class="highlight"><code>MediaPlayer mediaPlayer = MediaPlayer.create(context, R.raw.sound_file_1);
 mediaPlayer.start(); // no need to call prepare(); create() does that for you
 </code></pre>
+</div>
 
 <p>讀取resource是透過create時指定resource<br />
 id，這種方式不用自已呼叫prepare(),create()內會自行呼叫prepare()。</p>
@@ -98,25 +100,27 @@ id，這種方式不用自已呼叫prepare(),create()內會自行呼叫prepare()
 
 <p>這種方式是透過Content URI取得內部的音訊資源</p>
 
-<pre><code>Uri myUri = ....; // initialize Uri here
+<div class="highlighter-rouge"><pre class="highlight"><code>Uri myUri = ....; // initialize Uri here
 MediaPlayer mediaPlayer = new MediaPlayer();
 mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
 mediaPlayer.setDataSource(getApplicationContext(), myUri);
 mediaPlayer.prepare();
 mediaPlayer.start();
 </code></pre>
+</div>
 
 <h5 id="section-3">播放網路上的音訊檔</h5>
 
 <p>這種方式是透過標準的url來播放網路上的音訊檔</p>
 
-<pre><code>String url = "http://........"; // your URL here
+<div class="highlighter-rouge"><pre class="highlight"><code>String url = "http://........"; // your URL here
 MediaPlayer mediaPlayer = new MediaPlayer();
 mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
 mediaPlayer.setDataSource(url);
 mediaPlayer.prepare(); // might take long! (for buffering, etc)
 mediaPlayer.start();
 </code></pre>
+</div>
 
 <h3 id="preparation">Preparation</h3>
 
@@ -129,9 +133,9 @@ thread呼叫，會把ui給block住，這樣會影響操作性。<br />
 所以MediaPlayer有提供非同步的Preparation方式，也就是在work<br />
 thread進行preparing的動作，可以讓block情況減緩一些。</p>
 
-<p>透過prepareAsync()可以進行非同步的preparing，因為是非同步的，所以如果要知道何時會prepared完成，那就必須透過<code>MediaPlayer.OnPreparedListener</code></p>
+<p>透過prepareAsync()可以進行非同步的preparing，因為是非同步的，所以如果要知道何時會prepared完成，那就必須透過<code class="highlighter-rouge">MediaPlayer.OnPreparedListener</code></p>
 
-<pre><code>	public class MyService extends Service implements MediaPlayer.OnPreparedListener {
+<div class="highlighter-rouge"><pre class="highlight"><code>	public class MyService extends Service implements MediaPlayer.OnPreparedListener {
 	    private static final ACTION_PLAY = "com.example.action.PLAY";
 	    MediaPlayer mMediaPlayer = null;
 	 
@@ -151,6 +155,7 @@ thread進行preparing的動作，可以讓block情況減緩一些。</p>
 	}
 
 </code></pre>
+</div>
 
 <h3 id="section-4">同步播放進度</h3>
 
@@ -165,7 +170,7 @@ bar需要一直不斷跟MediaPlayer進行同步<br />
 bar不管怎麼調，都沒Android內建的<a href="http://developer.android.com/reference/android/widget/MediaController.html" title="http://developer.android.com/reference/android/widget/MediaController.html">MediaController</a>好。<br />
 去查了一下MediaController的source發現他是用<strong>recursive(遞歸)的方法</strong>處理的。</p>
 
-<pre><code>	Thread syncSeekBarThread = new Thread(new Runnable() {
+<div class="highlighter-rouge"><pre class="highlight"><code>	Thread syncSeekBarThread = new Thread(new Runnable() {
 	    @Override
 	    public void run() {
 	        int currentPosition = 0;
@@ -189,6 +194,7 @@ bar不管怎麼調，都沒Android內建的<a href="http://developer.android.com
 	};
 
 </code></pre>
+</div>
 
 <h5 id="handlerrecursiveprocessbar">透過Handler的recursive同步ProcessBar</h5>
 
@@ -202,7 +208,7 @@ bar不管怎麼調，都沒Android內建的<a href="http://developer.android.com
 
 <p>相當巧妙的解法，難怪大家都建議多看Android的source，改成這樣後，ProgressBar果然有比較平順。</p>
 
-<pre><code>	private class SyncHandler extends Handler {
+<div class="highlighter-rouge"><pre class="highlight"><code>	private class SyncHandler extends Handler {
 	    @Override
 	    public void handleMessage(Message msg) {
 	        int current = msg.what;
@@ -227,6 +233,7 @@ bar不管怎麼調，都沒Android內建的<a href="http://developer.android.com
 	}
 
 </code></pre>
+</div>
 
 <h1 id="resource">Resource</h1>
 

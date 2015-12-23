@@ -75,7 +75,7 @@
     <h1 class="no_toc" id="table-of-contents">Table of contents</h1>
 
 <ul id="markdown-toc">
-  <li><a href="#resource">Resource</a></li>
+  <li><a href="#resource" id="markdown-toc-resource">Resource</a></li>
 </ul>
 
 <hr />
@@ -85,18 +85,19 @@
 <ul>
   <li>Date -&gt; LocalDate</li>
   <li>Date -&gt; LocalTime</li>
-  <li>Date -&gt; LocalDateTime </li>
+  <li>Date -&gt; LocalDateTime</li>
 </ul>
 
-<pre><code class="language-java">    // 先轉成 Instant
-    Instant instant = new Date().toInstant();
-    // LocalDateTime 有提供 ofInstant 的factory method
-    LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());  //2014-06-06T00:41:19.550 
-    // LocalDate,LocalTime 沒有提供 ofInstant，需先轉成 LocalDateTime 後再 toLocalDate() 或 toLocalTime()
-    LocalDate localDate  = localDateTime.toLocalDate(); //00:41:19.550
-    LocalTime localTime = localDateTime.toLocalTime(); //2014-06-06
+<div class="highlighter-rouge"><pre class="highlight"><code>    <span class="c1">// 先轉成 Instant</span>
+    <span class="n">Instant</span> <span class="n">instant</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Date</span><span class="o">().</span><span class="na">toInstant</span><span class="o">();</span>
+    <span class="c1">// LocalDateTime 有提供 ofInstant 的factory method</span>
+    <span class="n">LocalDateTime</span> <span class="n">localDateTime</span> <span class="o">=</span> <span class="n">LocalDateTime</span><span class="o">.</span><span class="na">ofInstant</span><span class="o">(</span><span class="n">instant</span><span class="o">,</span> <span class="n">ZoneId</span><span class="o">.</span><span class="na">systemDefault</span><span class="o">());</span>  <span class="c1">//2014-06-06T00:41:19.550 </span>
+    <span class="c1">// LocalDate,LocalTime 沒有提供 ofInstant，需先轉成 LocalDateTime 後再 toLocalDate() 或 toLocalTime()</span>
+    <span class="n">LocalDate</span> <span class="n">localDate</span>  <span class="o">=</span> <span class="n">localDateTime</span><span class="o">.</span><span class="na">toLocalDate</span><span class="o">();</span> <span class="c1">//00:41:19.550</span>
+    <span class="n">LocalTime</span> <span class="n">localTime</span> <span class="o">=</span> <span class="n">localDateTime</span><span class="o">.</span><span class="na">toLocalTime</span><span class="o">();</span> <span class="c1">//2014-06-06</span>
 
 </code></pre>
+</div>
 
 <ul>
   <li>LocalDate -&gt; Date</li>
@@ -104,17 +105,19 @@
   <li>LocalDateTime -&gt; Date</li>
 </ul>
 
-<pre><code class="language-java">    LocalDateTime localDateTime = LocalDateTime.now();
-    Instant instant = localDateTime.toInstant(ZoneOffset.UTC);
-    Date date = Date.from(instant);
+<div class="highlighter-rouge"><pre class="highlight"><code>    <span class="n">LocalDateTime</span> <span class="n">localDateTime</span> <span class="o">=</span> <span class="n">LocalDateTime</span><span class="o">.</span><span class="na">now</span><span class="o">();</span>
+    <span class="n">Instant</span> <span class="n">instant</span> <span class="o">=</span> <span class="n">localDateTime</span><span class="o">.</span><span class="na">toInstant</span><span class="o">(</span><span class="n">ZoneOffset</span><span class="o">.</span><span class="na">UTC</span><span class="o">);</span>
+    <span class="n">Date</span> <span class="n">date</span> <span class="o">=</span> <span class="n">Date</span><span class="o">.</span><span class="na">from</span><span class="o">(</span><span class="n">instant</span><span class="o">);</span>
 
 </code></pre>
+</div>
 
 <p>日期格式</p>
 
-<pre><code class="language-java">    LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")); //2014-06-06 00:52
+<div class="highlighter-rouge"><pre class="highlight"><code>    <span class="n">LocalDateTime</span><span class="o">.</span><span class="na">now</span><span class="o">().</span><span class="na">format</span><span class="o">(</span><span class="n">DateTimeFormatter</span><span class="o">.</span><span class="na">ofPattern</span><span class="o">(</span><span class="s">"yyyy-MM-dd HH:mm"</span><span class="o">));</span> <span class="c1">//2014-06-06 00:52</span>
 
 </code></pre>
+</div>
 
 <p>LocalDateTime 是沒有時區資訊的，所以，如果要轉成 epoch (unix time)，就必需要加入時區資訊，沒有加入時區，就無法直接轉換。</p>
 

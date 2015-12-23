@@ -75,19 +75,19 @@
     <h1 class="no_toc" id="table-of-contents">Table of contents</h1>
 
 <ul id="markdown-toc">
-  <li><a href="#create">Create</a>    <ul>
-      <li><a href="#method">Method</a></li>
+  <li><a href="#create" id="markdown-toc-create">Create</a>    <ul>
+      <li><a href="#method" id="markdown-toc-method">Method</a></li>
     </ul>
   </li>
-  <li><a href="#properties">Properties</a></li>
-  <li><a href="#status-code">Status code</a></li>
+  <li><a href="#properties" id="markdown-toc-properties">Properties</a></li>
+  <li><a href="#status-code" id="markdown-toc-status-code">Status code</a></li>
 </ul>
 
 <hr />
 
 <h1 id="create">Create</h1>
 
-<pre><code>    var xhr;
+<div class="highlighter-rouge"><pre class="highlight"><code>    var xhr;
     if (window.XMLHttpRequest) {   
       xhr = new XMLHttpRequest();
     }
@@ -99,39 +99,40 @@
     }
 
 </code></pre>
+</div>
 
 <h2 id="method">Method</h2>
 
 <p>Method                                                             Description<br />
   —————————————————————— ————————————————————————————- – –<br />
-  <code>abort()</code>                                                          Stops the current request                                                                <br />
-  <code>getAllResponseHeaders()</code>                                          Returns complete set of headers (labels and values) as a string                          <br />
-  <code>getResponseHeader(”headerLabel”)</code>                                 Returns the string value of a single header label                                        <br />
-  <code>open(”method”, ”URL”[, asyncFlag[, ”userName”[, ”password”]]])</code>   Assigns destination URL, method, and other optional attributes of a pending request      <br />
-  <code>send(content)</code>                                                    Transmits the request, optionally with postable string or DOM object data                <br />
-  <code>setRequestHeader(”label”, ”value”)</code>                               Assigns a label/value pair to the header to be sent with a request                       </p>
+  <code class="highlighter-rouge">abort()</code>                                                          Stops the current request                                                                <br />
+  <code class="highlighter-rouge">getAllResponseHeaders()</code>                                          Returns complete set of headers (labels and values) as a string                          <br />
+  <code class="highlighter-rouge">getResponseHeader(”headerLabel”)</code>                                 Returns the string value of a single header label                                        <br />
+  <code class="highlighter-rouge">open(”method”, ”URL”[, asyncFlag[, ”userName”[, ”password”]]])</code>   Assigns destination URL, method, and other optional attributes of a pending request      <br />
+  <code class="highlighter-rouge">send(content)</code>                                                    Transmits the request, optionally with postable string or DOM object data                <br />
+  <code class="highlighter-rouge">setRequestHeader(”label”, ”value”)</code>                               Assigns a label/value pair to the header to be sent with a request</p>
 
 <h1 id="properties">Properties</h1>
 
 <hr />
 <p>Property               Description<br />
   ———————- —————————————————————————— – –<br />
-  <code>onreadystatechange</code>   Event handler for an event that fires at every state change                       </p>
+  <code class="highlighter-rouge">onreadystatechange</code>   Event handler for an event that fires at every state change</p>
 
-<p><code>readyState</code>           Object status integer:\                                                           <br />
+<p><code class="highlighter-rouge">readyState</code>           Object status integer:\                                                           <br />
                           0 = uninitialized\                                                               <br />
                           1 = loading\                                                                     <br />
                           2 = loaded\                                                                      <br />
                           3 = interactive\                                                                 <br />
-                          4 = complete                                                                     </p>
+                          4 = complete</p>
 
-<p><code>responseText</code>         String version of data returned from server process                               </p>
+<p><code class="highlighter-rouge">responseText</code>         String version of data returned from server process</p>
 
-<p><code>responseXML</code>          DOM-compatible document object of data returned from server process               </p>
+<p><code class="highlighter-rouge">responseXML</code>          DOM-compatible document object of data returned from server process</p>
 
-<p><code>status</code>               Numeric code returned by server, such as 404 for “Not Found” or 200 for “OK”      </p>
+<p><code class="highlighter-rouge">status</code>               Numeric code returned by server, such as 404 for “Not Found” or 200 for “OK”</p>
 
-<p><code>statusText</code>           String message accompanying the status code                                       <br />
+<p><code class="highlighter-rouge">statusText</code>           String message accompanying the status code                                       <br />
   ———————————————————————————————————–</p>
 
 <h1 id="status-code">Status code</h1>

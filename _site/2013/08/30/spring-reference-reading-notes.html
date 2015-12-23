@@ -75,27 +75,27 @@
     <h1 class="no_toc" id="table-of-contents">Table of contents</h1>
 
 <ul id="markdown-toc">
-  <li><a href="#ioc-container">IoC container</a>    <ul>
-      <li><a href="#lifecycle">lifecycle</a></li>
-      <li><a href="#container-extension-points">Container Extension Points</a>        <ul>
-          <li><a href="#beanpostprocessor">BeanPostProcessor</a></li>
-          <li><a href="#beanfactorypostprocessor">BeanFactoryPostProcessor</a></li>
-          <li><a href="#factorybean">FactoryBean</a></li>
+  <li><a href="#ioc-container" id="markdown-toc-ioc-container">IoC container</a>    <ul>
+      <li><a href="#lifecycle" id="markdown-toc-lifecycle">lifecycle</a></li>
+      <li><a href="#container-extension-points" id="markdown-toc-container-extension-points">Container Extension Points</a>        <ul>
+          <li><a href="#beanpostprocessor" id="markdown-toc-beanpostprocessor">BeanPostProcessor</a></li>
+          <li><a href="#beanfactorypostprocessor" id="markdown-toc-beanfactorypostprocessor">BeanFactoryPostProcessor</a></li>
+          <li><a href="#factorybean" id="markdown-toc-factorybean">FactoryBean</a></li>
         </ul>
       </li>
-      <li><a href="#annontation">Annontation</a></li>
-      <li><a href="#resource">Resource</a></li>
-      <li><a href="#validation">Validation</a></li>
-      <li><a href="#type-conversion">Type Conversion</a></li>
-      <li><a href="#orm">ORM</a>        <ul>
-          <li><a href="#exception-translation">exception translation</a></li>
-          <li><a href="#entitymanger">EntityManger</a></li>
-          <li><a href="#jpadialect">JpaDialect</a></li>
+      <li><a href="#annontation" id="markdown-toc-annontation">Annontation</a></li>
+      <li><a href="#resource" id="markdown-toc-resource">Resource</a></li>
+      <li><a href="#validation" id="markdown-toc-validation">Validation</a></li>
+      <li><a href="#type-conversion" id="markdown-toc-type-conversion">Type Conversion</a></li>
+      <li><a href="#orm" id="markdown-toc-orm">ORM</a>        <ul>
+          <li><a href="#exception-translation" id="markdown-toc-exception-translation">exception translation</a></li>
+          <li><a href="#entitymanger" id="markdown-toc-entitymanger">EntityManger</a></li>
+          <li><a href="#jpadialect" id="markdown-toc-jpadialect">JpaDialect</a></li>
         </ul>
       </li>
-      <li><a href="#jms">JMS</a></li>
-      <li><a href="#testing">Testing</a>        <ul>
-          <li><a href="#context-management-and-caching">Context management and caching</a></li>
+      <li><a href="#jms" id="markdown-toc-jms">JMS</a></li>
+      <li><a href="#testing" id="markdown-toc-testing">Testing</a>        <ul>
+          <li><a href="#context-management-and-caching" id="markdown-toc-context-management-and-caching">Context management and caching</a></li>
         </ul>
       </li>
     </ul>
@@ -115,15 +115,16 @@
 
 <blockquote>
   <p>spring 有些機制是透過參數名稱來做對應，這個是利用 complie 時有加入 debug flag，如果debug flag關掉了，這個功能就無效了<br />
-ex: </p>
+ex:</p>
 
-  <pre><code>	&lt;bean id="exampleBean" class="examples.ExampleBean"&gt;
+  <div class="highlighter-rouge"><pre class="highlight"><code>	&lt;bean id="exampleBean" class="examples.ExampleBean"&gt;
 		&lt;constructor-arg name="years" value="7500000"/&gt;
 		&lt;constructor-arg name="ultimateanswer" value="42"/&gt;
 	&lt;/bean&gt;
 </code></pre>
+  </div>
 
-  <p><code>years</code>跟<code>ultimateanswer</code> 兩個是java class constructor的參數名稱，spring可以透過 complied 後的 debug info正確的把值派給對應的參數</p>
+  <p><code class="highlighter-rouge">years</code>跟<code class="highlighter-rouge">ultimateanswer</code> 兩個是java class constructor的參數名稱，spring可以透過 complied 後的 debug info正確的把值派給對應的參數</p>
 </blockquote>
 
 <h4 id="lifecycle">lifecycle</h4>
@@ -142,14 +143,14 @@ ex: </p>
 <p>上面這三種方式，也可以混在一起用，混在一起用時，調用的順序如下</p>
 
 <ul>
-  <li>初始化 : @PostConstruct -&gt; InitializingBean.afterPropertiesSet() -&gt; custom configured init() </li>
+  <li>初始化 : @PostConstruct -&gt; InitializingBean.afterPropertiesSet() -&gt; custom configured init()</li>
   <li>解構: PreDestroy -&gt; DisposableBean.destroy() -&gt; custom configured destroy()</li>
 </ul>
 
 <p>如果要知道 container 的啟動，停止，refresh 發生的時機，可以實作以下介面</p>
 
  	// container 啟動，停止<br />
-<pre><code>public interface Lifecycle {
+<div class="highlighter-rouge"><pre class="highlight"><code>public interface Lifecycle {
 
   void start();
 
@@ -185,11 +186,12 @@ public interface SmartLifecycle extends Lifecycle, Phased {
 
 }
 </code></pre>
+</div>
 
 <p>此外，spring還提供一堆感知(xxx-Aware)的call back method，用來感知一些context的事件</p>
 
 <ul>
-  <li>ApplicationContextAware         </li>
+  <li>ApplicationContextAware</li>
   <li>ApplicationEventPublisherAware</li>
   <li>BeanClassLoaderAware</li>
   <li>BeanFactoryAware</li>
@@ -207,16 +209,16 @@ public interface SmartLifecycle extends Lifecycle, Phased {
   <li>ServletContextAware</li>
 </ul>
 
-<p>看 class name 大概就可以見文思義，知道有那些合用的call back method可以用。基本原則就是，如果需要知道 spring 在什麼時間做了什麼事的需求，就可以在<code>org.springframework.context</code> 這個 package 找找看有沒有合用的 class</p>
+<p>看 class name 大概就可以見文思義，知道有那些合用的call back method可以用。基本原則就是，如果需要知道 spring 在什麼時間做了什麼事的需求，就可以在<code class="highlighter-rouge">org.springframework.context</code> 這個 package 找找看有沒有合用的 class</p>
 
 <h4 id="container-extension-points">Container Extension Points</h4>
 
 <h5 id="beanpostprocessor">BeanPostProcessor</h5>
 
-<p>如果需要對特些特殊類似的 bean做處理，可以利用<code>BeanPostProcessor</code>做bean建立前，或建立後的處理,比如說，<br />
-我們可以所有的<code>@Schedule</code>的bean加上做排程。</p>
+<p>如果需要對特些特殊類似的 bean做處理，可以利用<code class="highlighter-rouge">BeanPostProcessor</code>做bean建立前，或建立後的處理,比如說，<br />
+我們可以所有的<code class="highlighter-rouge">@Schedule</code>的bean加上做排程。</p>
 
-<pre><code>public interface BeanPostProcessor {
+<div class="highlighter-rouge"><pre class="highlight"><code>public interface BeanPostProcessor {
 
 	Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException;
 
@@ -224,27 +226,29 @@ public interface SmartLifecycle extends Lifecycle, Phased {
 
 }
 </code></pre>
+</div>
 
 <h5 id="beanfactorypostprocessor">BeanFactoryPostProcessor</h5>
 
-<p><code>BeanPostProcessor</code>做bean建立前，或建立後的處理，而<code>BeanFactoryPostProcessor</code>則是做bean definition(meta data)做修改，例如<code>PropertyPlaceholderConfigurer</code>就是把bean的定義裡的placeholder換成真正的屬性值</p>
+<p><code class="highlighter-rouge">BeanPostProcessor</code>做bean建立前，或建立後的處理，而<code class="highlighter-rouge">BeanFactoryPostProcessor</code>則是做bean definition(meta data)做修改，例如<code class="highlighter-rouge">PropertyPlaceholderConfigurer</code>就是把bean的定義裡的placeholder換成真正的屬性值</p>
 
-<pre><code>public interface BeanFactoryPostProcessor {
+<div class="highlighter-rouge"><pre class="highlight"><code>public interface BeanFactoryPostProcessor {
 
 	void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException;
 
 }
 </code></pre>
+</div>
 
 <h5 id="factorybean">FactoryBean</h5>
 
-<p>如果建立bean的過程比較複雜，可以使用<code>FactoryBean</code>來建立bean</p>
+<p>如果建立bean的過程比較複雜，可以使用<code class="highlighter-rouge">FactoryBean</code>來建立bean</p>
 
 <h4 id="annontation">Annontation</h4>
 <ul>
-  <li>@Required   舊的，不要用了<code>@Autowired</code>裡required屬性具有相同的效果</li>
+  <li>@Required   舊的，不要用了<code class="highlighter-rouge">@Autowired</code>裡required屬性具有相同的效果</li>
   <li>@Autowired  使用後會依型別自動做DI</li>
-  <li>@Qualifier  spring會依型別做auto wried，但常會遇過一個interface，有一個以上的實作，或者有子類別，子子類別，這時，可以用<code>@Qualifier</code>來指定要bind到那一個特定的 implementation</li>
+  <li>@Qualifier  spring會依型別做auto wried，但常會遇過一個interface，有一個以上的實作，或者有子類別，子子類別，這時，可以用<code class="highlighter-rouge">@Qualifier</code>來指定要bind到那一個特定的 implementation</li>
   <li>@Scope instance scope</li>
   <li>@Value 通常用來跟屬性值 (property做binding)</li>
   <li>@Lazy bean lazily initialized</li>
@@ -254,9 +258,9 @@ public interface SmartLifecycle extends Lifecycle, Phased {
 
 <ul>
   <li>@Component 主要是標明為spring的元件，在auto scan時會被spring處理</li>
-  <li>@Repository 同<code>@Component</code>，用在DAO上，JPA遇到@Repository時還會做ExceptionTranslation</li>
-  <li>@Service  同<code>@Component</code>，用在service上</li>
-  <li>@Controler 同<code>@Component</code>，但多用於 web controller，搭配<code>RequestMapping</code>使用 </li>
+  <li>@Repository 同<code class="highlighter-rouge">@Component</code>，用在DAO上，JPA遇到@Repository時還會做ExceptionTranslation</li>
+  <li>@Service  同<code class="highlighter-rouge">@Component</code>，用在service上</li>
+  <li>@Controler 同<code class="highlighter-rouge">@Component</code>，但多用於 web controller，搭配<code class="highlighter-rouge">RequestMapping</code>使用</li>
 </ul>
 
 <p>@JSR250</p>
@@ -271,9 +275,9 @@ public interface SmartLifecycle extends Lifecycle, Phased {
 
 <p><a href="http://static.springsource.org/spring/docs/current/spring-framework-reference/htmlsingle/#beans-standard-annotations">http://static.springsource.org/spring/docs/current/spring-framework-reference/htmlsingle/#beans-standard-annotations</a></p>
 
-<p><code>@Bean</code> annotation 也可以使用在 @Component 中，但跟使用在 @Configuration 中會有不同的處理流程</p>
+<p><code class="highlighter-rouge">@Bean</code> annotation 也可以使用在 @Component 中，但跟使用在 @Configuration 中會有不同的處理流程</p>
 
-<pre><code>@Component
+<div class="highlighter-rouge"><pre class="highlight"><code>@Component
 public class FactoryMethodComponent {
 
   private static int i;
@@ -306,36 +310,40 @@ public class FactoryMethodComponent {
   }
 }
 </code></pre>
+</div>
 
 <h2 id="resource">Resource</h2>
 
 <p>注入 resource 時如果沒有指定 prefix (class path, file, http,…)時，會依 context 使用適合的 resource loading 方式，如果有指定 prefix ，就會以 prefix 指定的方式loading resource</p>
 
-<p>不指定 prefix </p>
+<p>不指定 prefix</p>
 
-<pre><code>&lt;bean id="myBean" class="..."&gt;
+<div class="highlighter-rouge"><pre class="highlight"><code>&lt;bean id="myBean" class="..."&gt;
   &lt;property name="template" value="some/resource/path/myTemplate.txt"/&gt;
 &lt;/bean&gt;
 </code></pre>
+</div>
 
 <p>指定 prefix</p>
 
-<pre><code>&lt;property name="template" value="classpath:some/resource/path/myTemplate.txt"&gt;
+<div class="highlighter-rouge"><pre class="highlight"><code>&lt;property name="template" value="classpath:some/resource/path/myTemplate.txt"&gt;
 &lt;property name="template" value="file:/some/resource/path/myTemplate.txt"/&gt;
 </code></pre>
+</div>
 
 <p>resource path 可採用 ant-style的 wildcards</p>
 
-<pre><code> /WEB-INF/*-context.xml
+<div class="highlighter-rouge"><pre class="highlight"><code> /WEB-INF/*-context.xml
  com/mycompany/**/applicationContext.xml
  file:C:/some/path/*-context.xml
  classpath:com/mycompany/**/applicationContext.xml
 </code></pre>
+</div>
 
 <blockquote>
-  <p><code>classpath*:</code> 與 <code>classpath:</code>的區別<br />
- <code>classpath*:</code> 會在 class path 中找出所有符合條件的 resources<br />
- <code>claspath</code>: 只會在 class path 中找出第一個符合條件的 resource</p>
+  <p><code class="highlighter-rouge">classpath*:</code> 與 <code class="highlighter-rouge">classpath:</code>的區別<br />
+ <code class="highlighter-rouge">classpath*:</code> 會在 class path 中找出所有符合條件的 resources<br />
+ <code class="highlighter-rouge">claspath</code>: 只會在 class path 中找出第一個符合條件的 resource</p>
 </blockquote>
 
 <h2 id="validation">Validation</h2>
@@ -343,7 +351,7 @@ public class FactoryMethodComponent {
 <p>對於非簡單型別的屬性，可以在 Validator 中另外套用其它的 Validator<br />
 ex: Customer物件中，基本屬性用CustomerValidator，而 address屬性，不是簡單的資料型別而是物件，可以在CustomerValidator.validate 再套用 address validator</p>
 
-<pre><code>public class CustomerValidator implements Validator {
+<div class="highlighter-rouge"><pre class="highlight"><code>public class CustomerValidator implements Validator {
 
     private final Validator addressValidator;
 
@@ -379,6 +387,7 @@ ex: Customer物件中，基本屬性用CustomerValidator，而 address屬性，�
     }
 }
 </code></pre>
+</div>
 
 <h2 id="type-conversion">Type Conversion</h2>
 <p>Type Conversion是指格式轉換，通常，常web進來的值，因為都是基於http，所以通常都會用純文字的方式送到後端，<br />
@@ -386,7 +395,7 @@ type conversion就是負責把純文字轉成適點的型別或格式。</p>
 
 <p>ex:</p>
 
-<pre><code>http://locallost/example/user?name=kent&amp;age=10&amp;sex=MALE
+<div class="highlighter-rouge"><pre class="highlight"><code>http://locallost/example/user?name=kent&amp;age=10&amp;sex=MALE
 
 class User {
 	private String name;
@@ -396,6 +405,7 @@ class User {
 
 enum Sex {MALE, FEMALE}
 </code></pre>
+</div>
 
 <p>前端進來的是純字串，name=”kent”，age=”1”，sex=”MALE”，但user物件的屬性，age 是int，sex 是enum型別。<br />
 type conversion 就是將字串”1”轉成 int 1, 字串 “MALE” 轉成 enum Sex.MALE，當然也可以適用在非字串轉非字串的格式。</p>
@@ -413,7 +423,7 @@ type conversion 就是將字串”1”轉成 int 1, 字串 “MALE” 轉成 enu
   <li>DateFormatter (org.springframework.format.datetime)</li>
 </ul>
 
-<p>或者用 format annotation </p>
+<p>或者用 format annotation</p>
 
 <ul>
   <li>@DateTimeFormat</li>
@@ -422,26 +432,27 @@ type conversion 就是將字串”1”轉成 int 1, 字串 “MALE” 轉成 enu
 
 <p>如果使用srping mvc的話，可以設定全局性的validator跟controller專用的validator</p>
 
-<p>global validator </p>
+<p>global validator</p>
 
-<pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:mvc="http://www.springframework.org/schema/mvc"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="
-        http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans.xsd
-        http://www.springframework.org/schema/mvc
-        http://www.springframework.org/schema/mvc/spring-mvc.xsd"&gt;
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<span class="nt">&lt;beans</span> <span class="na">xmlns=</span><span class="s">"http://www.springframework.org/schema/beans"</span>
+    <span class="na">xmlns:mvc=</span><span class="s">"http://www.springframework.org/schema/mvc"</span>
+    <span class="na">xmlns:xsi=</span><span class="s">"http://www.w3.org/2001/XMLSchema-instance"</span>
+    <span class="na">xsi:schemaLocation=</span><span class="s">"</span>
+        <span class="err">http://www.springframework.org/schema/beans</span>
+        <span class="err">http://www.springframework.org/schema/beans/spring-beans.xsd</span>
+        <span class="err">http://www.springframework.org/schema/mvc</span>
+        <span class="err">http://www.springframework.org/schema/mvc/spring-mvc.xsd"</span><span class="nt">&gt;</span>
 
-    &lt;mvc:annotation-driven validator="globalValidator"/&gt;
+    <span class="nt">&lt;mvc:annotation-driven</span> <span class="na">validator=</span><span class="s">"globalValidator"</span><span class="nt">/&gt;</span>
 
-&lt;/beans&gt;
+<span class="nt">&lt;/beans&gt;</span>
 </code></pre>
+</div>
 
 <p>controller validator</p>
 
-<pre><code>@Controller
+<div class="highlighter-rouge"><pre class="highlight"><code>@Controller
 public class MyController {
 
     @InitBinder
@@ -454,6 +465,7 @@ public class MyController {
 
 }
 </code></pre>
+</div>
 
 <p>@Valid 會觸發 controller 進行 validate 的動作</p>
 
@@ -463,15 +475,16 @@ public class MyController {
 
 <p>exception translation 是將各個 ORM Framework 的 exception 轉換成 Spring 的 DataAccessException ，這樣做的好處是可以在各種不同的 ORM Framework ，各種不同的Database中使用相同的Exception。</p>
 
-<p>宣告成 <code>@Repository</code> 就會自動套用 exception translation</p>
+<p>宣告成 <code class="highlighter-rouge">@Repository</code> 就會自動套用 exception translation</p>
 
-<pre><code>@Repository
+<div class="highlighter-rouge"><pre class="highlight"><code>@Repository
 public class ProductDaoImpl implements ProductDao {
 
     // class body here...
 
 }
 </code></pre>
+</div>
 
 <p>有三種方式可以設定EntityManagerFacotry, EntityManagerFacotry是用來在程式裡取得EitityManager。</p>
 
@@ -492,20 +505,20 @@ spring使用load time weaving在load time時用aop的技術來改善entity的結
 <blockquote>
   <p>EntityManger V.S. EntityManagerFactory<br />
 在使用時要inject EntityManagerFactory or EntityManager? EntityManagerFactory 是thread-safe而EntityManager不是，但如果在spring使用，會保證每個EntityManager的instance是新的(shared EntityManager Proxy)，所以直接inject EntityManager，code會比較簡單(如果使用PersistenceContextType.EXTENDED，那entity manage就不是 thread-safe)<br />
-如果inject的是EntityManagerFactory，要用<code>@PersistenceUnit</code>而如果是EntityManager，就用<code>@PersistenceContext</code></p>
+如果inject的是EntityManagerFactory，要用<code class="highlighter-rouge">@PersistenceUnit</code>而如果是EntityManager，就用<code class="highlighter-rouge">@PersistenceContext</code></p>
 </blockquote>
 
 <h4 id="jpadialect">JpaDialect</h4>
 <p>使用JpaDialect可以enable一些vendor-specific的進階功能，預設的DefaultJpaDialect沒有提供特別的功能</p>
 
 <h2 id="jms">JMS</h2>
-<p><code>javax.jms.Exception</code>是Checked Exception, 使用Spring JmsTemplate則會轉成UncheckedException</p>
+<p><code class="highlighter-rouge">javax.jms.Exception</code>是Checked Exception, 使用Spring JmsTemplate則會轉成UncheckedException</p>
 
 <p>spring有提供訊息轉換的功能，可以方便的把java object轉成jms格式的訊息</p>
 
 <p>配值檔</p>
 
-<pre><code>@Configuration
+<div class="highlighter-rouge"><pre class="highlight"><code>@Configuration
 public class JmsConfig {
 	@Bean
 	public JmsTemplate jmsTemplate() {
@@ -543,12 +556,13 @@ public class JmsConfig {
 	}
 }
 </code></pre>
+</div>
 
 <p>收/發訊息</p>
 
 <p>收/發訊息會以上面配置檔設定的目的收/發訊息</p>
 
-<pre><code>@Service
+<div class="highlighter-rouge"><pre class="highlight"><code>@Service
 public class MyMessageListenerImpl implements MessageListener {
 
 	private JmsTemplate jmsTemplate;
@@ -574,6 +588,7 @@ public class MyMessageListenerImpl implements MessageListener {
 	}
 }
 </code></pre>
+</div>
 
 <h2 id="testing">Testing</h2>
 
@@ -585,7 +600,7 @@ public class MyMessageListenerImpl implements MessageListener {
 <h4 id="context-management-and-caching">Context management and caching</h4>
 <p>spring test context 會進行 caching 以加速測試的速度，cache 是以一個 test suite 為單位，在同一個 jvm 一起執行的所有 test cases 算是同一個 test suite，如果 test suite 被污染時，必須 reload context</p>
 
-<p><code>@DirtiesContext</code> 會把 context 標記為 dirty，被標記為 dirty 後，該 context 會被移出 cache區</p>
+<p><code class="highlighter-rouge">@DirtiesContext</code> 會把 context 標記為 dirty，被標記為 dirty 後，該 context 會被移出 cache區</p>
 
   </article>
 

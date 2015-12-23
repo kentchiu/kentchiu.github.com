@@ -9,16 +9,14 @@ tags:
 - testing
 ---
 
-程式會在還沒收到 response 前就結束了，所以那三行`print`完全沒有被執行
+程式會在還沒收到 response 前就結束了，所以`print`完全沒有被執行
 
 ```swift
     func testAsynchronous_no_stop() {
         Alamofire.request(.GET, "http://httpbin.org/get", parameters: ["foo": "bar"])
-            .responseJSON { request, response, json in
+            .responseJSON {  response in
                 // 執行時，還未進入這段程式，測試就結束了
-                print(request)
                 print(response)
-                print(json)
         }
     }
 ```
@@ -31,12 +29,11 @@ testacase要 test fail 或 timeout 時才會結束
         let expectation = expectationWithDescription("get data")
         
         Alamofire.request(.GET, "http://httpbin.org/get", parameters: ["foo": "bar"])
-        .responseJSON { request, response, json in
-            print(request)
-            print(response)
-            print(json)
-            XCTAssertEqual(response?.statusCode, 200)
-            XCTAssertNotNil(json)
+        .responseJSON { response in
+                print(response)
+                XCTAssertNil(response.result.error)
+                XCTAssertEqual(response.response?.statusCode, 200)
+                XCTAssertNotNil(response.result.value)
             // expectation 條件已經行滿足，可以提早結束等待，不用等到timeout
             expectation.fulfill()
         }
