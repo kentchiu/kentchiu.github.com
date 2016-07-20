@@ -155,6 +155,7 @@ POST method 用來更新資源，
 -   <http://www.ruanyifeng.com/blog/2014/05/restful_api.html> - RESTful API 设计指南(阮一峰)
 -   <https://github.com/interagent/http-api-design> - HTTP API Design Guide (heroku) 
 -   <https://github.com/interagent/http-api-design/issues> -  設計上的討論(why and how)
+-   <https://github.com/Microsoft/api-guidelines/blob/master/Guidelines.md> - MS REST API Guidelines
 - 	一些流行的 Rest API
 	1.   <http://docs.aws.amazon.com/AmazonS3/latest/API/APIRest.html> - Amazon 的 REST API文件
 	2.   <https://dev.twitter.com/docs/api/1.1/get/lists/list> - twitter 的 REST API文件
@@ -164,4 +165,5 @@ POST method 用來更新資源，
 - 	<http://www.thebuzzmedia.com/designing-a-secure-rest-api-without-oauth-authentication/> - auth token的設計
 - <http://www.infoq.com/articles/webber-rest-workflow> - 用Starbucks買咖啡的流程來說明HATEOAS
 - <https://github.com/bolasblack/http-api-guide> - HTTP 接口设计指北
+- <https://developer.github.com/v3/> - GitHub Restful API guildline
 
