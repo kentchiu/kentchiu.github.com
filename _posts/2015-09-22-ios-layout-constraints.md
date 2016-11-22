@@ -93,7 +93,7 @@ tags:
 - 儘可能的用stack view，然後有需時再用 constraint (stackview 的一堆屬性是無效的，ex: backgroundColor)
 - 不要 add/remove constraint，改用 activate / deactivate
 - **絕對不要** deactivate self.view.constraints
-- table view 的 size 可以自動記算，但 constraint 要設好 : see also [Mysteries of Auto Layout Part1](https://developer.apple.com/videos/wwdc/2015/?id=218) 
+- table view 的 size 可以自動計算，但 constraint 要設好 : see also [Mysteries of Auto Layout Part1](https://developer.apple.com/videos/wwdc/2015/?id=218) 
 - 加入 layout identity 對 debuging layout 問題很有幫助
 - layout的效果不如預期的原因是 constraints 不足或是 priority 衝突
 - call `UIView.hasAmbiguosLayout` to diagnosis
@@ -116,7 +116,7 @@ tags:
 
 - 部份元件會自動推算大小(intrinsic size), 所以在設定大小可以不用設定大小的 constraint
 - 儘量用相對與其他 view 的方式決定位置, 然後由元件的 intrinsic size 決定大小
-- 橘色的"T-bar" 表示 constraints 設定把完整,無法計算出 view 的位置及大小,需要再加入其他的 constraint (missing constraints),讓"T-bar"直至成為藍色為止
+- 橘色的"I-bar" 表示 constraints 設定把完整,無法計算出 view 的位置及大小,需要再加入其他的 constraint (missing constraints),讓"T-bar"直至成為藍色為止
 - 設定多個 constraints 的方式是按住 constraint 後多選數個 views 加入 constraint
 - 部份元件,在沒有加入任何 constraint 前, layout 不會跑掉是因為 auto layout constraint 
 - 先處理 sub view 間的 constraints 關係,讓它 "群組化"後再設定與 super view 會比較容易
@@ -128,7 +128,7 @@ tags:
 
 ### Resources
 
-- <http://xuexuefeng.com/autolayout/> - 詳細的auto layout說明(簡體中文)
+- <https://developer.apple.com/library/content/documentation/UserExperience/Conceptual/AutolayoutPG/index.html#//apple_ref/doc/uid/TP40010853-CH7-SW1> - Apple Auto Layout Guide
 - <http://www.jianshu.com/p/a4b8e0c8e68d>
 - <http://stackoverflow.com/questions/15850417/cocoa-autolayout-content-hugging-vs-content-compression-resistance-priority>
 - WWDC 2015 影片: Mysteries of Auto Layout [Part1](https://developer.apple.com/videos/wwdc/2015/?id=218),[Part2](https://developer.apple.com/videos/wwdc/2015/?id=219)
