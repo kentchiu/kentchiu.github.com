@@ -33,11 +33,12 @@ tags:
 
 custom view 套用這個範本後即可在 storyboard 裡面 live rendering.
 
-''' swift
+'''swift
 class MyView: UIView {
 
+   
     var view: UIView!
-
+    
     override init(frame: CGRect) {
         // 1. setup any properties here
         
@@ -65,29 +66,28 @@ class MyView: UIView {
         view.frame = bounds
         
         // Make the view stretch with containing view
-        view.autoresizingMask = [UIViewAutoresizing.FlexibleWidth , UIViewAutoresizing.FlexibleHeight]
+        view.autoresizingMask = [.flexibleWidth , .flexibleHeight]
         
         // Adding custom subview on top of our view (over any custom drawing > see note below)
         addSubview(view)
     }
     
     func loadViewFromNib() -> UIView {
-        
-        let bundle = NSBundle(forClass: self.dynamicType)
-        let nib = UINib(nibName: "banner", bundle: bundle)
-        let view = nib.instantiateWithOwner(self, options: nil)[0] as! UIView
+        let bundle = Bundle(for: type(of: self))
+        let nib = UINib(nibName: "CHANGE_TO_YOU_XIB_FILE_NAME", bundle: bundle)
+        let view = nib.instantiate(withOwner: self, options: nil)[0] as! UIView
         
         return view
     }
-
-    /*
-    // Only override drawRect: if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func drawRect(rect: CGRect) {
     
-    // If you add custom drawing, it'll be behind any view loaded from XIB
-    }
-    */
+    /*
+     // Only override drawRect: if you perform custom drawing.
+     // An empty implementation adversely affects performance during animation.
+     override func drawRect(rect: CGRect) {
+     
+     // If you add custom drawing, it'll be behind any view loaded from XIB
+     }
+     */
 
 }   
 '''
