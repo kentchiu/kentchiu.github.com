@@ -34,7 +34,7 @@ tags:
 custom view 套用這個範本後即可在 storyboard 裡面 live rendering.
 
 '''swift
-class MyView: UIView {
+@IBDesignable class MyView: UIView {
 
    
     var view: UIView!
@@ -66,7 +66,7 @@ class MyView: UIView {
         view.frame = bounds
         
         // Make the view stretch with containing view
-        view.autoresizingMask = [.flexibleWidth , .flexibleHeight]
+        view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         
         // Adding custom subview on top of our view (over any custom drawing > see note below)
         addSubview(view)
@@ -74,9 +74,9 @@ class MyView: UIView {
     
     func loadViewFromNib() -> UIView {
         let bundle = Bundle(for: type(of: self))
-        let nib = UINib(nibName: "CHANGE_TO_YOU_XIB_FILE_NAME", bundle: bundle)
-        let view = nib.instantiate(withOwner: self, options: nil)[0] as! UIView
-        
+        // load MyView.xib
+        let nib = UINib(nibName: "MyView", bundle: bundle)
+        guard let view = nib.instantiate(withOwner: self, options: nil)[0] as?  UIView else { fatalError("cast to UIView Fail") }
         return view
     }
     
